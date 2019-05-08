@@ -21,10 +21,10 @@
               <span>{{language.export | titlecase}}</span>
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-            <div class="extension" *ngIf="!loadingExport && bookletData">
-              <div mat-button class="dropdown" [matMenuTriggerFor]="exportType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            <div class="extension" *ngIf="!loadingExport">
+              <button mat-raised-button class="dropdown button-background-primary" [disabled]="!bookletData" [matMenuTriggerFor]="exportType">
                 <mat-icon>keyboard_arrow_down</mat-icon>
-              </div>
+              </button>
               <mat-menu #exportType>
                 <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
                 </button>
@@ -42,10 +42,10 @@
                 <span>{{language.export_codes | titlecase}}</span>
               </button>
               <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
-              <div class="extension" *ngIf="!loadingExportCodes && bookletData">
-                <div mat-button class="dropdown" [matMenuTriggerFor]="exportCodesType" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+              <div class="extension" *ngIf="!loadingExportCodes">
+                <button mat-raised-button class="dropdown button-background-primary" [disabled]="!bookletData" [matMenuTriggerFor]="exportCodesType">
                   <mat-icon>keyboard_arrow_down</mat-icon>
-                </div>
+                </button>
                 <mat-menu #exportCodesType>
                   <button mat-menu-item (click)="setTypeCode('xls')"> .xls <mat-icon *ngIf="extensionTypeCode=='xls'">done</mat-icon>
                   </button>

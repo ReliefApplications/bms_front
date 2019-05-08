@@ -8,14 +8,18 @@
     flex-wrap: wrap;
     flex-direction: row;
 
-    .container-title, .first-line-title {
+    .container-title,
+    .first-line-title {
         width: 100%;
         padding: 0 20px;
         font-family: $bms_font_header;
         font-size: 24px !important;
         display: flex;
         align-items: center;
-        h1, h2, h3 {
+
+        h1,
+        h2,
+        h3 {
             margin: 20px;
             margin-left: 0px;
             font-size: 24px;
@@ -23,21 +27,22 @@
     }
 
     .container-boxes {
-        width:100%;
+        width: 100%;
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         overflow-x: auto;
         justify-content: flex-start;
         margin: 0 20px;
+
         app-box-setting {
             flex-grow: 0;
             display: flex;
             margin-right: 20px;
             margin-bottom: 10px;
-            width : 200px;
+            width: 200px;
             min-width: 200px;
-            height : 80px;
+            height: 80px;
             box-shadow: $bms_shadow;
             border-radius: 8px;
         }
@@ -56,8 +61,8 @@
             border-radius: 3px;
 
             .container-subtitle {
-              display: flex;
-              align-items: center;
+                display: flex;
+                align-items: center;
             }
 
             .properties-displayed {
@@ -76,10 +81,11 @@
         padding: 20px;
 
         .box-primary {
-              border-top: solid 12px $bms_dark_blue;
+            border-top: solid 12px $bms_dark_blue;
         }
+
         .box-red {
-              border-top: solid 12px $bms_red;
+            border-top: solid 12px $bms_red;
         }
 
         .container-content {
@@ -96,7 +102,7 @@
                 flex-direction: column;
                 align-items: center;
                 width: 100%;
-                padding : 20px;
+                padding: 20px;
             }
         }
     }
@@ -117,7 +123,7 @@
 .content-button {
     display: flex;
     width: 100%;
-    padding-top : 20px;
+    padding-top: 20px;
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 0px;
@@ -128,10 +134,11 @@
 
     .action-buttons {
         .text {
-           display: inline;
+            display: inline;
         }
+
         mat-spinner {
-            height:40px;
+            height: 40px;
         }
     }
 }
@@ -157,14 +164,16 @@ button mat-icon {
 button.mat-icon-button .mat-button-wrapper .mat-icon {
     padding-bottom: 3px;
 }
+
 .mat-raised-button {
-  color: $bms_grey !important;
-  height: 40px !important;
-  .mat-button-wrapper {
-    span {
-      font-weight: bold;
+    color: $bms_grey !important;
+    height: 40px !important;
+
+    .mat-button-wrapper {
+        span {
+            font-weight: bold;
+        }
     }
-  }
 }
 
 .add-buttons {
@@ -184,6 +193,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
             margin-bottom: 10px;
         }
     }
+
     .toggled {
         display: flex;
         max-height: 200px;
@@ -221,30 +231,35 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 }
 
 .button-text-primary {
-  color: $bms_green !important;
+    color: $bms_green !important;
 
 }
+
 .button-text-accent {
-  color: $bms_red !important;
-  &:disabled {
-      color: $bms_dark_grey !important;
-  }
+    color: $bms_red !important;
+
+    &:disabled {
+        color: $bms_dark_grey !important;
+    }
 }
 
 .button-background-primary {
-  background-color: $bms_green !important;
-  color: $bms_grey !important;
-  &:disabled{
-    background-color: $bms_dark_grey!important;
-  }
+    background-color: $bms_green !important;
+    color: $bms_grey !important;
+
+    &:disabled {
+        background-color: $bms_dark_grey !important;
+    }
 }
+
 .button-background-accent {
-  background-color: $bms_red !important;
-  color: $bms_grey !important;
-  &:disabled {
-    background-color: $bms_dark_grey !important;
-    color: $bms_white !important;
-}
+    background-color: $bms_red !important;
+    color: $bms_grey !important;
+
+    &:disabled {
+        background-color: $bms_dark_grey !important;
+        color: $bms_white !important;
+    }
 }
 
 .no-data {
@@ -253,7 +268,8 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     justify-content: center;
     align-items: center;
 
-    mat-icon, span {
+    mat-icon,
+    span {
         margin-right: 10px;
         font-size: 20px;
     }
@@ -270,54 +286,6 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     display: flex;
     justify-content: flex-end;
 
-    // Dropdown buttons
-    .extension {
-        display: flex;
-        height: 36px;
-
-        .dropdown {
-            background-color: $bms_green;
-            height: 100%;
-            width: 20px;
-            padding: 2px;
-            border-top-right-radius: 2px;
-            border-bottom-right-radius: 2px;
-            border-left: solid 1px $bms_white;
-            box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.3);
-            display: flex;
-            justify-content: center;
-
-            &.arabic {
-                border-top-right-radius: 0px;
-                border-bottom-right-radius: 0px;
-                border-top-left-radius: 2px;
-                border-bottom-left-radius: 2px;
-                border-right: solid 1px $bms_white;
-                border-left: none;
-
-            }
-            &:hover {
-                cursor: pointer;
-            }
-
-            mat-icon {
-                margin: auto;
-                color: $bms_grey;
-            }
-        }
-
-        .mat-menu-item {
-            &:hover {
-                background-color: $bms_green;
-                color: $bms_grey;
-                font-weight: bold;
-            }
-            mat-icon {
-                margin-left: 10px;
-            }
-        }
-    }
-
     mat-spinner {
         margin: 10px;
         margin-left: 40px;
@@ -325,7 +293,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     }
 
     button {
-      margin: 0 10px;
+        margin: 0 10px;
     }
 
     .button-with-extension {
@@ -334,6 +302,52 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
         button {
             margin: 0;
+        }
+
+        // Dropdown buttons
+        .extension {
+            display: flex;
+
+            .dropdown {
+                height: 100%;
+                min-width: unset;
+                width: 20px;
+                padding: 2px;
+                margin-right: 0;
+                margin-left: 1px;
+                display: flex;
+                justify-content: center;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+                mat-icon {
+                    margin: auto;
+                    color: $bms_grey;
+                }
+            }
+
+            .mat-menu-item {
+                &:hover {
+                    background-color: $bms_green;
+                    color: $bms_grey;
+                    font-weight: bold;
+                }
+
+                mat-icon {
+                    margin-left: 10px;
+                }
+            }
+        }
+
+        &.arabic {
+            .extension {
+                .dropdown {
+                    margin-right: 1px;
+                    margin-left: 0;
+                }
+            }
         }
     }
 
@@ -349,13 +363,15 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
 
 // TODO check addBeneficiary (done) and distributions (next)
-.box-primary, .box-red {
-    .content-button{
-        .next{
+.box-primary,
+.box-red {
+    .content-button {
+        .next {
             font-weight: 900;
             margin-right: 0.8vw;
-         }
+        }
     }
+
     .content-table {
         .done {
             display: flex;
@@ -363,6 +379,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
             flex-direction: column;
             align-items: center;
             margin-top: 2vh;
+
             .buttonSend {
                 margin: 2vh 0;
             }
@@ -379,10 +396,12 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     width: 100% !important;
     min-width: 40vw;
     display: block;
+
     .modal-title {
-        &.arabic{
+        &.arabic {
             direction: rtl;
         }
+
         display: flex;
         flex-grow: 1;
         padding: 5px;
@@ -391,17 +410,18 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     }
 
     .underline-primary {
-      border-bottom: solid 1px $bms_green;
+        border-bottom: solid 1px $bms_green;
     }
 
     .underline-accent {
-      border-bottom: solid 1px $bms_red;
+        border-bottom: solid 1px $bms_red;
     }
 
     .modal-table {
-        &.arabic{
-            direction:rtl;
+        &.arabic {
+            direction: rtl;
         }
+
         display: flex;
         flex-wrap: wrap;
         padding: 5px;
@@ -430,16 +450,16 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
                     max-width: 500px;
                     width: 100%;
 
-                  .full-width {
-                    width: 100%;
-                  }
+                    .full-width {
+                        width: 100%;
+                    }
                 }
             }
         }
 
-        .mat-checkbox-inner-container{
-            margin-right: 8px ;
-          }
+        .mat-checkbox-inner-container {
+            margin-right: 8px;
+        }
     }
 
     .dialog-template {
@@ -455,6 +475,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         mat-form-field {
             width: 100%;
         }
+
         .action {
             display: flex;
             flex-direction: row;
@@ -467,6 +488,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
                 color: $bms_red;
                 margin-right: 5px;
             }
+
             .confirm {
                 background-color: $bms_red;
                 color: $bms_grey;
@@ -487,13 +509,13 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         direction: ltr;
 
         &.arabic {
-          direction: rtl;
+            direction: rtl;
         }
     }
 }
 
 .stepInMobile {
-    display : none;
+    display: none;
 }
 
 mat-horizontal-stepper.disable-step mat-step-header.mat-horizontal-stepper-header {
@@ -503,20 +525,21 @@ mat-horizontal-stepper.disable-step mat-step-header.mat-horizontal-stepper-heade
 //Header alignment
 .mat-menu-panel {
     button {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-      .mat-icon {
+        .mat-icon {
             margin: 0px;
             justify-self: flex-start;
-      }
-      span{
-          margin-left: 20px;
-          justify-self: flex-end;
-      }
+        }
+
+        span {
+            margin-left: 20px;
+            justify-self: flex-end;
+        }
     }
-  }
+}
 
 // Remove padding from mat-menus
 .mat-menu-content {
@@ -526,6 +549,7 @@ mat-horizontal-stepper.disable-step mat-step-header.mat-horizontal-stepper-heade
 // Snackbar
 snack-bar-container {
     font-weight: bold;
+
     simple-snack-bar.mat-simple-snackbar {
         justify-content: space-around;
         text-align: center;
@@ -540,14 +564,17 @@ snack-bar-container {
         background-color: $bms_dark_grey;
         color: $bms_white;
     }
+
     &.snackbar-warning {
         background-color: $bms_highlight;
         color: $bms_black;
     }
+
     &.snackbar-error {
         background-color: $bms_red;
         color: $bms_white;
     }
+
     &.snackbar-success {
         background-color: $bms_green;
         color: $bms_white;
@@ -557,98 +584,101 @@ snack-bar-container {
 
 //for mobile screen
 @media only screen and (max-width: 750px) {
-  .mat-stepper-horizontal {
-    .container-table {
-      width: unset !important;
-    }
-  }
-
-  .container-boxes {
-    app-box-setting {
-      width : 150px !important;
-      min-width: 150px !important;
-    }
-  }
-
-  .container-table {
-      flex-direction: column;
-
-      .content-button {
-          flex-direction: column;
-      }
-
-    .add-button {
-        background-color: $bms_red !important;
-        position: fixed;
-        bottom: 2em;
-        right: 2em;
-        z-index: 1000;
-
-        &:disabled {
-            background-color: $bms_slate;
+    .mat-stepper-horizontal {
+        .container-table {
+            width: unset !important;
         }
     }
 
-    .add-button-arabic {
-      right: unset;
-      left: 2em;
+    .container-boxes {
+        app-box-setting {
+            width: 150px !important;
+            min-width: 150px !important;
+        }
     }
 
-      .stepInMobile {
-          display: flex;
-          margin-bottom: 1.5em;
-          justify-content: center;
-          .dot {
-              height: 24px;
-              width: 24px;
-              background-color: $bms_black;
-              color: $bms_grey;
-              border-radius: 50%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              margin-right: 1em;
-          }
-      }
-  }
+    .container-table {
+        flex-direction: column;
 
-  .modal-container {
-    width: 100%;
+        .content-button {
+            flex-direction: column;
+        }
 
-    .modal-row {
-      flex-direction: column !important;
-      align-items: flex-start !important;
+        .add-button {
+            background-color: $bms_red !important;
+            position: fixed;
+            bottom: 2em;
+            right: 2em;
+            z-index: 1000;
+
+            &:disabled {
+                background-color: $bms_slate;
+            }
+        }
+
+        .add-button-arabic {
+            right: unset;
+            left: 2em;
+        }
+
+        .stepInMobile {
+            display: flex;
+            margin-bottom: 1.5em;
+            justify-content: center;
+
+            .dot {
+                height: 24px;
+                width: 24px;
+                background-color: $bms_black;
+                color: $bms_grey;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 1em;
+            }
+        }
     }
-  }
 
-  .no-data-box {
-    width: 80%;
-  }
+    .modal-container {
+        width: 100%;
 
-  // TODO check distributions
-  .next {
-      padding-left: 0 !important;
-  }
+        .modal-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+        }
+    }
 
-  app-icon-svg {
+    .no-data-box {
+        width: 80%;
+    }
+
+    // TODO check distributions
+    .next {
+        padding-left: 0 !important;
+    }
+
+    app-icon-svg {
         width: 5vh !important;
         height: 5vh !important;
     }
 }
 
-.single-select, .multiple-select {
+.single-select,
+.multiple-select {
 
-    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option .ng-option-label{
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option .ng-option-label {
         font-weight: normal;
     }
 
-    .ng-select-container .ng-value-container  {
+    .ng-select-container .ng-value-container {
 
-        .ng-value .ng-value-label{
-        width: 100%;
-        font-weight: normal;
-        font-size: inherit;
+        .ng-value .ng-value-label {
+            width: 100%;
+            font-weight: normal;
+            font-size: inherit;
         }
+
         .ng-input input {
             font-size: inherit;
             font-family: inherit;
@@ -657,7 +687,7 @@ snack-bar-container {
 }
 
 
-.single-select .ng-select-container .ng-value-container .ng-input input{
+.single-select .ng-select-container .ng-value-container .ng-input input {
     position: relative;
     bottom: 4px;
 }
@@ -688,17 +718,18 @@ app-icon-svg {
     background-color: $bms_dark_grey;
 }
 
-.mat-calendar-next-button, .mat-calendar-previous-button {
+.mat-calendar-next-button,
+.mat-calendar-previous-button {
     transform: rotate(0deg) !important;
 }
 
 .ng-select.multiple ::ng-deep .ng-select-container .ng-value-container .ng-value {
     background-color: #424242;
-  }
+}
 
 .ng-select-focused ::ng-deep {
-.ng-select-container::after {
-    border-color: #424242;
-    border-width: 2px;
-}
+    .ng-select-container::after {
+        border-color: #424242;
+        border-width: 2px;
+    }
 }

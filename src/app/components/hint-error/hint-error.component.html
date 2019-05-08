@@ -1,19 +1,19 @@
 <ng-container *ngIf="!isMatField">
   <p class="not-mat-form-field-error" *ngIf="hasError('required')">
-    {{ field.title | titlecase}} {{ language.is_required }}
+    {{ field.title | uppercaseFirst }} {{ language.is_required | uppercaseFirst }}
   </p>
   <p class="not-mat-form-field-error" *ngIf="hasError('pattern')">
-    {{field.hint | titlecase}}
+    {{field.hint | uppercaseFirst }}
   </p>
-  <p class="not-mat-form-field-hint" align="start" *ngIf="!hasError('pattern') && !hasError('required') && field.hint"><strong>{{field.hint | titlecase}}</strong> </p>  
+  <p class="not-mat-form-field-hint" align="start" *ngIf="!hasError('pattern') && !hasError('required') && field.hint"><strong>{{field.hint | uppercaseFirst }}</strong> </p>  
 </ng-container>
 
 <ng-container *ngIf="isMatField">
   <mat-error *ngIf="hasError('required')">
-    {{ field.title | titlecase}} {{ language.is_required }}
+    {{ field.title | uppercaseFirst }} {{ language.is_required | uppercaseFirst }}
   </mat-error>
   <mat-error *ngIf="hasError('pattern')">
-      {{field.patternError | titlecase}}
+      {{field.patternError | uppercaseFirst }}
   </mat-error>
-  <mat-hint align="start" *ngIf="!hasError('pattern') && !hasError('required') && field.hint"><strong>{{field.hint | titlecase}}</strong> </mat-hint>
+  <mat-hint align="start" *ngIf="!hasError('pattern') && !hasError('required') && field.hint"><strong>{{field.hint | uppercaseFirst }}</strong> </mat-hint>
 </ng-container>

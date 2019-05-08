@@ -108,12 +108,19 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      * @param template
      */
     openDialog(template: any) {
-        const distributionDate = new Date(this.actualDistribution.get('date'));
-        if (new Date() < distributionDate) {
-            this.dialog.open(template);
-        } else {
-            this.snackbar.error(this.language.snackbar_invalid_transaction_date);
-        }
+        this.cacheService.getUser().subscribe(result => {
+            this.actualUser = result;
+            if (!this.actualUser.get('email') && this.actualUser.get('username')) {
+                this.actualUser.set('email', this.actualUser.get('username'));
+            }
+            this.codeVerif();
+            const distributionDate = new Date(this.actualDistribution.get('date'));
+            if (new Date() < distributionDate) {
+                this.dialog.open(template);
+            } else {
+                this.snackbar.error(this.language.snackbar_invalid_transaction_date);
+            }
+        });
     }
 
     getCommoditySentAmountFromBeneficiary(commodity: Commodity, beneficiary: TransactionMobileMoney): number {
@@ -180,75 +187,70 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
     confirmTransaction() {
         if (this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')) {
             this.progression = 0;
-            this.cacheService.getUser().subscribe(result => {
-                this.actualUser = result;
-                if (!this.actualUser.get('email') && this.actualUser.get('username')) {
-                    this.actualUser.set('email', this.actualUser.get('username'));
-                }
-                this.transacting = true;
-                this.correctCode = true;
-                this.distributionService.transaction(this.actualDistribution.get('id'), this.enteredCode)
-                    .pipe(
-                        finalize(
-                            () => {
-                                this.transacting = false;
-                                this.correctCode = false;
-                                this.enteredCode = '';
-                                this.dialog.closeAll();
-                                clearInterval(this.interval);
-                                this.refreshStatuses();
-                            }
-                        )
-                    ).subscribe(
-                        (success: any) => {
-                            if (this.transactionData) {
-                                this.transactionData.data.forEach((actualDistributionBeneficiary: TransactionMobileMoney) => {
-                                        const actualBeneficiaryId = actualDistributionBeneficiary.get('beneficiary').get('id');
-
-                                        success.already_sent.forEach(
-                                            distributionBeneficiaryFromApi => {
-                                                if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
-                                                    actualDistributionBeneficiary.updateState('2');
-                                                    actualDistributionBeneficiary = this.setTransactionMessage(
-                                                        distributionBeneficiaryFromApi, actualDistributionBeneficiary);
-                                                }
-                                            }
-                                        );
-                                        success.failure.forEach(
-                                            distributionBeneficiaryFromApi => {
-                                                if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
-                                                    actualDistributionBeneficiary.updateState('0');
-                                                    actualDistributionBeneficiary = this.setTransactionMessage(
-                                                        distributionBeneficiaryFromApi, actualDistributionBeneficiary);
-                                                }
-                                            }
-                                        );
-                                        success.no_mobile.forEach(
-                                            distributionBeneficiaryFromApi => {
-                                                if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
-                                                    actualDistributionBeneficiary.updateState('-1');
-                                                    actualDistributionBeneficiary = this.setTransactionMessage(
-                                                        distributionBeneficiaryFromApi, actualDistributionBeneficiary);
-                                                }
-                                            }
-                                        );
-                                        success.sent.forEach(
-                                            distributionBeneficiaryFromApi => {
-                                                if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
-                                                    actualDistributionBeneficiary.updateState('1');
-                                                    actualDistributionBeneficiary = this.setTransactionMessage(
-                                                        distributionBeneficiaryFromApi, actualDistributionBeneficiary);
-                                                }
-                                            }
-                                        );
-                                    }
-                                );
-                            }
-                            this.verifiyIsFinished();
+            this.transacting = true;
+            this.correctCode = true;
+            this.distributionService.transaction(this.actualDistribution.get('id'), this.enteredCode)
+                .pipe(
+                    finalize(
+                        () => {
+                            this.transacting = false;
+                            this.correctCode = false;
+                            this.enteredCode = '';
+                            this.dialog.closeAll();
+                            clearInterval(this.interval);
+                            this.refreshStatuses();
                         }
-                    );
+                    )
+                ).subscribe(
+                    (success: any) => {
+                        if (this.transactionData) {
+                            this.transactionData.data.forEach((actualDistributionBeneficiary: TransactionMobileMoney) => {
+                                    const actualBeneficiaryId = actualDistributionBeneficiary.get('beneficiary').get('id');
 
-                    const progression = 0;
+                                    success.already_sent.forEach(
+                                        distributionBeneficiaryFromApi => {
+                                            if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
+                                                actualDistributionBeneficiary.updateState('2');
+                                                actualDistributionBeneficiary = this.setTransactionMessage(
+                                                    distributionBeneficiaryFromApi, actualDistributionBeneficiary);
+                                            }
+                                        }
+                                    );
+                                    success.failure.forEach(
+                                        distributionBeneficiaryFromApi => {
+                                            if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
+                                                actualDistributionBeneficiary.updateState('0');
+                                                actualDistributionBeneficiary = this.setTransactionMessage(
+                                                    distributionBeneficiaryFromApi, actualDistributionBeneficiary);
+                                            }
+                                        }
+                                    );
+                                    success.no_mobile.forEach(
+                                        distributionBeneficiaryFromApi => {
+                                            if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
+                                                actualDistributionBeneficiary.updateState('-1');
+                                                actualDistributionBeneficiary = this.setTransactionMessage(
+                                                    distributionBeneficiaryFromApi, actualDistributionBeneficiary);
+                                            }
+                                        }
+                                    );
+                                    success.sent.forEach(
+                                        distributionBeneficiaryFromApi => {
+                                            if (actualBeneficiaryId === distributionBeneficiaryFromApi.beneficiary.id) {
+                                                actualDistributionBeneficiary.updateState('1');
+                                                actualDistributionBeneficiary = this.setTransactionMessage(
+                                                    distributionBeneficiaryFromApi, actualDistributionBeneficiary);
+                                            }
+                                        }
+                                    );
+                                }
+                            );
+                        }
+                        this.verifiyIsFinished();
+                    }
+                );
+
+                const progression = 0;
                     // let peopleLeft = this.getAmount('waiting', this.actualDistribution.commodities[0]);
                     // peopleLeft = peopleLeft / this.actualDistribution.commodities[0].value;
 
@@ -267,7 +269,6 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                     //         );
                     // }, 3000);
 
-            });
         } else {
             this.snackbar.error(this.language.distribution_no_right_transaction);
         }

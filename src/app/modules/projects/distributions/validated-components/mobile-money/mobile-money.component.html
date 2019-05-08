@@ -49,9 +49,9 @@
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">
-                        <div mat-button class="dropdown" [matMenuTriggerFor]="exportTypeTransaction" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                        <button mat-raised-button class="dropdown button-background-primary" [matMenuTriggerFor]="exportTypeTransaction">
                             <mat-icon>keyboard_arrow_down</mat-icon>
-                        </div>
+                        </button>
                         <mat-menu #exportTypeTransaction class="extMenu">
                             <button mat-menu-item (click)="extensionType = 'xls'"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
                             </button>
@@ -105,7 +105,7 @@
         <h4 *ngIf="correctCode" class="modal-title underline-accent stickyHeader">{{language.transaction_inProgress}}</h4>
         <div class="dialog-template">
             <div class="modal-body" *ngIf="!correctCode">
-                <p> {{language.transaction_email_code}} <br /> {{actualUser.email | titlecase}}. </p>
+                <p> {{language.transaction_email_code}} <br /> {{actualUser.get('email') | titlecase}}. </p>
                 <p> {{language.transaction_paste_code}}</p>
                 <br />
                 <div class="lign-container">

@@ -1,9 +1,9 @@
 <mat-dialog-content class="modal-container">
     <h4 *ngIf="!objectInstance.createMultiple || modalType !== 'Add'" class="modal-title underline-accent stickyHeader" [ngClass]="{'underline-accent': modalType === 'Add', 'underline-primary': modalType !== 'Add'}">
-        {{modalTitle | titlecase}} {{objectInstance.title | titlecase}}
+        {{modalTitle | uppercaseFirst}} {{objectInstance.title | uppercaseFirst}}
     </h4>
     <h4 *ngIf="objectInstance.createMultiple && modalType === 'Add'" class="modal-title underline-accent stickyHeader" [ngClass]="{'underline-accent': modalType === 'Add', 'underline-primary': modalType !== 'Add'}">
-        {{modalTitleMultiple | titlecase}} {{objectInstance.title | titlecase}}s
+        {{modalTitleMultiple | uppercaseFirst}} {{objectInstance.title | uppercaseFirst}}s
     </h4>
     <form [formGroup]="form">
         <table class="modal-table">
@@ -11,12 +11,12 @@
                 <ng-container *ngIf="objectInstance.fields[fieldName].isDisplayedInModal">
                     <tr class="modal-row" *ngIf="display(objectInstance.fields[fieldName]); let field">
                         <th class="table-title" *ngIf="modalType === 'Details' || (field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject')">
-                            {{ field.title | titlecase }}
+                            {{ field.title | uppercaseFirst }}
                         </th>
                         <td class="form-item">
                             <ng-container *ngIf="modalType === 'Details' && isEmpty(field); else isFile">
                                 <mat-form-field>
-                                        <input matInput disabled="true" type="text" [placeholder]="field.title | titlecase" [value]="field.nullValue | titlecase">
+                                    <input matInput disabled="true" type="text" [placeholder]="field.title | uppercaseFirst" [value]="field.nullValue | uppercaseFirst">
                                 </mat-form-field>
                             </ng-container>
 
@@ -52,9 +52,9 @@
 
                             <ng-template #isMultipleSelect>
                                 <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
-                                        <ng-select [formControlName]="fieldName" [placeholder]="field.title | titlecase" [multiple]="true" [closeOnSelect]="false">
+                                        <ng-select [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst" [multiple]="true" [closeOnSelect]="false">
                                             <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
-                                                {{option.get(field.bindField) | titlecase}}
+                                                {{option.get(field.bindField) | uppercaseFirst}}
                                             </ng-option>
                                         </ng-select>
                                 </ng-container>
@@ -62,9 +62,9 @@
 
                             <ng-template #isSingleSelect>
                                 <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isMaterialField">
-                                    <ng-select [formControlName]="fieldName" [placeholder]="field.title | titlecase">
+                                    <ng-select [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst">
                                         <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
-                                            {{option.get(field.bindField) | titlecase}}
+                                            {{option.get(field.bindField) | uppercaseFirst}}
                                         </ng-option>
                                     </ng-select>
                                 </ng-container>
@@ -78,17 +78,17 @@
                             <ng-template #isMaterialField>
                                 <mat-form-field [ngClass]="{date: field.kindOfField === 'Date' && !isDisabled(field)}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                                     <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
-                                        <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title | titlecase"
+                                        <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title | uppercaseFirst"
                                             matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
 
                                         <ng-template #checkForTextArea>
                                             <ng-container *ngIf="field.isLongText; else checkForTextInput">
-                                                <textarea matInput type="text" [formControlName]="fieldName" [placeholder]="field.title | titlecase"></textarea>
+                                                <textarea matInput type="text" [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst"></textarea>
                                             </ng-container>
                                         </ng-template>
 
                                         <ng-template #checkForTextInput>
-                                            <input matInput type="text" [formControlName]="fieldName" [placeholder]="field.title | titlecase">
+                                            <input matInput type="text" [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst">
                                         </ng-template>
                                     </ng-container>
 
@@ -97,12 +97,12 @@
                                         <ng-container *ngIf="field.kindOfField === 'Date'; else checkForNumberField">
                                             <!-- If we don't do this, the date won't be formatted in the date picker when disabled -->
                                             <ng-container *ngIf="isDisabled(field)">
-                                                <input matInput *ngIf="!field.value" disabled [placeholder]="field.title | titlecase" [value]="field.nullValue">
-                                                <input matInput *ngIf="field.value && !field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy' }}" [placeholder]="field.title | titlecase">
-                                                <input matInput *ngIf="field.value && field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy HH:mm' }}" [placeholder]="field.title | titlecase">
+                                                <input matInput *ngIf="!field.value" disabled [placeholder]="field.title | uppercaseFirst" [value]="field.nullValue">
+                                                <input matInput *ngIf="field.value && !field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy' }}" [placeholder]="field.title | uppercaseFirst">
+                                                <input matInput *ngIf="field.value && field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy HH:mm' }}" [placeholder]="field.title | uppercaseFirst">
                                             </ng-container>
                                             <ng-container *ngIf="!isDisabled(field)">
-                                                <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title | titlecase">
+                                                <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst">
                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
                                             </ng-container>
@@ -120,7 +120,7 @@
                                     <ng-template #isObject>
                                         <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
                                             <mat-form-field *ngIf="modalType === 'Details'">
-                                                <input matInput disabled="true" type="text" [placeholder]="field.title | titlecase" [value]="field.displayModalFunction(field.value)">
+                                                <input matInput disabled="true" type="text" [placeholder]="field.title | uppercaseFirst" [value]="field.displayModalFunction(field.value)">
                                             </mat-form-field>
                                         </ng-container>
                                     </ng-template>
@@ -128,7 +128,7 @@
                                     <ng-template #isMultipleObject>
                                         <ng-container *ngIf="field.kindOfField === 'MultipleObject'">
                                             <mat-form-field *ngIf="modalType === 'Details'">
-                                                <input matInput disabled="true" type="text" [placeholder]="field.title | titlecase" [value]="field.displayModalFunction(field.value)">
+                                                <input matInput disabled="true" type="text" [placeholder]="field.title | uppercaseFirst" [value]="field.displayModalFunction(field.value)">
                                             </mat-form-field>
                                         </ng-container>
                                     </ng-template>

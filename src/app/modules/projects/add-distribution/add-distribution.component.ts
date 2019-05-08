@@ -110,7 +110,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     */
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
-        if (this.objectInstance && !this.loadingCreation) {
+        if (this.form.touched && this.objectInstance && !this.loadingCreation) {
             const dialogRef = this.dialog.open(ModalLeaveComponent, {});
 
             return dialogRef.afterClosed();

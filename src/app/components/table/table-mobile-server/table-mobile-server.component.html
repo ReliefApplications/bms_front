@@ -10,6 +10,7 @@
         <mat-form-field>
             <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')"
                 placeholder="{{language.table_filter | titlecase}}">
+            <mat-icon matPrefix>search</mat-icon>
         </mat-form-field>
     </div>
 

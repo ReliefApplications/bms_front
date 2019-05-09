@@ -204,3 +204,19 @@ button{
 .cursor-pointer {
   cursor: pointer;
 }
+
+mat-form-field mat-icon {
+  vertical-align: middle;
+  color: rgba(0, 0, 0, 0.54);
+  margin-right: 5px;
+}
+
+.buttons-search-clear {
+  button {
+      padding-left: 0;
+      margin-left: 0;
+  }
+  mat-icon {
+      margin-left: 0;
+  }
+}

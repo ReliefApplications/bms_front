@@ -6,10 +6,25 @@
         </h3>
     </div>
 
-    <div class="container-header" *ngIf="tableServerData">
-        <mat-form-field>
-            <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')" placeholder="{{language.table_filter | titlecase}}">
-        </mat-form-field>
+    <div class="buttons-header">
+        <div class="container-header" *ngIf="tableServerData">
+            <mat-form-field class="search-input">
+                <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')" placeholder="{{language.table_filter | titlecase}}">
+                <mat-icon matPrefix>search</mat-icon>
+            </mat-form-field>
+        </div>
+    
+        <div class="buttons-search-clear">
+            <button mat-raised-button class="button-text-accent" (click)="showAdvancedResearch()">
+                <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
+                <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
+                {{language.beneficiaries_advanced_research | titlecase}}
+            </button>
+            <button *ngIf="advancedResearch" mat-raised-button class="button-text-accent" (click)="clearSearch()">
+                <mat-icon>clear</mat-icon>
+                {{language.beneficiaries_clear_all_research | titlecase}}
+            </button>
+        </div>
     </div>
 
     <div *ngIf="filtersForm && advancedResearch">
@@ -84,18 +99,6 @@
                 </div>
             </ng-container>
         </form>
-    </div>
-
-    <div class="buttons-search-clear">
-        <button mat-raised-button class="button-text-accent" (click)="showAdvancedResearch()">
-            <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
-            <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
-            {{language.beneficiaries_advanced_research | titlecase}}
-        </button>
-        <button *ngIf="advancedResearch" mat-raised-button class="button-text-accent" (click)="clearSearch()">
-            <mat-icon>clear</mat-icon>
-            {{language.beneficiaries_clear_all_research | titlecase}}
-        </button>
     </div>
 
     <div class="spinner-container" *ngIf="tableServerData.loading$ | async">

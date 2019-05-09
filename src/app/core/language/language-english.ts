@@ -577,7 +577,7 @@ export class English implements Language {
     transaction_state_no_phone = 'No phone'
     transaction_state_sending_failed = 'Sending failed'
     transaction_state_sent = 'Sent'
-    transaction_state_already_sent = 'Already sent'
+    transaction_state_already_sent = 'Sent' // Means sent during a previous transaction
     transaction_state_picked_up = 'Picked up'
     transaction_transaction = 'Start transaction'
     transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'

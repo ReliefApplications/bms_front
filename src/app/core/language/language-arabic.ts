@@ -579,7 +579,7 @@ export class Arabic implements Language {
     transaction_state_no_phone = 'لا يوجد هاتف'
     transaction_state_sending_failed = 'لقد تعذر الارسال'
     transaction_state_sent = 'أرسلت'
-    transaction_state_already_sent = 'أرسلت مسبقا'
+    transaction_state_already_sent = 'أرسلت'
     transaction_state_picked_up = 'التقط'
     transaction_transaction = 'عملية تجارية'
     transaction_validate_distribution = 'هل تريد حقًا التحقق من صحة هذا التوزيع؟ لن تتمكن من تعديله بعد الآن.'

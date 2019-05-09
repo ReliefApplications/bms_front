@@ -28,6 +28,7 @@ export class ModalService {
     public referedClassInstance;
 
     isCompleted = new Subject;
+    isLoading = new Subject;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -75,6 +76,7 @@ export class ModalService {
             const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
                 // TODO: add enum for modal methods
                 if (closeMethod === 'Add') {
+                    this.isLoading.next();
                     this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
                         this.snackbar.success(
                             this.referedClassInstance.title + ' ' + this.language.update_beneficiary_created_successfully

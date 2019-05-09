@@ -31,14 +31,12 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
     selection: SelectionModel<any>;
     extensionType = 'xls';
     progression = 0;
-    correctCode = false;
     interval: NodeJS.Timer;
 
     // Transaction.
     readonly SENDING_CODE_FREQ = 10000; // ms
     lastCodeSentTime = 0; // ms
     actualUser = new User();
-    enteredCode = '';
     chartAccepted = false;
 
     // distributionIsStored = false;

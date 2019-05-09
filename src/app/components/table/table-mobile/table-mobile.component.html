@@ -11,7 +11,7 @@
       <tbody>
         <tr *ngFor="let property of displayProperties" (click)="openDialog('details', element)" class="cursor-pointer">
           <td class="element-title">
-            <span> {{entityInstance.fields[property].title}}</span>
+            <span> {{entityInstance.fields[property].title | uppercaseFirst}}</span>
           </td>
           <td class="element-value" *ngIf="element.fields[property]; let field">
               <app-display-field [field]="field" [element]="element"></app-display-field>

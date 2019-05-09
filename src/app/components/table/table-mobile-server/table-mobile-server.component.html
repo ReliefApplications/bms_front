@@ -9,7 +9,7 @@
     <div class="container-header" *ngIf="tableServerData">
         <mat-form-field>
             <input matInput (keyup)="applySpecificFilter($event.target.value, 'any')"
-                placeholder="{{language.table_filter | titlecase}}">
+                placeholder="{{language.table_filter | uppercaseFirst}}">
         </mat-form-field>
     </div>
 
@@ -18,19 +18,19 @@
             <ng-container *ngFor="let fieldName of filterFields">
                 <div *ngIf="display(filters.fields[fieldName]); let field" class="filter-fields">
                     <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
-                        <ng-select [formControlName]="fieldName" [placeholder]="field.title | titlecase" [multiple]="true"
+                        <ng-select [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst" [multiple]="true"
                             [closeOnSelect]="false">
                             <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
-                                {{option.get(field.bindField) | titlecase}}
+                                {{option.get(field.bindField) | uppercaseFirst}}
                             </ng-option>
                         </ng-select>
                     </ng-container>
 
                     <ng-template #isSingleSelect>
                         <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isMaterialField">
-                            <ng-select [formControlName]="fieldName" [placeholder]="field.title | titlecase">
+                            <ng-select [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst">
                                 <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
-                                    {{option.get(field.bindField) | titlecase}}
+                                    {{option.get(field.bindField) | uppercaseFirst}}
                                 </ng-option>
                             </ng-select>
                         </ng-container>
@@ -40,19 +40,19 @@
                         <mat-form-field
                             *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                             <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
-                                <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title | titlecase"
+                                <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title | uppercaseFirst"
                                     matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
 
                                 <ng-template #checkForTextArea>
                                     <ng-container *ngIf="field.isLongText; else checkForTextInput">
                                         <textarea matInput type="text" [formControlName]="fieldName"
-                                            [placeholder]="field.title | titlecase"></textarea>
+                                            [placeholder]="field.title | uppercaseFirst"></textarea>
                                     </ng-container>
                                 </ng-template>
 
                                 <ng-template #checkForTextInput>
                                     <input matInput type="text" [formControlName]="fieldName"
-                                        [placeholder]="field.title | titlecase">
+                                        [placeholder]="field.title | uppercaseFirst">
                                 </ng-template>
                             </ng-container>
 
@@ -60,7 +60,7 @@
                             <ng-template #checkForDateField>
                                 <ng-container *ngIf="field.kindOfField === 'Date'; else checkForNumberField">
                                     <input matInput [matDatepicker]="picker" [formControlName]="fieldName"
-                                        [placeholder]="field.title | titlecase">
+                                        [placeholder]="field.title | uppercaseFirst">
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </ng-container>
@@ -73,14 +73,14 @@
                             </ng-template>
                             <mat-error
                                 *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('required')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('required'))">
-                                {{ fieldName | titlecase}} is required
+                                {{ fieldName | uppercaseFirst}} is required
                             </mat-error>
                             <mat-error
                                 *ngIf="(form.controls[fieldName] && form.controls[fieldName].hasError('pattern')) || (form.controls[fieldName + '0'] && form.controls[fieldName + '0'].hasError('pattern'))">
-                                {{field.hint | titlecase}}
+                                {{field.hint | uppercaseFirst}}
                             </mat-error>
                             <mat-hint align="start" *ngIf="field.hint && modalType !== 'Details'">
-                                <strong>{{field.hint | titlecase}}</strong> </mat-hint>
+                                <strong>{{field.hint | uppercaseFirst}}</strong> </mat-hint>
                         </mat-form-field>
                     </ng-template>
                 </div>
@@ -92,11 +92,11 @@
         <button mat-raised-button class="button-text-accent" (click)="showAdvancedResearch()">
             <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
             <mat-icon *ngIf="advancedResearch">keyboard_arrow_up</mat-icon>
-            {{language.beneficiaries_advanced_research | titlecase}}
+            {{language.beneficiaries_advanced_research | uppercaseFirst}}
         </button>
         <button *ngIf="advancedResearch" mat-raised-button class="button-text-accent" (click)="clearSearch()">
             <mat-icon>clear</mat-icon>
-            {{language.beneficiaries_clear_all_research | titlecase}}
+            {{language.beneficiaries_clear_all_research | uppercaseFirst}}
         </button>
     </div>
 
@@ -110,7 +110,7 @@
                 <tr *ngFor="let property of displayProperties" (click)="openDialog('details', element)"
                     class="cursor-pointer">
                     <td class="element-value">
-                        <span> {{entityInstance.fields[property].title}}</span>
+                        <span> {{entityInstance.fields[property].title | uppercaseFirst}}</span>
                     </td>
                     <td class="element-value" *ngIf="element.fields[property]; let field">
                         <app-display-field [field]="field" [element]="element"></app-display-field>

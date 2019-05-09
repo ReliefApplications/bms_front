@@ -254,10 +254,16 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
     public getDisplayedColumns(): string[] {
-        if (this.selectable) {
+        const actionable = this.validatable || this.updatable || this.loggable ||
+            this.editable || this.deletable || this.printable || this.assignable;
+        if (this.selectable && actionable) {
             return this.displayProperties ? ['check', ...this.displayProperties, 'actions'] : [];
+        } else if (this.selectable && !actionable) {
+            return this.displayProperties ? ['check', ...this.displayProperties] : [];
+        } else if (!this.selectable && actionable) {
+            return this.displayProperties ? [...this.displayProperties, 'actions'] : [];
         }
-        return this.displayProperties ? [...this.displayProperties, 'actions'] : [];
+        return this.displayProperties ? this.displayProperties : [];
     }
 
     /**

@@ -131,6 +131,17 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         return (parseInt(beneficiary.get('state').get('id'), 10) > 2 ? commodity.get('value') : 0);
     }
 
+
+    noHistory() {
+        let noHistory = true;
+        this.actualDistribution.get<Commodity[]>('commodities').forEach((commodity) => {
+            if (this.getAmountSent(commodity) !== 0) {
+                noHistory = false;
+            }
+        });
+        return noHistory;
+    }
+
     getPeopleCount(): number {
         let peopleCount = 0;
         for (const distributionBeneficiary of this.transactionData.data) {

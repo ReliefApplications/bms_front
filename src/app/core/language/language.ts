@@ -115,6 +115,7 @@ export interface Language {
     add_distribution_missing_selection_criteria: string
     add_distribution_missing_threshold: string
     add_distribution_multiple_modalities: string
+    add_distribution_no_beneficiaries: string
     add_distribution_selection_criteria: string
     add_distribution_text_explanation: string
     add_distribution_threshold: string

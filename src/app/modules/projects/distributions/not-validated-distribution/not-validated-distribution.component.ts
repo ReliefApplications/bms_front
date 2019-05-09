@@ -65,7 +65,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
   // AddBeneficiary Dialog variables.
   beneficiaryList = new Array<Beneficiary>();
-  selectedBeneficiaries = new Array<Beneficiary>();
+  selectedBeneficiariesControl = new FormControl([], [Validators.minLength(1)]);
   selected = false;
 
   actualUser = new User();
@@ -235,7 +235,7 @@ exit(message: string) {
  */
 confirmAdding() {
     this.dialog.closeAll();
-    const beneficiariesArray = this.selectedBeneficiaries.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
+    const beneficiariesArray = this.selectedBeneficiariesControl.value.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
     this.beneficiariesService.add(this.actualDistribution.get('id'), beneficiariesArray)
         .subscribe(
             success => {

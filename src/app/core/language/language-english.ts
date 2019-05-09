@@ -128,6 +128,7 @@ export class English implements Language {
     add_distribution_missing_selection_criteria = 'A selection criterion is missing'
     add_distribution_missing_threshold = 'The minimum selection score\'s value should be greater than 0'
     add_distribution_multiple_modalities = 'You can\'t have two different modalities in the same distribution'
+    add_distribution_no_beneficiaries = 'The number of reached beneficiaries/households must be positive'
     add_distribution_selection_criteria = 'selection criteria'
     add_distribution_text_explanation = 'The system will only select beneficiaries/households that have a score higher than the minimum selection score'
     add_distribution_threshold = 'Minimum selection score'

@@ -306,7 +306,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     add() {
         if (this.form.controls.type.value && this.criteriaData.data && this.criteriaData.data.length !== 0 &&
           this.commodityData.data && this.commodityData.data.length !== 0 && this.form.controls.date.value &&
-          this.form.controls.threshold.value > 0 && this.form.controls.adm1) {
+          this.form.controls.threshold.value > 0 && this.form.controls.adm1.value && this.criteriaNbBeneficiaries > 0) {
 
             if (new Date(this.form.controls.date.value) < new Date(this.projectInfo.startDate) ||
             new Date(this.form.controls.date.value) > new Date(this.projectInfo.endDate)) {
@@ -382,8 +382,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
             this.snackbar.error(this.language.add_distribution_missing_date);
         } else if (this.form.controls.threshold.value <= 0) {
             this.snackbar.error(this.language.add_distribution_missing_threshold);
-        } else if (!this.form.controls.adm1) {
+        } else if (!this.form.controls.adm1.value) {
             this.snackbar.error(this.language.add_distribution_missing_location);
+        } else if (this.criteriaNbBeneficiaries <= 0) {
+            this.snackbar.error(this.language.add_distribution_no_beneficiaries);
         } else {
             this.snackbar.error(this.language.add_distribution_check_fields);
         }

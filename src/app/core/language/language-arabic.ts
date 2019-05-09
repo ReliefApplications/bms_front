@@ -130,6 +130,7 @@ export class Arabic implements Language {
     add_distribution_missing_selection_criteria = 'معيار الاختيار مفقود'
     add_distribution_missing_threshold = 'يجب أن تكون قيمة الحد الفاصل أكبر من 0'
     add_distribution_multiple_modalities = 'لا يمكن أن يكون لديك طريقتين مختلفتين في نفس التوزيع'
+    add_distribution_no_beneficiaries = 'يجب أن يكون عدد المستفيدين / الأسر التي تم الوصول إليها إيجابيًا'
     add_distribution_selection_criteria = 'معيار الاختيار'
     add_distribution_text_explanation = 'سيختار النظام فقط المستفيدين / الأسر التي لديها مجموع أعلى من المجموع الادنى '
     add_distribution_threshold = ' المجموع الادنى لاختيار '

@@ -583,8 +583,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
         this._beneficiariesService.importApi(body, this.apiForm.controls['projects'].value)
             .subscribe(response => {
-                this.load = false;
-                this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
                 this.newHouseholds = response.households;
                 this.importedHouseholds();
             }, error => {
@@ -603,6 +601,8 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
                     this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
                     this._importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);
+                    this.load = false;
+                    this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
                 }
             );
     }

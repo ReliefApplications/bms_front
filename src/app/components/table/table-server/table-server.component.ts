@@ -64,7 +64,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         this.listenToChanges();
         this.service.fillFiltersWithOptions(this.filters);
         // get data
-        this.tableServerData.loadData([], { sort: null, direction: null }, 0, 10);
+        this.tableServerData.loadData();
 
         if (this.sort) {
             this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
@@ -87,8 +87,8 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         this.tableServerData.loadData(
             this.filtersForAPI,
             {
-                sort: this.sort ? this.sort.active : null,
-                direction: this.sort ? this.sort.direction : null
+                sort: (this.sort && this.sort.active) ? this.sort.active : null,
+                direction: (this.sort && this.sort.direction !== '') ? this.sort.direction : null
             },
             this.paginator.pageIndex,
             this.paginator.pageSize);
@@ -136,14 +136,10 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         this.paginator.pageIndex = 0;
 
         // Wait until user has finished typing to send data
-        if (category === 'any') {
-            clearTimeout(this.keyupTimeout);
-            this.keyupTimeout = setTimeout(
-                this.loadDataPage.bind(this), 500
-            );
-        } else {
-            this.loadDataPage();
-        }
+        clearTimeout(this.keyupTimeout);
+        this.keyupTimeout = setTimeout(
+            this.loadDataPage.bind(this), 500
+        );
     }
 
     createForm() {

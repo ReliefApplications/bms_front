@@ -138,7 +138,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //
 
     /**
-     * Update the breadcrumb according to the current route
+     * Update the tooltip according to the current route
      */
     updateTooltip(url: string) {
         const currentRoute = url.split('?')[0].split('/');

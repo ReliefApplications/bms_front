@@ -95,13 +95,13 @@ export class French implements Language {
     add_beneficiary_getNationalID = 'Identifiant national'
     add_beneficiary_getOccupation = 'Métier'
     add_beneficiary_getTypeNationalId = 'Type d\'identifiant national'
-    add_beneficiary_getTypePhone = 'Type de téléphone'
+    add_beneficiary_getTypePhone = 'Type'
     add_beneficiary_res_address = 'Adresse du résident'
     add_beneficiary_step1 = 'Information'
     add_beneficiary_step2 = 'Chef de famille'
     add_beneficiary_step3 = 'Membres'
     add_beneficiary_title = 'Ajout d\'un bénéficiaire'
-    add_beneficiary_code = 'Code pays'
+    add_beneficiary_code = 'Ext'
 
     // Add beneficiary options
     national_id_passport = 'Passeport'
@@ -383,7 +383,6 @@ export class French implements Language {
     // Model
     model_beneficiaries_dependents = 'Membres'
     model_beneficiaries_nationalids = 'Numéro d\'identification'
-    model_beneficiaries_phones = ' (sans le code pays)'
     model_beneficiaries_phone_no = 'Téléphone No. '
     model_beneficiaries_status = 'Satut'
     model_booklet = 'Brochure'

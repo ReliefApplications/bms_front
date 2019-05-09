@@ -368,7 +368,6 @@ export interface Language {
     // Model
     model_beneficiaries_dependents: string
     model_beneficiaries_nationalids: string
-    model_beneficiaries_phones: string
     model_beneficiaries_phone_no: string
     model_beneficiaries_status: string
     model_booklet: string

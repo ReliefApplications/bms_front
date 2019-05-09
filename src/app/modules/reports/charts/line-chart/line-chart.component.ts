@@ -14,6 +14,7 @@ import { ChartComponent } from '../chart/chart.component';
 export class LineChartComponent extends ChartComponent {
 
     public autoScale = false;
+    public yAxisTickFormattingFn = this.yAxisTickFormatting.bind(this);
 
     constructor(
         protected differs: KeyValueDiffers,
@@ -35,5 +36,9 @@ export class LineChartComponent extends ChartComponent {
         this.title.main = '';
         this.title.sub = '';
         this.autoScale = false;
+    }
+
+    yAxisTickFormatting(value) {
+        return typeof(value) === 'number' && value % 1 !== 0 ? '' : value;
     }
 }

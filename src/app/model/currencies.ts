@@ -1,5 +1,9 @@
 export const CURRENCIES = [
     {
+        id: '150',
+        name: 'USD'
+    },
+    {
         id: '0',
         name: 'AED'
     },
@@ -598,10 +602,6 @@ export const CURRENCIES = [
     {
         id: '149',
         name: 'UGX'
-    },
-    {
-        id: '150',
-        name: 'USD'
     },
     {
         id: '151',

@@ -5,7 +5,8 @@ import { CommodityService } from 'src/app/core/api/commodity.service';
 import { FieldService } from 'src/app/core/api/field.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { Commodity } from 'src/app/model/commodity';
-
+import { CURRENCIES } from 'src/app/model/currencies';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-modal-add-commodity',
@@ -18,6 +19,9 @@ export class ModalAddCommodityComponent implements OnInit {
     public form: FormGroup;
     public displayWeight = false;
     public iconAdvanced = 'arrow_drop_down';
+    public isCurrency = false;
+    public currencies = CURRENCIES;
+    public localCurrency = 'USD';
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -26,7 +30,8 @@ export class ModalAddCommodityComponent implements OnInit {
         private commodityService: CommodityService,
         public modalReference: MatDialogRef<any>,
         public fieldService: FieldService,
-        public languageService: LanguageService
+        public languageService: LanguageService,
+        public asyncacheService: AsyncacheService
     ) {}
 
     ngOnInit() {
@@ -34,6 +39,13 @@ export class ModalAddCommodityComponent implements OnInit {
         this.fields = Object.keys(this.commodity.fields);
         this.makeForm();
         this.loadModalities();
+        this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe((country) => {
+            if (country === 'SYR') {
+                this.localCurrency = 'SYP';
+            } else if (country === 'KHM') {
+                this.localCurrency = 'KHR';
+            }
+        });
     }
 
     makeForm() {
@@ -64,20 +76,23 @@ export class ModalAddCommodityComponent implements OnInit {
     }
 
   getUnit(): string {
+    this.isCurrency = false;
+    this.form.controls.unit.setValue('');
     switch (this.form.controls.modalityType.value) {
         case 1: // Mobile Cash
-            return this.language.model_currency;
         case 2: // QR Code Voucher
-            return this.language.model_commodity_unit;
-        case 3: // Food
-        case 4: // RTE Kit
-        case 6: // Agricultural Kit
-        case 7: // Wash kit
-            return this.language.model_commodity_kit;
-        case 5: // Bread
-            return this.language.model_commodity_kgs;
-        case 8: // Loan
+        case 3: // Paper Voucher
+        case 9: // Loan
+            this.isCurrency = true;
+            this.form.controls.unit.setValue(this.localCurrency);
             return this.language.model_currency;
+        case 4: // Food
+        case 5: // RTE Kit
+        case 7: // Agricultural Kit
+        case 8: // Wash kit
+            return this.language.model_commodity_kit;
+        case 6: // Bread
+            return this.language.model_commodity_kgs;
         default:
             return this.language.model_commodity_unit;
         }

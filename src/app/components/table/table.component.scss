@@ -10,7 +10,11 @@
         width: 100%;
     }
 
-    mat-form-field.search-input {
+    .buttons-header {
+        display: flex;
+    }
+
+    .container-header {
         width: 25%;
         mat-icon {
             vertical-align: middle;
@@ -20,12 +24,14 @@
     }
 
     .buttons-search-clear {
+        margin-left: 10px;
         button {
             padding-left: 0;
             margin-left: 0;
         }
-        mat-icon {
+        mat-icon.material-icons {
             margin-left: 0;
+            padding-bottom: 2px;
         }
     }
 

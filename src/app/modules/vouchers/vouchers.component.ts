@@ -76,7 +76,9 @@ export class VouchersComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.screenSizeSubscription.unsubscribe();
+        if (this.screenSizeSubscription) {
+            this.screenSizeSubscription.unsubscribe();
+        }
     }
 
     setType(choice: string) {

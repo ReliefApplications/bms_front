@@ -94,13 +94,13 @@ export class English implements Language {
     add_beneficiary_getNationalID = 'ID Number'
     add_beneficiary_getOccupation = 'Livelihood'
     add_beneficiary_getTypeNationalId = 'ID Type'
-    add_beneficiary_getTypePhone = 'Phone Type'
+    add_beneficiary_getTypePhone = 'Type'
     add_beneficiary_res_address = 'Resident Address'
     add_beneficiary_step1 = 'Information'
     add_beneficiary_step2 = 'Head'
     add_beneficiary_step3 = 'Members'
     add_beneficiary_title = 'add beneficiary'
-    add_beneficiary_code = 'Country code'
+    add_beneficiary_code = 'Ext'
 
     // Add beneficiary options
     national_id_passport = 'Passport'
@@ -384,7 +384,6 @@ export class English implements Language {
     // Model
     model_beneficiaries_dependents = 'Members'
     model_beneficiaries_nationalids = 'ID Number'
-    model_beneficiaries_phones = ' (no country code)'
     model_beneficiaries_phone_no = 'Phone No. '
     model_beneficiaries_status = 'Status'
     model_booklet = 'Booklet'

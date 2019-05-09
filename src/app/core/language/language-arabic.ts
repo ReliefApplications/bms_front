@@ -96,13 +96,13 @@ export class Arabic implements Language {
     add_beneficiary_getNationalID = 'رقم الهوية الوطنية'
     add_beneficiary_getOccupation = 'الوظيفة'
     add_beneficiary_getTypeNationalId = 'نوع الهوية الوطنية'
-    add_beneficiary_getTypePhone = 'نوع الهاتف'
+    add_beneficiary_getTypePhone = 'نوع'
     add_beneficiary_res_address = 'عنوان الإقامة'
     add_beneficiary_step1 = 'معلومات'
     add_beneficiary_step2 = 'رب العائلة'
     add_beneficiary_step3 = 'أفراد العائلة'
     add_beneficiary_title = 'إضافة مستفيد'
-    add_beneficiary_code = 'رمز الهاتف الدولي'
+    add_beneficiary_code = 'تحويلة'
 
     // Add beneficiary options
     national_id_passport = 'جواز سفر'
@@ -384,7 +384,6 @@ export class Arabic implements Language {
     // Model
     model_beneficiaries_dependents = 'عضو'
     model_beneficiaries_nationalids = 'رقم الهوية'
-    model_beneficiaries_phones = '(بدون رمز البلد) '
     model_beneficiaries_phone_no = 'رقم الهاتف'
     model_beneficiaries_status = 'الرتبة في الأسرة'
     model_booklet = 'كتيب'

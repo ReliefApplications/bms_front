@@ -575,7 +575,7 @@ export class French implements Language {
     transaction_state_no_phone = 'Pas de téléphone'
     transaction_state_sending_failed = 'Envoie échoué'
     transaction_state_sent = 'Envoyé'
-    transaction_state_already_sent = 'Déjà envoyé'
+    transaction_state_already_sent = 'Envoyé'
     transaction_state_picked_up = 'Récupéré'
     transaction_transaction = 'Démarrer la transaction'
     transaction_validate_distribution = 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier'

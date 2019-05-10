@@ -15,6 +15,7 @@ import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
 import { Project } from '../../../model/project';
+import { User } from 'src/app/model/user';
 
 
 export interface Api {
@@ -132,7 +133,8 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this._cacheService.getUser()
             .subscribe(
                 response => {
-                    this.email = response.get('username');
+                    const user = User.apiToModel(response);
+                    this.email = user.get('username');
                     this.email = this.email.replace('@', '');
                 }
             );

@@ -12,7 +12,6 @@ export const rightsHierarchy = {
         'ROLE_BENEFICIARY_MANAGEMENT_READ',
         'ROLE_PROJECT_MANAGEMENT_READ',
         'ROLE_REPORTING_READ',
-        'ROLE_SWITCH_COUNTRY',
     ],
     [Role.projectOfficer]: [
         'ROLE_BENEFICIARY_MANAGEMENT',
@@ -20,7 +19,6 @@ export const rightsHierarchy = {
         'ROLE_PROJECT_MANAGEMENT_READ',
         'ROLE_REPORTING',
         'ROLE_REPORTING_PROJECT',
-        'ROLE_SWITCH_COUNTRY',
     ],
     [Role.projectManager]: [
         'ROLE_AUTHORISE_PAYMENT',
@@ -33,7 +31,6 @@ export const rightsHierarchy = {
         'ROLE_REPORTING_PROJECT',
         'ROLE_USER_MANAGEMENT',
         'ROLE_VIEW_ADMIN_SETTINGS',
-        'ROLE_SWITCH_COUNTRY',
     ],
     [Role.countryManager]: [
         'ROLE_AUTHORISE_PAYMENT',

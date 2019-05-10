@@ -105,9 +105,6 @@ export class User extends CustomModel {
                 return user;
             },
         }),
-        loggedIn: new BooleanModelField({
-            value: false,
-        }),
         projects: new MultipleSelectModelField({
             title: this.language.project,
             isDisplayedInModal: true,
@@ -127,6 +124,11 @@ export class User extends CustomModel {
     };
 
     public static apiToModel(userFromApi: any): User {
+
+        if (!userFromApi) {
+            return null; // If it was retrieved from cache and was null
+        }
+
         const newUser = new User();
 
         newUser.set('rights', userFromApi.roles ?
@@ -146,7 +148,16 @@ export class User extends CustomModel {
         }
 
         // TO DO : make the cache and the back coherent by sending the same key that we receive
-        const countries = userFromApi.countries ? userFromApi.countries : userFromApi.country;
+        let countries = [];
+        if (userFromApi.countries && userFromApi.countries.length > 0) {
+            countries = userFromApi.countries;
+        } else if (userFromApi.country && userFromApi.country.length > 0) {
+            countries = userFromApi.country;
+        } else if (userFromApi.user_projects && userFromApi.roles[0] !== 'ROLE_ADMIN') {
+            countries = userFromApi.user_projects.map((project) => project.project.iso3);
+        }
+
+
         newUser.set('countries', countries ?
             countries.map((countryFromApi: any) => {
                 return newUser.getOptions('countries').filter((country: Country) => {
@@ -159,9 +170,6 @@ export class User extends CustomModel {
 
         newUser.set('projects', userFromApi.user_projects ?
             userFromApi.user_projects.map((project: any) => {
-                if (newUser.get<Country[]>('countries').filter((country) => country.get('name') === project.project.iso3).length > 0) {
-                    newUser.add('countries', new Country(null, project.project.iso3));
-                }
                 return Project.apiToModel(project.project);
             }) :
             null);
@@ -170,8 +178,8 @@ export class User extends CustomModel {
         newUser.set('email', userFromApi.email);
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
-        newUser.set('loggedIn', userFromApi.loggedIn);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en' );
+
         return newUser;
     }
 
@@ -184,41 +192,20 @@ export class User extends CustomModel {
             language: this.get('language'),
             roles: (this.get('rights') ? [this.get('rights').get('id')] : null),
             vendor: null,
-            loggedIn: this.get('loggedIn')
         };
 
         if (!this.get('rights')) {
             return userForApi;
         }
-
-        if (this.get('rights').get<string>('id') === 'ROLE_REGIONAL_MANAGER' ||
-        this.get('rights').get<string>('id') === 'ROLE_COUNTRY_MANAGER') {
-            userForApi['country'] = this.fields.countries.value ?
+        userForApi['country'] = this.fields.countries.value ?
             this.fields.countries.value.map((country: Country) => country.get('id')) :
             null;
-        } else if (this.get('rights').get<string>('id') === 'ROLE_PROJECT_MANAGER' ||
-        this.get('rights').get<string>('id') === 'ROLE_PROJECT_OFFICER' ||
-        this.get('rights').get<string>('id') === 'ROLE_FIELD_OFFICER') {
-            userForApi['projects'] = this.fields.projects.value ?
-                this.fields.projects.value.map((project: Project) => project.get('id')) :
-                null;
-        }
+        userForApi['projects'] = this.fields.projects.value ?
+            this.fields.projects.value.map((project: Project) => project.get('id')) :
+            null;
+
         return userForApi;
     }
-
-    // Todo: remove this (temporary fix)
-    // public getAllCountries() {
-    //     return [
-    //         {
-    //             'id': 'KHM',
-    //             'name': 'Cambodia',
-    //         },
-    //         {
-    //             'id': 'SYR',
-    //             'name': 'Syria',
-    //         }
-    //     ];
-    // }
 
     public getIdentifyingName() {
         return this.get<string>('username');

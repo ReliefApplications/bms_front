@@ -54,7 +54,6 @@ export class AuthenticationService {
                 this.logUser(user.modelToApi()).subscribe((userFromApi: object) => {
                     if (userFromApi) {
                         this.user = User.apiToModel(userFromApi);
-                        this.user.set('loggedIn', true);
                         this.setUser(this.user);
                         resolve(this.user);
                     } else {
@@ -71,7 +70,6 @@ export class AuthenticationService {
 
     logout(): Observable<User> {
         this.resetUser();
-        this.user.set('loggedIn', false);
         return this._cacheService.clear(false, [AsyncacheService.COUNTRY]).pipe(
             map(
                 () => this.user
@@ -79,7 +77,7 @@ export class AuthenticationService {
         );
     }
 
-    getUser(): Observable<User> {
+    getUser(): Observable<any> {
         return this._cacheService.getUser();
     }
 
@@ -130,12 +128,5 @@ export class AuthenticationService {
         body.password = saltedPassword;
         body.salt = salt.salt;
         return body;
-    }
-
-    public isLoggedIn(): boolean {
-        if (!this.user) {
-            return false;
-        }
-        return this.user.get('loggedIn');
     }
 }

@@ -30,10 +30,11 @@ export class LanguageResolver implements Resolve<Language | Observable<Language>
                     return of(this.languageService.setLanguage(cacheLanguage));
                 }
                 return this.asyncCacheService.getUser().pipe(
-                    map((user: User) => {
-                        if (!user) {
+                    map((userFromApi: any) => {
+                        if (!userFromApi) {
                             return this.languageService.setLanguage(this.languageService.enabledLanguages[0]);
                         }
+                        const user = User.apiToModel(userFromApi);
                         return this.languageService.setLanguage(this.languageService.stringToLanguage(user.get<string>('language')));
                     })
                 );

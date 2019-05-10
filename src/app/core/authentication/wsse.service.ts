@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { map } from 'rxjs/operators';
 import { AsyncacheService } from '../storage/asyncache.service';
+import { User } from 'src/app/model/user';
 
 
 
@@ -47,9 +48,8 @@ export class WsseService {
         return this.cache.getUser().pipe(
             map(
                 result => {
-                    const cachedUser = result;
-
-                    if (cachedUser) {
+                    if (result) {
+                        const cachedUser = User.apiToModel(result);
                         this.username = cachedUser.get<string>('email');
                         this.salted = cachedUser.get<string>('password');
                     } else {

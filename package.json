@@ -36,6 +36,7 @@
     "@angular/pwa": "^0.10.7",
     "@angular/router": "^6.1.10",
     "@angular/service-worker": "^6.1.9",
+    "@livechat/angular-widget": "0.0.6",
     "@mapbox/leaflet-omnivore": "^0.3.4",
     "@ng-select/ng-select": "^2.16.2",
     "@ngx-pwa/local-storage": "^6.2.3",

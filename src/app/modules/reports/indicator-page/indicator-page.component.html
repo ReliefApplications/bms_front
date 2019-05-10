@@ -45,13 +45,13 @@
             <div class="content-select-period" *ngIf="period == true">
                 <mat-card>
                     <mat-form-field>
-                        <input matInput [matDatepicker]="pickerFrom" placeholder="{{language.report_from | titlecase}}"
+                        <input matInput [matDatepicker]="pickerFrom" [placeholder]="language.report_from | titlecase"
                             [formControl]="from" #inputFrom required>
                         <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
                         <mat-datepicker #pickerFrom></mat-datepicker>
                     </mat-form-field>
                     <mat-form-field>
-                        <input matInput [matDatepicker]="pickerTo" placeholder="{{language.report_to | titlecase}}" [formControl]="to"
+                        <input matInput [matDatepicker]="pickerTo" [placeholder]="language.report_to | titlecase" [formControl]="to"
                             #inputTo required>
                         <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
                         <mat-datepicker #pickerTo></mat-datepicker>
@@ -61,31 +61,41 @@
                 </mat-card>
             </div>
 
-            <!-- selector for project when we click on button "project report" -->
-            <div class="content-select" *ngIf="type == 'Project'">
-                <mat-card>
-                    <ng-select class="multiple-select" [(ngModel)]="selectedBeneficiaries" bindLabel="name" [items]="projectList"
-                        [multiple]="true" placeholder="{{language.projects | titlecase}}" [closeOnSelect]="false" [searchable]="true"
-                        [ngModelOptions]="{standalone: true}" (change)="getProjectSelected($event)" required>
-                    </ng-select>
-                </mat-card>
-            </div>
+            <form [formGroup]="filterControl">
+                <div class="content-select" *ngIf="type === 'Project' || type === 'Distribution'">
 
-            <!-- selector for distribution and project when we click on button "distribution report" -->
-            <div class="content-select" *ngIf="type == 'Distribution'">
-                <mat-card>
+                    <mat-card *ngIf="type == 'Project';else distributionType">
+                    <!-- selector for project when we click on button "project report" -->
+                        <ng-select class="multiple-select" formControlName="projectMultipleSelect"
+                            [multiple]="true" [placeholder]="language.projects | titlecase" [closeOnSelect]="false" [searchable]="true">
+                            <ng-option *ngFor="let project of projects" [value]="project.get('id')">
+                                {{project.get('name')}}
+                            </ng-option>
+                        </ng-select>
 
-                    <ng-select class="project-report-bar single-select"  placeholder="{{language.projects | titlecase}}" [items]=projectList [bindLabel]=project [bindValue]=project
-                    (change)="getProjectSelected($event)">
-                    </ng-select>
+                    </mat-card>
+                    <ng-template #distributionType>
+                        <mat-card >
+                            <!-- selector for project when we click on button "distribution report" -->
+                            <ng-select class="single-select" formControlName="projectSingleSelect"
+                                [multiple]="false" [placeholder]="language.projects | titlecase" [closeOnSelect]="false" [searchable]="true">
+                                <ng-option *ngFor="let project of projects" [value]="project.get('id')">
+                                    {{project.get('name')}}
+                                </ng-option>
+                            </ng-select>
 
-                    <ng-select class="multiple-select" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
-                        [multiple]="true" placeholder="{{language.distributions} | titlecase}" [closeOnSelect]="false"
-                        [searchable]="true" (change)="getDistributionSelected($event)" #selectorDistribution
-                        required>
-                    </ng-select>
-                </mat-card>
-            </div>
+                            <!-- selector for distribution and project when we click on button "distribution report" -->
+                            <ng-select class="multiple-select"
+                                [multiple]="true" [placeholder]="language.distributions | titlecase" [closeOnSelect]="false" [searchable]="true">
+                                <ng-option *ngFor="let distribution of distributions" [value]="distribution.get('id')">
+                                    {{distribution.get('name')}}
+                                </ng-option>
+                            </ng-select>
+                        </mat-card>
+                    </ng-template>
+
+                </div>
+            </form>
 
 
             <!-- for mobile screen : add a expansion panel to regroup button to select frequency-->
@@ -106,12 +116,12 @@
                             <div class="content-select-period-mobile" *ngIf="period == true">
                                 <div class="datepicker">
                                     <mat-form-field>
-                                        <input matInput [matDatepicker]="pickerFrom" placeholder="{{language.report_from | titlecase}}">
+                                        <input matInput [matDatepicker]="pickerFrom" [placeholder]="language.report_from | titlecase">
                                         <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
                                         <mat-datepicker touchUi #pickerFrom></mat-datepicker>
                                     </mat-form-field>
                                     <mat-form-field>
-                                        <input matInput [matDatepicker]="pickerTo" placeholder="{{language.report_to | titlecase}}">
+                                        <input matInput [matDatepicker]="pickerTo" [placeholder]="language.report_to | titlecase">
                                         <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
                                         <mat-datepicker touchUi #pickerTo></mat-datepicker>
                                     </mat-form-field>

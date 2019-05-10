@@ -1,4 +1,4 @@
-<div class="container-table" *ngIf="transactionData">
+<div class="container-table">
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
             <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="content-button">
+        <div class="content-button" *ngIf="transactionData">
             <div class="action-buttons">
                 <button mat-raised-button class="button-background-primary" [matMenuTriggerFor]="menu">
                     <mat-icon>more_vert</mat-icon>
@@ -65,16 +65,11 @@
             </div>
         </div>
 
-        <div class="waitingDataContainer" *ngIf="loadingTransaction">
-            <mat-spinner></mat-spinner>
-        </div>
-
-        <div class="content-table" *ngIf="!loadingTransaction">
-
+        <div class="content-table">
             <!-- Add filters and checkboxes -->
-            <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)">
+            <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)">
             </app-table>
-            <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)">
+            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)">
             </app-table-mobile>
         </div>
 

@@ -113,6 +113,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     if (this.httpSubscriber) {
       this.httpSubscriber.unsubscribe();
     }
+    this.loadingData = true;
     this.getData(title);
     this.selectedTitle = title;
   }
@@ -290,6 +291,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
 	*/
     openDialog(dialogDetails: any): void {
         this.modalService.openDialog(this.referedClassToken, this.referedClassService, dialogDetails);
+        this.modalService.isLoading.subscribe(() => {
+          this.loadingData = true;
+      });
         this.modalService.isCompleted.subscribe(() => {
             this.load();
         });

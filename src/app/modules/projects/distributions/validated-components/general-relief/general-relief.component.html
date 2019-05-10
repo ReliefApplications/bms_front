@@ -46,15 +46,11 @@
             </div>
         </div>
 
-        <div class="waitingDataContainer" *ngIf="loadingTransaction">
-            <mat-spinner></mat-spinner>
-        </div>
-
-        <div class="content-table" *ngIf="!loadingTransaction">
-            <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" [selection]="selection"
+        <div class="content-table">
+            <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" [selection]="selection"
                 rights="true" (selectChecked)="getChecked($event)" (openModal)="openDialog($event)" [selectable]="true">
             </app-table>
-            <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" rights="true" (openModal)="openDialog($event)">
+            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" rights="true" (openModal)="openDialog($event)">
             </app-table-mobile>
         </div>
 

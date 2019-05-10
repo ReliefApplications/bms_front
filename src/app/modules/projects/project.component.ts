@@ -192,6 +192,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
     openDialog(dialogDetails: any): void {
 
         this.modalService.openDialog(Distribution, this.distributionService, dialogDetails);
+        this.modalService.isLoading.subscribe(() => {
+            this.loadingDistributions = true;
+        });
         this.modalService.isCompleted.subscribe(() => {
             this.getDistributionsByProject(this.selectedProject.get('id'));
         });

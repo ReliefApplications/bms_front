@@ -101,78 +101,82 @@
         </form>
     </div>
 
-    <div class="spinner-container" *ngIf="tableServerData.loading$ | async">
+    <div class="spinner-container" *ngIf="tableServerData.loading$ | async; else tableServer">
         <mat-spinner></mat-spinner>
     </div>
-    <mat-table class="server-table" [dataSource]="tableServerData" matSort [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-        <ng-container *ngIf="selectable" matColumnDef="check">
-            <mat-header-cell class="header-cell" *matHeaderCellDef>
-                <mat-checkbox (change)="$event ? masterToggle() : null"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
-                </mat-checkbox>
-            </mat-header-cell>
-            <mat-cell class="content-cell" *matCellDef="let element">
-                <mat-checkbox (click)="$event.stopPropagation()" (change)="selectCheck($event, element)"
-                    [checked]="selection.isSelected(element)" color="primary">
-                </mat-checkbox>
-            </mat-cell>
-        </ng-container>
-        <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">
-            <mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title | uppercaseFirst}}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <ng-container *ngIf="element.fields[property]; let field">
-                    <app-display-field [field]="field" [element]="element"></app-display-field>
-                </ng-container>
-            </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="actions">
-            <mat-header-cell *matHeaderCellDef>{{language.table_actions | uppercaseFirst }}</mat-header-cell>
-            <mat-cell *matCellDef="let element">
-                <ng-container *ngIf="validatable">
+    <div class="table-placeholder" *ngIf="tableServerData.loading$ | async">
+        <!-- Just to have the loader in a blank space between the title and the paginator -->
+    </div>
+    <ng-template #tableServer>
+        <mat-table class="server-table" [dataSource]="tableServerData" matSort [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            <ng-container *ngIf="selectable" matColumnDef="check">
+                <mat-header-cell class="header-cell" *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
+                    </mat-checkbox>
+                </mat-header-cell>
+                <mat-cell class="content-cell" *matCellDef="let element">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="selectCheck($event, element)"
+                        [checked]="selection.isSelected(element)" color="primary">
+                    </mat-checkbox>
+                </mat-cell>
+            </ng-container>
+            <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">
+                <mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title | uppercaseFirst}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="element.fields[property]; let field">
+                        <app-display-field [field]="field" [element]="element"></app-display-field>
+                    </ng-container>
+                </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>{{language.table_actions | uppercaseFirst }}</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="validatable">
+                        <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
+                            <mat-icon *ngIf="element.get('validated') && element.get('finished')">done</mat-icon>
+                            <mat-icon *ngIf="element.get('validated') && !element.get('finished')" class="red">lock
+                            </mat-icon>
+                            <mat-icon *ngIf="!element.get('validated') && updatable" class="light-red">edit</mat-icon>
+                        </button>
+                    </ng-container>
                     <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
-                        <mat-icon *ngIf="element.get('validated') && element.get('finished')">done</mat-icon>
-                        <mat-icon *ngIf="element.get('validated') && !element.get('finished')" class="red">lock
-                        </mat-icon>
-                        <mat-icon *ngIf="!element.get('validated') && updatable" class="light-red">edit</mat-icon>
+                        <mat-icon *ngIf="!validatable && updatable" class="light-red">edit</mat-icon>
                     </button>
-                </ng-container>
-                <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
-                    <mat-icon *ngIf="!validatable && updatable" class="light-red">edit</mat-icon>
-                </button>
-
-                <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
-                    *ngIf="loggable" [matTooltip]="language.settings_log_button">
-                    <mat-icon>history</mat-icon>
-                </button>
-
-                <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
-                    [matTooltip]="language.update" class="green">
-                    <mat-icon>search</mat-icon>
-                </button>
-                <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
-                    [matTooltip]="language.delete" class="red">
-                    <mat-icon>delete_outline</mat-icon>
-                </button>
-                <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
-                    [matTooltip]="'print'" class="grey" [disabled]="!element.isPrintable()">
-                    <mat-icon>printer</mat-icon>
-                </button>
-                <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable"
-                    (click)="assign(element); $event.stopPropagation()" class="grey"
-                    [disabled]="!element.isAssignable()">
-                    <mat-icon>assignment</mat-icon>
-                </button>
-            </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: getDisplayedColumns(); let element" class="cursor-pointer"
-            (click)="openDialog('details', element)"></mat-row>
-    </mat-table>
-
+    
+                    <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
+                        *ngIf="loggable" [matTooltip]="language.settings_log_button">
+                        <mat-icon>history</mat-icon>
+                    </button>
+    
+                    <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
+                        [matTooltip]="language.update" class="green">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                    <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                        [matTooltip]="language.delete" class="red">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+                    <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
+                        [matTooltip]="'print'" class="grey" [disabled]="!element.isPrintable()">
+                        <mat-icon>printer</mat-icon>
+                    </button>
+                    <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable"
+                        (click)="assign(element); $event.stopPropagation()" class="grey"
+                        [disabled]="!element.isAssignable()">
+                        <mat-icon>assignment</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+    
+            <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: getDisplayedColumns(); let element" class="cursor-pointer"
+                (click)="openDialog('details', element)"></mat-row>
+        </mat-table>
+    </ng-template>
     <mat-paginator [length]="tableServerData.length$ | async" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10"
         showFirstLastButtons></mat-paginator>
 </div>

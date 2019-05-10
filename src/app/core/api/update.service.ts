@@ -8,17 +8,16 @@ export class UpdateService {
 
     constructor(
         private snackbar: SnackbarService,
-        private updates: SwUpdate,
+        public updates: SwUpdate,
     ) {
-        this.updates.available.subscribe(
-            event => {
-                const snack = this.snackbar.info('BMS Update is available', 'Reload');
+        updates.checkForUpdate();
 
-                snack
-                    .onAction()
-                    .subscribe(() => {
+        updates.available.subscribe(
+            _event => {
+                const snack = this.snackbar.info('An update is available', 'Reload');
+                snack.onAction().subscribe(() => {
                     window.location.reload();
-                    });
+                });
 
                 setTimeout(() => {
                     snack.dismiss();

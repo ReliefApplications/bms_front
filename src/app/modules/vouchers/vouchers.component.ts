@@ -59,7 +59,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
         public _exportService: ExportService,
         public snackbar: SnackbarService,
         private modalService: ModalService,
-        protected languageService: LanguageService,
+        private languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
     ) { }
 

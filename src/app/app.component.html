@@ -39,7 +39,7 @@
             <img src="assets/images/bms_logo.png" mat-list-icon>
         </mat-list-item>
         <mat-list-item [ngClass]="{selected: matchUrl() === ''}" routerLink="/">
-            <span class="full-width" >{{router.url}}</span>
+            <span class="full-width" >{{language.home | titlecase}}</span>
             <mat-icon mat-list-icon>home</mat-icon>
         </mat-list-item>
         <mat-list-item [ngClass]="{selected: matchUrl() === 'projects'}" routerLink="/projects">

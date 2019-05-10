@@ -8,6 +8,8 @@ import { SaltInterface } from '../../model/salt';
 import { ErrorInterface, User } from '../../model/user';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
+import { Country } from 'src/app/model/country';
+import { CountriesService } from '../countries/countries.service';
 
 
 
@@ -21,6 +23,7 @@ export class AuthenticationService {
     constructor(
         public _wsseService: WsseService,
         public _cacheService: AsyncacheService,
+        public countryService: CountriesService,
         public http: HttpClient,
         public router: Router
     ) { }
@@ -82,6 +85,11 @@ export class AuthenticationService {
     }
 
     setUser(user: User) {
+        const countries = user.get<Country[]>('countries');
+        if (countries.length === 1) {
+            this.countryService.setCountry(countries[0]);
+            this._cacheService.setCountry(countries[0]).subscribe();
+        }
         this._cacheService.set(AsyncacheService.USER, user.modelToApi());
     }
 

@@ -17,7 +17,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { LivechatWidgetModule } from '@livechat/angular-widget';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { RecaptchaModule } from 'angular-google-recaptcha';
@@ -121,7 +120,6 @@ imports: [
     CountoModule,
     NgSelectModule,
     ZXingScannerModule,
-    LivechatWidgetModule,
     RecaptchaModule.forRoot({
         siteKey: '6LdJjIAUAAAAAFHrAB20mjuVhwRsLhTgfq4ioeaO',
     }),

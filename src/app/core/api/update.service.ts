@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { interval } from 'rxjs';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { SwUpdate } from '@angular/service-worker';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class UpdateService {
 
     constructor(
@@ -14,7 +15,7 @@ export class UpdateService {
             _event => {
                 // tslint:disable-next-line
                 console.log(_event);
-                const snack = this.snackbar.info('BMS Update is available', 'Reload');
+                const snack = this.snackbar.info('An update is available', 'Reload');
 
                 snack.onAction().subscribe(() => {
                     this.updates.activateUpdate().then(() => {

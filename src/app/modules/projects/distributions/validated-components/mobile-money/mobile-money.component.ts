@@ -4,6 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { Commodity } from 'src/app/model/commodity';
 import { State, TransactionMobileMoney } from 'src/app/model/transaction-mobile-money';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
+import { User } from 'src/app/model/user';
 
 @Component({
     selector: 'app-mobile-money',
@@ -109,7 +110,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      */
     openDialog(template: any) {
         this.cacheService.getUser().subscribe(result => {
-            this.actualUser = result;
+            this.actualUser = User.apiToModel(result);
             if (!this.actualUser.get('email') && this.actualUser.get('username')) {
                 this.actualUser.set('email', this.actualUser.get('username'));
             }

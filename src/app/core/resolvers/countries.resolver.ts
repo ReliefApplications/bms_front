@@ -56,10 +56,7 @@ export class CountryResolver implements Resolve<Observable<Country> | Country> {
             this.countriesService.fillWithAllExistingCountries();
         }
         else {
-            const countries = this.userService.currentUser.get<Array<string>>('countries').map((country: string) => {
-                return this.countriesService.stringToCountry(country);
-            });
-            this.countriesService.fillWithCountries(countries);
+            this.countriesService.fillWithCountries(this.userService.currentUser.get<Array<Country>>('countries'));
         }
     }
 }

@@ -25,11 +25,11 @@ export class CountriesService {
 
     public fillWithCountries(countries: Array<Country>) {
         this.selectableCountries.next(this.enabledCountries.filter((storedCountry: Country) => {
-            return countries.forEach((userCountry: Country) => {
+            return countries.filter((userCountry: Country) => {
                 if (storedCountry.get<string>('id') === userCountry.get<string>('id')) {
                     return storedCountry;
                 }
-            });
+            })[0];
         }));
     }
 //

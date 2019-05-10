@@ -138,9 +138,9 @@ export class HouseholdsDataSource implements CustomDataSource<Household> {
 
     loadData(
         filter = [],
-        sort = { sort: 'familyName', direction: 'asc' },
+        sort = { sort: null, direction: null },
         pageIndex = 0,
-        pageSize = 50
+        pageSize = 10
     ) {
         this.loadingSubject.next(true);
 

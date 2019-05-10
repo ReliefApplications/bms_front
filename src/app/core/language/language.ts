@@ -26,6 +26,7 @@ export interface Language {
     gender: string
     home: string
     households: string
+    id: string
     import: string
     individual: string
     is_required: string
@@ -114,6 +115,7 @@ export interface Language {
     add_distribution_missing_selection_criteria: string
     add_distribution_missing_threshold: string
     add_distribution_multiple_modalities: string
+    add_distribution_no_beneficiaries: string
     add_distribution_selection_criteria: string
     add_distribution_text_explanation: string
     add_distribution_threshold: string
@@ -369,7 +371,6 @@ export interface Language {
     // Model
     model_beneficiaries_dependents: string
     model_beneficiaries_nationalids: string
-    model_beneficiaries_phones: string
     model_beneficiaries_phone_no: string
     model_beneficiaries_status: string
     model_booklet: string

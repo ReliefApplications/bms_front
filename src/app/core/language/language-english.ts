@@ -27,6 +27,7 @@ export class English implements Language {
     gender = 'Gender'
     home = 'Home'
     households = 'Household'
+    id = 'ID'
     import = 'Import'
     individual = 'Individual'
     is_required = 'is required'
@@ -93,13 +94,13 @@ export class English implements Language {
     add_beneficiary_getNationalID = 'ID Number'
     add_beneficiary_getOccupation = 'Livelihood'
     add_beneficiary_getTypeNationalId = 'ID Type'
-    add_beneficiary_getTypePhone = 'Phone Type'
+    add_beneficiary_getTypePhone = 'Type'
     add_beneficiary_res_address = 'Resident Address'
     add_beneficiary_step1 = 'Information'
     add_beneficiary_step2 = 'Head'
     add_beneficiary_step3 = 'Members'
     add_beneficiary_title = 'add beneficiary'
-    add_beneficiary_code = 'Country code'
+    add_beneficiary_code = 'Ext'
 
     // Add beneficiary options
     national_id_passport = 'Passport'
@@ -127,6 +128,7 @@ export class English implements Language {
     add_distribution_missing_selection_criteria = 'A selection criterion is missing'
     add_distribution_missing_threshold = 'The minimum selection score\'s value should be greater than 0'
     add_distribution_multiple_modalities = 'You can\'t have two different modalities in the same distribution'
+    add_distribution_no_beneficiaries = 'The number of reached beneficiaries/households must be positive'
     add_distribution_selection_criteria = 'selection criteria'
     add_distribution_text_explanation = 'The system will only select beneficiaries/households that have a score higher than the minimum selection score'
     add_distribution_threshold = 'Minimum selection score'
@@ -385,9 +387,8 @@ export class English implements Language {
     // Model
     model_beneficiaries_dependents = 'Members'
     model_beneficiaries_nationalids = 'ID Number'
-    model_beneficiaries_phones = ' (no country code)'
     model_beneficiaries_phone_no = 'Phone No. '
-    model_beneficiaries_status = 'Satus'
+    model_beneficiaries_status = 'Status'
     model_booklet = 'Booklet'
     model_booklet_password_pattern = 'The password must be four digits'
     model_code = 'Code'
@@ -577,8 +578,8 @@ export class English implements Language {
     transaction_state_not_sent = 'Not sent'
     transaction_state_no_phone = 'No phone'
     transaction_state_sending_failed = 'Sending failed'
-    transaction_state_sent = 'Sent'
-    transaction_state_already_sent = 'Already sent'
+    transaction_state_sent = 'Sent' // Means sent during the current transaction (after loading the page)
+    transaction_state_already_sent = 'Sent' // Means sent during a previous transaction (before loading the page)
     transaction_state_picked_up = 'Picked up'
     transaction_transaction = 'Start transaction'
     transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'

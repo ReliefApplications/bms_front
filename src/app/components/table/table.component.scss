@@ -10,6 +10,31 @@
         width: 100%;
     }
 
+    .buttons-header {
+        display: flex;
+    }
+
+    .container-header {
+        width: 25%;
+        mat-icon {
+            vertical-align: middle;
+            color: rgba(0, 0, 0, 0.54);
+            margin-right: 5px;
+        }
+    }
+
+    .buttons-search-clear {
+        margin-left: 10px;
+        button {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        mat-icon.material-icons {
+            margin-left: 0;
+            padding-bottom: 2px;
+        }
+    }
+
     .filter-combo {
         width: 100%;
         display: flex;

@@ -158,7 +158,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
                 } else if (field.kindOfField === 'SingleSelect') {
                     value = field.value ? field.value.get(field.bindField) : '';
                 } else if (field.kindOfField === 'Date') {
-                    value = field.value;
+                    value = field.formatForApi();
                 } else {
                     value = field.value;
                 }
@@ -254,10 +254,16 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
     public getDisplayedColumns(): string[] {
-        if (this.selectable) {
+        const actionable = this.validatable || this.updatable || this.loggable ||
+            this.editable || this.deletable || this.printable || this.assignable;
+        if (this.selectable && actionable) {
             return this.displayProperties ? ['check', ...this.displayProperties, 'actions'] : [];
+        } else if (this.selectable && !actionable) {
+            return this.displayProperties ? ['check', ...this.displayProperties] : [];
+        } else if (!this.selectable && actionable) {
+            return this.displayProperties ? [...this.displayProperties, 'actions'] : [];
         }
-        return this.displayProperties ? [...this.displayProperties, 'actions'] : [];
+        return this.displayProperties ? this.displayProperties : [];
     }
 
     /**

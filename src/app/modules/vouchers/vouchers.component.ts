@@ -94,6 +94,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
             finalize(
                 () => {
                     this.loadingBooklet = false;
+                    this.load = false;
                 },
             )
         ).subscribe(
@@ -113,6 +114,9 @@ export class VouchersComponent implements OnInit, OnDestroy {
 	*/
     openDialog(dialogDetails: any): void {
         this.modalService.openDialog(this.bookletClass, this.bookletService, dialogDetails);
+        this.modalService.isLoading.subscribe(() => {
+            this.load = true;
+        });
         this.modalService.isCompleted.subscribe(() => {
             this.getBooklets();
         });

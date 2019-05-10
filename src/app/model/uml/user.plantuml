@@ -6,7 +6,6 @@ class User {
     - email
     - password
     - rights
-    - loggedIn
     - projects
     - countries
     - language

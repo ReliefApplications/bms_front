@@ -112,8 +112,8 @@
             <div>
               <div class="content-select" *ngIf="apiForm.value['apiSelector']" formGroupName='parameters'>
                 <mat-form-field *ngFor="let parameter of selectedApi.parameters">
-                  <input matInput *ngIf="parameter.paramType == 'string'" type="text" formControlName="{{parameter.paramName}}" placeholder="{{ parameter.paramName | titlecase}} *">
-                  <input matInput *ngIf="parameter.paramType == 'int'" type="number" formControlName="{{parameter.paramName}}" placeholder="{{ parameter.paramName | titlecase}} *">
+                  <input matInput *ngIf="parameter.paramType == 'string'" type="text" formControlName="{{parameter.paramName}}" placeholder="{{ parameter.paramName | uppercaseFirst }} *">
+                  <input matInput *ngIf="parameter.paramType == 'int'" type="number" formControlName="{{parameter.paramName}}" placeholder="{{ parameter.paramName | uppercaseFirst }} *">
                 </mat-form-field>
               </div>
             </div>

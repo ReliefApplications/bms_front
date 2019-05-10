@@ -13,6 +13,7 @@ import { DisplayType } from 'src/constants/screen-sizes';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 import { LeafletService } from '../../core/external/leaflet.service';
+import { User } from 'src/app/model/user';
 
 @Component({
     selector: 'app-dashboard',
@@ -62,9 +63,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.currentDisplayType = displayType;
         });
         this._cacheService.getUser().subscribe(result => {
-            if (result.get('loggedIn')) {
+            if (result) {
                 this.serviceMap.createMap('map');
-
                 this.getSummary();
                 this.checkDistributions();
             }

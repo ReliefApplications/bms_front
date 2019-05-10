@@ -48,7 +48,7 @@
             </mat-form-field>
             <label>{{objectInstance.fields.type.title}}</label>
             <mat-radio-group formControlName="type" class="type-distribution" (change)="updateNbBeneficiary()">
-              <mat-radio-button checked='true' color="warn" [value]="objectInstance.getOptions('type')[0].get('name')" disabled='false'>{{objectInstance.getOptions('type')[0].get('name')}}</mat-radio-button>
+              <mat-radio-button color="warn" [value]="objectInstance.getOptions('type')[0].get('name')">{{objectInstance.getOptions('type')[0].get('name')}}</mat-radio-button>
               <mat-radio-button color="warn" [value]="objectInstance.getOptions('type')[1].get('name')">{{objectInstance.getOptions('type')[1].get('name')}}</mat-radio-button>
             </mat-radio-group>
           </form>

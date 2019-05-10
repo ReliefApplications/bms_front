@@ -9,7 +9,8 @@
     <ng-template #dataInTable>
         <div class="container-header" *ngIf="searchable">
             <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{language.table_filter | titlecase}}">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{language.table_filter | uppercaseFirst}}">
+                <mat-icon matPrefix>search</mat-icon>
             </mat-form-field>
         </div>
 
@@ -31,7 +32,7 @@
             </ng-container>
 
             <ng-container *ngFor="let property of displayProperties" matColumnDef="{{property}}">
-                <mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title | titlecase}}</mat-header-cell>
+                <mat-header-cell mat-sort-header *matHeaderCellDef>{{entityInstance.fields[property].title | uppercaseFirst}}</mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <ng-container *ngIf="element.fields[property]; let field">
                         <app-display-field [field]="field" [element]="element"></app-display-field>
@@ -40,7 +41,7 @@
             </ng-container>
 
             <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef>{{language.table_actions | titlecase }}</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>{{language.table_actions | uppercaseFirst }}</mat-header-cell>
                 <mat-cell *matCellDef="let element">
 
                     <ng-container *ngIf="validatable">

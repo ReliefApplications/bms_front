@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { Commodity } from 'src/app/model/commodity';
 import { State, TransactionMobileMoney } from 'src/app/model/transaction-mobile-money';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
+import { User } from 'src/app/model/user';
 
 @Component({
     selector: 'app-mobile-money',
@@ -117,7 +118,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      */
     openDialog(template: any) {
         this.cacheService.getUser().subscribe(result => {
-            this.actualUser = result;
+            this.actualUser = User.apiToModel(result);
             if (!this.actualUser.get('email') && this.actualUser.get('username')) {
                 this.actualUser.set('email', this.actualUser.get('username'));
             }
@@ -137,6 +138,17 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 
     getCommodityReceivedAmountFromBeneficiary(commodity: Commodity, beneficiary: any): number {
         return (parseInt(beneficiary.get('state').get('id'), 10) > 2 ? commodity.get('value') : 0);
+    }
+
+
+    noHistory() {
+        let noHistory = true;
+        this.actualDistribution.get<Commodity[]>('commodities').forEach((commodity) => {
+            if (this.getAmountSent(commodity) !== 0) {
+                noHistory = false;
+            }
+        });
+        return noHistory;
     }
 
     getPeopleCount(): number {

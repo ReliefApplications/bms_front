@@ -15,6 +15,7 @@ import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { ImportService } from '../../../core/utils/beneficiaries-import.service';
 import { Project } from '../../../model/project';
+import { User } from 'src/app/model/user';
 
 
 export interface Api {
@@ -143,7 +144,8 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this._cacheService.getUser()
             .subscribe(
                 response => {
-                    this.email = response.get('username');
+                    const user = User.apiToModel(response);
+                    this.email = user.get('username');
                     this.email = this.email.replace('@', '');
                 }
             );
@@ -478,8 +480,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
         this._beneficiariesService.importApi(body, this.apiForm.controls['projects'].value)
             .subscribe(response => {
-                this.load = false;
-                this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
                 this.newHouseholds = response.households;
                 this.importedHouseholds();
             }, error => {
@@ -498,6 +498,8 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
                     this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
                     this._importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);
+                    this.load = false;
+                    this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
                 }
             );
     }

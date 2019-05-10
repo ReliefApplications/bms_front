@@ -41,9 +41,10 @@ export class Distribution extends CustomModel {
     public fields = {
         id: new NumberModelField(
             {
-                // Not displayed anywhere
+                title: this.language.id,
+                isDisplayedInTable: true,
             }
-            ),
+        ),
         name: new TextModelField(
             {
                 title: this.language.model_distribution_name,
@@ -117,7 +118,7 @@ export class Distribution extends CustomModel {
                 options: [new DistributionType('0', this.language.households), new DistributionType('1', this.language.individual)],
                 bindField: 'name',
                 apiLabel: 'name',
-                value: this.language.households,
+                value: new DistributionType('0', this.language.households),
             }
         ),
         commodities: new MultipleObjectsModelField<Commodity> (
@@ -216,7 +217,7 @@ export class Distribution extends CustomModel {
             project: project,
             selection_criteria: selectionCriteria,
             threshold: this.get('threshold'),
-            type: this.get('type')
+            type: this.get('type').get('name')
         };
 
     }

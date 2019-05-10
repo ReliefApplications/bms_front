@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialog, MatStepper, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as CountryIso from 'country-iso-3-to-2';
-import * as PhoneLib from 'google-libphonenumber';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LanguageService } from 'src/app/core/language/language.service';
@@ -28,6 +27,7 @@ import { HouseholdsService } from '../../../core/api/households.service';
 import { LocationService } from '../../../core/api/location.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
+import { PHONECODES } from 'src/app/model/phoneCodes';
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
@@ -63,9 +63,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public vulnerabilityList: Array<VulnerabilityCriteria>;
 
     // Country Codes (PhoneNumber lib)
-    private CodesMethods = PhoneLib.PhoneNumberUtil.getInstance();
     private getCountryISO2 = CountryIso;
-    public countryCodesList = [];
+    public countryCodesList = PHONECODES;
 
     // Checkpoint
     validStep1 = false;
@@ -150,7 +149,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         } else {
                             this.countryISO3 = 'KHM';
                         }
-                        this.getCountryPhoneCodes();
                         this.household = new Household();
                         this.household.set('location', new Location());
                         this.household.set('beneficiaries', [this.createNewBeneficiary()]);
@@ -170,7 +168,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         if (result['id']) {
                             this._householdsService.getOne(result['id']).subscribe(
                                 household => {
-                                    this.getCountryPhoneCodes();
                                     this.household = Household.apiToModel(household);
                                     resolve();
                                 }
@@ -680,18 +677,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     }
 
     /**
-     * Get list of all country codes and put it in the list
-     */
-    getCountryPhoneCodes() {
-        this.countryCodesList = this.CodesMethods.getSupportedRegions();
-
-        for (let i = 0; i < this.countryCodesList.length; i++) {
-            this.countryCodesList[i] = this.countryCodesList[i] + ' - '
-                + '+' + this.CodesMethods.getCountryCodeForRegion(this.countryCodesList[i]).toString();
-        }
-    }
-
-    /**
      * Get list of all project and put it in the project selector
      */
     getProjects() {
@@ -781,18 +766,18 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     // For update, inspire from the function below (should already work)
     getPhonePrefix(phone: Phone) {
         let phoneCode;
-        const phonePrefix = phone.get('prefix');
+        const phonePrefix = phone.get<string>('prefix');
 
         if (phonePrefix) {
             return this.countryCodesList.filter(element => {
                 return element.split('- ')[1] === phonePrefix;
             })[0];
         } else {
-            phoneCode = String(this.getCountryISO2(String(this.countryISO3)));
-            phoneCode = phoneCode + ' - '
-                + '+' + this.CodesMethods.getCountryCodeForRegion(phoneCode);
-
-            return this.countryCodesList.includes(phoneCode) ? phoneCode : null;
+            const countryCode = String(this.getCountryISO2(String(this.countryISO3)));
+            phoneCode = this.countryCodesList.filter(element => {
+                return element.split(' -')[0] === countryCode;
+            })[0];
+            return phoneCode ? phoneCode : null;
         }
     }
 

@@ -1,15 +1,15 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { finalize, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { LocationService } from 'src/app/core/api/location.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Household } from 'src/app/model/household';
+import { Adm, Location } from 'src/app/model/location';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
@@ -57,12 +57,23 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     public apiForm = new FormGroup({
         apiSelector: new FormControl(undefined, Validators.required),
-        projects : new FormControl({ value: undefined, disabled: true}, Validators.required),
+        projects: new FormControl({ value: undefined, disabled: true}, Validators.required),
     });
 
     public fileForm = new FormGroup({
-        projects : new FormControl({ value: undefined, disabled: true }, Validators.required),
+        projects: new FormControl({ value: undefined, disabled: true }, Validators.required),
     });
+
+    // Syria template conversion
+    private conversionDialog: MatDialogRef<any, any>;
+    public conversionLocation = new Location();
+    public conversionForm = new FormGroup({
+        adm1: new FormControl(undefined, [Validators.required]),
+        adm2: new FormControl(),
+        adm3: new FormControl(),
+        adm4: new FormControl(),
+    });
+    conversionFormControlSubscriptions: Array<Subscription>;
 
     extensionType: string;
     public newHouseholds: any = {};
@@ -136,7 +147,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
                     this.email = this.email.replace('@', '');
                 }
             );
-
     }
 
     ngOnDestroy(): void {
@@ -212,201 +222,83 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         );
     }
 
-    /**
-     * Open modal to select locations in the export file
-     */
-    selectLocations(template) {
-        if (this.dialog.openDialogs.length === 0) {
-            this.dialog.open(template);
-        }
-    }
+    public openConversionDialog(template: TemplateRef<void>) {
+        this.conversionForm.reset();
 
-    /**
-     * Get adm1 from the back or from the cache service with the key ADM1
-     */
-    loadProvince(template) {
-        this.loadLocations = true;
 
-        this.locationService.getAdm1()
-            .pipe(
-                finalize(() => {
-                    this.loadLocations = false;
-                    this.selectLocations(template);
-                })
-            )
-            .subscribe(response => {
-                this.loadedData.adm1 = response;
+
+        this.conversionFormControlSubscriptions = Object.keys(this.conversionForm.controls).map((admKey: string) => {
+            return this.conversionForm.controls[admKey].valueChanges.subscribe((_: any) => {
+                this.onAdmChange(admKey);
             });
-        this.loadedData.adm2 = [];
-        this.loadedData.adm3 = [];
-        this.loadedData.adm4 = [];
-    }
+        });
 
-    /**
-     *  Get adm2 from the back or from the cache service with the key ADM2
-     * @param adm1
-     */
-    loadDistrict(adm1$) {
-        adm1$.pipe(
-            switchMap(
-                (value) => {
-                    const body = {
-                        adm1: value
-                    };
-                    return this.locationService.getAdm2(body);
-                }
-            )
-        ).subscribe(response => {
-            this.loadedData.adm2 = response;
-            this.loadedData.adm3 = [];
-            this.loadedData.adm4 = [];
+        this.locationService.getAdm1().subscribe((adm1: Array<any>) => {
+            this.conversionLocation.setOptions('adm1', adm1.map((singleAdm1: any) => Adm.apiToModel(singleAdm1)));
+            this.conversionDialog = this.dialog.open(template);
+
+            this.conversionDialog.afterClosed().subscribe((_: any) => {
+                this.conversionFormControlSubscriptions.forEach((subscription: Subscription) => {
+                    subscription.unsubscribe();
+                });
+            });
         });
     }
 
-    /**
-     * Get adm3 from the back or from the cahce service with the key ADM3
-     * @param adm2
-     */
-    loadCommunity(adm2$) {
-        adm2$.pipe(
-            switchMap(
-                (value) => {
-                    const body = {
-                        adm2: value
-                    };
-                    return this.locationService.getAdm3(body);
-                }
-            )
-        ).subscribe(response => {
-            this.loadedData.adm3 = response;
-            this.loadedData.adm4 = [];
-        });
-    }
-
-    /**
-     *  Get adm4 from the back or from the cahce service with the key ADM4
-     * @param adm3
-     */
-    loadVillage(adm3$) {
-        adm3$.pipe(
-            switchMap(
-                (value) => {
-                    const body = {
-                        adm3: value
-                    };
-                    return this.locationService.getAdm4(body);
-                }
-            )
-        ).subscribe(response => {
-            this.loadedData.adm4 = response;
-        });
-    }
-
-    /**
-     * Check which adm is selected to load the list of adm link to it
-     * fro example : if adm1 (province) selected load adm2
-     * @param index
-     */
-    selected(index) {
-        let adm$;
-        if (index === 'adm1') {
-            adm$ = this.getAdmID('adm1');
-            this.loadDistrict(adm$);
-        } else if (index === 'adm2') {
-            adm$ = this.getAdmID('adm2');
-            this.loadCommunity(adm$);
-        } else if (index === 'adm3') {
-            adm$ = this.getAdmID('adm3');
-            this.loadVillage(adm$);
+    public closeConversionDialog(method: string, error?: string) {
+        this.conversionDialog.close();
+        switch (method) {
+            case 'cancel':
+                this.snackbar.info(this.language.beneficiaries_import_canceled);
+                return;
+            case 'success':
+                // Todo: translate
+                this.snackbar.success('Import successful');
+                return;
+            case 'error':
+                this.snackbar.error(error);
+                return;
         }
     }
 
-    /**
-     * Get in the cache service the name of all adm selected
-     * @param adm
-     */
-    getAdmID(adm: string) {
-        return new Observable(
-            observer => {
-                const body = {};
-                if (adm === 'adm1') {
-                    this.locationService.getAdm1().subscribe(
-                        result => {
-                            const adm1 = result;
-                            if (this.saveLocation.adm1) {
-                                for (let i = 0; i < adm1.length; i++) {
-                                    if (adm1[i].name === this.saveLocation.adm1) {
-                                        this.lastAdm1 = adm1[i].id;
-                                        observer.next(adm1[i].id);
-                                        observer.complete();
-                                    }
-                                }
-                            }
-                        }
-                    );
-                } else if (adm === 'adm2') {
-                    body['adm1'] = this.lastAdm1;
-                    this.locationService.getAdm2(body).subscribe(
-                        result => {
-                            const adm2 = result;
-                            if (this.saveLocation.adm2) {
-                                for (let i = 0; i < adm2.length; i++) {
-                                    if (adm2[i].name === this.saveLocation.adm2) {
-                                        this.lastAdm2 = adm2[i].id;
-                                        observer.next(adm2[i].id);
-                                        observer.complete();
-                                    }
-                                }
-                            }
-                        }
-                    );
-                } else if (adm === 'adm3') {
-                    body['adm2'] = this.lastAdm2;
-                    this.locationService.getAdm3(body).subscribe(
-                        result => {
-                            const adm3 = result;
-                            if (this.saveLocation.adm3) {
-                                for (let i = 0; i < adm3.length; i++) {
-                                    if (adm3[i].name === this.saveLocation.adm3) {
-                                        this.lastAdm3 = adm3[i].id;
-                                        observer.next(adm3[i].id);
-                                        observer.complete();
-                                    }
-                                }
-                            }
-                        }
-                    );
-                } else if (adm === 'adm4') {
-                    body['adm3'] = this.lastAdm3;
-                    this.locationService.getAdm4(body).subscribe(
-                        result => {
-                            const adm4 = result;
-                            if (this.saveLocation.adm4) {
-                                for (let i = 0; i < adm4.length; i++) {
-                                    if (adm4[i].name === this.saveLocation.adm4) {
-                                        observer.next(adm4[i].id);
-                                        observer.complete();
-                                    }
-                                }
-                            }
-                        }
-                    );
-                }
-            }
-        );
+    onAdmChange(admKey: string) {
+        switch (admKey) {
+            case('adm4'):
+                this.conversionLocation.set('adm4', this.conversionForm.get('adm4').value);
+
+                return;
+            case('adm3'):
+                this.conversionLocation.set('adm3', this.conversionForm.get('adm3').value);
+                this.locationService.getAdm4({adm3: this.conversionLocation.get('adm3').get('id')}).subscribe((adm4: Array<any>) => {
+                    this.conversionLocation.setOptions('adm4', adm4.map((singleAdm4: any) => Adm.apiToModel(singleAdm4)));
+                });
+                return;
+            case('adm2'):
+                this.conversionLocation.set('adm2', this.conversionForm.get('adm2').value);
+                this.locationService.getAdm3({adm2: this.conversionLocation.get('adm2').get('id')}).subscribe((adm3: Array<any>) => {
+                    this.conversionLocation.setOptions('adm3', adm3.map((singleAdm3: any) => Adm.apiToModel(singleAdm3)));
+                });
+                return;
+            case('adm1'):
+                this.conversionLocation.set('adm1', this.conversionForm.get('adm1').value);
+                this.locationService.getAdm2({adm1: this.conversionLocation.get('adm1').get('id')}).subscribe((adm2: Array<any>) => {
+                    this.conversionLocation.setOptions('adm2', adm2.map((singleAdm2: any) => Adm.apiToModel(singleAdm2)));
+                });
+                return;
+            default:
+                return;
+        }
     }
 
-    /**
-     * To cancel on a dialog
-     */
-    exit(message: string) {
-        this.snackbar.info(message);
-        this.dialog.closeAll();
-    }
-
-    confirmImport() {
-        if (!this.csv2 || this.saveLocation.adm1 === '') {
+    confirmConversion() {
+        if (!this.conversionForm.valid) {
             this.snackbar.error(this.language.beneficiaries_import_select_location);
+            return;
+        }
+
+        if (!this.csv2 ) {
+            this.snackbar.error(this.language.beneficiaries_import_error_file);
+            return;
         }
 
         const data = new FormData();
@@ -418,33 +310,36 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
             name: ''
         };
 
-        if (this.saveLocation.adm4 !== '') {
+        if (this.conversionLocation.get<Adm>('adm4')) {
             body.adm = 4;
-            body.name = this.saveLocation.adm4;
-        } else if (this.saveLocation.adm3 !== '') {
+            body.name = this.conversionLocation.get<Adm>('adm4').get<string>('name');
+        }
+        else if (this.conversionLocation.get<Adm>('adm3')) {
             body.adm = 3;
-            body.name = this.saveLocation.adm3;
-        } else if (this.saveLocation.adm2 !== '') {
+            body.name = this.conversionLocation.get<Adm>('adm3').get<string>('name');
+
+        }
+        else if (this.conversionLocation.get<Adm>('adm2')) {
             body.adm = 2;
-            body.name = this.saveLocation.adm2;
-        } else if (this.saveLocation.adm1 !== '') {
+            body.name = this.conversionLocation.get<Adm>('adm2').get<string>('name');
+
+        }
+        else if (this.conversionLocation.get<Adm>('adm1')) {
             body.adm = 1;
-            body.name = this.saveLocation.adm1;
+            body.name = this.conversionLocation.get<Adm>('adm1').get<string>('name');
         }
 
         this._householdsService.testFileTemplate(data, body)
             .then(() => {
-                this.dialog.closeAll();
-            }, (err) => {
-                this.dialog.closeAll();
+                this.closeConversionDialog('success');
+            }, (error) => {
+                this.closeConversionDialog('error', error);
                 this.csv2 = null;
-                this.snackbar.info(this.language.beneficiaries_import_response);
             })
             .catch(
-                () => {
-                    this.dialog.closeAll();
+                (error: any) => {
+                    this.closeConversionDialog('error', error);
                     this.csv2 = null;
-                    this.snackbar.error(this.language.beneficiaries_import_error_importing);
                 });
     }
 

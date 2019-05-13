@@ -8,6 +8,8 @@
       <input matInput type="text" placeholder="{{language.add_beneficiary_getGivenName | titlecase}}" formControlName="localGivenName" required>
       <app-hint-error [form]="form" fieldName="localGivenName" [field]="beneficiaryFields.localGivenName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
+  </div>
+  <div class="column-container">
     <mat-form-field>
       <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishFamilyName | titlecase}}" formControlName="enFamilyName">
       <app-hint-error [form]="form" fieldName="enFamilyName" [field]="beneficiaryFields.enFamilyName" [isMatField]="true"></app-hint-error>

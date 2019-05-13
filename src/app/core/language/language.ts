@@ -78,6 +78,8 @@ export interface Language {
     add_beneficiary_getDateOfBirth: string
     add_beneficiary_getFamilyName: string
     add_beneficiary_getGivenName: string
+    add_beneficiary_getEnglishFamilyName: string
+    add_beneficiary_getEnglishGivenName: string
     add_beneficiary_getNationalID: string
     add_beneficiary_getOccupation: string
     add_beneficiary_getTypeNationalId: string

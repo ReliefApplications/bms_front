@@ -28,7 +28,7 @@ export class Livelihood extends CustomModel {
 export class Household extends CustomModel {
 
     title = this.language.households;
-    matSortActive = 'familyName';
+    matSortActive = 'localFamilyName';
 
     public fields = {
         id: new NumberModelField(
@@ -37,7 +37,7 @@ export class Household extends CustomModel {
                 isDisplayedInTable: true,
             }
         ),
-        familyName: new TextModelField(
+        localFamilyName: new TextModelField(
             {
                 title: this.language.model_familyName,
                 placeholder: null,
@@ -48,12 +48,34 @@ export class Household extends CustomModel {
                 isLongText: false,
             }
         ),
-        firstName: new TextModelField(
+        localFirstName: new TextModelField(
             {
                 title: this.language.model_firstName,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
+                isRequired: true,
+                isSettable: true,
+                isLongText: false,
+            }
+        ),
+        enFamilyName: new TextModelField(
+            {
+                title: this.language.add_beneficiary_getEnglishFamilyName,
+                placeholder: null,
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
+                isRequired: true,
+                isSettable: true,
+                isLongText: false,
+            }
+        ),
+        enFirstName: new TextModelField(
+            {
+                title: this.language.add_beneficiary_getEnglishGivenName,
+                placeholder: null,
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
                 isRequired: true,
                 isSettable: true,
                 isLongText: false,
@@ -161,8 +183,10 @@ export class Household extends CustomModel {
 
         householdFromApi.beneficiaries.forEach(beneficiary => {
             if (beneficiary.status === true) {
-                newHousehold.set('familyName', beneficiary.family_name);
-                newHousehold.set('firstName', beneficiary.given_name);
+                newHousehold.set('localFamilyName', beneficiary.local_family_name);
+                newHousehold.set('localFirstName', beneficiary.local_given_name);
+                newHousehold.set('enFamilyName', beneficiary.en_family_name);
+                newHousehold.set('enFirstName', beneficiary.en_given_name);
             }
             beneficiary.vulnerability_criteria.forEach(vulnerability => {
                 newHousehold.add('vulnerabilities', VulnerabilityCriteria.apiToModel(vulnerability));
@@ -197,7 +221,7 @@ export class Household extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.get('firstName') + ' ' + this.get('familyName');
+        return this.get('localFirstName') + ' ' + this.get('localFamilyName');
     }
 
 

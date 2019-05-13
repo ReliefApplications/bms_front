@@ -1,12 +1,20 @@
 <form [formGroup]="form">
   <div class="column-container">
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getFamilyName | titlecase}}" formControlName="familyName" required>
-      <app-hint-error [form]="form" fieldName="familyName" [field]="beneficiaryFields.familyName" [isMatField]="true"></app-hint-error>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getFamilyName | titlecase}}" formControlName="localFamilyName" required>
+      <app-hint-error [form]="form" fieldName="localFamilyName" [field]="beneficiaryFields.localFamilyName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getGivenName | titlecase}}" formControlName="givenName" required>
-      <app-hint-error [form]="form" fieldName="givenName" [field]="beneficiaryFields.givenName" [isMatField]="true"></app-hint-error>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getGivenName | titlecase}}" formControlName="localGivenName" required>
+      <app-hint-error [form]="form" fieldName="localGivenName" [field]="beneficiaryFields.localGivenName" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishFamilyName | titlecase}}" formControlName="enFamilyName">
+      <app-hint-error [form]="form" fieldName="enFamilyName" [field]="beneficiaryFields.enFamilyName" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishGivenName | titlecase}}" formControlName="enGivenName">
+      <app-hint-error [form]="form" fieldName="enGivenName" [field]="beneficiaryFields.enGivenName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
   </div>
   <div class="column-container">

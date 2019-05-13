@@ -100,7 +100,6 @@ export class ModalAddCommodityComponent implements OnInit {
                 this.commodity.set(field, this.form.controls[field].value);
             }
         }
-
         this.modalReference.close(this.commodity);
     }
 }

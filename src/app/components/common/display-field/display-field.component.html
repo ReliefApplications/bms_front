@@ -42,7 +42,7 @@
                     <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
                 </ng-container>
                 <ng-template #notImage>
-                        {{value.get(field.bindField) | uppercaseFirst }}
+                    {{value.get(field.bindField) | uppercaseFirst }}
                 </ng-template>
             </span>
         </div>

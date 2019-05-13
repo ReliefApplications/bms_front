@@ -96,6 +96,8 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Input() service: CustomModelService;
     @Input() selection: any;
 
+    @Input() isLoading: boolean;
+
     @Output() selectChecked = new EventEmitter<any>();
 
     @Output() openModal = new EventEmitter<object>();

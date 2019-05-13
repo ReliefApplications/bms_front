@@ -87,6 +87,7 @@ export class ModalService {
                 } else if (closeMethod === 'Edit') {
                     this.updateElement(dialogDetails.element);
                 } else if (closeMethod === 'Delete') {
+                    this.isLoading.next();
                     this.deleteElement(dialogDetails.element);
                 }
                 // Prevent memory leaks

@@ -246,3 +246,16 @@ mat-table.arabic {
         padding-right: 0;
     }
 }
+
+.spinner-container {
+    min-height: 360px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.table-placeholder {
+    height: 400px;
+}

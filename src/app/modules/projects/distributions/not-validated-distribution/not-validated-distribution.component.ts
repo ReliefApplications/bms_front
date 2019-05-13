@@ -128,17 +128,16 @@ getDistributionBeneficiaries(type: string) {
             if (type === 'initial') {
                 // Step 1 table
                 this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
-                this.loadingFirstStep = false;
             } else if (type === 'final') {
                 // Step 4 table
                 this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
-                this.loadingFinalStep = false;
             } else if (type === 'both') {
                 this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
                 this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
-                this.loadingFirstStep = false;
-                this.loadingFinalStep = false;
             }
+
+            this.loadingFirstStep = false;
+            this.loadingFinalStep = false;
             this.generateRandom();
 
             if (this.loadingDatas === true) {
@@ -397,6 +396,10 @@ setType(step, choice) {
     openModal(dialogDetails: any): void {
         // Can only be a modalDetails
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+        this.modalService.isLoading.subscribe(() => {
+            this.loadingFirstStep = true;
+            this.loadingFinalStep = true;
+        });
         this.modalService.isCompleted.subscribe(() => {
             this.getDistributionBeneficiaries('both');
         });

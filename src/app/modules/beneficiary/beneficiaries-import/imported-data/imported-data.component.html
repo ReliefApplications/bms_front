@@ -3,17 +3,15 @@
     <h2>{{language.header_imported | titlecase}}</h2>
   </div>
 
-  <app-placeholder-panel *ngIf='loadingTable' class="container-table"></app-placeholder-panel>
-
-  <div class="container-table" *ngIf="!loadingTable">
+  <div class="container-table">
     <div class="container-content box-primary">
       <div class="content-table">
-        <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'; else mobile" [entity]="referedClassToken" [service]="referedClassService"
+        <app-table [isLoading]="false" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'; else mobile" [entity]="referedClassToken" [service]="referedClassService"
           [data]="data">
         </app-table>
 
         <ng-template #mobile>
-            <app-table-mobile [entity]="referedClassToken" [service]="referedClassService"
+            <app-table-mobile [isLoading]="false" [entity]="referedClassToken" [service]="referedClassService"
                 [data]="data">
             </app-table-mobile>
         </ng-template>

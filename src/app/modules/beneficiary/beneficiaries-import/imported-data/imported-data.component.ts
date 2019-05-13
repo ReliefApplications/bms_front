@@ -19,7 +19,6 @@ export class ImportedDataComponent implements OnInit, OnDestroy {
     public data: MatTableDataSource<Household>;
     public referedClassToken = Household;
     public referedClassService = this._householdsService;
-    public loadingTable = true;
 
     // Screen size
     public currentDisplayType: DisplayType;
@@ -42,7 +41,6 @@ export class ImportedDataComponent implements OnInit, OnDestroy {
         });
         const newHouseholds = this.importService.importedHouseholds;
         this.data = new MatTableDataSource(newHouseholds);
-        this.loadingTable = false;
     }
 
     ngOnDestroy() {

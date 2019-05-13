@@ -3,6 +3,8 @@ import { CustomModel } from './CustomModel/custom-model';
 import { NumberModelField } from './CustomModel/number-model-field';
 import { SingleSelectModelField } from './CustomModel/single-select-model-field';
 import { TextModelField } from './CustomModel/text-model-field';
+import { AppInjector } from '../app-injector';
+import { CountriesService } from '../core/countries/countries.service';
 
 export class Adm extends CustomModel {
 
@@ -23,6 +25,12 @@ export class Adm extends CustomModel {
 }
 export class Location extends CustomModel {
 
+    protected countryService = AppInjector.get(CountriesService);
+    // Country
+    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
+    this.countryService.selectedCountry.getValue().get<string>('id') :
+    this.countryService.khm.get<string>('id');
+
     title = 'Location';
     matSortActive = 'adm1';
 
@@ -34,26 +42,26 @@ export class Location extends CustomModel {
         ),
         adm1: new SingleSelectModelField(
             {
-                title: this.language.adm1,
+                title: this.language.adm1[this.country],
                 bindField: 'name',
                 isRequired: true,
             }
         ),
         adm2: new SingleSelectModelField(
             {
-                title: this.language.adm2,
+                title: this.language.adm2[this.country],
                 bindField: 'name'
             }
         ),
         adm3: new SingleSelectModelField(
             {
-                title: this.language.adm3,
+                title: this.language.adm3[this.country],
                 bindField: 'name'
             }
         ),
         adm4: new SingleSelectModelField(
             {
-                title: this.language.adm4,
+                title: this.language.adm4[this.country],
                 bindField: 'name'
             }
         ),

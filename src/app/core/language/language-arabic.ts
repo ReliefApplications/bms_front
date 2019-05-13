@@ -1,4 +1,5 @@
 import { Language } from './language';
+import { ADMINLEVELS } from './adm-constants';
 
 /* tslint:disable */
 export class Arabic implements Language {
@@ -6,10 +7,10 @@ export class Arabic implements Language {
     LANGUAGE_ISO = 'arabic'
     // Utils
     add = 'أضف'
-    adm1 = 'المحافظة'
-    adm2 = 'المنطقة'
-    adm3 = 'البلدية'
-    adm4 = 'القرية'
+    adm1 = ADMINLEVELS.ar.adm1
+    adm2 = ADMINLEVELS.ar.adm2
+    adm3 = ADMINLEVELS.ar.adm3
+    adm4 = ADMINLEVELS.ar.adm4
     back = 'إلى الوراء'
     beneficiaries = 'المستفيدون'
     beneficiary = 'المستفيد'

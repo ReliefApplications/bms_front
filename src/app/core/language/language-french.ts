@@ -1,14 +1,16 @@
 import { Language } from './language';
+import { ADMINLEVELS } from './adm-constants';
+
 /* tslint:disable */
 export class French implements Language {
     // GENERAL VARIABLES
     LANGUAGE_ISO = 'french'
     // Utils
     add = 'Ajouter'
-    adm1 = 'Province'
-    adm2 = 'District'
-    adm3 = 'Commune'
-    adm4 = 'Village'
+    adm1 = ADMINLEVELS.fr.adm1
+    adm2 = ADMINLEVELS.fr.adm2
+    adm3 = ADMINLEVELS.fr.adm3
+    adm4 = ADMINLEVELS.fr.adm4
     back = 'Retour'
     beneficiaries = 'Bénéficiaires'
     beneficiary = 'Bénéficiaire'

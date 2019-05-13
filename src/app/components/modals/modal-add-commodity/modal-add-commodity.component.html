@@ -6,7 +6,7 @@
           <th class="table-title">{{ commodity.fields.modality.title }}</th>
           <td class="form-item">
             <ng-select formControlName="modality" [placeholder]="commodity.fields.modality.title | titlecase" (change)="loadTypes($event)">
-                <ng-option *ngFor="let option of commodity.getOptions('modality')" [value]="option.get('id')">
+                <ng-option *ngFor="let option of commodity.getOptions('modality')" [value]="option">
                     {{option.get('name') | titlecase}}
                 </ng-option>
             </ng-select>

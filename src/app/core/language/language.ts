@@ -155,9 +155,11 @@ export interface Language {
     beneficiaries_import_addModal: string
     beneficiaries_import_api: string
     beneficiaries_import_beneficiaries_imported: string
+    beneficiaries_import_canceled: string
     beneficiaries_import_check_fields: string
     beneficiaries_import_csv: string
     beneficiaries_import_convert: string
+    beneficiaries_import_error_file: string
     beneficiaries_import_error_importing: string
     beneficiaries_import_error_selection: string
     beneficiaries_import_file: string

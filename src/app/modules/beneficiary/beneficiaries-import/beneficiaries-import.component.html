@@ -14,7 +14,7 @@
       <div class="content-button">
         <div class="action-buttons">
           <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'"></mat-spinner>
-          <button mat-stroked-button color="primary" class="template" *ngIf="!loadLocations && country === 'SYR'" (click)="loadProvince(mapFile)">
+          <button mat-stroked-button color="primary" class="template" *ngIf="!loadLocations && country === 'SYR'" (click)="openConversionDialog(mapFile)">
             <mat-icon>publish</mat-icon>
             <span>{{language.beneficiaries_import_convert | titlecase }}</span>
           </button>
@@ -145,90 +145,80 @@
 </div>
 
 <ng-template #mapFile>
-  <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent stickyHeader">{{language.import}}</h4>
-    <div class="dialog-template">
-      <div class="modal-body">
-        <table class="modal-table">
-          <tr class="modal-row">
-            <th class="table-title">{{ language.adm1 }}</th>
-            <th class="table-value">
-              <form class="form">
-                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                  [(ngModel)]="saveLocation['adm1']" [ngModelOptions]="{standalone: true}"
-                  (change)="selected('adm1')">
-                  <ng-option *ngFor="let singleData of loadedData['adm1']" [value]="singleData.name">{{singleData.name}}</ng-option>
-                </ng-select>
-              </form>
-            </th>
-          </tr>
+    <form [formGroup]="conversionForm">
+        <mat-dialog-content class="modal-container">
+            <h4 class="modal-title underline-accent stickyHeader">{{language.beneficiaries_import_convert | titlecase}}</h4>
+            <div class="dialog-template">
+            <div class="modal-body">
+                <table class="modal-table">
+                <tr class="modal-row">
+                    <th class="table-title">{{ language.adm1 }}</th>
+                    <th class="table-value">
+                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="adm1">
+                            <ng-option *ngFor="let adm1 of conversionLocation.getOptions('adm1')" [value]="adm1">{{adm1.get('name')}}</ng-option>
+                        </ng-select>
+                    </th>
+                </tr>
 
-          <tr class="modal-row">
-            <th class="table-title">{{ language.adm2 }}</th>
-            <th class="table-value">
-              <form class="form">
-                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                  [(ngModel)]="saveLocation['adm2']" (change)="selected('adm2')" [ngModelOptions]="{standalone: true}">
-                  <ng-option *ngFor="let singleData of loadedData['adm2']" [value]="singleData.name">{{singleData.name}}</ng-option>
-                </ng-select>
-              </form>
-            </th>
-          </tr>
+                <tr class="modal-row">
+                    <th class="table-title">{{ language.adm2 }}</th>
+                    <th class="table-value">
+                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="adm2">
+                            <ng-option *ngFor="let adm2 of conversionLocation.getOptions('adm2')" [value]="adm2">{{adm2.get('name')}}</ng-option>
+                        </ng-select>
+                    </th>
+                </tr>
 
-          <tr class="modal-row">
-            <th class="table-title">{{ language.adm3 }}</th>
-            <th class="table-value">
-              <form class="form">
-                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                  [(ngModel)]="saveLocation['adm3']" (change)="selected('adm3')" [ngModelOptions]="{standalone: true}">
-                  <ng-option *ngFor="let singleData of loadedData['adm3']" [value]="singleData.name">{{singleData.name}}</ng-option>
-                </ng-select>
-              </form>
-            </th>
-          </tr>
+                <tr class="modal-row">
+                    <th class="table-title">{{ language.adm3 }}</th>
+                    <th class="table-value">
+                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="adm3">
+                            <ng-option *ngFor="let adm3 of conversionLocation.getOptions('adm3')" [value]="adm3">{{adm3.get('name')}}</ng-option>
+                        </ng-select>
+                    </th>
+                </tr>
 
-          <tr class="modal-row">
-            <th class="table-title">{{ language.adm4 }}</th>
-            <th class="table-value">
-              <form class="form">
-                <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                  [(ngModel)]="saveLocation['adm4']" (change)="selected('adm4')" [ngModelOptions]="{standalone: true}">
-                  <ng-option *ngFor="let singleData of loadedData['adm4']" [value]="singleData.name">{{singleData.name}}</ng-option>
-                </ng-select>
-              </form>
-            </th>
-          </tr>
-        </table>
+                <tr class="modal-row">
+                    <th class="table-title">{{ language.adm4 }}</th>
+                    <th class="table-value">
+                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="adm4">
+                            <ng-option *ngFor="let adm4 of conversionLocation.getOptions('adm4')" [value]="adm4">{{adm4.get('name')}}</ng-option>
+                        </ng-select>
+                    </th>
+                </tr>
+                </table>
 
-        <div class="drag-and-drop-file">
-          <div>
-            <img class='img-folder' src="assets/images/folder.png">
-          </div>
-          <div class="select-file">
-            <a href="javascript:void(0)" (click)="file.click()">
-              <button mat-stroked-button color="primary">{{language.beneficiaries_import_addModal
-                | titlecase}}</button>
-            </a>
-            <input type="file" #file [multiple] (change)="fileChange($event, 'target', 'csv2')" style="display:none" />
-          </div>
-          <mat-list class="importedFile" *ngIf="csv2 != null">
-            <mat-list-item>
-              <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
-              <h4 mat-line class="text">{{ csv2.name }}</h4>
-              <p mat-line class="text">{{ csv2.size }} bytes, {{ csv2.lastModifiedDate | date: ddMMyyyy}}
-              </p>
-            </mat-list-item>
-          </mat-list>
-        </div>
-        <div class="warning">
-          {{language.beneficiaries_import_warning}}
-        </div>
-      </div>
+                <div class="drag-and-drop-file">
+                <div>
+                    <img class='img-folder' src="assets/images/folder.png">
+                </div>
+                <div class="select-file">
+                    <a href="javascript:void(0)" (click)="file.click()">
+                    <button mat-stroked-button color="primary">{{language.beneficiaries_import_addModal
+                        | titlecase}}</button>
+                    </a>
+                    <input type="file" #file [multiple] (change)="fileChange($event, 'target', 'csv2')" style="display:none" />
+                </div>
+                <mat-list class="importedFile" *ngIf="csv2 != null">
+                    <mat-list-item>
+                    <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
+                    <h4 mat-line class="text">{{ csv2.name }}</h4>
+                    <p mat-line class="text">{{ csv2.size }} bytes, {{ csv2.lastModifiedDate | date: ddMMyyyy}}
+                    </p>
+                    </mat-list-item>
+                </mat-list>
+                </div>
+                <div class="warning">
+                {{language.beneficiaries_import_warning}}
+                </div>
+            </div>
 
-      <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-        <button mat-button class="button-text-accent" (click)="exit('Import canceled')">{{language.cancel}}</button>
-        <button mat-button class="button-background-accent" (click)="confirmImport()">{{language.transaction_confirm_button}}</button>
-      </div>
-    </div>
-  </mat-dialog-content>
+            <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                <button mat-button class="button-text-accent" (click)="closeConversionDialog('canceled')">{{language.cancel}}</button>
+                <button mat-button class="button-background-accent" (click)="confirmConversion()">{{language.transaction_confirm_button}}</button>
+            </div>
+            </div>
+        </mat-dialog-content>
+    </form>
+
 </ng-template>

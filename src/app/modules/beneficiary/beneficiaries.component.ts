@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -69,9 +69,8 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     ) { }
 
     // Add Beneficiaries To Project Dialog variables.
-    projectForm = new FormControl();
     projectsList = new Array();
-    selectedProject;
+    projectAddControl = new FormControl('', [Validators.required]);
 
     ngOnInit() {
         this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
@@ -157,7 +156,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
             const benefForApi = this.checkedElements.map((household: Household) => {
                 return {id: household.get('id')};
             });
-            this.projectService.addBeneficiaries(this.selectedProject, benefForApi).subscribe(
+            this.projectService.addBeneficiaries(this.projectAddControl.value, benefForApi).subscribe(
                 success => {
                     this.snackbar.success(this.language.beneficiaries_added);
                     this.table.loadDataPage();

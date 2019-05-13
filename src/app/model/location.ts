@@ -16,6 +16,10 @@ export class Adm extends CustomModel {
         this.set('id', id);
         this.set('name', name);
     }
+
+    public static apiToModel(admFromApi: any): Adm {
+        return new Adm(admFromApi.id, admFromApi.name);
+    }
 }
 export class Location extends CustomModel {
 

@@ -72,6 +72,7 @@ export class Beneficiary extends CustomModel {
                 isRequired: true,
                 isSettable: true,
                 isLongText: false,
+                displayValue: '',
             }
         ),
         localFamilyName: new TextModelField(
@@ -83,6 +84,7 @@ export class Beneficiary extends CustomModel {
                 isRequired: true,
                 isSettable: true,
                 isLongText: false,
+                displayValue: '',
             }
         ),
         enGivenName: new TextModelField(
@@ -229,6 +231,12 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('localFamilyName', beneficiaryFromApi.local_family_name);
         newBeneficiary.set('enGivenName', beneficiaryFromApi.en_given_name);
         newBeneficiary.set('enFamilyName', beneficiaryFromApi.en_family_name);
+        newBeneficiary.fields.localFamilyName.displayValue = beneficiaryFromApi.en_family_name ?
+            beneficiaryFromApi.local_family_name + ' (' + beneficiaryFromApi.en_family_name + ')' :
+            beneficiaryFromApi.local_family_name;
+        newBeneficiary.fields.localGivenName.displayValue = beneficiaryFromApi.en_given_name ?
+            beneficiaryFromApi.local_given_name + ' (' + beneficiaryFromApi.en_given_name + ')' :
+            beneficiaryFromApi.local_given_name;
         newBeneficiary.set('dateOfBirth', DateModelField.formatFromApi(beneficiaryFromApi.date_of_birth));
         const status = beneficiaryFromApi.status ? '1' : '0';
         newBeneficiary.set('beneficiaryStatus', newBeneficiary.getOptions('beneficiaryStatus')

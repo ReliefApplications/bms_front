@@ -18,25 +18,6 @@ import { ExportService } from '../../core/api/export.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
 
-
-// Todo: is this necessary ?
-// const rangeLabel = (page: number, pageSize: number, length: number) => {
-//     const table = GlobalText.TEXTS;
-
-//     if (length === 0 || pageSize === 0) { return `0 ` + table.table_of_page + ` ${length}`; }
-
-//     length = Math.max(length, 0);
-
-//     const startIndex = page * pageSize;
-
-//     // If the start index exceeds the list length, do not try and fix the end index to the end.
-//     const endIndex = startIndex < length ?
-//         Math.min(startIndex + pageSize, length) :
-//         startIndex + pageSize;
-
-//     return `${startIndex + 1} - ${endIndex} ` + table.table_of_page + ` ${length}`;
-// };
-
 @Component({
     selector: 'app-table',
     templateUrl: './table.component.html',

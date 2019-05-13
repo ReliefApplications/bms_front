@@ -1,9 +1,9 @@
 <!-- TABLE -->
 <div class="table-container">
-    <div class="noDataContainer" *ngIf="!tableData">
+    <div class="noDataContainer" *ngIf="(!tableData || (tableData.data && tableData.data.length === 0)) && !isLoading; else dataInTable">
         <h3>
-            <mat-icon>clear</mat-icon>
-            {{table.no_data}}
+          <mat-icon>cloud_off</mat-icon>
+          {{language.no_data}}
         </h3>
     </div>
     <div class="table-data" *ngIf="tableData">

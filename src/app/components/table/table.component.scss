@@ -159,9 +159,12 @@ button {
 }
 
 .noDataContainer {
-    text-align: center;
     margin: 10px auto;
     font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    color: $bms_dark_grey;
 }
 
 .waitingDataContainer {

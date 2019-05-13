@@ -15,7 +15,7 @@ install:
 jobs:
     include:
         - stage: test
-          script: npm run lint
+          script: npm run lint && npm run build -- --prod --stats-json
           fast_finish: true
         - stage: deploy
           if: branch = dev AND NOT type = "pull_request"

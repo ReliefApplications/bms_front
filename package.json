@@ -18,8 +18,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm run build -- --prod --stats-json"
+      "pre-commit": "npm run lint"
     }
   },
   "private": true,

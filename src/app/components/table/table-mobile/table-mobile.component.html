@@ -6,7 +6,8 @@
           {{language.no_data}}
         </h3>
     </div>
-    <div class="table-data" *ngIf="tableData">
+
+    <ng-template #dataInTable>
         <div *ngFor="let element of tableData.data" class="table-entry">
             <div class="table-properties">
                 <div *ngFor="let property of displayProperties" (click)="openDialog('details', element)" class="table-property">
@@ -48,5 +49,5 @@
                 </button>
             </div>
         </div>
-    </div>
+    </ng-template>
 </div>

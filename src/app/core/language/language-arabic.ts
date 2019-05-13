@@ -471,6 +471,7 @@ export class Arabic implements Language {
     placeholder_one_many = 'اختر واحدة أو أكثر'
 
     // Profile
+    profile_change_password = 'تحتاج إلى تغيير كلمة المرور الخاصة بك'
     profile_user_change_password = 'تغيير كلمة المرور'
     profile_user_hint_new_password = 'كلمة المرور الجديدة'
     profile_user_hint_new_password_again = 'أعد إدخال كلمة المرور الجديدة'

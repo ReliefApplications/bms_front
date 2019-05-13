@@ -470,6 +470,7 @@ export class English implements Language {
     placeholder_one_many = 'Select one or many'
 
     // Profile
+    profile_change_password = 'You need to change your password'
     profile_user_change_password = 'Change password'
     profile_user_hint_new_password = 'New password'
     profile_user_hint_new_password_again = 'Re-enter new password'

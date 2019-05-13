@@ -103,7 +103,12 @@ export class LoginComponent implements OnInit {
                         this.goToHomePage(user);
                     });
                 }
-                this.router.navigate(['/']);
+                if (user.get<boolean>('changePassword') === false) {
+                    this.router.navigate(['/profile']);
+                    this.snackbar.info(this.language.profile_change_password);
+                } else {
+                    this.router.navigate(['/']);
+                }
                 if (user.get<string>('language')) {
                     this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
                 } else {
@@ -119,14 +124,20 @@ export class LoginComponent implements OnInit {
     }
 
     goToHomePage(user: User) {
-        if (user.get<string>('language')) {
-            this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
-        } else {
-            // TODO: load default language
-            this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];
-
+        if (user.get<boolean>('changePassword') === false) {
+            this.router.navigate(['/profile']);
+            this.snackbar.info(this.language.profile_change_password);
         }
-        this.router.navigate(['/']);
+        else {
+            if (user.get<string>('language')) {
+            this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
+            } else {
+                // TODO: load default language
+                this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];
+
+            }
+            this.router.navigate(['/']);
+        }
     }
 
     onScriptError() {

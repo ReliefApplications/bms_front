@@ -455,6 +455,7 @@ export interface Language {
     placeholder_one_many: string
 
     // Profile
+    profile_change_password: string
     profile_user_change_password: string
     profile_user_hint_new_password: string
     profile_user_hint_new_password_again: string

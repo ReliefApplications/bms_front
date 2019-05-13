@@ -469,6 +469,7 @@ export class French implements Language {
     placeholder_one_many = 'Select one or many'
 
     // Profile
+    profile_change_password = 'Vous devez changer de mot de passe'
     profile_user_change_password = 'Changer de mot de passe'
     profile_user_hint_new_password = 'Nouveau mot de passe'
     profile_user_hint_new_password_again = 'Ré-entrez votre nouveau mot de passe'

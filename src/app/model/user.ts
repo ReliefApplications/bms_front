@@ -119,6 +119,9 @@ export class User extends CustomModel {
         }),
         language: new TextModelField({
 
+        }),
+        changePassword: new BooleanModelField({
+
         })
 
     };
@@ -179,6 +182,7 @@ export class User extends CustomModel {
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en' );
+        newUser.set('changePassword', userFromApi.change_password);
 
         return newUser;
     }

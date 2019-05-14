@@ -63,6 +63,7 @@ export class User extends CustomModel {
         rights: new SingleSelectModelField({
             title: this.language.rights,
             isDisplayedInTable: true,
+            isRequired: true,
             options: [
                 new Role('ROLE_ADMIN', this.language.role_user_admin),
                 new Role('ROLE_FIELD_OFFICER', this.language.role_user_field_officer),
@@ -109,6 +110,7 @@ export class User extends CustomModel {
             title: this.language.project,
             isDisplayedInModal: true,
             bindField: 'name',
+            isRequired: true,
 
         }),
         countries: new MultipleSelectModelField({
@@ -116,6 +118,7 @@ export class User extends CustomModel {
             options: [new Country('KHM', this.language.country_khm), new Country('SYR', this.language.country_syr)],
             isDisplayedInModal: true,
             bindField: 'name',
+            isRequired: true,
         }),
         language: new TextModelField({
 
@@ -175,6 +178,7 @@ export class User extends CustomModel {
             null);
 
         newUser.set('password', userFromApi.password);
+        newUser.fields.password.isRequired = false; // No need to enter the password on update
         newUser.set('email', userFromApi.email);
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);

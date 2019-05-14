@@ -115,8 +115,12 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
      */
     export() {
         this.loadingExport = true;
-        this.householdsService.export(this.extensionType,
-            {
+        let filters = null;
+        let ids = [];
+        if (this.checkedElements.length > 0) {
+            ids = this.checkedElements.map((household: Household) => household.get('id'));
+        } else {
+            filters = {
                 filter: this.table.filtersForAPI,
                 sort: {
                     sort: (this.table.sort && this.table.sort.active) ? this.table.sort.active : null,
@@ -124,8 +128,9 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
                 },
                 pageIndex: 0,
                 pageSize: -1 // No limit
-            }
-            ).then(
+            };
+        }
+        this.householdsService.export(this.extensionType, filters, ids).then(
             () => { this.loadingExport = false; }
         ).catch(
             () => { this.loadingExport = false; }
@@ -133,6 +138,9 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     }
 
     getNumberToExport() {
+        if (this.checkedElements.length > 0) {
+            return this.checkedElements.length;
+        }
         return this.numberToExport > 0 ? this.numberToExport : null;
     }
 

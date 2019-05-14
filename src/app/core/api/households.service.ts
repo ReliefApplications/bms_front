@@ -119,8 +119,8 @@ export class HouseholdsService extends CustomModelService {
      * @param  extensionType type of file to export
      * @return               file
      */
-    public export (extensionType: string, filters: any) {
-        return this.exportService.export('beneficiaries', true, extensionType, {}, filters);
+    public export (extensionType: string, filters: any = null, ids: Array<string> = []) {
+        return this.exportService.export('beneficiaries', true, extensionType, {}, filters, ids);
     }
 
     /**

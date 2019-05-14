@@ -25,7 +25,7 @@ export class ExportService {
      * @param filters        the filters to apply to the data
      * @return               file to export
      */
-    public export(key: string, value: any, extensionType: string, body = null, filters: any = null) {
+    public export(key: string, value: any, extensionType: string, body = null, filters: any = null, ids: Array<string> = []) {
 
         const params = {};
         params['type'] = extensionType;
@@ -37,6 +37,9 @@ export class ExportService {
         const url = this.api + '/export';
         if (filters) {
             body['filters'] = filters;
+        }
+        if (ids && ids.length > 0) {
+            body['ids'] = ids;
         }
         return this.http.post(url, body, options).toPromise()
         .then(response => {

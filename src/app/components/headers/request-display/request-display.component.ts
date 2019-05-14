@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { NetworkService } from 'src/app/core/api/network.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { ModalRequestsComponent } from 'src/app/components/modals/modal-requests/modal-requests.component';
 import { MatDialog } from '@angular/material';
-import { StoredRequestInterface } from 'src/app/model/stored-request';
+import { StoredRequestInterface } from 'src/app/models/stored-request';
 
 @Component({
     selector: 'app-request-display',

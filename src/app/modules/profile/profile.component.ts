@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Constants } from 'src/app/core/utils/constants';
+import { Constants } from 'src/app/models/constants/constants';
 import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
-import { User } from '../../model/user';
+import { User } from '../../models/user';
 
 @Component({
     selector: 'app-profile',

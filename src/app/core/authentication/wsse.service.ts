@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { map } from 'rxjs/operators';
 import { AsyncacheService } from '../storage/asyncache.service';
-import { User } from 'src/app/model/user';
+import { User } from 'src/app/models/user';
 
 
 

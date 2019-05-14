@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { HttpService } from '../../../core/api/http.service';
+import { HttpService } from '../../../core/network/http.service';
 
 // Constants
 import { URL_BMS_API } from '../../../../environments/environment';

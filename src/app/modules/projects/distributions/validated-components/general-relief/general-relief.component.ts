@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
-import { TransactionGeneralRelief, GeneralRelief } from 'src/app/model/transaction-general-relief';
+import { TransactionGeneralRelief, GeneralRelief } from 'src/app/models/transaction-general-relief';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { MatTableDataSource } from '@angular/material';
-import { Commodity } from 'src/app/model/commodity';
+import { Commodity } from 'src/app/models/commodity';
 import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
-import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
+import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({

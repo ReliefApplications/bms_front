@@ -2,7 +2,7 @@ import { Injectable                                 } from '@angular/core';
 
 import { URL_BMS_API                                } from '../../../environments/environment';
 
-import { HttpService                                } from './http.service';
+import { HttpService                                } from '../network/http.service';
 
 @Injectable({
     providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { CustomModelService } from './custom-model.service';
-import { HttpService } from './http.service';
+import { CustomModelService } from '../utils/custom-model.service';
+import { HttpService } from '../network/http.service';
 
 
 @Injectable({

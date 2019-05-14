@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Commodity, Modality, ModalityType } from 'src/app/model/commodity';
-import { CustomModelService } from './custom-model.service';
-import { HttpService } from './http.service';
+import { Commodity, Modality, ModalityType } from 'src/app/models/commodity';
+import { CustomModelService } from '../utils/custom-model.service';
+import { HttpService } from '../network/http.service';
 import { ModalitiesService } from './modalities.service';
 
 @Injectable({

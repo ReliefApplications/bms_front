@@ -80,8 +80,6 @@ export class User extends CustomModel {
             triggerFunction: (user: User, value: string, form: FormGroup) => {
                 if (value === 'ROLE_REGIONAL_MANAGER' || value === 'ROLE_COUNTRY_MANAGER') {
                     form.controls.countries.enable();
-                    form.controls.countries.setValidators([Validators.required]);
-                    form.controls.projects.setValidators(null);
                     form.controls.projects.disable();
                     form.controls.projects.setValue([]);
                     if (value === 'ROLE_COUNTRY_MANAGER') {
@@ -95,9 +93,6 @@ export class User extends CustomModel {
 
                 } else if (value === 'ROLE_PROJECT_MANAGER' || value === 'ROLE_PROJECT_OFFICER' || value === 'ROLE_FIELD_OFFICER') {
                     form.controls.projects.enable();
-                    form.controls.projects.setValidators([Validators.required]);
-                    form.controls.countries.setValidators(null);
-
                     form.controls.countries.disable();
                     user.fields.countries.hint = '';
                     form.controls.countries.setValue([]);
@@ -107,8 +102,6 @@ export class User extends CustomModel {
                     user.fields.countries.hint = '';
                     form.controls.countries.setValue([]);
                     form.controls.projects.setValue([]);
-                    form.controls.countries.setValidators(null);
-                    form.controls.projects.setValidators(null);
                 }
                 return user;
             },

@@ -156,7 +156,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         let exported = false;
         country = this.locationService.getAdm1().subscribe(
             result => {
-                if (!exported) {
+                if (!exported && result) {
                     exported = true;
 
                     country = result[0].country_i_s_o3;

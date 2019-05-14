@@ -177,7 +177,7 @@ export class ModalService {
 
     updateElement(updateElement) {
         const apiUpdateElement = updateElement.modelToApi(updateElement);
-        this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((response: any) => {
+        this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((_response: any) => {
         this.isCompleted.next();
         });
     }
@@ -185,11 +185,11 @@ export class ModalService {
     deleteElement(deleteElement: CustomModel) {
 
         if (deleteElement instanceof Beneficiary) {
-            this.referedClassService.delete(deleteElement.get('id'), deleteElement.get('distributionId')).subscribe(response => {
+            this.referedClassService.delete(deleteElement.get('id'), deleteElement.get('distributionId')).subscribe((_response: any) => {
                 this.isCompleted.next();
                 });
         } else {
-            this.referedClassService.delete(deleteElement.get('id')).subscribe(response => {
+            this.referedClassService.delete(deleteElement.get('id')).subscribe((_response: any) => {
                 this.isCompleted.next();
             });
         }

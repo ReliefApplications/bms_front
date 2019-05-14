@@ -144,9 +144,11 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this._cacheService.getUser()
             .subscribe(
                 response => {
-                    const user = User.apiToModel(response);
-                    this.email = user.get('username');
-                    this.email = this.email.replace('@', '');
+                    if (response) {
+                        const user = User.apiToModel(response);
+                        this.email = user.get('username');
+                        this.email = this.email.replace('@', '');
+                    }
                 }
             );
     }
@@ -162,7 +164,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
      */
     getProjects() {
         this._projectService.get().subscribe((response: any) => {
-            this.projectList = response.map((project: any) => Project.apiToModel(project));
+            if (response) {
+                this.projectList = response.map((project: any) => Project.apiToModel(project));
+            }
             // this.form.controls['projects'].reset(this.projectList[0]);
         });
     }
@@ -236,7 +240,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         });
 
         this.locationService.getAdm1().subscribe((adm1: Array<any>) => {
-            this.conversionLocation.setOptions('adm1', adm1.map((singleAdm1: any) => Adm.apiToModel(singleAdm1)));
+            if (adm1) {
+                this.conversionLocation.setOptions('adm1', adm1.map((singleAdm1: any) => Adm.apiToModel(singleAdm1)));
+            }
             this.conversionDialog = this.dialog.open(template);
 
             this.conversionDialog.afterClosed().subscribe((_: any) => {
@@ -272,19 +278,25 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
             case('adm3'):
                 this.conversionLocation.set('adm3', this.conversionForm.get('adm3').value);
                 this.locationService.getAdm4({adm3: this.conversionLocation.get('adm3').get('id')}).subscribe((adm4: Array<any>) => {
-                    this.conversionLocation.setOptions('adm4', adm4.map((singleAdm4: any) => Adm.apiToModel(singleAdm4)));
+                    if (adm4) {
+                        this.conversionLocation.setOptions('adm4', adm4.map((singleAdm4: any) => Adm.apiToModel(singleAdm4)));
+                    }
                 });
                 return;
             case('adm2'):
                 this.conversionLocation.set('adm2', this.conversionForm.get('adm2').value);
                 this.locationService.getAdm3({adm2: this.conversionLocation.get('adm2').get('id')}).subscribe((adm3: Array<any>) => {
-                    this.conversionLocation.setOptions('adm3', adm3.map((singleAdm3: any) => Adm.apiToModel(singleAdm3)));
+                    if (adm3) {
+                        this.conversionLocation.setOptions('adm3', adm3.map((singleAdm3: any) => Adm.apiToModel(singleAdm3)));
+                    }
                 });
                 return;
             case('adm1'):
                 this.conversionLocation.set('adm1', this.conversionForm.get('adm1').value);
                 this.locationService.getAdm2({adm1: this.conversionLocation.get('adm1').get('id')}).subscribe((adm2: Array<any>) => {
-                    this.conversionLocation.setOptions('adm2', adm2.map((singleAdm2: any) => Adm.apiToModel(singleAdm2)));
+                    if (adm2) {
+                        this.conversionLocation.setOptions('adm2', adm2.map((singleAdm2: any) => Adm.apiToModel(singleAdm2)));
+                    }
                 });
                 return;
             default:
@@ -385,7 +397,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     getAPINames() {
         this._beneficiariesService.listApi()
             .subscribe((response: object) => {
-                if (!response['listAPI'].length) {
+                if (!response || !response['listAPI'].length) {
                     return;
                 }
                 response['listAPI'].map((apiInfo: any) => {
@@ -449,7 +461,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         } else {
             this.load = true;
             this._importService.sendCsv(this.csv, this.email, this.fileForm.controls['projects'].value).subscribe((response: any) => {
-                this._importService.setResponse(response);
+                if (response) {
+                    this._importService.setResponse(response);
+                }
                 this.load = false;
                 this.router.navigate(['/beneficiaries/import/data-validation']);
             }, (error: any) => {
@@ -480,7 +494,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
         this._beneficiariesService.importApi(body, this.apiForm.controls['projects'].value)
             .subscribe(response => {
-                this.newHouseholds = response.households;
+                if (response) {
+                    this.newHouseholds = response.households;
+                }
                 this.importedHouseholds();
             }, error => {
                 this.load = false;
@@ -495,11 +511,13 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this._householdsService.getImported(this.newHouseholds)
             .subscribe(
                 response => {
-                    this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
+                    if (response) {
+                        this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
+                        this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
+                    }
                     this._importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);
                     this.load = false;
-                    this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
                 }
             );
     }

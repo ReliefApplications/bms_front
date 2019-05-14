@@ -158,12 +158,12 @@ export class HouseholdsService extends CustomModelService {
 
         const appInjector = AppInjector;
         appInjector.get(ProjectService).get().subscribe((projects: any) => {
-
-            const projectOptions = projects.map(project => {
-                return Project.apiToModel(project);
-            });
-
-            household.setOptions('projects', projectOptions);
+            if (projects) {
+                const projectOptions = projects.map(project => {
+                    return Project.apiToModel(project);
+                });
+                household.setOptions('projects', projectOptions);
+            }
         });
     }
 
@@ -172,22 +172,23 @@ export class HouseholdsService extends CustomModelService {
 
         // Get Projects
         appInjector.get(ProjectService).get().subscribe((projects: any) => {
-
-            const projectOptions = projects.map(project => {
-                return Project.apiToModel(project);
-            });
-
-            filters.setOptions('projects', projectOptions);
+            if (projects) {
+                const projectOptions = projects.map(project => {
+                    return Project.apiToModel(project);
+                });
+                filters.setOptions('projects', projectOptions);
+            }
         });
 
         // Get vulnerabilities
         appInjector.get(CriteriaService).getVulnerabilityCriteria().subscribe((vulnerabilities: any) => {
 
-            const vulnerabilityOptions = vulnerabilities.map(vulnerability => {
-                return VulnerabilityCriteria.apiToModel(vulnerability);
-            });
-
-            filters.setOptions('vulnerabilities', vulnerabilityOptions);
+            if (vulnerabilities) {
+                const vulnerabilityOptions = vulnerabilities.map(vulnerability => {
+                    return VulnerabilityCriteria.apiToModel(vulnerability);
+                });
+                filters.setOptions('vulnerabilities', vulnerabilityOptions);
+            }
         });
 
         // Get gender

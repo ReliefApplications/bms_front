@@ -37,11 +37,13 @@ export class CriteriaService extends CustomModelService {
 
     fillFieldOptions(criteria: Criteria) {
         this.get()
-            .subscribe((options) => {
-                const fields = options.map(criterion => {
-                    return CriteriaField.apiToModel(criterion);
-                });
-                criteria.setOptions('field', fields);
+            .subscribe((options: any) => {
+                if (options) {
+                    const fields = options.map(criterion => {
+                        return CriteriaField.apiToModel(criterion);
+                    });
+                    criteria.setOptions('field', fields);
+                }
                 return;
             });
     }

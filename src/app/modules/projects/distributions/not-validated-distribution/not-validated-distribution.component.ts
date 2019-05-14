@@ -151,11 +151,13 @@ getDistributionBeneficiaries(type: string) {
 }
 
 setDistributionBenefAndGetBenef(distributionBeneficiaries: any): Beneficiary[] {
-    this.actualDistribution.set(
-        'distributionBeneficiaries',
-        distributionBeneficiaries
-            .map((distributionBeneficiariy: any) =>
-                DistributionBeneficiary.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
+    if (distributionBeneficiaries) {
+        this.actualDistribution.set(
+            'distributionBeneficiaries',
+            distributionBeneficiaries
+                .map((distributionBeneficiariy: any) =>
+                    DistributionBeneficiary.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
+    }
     return this.actualDistribution.get<DistributionBeneficiary[]>('distributionBeneficiaries').map(
         (distributionBeneficiariy: any) => distributionBeneficiariy.get('beneficiary')
     );
@@ -317,12 +319,14 @@ generateRandom() {
         this.beneficiariesService.getRandom(this.actualDistribution.get('id'), sampleLength)
             .subscribe(
                 response => {
-                    const data = response.map((beneficiary: any) => {
-                        const newBeneficiary = Beneficiary.apiToModel(beneficiary);
-                        newBeneficiary.set('distributionId', this.actualDistribution.get('id'));
-                        return newBeneficiary;
-                    });
-                    this.randomSampleData = new MatTableDataSource(data);
+                    if (response) {
+                        const data = response.map((beneficiary: any) => {
+                            const newBeneficiary = Beneficiary.apiToModel(beneficiary);
+                            newBeneficiary.set('distributionId', this.actualDistribution.get('id'));
+                            return newBeneficiary;
+                        });
+                        this.randomSampleData = new MatTableDataSource(data);
+                    }
                     this.loadingThirdStep = false;
                 }, error => {
                     this.loadingThirdStep = false;

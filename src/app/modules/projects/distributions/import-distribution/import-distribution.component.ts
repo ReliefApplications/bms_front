@@ -150,7 +150,7 @@ export class ImportDistributionComponent implements OnInit, OnDestroy {
                         this.loadUpdate = false;
                     })
                 ).subscribe(
-                    success => {
+                    (_success: any) => {
                         this.snackbar.success(this.language.import_distribution_updated);
                         this.success.emit(true);
                         this.loadUpdate = false;

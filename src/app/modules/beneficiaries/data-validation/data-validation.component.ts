@@ -97,8 +97,10 @@ export class DataValidationComponent implements OnInit {
         this.loadingStep = true;
         this.importService.sendStepUserData(this.generateResponse())
             .subscribe((response: any) => {
-                this.errors = response.data;
-                this.setStepFromResponse(response);
+                if (response) {
+                    this.errors = response.data;
+                    this.setStepFromResponse(response);
+                }
                 this.generateControls();
                 this.loadingStep = false;
         });
@@ -119,7 +121,9 @@ export class DataValidationComponent implements OnInit {
                 // No further interaction with the backend after this
                 this.currentStep = Step.Completed;
 
-                this.importService.importedHouseholds = response.map((household: Household) => Household.apiToModel(household));
+                if (response) {
+                    this.importService.importedHouseholds = response.map((household: Household) => Household.apiToModel(household));
+                }
 
                 this.router.navigate(['/beneficiaries/imported']);
             },

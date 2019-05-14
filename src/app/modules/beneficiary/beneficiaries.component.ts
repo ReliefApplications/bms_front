@@ -111,7 +111,17 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
      */
     export() {
         this.loadingExport = true;
-        this.householdsService.export(this.extensionType).then(
+        this.householdsService.export(this.extensionType,
+            {
+                filter: this.table.filtersForAPI,
+                sort: {
+                    sort: (this.table.sort && this.table.sort.active) ? this.table.sort.active : null,
+                    direction: (this.table.sort && this.table.sort.direction !== '') ? this.table.sort.direction : null
+                },
+                pageIndex: 0, // page index
+                pageSize: 10 // page size
+            }
+            ).then(
             () => { this.loadingExport = false; }
         ).catch(
             () => { this.loadingExport = false; }

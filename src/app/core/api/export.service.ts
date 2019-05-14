@@ -3,6 +3,7 @@ import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from './http.service';
 import { saveAs      } from 'file-saver/FileSaver';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { Filter } from 'src/app/components/table/table-server/table-server.component';
 
 @Injectable({
     providedIn: 'root'
@@ -21,9 +22,10 @@ export class ExportService {
      * @param  key           key to define data to export (e.g. distributions)
      * @param  value         value to define data to export (e.g. projet_id)
      * @param  extensionType extension of the file
+     * @param filters        the filters to apply to the data
      * @return               file to export
      */
-    public export(key: string, value: any, extensionType: string, body = null) {
+    public export(key: string, value: any, extensionType: string, body = null, filters: any = null) {
 
         const params = {};
         params['type'] = extensionType;
@@ -33,6 +35,9 @@ export class ExportService {
             params: params
         };
         const url = this.api + '/export';
+        if (filters) {
+            body['filters'] = filters;
+        }
         return this.http.post(url, body, options).toPromise()
         .then(response => {
             if (! response) {

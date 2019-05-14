@@ -17,6 +17,7 @@ import { LocationService } from './location.service';
 import { ProjectService } from './project.service';
 import { Gender, ResidencyStatus } from 'src/app/model/beneficiary';
 import { LIVELIHOOD } from 'src/app/model/livelihood';
+import { Filter } from 'src/app/components/table/table-server/table-server.component';
 
 @Injectable({
     providedIn: 'root'
@@ -119,8 +120,8 @@ export class HouseholdsService extends CustomModelService {
      * @param  extensionType type of file to export
      * @return               file
      */
-    public export (extensionType: string) {
-        return this.exportService.export('beneficiaries', true, extensionType);
+    public export (extensionType: string, filters: any) {
+        return this.exportService.export('beneficiaries', true, extensionType, {}, filters);
     }
 
     /**

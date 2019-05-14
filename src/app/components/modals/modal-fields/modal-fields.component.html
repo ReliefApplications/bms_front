@@ -5,7 +5,7 @@
     <h4 *ngIf="objectInstance.createMultiple && modalType === 'Add'" class="modal-title underline-accent stickyHeader" [ngClass]="{'underline-accent': modalType === 'Add', 'underline-primary': modalType !== 'Add'}">
         {{modalTitleMultiple | uppercaseFirst}} {{objectInstance.title | uppercaseFirst}}
     </h4>
-    <form [formGroup]="form">
+    <form [formGroup]="form" *ngIf="form">
         <table class="modal-table">
             <ng-container *ngFor="let fieldName of objectFields">
                 <ng-container *ngIf="objectInstance.fields[fieldName].isDisplayedInModal">
@@ -76,7 +76,7 @@
                             </ng-container>
 
                             <ng-template #isMaterialField>
-                                <mat-form-field [ngClass]="{date: field.kindOfField === 'Date' && !isDisabled(field)}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
+                                <mat-form-field [ngClass]="{date: field.kindOfField === 'Date' && !fieldService.isDisabled(field, modalType)}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                                     <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
                                         <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title | uppercaseFirst"
                                             matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
@@ -96,12 +96,12 @@
                                     <ng-template #checkForDateField>
                                         <ng-container *ngIf="field.kindOfField === 'Date'; else checkForNumberField">
                                             <!-- If we don't do this, the date won't be formatted in the date picker when disabled -->
-                                            <ng-container *ngIf="isDisabled(field)">
+                                            <ng-container *ngIf="fieldService.isDisabled(field, modalType)">
                                                 <input matInput *ngIf="!field.value" disabled [placeholder]="field.title | uppercaseFirst" [value]="field.nullValue">
                                                 <input matInput *ngIf="field.value && !field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy' }}" [placeholder]="field.title | uppercaseFirst">
                                                 <input matInput *ngIf="field.value && field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy HH:mm' }}" [placeholder]="field.title | uppercaseFirst">
                                             </ng-container>
-                                            <ng-container *ngIf="!isDisabled(field)">
+                                            <ng-container *ngIf="!fieldService.isDisabled(field, modalType)">
                                                 <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst">
                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>

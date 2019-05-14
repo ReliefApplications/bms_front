@@ -401,6 +401,7 @@ export interface Language {
     model_donor: string
     model_donor_fullname: string
     model_donor_shortname: string
+    model_duplicate: string
     model_familyName: string
     model_firstName: string
     model_individual_to_all: string

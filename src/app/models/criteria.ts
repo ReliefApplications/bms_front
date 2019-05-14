@@ -60,7 +60,7 @@ export class Criteria extends CustomModel {
         //         // Not displayed anywhere
         //     }
         // ),
-        kindOfBeneficiary: new NumberModelField(
+        kindOfBeneficiary: new TextModelField(
             {
 
             }
@@ -111,10 +111,21 @@ export class Criteria extends CustomModel {
     public static apiToModel(criteriaFromApi: any): Criteria {
         const newCriteria = new Criteria();
 
-        newCriteria.set('field', criteriaFromApi.field_string);
+        if (criteriaFromApi.field_string) {
+            const field = new CriteriaField();
+            field.set('field', criteriaFromApi.field_string);
+            newCriteria.set('field', field);
+
+        }
         newCriteria.set('type', criteriaFromApi.type);
-        newCriteria.set('kindOfBeneficiary', criteriaFromApi.distribution_type);
+        newCriteria.set('kindOfBeneficiary', criteriaFromApi.distribution_type ?
+            criteriaFromApi.distribution_type :
+            criteriaFromApi.kind_beneficiary);
+        newCriteria.set('condition', criteriaFromApi.condition_string ?
+            new CriteriaCondition(null, criteriaFromApi.condition_string) :
+            null);
         newCriteria.set('tableString', criteriaFromApi.table_string);
+        newCriteria.set('value', criteriaFromApi.value_string);
         return newCriteria;
     }
 

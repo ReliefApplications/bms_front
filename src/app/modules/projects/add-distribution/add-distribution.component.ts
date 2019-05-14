@@ -22,6 +22,8 @@ import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
+import { FieldService } from 'src/app/core/utils/field.service';
+import { CustomModel } from 'src/app/models/custom-models/custom-model';
 
 @Component({
     selector: 'app-add-distribution',
@@ -74,6 +76,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         private locationService: LocationService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        public fieldService: FieldService,
     ) { }
 
     ngOnInit() {
@@ -81,11 +84,21 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
             this.currentDisplayType = displayType;
         });
         this.loadingCreation = false;
-        this.objectInstance = new Distribution();
-        this.objectInstance.set('location', new Location());
         this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4', 'date', 'type', 'threshold'];
-        this.makeForm();
-        this.getQueryParameter();
+        this.getQueryParameter().subscribe(params => {
+            this.queryParams = params;
+            if (params.prefill === 'false') {
+                this.objectInstance = new Distribution();
+                this.objectInstance.set('location', new Location());
+                this.makeForm();
+            } else {
+                this.objectInstance = this._distributionService.distributionToDuplicate;
+                this.criteriaData.data = this.objectInstance.get<Criteria[]>('selectionCriteria');
+                this.commodityData.data = this.objectInstance.get<Commodity[]>('commodities');
+                this.makeForm();
+                this.updateNbBeneficiary();
+            }
+        });
         this.loadProvince();
         this.getProjectDates();
     }
@@ -95,19 +108,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     }
 
     makeForm() {
-        const formControls = {};
-        this.objectFields.forEach((fieldName: string) => {
-            if (fieldName === 'type') {
-                formControls[fieldName] = new FormControl(
-                    this.objectInstance.get('type') ? this.objectInstance.get('type').get('name') : null
-                );
-            } else {
-                formControls[fieldName] = new FormControl(
-                    this.objectInstance.fields[fieldName] ? this.objectInstance.get(fieldName) : null,
-                );
-            }
-        });
-        this.form = new FormGroup(formControls);
+        this.form = this.fieldService.makeForm(this.objectInstance, this.objectFields, null);
     }
 
 
@@ -125,13 +126,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         }
     }
 
-
     /**
      * get the parameter in the route
      * use to get the active project
      */
     getQueryParameter() {
-        this.route.queryParams.subscribe(params => this.queryParams = params);
+        return this.route.queryParams;
     }
 
     getProjectDates() {

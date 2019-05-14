@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { Language } from '../core/language/language';
 import { Country } from './country';
 import { BooleanModelField } from './CustomModel/boolan-model-field';
@@ -63,6 +63,7 @@ export class User extends CustomModel {
         rights: new SingleSelectModelField({
             title: this.language.rights,
             isDisplayedInTable: true,
+            isRequired: true,
             options: [
                 new Role('ROLE_ADMIN', this.language.role_user_admin),
                 new Role('ROLE_FIELD_OFFICER', this.language.role_user_field_officer),
@@ -79,6 +80,8 @@ export class User extends CustomModel {
             triggerFunction: (user: User, value: string, form: FormGroup) => {
                 if (value === 'ROLE_REGIONAL_MANAGER' || value === 'ROLE_COUNTRY_MANAGER') {
                     form.controls.countries.enable();
+                    form.controls.countries.setValidators([Validators.required]);
+                    form.controls.projects.setValidators(null);
                     form.controls.projects.disable();
                     form.controls.projects.setValue([]);
                     if (value === 'ROLE_COUNTRY_MANAGER') {
@@ -92,6 +95,9 @@ export class User extends CustomModel {
 
                 } else if (value === 'ROLE_PROJECT_MANAGER' || value === 'ROLE_PROJECT_OFFICER' || value === 'ROLE_FIELD_OFFICER') {
                     form.controls.projects.enable();
+                    form.controls.projects.setValidators([Validators.required]);
+                    form.controls.countries.setValidators(null);
+
                     form.controls.countries.disable();
                     user.fields.countries.hint = '';
                     form.controls.countries.setValue([]);
@@ -101,6 +107,8 @@ export class User extends CustomModel {
                     user.fields.countries.hint = '';
                     form.controls.countries.setValue([]);
                     form.controls.projects.setValue([]);
+                    form.controls.countries.setValidators(null);
+                    form.controls.projects.setValidators(null);
                 }
                 return user;
             },
@@ -109,6 +117,7 @@ export class User extends CustomModel {
             title: this.language.project,
             isDisplayedInModal: true,
             bindField: 'name',
+            isRequired: true,
 
         }),
         countries: new MultipleSelectModelField({
@@ -116,6 +125,7 @@ export class User extends CustomModel {
             options: [new Country('KHM', this.language.country_khm), new Country('SYR', this.language.country_syr)],
             isDisplayedInModal: true,
             bindField: 'name',
+            isRequired: true,
         }),
         language: new TextModelField({
 
@@ -175,6 +185,7 @@ export class User extends CustomModel {
             null);
 
         newUser.set('password', userFromApi.password);
+        newUser.fields.password.isRequired = false; // No need to enter the password on update
         newUser.set('email', userFromApi.email);
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);

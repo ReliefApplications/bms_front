@@ -2,7 +2,7 @@
 import { AfterViewChecked, Component, ElementRef, EventEmitter, Input, KeyValueDiffers, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { FilterInterface } from '../../../../model/filter';
+import { FilterInterface } from '../../../../models/filter';
 import { ChartDataLoaderService } from '../../services/chart-data-loader.service';
 import { ChartRegistration, RegisteredItem } from '../../services/chart-registration.service';
 // tslint:disable-next-line: max-line-length

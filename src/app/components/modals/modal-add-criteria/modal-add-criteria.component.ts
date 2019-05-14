@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS } from '@angular/material';
 import { CriteriaService } from 'src/app/core/api/criteria.service';
-import { FieldService } from 'src/app/core/api/field.service';
+import { FieldService } from 'src/app/core/utils/field.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/model/criteria';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
+import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/models/criteria';
 
 
 @Component({

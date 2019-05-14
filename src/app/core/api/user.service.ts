@@ -3,16 +3,16 @@ import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppInjector } from 'src/app/app-injector';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Project } from 'src/app/model/project';
-import { SaltInterface } from '../../model/salt';
-import { User } from '../../model/user';
+import { Project } from 'src/app/models/project';
+import { SaltInterface } from '../../models/salt';
+import { User } from '../../models/user';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { WsseService } from '../authentication/wsse.service';
 import { Language } from '../language/language';
-import { rightsHierarchy, Role } from '../permissions/permissions';
+import { rightsHierarchy, Role } from '../../models/constants/permissions';
 import { AsyncacheService } from '../storage/asyncache.service';
-import { CustomModelService } from './custom-model.service';
-import { HttpService } from './http.service';
+import { CustomModelService } from '../utils/custom-model.service';
+import { HttpService } from '../network/http.service';
 import { ProjectService } from './project.service';
 
 

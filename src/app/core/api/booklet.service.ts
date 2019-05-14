@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Booklet } from 'src/app/model/booklet';
+import { Booklet } from 'src/app/models/booklet';
 import { URL_BMS_API } from '../../../environments/environment';
-import { CustomModelService } from './custom-model.service';
-import { HttpService } from './http.service';
+import { CustomModelService } from '../utils/custom-model.service';
+import { HttpService } from '../network/http.service';
 
 @Injectable({
     providedIn: 'root'

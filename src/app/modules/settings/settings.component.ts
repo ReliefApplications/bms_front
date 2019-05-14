@@ -13,11 +13,11 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { FinancialProvider } from 'src/app/model/financial-provider';
-import { Product } from 'src/app/model/product';
-import { Vendor } from 'src/app/model/vendor';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { CustomModel } from 'src/app/models/custom-models/custom-model';
+import { FinancialProvider } from 'src/app/models/financial-provider';
+import { Product } from 'src/app/models/product';
+import { Vendor } from 'src/app/models/vendor';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { CountrySpecificService } from '../../core/api/country-specific.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DonorService } from '../../core/api/donor.service';
@@ -25,10 +25,10 @@ import { ProjectService } from '../../core/api/project.service';
 import { SettingsService } from '../../core/api/settings.service';
 import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { CountrySpecific } from '../../model/country-specific';
-import { Donor } from '../../model/donor';
-import { Project } from '../../model/project';
-import { User } from '../../model/user';
+import { CountrySpecific } from '../../models/country-specific';
+import { Donor } from '../../models/donor';
+import { Project } from '../../models/project';
+import { User } from '../../models/user';
 
 
 @Component({

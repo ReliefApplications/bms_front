@@ -3,14 +3,14 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FieldService } from 'src/app/core/api/field.service';
+import { FieldService } from 'src/app/core/utils/field.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { UploadService } from 'src/app/core/api/upload.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
-import { CustomModel as CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
-import { CustomDateAdapter } from '../../../core/utils/date.adapter';
+import { APP_DATE_FORMATS } from 'src/app/shared/adapters/date.adapter';
+import { CustomModel as CustomModel } from 'src/app/models/custom-models/custom-model';
+import { TextModelField } from 'src/app/models/custom-models/text-model-field';
+import { CustomDateAdapter } from '../../../shared/adapters/date.adapter';
 
 @Component({
     selector: 'app-project',

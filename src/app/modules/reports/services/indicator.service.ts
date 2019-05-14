@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../core/api/http.service';
+import { HttpService } from '../../../core/network/http.service';
 
 // Constants
 import { URL_BMS_API } from '../../../../environments/environment';
 import { forkJoin } from 'rxjs';
-import { Indicator } from 'src/app/model/indicator';
+import { Indicator } from 'src/app/models/indicator';
 
 @Injectable({
     providedIn: 'root'

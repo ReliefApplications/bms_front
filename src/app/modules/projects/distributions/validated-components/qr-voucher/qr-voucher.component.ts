@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { SelectionModel } from '@angular/cdk/collections';
-import { TransactionQRVoucher } from 'src/app/model/transaction-qr-voucher';
-import { Beneficiary } from 'src/app/model/beneficiary';
+import { TransactionQRVoucher } from 'src/app/models/transaction-qr-voucher';
+import { Beneficiary } from 'src/app/models/beneficiary';
 import { MatTableDataSource } from '@angular/material';
-import { BookletStatus } from 'src/app/model/booklet';
-import { Booklet } from 'src/app/model/booklet';
+import { BookletStatus } from 'src/app/models/booklet';
+import { Booklet } from 'src/app/models/booklet';
 import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
 
 @Component({

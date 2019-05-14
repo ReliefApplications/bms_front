@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { CustomModelField } from 'src/app/model/CustomModel/custom-model-field';
+import { CustomModelField } from 'src/app/models/custom-models/custom-model-field';
 
 @Component({
   selector: 'app-hint-error',

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
-import { Commodity } from 'src/app/model/commodity';
-import { State, TransactionMobileMoney } from 'src/app/model/transaction-mobile-money';
+import { Commodity } from 'src/app/models/commodity';
+import { State, TransactionMobileMoney } from 'src/app/models/transaction-mobile-money';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
-import { User } from 'src/app/model/user';
+import { User } from 'src/app/models/user';
 
 @Component({
     selector: 'app-mobile-money',

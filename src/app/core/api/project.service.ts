@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { SectorService } from 'src/app/core/api/sector.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Donor } from 'src/app/model/donor';
-import { Project } from 'src/app/model/project';
-import { Sector } from 'src/app/model/sector';
+import { Donor } from 'src/app/models/donor';
+import { Project } from 'src/app/models/project';
+import { Sector } from 'src/app/models/sector';
 import { AppInjector } from '../../app-injector';
-import { CustomModelService } from './custom-model.service';
+import { CustomModelService } from '../utils/custom-model.service';
 import { DonorService } from './donor.service';
-import { HttpService } from './http.service';
+import { HttpService } from '../network/http.service';
 
 
 

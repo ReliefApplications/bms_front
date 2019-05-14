@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/model/criteria';
-import { CustomModelService } from './custom-model.service';
-import { HttpService } from './http.service';
+import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/models/criteria';
+import { CustomModelService } from '../utils/custom-model.service';
+import { HttpService } from '../network/http.service';
 
 @Injectable({
     providedIn: 'root'

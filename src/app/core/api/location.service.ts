@@ -3,10 +3,10 @@ import { of } from 'rxjs';
 
 import { URL_BMS_API } from '../../../environments/environment';
 
-import { HttpService } from './http.service';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { HttpService } from '../network/http.service';
+import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { map } from 'rxjs/operators';
-import { Adm } from 'src/app/model/location';
+import { Adm } from 'src/app/models/location';
 
 
 @Injectable({

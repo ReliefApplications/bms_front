@@ -8,13 +8,13 @@ import { ModalDeleteComponent } from 'src/app/components/modals/modal-delete/mod
 import { ModalDetailsComponent } from 'src/app/components/modals/modal-details/modal-details.component';
 import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Beneficiary } from 'src/app/model/beneficiary';
-import { Commodity } from 'src/app/model/commodity';
-import { Criteria } from 'src/app/model/criteria';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { Beneficiary } from 'src/app/models/beneficiary';
+import { Commodity } from 'src/app/models/commodity';
+import { Criteria } from 'src/app/models/criteria';
+import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { CommodityService } from '../api/commodity.service';
 import { CriteriaService } from '../api/criteria.service';
-import { NetworkService } from '../api/network.service';
+import { NetworkService } from '../network/network.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { SnackbarService } from '../logging/snackbar.service';
 

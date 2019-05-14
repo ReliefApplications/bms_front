@@ -3,9 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatPaginator, MatSort, MAT_DATE_FORMATS } from '@angular/material';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { CustomDataSource } from 'src/app/model/data-source/custom-data-source.interface';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
+import { CustomModel } from 'src/app/models/custom-models/custom-model';
+import { CustomDataSource } from 'src/app/models/data-sources/custom-data-source.interface';
 import { TableComponent } from '../table.component';
 
 export interface Filter {

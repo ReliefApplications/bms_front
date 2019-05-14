@@ -3,21 +3,20 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver/FileSaver';
 import { AppInjector } from 'src/app/app-injector';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { HouseholdFilters } from 'src/app/model/households-data-source';
-import { VulnerabilityCriteria } from 'src/app/model/vulnerability-criteria';
+import { HouseholdFilters } from 'src/app/models/data-sources/households-data-source';
+import { VulnerabilityCriteria } from 'src/app/models/vulnerability-criteria';
 import { URL_BMS_API } from '../../../environments/environment';
-import { Household, Livelihood } from '../../model/household';
-import { Location } from '../../model/location';
-import { Project } from '../../model/project';
+import { Household, Livelihood } from '../../models/household';
+import { Location } from '../../models/location';
+import { Project } from '../../models/project';
 import { CriteriaService } from './criteria.service';
-import { CustomModelService } from './custom-model.service';
+import { CustomModelService } from '../utils/custom-model.service';
 import { ExportService } from './export.service';
-import { HttpService } from './http.service';
+import { HttpService } from '../network/http.service';
 import { LocationService } from './location.service';
 import { ProjectService } from './project.service';
-import { Gender, ResidencyStatus } from 'src/app/model/beneficiary';
-import { LIVELIHOOD } from 'src/app/model/livelihood';
-import { Filter } from 'src/app/components/table/table-server/table-server.component';
+import { Gender, ResidencyStatus } from 'src/app/models/beneficiary';
+import { LIVELIHOOD } from 'src/app/models/livelihood';
 
 @Injectable({
     providedIn: 'root'

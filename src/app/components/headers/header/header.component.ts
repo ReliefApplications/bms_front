@@ -7,8 +7,8 @@ import { Language } from 'src/app/core/language/language';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Country } from 'src/app/model/country';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { Country } from 'src/app/models/country';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { ModalLanguageComponent } from './../../modals/modal-language/modal-language.component';
 
 export interface Breadcrumb {

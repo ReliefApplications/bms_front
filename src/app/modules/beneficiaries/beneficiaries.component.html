@@ -10,7 +10,7 @@
             {{language.beneficiaries_add_list}}
           </button>
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-            <button mat-raised-button [disabled]="!(dataSource.length$ | async)" *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport" class="button-background-primary" (click)="export()">
+            <button mat-raised-button [disabled]="!(dataSource.length$ | async)" *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport" class="button-background-primary" (click)="export()" [matBadge]="getNumberToExport()">
               <mat-icon>get_app</mat-icon>
               <span>{{language.export | titlecase}}</span>
             </button>

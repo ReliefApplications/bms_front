@@ -42,6 +42,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     // addButtons
     addToggled = false;
 
+    numberToExport: number = null;
 
     @ViewChild(TableServerComponent) table: TableServerComponent;
 
@@ -82,6 +83,9 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         this.getProjects('updateSelection');
         this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
         this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
+        this.dataSource.length$.subscribe((length) => {
+            this.numberToExport = length;
+        });
     }
 
     ngOnDestroy() {
@@ -118,14 +122,18 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
                     sort: (this.table.sort && this.table.sort.active) ? this.table.sort.active : null,
                     direction: (this.table.sort && this.table.sort.direction !== '') ? this.table.sort.direction : null
                 },
-                pageIndex: 0, // page index
-                pageSize: 10 // page size
+                pageIndex: 0,
+                pageSize: -1 // No limit
             }
             ).then(
             () => { this.loadingExport = false; }
         ).catch(
             () => { this.loadingExport = false; }
         );
+    }
+
+    getNumberToExport() {
+        return this.numberToExport > 0 ? this.numberToExport : null;
     }
 
     addToProject(template) {

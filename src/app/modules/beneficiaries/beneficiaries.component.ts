@@ -203,6 +203,15 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         this.modalService.openDialog(Household, this.householdsService, event);
         this.modalService.isCompleted.subscribe(() => {
             this.table.loadDataPage();
+            this.checkedElements = [];
+            this.selection = new SelectionModel<Household>(true, []);
+        });
+    }
+
+    deleteSelected() {
+        this.openDialog({
+            action: 'deleteMany',
+            ids: this.checkedElements.map((household: Household) => household.get('id'))
         });
     }
 }

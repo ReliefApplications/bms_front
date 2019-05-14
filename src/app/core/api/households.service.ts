@@ -137,6 +137,14 @@ export class HouseholdsService extends CustomModelService {
         return this.http.delete(url);
     }
 
+    public deleteMany(householdIds: Array<number>) {
+        const url = this.api + '/delete-households';
+        const body = {
+            ids: householdIds
+        };
+        return this.http.post(url, body);
+    }
+
     public testFileTemplate(file: any, location: any) {
         const params = {};
         params['type'] = 'xls';

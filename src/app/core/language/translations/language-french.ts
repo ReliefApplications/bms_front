@@ -357,6 +357,7 @@ export class French implements Language {
     modal_add_multiple_title = 'Ajouter plusieurs nouveaux'
     modal_check_date = 'Champs invalides = La date de début ne peut pas être plus ancienne que la date de fin et vice versa'
     modal_check_fields = 'Champs invalides = vérifiez que vous avez rempli tous les champs'
+    modal_delete_many = 'ces éléments'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
     modal_delete_sentence_2 = '. '
     modal_details_title = 'Détails de ce'

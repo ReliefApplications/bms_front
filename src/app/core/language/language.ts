@@ -343,6 +343,7 @@ export interface Language {
     modal_add_multiple_title: string
     modal_check_date: string
     modal_check_fields: string
+    modal_delete_many: string
     modal_delete_sentence: string
     modal_delete_sentence_2: string
     modal_details_title: string

@@ -22,7 +22,7 @@ import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
-import { FieldService } from 'src/app/core/utils/field.service';
+import { FormService } from 'src/app/core/utils/form.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 
 @Component({
@@ -76,7 +76,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         private locationService: LocationService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
-        public fieldService: FieldService,
+        public formService: FormService,
     ) { }
 
     ngOnInit() {
@@ -108,7 +108,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     }
 
     makeForm() {
-        this.form = this.fieldService.makeForm(this.objectInstance, this.objectFields, null);
+        this.form = this.formService.makeForm(this.objectInstance, this.objectFields, null);
     }
 
 

@@ -7,7 +7,7 @@ import { LocationService } from '../api/location.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FieldService {
+export class FormService {
 
     form: FormGroup;
 

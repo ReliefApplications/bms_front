@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FieldService } from 'src/app/core/utils/field.service';
+import { FormService } from 'src/app/core/utils/form.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { UploadService } from 'src/app/core/api/upload.service';
 import { LanguageService } from 'src/app/core/language/language.service';
@@ -42,7 +42,7 @@ export class ModalFieldsComponent implements OnInit {
 
     constructor(
         public modalReference: MatDialogRef<any>,
-        public fieldService: FieldService,
+        public formService: FormService,
         public uploadService: UploadService,
         public locationService: LocationService,
         public languageService: LanguageService,
@@ -74,11 +74,11 @@ export class ModalFieldsComponent implements OnInit {
 
     // To see if a value is null, undefined, empty....
     isEmpty(field) {
-       return this.fieldService.isEmpty(field, 'modal');
+       return this.formService.isEmpty(field, 'modal');
     }
 
     makeForm() {
-        this.form = this.fieldService.makeForm(this.objectInstance, this.objectFields, this.modalType);
+        this.form = this.formService.makeForm(this.objectInstance, this.objectFields, this.modalType);
     }
 
     onChanges(): void {

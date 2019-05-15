@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS } from '@angular/material';
 import { CriteriaService } from 'src/app/core/api/criteria.service';
-import { FieldService } from 'src/app/core/utils/field.service';
+import { FormService } from 'src/app/core/utils/form.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
@@ -33,7 +33,7 @@ export class ModalAddCriteriaComponent implements OnInit {
         private criteriaService: CriteriaService,
         public modalReference: MatDialogRef<any>,
         private snackbar: SnackbarService,
-        public fieldService: FieldService,
+        public formService: FormService,
         public languageService: LanguageService,
     ) {}
 
@@ -48,7 +48,7 @@ export class ModalAddCriteriaComponent implements OnInit {
         const formControls = {};
         this.fields.forEach((fieldName: string) => {
             const field = this.criteria.fields[fieldName];
-            const validators = this.fieldService.getFieldValidators(field.isRequired, field.pattern);
+            const validators = this.formService.getFieldValidators(field.isRequired, field.pattern);
             formControls[fieldName] = new FormControl(
                 {
                     value: this.criteria.get(fieldName),

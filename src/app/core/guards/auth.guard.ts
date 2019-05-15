@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { User } from 'src/app/model/user';
+import { User } from 'src/app/models/user';
 import { UserService } from '../api/user.service';
 
 @Injectable({

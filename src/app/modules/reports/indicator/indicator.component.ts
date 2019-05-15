@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Indicator } from '../../../model/indicator';
-import { FilterInterface } from '../../../model/filter';
+import { Indicator } from '../../../models/indicator';
+import { FilterInterface } from '../../../models/filter';
 
 @Component({
     selector: 'app-indicator',

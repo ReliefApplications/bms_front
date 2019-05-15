@@ -1,7 +1,7 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { Location } from 'src/app/model/location';
+import { CustomModel } from 'src/app/models/custom-models/custom-model';
+import { Location } from 'src/app/models/location';
 
 @Component({
     selector: 'app-box-properties',

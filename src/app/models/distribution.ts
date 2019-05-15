@@ -117,7 +117,7 @@ export class Distribution extends CustomModel {
                 isSettable: true,
                 options: [new DistributionType('0', this.language.households), new DistributionType('1', this.language.individual)],
                 bindField: 'name',
-                apiLabel: 'name',
+                apiLabel: 'id',
                 value: new DistributionType('0', this.language.households),
             }
         ),
@@ -217,7 +217,7 @@ export class Distribution extends CustomModel {
             project: project,
             selection_criteria: selectionCriteria,
             threshold: this.get('threshold'),
-            type: this.get('type').get('name')
+            type: this.get('type').get('id')
         };
 
     }

@@ -99,7 +99,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         this.objectFields.forEach((fieldName: string) => {
             if (fieldName === 'type') {
                 formControls[fieldName] = new FormControl(
-                    this.objectInstance.get('type') ? this.objectInstance.get('type').get('name') : null
+                    this.objectInstance.get('type') ? this.objectInstance.get('type').get('id') : null
                 );
             } else {
                 formControls[fieldName] = new FormControl(
@@ -357,7 +357,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 newDistribution.set('name', admName + '-' + datePipe.transform(this.form.controls.date.value, 'dd-MM-yyyy'));
 
                 newDistribution.set('type', this.objectInstance.getOptions('type').filter(option => {
-                    return option.get('name') === this.form.controls.type.value;
+                    return option.get('id') === this.form.controls.type.value;
                 })[0]);
                 newDistribution.set('threshold', this.form.controls.threshold.value);
                 newDistribution.set('projectId', this.queryParams.project);

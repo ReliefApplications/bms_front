@@ -14,6 +14,7 @@ export interface Language {
     cancel: string
     characters: string
     close: string
+    complete: string
     create: string
     delete: string
     details: string

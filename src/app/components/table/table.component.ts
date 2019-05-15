@@ -57,6 +57,8 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Input() paginable = false;
     @Input() selectable = false;
 
+    @Input() completable = false;
+
     // For Imported Beneficiaries
     @Input() parentId: number = null;
     // For Transaction Beneficiaries
@@ -84,6 +86,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Output() openModal = new EventEmitter<object>();
     @Output() printOne = new EventEmitter<any>();
     @Output() assignOne = new EventEmitter<any>();
+    @Output() completeOne = new EventEmitter<any>();
 
     sortedData: any;
     allData: any = undefined;
@@ -238,7 +241,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     public getDisplayedColumns(): string[] {
         const actionable = this.validatable || this.updatable || this.loggable ||
-            this.editable || this.deletable || this.printable || this.assignable;
+            this.editable || this.deletable || this.printable || this.assignable || this.completable;
         if (this.selectable && actionable) {
             return this.displayProperties ? ['check', ...this.displayProperties, 'actions'] : [];
         } else if (this.selectable && !actionable) {
@@ -313,6 +316,10 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     assign(element) {
         this.assignOne.emit(element);
+    }
+
+    complete(element) {
+        this.completeOne.emit(element);
     }
 
     requestLogs(element: any) {

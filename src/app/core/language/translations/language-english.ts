@@ -15,6 +15,7 @@ export class English implements Language {
     cancel = 'Cancel'
     characters = 'Characters'
     close = 'Close'
+    complete = 'Complete'
     create = 'Create'
     delete = 'Delete'
     details = 'Details'

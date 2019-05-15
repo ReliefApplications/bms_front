@@ -14,6 +14,7 @@ export class French implements Language {
     beneficiary = 'Bénéficiaire'
     cancel = 'Annuler'
     close = 'Fermer'
+    complete = 'Terminer'
     characters = 'Caractères'
     create = 'Créer'
     delete = 'Supprimer'

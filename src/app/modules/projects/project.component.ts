@@ -199,4 +199,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
             this.getDistributionsByProject(this.selectedProject.get('id'));
         });
     }
+
+    complete(event: Distribution) {
+        this.distributionService.complete(event.get('id')).subscribe(() => {
+            this.getDistributionsByProject(this.selectedProject.get('id'));
+        });
+    }
 }

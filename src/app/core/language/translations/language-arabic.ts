@@ -15,6 +15,7 @@ export class Arabic implements Language {
     beneficiary = 'المستفيد'
     cancel = 'إلغاء'
     close = 'إغلاق'
+    complete = 'اكتمال'
     characters = 'حرف'
     create = 'إنشاء'
     delete = 'حذف'

@@ -39,7 +39,7 @@ import { ModalDetailsComponent } from '../components/modals/modal-details/modal-
 import { ModalEditComponent } from '../components/modals/modal-edit/modal-edit.component';
 import { ModalFieldsComponent } from '../components/modals/modal-fields/modal-fields.component';
 import { ModalLanguageComponent } from '../components/modals/modal-language/modal-language.component';
-import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
+import { ModalConfirmationComponent } from '../components/modals/modal-confirmation/modal-confirmation.component';
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
 import { PlaceholderBoxlineComponent } from '../components/placeholders/placeholder-boxline/placeholder-boxline.component';
 import { PlaceholderPanelComponent } from '../components/placeholders/placeholder-panel/placeholder-panel.component';
@@ -187,7 +187,7 @@ imports: [
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalAssignComponent,
-        ModalLeaveComponent,
+        ModalConfirmationComponent,
         ModalRequestsComponent,
     ],
     exports: [

@@ -5,7 +5,7 @@ import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@a
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { ModalConfirmationComponent } from 'src/app/components/modals/modal-confirmation/modal-confirmation.component';
 import { TableComponent } from 'src/app/components/table/table.component';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
@@ -117,7 +117,13 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (this.form.touched && this.objectInstance && !this.loadingCreation) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+            const dialogRef = this.dialog.open(ModalConfirmationComponent, {
+                data: {
+                    title: this.language.modal_leave,
+                    sentence: this.language.modal_leave_sentence,
+                    ok: this.language.modal_leave
+                }
+            });
 
             return dialogRef.afterClosed();
         } else {

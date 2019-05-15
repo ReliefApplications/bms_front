@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.distributionData = new MatTableDataSource();
 
                     const instances = [];
-                    if (response || response === []) {
+                    if (response) {
                         for (const item of response ) {
                             instances.push(Distribution.apiToModel(item));
                         }

@@ -46,7 +46,9 @@ export class ProfileComponent implements OnInit {
     setActualUser() {
         this.authenticationService.getUser().subscribe(
             result => {
-                this.actualUser = User.apiToModel(result);
+                if (result) {
+                    this.actualUser = User.apiToModel(result);
+                }
                 if (this.actualUser) {
                     this.profileForm.patchValue({
                         email: this.actualUser.get<string>('username')

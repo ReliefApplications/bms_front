@@ -260,11 +260,13 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck, O
     getProjects() {
         this.projectService.get().subscribe(response => {
             this.projectList = [];
-            const projectResponse = response.map((project: any) => Project.apiToModel(project));
-            projectResponse.forEach((element: Project) => {
-                const concat = element.get('id') + ' - ' + element.get('name');
-                this.projectList.push(concat);
-            });
+            if (response) {
+                const projectResponse = response.map((project: any) => Project.apiToModel(project));
+                projectResponse.forEach((element: Project) => {
+                    const concat = element.get('id') + ' - ' + element.get('name');
+                    this.projectList.push(concat);
+                });
+            }
         });
     }
 
@@ -275,11 +277,13 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck, O
         this.distributionList = [];
         this.distributionService.getByProject(this.selectedProject[0]).subscribe(response => {
             this.distributionList = [];
-            const distributionResponse = response.map((distribution: any) => Distribution.apiToModel(distribution));
-            distributionResponse.forEach((element: Distribution) => {
-                const concat = element.get('id') + ' - ' + element.get('name');
-                this.distributionList.push(concat);
-            });
+            if (response) {
+                const distributionResponse = response.map((distribution: any) => Distribution.apiToModel(distribution));
+                distributionResponse.forEach((element: Distribution) => {
+                    const concat = element.get('id') + ' - ' + element.get('name');
+                    this.distributionList.push(concat);
+                });
+            }
         });
     }
 

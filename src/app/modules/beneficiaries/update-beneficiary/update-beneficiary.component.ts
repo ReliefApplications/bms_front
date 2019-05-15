@@ -165,10 +165,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 this.validStep3 = true;
                 this.route.params.subscribe(
                     result => {
-                        if (result['id']) {
+                        if (result && result['id']) {
                             this._householdsService.getOne(result['id']).subscribe(
                                 household => {
-                                    this.household = Household.apiToModel(household);
+                                    if (household) {
+                                        this.household = Household.apiToModel(household);
+                                    }
                                     resolve();
                                 }
                             );
@@ -469,7 +471,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.validationLoading = true;
 
         if (this.mode === 'create') {
-            this._householdsService.create(body).subscribe(success => {
+            this._householdsService.create(body).subscribe((_success: any) => {
                 this.snackbar.success(this.language.update_beneficiary_created_successfully);
                 this.leave();
             }, error => {
@@ -477,7 +479,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 this.validationLoading = false;
             });
         } else if (this.mode === 'update') {
-            this._householdsService.update(this.household.get('id'), body).subscribe(success => {
+            this._householdsService.update(this.household.get('id'), body).subscribe((_success: any) => {
                 this.snackbar.success(this.language.update_beneficiary_updated_successfully);
                 this.leave();
             }, error => {
@@ -681,7 +683,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      */
     getProjects() {
         this._projectService.get().subscribe(response => {
-            this.household.setOptions('projects', response.map(project => Project.apiToModel(project)));
+            if (response) {
+                this.household.setOptions('projects', response.map(project => Project.apiToModel(project)));
+            }
         });
     }
 

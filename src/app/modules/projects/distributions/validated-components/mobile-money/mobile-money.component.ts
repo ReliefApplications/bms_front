@@ -118,7 +118,9 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      */
     openDialog(template: any) {
         this.cacheService.getUser().subscribe(result => {
-            this.actualUser = User.apiToModel(result);
+            if (result) {
+                this.actualUser = User.apiToModel(result);
+            }
             if (!this.actualUser.get('email') && this.actualUser.get('username')) {
                 this.actualUser.set('email', this.actualUser.get('username'));
             }
@@ -222,7 +224,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                     (success: any) => {
                         this.codeSent = true;
 
-                        if (this.transactionData) {
+                        if (success && this.transactionData) {
                             this.transactionData.data.forEach((actualDistributionBeneficiary: TransactionMobileMoney) => {
                                     const actualBeneficiaryId = actualDistributionBeneficiary.get('beneficiary').get('id');
 

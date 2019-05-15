@@ -43,15 +43,19 @@ export class ProjectService extends CustomModelService {
             appInjector.get(SectorService).get()
         ).subscribe(([donorsOptions, sectorsOptions]: [any, any]) => {
 
-            donorsOptions = donorsOptions.map(donor => {
-                return Donor.apiToModel(donor);
-            });
-            sectorsOptions = sectorsOptions.map(sector => {
-                return Sector.apiToModel(sector);
-            });
+            if (donorsOptions) {
+                donorsOptions = donorsOptions.map(donor => {
+                    return Donor.apiToModel(donor);
+                });
+                project.setOptions('donors', donorsOptions);
+            }
 
-            project.setOptions('donors', donorsOptions);
-            project.setOptions('sectors', sectorsOptions);
+            if (sectorsOptions) {
+                sectorsOptions = sectorsOptions.map(sector => {
+                    return Sector.apiToModel(sector);
+                });
+                project.setOptions('sectors', sectorsOptions);
+            }
         });
     }
 }

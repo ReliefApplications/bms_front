@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
-import { CustomDateAdapter } from '../../../core/utils/date.adapter';
-import { CustomModelField } from '../../../model/CustomModel/custom-model-field';
+import { APP_DATE_FORMATS } from 'src/app/shared/adapters/date.adapter';
+import { CustomDateAdapter } from '../../../shared/adapters/date.adapter';
+import { CustomModelField } from '../../../models/custom-models/custom-model-field';
 import { ModalFieldsComponent } from '../modal-fields/modal-fields.component';
 
 

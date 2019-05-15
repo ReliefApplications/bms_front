@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { CommodityService } from 'src/app/core/api/commodity.service';
-import { FieldService } from 'src/app/core/api/field.service';
+import { FieldService } from 'src/app/core/utils/field.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Commodity } from 'src/app/model/commodity';
+import { Commodity } from 'src/app/models/commodity';
 
 
 @Component({
@@ -63,23 +63,22 @@ export class ModalAddCommodityComponent implements OnInit {
         this.form.controls.modalityType.setValue(null);
     }
 
-  getUnit(): string {
-    switch (this.form.controls.modalityType.value) {
-        case 1: // Mobile Cash
-            return this.language.model_currency;
-        case 2: // QR Code Voucher
-            return this.language.model_commodity_unit;
-        case 3: // Food
-        case 4: // RTE Kit
-        case 6: // Agricultural Kit
-        case 7: // Wash kit
-            return this.language.model_commodity_kit;
-        case 5: // Bread
-            return this.language.model_commodity_kgs;
-        case 8: // Loan
-            return this.language.model_currency;
-        default:
-            return this.language.model_commodity_unit;
+    getUnit(): string {
+        switch (this.form.controls.modalityType.value) {
+            case 1: // Mobile Cash
+            case 2: // QR Code Voucher
+            case 3: // Paper Voucher
+            case 9: // Loan
+                return this.language.model_currency;
+            case 4: // Food
+            case 5: // RTE Kit
+            case 7: // Agricultural Kit
+            case 8: // Wash kit
+                return this.language.model_commodity_kit;
+            case 6: // Bread
+                return this.language.model_commodity_kgs;
+            default:
+                return this.language.model_commodity_unit;
         }
     }
 

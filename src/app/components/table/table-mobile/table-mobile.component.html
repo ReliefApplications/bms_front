@@ -1,33 +1,33 @@
 <!-- TABLE -->
 <div class="table-container">
-  <div class="noDataContainer" *ngIf="(!tableData || (tableData.data && tableData.data.length === 0)) && !isLoading; else dataInTable">
-      <h3>
-        <mat-icon>cloud_off</mat-icon>
-        {{language.no_data}}
-      </h3>
-  </div>
-  <ng-template #dataInTable>
-        <div>
-            <table *ngFor="let element of tableData.data" class="box-element">
-            <tbody>
-                <tr *ngFor="let property of displayProperties" (click)="openDialog('details', element)" class="cursor-pointer">
-                <td class="element-title">
-                    <span> {{entityInstance.fields[property].title | uppercaseFirst}}</span>
-                </td>
-                <td class="element-value" *ngIf="element.fields[property]; let field">
-                    <app-display-field [field]="field" [element]="element"></app-display-field>
-                </td>
-                </tr>
-            </tbody>
-            <tfoot>
+    <div class="noDataContainer" *ngIf="(!tableData || (tableData.data && tableData.data.length === 0)) && !isLoading; else dataInTable">
+        <h3>
+          <mat-icon>cloud_off</mat-icon>
+          {{language.no_data}}
+        </h3>
+    </div>
+
+    <ng-template #dataInTable>
+        <div *ngFor="let element of tableData.data" class="table-entry">
+            <div class="table-properties">
+                <div *ngFor="let property of displayProperties" (click)="openDialog('details', element)" class="table-property">
+                    <div class="element-title">
+                        <span> {{entityInstance.fields[property].title | uppercaseFirst}}</span>
+                    </div>
+                    <div class="element-value" *ngIf="element.fields[property]; let field">
+                        <app-display-field [field]="field" [element]="element"></app-display-field>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
                 <ng-container *ngIf="validatable">
-                    <button mat-button (click)="openDialog('visit', element); $event.stopPropagation();" class="light-red">
+                    <button mat-button (click)="openDialog('visit', element); $event.stopPropagation();" class="blue">
                         <mat-icon *ngIf="element.get('validated') && element.get('finished')">done</mat-icon>
                         <mat-icon *ngIf="element.get('validated') && !element.get('finished')">lock</mat-icon>
                         <mat-icon *ngIf="!element.get('validated') && updatable">edit</mat-icon>
                     </button>
                 </ng-container>
-                <button mat-button *ngIf="!validatable && updatable" (click)="openDialog('visit', element); $event.stopPropagation();"  class="light-red">
+                <button mat-button *ngIf="!validatable && updatable" (click)="openDialog('visit', element); $event.stopPropagation();"  class="blue">
                         <mat-icon inline=true>edit</mat-icon>
                 </button>
 
@@ -47,8 +47,7 @@
                 <button mat-button *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!element.isAssignable()">
                     <mat-icon>assignment</mat-icon>
                 </button>
-            </tfoot>
-            </table>
+            </div>
         </div>
     </ng-template>
 </div>

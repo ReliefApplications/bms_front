@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { User } from 'src/app/model/user';
+import { User } from 'src/app/models/user';
 import { AppInjector } from '../../app-injector';
 import { Language } from '../language/language';
 import { AsyncacheService } from '../storage/asyncache.service';

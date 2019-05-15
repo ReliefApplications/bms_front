@@ -1,0 +1,81 @@
+<ng-container *ngIf="isEmpty(field); else isBoolean">
+    {{ field.nullValue | uppercaseFirst }}
+</ng-container>
+
+<ng-template #isBoolean>
+    <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isObject">
+
+    </ng-container>
+</ng-template>
+
+<ng-template #isObject>
+    <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
+        {{ field.displayTableFunction(field.value) }}
+    </ng-container>
+</ng-template>
+
+<ng-template #isMultipleObject>
+    <ng-container *ngIf="field.kindOfField === 'MultipleObject'; else isArrayField">
+        <ng-container *ngIf="!field.displayTableFunction(field.value).length; else isArrayMultipleObjects">
+            {{ field.displayTableFunction(field.value) }}
+        </ng-container>
+        <ng-template #isArrayMultipleObjects>
+                <div class="multiple-items">
+                    <span *ngFor="let value of field.displayTableFunction(field.value)">
+                            <ng-container *ngIf="field.isImageInTable; else notImage">
+                                <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
+                            </ng-container>
+                            <ng-template #notImage>
+                                {{value}}
+                            </ng-template>
+                    </span>
+                </div>
+        </ng-template>
+    </ng-container>
+</ng-template>
+
+<ng-template #isArrayField>
+    <ng-container *ngIf="field.kindOfField === 'MultipleSelect' || field.kindOfField === 'ArrayInputField'; else isSingleSelect">
+        <div class="multiple-items">
+            <span *ngFor="let value of field.value">
+                <ng-container *ngIf="field.isImageInTable; else notImage">
+                    <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
+                </ng-container>
+                <ng-template #notImage>
+                        {{value.get(field.bindField) | uppercaseFirst }}
+                </ng-template>
+            </span>
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #isSingleSelect>
+    <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isNotSelect">
+            <ng-container *ngIf="field.isImageInTable; else singleNotImage">
+                <app-icon-svg [imagePath]="field.value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
+            </ng-container>
+            <ng-template #singleNotImage>
+                <ng-container *ngIf="field.value">{{field.value.get(field.bindField) | uppercaseFirst }}</ng-container>
+            </ng-template>
+    </ng-container>
+</ng-template>
+
+<ng-template #isNotSelect>
+    <ng-container *ngIf="field.kindOfField === 'Date'; else isNotDate">
+        <ng-container *ngIf="field.value && !field.displayTime">{{ field.value | date: 'dd-MM-yyyy' }}</ng-container>
+        <ng-container *ngIf="field.value && field.displayTime">{{ field.value | date: 'dd-MM-yyyy HH:mm' }}</ng-container>
+    </ng-container>
+</ng-template>
+<ng-template #isNotDate>
+    <ng-container *ngIf="isString(field.value); else notAString">
+        <ng-container *ngIf="field.isImageInTable; else isString">
+            <app-icon-svg [imagePath]="field.value"></app-icon-svg>
+        </ng-container>
+        <ng-template #isString>
+            {{field.value | uppercaseFirst }}
+        </ng-template>
+    </ng-container>
+    <ng-template #notAString>
+        {{field.value }}
+    </ng-template>
+</ng-template>

@@ -1,0 +1,4 @@
+.text-from-multiple-select:not(:last-child):after {
+    content: ', ';
+}
+

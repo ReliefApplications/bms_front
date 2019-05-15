@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
-import { SaltInterface } from '../../model/salt';
-import { ErrorInterface, User } from '../../model/user';
+import { SaltInterface } from '../../models/salt';
+import { ErrorInterface, User } from '../../models/user';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
-import { Country } from 'src/app/model/country';
+import { Country } from 'src/app/models/country';
 import { CountriesService } from '../countries/countries.service';
 
 

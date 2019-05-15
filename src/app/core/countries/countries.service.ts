@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Country } from 'src/app/model/country';
+import { Country } from 'src/app/models/country';
 
 
 @Injectable({

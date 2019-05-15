@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { DisplayType, Mobile, Other } from 'src/constants/screen-sizes';
+import { DisplayType, Mobile, Other } from 'src/app/models/constants/screen-sizes';
 
 
 

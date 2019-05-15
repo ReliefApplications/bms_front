@@ -30,11 +30,6 @@ export class ModalAddCriteriaComponent implements OnInit {
    // Language
    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
-    private genders = [
-        new Gender('0', this.language.add_distribution_female),
-        new Gender('1', this.language.add_distribution_male)
-    ];
-
     constructor(
         private criteriaService: CriteriaService,
         public modalReference: MatDialogRef<any>,
@@ -105,7 +100,7 @@ export class ModalAddCriteriaComponent implements OnInit {
         );
         const value = this.form.controls.value.value;
         if (this.form.controls.field.value === 'gender') {
-            const genderValue = this.genders.filter((gender: Gender) => gender.get('id') === value)[0];
+            const genderValue = this.criteria.genders.filter((gender: Gender) => gender.get('id') === value)[0];
             this.criteria.set('value', new CriteriaValue(value, genderValue.get('name')));
         }
         // In case the criteria is the dateOfBirth

@@ -2,6 +2,7 @@ import { CustomModel } from './custom-models/custom-model';
 import { NumberModelField } from './custom-models/number-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
+import { Gender } from './beneficiary';
 
 export class CriteriaField extends CustomModel {
 
@@ -67,6 +68,11 @@ export class CriteriaValue extends CustomModel {
 export class Criteria extends CustomModel {
     title =  this.language.model_criteria;
     matSortActive = 'field';
+
+    public genders = [
+        new Gender('0', this.language.add_distribution_female),
+        new Gender('1', this.language.add_distribution_male)
+    ];
 
     public fields = {
         // id: new NumberModelField(
@@ -144,7 +150,17 @@ export class Criteria extends CustomModel {
             new CriteriaCondition(null, criteriaFromApi.condition_string) :
             null);
         newCriteria.set('tableString', criteriaFromApi.table_string);
-        newCriteria.set('value', criteriaFromApi.value_string);
+
+
+        const value = criteriaFromApi.value_string;
+        if (criteriaFromApi.field_string === 'gender') {
+            const genderValue = newCriteria.genders.filter((gender: Gender) => gender.get('id') === value)[0];
+            newCriteria.set('value', new CriteriaValue(value, genderValue.get('name')));
+        }
+        else {
+            newCriteria.set('value', new CriteriaValue(value, value));
+        }
+
         return newCriteria;
     }
 

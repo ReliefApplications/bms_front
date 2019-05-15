@@ -7,7 +7,8 @@ import { FormService } from 'src/app/core/utils/form.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
-import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/models/criteria';
+import { Criteria, CriteriaCondition, CriteriaField, CriteriaValue } from 'src/app/models/criteria';
+import { Gender } from 'src/app/models/beneficiary';
 
 
 @Component({
@@ -28,6 +29,11 @@ export class ModalAddCriteriaComponent implements OnInit {
 
    // Language
    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
+    private genders = [
+        new Gender('0', this.language.add_distribution_female),
+        new Gender('1', this.language.add_distribution_male)
+    ];
 
     constructor(
         private criteriaService: CriteriaService,
@@ -97,14 +103,20 @@ export class ModalAddCriteriaComponent implements OnInit {
                 return option.get('name') === this.form.controls.condition.value;
             })[0]
         );
-        this.criteria.set('value', this.form.controls.value.value);
-        this.criteria.set('weight', this.form.controls.weight.value);
-
-        // In case the criteria is the dateOfBirth
-        if (this.form.controls.value.value instanceof Date) {
-            const datePipe = new DatePipe('en-US');
-            this.criteria.set('value', datePipe.transform(this.form.controls.value.value, 'yyyy-MM-dd'));
+        const value = this.form.controls.value.value;
+        if (this.form.controls.field.value === 'gender') {
+            const genderValue = this.genders.filter((gender: Gender) => gender.get('id') === value)[0];
+            this.criteria.set('value', new CriteriaValue(value, genderValue.get('name')));
         }
+        // In case the criteria is the dateOfBirth
+        else if (value instanceof Date) {
+            const datePipe = new DatePipe('en-US');
+            const formattedValue = datePipe.transform(value, 'yyyy-MM-dd');
+            this.criteria.set('value', new CriteriaValue(formattedValue, formattedValue));
+        } else {
+            this.criteria.set('value', new CriteriaValue(value, value));
+        }
+        this.criteria.set('weight', this.form.controls.weight.value);
 
         // get the information about the field with the selected field name
         this.criteria.getOptions('field').forEach((option: CriteriaField) => {

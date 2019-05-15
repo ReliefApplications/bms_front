@@ -756,11 +756,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getCountrySpecifics() {
         return this._countrySpecificsService.get().pipe(
             map((countrySpecifics) => {
-                this.household.set('countrySpecificAnswers', countrySpecifics.map(countrySpecific => {
-                    const countrySpecificAnswer = new CountrySpecificAnswer();
-                    countrySpecificAnswer.set('countrySpecific', CountrySpecific.apiToModel(countrySpecific));
-                    return countrySpecificAnswer;
-                }));
+                if (countrySpecifics) {
+                    this.household.set('countrySpecificAnswers', countrySpecifics.map(countrySpecific => {
+                        const countrySpecificAnswer = new CountrySpecificAnswer();
+                        countrySpecificAnswer.set('countrySpecific', CountrySpecific.apiToModel(countrySpecific));
+                        return countrySpecificAnswer;
+                    }));
+                }
             })
         );
     }

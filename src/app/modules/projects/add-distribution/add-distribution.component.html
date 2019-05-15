@@ -48,8 +48,8 @@
             </mat-form-field>
             <label>{{objectInstance.fields.type.title}}</label>
             <mat-radio-group formControlName="type" class="type-distribution" (change)="updateNbBeneficiary()">
-              <mat-radio-button color="warn" [value]="objectInstance.getOptions('type')[0].get('name')">{{objectInstance.getOptions('type')[0].get('name')}}</mat-radio-button>
-              <mat-radio-button color="warn" [value]="objectInstance.getOptions('type')[1].get('name')">{{objectInstance.getOptions('type')[1].get('name')}}</mat-radio-button>
+              <mat-radio-button color="warn" [value]="objectInstance.getOptions('type')[0].get('id')">{{objectInstance.getOptions('type')[0].get('name')}}</mat-radio-button>
+              <mat-radio-button color="warn" [value]="objectInstance.getOptions('type')[1].get('id')">{{objectInstance.getOptions('type')[1].get('name')}}</mat-radio-button>
             </mat-radio-group>
           </form>
         </mat-card>
@@ -78,14 +78,14 @@
               <input class="field-input" matInput type="number" formControlName="threshold" (change)="updateNbBeneficiary()">
             </mat-form-field>
 
-            <h3 class="summary-text" *ngIf="criteriaData.data.length != 0 && form.controls.type.value === 'Individual'">
+            <h3 class="summary-text" *ngIf="criteriaData.data.length != 0 && form.controls.type.value === '1'">
               <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span>
               <span *ngIf="load">
                 <mat-spinner [diameter]="25"></mat-spinner>
               </span>
               {{language.add_distribution_beneficiaries_reached | titlecase}}
             </h3>
-            <h3 class="summary-text" *ngIf="criteriaData.data.length != 0 && form.controls.type.value === 'Household'">
+            <h3 class="summary-text" *ngIf="criteriaData.data.length != 0 && form.controls.type.value === '0'">
               <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span>
               <span *ngIf="load">
                 <mat-spinner [diameter]="25"></mat-spinner>

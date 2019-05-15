@@ -169,6 +169,7 @@ export class Vendor extends CustomModel {
         newVendor.set('addressPostcode', vendorFromApi.address_postcode);
         newVendor.set('location', vendorFromApi.location ? Location.apiToModel(vendorFromApi.location) : null);
         newVendor.fields.location.displayTableFunction = (value: Location) => value ? value.getLocationName() : null;
+        newVendor.fields.password.isRequired = false; // No need to enter the password on update
 
         return newVendor;
     }

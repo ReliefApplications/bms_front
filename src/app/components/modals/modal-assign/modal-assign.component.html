@@ -71,12 +71,12 @@
 
   <div *ngIf="step === 4">
     <span>{{ language.voucher_define_password}} {{ bookletQRCode }} ?</span>
-    <mat-checkbox color="primary" [(ngModel)]="displayPassword" class="margin-left"></mat-checkbox>
-    <div [hidden]="!displayPassword">
+    <mat-checkbox color="primary" [formControl]="displayPasswordControl" class="margin-left"></mat-checkbox>
+    <div [hidden]="!displayPasswordControl.value">
       <p>{{ language.voucher_ask_code }}</p>
       <div class="dialog-template">
         <mat-form-field class="full-width">
-          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" placeholder={{language.model_password | titlecase}} />
+          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" [placeholder]= "language.model_password | titlecase" />
           <mat-error *ngIf=""></mat-error>
         </mat-form-field>
       </div>

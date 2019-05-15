@@ -6,14 +6,6 @@
     }
 }
 
-@media only screen and (min-width: 750px) {
-
-  mat-dialog-content {
-    width: 60vw !important;
-  }
-}
-
-
 /deep/ .date .mat-form-field-flex div.mat-form-field-infix  {
   display: flex;
   padding: 0;

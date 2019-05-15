@@ -11,10 +11,10 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Booklet } from 'src/app/model/booklet';
-import { Project } from 'src/app/model/project';
-import { Voucher } from 'src/app/model/voucher';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { Booklet } from 'src/app/models/booklet';
+import { Project } from 'src/app/models/project';
+import { Voucher } from 'src/app/models/voucher';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { ExportService } from '../../core/api/export.service';
 @Component({
     selector: 'app-vouchers',
@@ -29,7 +29,6 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public loadingBooklet = true;
     public loadingExport = false;
     public loadingExportCodes = false;
-    public load = false;
 
     public bookletClass = Booklet;
     public booklets: Booklet[];
@@ -60,7 +59,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
         public _exportService: ExportService,
         public snackbar: SnackbarService,
         private modalService: ModalService,
-        protected languageService: LanguageService,
+        public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
     ) { }
 
@@ -76,7 +75,9 @@ export class VouchersComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.screenSizeSubscription.unsubscribe();
+        if (this.screenSizeSubscription) {
+            this.screenSizeSubscription.unsubscribe();
+        }
     }
 
     setType(choice: string) {
@@ -111,6 +112,9 @@ export class VouchersComponent implements OnInit, OnDestroy {
 	*/
     openDialog(dialogDetails: any): void {
         this.modalService.openDialog(this.bookletClass, this.bookletService, dialogDetails);
+        this.modalService.isLoading.subscribe(() => {
+            this.loadingBooklet = true;
+        });
         this.modalService.isCompleted.subscribe(() => {
             this.getBooklets();
         });

@@ -3,9 +3,9 @@ import { Injectable, OnInit } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, concat, map, switchMap, tap } from 'rxjs/operators';
-import { Country } from 'src/app/model/country';
-import { FailedRequestInterface, StoredRequestInterface } from 'src/app/model/stored-request';
-import { User } from 'src/app/model/user';
+import { Country } from 'src/app/models/country';
+import { FailedRequestInterface, StoredRequestInterface } from 'src/app/models/stored-request';
+import { User } from 'src/app/models/user';
 import { CountriesService } from '../countries/countries.service';
 import { Language } from '../language/language';
 import { LanguageService } from '../language/language.service';
@@ -200,14 +200,14 @@ export class AsyncacheService implements OnInit {
     /**
      * Waits for asynchronous user value to return it synchronously.
     */
-    getUser(): Observable<User> {
+    getUser(): Observable<any> {
         return this.get(AsyncacheService.USER).pipe(
             map((cachedUser: object) => {
                     if (!cachedUser) {
                         // TODO: remove this case
                         return undefined;
                     } else {
-                        return User.apiToModel(cachedUser);
+                        return cachedUser;
                     }
                 }
             )

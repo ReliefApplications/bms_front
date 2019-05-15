@@ -1,4 +1,4 @@
-<div class="container-table" *ngIf="transactionData">
+<div class="container-table">
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
             <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="content-button">
+        <div class="content-button" *ngIf="transactionData">
             <div class="action-buttons">
                 <button mat-raised-button class="button-background-primary" [matMenuTriggerFor]="menu">
                     <mat-icon>more_vert</mat-icon>
@@ -36,7 +36,7 @@
                             <mat-icon>refresh</mat-icon>
                             <span class="text-button">{{language.transaction_refresh}}</span>
                         </button>
-                        <button class="log-button" [disabled]="getAmountSent(commodity) === 0" mat-menu-item *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="requestLogs()">
+                        <button class="log-button" [disabled]="noHistory()" mat-menu-item *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="requestLogs()">
                             <mat-icon>history</mat-icon>
                             <span class="text-button">{{language.distribution_request_logs}}</span>
                         </button>
@@ -65,16 +65,11 @@
             </div>
         </div>
 
-        <div class="waitingDataContainer" *ngIf="loadingTransaction">
-            <mat-spinner></mat-spinner>
-        </div>
-
-        <div class="content-table" *ngIf="!loadingTransaction">
-
+        <div class="content-table">
             <!-- Add filters and checkboxes -->
-            <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)">
+            <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)">
             </app-table>
-            <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)">
+            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)">
             </app-table-mobile>
         </div>
 
@@ -101,30 +96,41 @@
 
 <ng-template #transaction>
     <mat-dialog-content class="modal-container">
-        <h4 *ngIf="!correctCode" class="modal-title underline-accent stickyHeader">{{language.transaction_confirm}}</h4>
-        <h4 *ngIf="correctCode" class="modal-title underline-accent stickyHeader">{{language.transaction_inProgress}}</h4>
-        <div class="dialog-template">
-            <div class="modal-body" *ngIf="!correctCode">
-                <p> {{language.transaction_email_code}} <br /> {{actualUser.get('email') | titlecase}}. </p>
-                <p> {{language.transaction_paste_code}}</p>
-                <br />
-                <div class="lign-container">
-                    <mat-form-field>
-                        <!-- TODO: Translate -->
-                        <input matInput placeholder="Code" [(ngModel)]="enteredCode">
-                    </mat-form-field>
-                    <button mat-stroked-button class='button-text-primary sendCode-button' (click)='codeVerif()'>{{language.transaction_again}}</button>
+
+        <ng-container *ngIf="!codeSent; else codeIsCorrect">
+            <h4 *ngIf="!codeSent" class="modal-title underline-accent stickyHeader">{{language.transaction_confirm}}</h4>
+            <div class="dialog-template">
+                <div class="modal-body" *ngIf="!codeSent">
+                    <p> {{language.transaction_email_code}} <br /> {{actualUser.get('email') | titlecase}}. </p>
+                    <p> {{language.transaction_paste_code}}</p>
+                    <br />
+                    <div class="lign-container">
+                        <mat-form-field>
+                            <!-- TODO: Translate -->
+                            <input matInput [formControl]="enteredCodeControl" placeholder="Code">
+                        </mat-form-field>
+                        <button mat-stroked-button class='button-text-primary sendCode-button' (click)='codeVerif()'>{{language.transaction_again}}</button>
+                    </div>
+                    <br />
                 </div>
-                <br />
+                <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                    <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')">{{language.cancel}}</button>
+                    <button mat-raised-button class="button-background-accent confirm" [disabled]="!enteredCodeControl.valid" (click)="confirmTransaction()">{{language.transaction_confirm_button}}</button>
+                </div>
             </div>
-            <div class="modal-body progression-bar" *ngIf="correctCode">
-                <h4>{{ progression }} %</h4>
-                <mat-progress-bar mode="determinate" [value]="progression"></mat-progress-bar>
-            </div>
-            <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')" *ngIf="!correctCode">{{language.cancel}}</button>
-                <button mat-raised-button class="button-background-accent confirm" [ngClass]="{'disabled': enteredCode.length<6}" (click)="confirmTransaction()" *ngIf="!correctCode">{{language.transaction_confirm_button}}</button>
-            </div>
-        </div>
+
+        </ng-container>
+
+            <ng-template #codeIsCorrect>
+                <h4 *ngIf="codeSent" class="modal-title underline-accent stickyHeader">{{language.transaction_inProgress}}</h4>
+                <div class="dialog-template">
+
+                    <div class="modal-body progression-bar">
+                        <h4>{{ progression }} %</h4>
+                        <mat-progress-bar mode="determinate" [value]="progression"></mat-progress-bar>
+                    </div>
+                </div>
+            </ng-template>
+
     </mat-dialog-content>
 </ng-template>

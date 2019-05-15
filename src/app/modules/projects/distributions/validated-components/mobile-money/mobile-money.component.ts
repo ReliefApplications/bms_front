@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
-import { Commodity } from 'src/app/model/commodity';
-import { State, TransactionMobileMoney } from 'src/app/model/transaction-mobile-money';
+import { Commodity } from 'src/app/models/commodity';
+import { State, TransactionMobileMoney } from 'src/app/models/transaction-mobile-money';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
+import { User } from 'src/app/models/user';
 
 @Component({
     selector: 'app-mobile-money',
@@ -15,7 +17,14 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
     // sentStates = [State.Sent, State.AlreadySent, State.PickedUp];
     // receivedStates = [State.PickedUp];
 
-    transactionData: MatTableDataSource<TransactionMobileMoney>;
+    public transactionData: MatTableDataSource<TransactionMobileMoney>;
+
+    public enteredCodeControl = new FormControl('', [
+        Validators.minLength(6),
+        Validators.maxLength(6),
+        Validators.required,
+    ]);
+    public codeSent = false;
 
 
     ngOnInit() {
@@ -109,7 +118,9 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      */
     openDialog(template: any) {
         this.cacheService.getUser().subscribe(result => {
-            this.actualUser = result;
+            if (result) {
+                this.actualUser = User.apiToModel(result);
+            }
             if (!this.actualUser.get('email') && this.actualUser.get('username')) {
                 this.actualUser.set('email', this.actualUser.get('username'));
             }
@@ -129,6 +140,17 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 
     getCommodityReceivedAmountFromBeneficiary(commodity: Commodity, beneficiary: any): number {
         return (parseInt(beneficiary.get('state').get('id'), 10) > 2 ? commodity.get('value') : 0);
+    }
+
+
+    noHistory() {
+        let noHistory = true;
+        this.actualDistribution.get<Commodity[]>('commodities').forEach((commodity) => {
+            if (this.getAmountSent(commodity) !== 0) {
+                noHistory = false;
+            }
+        });
+        return noHistory;
     }
 
     getPeopleCount(): number {
@@ -188,22 +210,21 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         if (this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')) {
             this.progression = 0;
             this.transacting = true;
-            this.correctCode = true;
-            this.distributionService.transaction(this.actualDistribution.get('id'), this.enteredCode)
+            this.distributionService.transaction(this.actualDistribution.get('id'), this.enteredCodeControl.value)
                 .pipe(
                     finalize(
                         () => {
                             this.transacting = false;
-                            this.correctCode = false;
-                            this.enteredCode = '';
-                            this.dialog.closeAll();
+                            this.codeSent = false;
                             clearInterval(this.interval);
                             this.refreshStatuses();
                         }
                     )
                 ).subscribe(
                     (success: any) => {
-                        if (this.transactionData) {
+                        this.codeSent = true;
+
+                        if (success && this.transactionData) {
                             this.transactionData.data.forEach((actualDistributionBeneficiary: TransactionMobileMoney) => {
                                     const actualBeneficiaryId = actualDistributionBeneficiary.get('beneficiary').get('id');
 
@@ -247,6 +268,8 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                             );
                         }
                         this.verifiyIsFinished();
+                        this.dialog.closeAll();
+
                     }
                 );
 

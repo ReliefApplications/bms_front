@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/model/criteria';
-import { CustomModelService } from './custom-model.service';
-import { HttpService } from './http.service';
+import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/models/criteria';
+import { CustomModelService } from '../utils/custom-model.service';
+import { HttpService } from '../network/http.service';
 
 @Injectable({
     providedIn: 'root'
@@ -37,11 +37,13 @@ export class CriteriaService extends CustomModelService {
 
     fillFieldOptions(criteria: Criteria) {
         this.get()
-            .subscribe((options) => {
-                const fields = options.map(criterion => {
-                    return CriteriaField.apiToModel(criterion);
-                });
-                criteria.setOptions('field', fields);
+            .subscribe((options: any) => {
+                if (options) {
+                    const fields = options.map(criterion => {
+                        return CriteriaField.apiToModel(criterion);
+                    });
+                    criteria.setOptions('field', fields);
+                }
                 return;
             });
     }

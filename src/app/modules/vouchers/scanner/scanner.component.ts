@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 import { VouchersComponent } from '../vouchers.component';
 
@@ -18,6 +19,7 @@ export class ScannerComponent extends VouchersComponent implements OnInit {
 
     public availableDevices: MediaDeviceInfo[] = [];
     public currentDevice: MediaDeviceInfo;
+    public selectedDeviceControl = new FormControl();
     public selected = 'default';
 
     // Language
@@ -28,9 +30,13 @@ export class ScannerComponent extends VouchersComponent implements OnInit {
             this.hasDevices = true;
             this.availableDevices = devices;
 
-            if (devices.length === 1) {
-                this.onDeviceSelectChange(devices[0].deviceId);
+            if (this.availableDevices.length >= 1) {
+                this.selectedDeviceControl.setValue(this.availableDevices[0].deviceId);
             }
+        });
+
+        this.selectedDeviceControl.valueChanges.subscribe((deviceId: string) => {
+            this.currentDevice = this.scanner.getDeviceById(deviceId);
         });
 
         this.scanner.camerasNotFound.subscribe(() => (this.hasDevices = false));
@@ -40,10 +46,6 @@ export class ScannerComponent extends VouchersComponent implements OnInit {
     handleQrCodeResult(resultString: string) {
         this.scanner.scannerEnabled = false;
         this.result.emit(resultString);
-    }
-
-    onDeviceSelectChange(selectedValue: string) {
-        this.currentDevice = this.scanner.getDeviceById(selectedValue);
     }
 
     /**

@@ -115,6 +115,7 @@ export interface Language {
     add_distribution_missing_selection_criteria: string
     add_distribution_missing_threshold: string
     add_distribution_multiple_modalities: string
+    add_distribution_no_beneficiaries: string
     add_distribution_selection_criteria: string
     add_distribution_text_explanation: string
     add_distribution_threshold: string
@@ -154,9 +155,11 @@ export interface Language {
     beneficiaries_import_addModal: string
     beneficiaries_import_api: string
     beneficiaries_import_beneficiaries_imported: string
+    beneficiaries_import_canceled: string
     beneficiaries_import_check_fields: string
     beneficiaries_import_csv: string
     beneficiaries_import_convert: string
+    beneficiaries_import_error_file: string
     beneficiaries_import_error_importing: string
     beneficiaries_import_error_selection: string
     beneficiaries_import_file: string

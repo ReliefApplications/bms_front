@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { CommodityService } from 'src/app/core/api/commodity.service';
-import { FieldService } from 'src/app/core/api/field.service';
+import { FieldService } from 'src/app/core/utils/field.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Commodity } from 'src/app/model/commodity';
-import { CURRENCIES } from 'src/app/model/currencies';
+import { CURRENCIES } from 'src/app/models/constants/currencies';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { Commodity } from 'src/app/models/commodity';
+
 
 @Component({
     selector: 'app-modal-add-commodity',

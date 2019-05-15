@@ -80,7 +80,7 @@
                     </ng-select>
 
                     <ng-select class="multiple-select" *ngIf="type == 'Distribution'" bindLabel="name" [items]="distributionList"
-                        [multiple]="true" placeholder="{{language.distributions} | titlecase}" [closeOnSelect]="false"
+                        [multiple]="true" placeholder="{{language.distributions | titlecase}}" [closeOnSelect]="false"
                         [searchable]="true" (change)="getDistributionSelected($event)" #selectorDistribution
                         required>
                     </ng-select>

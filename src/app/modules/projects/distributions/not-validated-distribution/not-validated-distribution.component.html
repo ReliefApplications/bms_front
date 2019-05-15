@@ -35,13 +35,10 @@
                     </button>
                 </div>
                 <div class="content-table">
-                    <div class="waitingDataContainer" *ngIf="loadingFirstStep">
-                        <mat-spinner></mat-spinner>
-                    </div>
-                    <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile' && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                    <app-table [isLoading]="loadingFirstStep" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                        (openModal)="openModal($event)">
                     </app-table>
-                    <app-table-mobile *ngIf="currentDisplayType.type === 'mobile' && !loadingFirstStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                    <app-table-mobile [isLoading]="loadingFirstStep" *ngIf="currentDisplayType.type === 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                        (openModal)="openModal($event)">
                     </app-table-mobile>
                 </div>
@@ -102,12 +99,12 @@
                         </div>
                     </div>
                     <div class="sample-size-input">
-                        <button mat-fab class="button-background-accent" (click)="generateRandom()">
+                        <button [disabled]="!sampleSizeControl.valid" mat-fab class="button-background-accent" (click)="generateRandom()">
                             <mat-icon>shuffle</mat-icon>
                         </button>
                         <mat-form-field>
                             {{language.distribution_details_sample_size | titlecase}} :
-                            <input matInput [(ngModel)]="this.sampleSize" [ngModelOptions]="{standalone: true}" min="0" max="100" type="number">
+                            <input matInput [formControl]="sampleSizeControl" min="0" max="100" type="number">
                             %
                         </mat-form-field>
                     </div>
@@ -118,13 +115,10 @@
                         {{language.distribution_no_random_sample}}
                     </p>
                 </div>
-                <div class="waitingDataContainer" *ngIf="loadingThirdStep">
-                    <mat-spinner></mat-spinner>
-                </div>
                 <div class="content-table" *ngIf="randomSampleData">
-                    <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile' && !loadingThirdStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
+                    <app-table [isLoading]="loadingThirdStep" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
                     </app-table>
-                    <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
+                    <app-table-mobile [isLoading]="loadingThirdStep" *ngIf="currentDisplayType.type === 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
                     </app-table-mobile>
                 </div>
                 <div class="content-button content-button-footer">
@@ -147,13 +141,10 @@
                         <button mat-raised-button class="button-background-primary" (click)="getDistributionBeneficiaries('final')">
                             {{language.distribution_show_data}} </button>
                     </div>
-                    <div class="waitingDataContainer" *ngIf="loadingFinalStep">
-                        <mat-spinner></mat-spinner>
-                    </div>
                     <div class="content-table" *ngIf="finalBeneficiaryData">
-                        <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile' && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
+                        <app-table [isLoading]="loadingFinalStep" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
                         </app-table>
-                        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile' && !loadingFinalStep" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
+                        <app-table-mobile [isLoading]="loadingFinalStep" *ngIf="currentDisplayType.type === 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
                         </app-table-mobile>
                     </div>
                     <div class="content-button content-button-footer">
@@ -204,7 +195,7 @@
                     {{language.distribution_want_add}} <strong> {{actualDistribution.get('name')}} </strong>
                     {{language.distribution | lowercase}}.</p>
                 <div class="selectBeneficiaries">
-                    <ng-select class="multiple-select" [(ngModel)]="selectedBeneficiaries" [multiple]="true" placeholder="{{language.beneficiaries | titlecase}}" [closeOnSelect]="false" [searchable]="true" required>
+                    <ng-select class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true" placeholder="{{language.beneficiaries | titlecase}}" [closeOnSelect]="false" [searchable]="true" required>
                         <ng-option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">
                             {{beneficiary.get('fullName') | titlecase}}
                         </ng-option>
@@ -213,7 +204,7 @@
             </div>
             <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <button mat-button class="button-text-accent" (click)="exit('Adding canceled')">{{language.cancel}}</button>
-                <button mat-button class="button-backgroun-accent" (click)="confirmAdding()">{{language.transaction_confirm_button}}</button>
+                <button mat-raised-button [disabled]="!selectedBeneficiariesControl.valid" class="button-background-accent" (click)="confirmAdding()">{{language.transaction_confirm_button}}</button>
             </div>
         </div>
     </mat-dialog-content>

@@ -12,13 +12,13 @@ import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Commodity } from 'src/app/model/commodity';
-import { Criteria } from 'src/app/model/criteria';
-import { Distribution } from 'src/app/model/distribution';
-import { Location } from 'src/app/model/location';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { Commodity } from 'src/app/models/commodity';
+import { Criteria } from 'src/app/models/criteria';
+import { Distribution } from 'src/app/models/distribution';
+import { Location } from 'src/app/models/location';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
@@ -99,7 +99,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         this.objectFields.forEach((fieldName: string) => {
             if (fieldName === 'type') {
                 formControls[fieldName] = new FormControl(
-                    this.objectInstance.get('type') ? this.objectInstance.get('type').get('name') : null
+                    this.objectInstance.get('type') ? this.objectInstance.get('type').get('id') : null
                 );
             } else {
                 formControls[fieldName] = new FormControl(
@@ -137,13 +137,15 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     getProjectDates() {
         this._projectService.get().subscribe(
             (projects) => {
-                projects.forEach((project: any) => {
-                    if (project.id === this.queryParams.project) {
-                        this.projectInfo.startDate = project.start_date;
-                        this.projectInfo.endDate = project.end_date;
-                        return;
-                    }
-                });
+                if (projects) {
+                    projects.forEach((project: any) => {
+                        if (project.id === this.queryParams.project) {
+                            this.projectInfo.startDate = project.start_date;
+                            this.projectInfo.endDate = project.end_date;
+                            return;
+                        }
+                    });
+                }
             }
         );
     }
@@ -306,7 +308,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     add() {
         if (this.form.controls.type.value && this.criteriaData.data && this.criteriaData.data.length !== 0 &&
           this.commodityData.data && this.commodityData.data.length !== 0 && this.form.controls.date.value &&
-          this.form.controls.threshold.value > 0 && this.form.controls.adm1) {
+          this.form.controls.threshold.value > 0 && this.form.controls.adm1.value && this.criteriaNbBeneficiaries > 0) {
 
             if (new Date(this.form.controls.date.value) < new Date(this.projectInfo.startDate) ||
             new Date(this.form.controls.date.value) > new Date(this.projectInfo.endDate)) {
@@ -355,7 +357,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 newDistribution.set('name', admName + '-' + datePipe.transform(this.form.controls.date.value, 'dd-MM-yyyy'));
 
                 newDistribution.set('type', this.objectInstance.getOptions('type').filter(option => {
-                    return option.get('name') === this.form.controls.type.value;
+                    return option.get('id') === this.form.controls.type.value;
                 })[0]);
                 newDistribution.set('threshold', this.form.controls.threshold.value);
                 newDistribution.set('projectId', this.queryParams.project);
@@ -364,9 +366,11 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 newDistribution.set('date', this.form.controls.date.value);
 
                 this._distributionService.create(newDistribution.modelToApi()).subscribe((response) => {
-                    this.snackbar.success(
-                        this.language.distribution + ' : ' + response.distribution.name + this.language.add_distribution_created);
-                    this.router.navigate(['projects/distributions/' + response.distribution.id]);
+                    if (response) {
+                        this.snackbar.success(
+                            this.language.distribution + ' : ' + response.distribution.name + this.language.add_distribution_created);
+                        this.router.navigate(['projects/distributions/' + response.distribution.id]);
+                    }
 
                 }, err => {
                     this.snackbar.error(this.language.add_distribution_error_creating);
@@ -382,8 +386,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
             this.snackbar.error(this.language.add_distribution_missing_date);
         } else if (this.form.controls.threshold.value <= 0) {
             this.snackbar.error(this.language.add_distribution_missing_threshold);
-        } else if (!this.form.controls.adm1) {
+        } else if (!this.form.controls.adm1.value) {
             this.snackbar.error(this.language.add_distribution_missing_location);
+        } else if (this.criteriaNbBeneficiaries <= 0) {
+            this.snackbar.error(this.language.add_distribution_no_beneficiaries);
         } else {
             this.snackbar.error(this.language.add_distribution_check_fields);
         }
@@ -406,7 +412,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 this.form.controls.threshold.value,
                 this.queryParams.project
             ).subscribe(response => {
-                this.criteriaNbBeneficiaries = response.number;
+                if (response) {
+                    this.criteriaNbBeneficiaries = response.number;
+                }
                 if (this.commodityData.data.length > 0) {
                     this.commodityNb = [];
                     this.commodityData.data.forEach(commodity => {

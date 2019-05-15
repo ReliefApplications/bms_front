@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractFilter, FilterInterface } from '../../../../model/filter';
+import { AbstractFilter, FilterInterface } from '../../../../models/filter';
 import { FilterService } from '../../services/filter.service';
 import { SelectionModel } from '@angular/cdk/collections';
 

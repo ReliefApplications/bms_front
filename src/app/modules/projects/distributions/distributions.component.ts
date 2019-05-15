@@ -6,7 +6,7 @@ import { DistributionService } from 'src/app/core/api/distribution.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Distribution } from 'src/app/model/distribution';
+import { Distribution } from 'src/app/models/distribution';
 
 
 @Component({

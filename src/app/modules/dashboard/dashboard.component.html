@@ -27,9 +27,9 @@
         <h1 class="dashboard-title">{{language.dashboard_recent_distributions | titlecase}}</h1>
         <app-placeholder-panel *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-panel>
         <div class="distribution-content" *ngIf='!loadingTable'>
-        <app-table *ngIf="currentDisplayType.type !== 'mobile'" [deletable]="deletable" [editable]="editable"
+        <app-table *ngIf="currentDisplayType.type !== 'mobile'" [deletable]="false" [editable]="false"
             [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
-        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [deletable]="deletable" [editable]="editable"
+        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [deletable]="false" [editable]="false"
             [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
         </div>
     </div>

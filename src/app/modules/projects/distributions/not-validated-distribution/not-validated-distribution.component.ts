@@ -1,19 +1,20 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatStepper, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { DistributionService } from 'src/app/core/api/distribution.service';
-import { NetworkService } from 'src/app/core/api/network.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Beneficiary } from 'src/app/model/beneficiary';
-import { Distribution } from 'src/app/model/distribution';
-import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
-import { User } from 'src/app/model/user';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { Beneficiary } from 'src/app/models/beneficiary';
+import { Distribution } from 'src/app/models/distribution';
+import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
+import { User } from 'src/app/models/user';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { BeneficiariesService } from './../../../../core/api/beneficiaries.service';
 
 @Component({
@@ -38,9 +39,14 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
   loadingFirstStep = false;
   loadingThirdStep = false;
   loadingFinalStep = false;
-  sampleSize = 10;
   extensionTypeStep1 = 'xls';
   extensionTypeStep3 = 'xls';
+
+    public sampleSizeControl = new FormControl(10, [
+        Validators.max(100),
+        Validators.min(0),
+        Validators.required,
+    ]);
 
   loadingAdd: boolean;
 
@@ -59,7 +65,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
   // AddBeneficiary Dialog variables.
   beneficiaryList = new Array<Beneficiary>();
-  selectedBeneficiaries = new Array<Beneficiary>();
+  selectedBeneficiariesControl = new FormControl([], [Validators.minLength(1)]);
   selected = false;
 
   actualUser = new User();
@@ -122,17 +128,16 @@ getDistributionBeneficiaries(type: string) {
             if (type === 'initial') {
                 // Step 1 table
                 this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
-                this.loadingFirstStep = false;
             } else if (type === 'final') {
                 // Step 4 table
                 this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
-                this.loadingFinalStep = false;
             } else if (type === 'both') {
                 this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
                 this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
-                this.loadingFirstStep = false;
-                this.loadingFinalStep = false;
             }
+
+            this.loadingFirstStep = false;
+            this.loadingFinalStep = false;
             this.generateRandom();
 
             if (this.loadingDatas === true) {
@@ -146,11 +151,13 @@ getDistributionBeneficiaries(type: string) {
 }
 
 setDistributionBenefAndGetBenef(distributionBeneficiaries: any): Beneficiary[] {
-    this.actualDistribution.set(
-        'distributionBeneficiaries',
-        distributionBeneficiaries
-            .map((distributionBeneficiariy: any) =>
-                DistributionBeneficiary.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
+    if (distributionBeneficiaries) {
+        this.actualDistribution.set(
+            'distributionBeneficiaries',
+            distributionBeneficiaries
+                .map((distributionBeneficiariy: any) =>
+                    DistributionBeneficiary.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
+    }
     return this.actualDistribution.get<DistributionBeneficiary[]>('distributionBeneficiaries').map(
         (distributionBeneficiariy: any) => distributionBeneficiariy.get('beneficiary')
     );
@@ -229,7 +236,7 @@ exit(message: string) {
  */
 confirmAdding() {
     this.dialog.closeAll();
-    const beneficiariesArray = this.selectedBeneficiaries.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
+    const beneficiariesArray = this.selectedBeneficiariesControl.value.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
     this.beneficiariesService.add(this.actualDistribution.get('id'), beneficiariesArray)
         .subscribe(
             success => {
@@ -312,12 +319,14 @@ generateRandom() {
         this.beneficiariesService.getRandom(this.actualDistribution.get('id'), sampleLength)
             .subscribe(
                 response => {
-                    const data = response.map((beneficiary: any) => {
-                        const newBeneficiary = Beneficiary.apiToModel(beneficiary);
-                        newBeneficiary.set('distributionId', this.actualDistribution.get('id'));
-                        return newBeneficiary;
-                    });
-                    this.randomSampleData = new MatTableDataSource(data);
+                    if (response) {
+                        const data = response.map((beneficiary: any) => {
+                            const newBeneficiary = Beneficiary.apiToModel(beneficiary);
+                            newBeneficiary.set('distributionId', this.actualDistribution.get('id'));
+                            return newBeneficiary;
+                        });
+                        this.randomSampleData = new MatTableDataSource(data);
+                    }
                     this.loadingThirdStep = false;
                 }, error => {
                     this.loadingThirdStep = false;
@@ -332,17 +341,12 @@ generateRandom() {
  * Defines the number of beneficiaries corresponding of the sampleSize percentage
  */
 defineSampleSize(): number {
-    if (this.sampleSize <= 0) {
-        this.sampleSize = 0;
-    } else if (this.sampleSize >= 100) {
-        this.sampleSize = 100;
-    }
 
     if (this.finalBeneficiaryData) {
-        return Math.ceil((this.sampleSize / 100) * this.finalBeneficiaryData.data.length);
+        return Math.ceil((this.sampleSizeControl.value / 100) * this.finalBeneficiaryData.data.length);
     } else {
         if (this.initialBeneficiaryData) {
-            return Math.ceil((this.sampleSize / 100) * this.initialBeneficiaryData.data.length);
+            return Math.ceil((this.sampleSizeControl.value / 100) * this.initialBeneficiaryData.data.length);
         } else {
             return (1);
         }
@@ -396,6 +400,10 @@ setType(step, choice) {
     openModal(dialogDetails: any): void {
         // Can only be a modalDetails
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+        this.modalService.isLoading.subscribe(() => {
+            this.loadingFirstStep = true;
+            this.loadingFinalStep = true;
+        });
         this.modalService.isCompleted.subscribe(() => {
             this.getDistributionBeneficiaries('both');
         });

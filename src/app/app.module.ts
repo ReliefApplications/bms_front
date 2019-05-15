@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { LivechatWidgetModule } from '@livechat/angular-widget';
 import { environment } from '../environments/environment';
 import { setAppInjector } from './app-injector';
 import { AppComponent } from './app.component';
@@ -16,7 +17,7 @@ import { RequestDisplayComponent } from './components/headers/request-display/re
 import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 import { ModalComponent } from './components/modals/modal.component';
-import { UpdateService } from './core/api/update.service';
+import { UpdateService } from './core/service-worker/update.service';
 import { httpInterceptorProviders } from './core/interceptors/index-interceptors';
 import { ProfileComponent } from './modules/profile/profile.component';
 import { ReportsModule } from './modules/reports/reports.module';
@@ -42,6 +43,7 @@ import { SharedModule } from './shared/shared.module';
         HttpClientModule,
         SharedModule,
         HttpModule,
+        LivechatWidgetModule,
 
         // Reporting
         ReportsModule,

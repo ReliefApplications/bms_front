@@ -1,124 +1,124 @@
 @import '../../../../assets/css/variable.scss';
 
 .container-fields {
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  flex-grow: 1;
-  padding: 20px;
-
-  .field-distribution,
-  .field-forms {
-    .distribution-title {
-      height: 40px;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      font-family: $bms_font_header;
-      margin: 20px 0;
-      line-height: 25px;
-      justify-content: space-between;
-
-      button {
-          margin: 0;
-      }
-    }
-  }
-
-  .field-distribution {
     display: flex;
-    flex-grow: 1;
+    width: 100%;
     flex-direction: row;
-    flex-wrap: wrap;
-    max-width: 650px;
+    flex-grow: 1;
+    padding: 20px;
 
-    .distribution-accordion {
-      display: flex;
-      padding-right: 20px;
-      width: 100%;
-      min-height: 400px;
+    .field-distribution,
+    .field-forms {
+        .distribution-title {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            font-family: $bms_font_header;
+            margin: 20px 0;
+            line-height: 25px;
+            justify-content: space-between;
 
+            button {
+                margin: 0;
+            }
+        }
     }
 
-    .accordion-card {
-      width: 100%;
-
-      .accordion-field {
-        width: 100%;
-      }
-
-      .type-distribution {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-      }
-    }
-
-    .distribution-accordion-ar {
-      display: flex;
-      padding-left: 20px;
-      width: 100%;
-      min-height: 400px;
-    }
-  }
-
-  .field-forms {
-    display: flex;
-    flex-grow: 2;
-    flex-direction: column;
-
-    .forms-commodity,
-    .forms-criteria {
-      display: flex;
-      flex-direction: column;
-
-      .form {
+    .field-distribution {
         display: flex;
         flex-grow: 1;
+        flex-direction: row;
+        flex-wrap: wrap;
+        max-width: 650px;
 
-        app-table {
-          width: 100%;
-          height: 100%;
+        .distribution-accordion {
+            display: flex;
+            padding-right: 20px;
+            width: 100%;
+            min-height: 400px;
+
         }
 
-        app-table-small {
-          width: 100%;
-          height: 100%;
+        .accordion-card {
+            width: 100%;
+
+            .accordion-field {
+                width: 100%;
+            }
+
+            .type-distribution {
+                display: flex;
+                justify-content: space-around;
+                width: 100%;
+            }
         }
-      }
 
-      .summary-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 10px;
-
-        #threshold {
-          max-width: 30%;
+        .distribution-accordion-ar {
+            display: flex;
+            padding-left: 20px;
+            width: 100%;
+            min-height: 400px;
         }
-
-        .summary-text {
-          flex-grow: 1;
-          display: flex;
-          text-align: flex-end;
-          align-items: center;
-          justify-content: flex-end;
-          font-family: $bms_font_header;
-          margin: 0;
-          font-size: 15px;
-
-          span {
-            font-size: 20px;
-            color: $bms_red;
-            padding: 0 10px;
-          }
-        }
-      }
-
-      #text-explanation {
-        margin-bottom: 20px;
-      }
     }
-  }
+
+    .field-forms {
+        display: flex;
+        flex-grow: 2;
+        flex-direction: column;
+
+        .forms-commodity,
+        .forms-criteria {
+            display: flex;
+            flex-direction: column;
+
+            .form {
+                display: flex;
+                flex-grow: 1;
+
+                app-table {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                app-table-small {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .summary-container {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 10px;
+
+                #threshold {
+                    max-width: 30%;
+                }
+
+                .summary-text {
+                    flex-grow: 1;
+                    display: flex;
+                    text-align: flex-end;
+                    align-items: center;
+                    justify-content: flex-end;
+                    font-family: $bms_font_header;
+                    margin: 0;
+                    font-size: 15px;
+
+                    span {
+                        font-size: 20px;
+                        color: $bms_red;
+                        padding: 0 10px;
+                    }
+                }
+            }
+
+            #text-explanation {
+                margin-bottom: 20px;
+            }
+        }
+    }
 }
 
 .ng-select-focused ::ng-deep {
@@ -140,14 +140,15 @@
     color: #424242 !important;
 }
 
-@media only screen and (max-width: 750px),(max-height: 700px){
-    .container-fields{
+@media only screen and (max-width: 750px),
+(max-height: 700px) {
+    .container-fields {
         flex-direction: column !important;
         overflow-x: hidden;
 
-    .distribution-accordion {
-      min-height: 200px !important;
-      padding-right: 0;
+        .distribution-accordion {
+            min-height: 200px !important;
+            padding-right: 0 !important;
+        }
     }
-  }
 }

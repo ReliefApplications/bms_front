@@ -8,11 +8,12 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Distribution } from 'src/app/model/distribution';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { Distribution } from 'src/app/models/distribution';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 import { LeafletService } from '../../core/external/leaflet.service';
+import { User } from 'src/app/models/user';
 
 @Component({
     selector: 'app-dashboard',
@@ -62,9 +63,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.currentDisplayType = displayType;
         });
         this._cacheService.getUser().subscribe(result => {
-            if (result.get('loggedIn')) {
+            if (result) {
                 this.serviceMap.createMap('map');
-
                 this.getSummary();
                 this.checkDistributions();
             }
@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.distributionData = new MatTableDataSource();
 
                     const instances = [];
-                    if (response || response === []) {
+                    if (response) {
                         for (const item of response ) {
                             instances.push(Distribution.apiToModel(item));
                         }

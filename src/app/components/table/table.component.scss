@@ -10,6 +10,31 @@
         width: 100%;
     }
 
+    .buttons-header {
+        display: flex;
+    }
+
+    .container-header {
+        width: 25%;
+        mat-icon {
+            vertical-align: middle;
+            color: rgba(0, 0, 0, 0.54);
+            margin-right: 5px;
+        }
+    }
+
+    .buttons-search-clear {
+        margin-left: 10px;
+        button {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        mat-icon.material-icons {
+            margin-left: 0;
+            padding-bottom: 2px;
+        }
+    }
+
     .filter-combo {
         width: 100%;
         display: flex;
@@ -134,9 +159,12 @@ button {
 }
 
 .noDataContainer {
-    text-align: center;
     margin: 10px auto;
     font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    color: $bms_dark_grey;
 }
 
 .waitingDataContainer {
@@ -220,4 +248,17 @@ mat-table.arabic {
     mat-cell {
         padding-right: 0;
     }
+}
+
+.spinner-container {
+    min-height: 360px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.table-placeholder {
+    height: 400px;
 }

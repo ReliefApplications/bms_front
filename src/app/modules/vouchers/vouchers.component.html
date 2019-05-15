@@ -3,8 +3,7 @@
     <h2>{{language.voucher | titlecase}}</h2>
   </div>
 
-  <app-placeholder-panel class="container-table min-height" *ngIf="loadingBooklet"></app-placeholder-panel>
-  <div class="container-table" *ngIf="!loadingBooklet">
+  <div class="container-table">
     <div class="container-content box-primary">
       <div class="content-button">
         <div class="action-buttons">
@@ -21,8 +20,8 @@
               <span>{{language.export | titlecase}}</span>
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-            <div class="extension" *ngIf="!loadingExport">
-              <button mat-raised-button class="dropdown button-background-primary" [disabled]="!bookletData" [matMenuTriggerFor]="exportType">
+            <div class="extension">
+              <button mat-raised-button class="dropdown button-background-primary" *ngIf="!loadingExport" [disabled]="!bookletData" [matMenuTriggerFor]="exportType">
                 <mat-icon>keyboard_arrow_down</mat-icon>
               </button>
               <mat-menu #exportType>
@@ -70,25 +69,12 @@
         </button>
       </div>
 
-      <div class="content-table" *ngIf="!load && bookletData">
-        <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
+      <div class="content-table">
+        <app-table [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
           [data]="bookletData" [selection]="selection" (selectChecked)="getChecked($event)" [selectable]="true"
           [editable]="true" [deletable]="true" (openModal)="openDialog($event)" [printable]="true" (printOne)="print($event)"></app-table>
-        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService"
+        <app-table-mobile [isLoading]="loadingBooklet" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService"
           [data]="bookletData" [editable]="true" [deletable]="true" (openModal)="openDialog($event)" [printable]="true" (printOne)="print($event)"></app-table-mobile>
-      </div>
-
-      <div>
-        <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-      </div>
-
-      <div class='no-data-container' *ngIf="!load && !bookletData">
-        <div class="loadingContent">
-          <h4 class="no-data">
-            <mat-icon>cloud_off</mat-icon>
-            <span> {{language.no_data}} </span>
-          </h4>
-        </div>
       </div>
     </div>
   </div>

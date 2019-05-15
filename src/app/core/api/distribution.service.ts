@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Distribution } from 'src/app/model/distribution';
+import { Distribution } from 'src/app/models/distribution';
 import { SnackbarService } from '../logging/snackbar.service';
 import { AsyncacheService } from '../storage/asyncache.service';
-import { CustomModelService } from './custom-model.service';
+import { CustomModelService } from '../utils/custom-model.service';
 import { ExportService } from './export.service';
-import { HttpService } from './http.service';
-import { NetworkService } from './network.service';
+import { HttpService } from '../network/http.service';
+import { NetworkService } from '../network/network.service';
 
 @Injectable({
     providedIn: 'root'

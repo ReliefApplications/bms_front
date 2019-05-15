@@ -1,5 +1,5 @@
 <ng-container *ngIf="isEmpty(field); else isBoolean">
-    {{ field.nullValue | titlecase }}
+    {{ field.nullValue | uppercaseFirst }}
 </ng-container>
 
 <ng-template #isBoolean>
@@ -21,7 +21,7 @@
         </ng-container>
         <ng-template #isArrayMultipleObjects>
                 <div class="multiple-items">
-                    <span *ngFor="let value of field.displayTableFunction(field.value)">
+                    <span *ngFor="let value of field.displayTableFunction(field.value)" [ngClass]="{'text-from-multiple-select': !field.isImageInTable}">
                             <ng-container *ngIf="field.isImageInTable; else notImage">
                                 <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
                             </ng-container>
@@ -37,12 +37,12 @@
 <ng-template #isArrayField>
     <ng-container *ngIf="field.kindOfField === 'MultipleSelect' || field.kindOfField === 'ArrayInputField'; else isSingleSelect">
         <div class="multiple-items">
-            <span *ngFor="let value of field.value">
+            <span *ngFor="let value of field.value" [ngClass]="{'text-from-multiple-select': !field.isImageInTable}">
                 <ng-container *ngIf="field.isImageInTable; else notImage">
                     <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
                 </ng-container>
                 <ng-template #notImage>
-                        {{value.get(field.bindField) | titlecase }}
+                    {{value.get(field.bindField) | uppercaseFirst }}
                 </ng-template>
             </span>
         </div>
@@ -55,7 +55,7 @@
                 <app-icon-svg [imagePath]="field.value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
             </ng-container>
             <ng-template #singleNotImage>
-                <ng-container *ngIf="field.value">{{field.value.get(field.bindField) | titlecase }}</ng-container>
+                <ng-container *ngIf="field.value">{{field.value.get(field.bindField) | uppercaseFirst }}</ng-container>
             </ng-template>
     </ng-container>
 </ng-template>
@@ -72,7 +72,7 @@
             <app-icon-svg [imagePath]="field.value"></app-icon-svg>
         </ng-container>
         <ng-template #isString>
-            {{field.value | titlecase }}
+            {{field.value | uppercaseFirst }}
         </ng-template>
     </ng-container>
     <ng-template #notAString>

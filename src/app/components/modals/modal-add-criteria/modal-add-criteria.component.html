@@ -32,8 +32,7 @@
         <th class="table-title">{{ criteria.fields.value.title }}</th>
         <td class="form-item">
           <ng-select *ngIf="form.controls.field.value === 'gender'" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
-            <ng-option [value]="language.add_distribution_female">{{language.add_distribution_female}}</ng-option>
-            <ng-option [value]="language.add_distribution_male">{{language.add_distribution_male}}</ng-option>
+            <ng-option *ngFor="let gender of genders" [value]="gender.get('id')">{{gender.get('name')}}</ng-option>
           </ng-select>
           <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="false"></app-hint-error>
 

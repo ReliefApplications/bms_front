@@ -7,10 +7,10 @@ import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Country } from 'src/app/model/country';
+import { Country } from 'src/app/models/country';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { ErrorInterface, User } from '../../model/user';
+import { ErrorInterface, User } from '../../models/user';
 
 
 
@@ -91,6 +91,7 @@ export class LoginComponent implements OnInit {
         ));
         subscription.subscribe(
             (user: User) => {
+            if (user) {
                 this.userService.currentUser = user;
                 if (user.get('countries') &&
                     user.get<Array<Country>>('countries').length === 0 &&
@@ -113,6 +114,7 @@ export class LoginComponent implements OnInit {
                     this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
                 } else {
                     this.languageService.selectedLanguage = this.languageService.stringToLanguage('en');
+                }
                 }
 
                 this.loader = false;

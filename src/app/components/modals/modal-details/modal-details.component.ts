@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CustomModelField } from '../../../model/CustomModel/custom-model-field';
+import { CustomModelField } from '../../../models/custom-models/custom-model-field';
 import { ModalFieldsComponent } from '../modal-fields/modal-fields.component';
 
 @Component({

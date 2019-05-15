@@ -12,14 +12,14 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Distribution } from 'src/app/model/distribution';
-import { Project } from 'src/app/model/project';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { Distribution } from 'src/app/models/distribution';
+import { Project } from 'src/app/models/project';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { UserService } from '../../../core/api/user.service';
-import { AbstractFilter, FilterEvent, FilterInterface } from '../../../model/filter';
-import { Indicator } from '../../../model/indicator';
+import { AbstractFilter, FilterEvent, FilterInterface } from '../../../models/filter';
+import { Indicator } from '../../../models/indicator';
 import { ButtonFilterDateComponent } from '../filters/button-filter/button-filter-data/button-filter-date.component';
 import { ButtonFilterData } from '../filters/button-filter/button-filter.component';
 import { ChartRegistration, RegisteredItem } from '../services/chart-registration.service';
@@ -260,11 +260,13 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck, O
     getProjects() {
         this.projectService.get().subscribe(response => {
             this.projectList = [];
-            const projectResponse = response.map((project: any) => Project.apiToModel(project));
-            projectResponse.forEach((element: Project) => {
-                const concat = element.get('id') + ' - ' + element.get('name');
-                this.projectList.push(concat);
-            });
+            if (response) {
+                const projectResponse = response.map((project: any) => Project.apiToModel(project));
+                projectResponse.forEach((element: Project) => {
+                    const concat = element.get('id') + ' - ' + element.get('name');
+                    this.projectList.push(concat);
+                });
+            }
         });
     }
 
@@ -275,11 +277,13 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck, O
         this.distributionList = [];
         this.distributionService.getByProject(this.selectedProject[0]).subscribe(response => {
             this.distributionList = [];
-            const distributionResponse = response.map((distribution: any) => Distribution.apiToModel(distribution));
-            distributionResponse.forEach((element: Distribution) => {
-                const concat = element.get('id') + ' - ' + element.get('name');
-                this.distributionList.push(concat);
-            });
+            if (response) {
+                const distributionResponse = response.map((distribution: any) => Distribution.apiToModel(distribution));
+                distributionResponse.forEach((element: Distribution) => {
+                    const concat = element.get('id') + ' - ' + element.get('name');
+                    this.distributionList.push(concat);
+                });
+            }
         });
     }
 

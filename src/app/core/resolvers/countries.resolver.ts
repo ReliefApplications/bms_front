@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Country } from 'src/app/model/country';
+import { Country } from 'src/app/models/country';
 import { AppInjector } from '../../app-injector';
 import { UserService } from '../api/user.service';
 import { CountriesService } from '../countries/countries.service';

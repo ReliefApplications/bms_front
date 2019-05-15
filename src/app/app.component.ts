@@ -2,13 +2,13 @@
 import { MatDialog } from '@angular/material';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { environment } from 'src/environments/environment';
 import { UserService } from './core/api/user.service';
 import { Language } from './core/language/language';
 import { LanguageService } from './core/language/language.service';
 import { ScreenSizeService } from './core/screen-size/screen-size.service';
-import { Country } from './model/country';
+import { Country } from './models/country';
 
 @Component({
     selector: 'app-root',

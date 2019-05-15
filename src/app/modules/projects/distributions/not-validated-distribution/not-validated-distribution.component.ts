@@ -3,18 +3,18 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatStepper, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { DistributionService } from 'src/app/core/api/distribution.service';
-import { NetworkService } from 'src/app/core/api/network.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Beneficiary } from 'src/app/model/beneficiary';
-import { Distribution } from 'src/app/model/distribution';
-import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
-import { User } from 'src/app/model/user';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { Beneficiary } from 'src/app/models/beneficiary';
+import { Distribution } from 'src/app/models/distribution';
+import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
+import { User } from 'src/app/models/user';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { BeneficiariesService } from './../../../../core/api/beneficiaries.service';
 
 @Component({
@@ -151,11 +151,13 @@ getDistributionBeneficiaries(type: string) {
 }
 
 setDistributionBenefAndGetBenef(distributionBeneficiaries: any): Beneficiary[] {
-    this.actualDistribution.set(
-        'distributionBeneficiaries',
-        distributionBeneficiaries
-            .map((distributionBeneficiariy: any) =>
-                DistributionBeneficiary.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
+    if (distributionBeneficiaries) {
+        this.actualDistribution.set(
+            'distributionBeneficiaries',
+            distributionBeneficiaries
+                .map((distributionBeneficiariy: any) =>
+                    DistributionBeneficiary.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
+    }
     return this.actualDistribution.get<DistributionBeneficiary[]>('distributionBeneficiaries').map(
         (distributionBeneficiariy: any) => distributionBeneficiariy.get('beneficiary')
     );
@@ -317,12 +319,14 @@ generateRandom() {
         this.beneficiariesService.getRandom(this.actualDistribution.get('id'), sampleLength)
             .subscribe(
                 response => {
-                    const data = response.map((beneficiary: any) => {
-                        const newBeneficiary = Beneficiary.apiToModel(beneficiary);
-                        newBeneficiary.set('distributionId', this.actualDistribution.get('id'));
-                        return newBeneficiary;
-                    });
-                    this.randomSampleData = new MatTableDataSource(data);
+                    if (response) {
+                        const data = response.map((beneficiary: any) => {
+                            const newBeneficiary = Beneficiary.apiToModel(beneficiary);
+                            newBeneficiary.set('distributionId', this.actualDistribution.get('id'));
+                            return newBeneficiary;
+                        });
+                        this.randomSampleData = new MatTableDataSource(data);
+                    }
                     this.loadingThirdStep = false;
                 }, error => {
                     this.loadingThirdStep = false;

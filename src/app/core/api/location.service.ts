@@ -69,12 +69,14 @@ export class LocationService {
         return this.getAdm1()
             .pipe(
                 map((options) => {
-                const adm1Options = options.map(adm1 => new Adm(adm1.id, adm1.name));
-                location.setOptions('adm1', adm1Options);
-                location.setOptions('adm2', []);
-                location.setOptions('adm3', []);
-                location.setOptions('adm4', []);
-                object.set('location', location);
+                    if (options) {
+                        const adm1Options = options.map(adm1 => new Adm(adm1.id, adm1.name));
+                        location.setOptions('adm1', adm1Options);
+                        location.setOptions('adm2', []);
+                        location.setOptions('adm3', []);
+                        location.setOptions('adm4', []);
+                        object.set('location', location);
+                    }
             }));
     }
 
@@ -87,11 +89,13 @@ export class LocationService {
         return this.getAdm2(body)
             .pipe(
                 map((options) => {
-                const adm2Options = options.map(adm2 => new Adm(adm2.id, adm2.name));
-                location.setOptions('adm2', adm2Options);
-                location.setOptions('adm3', []);
-                location.setOptions('adm4', []);
-                object.set('location', location);
+                    if (options) {
+                        const adm2Options = options.map(adm2 => new Adm(adm2.id, adm2.name));
+                        location.setOptions('adm2', adm2Options);
+                        location.setOptions('adm3', []);
+                        location.setOptions('adm4', []);
+                        object.set('location', location);
+                    }
             }));
     }
 
@@ -104,10 +108,12 @@ export class LocationService {
         return this.getAdm3(body)
             .pipe(
                 map((options) => {
-                    const adm3Options = options.map(adm3 => new Adm(adm3.id, adm3.name));
-                    location.setOptions('adm3', adm3Options);
-                    location.setOptions('adm4', []);
-                    object.set('location', location);
+                    if (options) {
+                        const adm3Options = options.map(adm3 => new Adm(adm3.id, adm3.name));
+                        location.setOptions('adm3', adm3Options);
+                        location.setOptions('adm4', []);
+                        object.set('location', location);
+                    }
                 }));
     }
 
@@ -120,9 +126,11 @@ export class LocationService {
         return this.getAdm4(body)
             .pipe(
                 map((options) => {
-                    const adm4Options = options.map(adm4 => new Adm(adm4.id, adm4.name));
-                    location.setOptions('adm4', adm4Options);
-                    object.set('location', location);
+                    if (options) {
+                        const adm4Options = options.map(adm4 => new Adm(adm4.id, adm4.name));
+                        location.setOptions('adm4', adm4Options);
+                        object.set('location', location);
+                    }
                 }));
     }
 }

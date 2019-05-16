@@ -743,10 +743,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getVulnerabilityCriteria() {
         return this._criteriaService.getVulnerabilityCriteria().pipe(
             map(response => {
+                if (response) {
                     this.vulnerabilityList = response.map(criteria => {
                         return VulnerabilityCriteria.apiToModel(criteria);
                     });
-                })
+                }
+            })
         );
     }
 

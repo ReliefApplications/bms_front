@@ -419,6 +419,7 @@ export class English implements Language {
     model_donor_shortname = 'Shortname'
     model_familyName = 'Family name'
     model_firstName = 'First name'
+    model_household_sentence = 'The household of '
     model_individual_to_all = 'Set vouchers value individually'
     model_individual_value = 'Individual value'
     model_notes = 'Notes'

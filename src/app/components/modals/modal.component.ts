@@ -144,15 +144,17 @@ export class ModalComponent {
     loadProvince() {
         return this.locationService.getAdm1().pipe(
             map(response => {
-                this.provinceList = response.map(province => {
-                    return {
-                        id: province.id,
-                        name: province.name
-                    };
-                });
-                this.districtList = [];
-                this.communeList = [];
-                this.villageList = [];
+                if (response) {
+                    this.provinceList = response.map(province => {
+                        return {
+                            id: province.id,
+                            name: province.name
+                        };
+                    });
+                    this.districtList = [];
+                    this.communeList = [];
+                    this.villageList = [];
+                }
         }));
     }
 
@@ -169,14 +171,16 @@ export class ModalComponent {
         };
         return this.locationService.getAdm2(body).pipe(
             map(response => {
-                this.districtList = response.map(district => {
-                    return {
-                        id: district.id,
-                        name: district.name
-                    };
-                });
-                this.communeList = [];
-                this.villageList = [];
+                if (response) {
+                    this.districtList = response.map(district => {
+                        return {
+                            id: district.id,
+                            name: district.name
+                        };
+                    });
+                    this.communeList = [];
+                    this.villageList = [];
+                }
         }));
     }
 
@@ -193,13 +197,15 @@ export class ModalComponent {
         };
         return this.locationService.getAdm3(body).pipe(
             map(response => {
-                this.communeList = response.map(commune => {
-                    return {
-                        id: commune.id,
-                        name: commune.name
-                    };
-                });
-                this.villageList = [];
+                if (response) {
+                    this.communeList = response.map(commune => {
+                        return {
+                            id: commune.id,
+                            name: commune.name
+                        };
+                    });
+                    this.villageList = [];
+                }
         }));
     }
 
@@ -216,12 +222,14 @@ export class ModalComponent {
         };
         return this.locationService.getAdm4(body).pipe(
             map(response => {
-                this.villageList = response.map(village => {
-                    return {
-                        id: village.id,
-                        name: village.name
-                    };
-                });
+                if (response) {
+                    this.villageList = response.map(village => {
+                        return {
+                            id: village.id,
+                            name: village.name
+                        };
+                    });
+                }
         }));
     }
 }

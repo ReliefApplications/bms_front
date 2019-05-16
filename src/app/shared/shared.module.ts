@@ -35,6 +35,7 @@ import { ModalAddCriteriaComponent } from '../components/modals/modal-add-criter
 import { ModalAddComponent } from '../components/modals/modal-add/modal-add.component';
 import { ModalAssignComponent } from '../components/modals/modal-assign/modal-assign.component';
 import { ModalDeleteComponent } from '../components/modals/modal-delete/modal-delete.component';
+import { ModalDeleteBeneficiaryComponent } from '../components/modals/modal-delete-beneficiary/modal-delete-beneficiary.component';
 import { ModalDetailsComponent } from '../components/modals/modal-details/modal-details.component';
 import { ModalEditComponent } from '../components/modals/modal-edit/modal-edit.component';
 import { ModalFieldsComponent } from '../components/modals/modal-fields/modal-fields.component';
@@ -144,6 +145,7 @@ imports: [
         ModalAddCommodityComponent,
         ModalFieldsComponent,
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalAddComponent,
         ModalEditComponent,
         ModalAssignComponent,
@@ -180,6 +182,7 @@ imports: [
     ],
     entryComponents: [
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalEditComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
@@ -211,6 +214,7 @@ imports: [
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,

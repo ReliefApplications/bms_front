@@ -61,9 +61,8 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
         })
     }};
 
-    public static apiToModel(distributionBeneficiaryFromApi: any): TransactionQRVoucher {
+    public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionQRVoucher {
         const newQRVoucher = new TransactionQRVoucher();
-        newQRVoucher.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
 
         let booklet = null;
         if (distributionBeneficiaryFromApi.booklets.length) {
@@ -71,7 +70,7 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             booklet = booklet ? booklet : distributionBeneficiaryFromApi.booklets[0];
         }
         newQRVoucher.set('booklet', booklet ? Booklet.apiToModel(booklet) : null);
-        this.addCommonFields(newQRVoucher, distributionBeneficiaryFromApi);
+        this.addCommonFields(newQRVoucher, distributionBeneficiaryFromApi, distributionId);
         return newQRVoucher;
     }
 

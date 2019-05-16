@@ -31,7 +31,8 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
       this.actualDistribution.set(
           'distributionBeneficiaries',
           distributionBeneficiaries
-              .map((distributionBeneficiariy: any) => TransactionQRVoucher.apiToModel(distributionBeneficiariy)));
+              .map((distributionBeneficiariy: any) =>
+                TransactionQRVoucher.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
   }
 
   formatTransactionTable() {
@@ -93,10 +94,17 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
 	* open each modal dialog
 	*/
   openModal(dialogDetails: any): void {
-    // Can only be a modalDetails
-    this.modalService.openDialog(TransactionQRVoucher, this.beneficiariesService, dialogDetails);
-    this.modalService.isCompleted.subscribe(() => {
-    });
+    if (dialogDetails.action === 'delete') {
+        dialogDetails.element = dialogDetails.element.get('beneficiary');
+        this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            this.getDistributionBeneficiaries();
+        });
+    } else {
+        this.modalService.openDialog(TransactionQRVoucher, this.beneficiariesService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+        });
+    }
   }
 
   print(element: TransactionQRVoucher) {

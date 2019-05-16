@@ -37,6 +37,7 @@ export interface Language {
     phone: string
     project: string
     projects: string
+    remove: string
     reports: string
     rights: string
     save: string
@@ -343,6 +344,9 @@ export interface Language {
     modal_add_multiple_title: string
     modal_check_date: string
     modal_check_fields: string
+    modal_delete_beneficiary: string
+    modal_delete_beneficiary_sentence: string
+    modal_delete_beneficiary_sentence_2: string
     modal_delete_sentence: string
     modal_delete_sentence_2: string
     modal_details_title: string

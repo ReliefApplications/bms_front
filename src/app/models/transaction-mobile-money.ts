@@ -94,9 +94,8 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
         }),
     }};
 
-    public static apiToModel(distributionBeneficiaryFromApi): TransactionMobileMoney {
+    public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionMobileMoney {
         const newDistributionBeneficiary = new TransactionMobileMoney();
-        newDistributionBeneficiary.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
         const transactions = distributionBeneficiaryFromApi.transactions;
 
         if (transactions && transactions.length > 0 && isNumber(transactions[0].transaction_status)) {
@@ -119,7 +118,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
         } else {
             newDistributionBeneficiary.updateState('-2');
         }
-        this.addCommonFields(newDistributionBeneficiary, distributionBeneficiaryFromApi);
+        this.addCommonFields(newDistributionBeneficiary, distributionBeneficiaryFromApi, distributionId);
         return newDistributionBeneficiary;
     }
 

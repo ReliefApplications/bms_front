@@ -48,9 +48,10 @@
 
         <div class="content-table">
             <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" [selection]="selection"
-                rights="true" (selectChecked)="getChecked($event)" (openModal)="openDialog($event)" [selectable]="true">
+                rights="true" (selectChecked)="getChecked($event)" (openModal)="openDialog($event)" [selectable]="true" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table>
-            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" rights="true" (openModal)="openDialog($event)">
+            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" rights="true" (openModal)="openDialog($event)"
+                [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table-mobile>
         </div>
 

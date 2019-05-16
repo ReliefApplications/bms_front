@@ -67,9 +67,9 @@
 
         <div class="content-table">
             <!-- Add filters and checkboxes -->
-            <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)">
+            <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table>
-            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)">
+            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table-mobile>
         </div>
 

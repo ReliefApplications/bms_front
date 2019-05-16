@@ -93,9 +93,8 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
     }
     };
 
-    public static apiToModel(distributionBeneficiaryFromApi): TransactionGeneralRelief {
+    public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionGeneralRelief {
         const newGeneralRelief = new TransactionGeneralRelief();
-        newGeneralRelief.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
         newGeneralRelief.set('distributedAt', distributionBeneficiaryFromApi.general_reliefs[0] ?
             DateModelField.formatDateTimeFromApi(distributionBeneficiaryFromApi.general_reliefs[0].distributed_at) :
             null);
@@ -106,7 +105,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             newGeneralRelief.set('idTransaction', distributionBeneficiaryFromApi.transactions[0].id);
         }
         newGeneralRelief.fields.notes.numberOfInputs = newGeneralRelief.get<GeneralRelief[]>('generalReliefs').length;
-        this.addCommonFields(newGeneralRelief, distributionBeneficiaryFromApi);
+        this.addCommonFields(newGeneralRelief, distributionBeneficiaryFromApi, distributionId);
         return newGeneralRelief;
     }
 

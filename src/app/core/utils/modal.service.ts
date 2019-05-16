@@ -17,6 +17,7 @@ import { CriteriaService } from '../api/criteria.service';
 import { NetworkService } from '../network/network.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { SnackbarService } from '../logging/snackbar.service';
+import { ModalDeleteBeneficiaryComponent } from 'src/app/components/modals/modal-delete-beneficiary/modal-delete-beneficiary.component';
 
 @Injectable({
     providedIn: 'root'
@@ -62,7 +63,11 @@ export class ModalService {
                 dialogRef = this.openEditDialog(dialogDetails.element);
                 break;
             case 'delete':
-                dialogRef = this.openDeleteDialog(dialogDetails.element);
+                if (dialogDetails.element instanceof Beneficiary) {
+                    dialogRef = this.openDeleteBeneficiaryDialog(dialogDetails.element);
+                } else {
+                    dialogRef = this.openDeleteDialog(dialogDetails.element);
+                }
                 break;
             case 'visit':
                 this.referedClassService.visit(dialogDetails.element.get('id'));
@@ -89,6 +94,9 @@ export class ModalService {
                 } else if (closeMethod === 'Delete') {
                     this.isLoading.next();
                     this.deleteElement(dialogDetails.element);
+                } else if (closeMethod === 'DeleteBeneficiary') {
+                    this.isLoading.next();
+                    this.deleteBeneficiary(dialogDetails.element);
                 }
                 // Prevent memory leaks
                 subscription.unsubscribe();
@@ -129,6 +137,14 @@ export class ModalService {
         return this.dialog.open(ModalDeleteComponent, {
             data: {
                 name: objectInfo.getIdentifyingName(),
+            }
+        });
+    }
+
+    openDeleteBeneficiaryDialog(beneficiary: Beneficiary) {
+        return this.dialog.open(ModalDeleteBeneficiaryComponent, {
+            data: {
+                beneficiary: beneficiary.getIdentifyingName(),
             }
         });
     }
@@ -193,6 +209,12 @@ export class ModalService {
                 this.isCompleted.next();
             });
         }
+    }
+
+    deleteBeneficiary(beneficiary: Beneficiary) {
+        this.referedClassService.delete(beneficiary.get('id'), beneficiary.get('distributionId')).subscribe((_response: any) => {
+            this.isCompleted.next();
+            });
     }
 
     // createElement(createElement: Object) {

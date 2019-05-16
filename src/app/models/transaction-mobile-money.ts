@@ -30,18 +30,13 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
     title = this.language.beneficiary;
     matSortActive = 'familyName';
 
-    public fields = {
+    public fields = {...this.fields, ...{
         idTransaction: new NumberModelField({
             title: this.language.transaction_id_transaction,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             nullValue: this.language.null_not_yet_defined,
         }),
-        beneficiary: new ObjectModelField<Beneficiary>(
-            {
-                value: []
-            }
-        ),
         givenName: new NestedFieldModelField({
             title: this.language.model_firstName,
             isDisplayedInTable: true,
@@ -97,7 +92,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
             title: this.language.model_transaction_message,
             isDisplayedInModal: true,
         }),
-    };
+    }};
 
     public static apiToModel(distributionBeneficiaryFromApi): TransactionMobileMoney {
         const newDistributionBeneficiary = new TransactionMobileMoney();
@@ -124,6 +119,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
         } else {
             newDistributionBeneficiary.updateState('-2');
         }
+        this.addCommonFields(newDistributionBeneficiary, distributionBeneficiaryFromApi);
         return newDistributionBeneficiary;
     }
 

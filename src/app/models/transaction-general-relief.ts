@@ -42,7 +42,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
     title = 'General Relief';
     matSortActive = 'familyName';
 
-    public fields = {
+    public fields = {...this.fields, ...{
         id: new NumberModelField({
 
         }),
@@ -51,9 +51,6 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             isDisplayedInTable: false,
             isDisplayedInModal: true,
             nullValue: this.language.null_not_yet_defined,
-        }),
-        beneficiary: new ObjectModelField<Beneficiary>({
-                value: []
         }),
         givenName: new NestedFieldModelField({
             title: this.language.model_firstName,
@@ -93,6 +90,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             isDisplayedInModal: true,
             isEditable: true,
         }),
+    }
     };
 
     public static apiToModel(distributionBeneficiaryFromApi): TransactionGeneralRelief {
@@ -108,6 +106,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             newGeneralRelief.set('idTransaction', distributionBeneficiaryFromApi.transactions[0].id);
         }
         newGeneralRelief.fields.notes.numberOfInputs = newGeneralRelief.get<GeneralRelief[]>('generalReliefs').length;
+        this.addCommonFields(newGeneralRelief, distributionBeneficiaryFromApi);
         return newGeneralRelief;
     }
 

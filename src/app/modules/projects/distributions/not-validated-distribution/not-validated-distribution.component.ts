@@ -398,7 +398,6 @@ setType(step, choice) {
 	* open each modal dialog
 	*/
     openModal(dialogDetails: any): void {
-        // Can only be a modalDetails
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
         this.modalService.isLoading.subscribe(() => {
             this.loadingFirstStep = true;

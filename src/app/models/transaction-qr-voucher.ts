@@ -9,13 +9,10 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
     title = this.language.beneficiary;
     matSortActive = 'familyName';
 
-    public fields = {
+    public fields = {...this.fields, ...{
         // id: new NumberModelField({
 
         // }),
-        beneficiary: new ObjectModelField<Beneficiary>({
-            value: []
-        }),
         booklet: new ObjectModelField<Booklet>({
 
         }),
@@ -62,7 +59,7 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             childrenObject: 'booklet',
             childrenFieldName: 'value',
         })
-    };
+    }};
 
     public static apiToModel(distributionBeneficiaryFromApi: any): TransactionQRVoucher {
         const newQRVoucher = new TransactionQRVoucher();
@@ -74,6 +71,7 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             booklet = booklet ? booklet : distributionBeneficiaryFromApi.booklets[0];
         }
         newQRVoucher.set('booklet', booklet ? Booklet.apiToModel(booklet) : null);
+        this.addCommonFields(newQRVoucher, distributionBeneficiaryFromApi);
         return newQRVoucher;
     }
 

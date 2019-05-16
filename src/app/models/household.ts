@@ -197,7 +197,7 @@ export class Household extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.get('firstName') + ' ' + this.get('familyName');
+        return this.language.model_household_sentence + this.get('firstName') + ' ' + this.get('familyName');
     }
 
 

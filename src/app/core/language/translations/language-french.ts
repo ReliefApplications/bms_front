@@ -418,6 +418,7 @@ export class French implements Language {
     model_donor_shortname = 'Surnom'
     model_familyName = 'Nom'
     model_firstName = 'Prénom'
+    model_household_sentence = 'Le ménage de '
     model_individual_to_all = 'Définir la valeur individuelle des coupons'
     model_individual_value = 'Valeur individuelle'
     model_notes = 'Notes'

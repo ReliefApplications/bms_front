@@ -419,6 +419,7 @@ export class Arabic implements Language {
     model_donor_shortname = 'الاسم المختصر'
     model_familyName = 'اللقب'
     model_firstName = 'الاسم '
+    model_household_sentence = 'الأسرة من'
     model_individual_to_all = 'تعيين قيمة القسائم بشكل فردي'
     model_individual_value = 'القيمة الفردية'
     model_notes = 'الملاحظات'

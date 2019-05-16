@@ -403,6 +403,7 @@ export interface Language {
     model_donor_shortname: string
     model_familyName: string
     model_firstName: string
+    model_household_sentence: string
     model_individual_to_all: string
     model_individual_value: string
     model_notes: string

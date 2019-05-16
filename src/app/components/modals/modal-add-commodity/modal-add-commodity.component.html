@@ -46,6 +46,16 @@
             </td>
           </tr>
 
+          <tr *ngIf="form.controls.modality.value === 3" class="modal-row">
+            <th class="table-title">{{ commodity.fields.description.title }}</th>
+            <td class="form-item">
+              <mat-form-field>
+                <textarea matInput type="text" formControlName="description" [placeholder]="commodity.fields.description.title | titlecase"></textarea>
+                <app-hint-error [form]="form" fieldName="description" [field]="commodity.fields.description" [isMatField]="true"></app-hint-error>
+              </mat-form-field>
+            </td>
+          </tr>
+
 
       </table>
       <div class="modal-button action-buttons stickyFooter">

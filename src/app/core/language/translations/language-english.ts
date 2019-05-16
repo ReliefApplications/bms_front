@@ -18,6 +18,7 @@ export class English implements Language {
     create = 'Create'
     delete = 'Delete'
     details = 'Details'
+    description = 'description'
     distribution = 'Distribution'
     distributions = 'Distributions'
     done = 'Done'
@@ -208,6 +209,10 @@ export class English implements Language {
     commodity_wash = 'WASH Kit'
     commodity_agriculture = 'Agricultural Kit'
     commodity_rte = 'RTE Kit'
+    commodity_distribution = 'On site distribution'
+    commodity_shelter = 'Shelter tool kit'
+    commodity_hygiene = 'Hygiene kit'
+    commodity_dignity = 'Dignity kit'
 
     // Countries
     country_khm = 'Cambodia'
@@ -526,7 +531,11 @@ export class English implements Language {
     sector_nutrition = 'Nutrition'
     sector_protection = 'Protection'
     sector_shelter = 'Shelter'
-    sector_water = 'Water sanitation'
+    sector_water = 'WASH'
+    sector_cash_for_work = 'cash for work'
+    sector_tvet = 'TVET'
+    sector_food_kits = 'food, RTE kits'
+    sector_nfi = 'NFIs'
 
     // Settings
     settings_country_specific_options = 'country specific options'

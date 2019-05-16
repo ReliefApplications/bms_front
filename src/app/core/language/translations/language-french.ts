@@ -361,6 +361,7 @@ export class French implements Language {
     modal_delete_beneficiary = 'Retirer ce bénéficiaire'
     modal_delete_beneficiary_sentence: 'Vous êtes sur le point de retirer '
     modal_delete_beneficiary_sentence_2 = ' de cette distribution'
+    modal_delete_justification = 'justification'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
     modal_delete_sentence_2 = '. '
     modal_details_title = 'Détails de ce'

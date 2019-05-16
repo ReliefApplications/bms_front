@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -13,6 +14,8 @@ export class ModalDeleteBeneficiaryComponent {
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
+    public justification = new FormControl('');
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         public modalReference: MatDialogRef<any>,
@@ -21,7 +24,10 @@ export class ModalDeleteBeneficiaryComponent {
     }
 
     onDelete(): any {
-        this.modalReference.close('DeleteBeneficiary');
+        this.modalReference.close({
+            method: 'DeleteBeneficiary',
+            justification: this.justification.value
+        });
     }
 
     onCancel() {

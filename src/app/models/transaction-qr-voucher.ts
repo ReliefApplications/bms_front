@@ -76,8 +76,8 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
 
     public modelToApi(): Object {
         return {
-            given_name: this.get('benficiary').get('givenName'),
-            family_name: this.get('benficiary').get('familyName'),
+            given_name: this.get('beneficiary').get('givenName'),
+            family_name: this.get('beneficiary').get('familyName'),
             booklet: this.get('booklet').modelToApi(),
         };
     }

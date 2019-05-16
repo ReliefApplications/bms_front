@@ -362,6 +362,7 @@ export class English implements Language {
     modal_delete_beneficiary = 'Remove beneficiary'
     modal_delete_beneficiary_sentence = 'You are about to remove '
     modal_delete_beneficiary_sentence_2 = ' from this distribution'
+    modal_delete_justification = 'justification'
     modal_delete_sentence = 'You are about to delete '
     modal_details_title = 'Details of this'
     modal_edit_title = 'Edit this'

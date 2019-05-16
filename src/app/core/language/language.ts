@@ -347,6 +347,7 @@ export interface Language {
     modal_delete_beneficiary: string
     modal_delete_beneficiary_sentence: string
     modal_delete_beneficiary_sentence_2: string
+    modal_delete_justification: string
     modal_delete_sentence: string
     modal_delete_sentence_2: string
     modal_details_title: string

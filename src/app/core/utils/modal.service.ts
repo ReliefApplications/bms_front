@@ -78,7 +78,7 @@ export class ModalService {
         }
 
         if (dialogRef) {
-            const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
+            const subscription = dialogRef.afterClosed().subscribe((closeMethod: any) => {
                 // TODO: add enum for modal methods
                 if (closeMethod === 'Add') {
                     this.isLoading.next();
@@ -94,9 +94,9 @@ export class ModalService {
                 } else if (closeMethod === 'Delete') {
                     this.isLoading.next();
                     this.deleteElement(dialogDetails.element);
-                } else if (closeMethod === 'DeleteBeneficiary') {
+                } else if (closeMethod.method === 'DeleteBeneficiary') {
                     this.isLoading.next();
-                    this.deleteBeneficiary(dialogDetails.element);
+                    this.deleteBeneficiary(dialogDetails.element, closeMethod.justification);
                 }
                 // Prevent memory leaks
                 subscription.unsubscribe();
@@ -211,9 +211,10 @@ export class ModalService {
         }
     }
 
-    deleteBeneficiary(beneficiary: Beneficiary) {
-        this.referedClassService.delete(beneficiary.get('id'), beneficiary.get('distributionId')).subscribe((_response: any) => {
-            this.isCompleted.next();
+    deleteBeneficiary(beneficiary: Beneficiary, justification) {
+        this.referedClassService.delete(beneficiary.get('id'), beneficiary.get('distributionId'), justification)
+            .subscribe((_response: any) => {
+                this.isCompleted.next();
             });
     }
 

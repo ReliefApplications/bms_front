@@ -26,9 +26,12 @@ export class BeneficiariesService extends CustomModelService {
         return this.http.post(url, beneficiary);
     }
 
-    public delete(beneficiaryId: number, distributionId: any) {
-        const url = this.api + '/beneficiaries/' + beneficiaryId + '?distribution=' + distributionId;
-        return this.http.delete(url);
+    public delete(beneficiaryId: number, distributionId: any, justification: string) {
+        const url = this.api + '/delete-beneficiaries/' + beneficiaryId + '?distribution=' + distributionId;
+        const body = {
+            justification: justification
+        };
+        return this.http.post(url, body);
     }
 
     public getRandom(distributionId, size: number) {

@@ -362,6 +362,7 @@ export class Arabic implements Language {
     modal_delete_beneficiary = 'إزالة المستفيد'
     modal_delete_beneficiary_sentence: ' أنت على وشك الإزالة'
     modal_delete_beneficiary_sentence_2 = ' من هذا التوزيع'
+    modal_delete_justification = 'مبرر'
     modal_delete_sentence = 'أنت على وشك الحذف'
     modal_delete_sentence_2 = 'هل أنت متأكد'
     modal_details_title = 'تفاصيل هذا'

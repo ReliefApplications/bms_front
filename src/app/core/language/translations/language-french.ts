@@ -222,6 +222,8 @@ export class French implements Language {
     dashboard_summary_2 = 'projets en cours'
     dashboard_summary_3 = 'bénéficiaires enregistrés'
     dashboard_summary_4 = 'montant total des transactions'
+    dashboard_summary_5 = 'bénéficiaires servis'
+    dashboard_summary_6 = 'distributions terminées'
 
     // Data verification
     data_verification_chip_actual = 'Ménage ciblé'
@@ -358,6 +360,7 @@ export class French implements Language {
     modal_add_multiple_title = 'Ajouter plusieurs nouveaux'
     modal_check_date = 'Champs invalides = La date de début ne peut pas être plus ancienne que la date de fin et vice versa'
     modal_check_fields = 'Champs invalides = vérifiez que vous avez rempli tous les champs'
+    modal_complete_distribution = 'Etes-vous sûr de vouloir manuellement terminer cette distribution ?'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
     modal_delete_sentence_2 = '. '
     modal_details_title = 'Détails de ce'

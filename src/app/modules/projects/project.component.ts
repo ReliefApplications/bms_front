@@ -15,6 +15,7 @@ import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
 import { Distribution } from '../../models/distribution';
 import { Project } from '../../models/project';
+import { ModalConfirmationComponent } from 'src/app/components/modals/modal-confirmation/modal-confirmation.component';
 
 
 @Component({
@@ -201,8 +202,20 @@ export class ProjectComponent implements OnInit, OnDestroy {
     }
 
     complete(event: Distribution) {
-        this.distributionService.complete(event.get('id')).subscribe(() => {
-            this.getDistributionsByProject(this.selectedProject.get('id'));
+        const dialogRef = this.dialog.open(ModalConfirmationComponent, {
+            data: {
+                title: this.language.complete,
+                sentence: this.language.modal_complete_distribution,
+                ok: this.language.complete
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((answer: boolean) => {
+            if (answer) {
+                this.distributionService.complete(event.get('id')).subscribe(() => {
+                    this.getDistributionsByProject(this.selectedProject.get('id'));
+                });
+            }
         });
     }
 }

@@ -223,6 +223,8 @@ export class Arabic implements Language {
     dashboard_summary_2 = 'المشاريع الناشطة'
     dashboard_summary_3 = 'المستفيدين المسجلين'
     dashboard_summary_4 = ' القيمة الإجمالية للمعملات'
+    dashboard_summary_5 = 'المستفيدين خدم'
+    dashboard_summary_6 = 'توزيعات كاملة'
 
     // Data verification
     data_verification_chip_actual = 'المنزل المستهدف'
@@ -359,6 +361,7 @@ export class Arabic implements Language {
     modal_add_multiple_title = 'خلق جديد إبداع جديد'
     modal_check_date = 'الحقول غير الصالح: لا يمكن أن يكون تاريخ الانتهاء  أقدم من تاريخ البدء'
     modal_check_fields = 'تحقق جيدا انك أدخلت جميع المعطيات'
+    modal_complete_distribution = 'هل تريد بالتأكيد إكمال هذا التوزيع يدويًا؟'
     modal_delete_sentence = 'أنت على وشك الحذف'
     modal_delete_sentence_2 = 'هل أنت متأكد'
     modal_details_title = 'تفاصيل هذا'

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../core/api/http.service';
-
 // Constants
 import { URL_BMS_API } from '../../../../environments/environment';
-import { forkJoin } from 'rxjs';
-import { Indicator } from 'src/app/model/indicator';
+import { HttpService } from '../../../core/api/http.service';
+
 
 @Injectable({
     providedIn: 'root'
@@ -29,6 +27,13 @@ export class IndicatorService {
     public serveIndicator(body: any, id) {
         const url = this.api + '/serve/' + id;
         return this.http.post(url, body);
+    }
+
+    public getAllGraphs(filters: object) {
+        const url = `${this.api}/filtered`;
+        const params = Object.keys(filters).map(key => key + '=' + filters[key]).join('&');
+        console.log(url + params);
+        return this.http.get(`${url}?${params}`);
     }
 
     public exportReportData(indicatorsId: number[], frequency: string, projectsId: number[], distributionsId: number[], fileType: string) {

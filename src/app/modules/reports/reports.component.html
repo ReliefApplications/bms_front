@@ -3,9 +3,189 @@
         <h2>{{language.reports | titlecase}}</h2>
     </div>
 
-    <app-box-setting *ngFor="let enabledFilter of enabledFilters"
-        (click)="filter(item.value)"
-        [isSelected]="selectedItem === item.value"
-        [info]='enabledFilter'>
+    <app-box-setting *ngFor="let report of enabledReports"
+        (click)="selectReport(report)"
+        [isSelected]="report === selectedReport"
+        [info]='report'>
     </app-box-setting>
+
+    <div class="container-table" *ngIf="!indicatorsLoading">
+        <div class="container-content">
+            <div class="content-button">
+
+                <!-- button to filter data by frequency -->
+                <div class="frequency">
+                    <button
+                        *ngFor="let frequency of enabledFrequencies"
+                        (click)="selectFrequency(frequency)"
+                        mat-raised-button
+                        [ngClass]="{'selected-frequency': frequency === selectedFrequency}">
+                        {{frequency.label | titlecase}}
+                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <mat-spinner [diameter]='25' *ngIf="isDownloading"></mat-spinner>
+                    <div class="extension button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" *ngIf='!isDownloading'>
+                        <button mat-raised-button class="button-background-primary" (click)="export()">
+                            <mat-icon>get_app</mat-icon>
+                            <span>{{language.export | titlecase}}</span>
+                        </button>
+                        <div mat-button class="dropdown" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" [matMenuTriggerFor]="exportType">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </div>
+                        <mat-menu #exportType>
+                            <button mat-menu-item (click)="exportFileType = 'xls'">.xls <mat-icon *ngIf="exportFileType=='xls'">done</mat-icon></button>
+                            <button mat-menu-item (click)="exportFileType = 'csv'">.csv <mat-icon *ngIf="exportFileType=='csv'">done</mat-icon></button>
+                            <button mat-menu-item (click)="exportFileType = 'ods'">.ods <mat-icon *ngIf="exportFileType=='ods'">done</mat-icon></button>
+                            <button mat-menu-item (click)="exportFileType = 'pdf'">.pdf <mat-icon *ngIf="exportFileType=='pdf'">done</mat-icon></button>
+                        </mat-menu>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-body">
+                <form [formGroup]="periodControl" *ngIf="selectedFrequency?.value === 'period'">
+                    <mat-card class="content-card">
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="pickerFrom" [placeholder]="language.report_from | titlecase"
+                                    formControlName="startDate" #inputFrom required>
+                                <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerFrom></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="pickerTo" [placeholder]="language.report_to | titlecase" formControlName="endDate"
+                                    #inputTo required>
+                                <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerTo></mat-datepicker>
+                            </mat-form-field>
+                    </mat-card>
+                </form>
+
+                <div *ngIf="selectedReport.value !== 'countries' && projects">
+
+                    <form [formGroup]="projectsControl">
+                        <mat-card class="content-card" *ngIf="selectedReport.value === 'projects';else distributionType">
+                            <ng-select class="multiple-select" formControlName="projectsSelect" [clearable]="false"
+                                [multiple]="true" [placeholder]="language.projects | titlecase" [closeOnSelect]="false" [searchable]="true">
+                                <ng-template ng-header-tmp>
+                                    <ng-container
+                                        *ngTemplateOutlet="ngSelectHeader;context:{formControl: projectsControl.controls.projectsSelect, entities: projects}">
+                                    </ng-container>
+                                </ng-template>
+                                <ng-option *ngFor="let project of projects" [value]="project">
+                                    {{project.get('name') | titlecase}}
+                                </ng-option>
+                            </ng-select>
+                        </mat-card>
+                    </form>
+
+                    <ng-template #distributionType>
+                        <form [formGroup]="distributionsControl">
+                            <mat-card class="content-card">
+                                <ng-select class="single-select" formControlName="projectSelect" [clearable]="false"
+                                    [multiple]="false" [placeholder]="language.projects | titlecase" [closeOnSelect]="false" [searchable]="true">
+                                    <ng-option *ngFor="let project of projects" [value]="project">
+                                        {{project.get('name') | titlecase}}
+                                    </ng-option>
+                                </ng-select>
+
+                                <ng-select class="multiple-select" formControlName="distributionsSelect" [clearable]="false"
+                                    [multiple]="true" [placeholder]="language.distributions | titlecase" [closeOnSelect]="false" [searchable]="true">
+                                    <ng-template ng-header-tmp>
+                                        <ng-container
+                                            *ngTemplateOutlet="ngSelectHeader;context:{formControl: distributionsControl.controls.distributionsSelect, entities: distributions}">
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-option *ngFor="let distribution of distributions" [value]="distribution">
+                                        {{distribution.get('name') | titlecase}}
+                                    </ng-option>
+                                </ng-select>
+                            </mat-card>
+                        </form>
+                    </ng-template>
+                </div>
+            </div>
+
+<!--
+
+            <mat-accordion class="panel-frequency">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{language.report_select_frequency}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            {{frequency}}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="panel-body">
+                        <app-button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)"
+                            [data]="dataFilter1" [referenceKey]="'frequency'"></app-button-filter-date>
+                        <div class="panel-selectPeriod">
+                            <div class="content-select-period-mobile" *ngIf="period == true">
+                                <div class="datepicker">
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="pickerFrom" [placeholder]="language.report_from | titlecase">
+                                        <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                                        <mat-datepicker touchUi #pickerFrom></mat-datepicker>
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <input matInput [matDatepicker]="pickerTo" [placeholder]="language.report_to | titlecase">
+                                        <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                                        <mat-datepicker touchUi #pickerTo></mat-datepicker>
+                                    </mat-form-field>
+                                    <button mat-raised-button class="apply-period-mobile">{{language.report_apply |
+                                        titlecase}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <div class="content-table">
+                <div *ngIf="indicators && indicators.length" class="container-indicator">
+                    <div *ngFor="let indicator of indicators; let i = index">
+                        <app-indicator *ngIf="type == indicator['type'] && display" [indicator]="indicator"
+                            [chartDimensions]="chartDimensions" [filters]="findFilter(indicator['filter'])" [project]="selectedProject"
+                            [distribution]="selectedDistribution" [periodFrequency]="selectedPeriodFrequency"></app-indicator>
+                    </div>
+                </div>
+
+                <div *ngIf="indicators && (indicators.length == 0) && !indicatorsLoading" class="no-data-box">
+                    <h1 class="box-title">{{language.report_upcoming_reporting}}</h1>
+                </div>
+
+                <div class="no-data-container" *ngIf="!indicators">
+                    <div class="loadingContent">
+                        <h4 class="no-data">
+                            <mat-icon>cloud_off</mat-icon>
+                            <span> No data </span>
+                        </h4>
+                    </div>
+                </div>
+
+                <div *ngIf="indicatorsLoading" class="container-fluid">
+                    <mat-spinner></mat-spinner>
+                </div>
+            </div> -->
+        </div>
+    </div>
 </div>
+
+
+<ng-template #ngSelectHeader let-control="formControl" let-entities="entities">
+        <div class="ng-select-header select"
+            *ngIf="!control.value || control.value.length !== entities.length; else deselectAll"
+            (click)="control.setValue(entities)" >
+            Select all
+        </div>
+        <ng-template #deselectAll>
+            <div class="ng-select-header deselect"
+            (click)="control.reset()" >
+                Deselect all
+            </div>
+        </ng-template>
+
+    </ng-template>

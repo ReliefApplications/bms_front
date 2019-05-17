@@ -30,10 +30,18 @@ export class IndicatorService {
     }
 
     public getAllGraphs(filters: object) {
+        console.log(filters);
+        filters['projects'] = filters['projects'] ? filters['projects'].join(',') : '';
+        filters['distributions'] = filters['distributions'] ? filters['distributions'].join(',') : '';
+        filters['period'] = filters['period'] ? filters['period'] : '';
         const url = `${this.api}/filtered`;
-        const params = Object.keys(filters).map(key => key + '=' + filters[key]).join('&');
-        console.log(url + params);
-        return this.http.get(`${url}?${params}`);
+        // const params = Object.keys(filters).map(key => key + '=' + filters[key]).join('&');
+        // console.log(url + params);
+        // const params = new HttpParams(filters);
+        const options = {
+            params: filters
+        };
+        return this.http.get(url, options);
     }
 
     public exportReportData(indicatorsId: number[], frequency: string, projectsId: number[], distributionsId: number[], fileType: string) {

@@ -251,7 +251,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
     // The value in the code and the one sent to the API are not necessarily the same
     private generateReport(): object {
         let report: string;
-        let distribution: Array<Distribution>;
+        let distributions: Array<Distribution>;
         let projects: Array<string>;
 
         switch (this.selectedReport.value) {
@@ -264,7 +264,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
             case('distributions'):
                 report = 'distributions';
                 projects = [(this.distributionsControl.value.projectSelect as Project).get<string>('id')];
-                distribution = this.distributionsControl.value.distributionsSelect.map((selectedDistribution: Distribution) => {
+                distributions = this.distributionsControl.value.distributionsSelect.map((selectedDistribution: Distribution) => {
                     return selectedDistribution.get<string>('id');
                 });
                 break;
@@ -273,14 +273,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
                 report = 'countries';
                 break;
         }
-        return {report, distribution, projects};
+        return {report, distributions, projects};
     }
 
     // Map frequencies for api
     // The value in the code and the one sent to the API are not necessarily the same
     private generateFrequency(): object {
         let frequency: string;
-        let period: Array<string> = null;
+        let period: Array<string>;
         switch (this.selectedFrequency.value) {
             case('year'):
                 frequency = 'Year';

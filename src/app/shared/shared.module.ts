@@ -33,6 +33,7 @@ import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
 import { ModalAddCommodityComponent } from '../components/modals/modal-add-commodity/modal-add-commodity.component';
 import { ModalAddCriteriaComponent } from '../components/modals/modal-add-criteria/modal-add-criteria.component';
 import { ModalAddComponent } from '../components/modals/modal-add/modal-add.component';
+import { ModalAddBeneficiaryComponent } from '../components/modals/modal-add-beneficiary/modal-add-beneficiary.component';
 import { ModalAssignComponent } from '../components/modals/modal-assign/modal-assign.component';
 import { ModalDeleteComponent } from '../components/modals/modal-delete/modal-delete.component';
 import { ModalDeleteBeneficiaryComponent } from '../components/modals/modal-delete-beneficiary/modal-delete-beneficiary.component';
@@ -147,6 +148,7 @@ imports: [
         ModalDeleteComponent,
         ModalDeleteBeneficiaryComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalEditComponent,
         ModalAssignComponent,
         ModalDetailsComponent,
@@ -187,6 +189,7 @@ imports: [
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalAssignComponent,
@@ -218,6 +221,7 @@ imports: [
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalAssignComponent,
         BoxSettingComponent,
         MatCheckboxModule,

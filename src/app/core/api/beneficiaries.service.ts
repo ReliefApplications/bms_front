@@ -39,9 +39,13 @@ export class BeneficiariesService extends CustomModelService {
         return this.http.get(url);
     }
 
-    public add(distributionId: number, beneficiary: any[]) {
+    public add(distributionId: number, beneficiaries: any[], justification: string) {
         const url = this.api + '/distributions/' + distributionId + '/beneficiary';
-        return this.http.put(url, beneficiary);
+        const body = {
+            beneficiaries: beneficiaries,
+            justification: justification,
+        };
+        return this.http.put(url, body);
     }
 
     public getAllFromProject(projectId: number, target: string) {

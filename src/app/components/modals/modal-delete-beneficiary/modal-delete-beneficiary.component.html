@@ -8,10 +8,10 @@
     {{ language.modal_delete_justification | uppercaseFirst }} :
   </div>
   <mat-form-field>
-      <textarea matInput [formControl]="justification" type="text" [placeholder]="language.modal_delete_justification | uppercaseFirst"></textarea>
+      <textarea matInput [formControl]="justification" type="text" [placeholder]="language.modal_delete_justification | uppercaseFirst" required></textarea>
   </mat-form-field>
   <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
     <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
-    <button mat-raised-button (click)="onDelete()" class="button-background-accent">{{language.remove}}</button>
+    <button mat-raised-button  [disabled]="!justification.valid"  (click)="onDelete()" class="button-background-accent">{{language.remove}}</button>
   </div>
 </div>

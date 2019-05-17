@@ -18,6 +18,8 @@ import { NetworkService } from '../network/network.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { SnackbarService } from '../logging/snackbar.service';
 import { ModalDeleteBeneficiaryComponent } from 'src/app/components/modals/modal-delete-beneficiary/modal-delete-beneficiary.component';
+import { ModalAddBeneficiaryComponent } from 'src/app/components/modals/modal-add-beneficiary/modal-add-beneficiary.component';
+import { Distribution } from 'src/app/models/distribution';
 
 @Injectable({
     providedIn: 'root'
@@ -55,6 +57,9 @@ export class ModalService {
         switch (dialogDetails.action) {
             case 'add':
                 dialogRef = this.openAddDialog();
+                break;
+            case 'addBeneficiary':
+                dialogRef = this.openAddBeneficiaryDialog(dialogDetails.distribution);
                 break;
             case 'details':
                 dialogRef = this.openDetailsDialog(dialogDetails.element);
@@ -94,6 +99,9 @@ export class ModalService {
                 } else if (closeMethod === 'Delete') {
                     this.isLoading.next();
                     this.deleteElement(dialogDetails.element);
+                } else if (closeMethod.method === 'AddBeneficiary') {
+                    this.isLoading.next();
+                    this.addBeneficiary(closeMethod.beneficiaries, closeMethod.justification, dialogDetails.distribution);
                 } else if (closeMethod.method === 'DeleteBeneficiary') {
                     this.isLoading.next();
                     this.deleteBeneficiary(dialogDetails.element, closeMethod.justification);
@@ -111,6 +119,14 @@ export class ModalService {
         return this.dialog.open(ModalAddComponent, {
             data: {
                 objectInstance: this.referedClassInstance,
+            }
+        });
+    }
+
+    openAddBeneficiaryDialog(distribution: Distribution) {
+        return this.dialog.open(ModalAddBeneficiaryComponent, {
+            data: {
+                distribution: distribution
             }
         });
     }
@@ -209,6 +225,20 @@ export class ModalService {
                 this.isCompleted.next();
             });
         }
+    }
+
+    addBeneficiary(beneficiaries: Beneficiary[], justification: string, distribution: Distribution) {
+        const beneficiariesArray = beneficiaries.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
+        this.referedClassService.add(distribution.get('id'), beneficiariesArray, justification)
+        .subscribe(
+            success => {
+               this.isCompleted.next();
+            },
+            error => {
+                this.isCompleted.next();
+                this.snackbar.error(error.error ? error.error : this.language.distribution_beneficiary_not_added);
+            });
+
     }
 
     deleteBeneficiary(beneficiary: Beneficiary, justification) {

@@ -5,7 +5,7 @@
             <p> {{language.distribution_select_beneficiaries}} <strong> {{data.distribution.get('project').get('name')}} </strong>
                 {{language.distribution_want_add}} <strong> {{data.distribution.get('name')}} </strong>
                 {{language.distribution | lowercase}}.</p>
-            <mat-spinner [diameter]="25" *ngIf="loading"></mat-spinner>
+            <mat-spinner [diameter]="35" *ngIf="loading"></mat-spinner>
             <div *ngIf="!loading" class="selectBeneficiaries">
                 <ng-select class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true" placeholder="{{language.beneficiaries | titlecase}}" [closeOnSelect]="false" [searchable]="true" required>
                     <ng-option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">

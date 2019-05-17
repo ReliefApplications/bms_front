@@ -100,6 +100,13 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
         this.modalService.isCompleted.subscribe(() => {
             this.getDistributionBeneficiaries();
         });
+    }  else if (dialogDetails.action === 'addBeneficiary') {
+        this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            if (this.networkService.getStatus()) {
+                this.getDistributionBeneficiaries();
+            }
+        });
     } else {
         this.modalService.openDialog(TransactionQRVoucher, this.beneficiariesService, dialogDetails);
         this.modalService.isCompleted.subscribe(() => {

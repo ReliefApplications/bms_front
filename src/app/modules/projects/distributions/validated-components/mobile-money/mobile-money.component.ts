@@ -309,6 +309,13 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
             this.modalService.isCompleted.subscribe(() => {
                 this.getDistributionBeneficiaries();
             });
+        }  else if (dialogDetails.action === 'addBeneficiary') {
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+                if (this.networkService.getStatus()) {
+                    this.getDistributionBeneficiaries();
+                }
+            });
         } else {
             this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);
             this.modalService.isCompleted.subscribe(() => {

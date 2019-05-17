@@ -232,9 +232,11 @@ confirmValidation() {
                     }
                 );
         } else {
+            this.loaderValidation = false;
             this.snackbar.error(this.language.distribution_error_validate);
         }
     } else {
+        this.loaderValidation = false;
         this.snackbar.error(this.language.distribution_no_right_validate);
     }
 

@@ -17,6 +17,7 @@ import { Distribution } from 'src/app/models/distribution';
 import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
 import { User } from 'src/app/models/user';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { NetworkService } from 'src/app/core/network/network.service';
 
 @Component({
     template: './validated-distribution.component.html',
@@ -69,6 +70,7 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
         public userService: UserService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        public networkService: NetworkService,
     ) { }
 
     ngOnInit() {

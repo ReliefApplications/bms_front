@@ -153,6 +153,13 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
             this.modalService.isCompleted.subscribe(() => {
                 this.getDistributionBeneficiaries();
             });
+        }  else if (dialogDetails.action === 'addBeneficiary') {
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+                if (this.networkService.getStatus()) {
+                    this.getDistributionBeneficiaries();
+                }
+            });
         }
     }
 

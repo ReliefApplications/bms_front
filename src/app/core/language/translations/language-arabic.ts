@@ -445,6 +445,7 @@ export class Arabic implements Language {
     model_user = 'المستخدم'
     model_unassigned = 'غير معين'
     model_password = 'كلمة المرور'
+    model_user_password_question = 'تحديث كلمة المرور عند تسجيل الدخول المقبل'
     model_value = 'القيمة'
     model_vendors_address = 'عنوان'
     model_transaction_state = 'الحالة'

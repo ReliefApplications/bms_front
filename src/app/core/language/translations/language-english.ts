@@ -445,6 +445,8 @@ export class English implements Language {
     model_used = 'Used'
     model_user = 'User'
     model_password = 'Password'
+    model_user_password_question = 'Update password on next login'
+
     model_value = 'Value'
     model_vendors_address = 'Address'
     model_vendor = 'Vendor'

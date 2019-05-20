@@ -123,8 +123,12 @@ export class User extends CustomModel {
         language: new TextModelField({
 
         }),
-        changePassword: new BooleanModelField({
-
+        mustChangePassword: new BooleanModelField({
+            title: this.language.model_user_password_question,
+            isDisplayedInModal: true,
+            isSettable: true,
+            isEditable: true,
+            value: true,
         })
 
     };
@@ -186,7 +190,7 @@ export class User extends CustomModel {
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en' );
-        newUser.set('changePassword', userFromApi.change_password);
+        newUser.set('mustChangePassword', userFromApi.must_change_password);
 
         return newUser;
     }
@@ -200,6 +204,7 @@ export class User extends CustomModel {
             language: this.get('language'),
             roles: (this.get('rights') ? [this.get('rights').get('id')] : null),
             vendor: null,
+            must_change_password: this.get('mustChangePassword')
         };
 
         if (!this.get('rights')) {

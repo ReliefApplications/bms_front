@@ -443,6 +443,7 @@ export class French implements Language {
     model_unassigned = 'Non assigné'
     model_used = 'Utilisé'
     model_user = 'Utilisateur'
+    model_user_password_question = 'Modifier le mot de passe à la prochaine connexion'
     model_password = 'Mot de passe'
     model_value = 'Valeur'
     model_vendors_address = 'Adresse'

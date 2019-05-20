@@ -69,6 +69,7 @@ import { ValidatedDistributionComponent } from '../modules/projects/distribution
 import { ProjectComponent } from '../modules/projects/project.component';
 import { LoginComponent } from '../modules/public/login.component';
 import { GeneralSettingsComponent } from '../modules/general-settings/general-settings.component';
+import { AdministrativeSettingsComponent } from '../modules/administrative-settings/administrative-settings.component';
 import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
 import { VouchersComponent } from '../modules/vouchers/vouchers.component';
 import { SettingsComponent } from '../components/settings/settings.component';
@@ -179,6 +180,7 @@ imports: [
         VouchersComponent,
         ScannerComponent,
         SettingsComponent,
+        AdministrativeSettingsComponent,
     ],
     entryComponents: [
         ModalDeleteComponent,
@@ -260,6 +262,7 @@ imports: [
         PlaceholderStepperComponent,
         PlaceholderTitleComponent,
         SettingsComponent,
+        AdministrativeSettingsComponent,
     ],
     providers: [
         { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },

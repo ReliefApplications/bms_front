@@ -4,12 +4,12 @@ import { LanguageService } from 'src/app/core/language/language.service';
 
 
 @Component({
-    selector: 'app-general-settings',
-    templateUrl: './general-settings.component.html',
-    styleUrls: ['./general-settings.component.scss']
+    selector: 'app-administrative-settings',
+    templateUrl: './administrative-settings.component.html',
+    styleUrls: ['./administrative-settings.component.scss']
 })
-export class GeneralSettingsComponent implements OnInit {
-    public nameComponent = 'general-settings';
+export class AdministrativeSettingsComponent implements OnInit {
+    public nameComponent = 'administrative-settings';
 
     selectedTitle = '';
 
@@ -17,6 +17,7 @@ export class GeneralSettingsComponent implements OnInit {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     @ViewChild(SettingsComponent) settings: SettingsComponent;
+
 
     constructor(public languageService: LanguageService) { }
 

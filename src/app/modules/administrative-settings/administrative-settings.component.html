@@ -1,0 +1,11 @@
+<div class="page-container">
+  <div class="container-title">
+    <h2>{{language.administrative_settings | titlecase}}</h2>
+  </div>
+  <div class="container-boxes">
+    <app-box-setting [isSelected]="selectedTitle === 'users'" (click)="selectTitle('users')" [info]='{icon: "settings/users", color: "green", title:language.settings_users, ref:"users"}'></app-box-setting>
+    <app-box-setting [isSelected]="selectedTitle === 'country specific options'" (click)="selectTitle('country specific options')" [info]='{icon: "settings/country_specific", color: "red", title:language.settings_country_specific_options, ref:"country specific options"}'></app-box-setting>
+    <app-box-setting [isSelected]="selectedTitle === 'financialProvider'" (click)="selectTitle('financialProvider')" [info]='{icon: "settings/api", color: "green", title:language.settings_financial_provider, ref:"financialProvider"}'></app-box-setting>
+  </div>
+  <app-settings [selectedTitle]="selectedTitle"></app-settings>
+</div>

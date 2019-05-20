@@ -170,6 +170,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   getData(title) {
+    if (this.httpSubscriber) {
+      this.httpSubscriber.unsubscribe();
+    }
     this.loadingData = true;
     switch (title) {
       case 'users':

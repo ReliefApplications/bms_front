@@ -58,9 +58,13 @@
             <span class="full-width">{{language.voucher | titlecase}}</span>
             <mat-icon mat-list-icon>local_activity</mat-icon>
         </mat-list-item>
-        <mat-list-item *ngIf="userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS')" [ngClass]="{selected: matchUrl() === 'settings'}" routerLink="/general-settings">
+        <mat-list-item *ngIf="userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS')" [ngClass]="{selected: matchUrl() === 'general-settings'}" routerLink="/general-settings">
             <span class="full-width">{{language.general_settings | titlecase}}</span>
             <mat-icon mat-list-icon>settings</mat-icon>
+        </mat-list-item>
+        <mat-list-item *ngIf="userService.hasRights('ROLE_ADMIN')" [ngClass]="{selected: matchUrl() === 'administrative-settings'}" routerLink="/administrative-settings">
+            <span class="full-width">{{language.administrative_settings | titlecase}}</span>
+            <mat-icon mat-list-icon>folder</mat-icon>
         </mat-list-item>
     </mat-nav-list>
 </ng-template>

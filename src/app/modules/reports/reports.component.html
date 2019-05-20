@@ -107,6 +107,11 @@
                 </div>
             </div>
 
+            <div *ngFor="let graph of graphs">
+                <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'"></app-line-chart>
+                <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie'"></app-pie-chart>
+            </div>
+
 <!--
 
             <mat-accordion class="panel-frequency">

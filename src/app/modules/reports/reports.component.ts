@@ -9,8 +9,9 @@ import { UserService } from 'src/app/core/api/user.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { Distribution } from 'src/app/model/distribution';
-import { Indicator } from 'src/app/model/indicator.new';
 import { Project } from 'src/app/model/project';
+import { GraphDTO } from './graph.dto';
+import { Graph } from './graph.model';
 import { IndicatorService } from './services/indicator.service';
 @Component({
     selector: 'app-reports',
@@ -18,6 +19,11 @@ import { IndicatorService } from './services/indicator.service';
     styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit, OnDestroy {
+
+
+//
+// ─── VARIABLES DECLARATIONS ─────────────────────────────────────────────────────
+//
 
     public enabledReports: Array<object> = [];
     public selectedReport: any = undefined;
@@ -48,12 +54,17 @@ export class ReportsComponent implements OnInit, OnDestroy {
         ]),
     });
 
+    // User select
     projects: Array<Project>;
     distributions: Array<Distribution>;
 
     subscriptions: Array<Subscription>;
 
-    indicators: Array<Indicator>;
+    graphs: Array<Graph>;
+
+//
+// ─── INITIALIZATION ─────────────────────────────────────────────────────────────
+//
 
     constructor(
         private userService: UserService,
@@ -69,21 +80,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.resetForms();
+        this.generateFrequencies();
+        this.generateEnabledReports();
         this.getProjects();
 
         this.generateFormsEvents();
-
-        this.generateEnabledReports();
-        this.generateFrequencies();
-
-        this.indicatorService.getIndicators()
-            .subscribe((indicatorsFromApi: Array<any>) => {
-                this.indicators = indicatorsFromApi.map((indicatorFromApi: any) => {
-                    return Indicator.apiToModel(indicatorFromApi);
-                });
-            });
     }
 
+    // Unsubscribe from all observable to prevent memory leaks on component destruction
     ngOnDestroy(): void {
         this.subscriptions.forEach((subscription: Subscription) => {
             subscription.unsubscribe();
@@ -97,6 +101,55 @@ export class ReportsComponent implements OnInit, OnDestroy {
             });
         });
     }
+
+    // Generate the reports types
+    private generateEnabledReports() {
+        if (this.userService.hasRights('ROLE_REPORTING_COUNTRY')) {
+            this.enabledReports.push(
+                {
+                    icon: 'settings/api',
+                    title: this.language.report_country_report,
+                    value: 'countries',
+                },
+            );
+        }
+        if (this.userService.hasRights('ROLE_REPORTING_PROJECT')) {
+            this.enabledReports.push(
+                {
+                    icon: 'reporting/projects',
+                    title: this.language.report_project_report,
+                    value: 'projects',
+                },
+            );
+        }
+
+        this.enabledReports.push(
+            {
+                icon: 'reporting/distribution',
+                title: this.language.report_distribution_report,
+                value: 'distributions',
+            },
+        );
+
+        this.selectedReport = this.enabledReports[0];
+    }
+
+
+    private generateFrequencies() {
+
+        // Data Button Declaration
+        this.enabledFrequencies = [
+                { label: this.language.report_filter_per_year, value: 'year' },
+                { label: this.language.report_filter_per_quarter, value: 'quarter' },
+                { label: this.language.report_filter_per_month, value: 'month' },
+                { label: this.language.report_filter_chose_periode, value: 'period' },
+            ];
+        this.selectedFrequency = this.enabledFrequencies[0];
+    }
+
+//
+// ─── FORM CHANGES SUBSRIPTIONS ──────────────────────────────────────────────────
+//
 
     private generateFormsEvents() {
         this.subscriptions = [
@@ -139,35 +192,11 @@ export class ReportsComponent implements OnInit, OnDestroy {
         ];
     }
 
-    private generateEnabledReports() {
-        if (this.userService.hasRights('ROLE_REPORTING_COUNTRY')) {
-            this.enabledReports.push(
-                {
-                    icon: 'settings/api',
-                    title: this.language.report_country_report,
-                    value: 'countries',
-                },
-            );
-        }
-        if (this.userService.hasRights('ROLE_REPORTING_PROJECT')) {
-            this.enabledReports.push(
-                {
-                    icon: 'reporting/projects',
-                    title: this.language.report_project_report,
-                    value: 'projects',
-                },
-            );
-        }
-
-        this.enabledReports.push(
-            {
-                icon: 'reporting/distribution',
-                title: this.language.report_distribution_report,
-                value: 'distributions',
-            },
-        );
-
-        this.selectedReport = this.enabledReports[0];
+    // Helper function: reset all forms
+    private resetForms() {
+        this.projectsControl.reset();
+        this.periodControl.reset();
+        this.distributionsControl.reset();
     }
 
     selectReport(clickedReport: object) {
@@ -182,18 +211,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
         this.onFilterChange();
     }
 
-    private generateFrequencies() {
-
-        // Data Button Declaration
-        this.enabledFrequencies = [
-                { label: this.language.report_filter_per_year, value: 'year' },
-                { label: this.language.report_filter_per_quarter, value: 'quarter' },
-                { label: this.language.report_filter_per_month, value: 'month' },
-                { label: this.language.report_filter_chose_periode, value: 'period' },
-            ];
-        this.selectedFrequency = this.enabledFrequencies[0];
-    }
-
+    // Called on frequency button press
     selectFrequency(clickedFrequency: object) {
         this.periodControl.reset();
         const selectedFrequencies = this.enabledFrequencies.filter((report: object) => {
@@ -205,12 +223,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
         this.selectedFrequency = selectedFrequencies.length ? selectedFrequencies[0] : undefined;
 
         this.onFilterChange();
-    }
-
-    private resetForms() {
-        this.projectsControl.reset();
-        this.periodControl.reset();
-        this.distributionsControl.reset();
     }
 
     // Prevent unnecessary calls to the api on filter change
@@ -229,14 +241,20 @@ export class ReportsComponent implements OnInit, OnDestroy {
                 return;
             }
         }
+        // If projects is selected, check for projects form validity
         if (this.selectedReport.value === 'projects') {
             if (! this.projectsControl.valid) {
                 return;
             }
         }
 
+        // Update only if every field is correclty filled
         this.updateReports();
     }
+
+//
+// ─── PREPARE DATA FOR API ───────────────────────────────────────────────────────
+//
 
     private updateReports() {
 
@@ -244,7 +262,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
         ...this.generateReport(),
         ...this.generateFrequency(),
         ...this.generateCountry(),
-        }).subscribe();
+        }).subscribe((graphsDTO: Array<GraphDTO>) => {
+            this.graphs = graphsDTO.map((graphDTO: GraphDTO) => {
+                return new Graph(graphDTO);
+            });
+            console.log(this.graphs);
+        });
     }
 
     // Map reports for api

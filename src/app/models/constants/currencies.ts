@@ -4,6 +4,14 @@ export const CURRENCIES = [
         name: 'USD'
     },
     {
+        id: '46',
+        name: 'EUR'
+    },
+    {
+        id: '38',
+        name: 'CZK'
+    },
+    {
         id: '0',
         name: 'AED'
     },
@@ -156,10 +164,6 @@ export const CURRENCIES = [
         name: 'CVE'
     },
     {
-        id: '38',
-        name: 'CZK'
-    },
-    {
         id: '39',
         name: 'DJF'
     },
@@ -186,10 +190,6 @@ export const CURRENCIES = [
     {
         id: '45',
         name: 'ETB'
-    },
-    {
-        id: '46',
-        name: 'EUR'
     },
     {
         id: '47',

@@ -71,6 +71,7 @@ import { LoginComponent } from '../modules/public/login.component';
 import { GeneralSettingsComponent } from '../modules/general-settings/general-settings.component';
 import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
 import { VouchersComponent } from '../modules/vouchers/vouchers.component';
+import { SettingsComponent } from '../components/settings/settings.component';
 
 
 
@@ -177,6 +178,7 @@ imports: [
         QrVoucherComponent,
         VouchersComponent,
         ScannerComponent,
+        SettingsComponent,
     ],
     entryComponents: [
         ModalDeleteComponent,
@@ -257,6 +259,7 @@ imports: [
         PlaceholderPanelComponent,
         PlaceholderStepperComponent,
         PlaceholderTitleComponent,
+        SettingsComponent,
     ],
     providers: [
         { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },

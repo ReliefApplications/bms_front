@@ -240,6 +240,10 @@ export interface Language {
     // Distribution
     distribution_accept_changed: string
     distribution_add_beneficiaries: string
+    distribution_add_justification: string
+    distribution_justify_added: string
+    distribution_justify_created: string
+    distribution_justify_deleted: string
     distribution_beneficiary_added: string
     distribution_beneficiary_not_added: string
     distribution_cant_update: string
@@ -251,6 +255,7 @@ export interface Language {
     distribution_distribute: string
     distribution_edit: string
     distribution_error_validate: string
+    distribution_last_modification: string
     distribution_no_beneficiaries: string
     distribution_no_random_sample: string
     distribution_no_right_transaction: string

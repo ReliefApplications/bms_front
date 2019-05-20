@@ -254,6 +254,10 @@ export class English implements Language {
     // Distribution
     distribution_accept_changed = 'Accept Changes'
     distribution_add_beneficiaries = 'Add beneficiaries to this distribution'
+    distribution_add_justification = 'Add justification'
+    distribution_justify_added = 'Please provide a justification for adding beneficiaries'
+    distribution_justify_created = 'Please provide a justification for creating beneficiaries'
+    distribution_justify_deleted = 'Please provide a justification for deleting beneficiaries'
     distribution_beneficiary_added = 'Beneficiary added'
     distribution_beneficiary_not_added = 'Beneficiary could not be added'
     distribution_cant_update = 'You can\'t update this distribution.'
@@ -265,6 +269,7 @@ export class English implements Language {
     distribution_distribute = 'set as distributed'
     distribution_edit = 'Edit distribution'
     distribution_error_validate = 'The distribution is empty, please fill it before to validate it'
+    distribution_last_modification = 'last modification : '
     distribution_no_beneficiaries = 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.'
     distribution_no_random_sample = 'Random sample can\'t be generated...'
     distribution_no_right_transaction = 'You haven\'t the right to realize the transaction, ask to your project manager or your country manager'

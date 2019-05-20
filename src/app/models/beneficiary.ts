@@ -9,6 +9,7 @@ import { NationalId } from './national-id';
 import { Phone } from './phone';
 import { Profile } from './profile';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
+import { BooleanModelField } from './custom-models/boolan-model-field';
 
 export class Gender extends CustomModel {
 
@@ -195,7 +196,10 @@ export class Beneficiary extends CustomModel {
         }),
         distributionId: new NumberModelField({
 
-        })
+        }),
+        removed: new BooleanModelField({
+
+        }),
     };
 
 

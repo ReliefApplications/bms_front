@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
@@ -12,6 +12,7 @@ import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { BeneficiariesService } from '../../../../core/api/beneficiaries.service';
 import { DistributionService } from '../../../../core/api/distribution.service';
 import { HouseholdsService } from '../../../../core/api/households.service';
+import { Validators, FormControl } from '@angular/forms';
 
 const IMPORT_COMPARE = 1;
 const IMPORT_UPDATE = 2;
@@ -38,6 +39,9 @@ export class ImportDistributionComponent implements OnInit, OnDestroy {
     importedBeneficiaryEntity = ImportedBeneficiary;
     public loadFile = false;
     public loadUpdate = false;
+
+    public modalReference: MatDialogRef<any>;
+    public justification = new FormControl('', [Validators.required]);
 
     // data
     addingData: MatTableDataSource<ImportedBeneficiary>;
@@ -71,6 +75,7 @@ export class ImportDistributionComponent implements OnInit, OnDestroy {
         public userService: UserService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        public dialog: MatDialog,
     ) { }
 
     ngOnInit() {
@@ -144,28 +149,44 @@ export class ImportDistributionComponent implements OnInit, OnDestroy {
                     }
                 );
             } else if (this.importedData && step === IMPORT_UPDATE) {
-                this.loadUpdate = true;
-                this.beneficiaryService.import(this.distribution.get('id'), { data: this.importedData }, IMPORT_UPDATE).pipe(
-                    finalize(() => {
-                        this.loadUpdate = false;
-                    })
-                ).subscribe(
-                    (_success: any) => {
-                        this.snackbar.success(this.language.import_distribution_updated);
-                        this.success.emit(true);
-                        this.loadUpdate = false;
-                        this.importedData = null;
-                        this.comparing = false;
-                    },
-                    error => {
-                        this.loadUpdate = false,
+                if (this.isJustified()) {
+                    this.loadUpdate = true;
+                    this.beneficiaryService.import(this.distribution.get('id'), { data: this.importedData }, IMPORT_UPDATE).pipe(
+                        finalize(() => {
+                            this.loadUpdate = false;
+                        })
+                    ).subscribe(
+                        (_success: any) => {
+                            this.snackbar.success(this.language.import_distribution_updated);
+                            this.success.emit(true);
+                            this.loadUpdate = false;
+                            this.importedData = null;
                             this.comparing = false;
-                    }
-                );
+                        },
+                        error => {
+                            this.loadUpdate = false,
+                                this.comparing = false;
+                        }
+                    );
+                }
             }
         } else {
             this.snackbar.error(this.language.import_distribution_no_right_update);
         }
+    }
+
+    isJustified() {
+        let justify = true;
+        const justifiedTypes = ['created', 'added', 'deleted'];
+        justifiedTypes.forEach((type: string) => {
+            this.importedData[type].forEach((beneficiary: any) => {
+                if (!beneficiary['justification']) {
+                    justify = false;
+                    this.snackbar.error(this.language['distribution_justify_' + type]);
+                }
+            });
+        });
+        return justify;
     }
 
     goBack() {
@@ -202,5 +223,75 @@ export class ImportDistributionComponent implements OnInit, OnDestroy {
         event.stopPropagation();
 
         this.fileChange(event, 'dataTransfer');
+    }
+
+    justify(importedBeneficiary: ImportedBeneficiary, template) {
+        this.justification.setValue(importedBeneficiary.get('justification'));
+        this.modalReference = this.dialog.open(template);
+        this.modalReference.afterClosed().subscribe((message: string) => {
+            if (message === 'add') {
+                importedBeneficiary.set('justification', this.justification.value);
+                const familyName = importedBeneficiary.get('beneficiary').get('familyName');
+                const givenName = importedBeneficiary.get('beneficiary').get('givenName');
+
+                const correspondingAdded = this.importedData.added.filter((added: any) => {
+                    return added.family_name === familyName && added.given_name === givenName;
+                })[0];
+                const correspondingCreated = this.importedData.created.filter((created: any) => {
+                    return created.familyName === familyName && created.givenName === givenName;
+                })[0];
+                const correspondingDeleted = this.importedData.deleted.filter((deleted: any) => {
+                    return deleted.familyName === familyName && deleted.givenName === givenName;
+                })[0];
+
+                let index: number;
+
+                if (correspondingAdded) {
+                    index = this.importedData.added.indexOf(correspondingAdded);
+                    this.importedData.added[index]['justification'] = this.justification.value;
+                } else if (correspondingCreated) {
+                    index = this.importedData.created.indexOf(correspondingCreated);
+                    this.importedData.created[index]['justification'] = this.justification.value;
+                } else if (correspondingDeleted) {
+                    index = this.importedData.deleted.indexOf(correspondingDeleted);
+                    this.importedData.deleted[index]['justification'] = this.justification.value;
+                }
+            }
+
+            this.justification.setValue('');
+        });
+    }
+
+    justifyAll(type: string, template) {
+        this.modalReference = this.dialog.open(template);
+        this.modalReference.afterClosed().subscribe((message: string) => {
+            if (message === 'add') {
+                this.importedData[type].forEach((beneficiary: any) => {
+                    beneficiary['justification'] = this.justification.value;
+                });
+                if (type === 'added') {
+                    this.addingData.data.forEach((importedBeneficiary: ImportedBeneficiary) => {
+                        importedBeneficiary.set('justification', this.justification.value);
+                    });
+                } else if (type === 'created') {
+                    this.createData.data.forEach((importedBeneficiary: ImportedBeneficiary) => {
+                        importedBeneficiary.set('justification', this.justification.value);
+                    });
+                } else if (type === 'deleted') {
+                    this.removingData.data.forEach((importedBeneficiary: ImportedBeneficiary) => {
+                        importedBeneficiary.set('justification', this.justification.value);
+                    });
+                }
+            }
+            this.justification.setValue('');
+        });
+    }
+
+    onCancel() {
+        this.modalReference.close('cancel');
+    }
+
+    onAdd() {
+        this.modalReference.close('add');
     }
 }

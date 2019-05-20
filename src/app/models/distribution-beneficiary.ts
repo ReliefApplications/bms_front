@@ -34,6 +34,7 @@ export class DistributionBeneficiary extends CustomModel {
         newDistributionBeneficiary.set('justification', distributionBeneficiaryFromApi.justification);
         const beneficiary = Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary);
         beneficiary.set('distributionId', distributionId);
+        beneficiary.set('removed', distributionBeneficiaryFromApi.removed);
         newDistributionBeneficiary.set('beneficiary', beneficiary);
     }
 }

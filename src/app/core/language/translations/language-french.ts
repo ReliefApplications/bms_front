@@ -254,6 +254,10 @@ export class French implements Language {
     // Distribution
     distribution_accept_changed = 'Accepter les changements'
     distribution_add_beneficiaries = 'Ajouter des bénéficiaires à cette distribution'
+    distribution_add_justification = 'Ajouter une justification'
+    distribution_justify_added = 'Veuillez justifier votre choix d\'ajouter des bénéficiaires'
+    distribution_justify_created = 'Veuillez justifier votre choix de créer des bénéficiaires'
+    distribution_justify_deleted = 'Veuillez justifier votre choix de supprimer des bénéficiaires'
     distribution_beneficiary_added = 'Bénéficiaire ajouté'
     distribution_beneficiary_not_added = 'Le bénéficiaire n\'a pas pu être ajouté'
     distribution_cant_update = 'Vous ne pouvez pas modifier cette distribution'
@@ -265,6 +269,7 @@ export class French implements Language {
     distribution_distribute = 'définir comme distribué'
     distribution_edit = 'Modifier la distribution'
     distribution_error_validate = 'La distribution est vide, veuillez la remplir avant de la valider'
+    distribution_last_modification = 'dernière modification : '
     distribution_no_beneficiaries = 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.'
     distribution_no_random_sample = 'L\'échantillon aléatoire ne peut pas être généré'
     distribution_no_right_transaction = 'Vous n\'avait pas le droit nécessaire pour réaliser la transaction, demandez à votre responsable de projet ou à votre responsable de pays'

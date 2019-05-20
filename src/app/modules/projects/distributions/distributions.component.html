@@ -10,12 +10,17 @@
 
     <div class="container-data" *ngIf="actualDistribution && !loadingDistribution">
         <div class="container-content">
-            <h3 class="container-subtitle">
-                {{actualDistribution.get('name') | titlecase}}
-                <mat-icon class="valid" *ngIf="actualDistribution.get('validated') === true">lock</mat-icon>
-                <mat-icon class="unvalid" *ngIf="actualDistribution.get('validated') === false">lock_open</mat-icon>
-                <mat-icon class="valid" *ngIf="actualDistribution.get('validated') === true && distributionFinished">done</mat-icon>
-            </h3>
+            <div class="container-subtitle">
+                <h3>
+                    {{actualDistribution.get('name') | titlecase}}
+                    <mat-icon class="valid" *ngIf="actualDistribution.get('validated') === true">lock</mat-icon>
+                    <mat-icon class="unvalid" *ngIf="actualDistribution.get('validated') === false">lock_open</mat-icon>
+                    <mat-icon class="valid" *ngIf="actualDistribution.get('validated') === true && distributionFinished">done</mat-icon>
+                </h3>
+                <h4>
+                    ({{ language.distribution_last_modification | titlecase}} {{actualDistribution.get('updatedOn') | date: 'dd-MM-yyyy HH:mm' }})
+                </h4>
+            </div>
             <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [displayedInstance]="actualDistribution"></app-box-properties>
         </div>
     </div>

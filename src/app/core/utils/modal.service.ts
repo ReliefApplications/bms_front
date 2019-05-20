@@ -99,10 +99,10 @@ export class ModalService {
                 } else if (closeMethod === 'Delete') {
                     this.isLoading.next();
                     this.deleteElement(dialogDetails.element);
-                } else if (closeMethod.method === 'AddBeneficiary') {
+                } else if (closeMethod && closeMethod.method === 'AddBeneficiary') {
                     this.isLoading.next();
                     this.addBeneficiary(closeMethod.beneficiaries, closeMethod.justification, dialogDetails.distribution);
-                } else if (closeMethod.method === 'DeleteBeneficiary') {
+                } else if (closeMethod && closeMethod.method === 'DeleteBeneficiary') {
                     this.isLoading.next();
                     this.deleteBeneficiary(dialogDetails.element, closeMethod.justification);
                 }

@@ -255,6 +255,10 @@ export class Arabic implements Language {
     // Distribution
     distribution_accept_changed = 'قبول التغييرات'
     distribution_add_beneficiaries = 'إضافة المستفيدين لهذا التوزيع'
+    distribution_add_justification = 'إضافة التبرير'
+    distribution_justify_added = 'يرجى تقديم مبرر لإضافة المستفيدين'
+    distribution_justify_created = 'يرجى تقديم مبرر لإنشاء المستفيدين'
+    distribution_justify_deleted = 'يرجى تقديم مبرر لحذف المستفيدين'
     distribution_beneficiary_added = 'تم أضافة المستفيد'
     distribution_beneficiary_not_added = 'لم بتم أضافة المستفيد'
     distribution_cant_update = 'لا يمكنك تحديث هذا التوزيع.'
@@ -266,6 +270,7 @@ export class Arabic implements Language {
     distribution_distribute = 'تعيين كما وزعت'
     distribution_edit = 'تعديل التوزيع'
     distribution_error_validate = 'التوزيع فارغ ، يرجى ملءه قبل التحقق من صحته'
+    distribution_last_modification = 'اخر تعديل :'
     distribution_no_beneficiaries = 'لم تتم إضافة أو إزالة أي مستفيدين. سيتم تحديث أي تغييرات يتم إجراؤها على المستفيدين المستوردين في النظام.'
     distribution_no_random_sample = 'لا يمكن إنشاء عينة عشوائية ...'
     distribution_no_right_transaction = 'لا يحق لك أن تقوم بالصفقة ، اسأل مدير المشروع الخاص بك أو مدير بلدك'

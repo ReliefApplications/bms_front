@@ -313,3 +313,13 @@ app-mobile-money, app-general-relief, app-qr-voucher {
     }
 
 }
+
+.container-subtitle {
+    flex-direction: column;
+    h3 {
+        margin-bottom:0;
+    }
+    h4 {
+        margin-top: 5px;
+    }
+}

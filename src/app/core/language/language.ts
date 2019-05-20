@@ -410,6 +410,12 @@ export interface Language {
     model_individual_to_all: string
     model_individual_value: string
     model_notes: string
+    model_organization_name: string
+    model_organization_logo: string
+    model_organization_font: string
+    model_organization_primary: string
+    model_organization_secondary: string
+    model_organization_footer: string
     model_product_name: string
     model_product_unit: string
     model_product_image: string
@@ -522,6 +528,7 @@ export interface Language {
     settings_donors: string
     settings_financial_provider: string
     settings_log_button: string
+    settings_organization: string
     settings_product: string
     settings_project_exists: string
     settings_users: string

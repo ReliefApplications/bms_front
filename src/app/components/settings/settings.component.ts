@@ -29,6 +29,8 @@ import { CountrySpecific } from '../../models/country-specific';
 import { Donor } from '../../models/donor';
 import { Project } from '../../models/project';
 import { User } from '../../models/user';
+import { Organization } from 'src/app/models/organization';
+import { OrganizationService } from 'src/app/core/api/organization.service';
 
 
 @Component({
@@ -90,6 +92,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         private modalService: ModalService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        private organizationService: OrganizationService,
     ) { }
 
     ngOnInit() {
@@ -179,8 +182,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.referedClassToken = User;
         this.referedClassService = this.userService;
         this.loggable = true;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
-        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.editable   = this.userService.hasRights('ROLE_ADMIN');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN');
         this.printable  = false;
         break;
       case 'donors':
@@ -202,15 +205,23 @@ export class SettingsComponent implements OnInit, OnDestroy {
       case 'country specific options':
         this.referedClassToken = CountrySpecific;
         this.referedClassService = this.countrySpecificService;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
-        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.editable   = this.userService.hasRights('ROLE_ADMIN');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN');
         this.printable = false;
         this.loggable = false;
         break;
       case 'financialProvider':
         this.referedClassToken = FinancialProvider;
         this.referedClassService = this.financialProviderService;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.editable   = this.userService.hasRights('ROLE_ADMIN');
+        this.deletable = false;
+        this.printable = false;
+        this.loggable = false;
+        break;
+      case 'organization':
+        this.referedClassToken = Organization;
+        this.referedClassService = this.organizationService;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN');
         this.deletable = false;
         this.printable = false;
         this.loggable = false;
@@ -239,7 +250,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   // TO DO : get from cache
     load(): void {
         this.data = new MatTableDataSource();
-
         this.httpSubscriber = this.referedClassService.get().
             pipe(
                 finalize(
@@ -277,6 +287,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
                 return this.userService.hasRights('ROLE_VENDORS_MANAGEMENT');
             case (Product):
                 return this.userService.hasRights('ROLE_PRODUCT_MANAGEMENT');
+            case (Organization):
+                return false; // We cannot add an organization because there is only one
             default:
                 return false;
         }

@@ -21,7 +21,7 @@ export class GeneralSettingsComponent implements OnInit {
     constructor(public languageService: LanguageService) { }
 
     ngOnInit() {
-        this.selectTitle('users');
+        this.selectTitle('projects');
     }
 
     selectTitle(title): void {

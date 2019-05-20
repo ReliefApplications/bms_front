@@ -25,6 +25,7 @@ export class French implements Language {
     export = 'Export'
     export_codes = 'Export des codes des brochures'
     gender = 'Sexe'
+    general_settings = 'Configuration'
     home = 'Accueil'
     households = 'Ménage'
     id = 'ID'

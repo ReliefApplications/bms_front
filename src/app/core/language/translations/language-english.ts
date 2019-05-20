@@ -25,6 +25,7 @@ export class English implements Language {
     export = 'Export'
     export_codes = 'Export booklet codes'
     gender = 'Gender'
+    general_settings = 'Configuration'
     home = 'Home'
     households = 'Household'
     id = 'ID'

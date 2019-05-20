@@ -32,12 +32,12 @@ import { User } from '../../models/user';
 
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.scss']
+    selector: 'app-general-settings',
+    templateUrl: './general-settings.component.html',
+    styleUrls: ['./general-settings.component.scss']
 })
-export class SettingsComponent implements OnInit, OnDestroy {
-    public nameComponent = 'settings';
+export class GeneralSettingsComponent implements OnInit, OnDestroy {
+    public nameComponent = 'general-settings';
     loadingExport = false;
 
     selectedTitle = '';

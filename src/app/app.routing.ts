@@ -20,7 +20,7 @@ import { ProjectComponent } from './modules/projects/project.component';
 // Components
 import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
-import { SettingsComponent } from './modules/settings/settings.component';
+import { GeneralSettingsComponent } from './modules/general-settings/general-settings.component';
 import { VouchersComponent } from './modules/vouchers/vouchers.component';
 
 
@@ -64,8 +64,8 @@ export const routes: Routes = [
         resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
-        path: 'settings',
-        component: SettingsComponent,
+        path: 'general-settings',
+        component: GeneralSettingsComponent,
         canActivate: [AuthGuard, PermissionsGuard],
         resolve: {language: LanguageResolver, country: CountryResolver},
     },

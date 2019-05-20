@@ -26,6 +26,7 @@ export class Arabic implements Language {
     export = 'تحميل'
     export_codes = 'رموز كتيب التصدير'
     gender = 'الجنس'
+    general_settings = 'ترتيب'
     home = 'الصفحة الرئيسية'
     households = 'الأسرة'
     id = 'دخول'

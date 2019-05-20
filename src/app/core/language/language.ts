@@ -24,6 +24,7 @@ export interface Language {
     export: string
     export_codes: string
     gender: string
+    general_settings: string;
     home: string
     households: string
     id: string

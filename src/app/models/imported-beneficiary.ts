@@ -53,14 +53,9 @@ export class ImportedBeneficiary extends CustomModel {
         // TO DO : Use the line above when the api will be coherent in sending beneficiaries
         let beneficiary = new Beneficiary();
         beneficiary = Beneficiary.apiToModel(importedBeneficiaryFromApi);
-        beneficiary.set('givenName',
-            importedBeneficiaryFromApi.givenName ? importedBeneficiaryFromApi.givenName : importedBeneficiaryFromApi.given_name);
-        beneficiary.set('familyName',
-            importedBeneficiaryFromApi.familyName ? importedBeneficiaryFromApi.familyName : importedBeneficiaryFromApi.family_name);
-        beneficiary.set('dateOfBirth',
-            importedBeneficiaryFromApi.dateOfBirth ?
-            DateModelField.formatFromApi(importedBeneficiaryFromApi.dateOfBirth) :
-            DateModelField.formatFromApi(importedBeneficiaryFromApi.date_of_birth));
+        beneficiary.set('givenName', importedBeneficiaryFromApi.givenName);
+        beneficiary.set('familyName', importedBeneficiaryFromApi.familyName);
+        beneficiary.set('dateOfBirth', DateModelField.formatFromApi(importedBeneficiaryFromApi.dateOfBirth));
         newImportedBeneficiary.set('beneficiary', beneficiary);
 
         return newImportedBeneficiary;

@@ -231,24 +231,20 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     public openConversionDialog(template: TemplateRef<void>) {
         this.conversionForm.reset();
 
-
-
         this.conversionFormControlSubscriptions = Object.keys(this.conversionForm.controls).map((admKey: string) => {
             return this.conversionForm.controls[admKey].valueChanges.subscribe((_: any) => {
                 this.onAdmChange(admKey);
             });
         });
-
+        this.conversionDialog = this.dialog.open(template);
         this.locationService.getAdm1().subscribe((adm1: Array<any>) => {
             if (adm1) {
                 this.conversionLocation.setOptions('adm1', adm1.map((singleAdm1: any) => Adm.apiToModel(singleAdm1)));
             }
-            this.conversionDialog = this.dialog.open(template);
-
-            this.conversionDialog.afterClosed().subscribe((_: any) => {
-                this.conversionFormControlSubscriptions.forEach((subscription: Subscription) => {
-                    subscription.unsubscribe();
-                });
+        });
+        this.conversionDialog.afterClosed().subscribe((_: any) => {
+            this.conversionFormControlSubscriptions.forEach((subscription: Subscription) => {
+                subscription.unsubscribe();
             });
         });
     }

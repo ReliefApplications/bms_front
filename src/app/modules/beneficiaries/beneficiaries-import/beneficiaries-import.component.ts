@@ -232,8 +232,10 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this.conversionForm.reset();
 
         this.conversionFormControlSubscriptions = Object.keys(this.conversionForm.controls).map((admKey: string) => {
-            return this.conversionForm.controls[admKey].valueChanges.subscribe((_: any) => {
-                this.onAdmChange(admKey);
+            return this.conversionForm.controls[admKey].valueChanges.subscribe((value: any) => {
+                if (value) {
+                    this.onAdmChange(admKey);
+                }
             });
         });
         this.conversionDialog = this.dialog.open(template);
@@ -267,31 +269,31 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     onAdmChange(admKey: string) {
         switch (admKey) {
-            case('adm4'):
-                this.conversionLocation.set('adm4', this.conversionForm.get('adm4').value);
-
-                return;
             case('adm3'):
-                this.conversionLocation.set('adm3', this.conversionForm.get('adm3').value);
-                this.locationService.getAdm4({adm3: this.conversionLocation.get('adm3').get('id')}).subscribe((adm4: Array<any>) => {
+                this.locationService.getAdm4({adm3: this.conversionForm.get('adm3').value.get('id')}).subscribe((adm4: Array<any>) => {
                     if (adm4) {
                         this.conversionLocation.setOptions('adm4', adm4.map((singleAdm4: any) => Adm.apiToModel(singleAdm4)));
+                        this.conversionForm.controls.adm4.setValue(null);
                     }
                 });
                 return;
             case('adm2'):
-                this.conversionLocation.set('adm2', this.conversionForm.get('adm2').value);
-                this.locationService.getAdm3({adm2: this.conversionLocation.get('adm2').get('id')}).subscribe((adm3: Array<any>) => {
+                this.locationService.getAdm3({adm2: this.conversionForm.get('adm2').value.get('id')}).subscribe((adm3: Array<any>) => {
                     if (adm3) {
                         this.conversionLocation.setOptions('adm3', adm3.map((singleAdm3: any) => Adm.apiToModel(singleAdm3)));
+                        this.conversionForm.controls.adm3.setValue(null);
+                        this.conversionForm.controls.adm4.setValue(null);
+
                     }
                 });
                 return;
             case('adm1'):
-                this.conversionLocation.set('adm1', this.conversionForm.get('adm1').value);
-                this.locationService.getAdm2({adm1: this.conversionLocation.get('adm1').get('id')}).subscribe((adm2: Array<any>) => {
+                this.locationService.getAdm2({adm1: this.conversionForm.get('adm1').value.get('id')}).subscribe((adm2: Array<any>) => {
                     if (adm2) {
                         this.conversionLocation.setOptions('adm2', adm2.map((singleAdm2: any) => Adm.apiToModel(singleAdm2)));
+                        this.conversionForm.controls.adm2.setValue(null);
+                        this.conversionForm.controls.adm3.setValue(null);
+                        this.conversionForm.controls.adm4.setValue(null);
                     }
                 });
                 return;
@@ -314,30 +316,12 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         const data = new FormData();
         data.append('file', this.csv2);
 
+        const body = {};
 
-        const body = {
-            adm: 0,
-            name: ''
-        };
-
-        if (this.conversionLocation.get<Adm>('adm4')) {
-            body.adm = 4;
-            body.name = this.conversionLocation.get<Adm>('adm4').get<string>('name');
-        }
-        else if (this.conversionLocation.get<Adm>('adm3')) {
-            body.adm = 3;
-            body.name = this.conversionLocation.get<Adm>('adm3').get<string>('name');
-
-        }
-        else if (this.conversionLocation.get<Adm>('adm2')) {
-            body.adm = 2;
-            body.name = this.conversionLocation.get<Adm>('adm2').get<string>('name');
-
-        }
-        else if (this.conversionLocation.get<Adm>('adm1')) {
-            body.adm = 1;
-            body.name = this.conversionLocation.get<Adm>('adm1').get<string>('name');
-        }
+        body['adm4'] = this.conversionForm.controls.adm4.value ? this.conversionForm.controls.adm4.value.get('name') : '';
+        body['adm3'] = this.conversionForm.controls.adm3.value ? this.conversionForm.controls.adm3.value.get('name') : '';
+        body['adm2'] = this.conversionForm.controls.adm2.value ? this.conversionForm.controls.adm2.value.get('name') : '';
+        body['adm1'] = this.conversionForm.controls.adm1.value ? this.conversionForm.controls.adm1.value.get('name') : '';
 
         this._householdsService.testFileTemplate(data, body)
             .then(() => {

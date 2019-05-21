@@ -47,7 +47,7 @@
             </ng-container>
 
             <ng-template #distribution>
-                <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
+                <div class="content-button" *ngIf="selectedProject.get('numberOfHouseholds') !== 0 ">
                     <div class="action-buttons">
                     <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                         <button mat-raised-button [disabled]="!(distributionData && distributionData.data.length > 0)" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
@@ -80,7 +80,7 @@
                     </button>
                 </div>
 
-                <div class="undisplay new-project" *ngIf="selectedProject.number_of_households == '0' &&  !noNetworkData">
+                <div class="undisplay new-project" *ngIf="selectedProject.get('numberOfHouseholds') === 0 &&  !noNetworkData">
                     <mat-icon>group_add</mat-icon>
                     <div class="resume">
                     <p> {{language.project_no_household}}</p>
@@ -90,13 +90,13 @@
                         {{language.project_go_import_beneficiaries}}
                     </button>
                 </div>
-                <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0 && !noNetworkData && !loadingDistributions">
+                <div class="undisplay empty-project" *ngIf="selectedProject.get('numberOfHouseholds') !== 0 && distributionData && distributionData.data.length==0 && !noNetworkData && !loadingDistributions">
                     <mat-icon>find_in_page</mat-icon>
                     <div class="resume">
                         <p> {{language.project_no_distribution}}</p>
                     </div>
                     <i> {{language.project_click}}
-                        <mat-icon>add_circle</mat-icon>
+                        <mat-icon class="cursor-pointer" (click)="addDistribution()">add_circle</mat-icon>
                     </i>
                 </div>
                 <div class="content-table" *ngIf="((distributionData && distributionData.data.length>0) && !noNetworkData) || loadingDistributions">

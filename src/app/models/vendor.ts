@@ -9,10 +9,6 @@ import { TextModelField } from './custom-models/text-model-field';
 import { Location } from './location';
 import { User } from './user';
 
-export class ErrorInterface {
-    message: string;
-}
-
 export class Vendor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];

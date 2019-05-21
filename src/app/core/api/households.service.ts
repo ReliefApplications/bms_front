@@ -16,7 +16,7 @@ import { HttpService } from '../network/http.service';
 import { LocationService } from './location.service';
 import { ProjectService } from './project.service';
 import { Gender, ResidencyStatus } from 'src/app/models/beneficiary';
-import { LIVELIHOOD } from 'src/app/models/livelihood';
+import { LIVELIHOOD } from 'src/app/models/constants/livelihood';
 
 @Injectable({
     providedIn: 'root'

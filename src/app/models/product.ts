@@ -3,10 +3,6 @@ import { FileModelField } from './custom-models/file-model-field';
 import { NumberModelField } from './custom-models/number-model-field';
 import { TextModelField } from './custom-models/text-model-field';
 
-export class ErrorInterface {
-    message: string;
-}
-
 export class Product extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];

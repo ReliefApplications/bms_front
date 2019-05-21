@@ -1,5 +1,5 @@
 <div class="modal-container" *ngIf="criteria">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{language.modal_add_title |titlecase }} {{criteria.title | uppercaseFirst}}</h4>
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{language.modal_add_title |uppercaseFirst }} {{criteria.title | uppercaseFirst}}</h4>
   <form [formGroup]="form">
     <table class="modal-table">
       <tr class="modal-row">
@@ -56,7 +56,7 @@
               <th class="table-value advanced-icon-wrapper">
                   <div class="advanced-icon">
                       <button mat-button class="button-text-accent" (click)="changeDisplay()">
-                          <span>{{ language.add_distribution_advanced_option | titlecase}}</span>
+                          <span>{{ language.add_distribution_advanced_option | uppercaseFirst}}</span>
                           <mat-icon>{{ iconAdvanced }}</mat-icon>
                       </button>
                   </div>

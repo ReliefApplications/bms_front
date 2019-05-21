@@ -36,14 +36,14 @@
 <mat-menu #menu="matMenu" overlapTrigger=false>
   <button *ngIf="language" mat-menu-item (click)="openLanguageDialog()">
     <mat-icon>language</mat-icon>
-    <span>{{language.header_language | titlecase}}</span>
+    <span>{{language.header_language | uppercaseFirst}}</span>
   </button>
   <button *ngIf="language" mat-menu-item routerLink="/profile">
     <mat-icon>person_outline</mat-icon>
-    <span>{{language.header_profile | titlecase}}</span>
+    <span>{{language.header_profile | uppercaseFirst}}</span>
   </button>
   <button *ngIf="language" mat-menu-item routerLink="/login">
     <mat-icon>exit_to_app</mat-icon>
-    <span>{{language.header_disconnect | titlecase}}</span>
+    <span>{{language.header_disconnect | uppercaseFirst}}</span>
   </button>
 </mat-menu>

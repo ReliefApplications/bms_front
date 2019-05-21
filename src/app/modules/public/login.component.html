@@ -6,17 +6,17 @@
             </div>
             <form [formGroup]="form">
                 <div class="login-title">
-                    <h1 class="title-text">{{language.login_bms | titlecase}}</h1>
+                    <h1 class="title-text">{{language.login_bms | uppercaseFirst}}</h1>
                 </div>
                 <div class="login-user">
-                    <input type="text" class="user-input" aria-describedby="basic-addon1" placeholder="{{language.login_username | titlecase}}"
+                    <input type="text" class="user-input" aria-describedby="basic-addon1" placeholder="{{language.login_username | uppercaseFirst}}"
                     formControlName="username">
-                    <input autocomplete="new-password" type="password" class="user-input" aria-describedby="basic-addon1" placeholder="{{language.login_password | titlecase}}" formControlName="password">
+                    <input autocomplete="new-password" type="password" class="user-input" aria-describedby="basic-addon1" placeholder="{{language.login_password | uppercaseFirst}}" formControlName="password">
                     <h5 *ngIf="forgotMessage" class="user-forgot-password">{{language.login_forgot_password}}</h5>
                     <recaptcha formControlName="captcha" *ngIf="prod()" (scriptError)="onScriptError()"> </recaptcha>
                 </div>
                 <div class="login-button">
-                    <button (click)="onSubmit()" mat-raised-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | titlecase}}</button>
+                    <button (click)="onSubmit()" mat-raised-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
                 </div>
             </form>

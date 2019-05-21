@@ -18,7 +18,7 @@
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
             <th mat-header-cell *matHeaderCellDef class="{{column}}">
                 <div *ngIf="column !== 'icon'">
-                    {{column | titlecase}}
+                    {{column | uppercaseFirst}}
                 </div>
             </th>
             <td mat-cell *matCellDef="let element" class="{{column}}">
@@ -33,7 +33,7 @@
                     </strong>
                 </div>
                 <div *ngIf="column == 'target'">
-                    {{ element.url.split('wsse/')[1] | titlecase }}
+                    {{ element.url.split('wsse/')[1] | uppercaseFirst }}
                 </div>
                 <div *ngIf="column == 'date'">
                     {{ formatDate(element.date) }}
@@ -56,7 +56,7 @@
                 <div class="req-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                     <div class="req-details-container">
                         <div class="req-properties" *ngFor="let property of expandBody(element.body)">
-                            {{ property | titlecase}}
+                            {{ property | uppercaseFirst}}
                         </div>
                     </div>
                 </div>

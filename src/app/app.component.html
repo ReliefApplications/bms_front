@@ -39,27 +39,27 @@
             <img src="assets/images/bms_logo.png" mat-list-icon>
         </mat-list-item>
         <mat-list-item [ngClass]="{selected: matchUrl() === ''}" routerLink="/">
-            <span class="full-width" >{{language.home | titlecase}}</span>
+            <span class="full-width" >{{language.home | uppercaseFirst}}</span>
             <mat-icon mat-list-icon>home</mat-icon>
         </mat-list-item>
         <mat-list-item [ngClass]="{selected: matchUrl() === 'projects'}" routerLink="/projects">
-            <span class="full-width" >{{language.projects | titlecase}}</span>
+            <span class="full-width" >{{language.projects | uppercaseFirst}}</span>
             <mat-icon mat-list-icon>assignment</mat-icon>
         </mat-list-item>
         <mat-list-item [ngClass]="{selected: matchUrl() === 'beneficiaries'}" routerLink="/beneficiaries">
-            <span class="full-width" >{{language.beneficiaries | titlecase}}</span>
+            <span class="full-width" >{{language.beneficiaries | uppercaseFirst}}</span>
             <mat-icon mat-list-icon>supervisor_account</mat-icon>
         </mat-list-item>
         <mat-list-item [ngClass]="{selected: matchUrl() === 'reports'}" routerLink="/reports">
-            <span class="full-width" >{{language.reports | titlecase}}</span>
+            <span class="full-width" >{{language.reports | uppercaseFirst}}</span>
             <mat-icon mat-list-icon>timeline</mat-icon>
         </mat-list-item>
         <mat-list-item [ngClass]="{selected: matchUrl() === 'vouchers'}" routerLink="/vouchers">
-            <span class="full-width">{{language.voucher | titlecase}}</span>
+            <span class="full-width">{{language.voucher | uppercaseFirst}}</span>
             <mat-icon mat-list-icon>local_activity</mat-icon>
         </mat-list-item>
         <mat-list-item *ngIf="userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS')" [ngClass]="{selected: matchUrl() === 'settings'}" routerLink="/settings">
-            <span class="full-width">{{language.settings | titlecase}}</span>
+            <span class="full-width">{{language.settings | uppercaseFirst}}</span>
             <mat-icon mat-list-icon>settings</mat-icon>
         </mat-list-item>
     </mat-nav-list>

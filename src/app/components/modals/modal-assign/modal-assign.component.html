@@ -1,5 +1,5 @@
 <mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent">{{language.voucher_assign_title | titlecase}}</h4>
+  <h4 class="modal-title underline-accent">{{language.voucher_assign_title | uppercaseFirst}}</h4>
   <div class="dialog-template" *ngIf="step === 1">
     <div class="modal-body">
       <form class="form" [formGroup]="form">
@@ -76,7 +76,7 @@
       <p>{{ language.voucher_ask_code }}</p>
       <div class="dialog-template">
         <mat-form-field class="full-width">
-          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" [placeholder]= "language.model_password | titlecase" />
+          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" [placeholder]= "language.model_password | uppercaseFirst" />
           <mat-error *ngIf=""></mat-error>
         </mat-form-field>
       </div>

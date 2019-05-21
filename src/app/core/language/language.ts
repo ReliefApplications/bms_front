@@ -406,6 +406,7 @@ export interface Language {
     model_household_sentence: string
     model_individual_to_all: string
     model_individual_value: string
+    model_item: string
     model_notes: string
     model_product_name: string
     model_product_unit: string

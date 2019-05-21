@@ -422,6 +422,7 @@ export class English implements Language {
     model_household_sentence = 'The household of '
     model_individual_to_all = 'Set vouchers value individually'
     model_individual_value = 'Individual value'
+    model_item = 'Item'
     model_notes = 'Notes'
     model_product_name = 'Name'
     model_product_unit = 'Unit'

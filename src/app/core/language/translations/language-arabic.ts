@@ -422,6 +422,7 @@ export class Arabic implements Language {
     model_household_sentence = 'الأسرة من'
     model_individual_to_all = 'تعيين قيمة القسائم بشكل فردي'
     model_individual_value = 'القيمة الفردية'
+    model_item = 'بند'
     model_notes = 'الملاحظات'
     model_product_name = 'اسم'
     model_product_unit = 'وحدة'

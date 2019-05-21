@@ -1,32 +1,32 @@
 <div class="page-container">
   <div class="container-title">
-    <h2> {{language.header_profile | uppercaseFirst}} </h2>
+    <h2> {{language.header_profile | titlecase}} </h2>
   </div>
 
   <div class="container-table">
     <div class="container-profile">
       <form class="profile-field" [formGroup]="profileForm" (ngSubmit)="onProfileFormSubmit()">
-        <h2> {{ language.profile_user_information | uppercaseFirst }} </h2>
+        <h2> {{ language.profile_user_information | titlecase }} </h2>
         <mat-form-field *ngIf='actualUser'>
-          <input matInput placeholder="{{language.email | uppercaseFirst}}" formControlName="email" [disabled]="true">
+          <input matInput placeholder="{{language.email | titlecase}}" formControlName="email" [disabled]="true">
         </mat-form-field>
 
-        <h2> {{ language.profile_user_change_password | uppercaseFirst }} </h2>
+        <h2> {{ language.profile_user_change_password | titlecase }} </h2>
         <mat-form-field>
-          <input matInput [placeholder]="language.profile_user_hint_old_password | uppercaseFirst" type="password" formControlName="oldPassword">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input autocomplete="new-password" matInput [placeholder]="language.profile_user_hint_new_password | uppercaseFirst" type="password" formControlName="newPassword1">
+          <input matInput [placeholder]="language.profile_user_hint_old_password | titlecase" type="password" formControlName="oldPassword">
         </mat-form-field>
 
         <mat-form-field>
-          <input autocomplete="new-password" matInput [placeholder]="language.profile_user_hint_new_password_again | uppercaseFirst" type="password" formControlName="newPassword2">
+          <input autocomplete="new-password" matInput [placeholder]="language.profile_user_hint_new_password | titlecase" type="password" formControlName="newPassword1">
+        </mat-form-field>
+
+        <mat-form-field>
+          <input autocomplete="new-password" matInput [placeholder]="language.profile_user_hint_new_password_again | titlecase" type="password" formControlName="newPassword2">
         </mat-form-field>
 
         <div class="action-buttons">
           <button mat-raised-button type="submit" [disabled]="!profileForm.valid" class="button-background-primary">
-            {{ language.save | uppercaseFirst }}
+            {{ language.save | titlecase }}
           </button>
         </div>
       </form>

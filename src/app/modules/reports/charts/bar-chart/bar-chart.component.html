@@ -22,7 +22,7 @@
 </div>
 
 <div *ngIf="!loader && noData" class="no-data">
-  <h1>{{ language.no_data | uppercaseFirst }}</h1>
+  <h1>{{ language.no_data | titlecase }}</h1>
 </div>
 
 <div *ngIf="loader" class="boxLoader">

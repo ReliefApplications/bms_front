@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{language.not_found | uppercaseFirst}}</h2>
+    <h2>{{language.not_found | titlecase}}</h2>
   </div>
   <div class="container-table">
       <div class="container-content box-red">
@@ -16,7 +16,7 @@
           <div class="content-button-footer">
               <button mat-raised-button routerLink="/">
                   <mat-icon>backspace</mat-icon>
-                  <span> {{language.back_to_homepage | uppercaseFirst }}</span>
+                  <span> {{language.back_to_homepage | titlecase }}</span>
               </button>
           </div>
       </div>

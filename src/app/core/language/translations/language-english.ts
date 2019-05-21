@@ -379,6 +379,7 @@ export class English implements Language {
     modal_password_required = 'You must define a password'
     modal_pending_requests = 'Pending Requests'
     modal_project_name_characters_limit = 'do not exceed'
+    modal_pick_color = 'Select a color'
     modal_required = 'required'
     modal_save_language_as_default = 'Set this as my default language'
     modal_success = 'Success'

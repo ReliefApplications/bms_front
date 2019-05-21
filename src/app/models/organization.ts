@@ -36,7 +36,6 @@ export class Organization extends CustomModel {
             isEditable: true,
             uploadPath: '/organization/upload/logo',
             fileUrlField: 'logo',
-            isRequired: true,
         }),
         font: new TextModelField({
             title: this.language.model_organization_font,
@@ -44,6 +43,7 @@ export class Organization extends CustomModel {
             isDisplayedInTable: true,
             isEditable: true,
             isRequired: true,
+            isFont: true,
         }),
         primaryColor: new TextModelField({
             title: this.language.model_organization_primary,
@@ -51,6 +51,7 @@ export class Organization extends CustomModel {
             isDisplayedInTable: true,
             isEditable: true,
             isRequired: true,
+            isColor: true,
         }),
         secondaryColor: new TextModelField({
             title: this.language.model_organization_secondary,
@@ -58,6 +59,7 @@ export class Organization extends CustomModel {
             isDisplayedInTable: true,
             isEditable: true,
             isRequired: true,
+            isColor: true,
         }),
         footerContent: new TextModelField({
             title: this.language.model_organization_footer,

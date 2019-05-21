@@ -363,6 +363,7 @@ export interface Language {
     modal_no_project: string
     modal_password_required: string
     modal_pending_requests: string
+    modal_pick_color: string
     modal_project_name_characters_limit: string
     modal_required: string
     modal_save_language_as_default: string

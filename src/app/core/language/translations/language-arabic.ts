@@ -379,6 +379,7 @@ export class Arabic implements Language {
     modal_password_required = 'كنت موسى تعريف كلمة مرور'
     modal_pending_requests = 'الطلبات المعلقة'
     modal_project_name_characters_limit = 'لا تتجاوز'
+    modal_pick_color = 'اختيار اللون'
     modal_save_language_as_default = 'قم بتعيين هذه اللغة كلغتي المفضلة.'
     modal_success = 'نجاح'
     modal_required = 'مطلوب'

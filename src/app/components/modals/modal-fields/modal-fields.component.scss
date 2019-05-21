@@ -38,3 +38,27 @@
 .ng-select-opened ::ng-deep .ng-option-selected {
   color: #424242 !important;
 }
+
+.color {
+  width: 70px;
+  height: 15px;
+  border: 1px black solid;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.color-grid {
+  width: 500px;
+  .color-row {
+    display: flex;
+    height: 25px;
+    .color-column {
+      display:flex;
+      flex-direction: column;
+      width: 50px
+    }
+    .selected {
+      border: 1px solid black;
+    }
+  }
+}

@@ -378,6 +378,7 @@ export class French implements Language {
     modal_password_required = 'Vous devez indiquer un mot de passe'
     modal_pending_requests = 'Pending Requests'
     modal_project_name_characters_limit = 'ne pas dépasser'
+    modal_pick_color = 'Veuillez selectionner une couleur'
     modal_save_language_as_default = 'Définir ceci comme langage par défaut'
     modal_success = 'Succès'
     modal_required = 'obligatoire'

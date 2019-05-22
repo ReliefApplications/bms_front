@@ -147,7 +147,8 @@ export class HouseholdsService extends CustomModelService {
             params: params
         };
 
-        const url = this.api + '/import/households?adm=' + location.adm + '&name=' + location.name;
+        const url = this.api + '/import/households?adm1=' + location.adm1 + '&adm2=' + location.adm2 +
+            '&adm3=' + location.adm3 + '&adm4=' + location.adm4;
         return this.http.post(url, file, options).toPromise()
             .then((response) => {
                 saveAs(response, 'templateSyria.xls');

@@ -164,6 +164,7 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
             }
         ).catch(
             (err: any) => {
+                this.loadingExport = false;
             }
         );
     }

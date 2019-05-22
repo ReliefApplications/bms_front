@@ -44,7 +44,9 @@ export class UserService extends CustomModelService {
 
     public getUserFromCache(): Observable<User> {
         return this.authenticationService.getUser().pipe(map((userObject: any) => {
-            this.currentUser = User.apiToModel(userObject);
+            if (userObject) {
+                this.currentUser = User.apiToModel(userObject);
+            }
             return this.currentUser;
         }));
     }

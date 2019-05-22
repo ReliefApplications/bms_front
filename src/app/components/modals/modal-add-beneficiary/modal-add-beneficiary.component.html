@@ -7,9 +7,9 @@
                 {{language.distribution | lowercase}}.</p>
             <mat-spinner [diameter]="35" *ngIf="loading"></mat-spinner>
             <div *ngIf="!loading" class="selectBeneficiaries">
-                <ng-select class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true" placeholder="{{language.beneficiaries | titlecase}}" [closeOnSelect]="false" [searchable]="true" required>
+                <ng-select class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true" placeholder="{{language.beneficiaries | uppercaseFirst}}" [closeOnSelect]="false" [searchable]="true" required>
                     <ng-option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">
-                        {{beneficiary.get('fullName') | titlecase}}
+                        {{beneficiary.get('fullName') | uppercaseFirst}}
                     </ng-option>
                 </ng-select>
             </div>

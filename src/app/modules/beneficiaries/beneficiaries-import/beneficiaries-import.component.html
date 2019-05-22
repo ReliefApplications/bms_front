@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{language.beneficiaries_import_title | titlecase}}</h2>
+    <h2>{{language.beneficiaries_import_title | uppercaseFirst}}</h2>
   </div>
 
   <div class="container-boxes">
@@ -16,12 +16,12 @@
           <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'"></mat-spinner>
           <button mat-stroked-button color="primary" class="template" *ngIf="!loadLocations && country === 'SYR'" (click)="openConversionDialog(mapFile)">
             <mat-icon>publish</mat-icon>
-            <span>{{language.beneficiaries_import_convert | titlecase }}</span>
+            <span>{{language.beneficiaries_import_convert | uppercaseFirst }}</span>
           </button>
 
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
-              {{language.beneficiaries_import_csv | titlecase }}
+              {{language.beneficiaries_import_csv | uppercaseFirst }}
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
             <div class="extension" *ngIf="!loadingExport">
@@ -49,7 +49,7 @@
             <div class="select-file">
               <a href="javascript:void(0)" (click)="file.click()">
                 <button mat-stroked-button color="primary">{{language.beneficiaries_import_addFile
-                  | titlecase}}</button>
+                  | uppercaseFirst}}</button>
               </a>
               <input type="file" #file (change)="fileChange($event, 'target')" style="display:none" />
             </div>
@@ -69,7 +69,7 @@
               <img class='img-folder' src="assets/images/projects.png">
             </div>
             <div class="select-file project-input">
-              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder="{{language.projects | titlecase}}">
+              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder="{{language.projects | uppercaseFirst}}">
                 <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}</ng-option>
               </ng-select>
             </div>
@@ -80,7 +80,7 @@
         <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
         <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="importHouseholdsFile()">
           <mat-icon>publish</mat-icon>
-          <span>{{language.import | titlecase }}</span>
+          <span>{{language.import | uppercaseFirst }}</span>
         </button>
       </div>
     </div>
@@ -95,7 +95,7 @@
             <div>
               <img class='img-folder' src="assets/images/settings/api.png">
             </div>
-            <h3>{{language.beneficiaries_select_api | titlecase}}</h3>
+            <h3>{{language.beneficiaries_select_api | uppercaseFirst}}</h3>
             <div class="content-select">
               <mat-radio-group formControlName="apiSelector" class="content-select" >
                 <mat-radio-button *ngFor="let api of apiList;" value="{{ api.name }}" color="primary">{{api.name}}</mat-radio-button>
@@ -126,7 +126,7 @@
               <img class='img-folder' src="assets/images/projects.png">
             </div>
             <div class="select-file project-input">
-              <ng-select formControlName="projects" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.projects | titlecase}}">
+              <ng-select formControlName="projects" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.projects | uppercaseFirst}}">
                 <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}</ng-option>
               </ng-select>
             </div>
@@ -137,7 +137,7 @@
         <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
         <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="importHousholdsApi()">
           <mat-icon>publish</mat-icon>
-          <span>{{language.import | titlecase }}</span>
+          <span>{{language.import | uppercaseFirst }}</span>
         </button>
       </div>
     </div>
@@ -147,7 +147,7 @@
 <ng-template #mapFile>
     <form [formGroup]="conversionForm">
         <mat-dialog-content class="modal-container">
-            <h4 class="modal-title underline-accent stickyHeader">{{language.beneficiaries_import_convert | titlecase}}</h4>
+            <h4 class="modal-title underline-accent stickyHeader">{{language.beneficiaries_import_convert | uppercaseFirst}}</h4>
             <div class="dialog-template">
             <div class="modal-body">
                 <table class="modal-table">
@@ -195,7 +195,7 @@
                 <div class="select-file">
                     <a href="javascript:void(0)" (click)="file.click()">
                     <button mat-stroked-button color="primary">{{language.beneficiaries_import_addModal
-                        | titlecase}}</button>
+                        | uppercaseFirst}}</button>
                     </a>
                     <input type="file" #file [multiple] (change)="fileChange($event, 'target', 'csv2')" style="display:none" />
                 </div>
@@ -215,7 +215,10 @@
 
             <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <button mat-button class="button-text-accent" (click)="closeConversionDialog('canceled')">{{language.cancel}}</button>
-                <button mat-button class="button-background-accent" (click)="confirmConversion()">{{language.transaction_confirm_button}}</button>
+                <mat-spinner [diameter]="25" *ngIf="loadingConversion"></mat-spinner>
+                <button mat-raised-button class="button-background-accent" (click)="confirmConversion()" *ngIf="!loadingConversion">
+                  {{language.transaction_confirm_button}}
+                </button>
             </div>
             </div>
         </mat-dialog-content>

@@ -159,6 +159,7 @@ export interface Language {
     beneficiaries_import_check_fields: string
     beneficiaries_import_csv: string
     beneficiaries_import_convert: string
+    beneficiaries_import_conversion_success: string
     beneficiaries_import_error_file: string
     beneficiaries_import_error_importing: string
     beneficiaries_import_error_selection: string
@@ -403,8 +404,10 @@ export interface Language {
     model_donor_shortname: string
     model_familyName: string
     model_firstName: string
+    model_household_sentence: string
     model_individual_to_all: string
     model_individual_value: string
+    model_item: string
     model_notes: string
     model_product_name: string
     model_product_unit: string

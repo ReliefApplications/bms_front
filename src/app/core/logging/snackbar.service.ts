@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { UppercaseFirstPipe } from 'src/app/shared/pipes/uppercase-first.pipe';
 
 @Injectable({
     providedIn: 'root'
@@ -64,6 +65,7 @@ export class SnackbarService {
     }
 
     private open(message: string, config: MatSnackBarConfig, action?: string) {
-        return this.snackbar.open(message, action, config);
+        const pipe = new UppercaseFirstPipe();
+        return this.snackbar.open(pipe.transform(message), action, config);
     }
 }

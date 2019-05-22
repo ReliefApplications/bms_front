@@ -10,10 +10,6 @@ import { Location } from './location';
 import { User } from './user';
 import { CountriesService } from '../core/countries/countries.service';
 
-export class ErrorInterface {
-    message: string;
-}
-
 export class Vendor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];

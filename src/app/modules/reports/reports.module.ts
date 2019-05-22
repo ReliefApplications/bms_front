@@ -8,6 +8,7 @@ import { LineChartComponent } from './charts/chartjs/line-chart/line-chart.compo
 import { ReportsComponent } from './reports.component';
 import { BaseChartComponent } from './charts/chartjs/base-chart/base-chart.component';
 import { PieChartComponent } from './charts/chartjs/pie-chart/pie-chart.component';
+import { BarChartComponent } from './charts/chartjs/bar-chart/bar-chart.component';
 
 
 
@@ -28,6 +29,7 @@ import { PieChartComponent } from './charts/chartjs/pie-chart/pie-chart.componen
         LineChartComponent,
         BaseChartComponent,
         PieChartComponent,
+        BarChartComponent,
     ]
 })
 export class ReportsModule { }

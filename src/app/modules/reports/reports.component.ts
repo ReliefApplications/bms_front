@@ -85,6 +85,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
         this.getProjects();
 
         this.generateFormsEvents();
+
+        this.selectDefault();
     }
 
     // Unsubscribe from all observable to prevent memory leaks on component destruction
@@ -131,7 +133,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
             },
         );
 
-        this.selectedReport = this.enabledReports[0];
     }
 
 
@@ -144,9 +145,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
                 { label: this.language.report_filter_per_month, value: 'month' },
                 { label: this.language.report_filter_chose_periode, value: 'period' },
             ];
-        this.selectedFrequency = this.enabledFrequencies[0];
     }
 
+    private selectDefault() {
+        this.selectReport(this.enabledReports[0]);
+        this.selectFrequency(this.enabledFrequencies[0]);
+    }
 //
 // ─── FORM CHANGES SUBSRIPTIONS ──────────────────────────────────────────────────
 //
@@ -228,6 +232,11 @@ export class ReportsComponent implements OnInit, OnDestroy {
     // Prevent unnecessary calls to the api on filter change
     private onFilterChange() {
 
+        // In the event where no report/frequency is selected, do nothing
+        if (!this.selectedReport || !this.selectedFrequency) {
+            return;
+        }
+
         // If period is selected, check for period form validity
         if (this.selectedFrequency.value === 'period') {
             if (! this.periodControl.valid) {
@@ -266,7 +275,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
             this.graphs = graphsDTO.map((graphDTO: GraphDTO) => {
                 return new Graph(graphDTO);
             });
-            console.log(this.graphs);
         });
     }
 

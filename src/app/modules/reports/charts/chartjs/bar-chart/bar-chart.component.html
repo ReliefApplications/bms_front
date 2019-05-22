@@ -1,0 +1,15 @@
+<div style="display: block">
+    <canvas *ngIf="dataSet.values.length; else noData" baseChart
+    width="400px"
+    height="400px"
+    [datasets]="dataSet.values"
+    [labels]="dataSet.labels"
+    [options]="options"
+    [chartType]="'bar'"
+    [legend]="'true'">
+    </canvas>
+</div>
+
+<ng-template #noData>
+</ng-template>
+

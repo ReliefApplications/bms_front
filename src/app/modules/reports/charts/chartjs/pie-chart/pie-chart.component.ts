@@ -13,7 +13,7 @@ import { PeriodGraphInfo, PieChartDataSet } from './pie-chart-dataset';
 })
 export class PieChartComponent extends BaseChartComponent implements OnInit {
 
-    periodGraphInfo: PeriodGraphInfo = {};
+    periodGraphInfo: PeriodGraphInfo;
 
     pieChartDataSets: Array<PieChartDataSet>;
 
@@ -23,35 +23,24 @@ export class PieChartComponent extends BaseChartComponent implements OnInit {
         responsive: true,
       };
 
+    private static valuesToPercentages (values: Array<number>) {
+        const total = values.reduce((previousValue: number, currentValue: number) => {
+            return previousValue + currentValue;
+        });
+        return values.map((value: number) => {
+            return (100 * value / total).toFixed(2);
+        });
+    }
+
     ngOnInit() {
-        this.formatValuePerPeriod();
+        this.periodGraphInfo = this.formatValuePerPeriod();
 
         this.formatPieChartDataSet();
 
         this.generateColors();
     }
 
-    // Pie charts are not time-based graphs, split the different data per periods
-    formatValuePerPeriod() {
-        const periods: Array<string> = [];
-        this.graphInfo.values.forEach((graphValue: GraphValue) => {
-            if (!periods.includes(graphValue.date)) {
-                periods.push(graphValue.date);
-            }
-        });
-
-        periods.forEach((period: string) => {
-            const periodCharts = this.graphInfo.values.filter((value: GraphValue) => {
-                if (value.date === period) {
-                    return value;
-                }
-            });
-            this.periodGraphInfo[period] = periodCharts;
-        });
-    }
-
     formatPieChartDataSet() {
-        console.log(this.periodGraphInfo);
         this.pieChartDataSets = Object.keys(this.periodGraphInfo).map((period: string) => {
             const labels: Array<Label> = [];
             const values: Array<number> = [];
@@ -59,10 +48,9 @@ export class PieChartComponent extends BaseChartComponent implements OnInit {
                 labels.push(graphValue.unit);
                 values.push(graphValue.value);
             });
-            return {labels, values, period};
+            return {labels, values: PieChartComponent.valuesToPercentages(values), period};
         });
 
-        console.log(this.pieChartDataSets);
     }
 
     generateColors() {

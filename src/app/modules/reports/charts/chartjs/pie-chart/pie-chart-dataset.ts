@@ -4,7 +4,7 @@ import { GraphValue } from '../../../graph-value.model';
 export interface PieChartDataSet {
     period: string;
     labels: Array<Label>;
-    values: Array<number>;
+    values: Array<number|string>;
 }
 
 export interface PeriodGraphInfo {

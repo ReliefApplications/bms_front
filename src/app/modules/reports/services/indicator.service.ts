@@ -30,7 +30,6 @@ export class IndicatorService {
     }
 
     public getAllGraphs(filters: object) {
-        console.log(filters);
         filters['projects'] = filters['projects'] ? filters['projects'].join(',') : '';
         filters['distributions'] = filters['distributions'] ? filters['distributions'].join(',') : '';
         filters['period'] = filters['period'] ? filters['period'] : '';

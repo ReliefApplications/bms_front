@@ -59,7 +59,7 @@ export class DistributionService extends CustomModelService {
 
     public setValidation(id: number) {
         const url = this.apiBase + '/distributions/' + id + '/validate';
-        return this.http.get(url);
+        return this.http.post(url, {});
     }
 
     public export(option: string, extensionType: string, id: number) {

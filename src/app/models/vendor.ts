@@ -9,10 +9,6 @@ import { TextModelField } from './custom-models/text-model-field';
 import { Location } from './location';
 import { User } from './user';
 
-export class ErrorInterface {
-    message: string;
-}
-
 export class Vendor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
@@ -169,6 +165,7 @@ export class Vendor extends CustomModel {
         newVendor.set('addressPostcode', vendorFromApi.address_postcode);
         newVendor.set('location', vendorFromApi.location ? Location.apiToModel(vendorFromApi.location) : null);
         newVendor.fields.location.displayTableFunction = (value: Location) => value ? value.getLocationName() : null;
+        newVendor.fields.password.isRequired = false; // No need to enter the password on update
 
         return newVendor;
     }

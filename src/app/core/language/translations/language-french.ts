@@ -421,6 +421,7 @@ export class French implements Language {
     model_household_sentence = 'Le ménage de '
     model_individual_to_all = 'Définir la valeur individuelle des coupons'
     model_individual_value = 'Valeur individuelle'
+    model_item = 'Item'
     model_notes = 'Notes'
     model_product_name = 'Nom'
     model_product_unit = 'Unité'

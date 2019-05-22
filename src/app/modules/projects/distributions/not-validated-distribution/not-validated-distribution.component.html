@@ -1,6 +1,6 @@
 <mat-horizontal-stepper #myStepper *ngIf="!loadingDatas && actualDistribution && !actualDistribution.get('validated')">
 
-    <mat-step label="{{ language.distribution_details_export | titlecase }}">
+    <mat-step label="{{ language.distribution_details_export | uppercaseFirst }}">
         <div class="container-table">
             <div class="container-content box-primary box-primary">
                 <div class="content-button">
@@ -8,7 +8,7 @@
                         <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                             <button mat-raised-button class="button-background-primary" [disabled]="!(initialBeneficiaryData && initialBeneficiaryData.data.length >0)" (click)="export()" *ngIf="!loadingExport">
                                 <mat-icon>get_app</mat-icon>
-                                <span>{{language.export | titlecase}}</span>
+                                <span>{{language.export | uppercaseFirst}}</span>
                             </button>
                             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                             <div class="extension" *ngIf="!loadingExport">
@@ -28,7 +28,7 @@
                     </div>
                     <button mat-raised-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button-create" [disabled]="actualDistribution.get('validated')">
                         <mat-icon>add</mat-icon>
-                        {{language.add | titlecase}}
+                        {{language.add | uppercaseFirst}}
                     </button>
                     <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}" [disabled]="actualDistribution.get('validated')">
                         <mat-icon>add</mat-icon>
@@ -49,7 +49,7 @@
         </div>
     </mat-step>
 
-    <mat-step label="{{ language.distribution_details_import | titlecase }}">
+    <mat-step label="{{ language.distribution_details_import | uppercaseFirst }}">
         <div class="container-table">
             <div class="container-content box-primary">
                 <div class="import-content">
@@ -72,7 +72,7 @@
         </div>
     </mat-step>
 
-    <mat-step label="{{ language.distribution_details_random | titlecase }}">
+    <mat-step label="{{ language.distribution_details_random | uppercaseFirst }}">
         <div class="container-table">
             <div class="container-content box-primary">
                 <div class="content-button">
@@ -80,7 +80,7 @@
                         <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                             <button mat-raised-button [disabled]="!(randomSampleData && randomSampleData.data.length >0)" class="button-background-primary" (click)="exportSample()" *ngIf="!loadingExport">
                                 <mat-icon>get_app</mat-icon>
-                                <span>{{language.export | titlecase}}</span>
+                                <span>{{language.export | uppercaseFirst}}</span>
                             </button>
                             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                             <div class="extension">
@@ -103,7 +103,7 @@
                             <mat-icon>shuffle</mat-icon>
                         </button>
                         <mat-form-field>
-                            {{language.distribution_details_sample_size | titlecase}} :
+                            {{language.distribution_details_sample_size | uppercaseFirst}} :
                             <input matInput [formControl]="sampleSizeControl" min="0" max="100" type="number">
                             %
                         </mat-form-field>
@@ -128,7 +128,7 @@
         </div>
     </mat-step>
 
-    <mat-step label="{{ language.distribution_details_validate | titlecase }}">
+    <mat-step label="{{ language.distribution_details_validate | uppercaseFirst }}">
             <div class="container-table">
                 <div class="container-content box-primary">
                     <div class="content-button">
@@ -180,7 +180,7 @@
             </div>
             <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <button mat-button class="button-text-accent" (click)="exit('Validation canceled')">{{language.cancel}}</button>
-                <button mat-button class="button-background-accent" (click)="confirmValidation()">{{language.transaction_confirm_button}}</button>
+                <button mat-raised-button class="button-background-accent" (click)="confirmValidation()">{{language.transaction_confirm_button}}</button>
             </div>
         </div>
     </mat-dialog-content>
@@ -195,9 +195,9 @@
                     {{language.distribution_want_add}} <strong> {{actualDistribution.get('name')}} </strong>
                     {{language.distribution | lowercase}}.</p>
                 <div class="selectBeneficiaries">
-                    <ng-select class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true" placeholder="{{language.beneficiaries | titlecase}}" [closeOnSelect]="false" [searchable]="true" required>
+                    <ng-select class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true" placeholder="{{language.beneficiaries | uppercaseFirst}}" [closeOnSelect]="false" [searchable]="true" required>
                         <ng-option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">
-                            {{beneficiary.get('fullName') | titlecase}}
+                            {{beneficiary.get('fullName') | uppercaseFirst}}
                         </ng-option>
                     </ng-select>
                 </div>

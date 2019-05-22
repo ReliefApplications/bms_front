@@ -2,19 +2,19 @@
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
             <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
-                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress | titlecase }} {{ getPercentageValue(commodity) }} % </h4>
+                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress | uppercaseFirst }} {{ getPercentageValue(commodity) }} % </h4>
                 <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">
-                        <h5>{{language.transaction_amount_total | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_total | uppercaseFirst}}</h5>
                         {{ getTotalCommodityValue(commodity) }} {{commodity.get('unit')}}
                     </div>
                     <div class="info_2">
-                        <h5>{{language.transaction_amount_distributed | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_distributed | uppercaseFirst}}</h5>
                         {{ getAmountSent(commodity) }} {{commodity.get('unit')}}
                     </div>
                     <div class="info_3">
-                        <h5>{{language.transaction_amount_used | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_used | uppercaseFirst}}</h5>
                         {{ getReceivedValue(commodity) }} {{commodity.get('unit')}}
                     </div>
 
@@ -25,13 +25,13 @@
         <div class="content-button">
             <div class="action-buttons">
                 <button mat-raised-button *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
-                        <span>{{language.voucher_assign | titlecase }}</span>
+                        <span>{{language.voucher_assign | uppercaseFirst }}</span>
                 </button>
                 <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
                 <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                     <button mat-raised-button class="button-background-primary" (click)="exportTransaction(extensionType, 'voucherDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{language.export | titlecase}}</span>
+                        <span>{{language.export | uppercaseFirst}}</span>
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">

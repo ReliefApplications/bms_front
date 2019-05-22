@@ -39,8 +39,8 @@ export class GeneralRelief extends CustomModel {
 
 export class TransactionGeneralRelief extends DistributionBeneficiary {
 
-    title = 'General Relief';
     matSortActive = 'localFamilyName';
+    title = this.language.model_item;
 
     public fields = {
         id: new NumberModelField({

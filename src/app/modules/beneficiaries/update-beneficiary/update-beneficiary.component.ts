@@ -127,7 +127,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 this.beneficiaryFields = this.beneficiaryFields.concat(vulnerabilityCriteriaNames);
 
                 this.makeMainForm();
-                this.household.get<Beneficiary[]>('beneficiaries').forEach(beneficiary => this.makeBeneficiaryForm(beneficiary));
+                this.household.get<Beneficiary[]>('beneficiaries')
+                    .forEach((beneficiary: Beneficiary, index: number) => this.makeBeneficiaryForm(beneficiary, index));
 
                 this.beneficiarySnapshot();
                 this.loader = false;
@@ -246,7 +247,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         });
     }
 
-    makeBeneficiaryForm(beneficiary: Beneficiary) {
+    makeBeneficiaryForm(beneficiary: Beneficiary, index: number) {
         const beneficiaryFormControls = {};
         this.beneficiaryFields.forEach((fieldName: string) => {
 
@@ -305,7 +306,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             beneficiary.get('residencyStatus') ? beneficiary.get('residencyStatus').get('id') : null);
 
         const beneficiaryForm = new FormGroup(beneficiaryFormControls);
-        this.beneficiariesForm.push(beneficiaryForm);
+
+        if (this.beneficiariesForm[index]) {
+            this.beneficiariesForm[index] = beneficiaryForm;
+        } else {
+            this.beneficiariesForm.push(beneficiaryForm);
+        }
     }
 
 
@@ -323,7 +329,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
     addBeneficiary() {
         const beneficiary = this.createNewBeneficiary();
-        this.makeBeneficiaryForm(beneficiary);
+        const index = this.beneficiariesForm.length;
+        this.makeBeneficiaryForm(beneficiary, index);
     }
 
      /**
@@ -753,10 +760,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getVulnerabilityCriteria() {
         return this._criteriaService.getVulnerabilityCriteria().pipe(
             map(response => {
+                if (response) {
                     this.vulnerabilityList = response.map(criteria => {
                         return VulnerabilityCriteria.apiToModel(criteria);
                     });
-                })
+                }
+            })
         );
     }
 

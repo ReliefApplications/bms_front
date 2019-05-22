@@ -7,7 +7,7 @@ import { NumberModelField } from './custom-models/number-model-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
-import { LIVELIHOOD } from './livelihood';
+import { LIVELIHOOD } from './constants/livelihood';
 import { Location } from './location';
 import { Project } from './project';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
@@ -227,7 +227,7 @@ export class Household extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.get('localFirstName') + ' ' + this.get('localFamilyName');
+        return this.language.model_household_sentence + this.get('localFirstName') + ' ' + this.get('localFamilyName');
     }
 
 

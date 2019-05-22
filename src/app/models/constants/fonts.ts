@@ -9,7 +9,6 @@ export const FONTS = [
     'Kodchasan',
     'Oswald',
     'Raleway',
-    'Maiden Orange',
     'Roboto Mono',
     'Merriweather',
     'Roboto Slab',
@@ -21,5 +20,4 @@ export const FONTS = [
     'PT Serif',
     'Lora',
     'Muli',
-    'Anton',
 ];

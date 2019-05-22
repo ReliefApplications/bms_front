@@ -3,6 +3,8 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { Donor } from '../../models/donor';
 import { CustomModelService } from '../utils/custom-model.service';
 import { HttpService } from '../network/http.service';
+import { ExportService } from './export.service';
+import { Organization } from 'src/app/models/organization';
 
 
 
@@ -16,8 +18,13 @@ export class OrganizationService extends CustomModelService {
     constructor(
         protected http: HttpService,
         protected languageService: LanguageService,
+        public exportService: ExportService,
     ) {
         super(http, languageService);
+    }
+
+    print(event: Organization) {
+        return this.exportService.printOrganizationTemplate();
     }
 
 

@@ -2,7 +2,8 @@
   <div class="container-content box-primary">
     <div class="content-button">
       <div class="action-buttons">
-        <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        <div class="button-with-extension" *ngIf="exportable"
+          [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
           <button mat-raised-button [disabled]="!(data.data && data.data.length>0)" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
             <mat-icon>get_app</mat-icon>
             <span>{{language.export | titlecase}}</span>

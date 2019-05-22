@@ -545,6 +545,7 @@ export class French implements Language {
     settings_financial_provider = 'Connexions tiers'
     settings_log_button = 'Recevoir les logs de cet utilisateur par email'
     settings_organization = 'Mon organisation'
+    settings_print_starting = 'Le téléchargement va démarrer'
     settings_project_exists = 'Un projet avec le même nom existe déjà'
     settings_product = 'Produits'
     settings_users = 'utilisateurs'

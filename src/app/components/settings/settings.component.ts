@@ -61,6 +61,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     public printable = false;
     public loggable = false;
     public editable  = false;
+    public exportable = true;
     public httpSubscriber: Subscription;
 
     @ViewChild(TableComponent) table: TableComponent;
@@ -223,8 +224,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.referedClassService = this.organizationService;
         this.editable   = this.userService.hasRights('ROLE_ADMIN');
         this.deletable = false;
-        this.printable = false;
+        this.printable = true;
         this.loggable = false;
+        this.exportable = false;
         break;
       case 'product':
         this.referedClassToken = Product;
@@ -308,7 +310,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     print(event: CustomModel) {
-      this.snackbar.info(this.language.voucher_print_starting);
+      this.snackbar.info(this.language.settings_print_starting);
       return this.referedClassService.print(event);
   }
 

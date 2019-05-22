@@ -547,6 +547,7 @@ export class Arabic implements Language {
     settings_financial_provider = 'مزود المالية'
     settings_log_button = 'احصل على سجلات المستخدم عن طريق البريد الإلكتروني'
     settings_organization = 'مؤسستي'
+    settings_print_starting = 'التحميل بدأ'
     settings_product = 'منتجات'
     settings_project_exists = 'مشروع بهذا الاسم يوجود بالفعل'
     settings_users = 'المستخدمون'

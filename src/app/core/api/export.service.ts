@@ -71,4 +71,13 @@ export class ExportService {
             saveAs(blob, filename);
         });
     }
+
+    public printOrganizationTemplate() {
+        return this.http.get(this.api + '/organization-print-template', {responseType: 'blob'}).toPromise()
+        .then(response => {
+            const blob = new Blob([response], {type: ('blob')});
+            const filename = 'Pdf-template.pdf';
+            saveAs(blob, filename);
+        });
+    }
 }

@@ -530,6 +530,7 @@ export interface Language {
     settings_financial_provider: string
     settings_log_button: string
     settings_organization: string
+    settings_print_starting: string
     settings_product: string
     settings_project_exists: string
     settings_users: string

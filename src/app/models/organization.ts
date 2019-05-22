@@ -101,4 +101,8 @@ export class Organization extends CustomModel {
         return this.get<string>('name');
     }
 
+    public isPrintable() {
+        return true;
+    }
+
 }

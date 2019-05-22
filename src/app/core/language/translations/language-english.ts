@@ -544,6 +544,7 @@ export class English implements Language {
     settings_donors = 'donors'
     settings_financial_provider = 'Third party connections'
     settings_log_button = 'Get user logs by email'
+    settings_print_starting = 'Your download is starting'
     settings_product = 'Products'
     settings_organization = 'My organization'
     settings_project_exists = 'A project with this name already exists'

@@ -159,6 +159,7 @@ export interface Language {
     beneficiaries_import_check_fields: string
     beneficiaries_import_csv: string
     beneficiaries_import_convert: string
+    beneficiaries_import_conversion_success: string
     beneficiaries_import_error_file: string
     beneficiaries_import_error_importing: string
     beneficiaries_import_error_selection: string

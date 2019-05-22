@@ -173,6 +173,7 @@ export class French implements Language {
     beneficiaries_import_check_fields = 'Un champs est vide, s\'il vous plaît remplissez tous les champs et sélectionner un projet'
     beneficiaries_import_csv = 'télécharger le modèle'
     beneficiaries_import_convert = 'convertir le fichier'
+    beneficiaries_import_conversion_success = 'Fichier converti avec succès !'
     beneficiaries_import_error_importing = 'Erreur lors de l\'importation des données'
     beneficiaries_import_error_file = 'Vous devez sélectionner un fichier'
     beneficiaries_import_error_selection = 'Vous devez sélectionner au moins un des choix proposés'

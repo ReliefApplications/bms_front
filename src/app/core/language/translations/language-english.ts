@@ -172,6 +172,7 @@ export class English implements Language {
     beneficiaries_import_check_fields = 'A field is empty or unset, please fill all inputs and select a project'
     beneficiaries_import_csv = 'download template'
     beneficiaries_import_convert = 'convert file'
+    beneficiaries_import_conversion_success = 'Conversion successfull!'
     beneficiaries_import_error_importing = 'Error while importing data'
     beneficiaries_import_error_file = 'You must select a file'
     beneficiaries_import_error_selection = 'You must select at least one choice'

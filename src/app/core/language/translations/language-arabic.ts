@@ -174,6 +174,7 @@ export class Arabic implements Language {
     beneficiaries_import_check_fields= ' محتوى فارغ  تثبت من أدخال جميع المعطيات و اختيار مشروع '
     beneficiaries_import_csv= ' تنزيل ملف'
     beneficiaries_import_convert= 'تحويل الملف'
+    beneficiaries_import_conversion_success = 'التحويل بنجاح!'
     beneficiaries_import_error_importing= 'وقع خطأ عندالتحميل البيانات'
     beneficiaries_import_error_file = 'يجب عليك تحديد ملف'
     beneficiaries_import_error_selection= 'You must to select at least one choice'

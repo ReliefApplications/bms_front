@@ -215,7 +215,10 @@
 
             <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <button mat-button class="button-text-accent" (click)="closeConversionDialog('canceled')">{{language.cancel}}</button>
-                <button mat-raised-button class="button-background-accent" (click)="confirmConversion()">{{language.transaction_confirm_button}}</button>
+                <mat-spinner [diameter]="25" *ngIf="loadingConversion"></mat-spinner>
+                <button mat-raised-button class="button-background-accent" (click)="confirmConversion()" *ngIf="!loadingConversion">
+                  {{language.transaction_confirm_button}}
+                </button>
             </div>
             </div>
         </mat-dialog-content>

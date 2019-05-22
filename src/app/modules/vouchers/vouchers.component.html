@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{language.voucher | titlecase}}</h2>
+    <h2>{{language.voucher | uppercaseFirst}}</h2>
   </div>
 
   <div class="container-table">
@@ -8,16 +8,16 @@
       <div class="content-button">
         <div class="action-buttons">
           <button mat-raised-button *ngIf="checkedElements.length > 0" class="button-background-primary" (click)="printMany()" [matBadge]="checkedElements.length">
-              <span>{{language.voucher_print_selection | titlecase}}</span>
+              <span>{{language.voucher_print_selection | uppercaseFirst}}</span>
           </button>
           <button mat-raised-button [disabled]="!bookletData" *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
-              <span>{{language.voucher_assign | titlecase }}</span>
+              <span>{{language.voucher_assign | uppercaseFirst }}</span>
           </button>
           <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-raised-button [disabled]="!bookletData" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
               <mat-icon>get_app</mat-icon>
-              <span>{{language.export | titlecase}}</span>
+              <span>{{language.export | uppercaseFirst}}</span>
             </button>
             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
             <div class="extension">
@@ -38,7 +38,7 @@
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
               <button mat-raised-button [disabled]="!bookletData" class="button-background-primary" (click)="exportCodes()" *ngIf="!loadingExportCodes">
                 <mat-icon>get_app</mat-icon>
-                <span>{{language.export_codes | titlecase}}</span>
+                <span>{{language.export_codes | uppercaseFirst}}</span>
               </button>
               <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
               <div class="extension" *ngIf="!loadingExportCodes">
@@ -61,7 +61,7 @@
 
         <button mat-raised-button *ngIf="currentDisplayType.type !== 'mobile'" (click)="openDialog({action: 'add'})" class="add-button-create">
           <mat-icon>add</mat-icon>
-          {{language.add | titlecase}}
+          {{language.add | uppercaseFirst}}
         </button>
         <button mat-fab *ngIf="currentDisplayType.type === 'mobile'" (click)="openDialog({action: 'add'})" class="add-button"
           [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">

@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{language.administrative_settings | titlecase}}</h2>
+    <h2>{{language.administrative_settings | uppercaseFirst}}</h2>
   </div>
   <div class="container-boxes">
     <app-box-setting [isSelected]="selectedTitle === 'users'" (click)="selectTitle('users')" [info]='{icon: "settings/users", color: "green", title:language.settings_users, ref:"users"}'></app-box-setting>

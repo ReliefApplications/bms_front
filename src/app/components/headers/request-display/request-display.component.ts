@@ -3,7 +3,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { NetworkService } from 'src/app/core/network/network.service';
 import { ModalRequestsComponent } from 'src/app/components/modals/modal-requests/modal-requests.component';
 import { MatDialog } from '@angular/material';
-import { StoredRequestInterface } from 'src/app/models/stored-request';
+import { StoredRequestInterface } from 'src/app/models/interfaces/stored-request';
 
 @Component({
     selector: 'app-request-display',

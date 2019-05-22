@@ -43,7 +43,6 @@ export class Donor extends CustomModel {
                 isDisplayedInTable: true,
                 isEditable: true,
                 isLongText: true,
-                isRequired: true,
                 isSettable: true,
             }
         ),

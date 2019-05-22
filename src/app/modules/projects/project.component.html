@@ -1,12 +1,12 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{language.projects | titlecase}}</h2>
+    <h2>{{language.projects | uppercaseFirst}}</h2>
   </div>
   <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
   <div class="container-boxes" *ngIf="!loadingProjects">
     <button class="button-add-project" *ngIf="!loadingProjects && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openNewProjectDialog()">
       <mat-icon>add</mat-icon>
-      <h3>{{language.new | titlecase}}</h3>
+      <h3>{{language.new | uppercaseFirst}}</h3>
     </button>
     <app-box-setting
         *ngFor="let project of projects"
@@ -52,7 +52,7 @@
                     <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                         <button mat-raised-button [disabled]="!(distributionData && distributionData.data.length > 0)" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{language.export | titlecase}}</span>
+                        <span>{{language.export | uppercaseFirst}}</span>
                         </button>
                         <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                         <div class="extension" *ngIf="!loadingExport">
@@ -73,7 +73,7 @@
                     <h3 *ngIf="distributionData && distributionData.data.length > 0">{{language.distributions }}</h3>
                     <button mat-raised-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button-create">
                     <mat-icon>add</mat-icon>
-                    {{language.add | titlecase}}
+                    {{language.add | uppercaseFirst}}
                     </button>
                     <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
                     <mat-icon>add</mat-icon>

@@ -2,13 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { Language } from 'src/app/core/language/language';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Country } from 'src/app/models/country';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { Country } from 'src/app/models/country';
+import { User } from 'src/app/models/user';
 import { ModalLanguageComponent } from './../../modals/modal-language/modal-language.component';
 
 export interface Breadcrumb {
@@ -49,6 +51,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private countriesService: CountriesService,
         private router: Router,
         private screenSizeService: ScreenSizeService,
+        private authenticationService: AuthenticationService,
     ) {
 
     }
@@ -150,5 +153,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
 
         this.tooltip = (page === '') ? this.language['tooltip_dashboard'] : this.language['tooltip_' + page.replace('-', '_')];
+    }
+
+    //
+    // ─── LOGOUT ─────────────────────────────────────────────────────────────────────
+    //
+
+    logout() {
+        this.authenticationService.logout().subscribe((_user: User) => {
+            this.router.navigate(['login']);
+        });
     }
 }

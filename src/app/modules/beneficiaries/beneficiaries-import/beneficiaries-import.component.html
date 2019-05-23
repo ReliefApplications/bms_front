@@ -14,10 +14,12 @@
       <div class="content-button">
         <div class="action-buttons">
           <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'"></mat-spinner>
-          <button mat-stroked-button color="primary" class="template" *ngIf="!loadLocations && country === 'SYR'" (click)="openConversionDialog(mapFile)">
-            <mat-icon>publish</mat-icon>
-            <span>{{language.beneficiaries_import_convert | uppercaseFirst }}</span>
-          </button>
+          <div class="convert-button">
+            <button mat-stroked-button color="primary" class="template" *ngIf="!loadLocations && country === 'SYR'" (click)="openConversionDialog(mapFile)">
+              <mat-icon>publish</mat-icon>
+              <span>{{language.beneficiaries_import_convert | uppercaseFirst }}</span>
+            </button>
+          </div>
 
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">

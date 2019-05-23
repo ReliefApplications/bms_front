@@ -481,7 +481,7 @@ export class English implements Language {
     profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'
 
     // Project
-    project_add = 'Please add some projects first! Then you will be able to manage some distributions...'
+    project_add = 'Please add a new project to begin!'
     project_add_household = 'Please add some beneficiaries first! Then you will be able to manage some distributions...'
     project_click = 'Click on'
     project_create = 'Create a new project'
@@ -489,7 +489,7 @@ export class English implements Language {
     project_go_import_beneficiaries = 'Import Beneficiaries'
     project_no_distribution = 'This project does not contain any distributions. Create your first one !'
     project_no_household = 'This project does not contain any households.'
-    project_no_projects = 'This country does not contain any project.'
+    project_no_projects = 'This country currently does not contain any active projects.'
 
     // Report
     report_apply = 'apply'

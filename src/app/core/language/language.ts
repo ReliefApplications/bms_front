@@ -31,6 +31,7 @@ export interface Language {
     individual: string
     is_required: string
     location: string
+    name: string
     new: string
     next: string
     no_data: string
@@ -172,7 +173,9 @@ export interface Language {
     beneficiaries_location: string
     beneficiaries_member: string
     beneficiaries_missing_selected_project: string
+    beneficiaries_personnal: string
     beneficiaries_proxy: string
+    beneficiaries_residency: string
     beneficiaries_residency_refugee: string
     beneficiaries_residency_idp: string
     beneficiaries_residency_resident: string

@@ -25,7 +25,7 @@ export class AuthenticationService {
         public _cacheService: AsyncacheService,
         public countryService: CountriesService,
         public http: HttpClient,
-        public router: Router
+        public router: Router,
     ) { }
 
     // Request to the API to get the salt corresponding to a username
@@ -75,7 +75,9 @@ export class AuthenticationService {
         this.resetUser();
         return this._cacheService.clear(false, [AsyncacheService.COUNTRY]).pipe(
             map(
-                () => this.user
+                () => {
+                    return this.user;
+                }
             )
         );
     }

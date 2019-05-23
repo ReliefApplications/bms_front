@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/core/api/user.service';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { Language } from 'src/app/core/language/language';
@@ -52,6 +53,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private router: Router,
         private screenSizeService: ScreenSizeService,
         private authenticationService: AuthenticationService,
+        private userService: UserService,
     ) {
 
     }
@@ -161,6 +163,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     logout() {
         this.authenticationService.logout().subscribe((_user: User) => {
+            this.userService.currentUser = undefined;
             this.router.navigate(['login']);
         });
     }

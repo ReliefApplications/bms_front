@@ -482,7 +482,7 @@ export class French implements Language {
     // Project
     project_add = 'S\'il vous plait, créez d\'abord des projets ! Ensuite, vous pourrez gérer des distributions...'
     project_add_household = 'S\'il vous plait, ajoutez d\'abord des bénéficiaires ! Ensuite, vous pourrez gérer des distributions...'
-    project_click = 'Cliquer sur '
+    project_click = 'Cliquer sur '  + this.add
     project_create = 'Créer un nouveau projet'
     project_description = 'Vous pourrez modifier le nom du projet jusqu\'à votre première distribution'
     project_go_import_beneficiaries = 'Importer des bénéficiaires'

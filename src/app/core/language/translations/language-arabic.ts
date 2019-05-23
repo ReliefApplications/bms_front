@@ -482,7 +482,7 @@ export class Arabic implements Language {
     profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'
 
     // Project
-    project_add = 'الرجاء إضافة بعض المشاريع أولاً! ثم ستتمكن من إدارة بعض التوزيعات ...'
+    project_add = 'الرجاء إضافة مشروع جديد للبدء!'
     project_add_household = 'الرجاء إضافة بعض المستفيدين أولاً! ثم ستتمكن من إدارة بعض التوزيعات ...'
     project_click = 'انقر فوق'
     project_create = 'قم بإنشاء مشروع جديد'
@@ -490,7 +490,7 @@ export class Arabic implements Language {
     project_go_import_beneficiaries = 'استيراد المستفيدين'
     project_no_distribution = 'هذا المشروع لا يحتوي على أي توزيع. اصنع اول واحد!'
     project_no_household = 'هذا المشروع لا يحتوي على أي منزل.'
-    project_no_projects = 'هذا البلد لا يحتوي على أي مشروع.'
+    project_no_projects = 'لا يحتوي هذا البلد حاليًا على أي مشاريع نشطة.'
 
     // Report
     report_apply = 'تطبيق'

@@ -35,7 +35,10 @@ export class CountriesService {
 //
 // ─── SETTER ─────────────────────────────────────────────────────────────────────
 //
-    public setCountry(country: Country) {
+    public setCountry(country?: Country): Country {
+        if (!country) {
+            country = this.enabledCountries[0];
+        }
         if (this.selectedCountry.value !== country) {
             this.selectedCountry.next(country);
         }
@@ -48,6 +51,7 @@ export class CountriesService {
     public clearCountries(): void {
         this.selectedCountry.next(undefined);
     }
+
 //
 // ─── CONVERSION ─────────────────────────────────────────────────────────────────
 //

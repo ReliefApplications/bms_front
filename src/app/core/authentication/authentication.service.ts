@@ -71,15 +71,9 @@ export class AuthenticationService {
         });
     }
 
-    logout(): Observable<User> {
+    logout(): Observable<any> {
         this.resetUser();
-        return this._cacheService.clear(false, [AsyncacheService.COUNTRY]).pipe(
-            map(
-                () => {
-                    return this.user;
-                }
-            )
-        );
+        return this._cacheService.clear(false, [AsyncacheService.COUNTRY]);
     }
 
     getUser(): Observable<any> {

@@ -33,7 +33,7 @@ export class Arabic implements Language {
     individual = 'فرد '
     is_required = 'مطلوب'
     location = 'الموقع'
-    nom = 'اسم'
+    name = 'اسم'
     new = 'الجديد'
     next = 'التالى'
     no_data = 'لايوجد بيانات'

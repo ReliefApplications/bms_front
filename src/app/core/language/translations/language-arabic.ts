@@ -484,7 +484,7 @@ export class Arabic implements Language {
     // Project
     project_add = 'الرجاء إضافة مشروع جديد للبدء!'
     project_add_household = 'الرجاء إضافة بعض المستفيدين أولاً! ثم ستتمكن من إدارة بعض التوزيعات ...'
-    project_click = 'انقر فوق'
+    project_click = 'انقر فوق' + this.add
     project_create = 'قم بإنشاء مشروع جديد'
     project_description = 'سوف يمكنك تعديل اسم المشروع حتى توزيعك الأول'
     project_go_import_beneficiaries = 'استيراد المستفيدين'

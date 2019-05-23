@@ -483,7 +483,7 @@ export class English implements Language {
     // Project
     project_add = 'Please add a new project to begin!'
     project_add_household = 'Please add some beneficiaries first! Then you will be able to manage some distributions...'
-    project_click = 'Click on'
+    project_click = 'Click on '  + this.add
     project_create = 'Create a new project'
     project_description = 'You will be able to modify project\'s name until your first distribution.'
     project_go_import_beneficiaries = 'Import Beneficiaries'

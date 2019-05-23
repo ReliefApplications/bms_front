@@ -41,7 +41,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     // for the items button
     selectedTitle = 'file import';
     isBoxClicked = false;
-
     projectList: Project[] = [];
 
     // upload
@@ -75,6 +74,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         adm4: new FormControl(),
     });
     conversionFormControlSubscriptions: Array<Subscription>;
+    loadingConversion = false;
 
     extensionType: string;
     public newHouseholds: any = {};
@@ -252,6 +252,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     }
 
     public closeConversionDialog(method: string, error?: string) {
+        this.loadingConversion = false;
         this.conversionDialog.close();
         switch (method) {
             case 'cancel':
@@ -259,7 +260,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
                 return;
             case 'success':
                 // Todo: translate
-                this.snackbar.success('Import successful');
+                this.snackbar.success(this.language.beneficiaries_import_conversion_success);
                 return;
             case 'error':
                 this.snackbar.error(error);
@@ -303,6 +304,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     }
 
     confirmConversion() {
+        this.loadingConversion = true;
         if (!this.conversionForm.valid) {
             this.snackbar.error(this.language.beneficiaries_import_select_location);
             return;

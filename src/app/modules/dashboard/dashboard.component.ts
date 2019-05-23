@@ -13,7 +13,6 @@ import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
 import { LeafletService } from '../../core/external/leaflet.service';
-import { User } from 'src/app/models/user';
 
 @Component({
     selector: 'app-dashboard',
@@ -75,6 +74,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.screenSizeSubscription.unsubscribe();
+        this.serviceMap.removeMap();
     }
 
     /**

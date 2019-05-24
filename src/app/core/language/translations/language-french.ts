@@ -32,6 +32,7 @@ export class French implements Language {
     individual = 'Individual'
     is_required = 'est un champ obligatoire'
     location = 'Lieu'
+    name = 'nom'
     new = 'Nouveau'
     next = 'Suivant'
     no_data = 'Pas de données'
@@ -186,7 +187,9 @@ export class French implements Language {
     beneficiaries_location = 'Localisation du ménage'
     beneficiaries_member = 'Membre'
     beneficiaries_missing_selected_project = 'Vous devez selectionner un projet avant l\'importation'
+    beneficiaries_personnal = 'informations personnelles'
     beneficiaries_proxy = 'Proxy'
+    beneficiaries_residency = 'résidence'
     beneficiaries_residency_refugee = 'Réfugié'
     beneficiaries_residency_idp = 'IDP'
     beneficiaries_residency_resident = 'Résident'
@@ -482,7 +485,7 @@ export class French implements Language {
     // Project
     project_add = 'Veuillez créer un projet pour commencer !'
     project_add_household = 'S\'il vous plait, ajoutez d\'abord des bénéficiaires ! Ensuite, vous pourrez gérer des distributions...'
-    project_click = 'Cliquer sur '
+    project_click = 'Cliquer sur '  + this.add
     project_create = 'Créer un nouveau projet'
     project_description = 'Vous pourrez modifier le nom du projet jusqu\'à votre première distribution'
     project_go_import_beneficiaries = 'Importer des bénéficiaires'

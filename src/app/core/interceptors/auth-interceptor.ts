@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
             // On login pass the user credentials to the wsse service
             if (/login/.test(req.url)) {
                 user = {
-                    username: req.body.username,
+                    email: req.body.username,
                     password: req.body.password
                 };
             }

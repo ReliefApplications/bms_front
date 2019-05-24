@@ -1,13 +1,13 @@
 <div class="modal-container" *ngIf="commodity">
-    <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{language.modal_add_title |titlecase }} {{commodity.title | titlecase}}</h4>
+    <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{language.modal_add_title |uppercaseFirst }} {{commodity.title | uppercaseFirst}}</h4>
     <form [formGroup]="form">
       <table class="modal-table">
         <tr class="modal-row">
           <th class="table-title">{{ commodity.fields.modality.title }}</th>
           <td class="form-item">
-            <ng-select formControlName="modality" [placeholder]="commodity.fields.modality.title | titlecase" (change)="loadTypes($event)">
+            <ng-select formControlName="modality" [placeholder]="commodity.fields.modality.title | uppercaseFirst" (change)="loadTypes($event)">
                 <ng-option *ngFor="let option of commodity.getOptions('modality')" [value]="option.get('id')">
-                    {{option.get('name') | titlecase}}
+                    {{option.get('name') | uppercaseFirst}}
                 </ng-option>
             </ng-select>
             <app-hint-error [form]="form" fieldName="modality" [field]="commodity.fields.modality" [isMatField]="false"></app-hint-error>
@@ -17,9 +17,9 @@
         <tr class="modal-row">
           <th class="table-title">{{ commodity.fields.modalityType.title }}</th>
           <td class="form-item">
-            <ng-select formControlName="modalityType" [placeholder]="commodity.fields.modalityType.title | titlecase">
+            <ng-select formControlName="modalityType" [placeholder]="commodity.fields.modalityType.title | uppercaseFirst">
                 <ng-option *ngFor="let option of commodity.getOptions('modalityType')" [value]="option.get('id')">
-                    {{option.get('name') | titlecase}}
+                    {{option.get('name') | uppercaseFirst}}
                 </ng-option>
             </ng-select>
             <app-hint-error [form]="form" fieldName="modalityType" [field]="commodity.fields.modalityType" [isMatField]="false"></app-hint-error>
@@ -30,7 +30,7 @@
           <th class="table-title">{{ getUnit() }}</th>
           <td class="form-item">
             <mat-form-field>
-              <input matInput type="text" formControlName="unit" [placeholder]="getUnit() | titlecase">
+              <input matInput type="text" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
               <app-hint-error [form]="form" fieldName="unit" [field]="commodity.fields.unit" [isMatField]="true"></app-hint-error>
             </mat-form-field>
           </td>
@@ -40,7 +40,7 @@
             <th class="table-title">{{ commodity.fields.value.title }}</th>
             <td class="form-item">
               <mat-form-field>
-                <input matInput type="text" formControlName="value" [placeholder]="commodity.fields.value.title | titlecase">
+                <input matInput type="text" formControlName="value" [placeholder]="commodity.fields.value.title | uppercaseFirst">
                 <app-hint-error [form]="form" fieldName="value" [field]="commodity.fields.value" [isMatField]="true"></app-hint-error>
               </mat-form-field>
             </td>

@@ -172,6 +172,7 @@ export class English implements Language {
     beneficiaries_import_check_fields = 'A field is empty or unset, please fill all inputs and select a project'
     beneficiaries_import_csv = 'download template'
     beneficiaries_import_convert = 'convert file'
+    beneficiaries_import_conversion_success = 'Conversion successfull!'
     beneficiaries_import_error_importing = 'Error while importing data'
     beneficiaries_import_error_file = 'You must select a file'
     beneficiaries_import_error_selection = 'You must select at least one choice'
@@ -419,8 +420,10 @@ export class English implements Language {
     model_donor_shortname = 'Shortname'
     model_familyName = 'Family name'
     model_firstName = 'First name'
+    model_household_sentence = 'The household of '
     model_individual_to_all = 'Set vouchers value individually'
     model_individual_value = 'Individual value'
+    model_item = 'Item'
     model_notes = 'Notes'
     model_product_name = 'Name'
     model_product_unit = 'Unit'
@@ -481,15 +484,15 @@ export class English implements Language {
     profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'
 
     // Project
-    project_add = 'Please add some projects first! Then you will be able to manage some distributions...'
+    project_add = 'Please add a new project to begin!'
     project_add_household = 'Please add some beneficiaries first! Then you will be able to manage some distributions...'
-    project_click = 'Click on'
+    project_click = 'Click on '  + this.add
     project_create = 'Create a new project'
     project_description = 'You will be able to modify project\'s name until your first distribution.'
     project_go_import_beneficiaries = 'Import Beneficiaries'
     project_no_distribution = 'This project does not contain any distributions. Create your first one !'
     project_no_household = 'This project does not contain any households.'
-    project_no_projects = 'This country does not contain any project.'
+    project_no_projects = 'This country currently does not contain any active projects.'
 
     // Report
     report_apply = 'apply'

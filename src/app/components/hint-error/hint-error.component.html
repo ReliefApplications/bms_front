@@ -9,11 +9,13 @@
 </ng-container>
 
 <ng-container *ngIf="isMatField">
-  <mat-error *ngIf="hasError('required')">
+  <mat-error *ngIf="hasError('required')" [ngClass]="{'textarea-hint-error': field.isLongText}">
     {{ field.title | uppercaseFirst }} {{ language.is_required | uppercaseFirst }}
   </mat-error>
   <mat-error *ngIf="hasError('pattern')">
       {{field.patternError | uppercaseFirst }}
   </mat-error>
-  <mat-hint align="start" *ngIf="!hasError('pattern') && !hasError('required') && field.hint"><strong>{{field.hint | uppercaseFirst }}</strong> </mat-hint>
+  <mat-hint align="start" *ngIf="!hasError('pattern') && !hasError('required') && field.hint" [ngClass]="{'textarea-hint-error': field.isLongText}">
+    <strong>{{field.hint | uppercaseFirst }}</strong>
+  </mat-hint>
 </ng-container>

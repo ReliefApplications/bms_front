@@ -57,8 +57,12 @@ form {
       align-items: center;
       display: flex;
 
-      .phone-number {
-        flex-grow: 1;
+      mat-form-field.phone-number {
+        width: 150px;
+      }
+
+      .single-select.phone-type, .single-select.country-code {
+        width: 105px;
       }
 
       .mat-form-field {

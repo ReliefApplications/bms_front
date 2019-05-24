@@ -1,10 +1,6 @@
 import { CustomModel } from './custom-models/custom-model';
 import { TextModelField } from './custom-models/text-model-field';
 
-export class ErrorInterface {
-    message: string;
-}
-
 export class FinancialProvider extends CustomModel {
 
     public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];

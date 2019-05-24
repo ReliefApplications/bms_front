@@ -1,11 +1,11 @@
 <div class="modal-container" *ngIf="criteria">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{language.modal_add_title |titlecase }} {{criteria.title | titlecase}}</h4>
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{language.modal_add_title |uppercaseFirst }} {{criteria.title | uppercaseFirst}}</h4>
   <form [formGroup]="form">
     <table class="modal-table">
       <tr class="modal-row">
-        <th class="table-title">{{ criteria.fields.field.title }}</th>
+        <th class="table-title">{{ criteria.fields.field.title | uppercaseFirst }}</th>
         <td class="form-item">
-          <ng-select formControlName="field" [placeholder]="criteria.fields.field.title | titlecase" (change)="loadConditions($event)">
+          <ng-select formControlName="field" [placeholder]="criteria.fields.field.title | uppercaseFirst" (change)="loadConditions($event)">
               <ng-option *ngFor="let option of criteria.getOptions('field')" [value]="option.get('field')">
                   {{option.get('field') | formatCamelCase }}
               </ng-option>
@@ -15,12 +15,12 @@
       </tr>
 
       <tr class="modal-row" *ngIf="form.controls.field.value !== 'IDPoor' || form.controls.field.value !== 'equityCardNo'">
-        <th class="table-title">{{ criteria.fields.condition.title }}</th>
+        <th class="table-title">{{ criteria.fields.condition.title  | uppercaseFirst }}</th>
         <td class="form-item">
           <mat-form-field class="full-width">
-            <mat-select formControlName="condition" [placeholder]="criteria.fields.condition.title | titlecase">
+            <mat-select formControlName="condition" [placeholder]="criteria.fields.condition.title | uppercaseFirst">
                 <mat-option *ngFor="let option of criteria.getOptions('condition')" [value]="option.get('name')">
-                    {{option.get('name') | titlecase}}
+                    {{option.get('name') | uppercaseFirst}}
                 </mat-option>
             </mat-select>
             <app-hint-error [form]="form" fieldName="condition" [field]="criteria.fields.condition" [isMatField]="true"></app-hint-error>
@@ -29,7 +29,7 @@
       </tr>
 
       <tr class="modal-row" *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
-        <th class="table-title">{{ criteria.fields.value.title }}</th>
+        <th class="table-title">{{ criteria.fields.value.title  | uppercaseFirst }}</th>
         <td class="form-item">
           <ng-select *ngIf="form.controls.field.value === 'gender'" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
             <ng-option *ngFor="let gender of genders" [value]="gender.get('id')">{{gender.get('name')}}</ng-option>
@@ -56,7 +56,7 @@
               <th class="table-value advanced-icon-wrapper">
                   <div class="advanced-icon">
                       <button mat-button class="button-text-accent" (click)="changeDisplay()">
-                          <span>{{ language.add_distribution_advanced_option | titlecase}}</span>
+                          <span>{{ language.add_distribution_advanced_option | uppercaseFirst}}</span>
                           <mat-icon>{{ iconAdvanced }}</mat-icon>
                       </button>
                   </div>
@@ -64,7 +64,7 @@
           </div>
       </tr>
       <tr *ngIf="displayWeight" class="modal-row">
-          <th class="table-title">{{criteria.fields.weight.title}}</th>
+          <th class="table-title">{{criteria.fields.weight.title | uppercaseFirst }}</th>
 
           <th class="table-value">
                   <mat-form-field class="full-width">

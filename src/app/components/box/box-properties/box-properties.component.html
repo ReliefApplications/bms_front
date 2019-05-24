@@ -9,7 +9,7 @@
                 </ng-container>
 
                 <ng-template #notALocation>
-                    <h5>{{field.title | titlecase}}</h5>
+                    <h5>{{field.title | uppercaseFirst}}</h5>
                     <span *ngIf="field.kindOfField === 'Number'; else notANumber">
                             <h3 counto [step]="100" [countTo]="field.value" [countFrom]="0" [duration]="1" (countoChange)="this['my_' + property + '_variable'] = $event">
                                 {{this['my_' + property + '_variable'] | number:'1.0-0'}}

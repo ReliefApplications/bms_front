@@ -17,8 +17,8 @@ import { RequestDisplayComponent } from './components/headers/request-display/re
 import { ModalConfirmationComponent } from './components/modals/modal-confirmation/modal-confirmation.component';
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 import { ModalComponent } from './components/modals/modal.component';
-import { UpdateService } from './core/service-worker/update.service';
 import { httpInterceptorProviders } from './core/interceptors/index-interceptors';
+import { UpdateService } from './core/service-worker/update.service';
 import { ProfileComponent } from './modules/profile/profile.component';
 import { ReportsModule } from './modules/reports/reports.module';
 import { SharedModule } from './shared/shared.module';

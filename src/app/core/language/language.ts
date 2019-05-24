@@ -32,6 +32,7 @@ export interface Language {
     individual: string
     is_required: string
     location: string
+    name: string
     new: string
     next: string
     no_data: string
@@ -160,6 +161,7 @@ export interface Language {
     beneficiaries_import_check_fields: string
     beneficiaries_import_csv: string
     beneficiaries_import_convert: string
+    beneficiaries_import_conversion_success: string
     beneficiaries_import_error_file: string
     beneficiaries_import_error_importing: string
     beneficiaries_import_error_selection: string
@@ -172,7 +174,9 @@ export interface Language {
     beneficiaries_location: string
     beneficiaries_member: string
     beneficiaries_missing_selected_project: string
+    beneficiaries_personnal: string
     beneficiaries_proxy: string
+    beneficiaries_residency: string
     beneficiaries_residency_refugee: string
     beneficiaries_residency_idp: string
     beneficiaries_residency_resident: string
@@ -407,8 +411,10 @@ export interface Language {
     model_donor_shortname: string
     model_familyName: string
     model_firstName: string
+    model_household_sentence: string
     model_individual_to_all: string
     model_individual_value: string
+    model_item: string
     model_notes: string
     model_product_name: string
     model_product_unit: string

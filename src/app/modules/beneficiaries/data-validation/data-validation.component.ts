@@ -9,7 +9,6 @@ import { Household } from 'src/app/models/household';
 import { ImportService } from '../../../core/api/beneficiaries-import.service';
 import { ModalConfirmationComponent } from '../../../components/modals/modal-confirmation/modal-confirmation.component';
 
-
 enum Step {
     Import = 1,
     Typos = 2,
@@ -179,11 +178,11 @@ export class DataValidationComponent implements OnInit {
             });
 
             // Check and disable head of households
-            if (error.old.status === true || error.old.status === '1') {
+            if (error.old.status === true || error.old.status === 1) {
                 duplicatesFormGroup.controls['old'].setValue(true);
                 duplicatesFormGroup.controls['old'].disable();
             }
-            if (error.new.status === true || error.new.status === '1') {
+            if (error.new.status === true || error.new.status === 1) {
                 duplicatesFormGroup.controls['new'].setValue(true);
                 duplicatesFormGroup.controls['new'].disable();
             }

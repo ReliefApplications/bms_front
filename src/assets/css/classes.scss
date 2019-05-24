@@ -481,17 +481,6 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
             justify-content: flex-end;
             width: 100%;
             margin: 10px;
-
-            .cancel {
-                background-color: $bms_white;
-                color: $bms_red;
-                margin-right: 5px;
-            }
-
-            .confirm {
-                background-color: $bms_red;
-                color: $bms_grey;
-            }
         }
     }
 
@@ -693,8 +682,8 @@ snack-bar-container {
 
 app-icon-svg {
     display: inline-flex;
-    width: 2em;
-    height: 2em;
+    width: 1.5em;
+    height: 1.5em;
 }
 
 .multiple-items {

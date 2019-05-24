@@ -17,6 +17,10 @@ mat-error, mat-hint {
     font-size: 12px;
 }
 
+mat-error.textarea-hint-error, mat-hint.textarea-hint-error {
+    top: 58px;
+}
+
 mat-hint {
     width: 100%;
     left: 0;

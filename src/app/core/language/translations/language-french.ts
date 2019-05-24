@@ -1,4 +1,5 @@
 import { Language } from '../language';
+import { INCOMELEVELS } from '../../../models/constants/income-levels';
 /* tslint:disable */
 export class French implements Language {
     // GENERAL VARIABLES
@@ -98,6 +99,9 @@ export class French implements Language {
     add_beneficiary_getOccupation = 'Métier'
     add_beneficiary_getTypeNationalId = 'Type d\'identifiant national'
     add_beneficiary_getTypePhone = 'Type'
+    add_beneficiary_income = 'Niveau de revenu'
+    add_beneficiary_income_level = INCOMELEVELS.fr
+    add_beneficiary_nationalID = 'Document d\'identité'
     add_beneficiary_res_address = 'Adresse du résident'
     add_beneficiary_step1 = 'Information'
     add_beneficiary_step2 = 'Chef de famille'

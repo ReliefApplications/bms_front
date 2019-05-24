@@ -1,4 +1,5 @@
 import { Language } from '../language';
+import { INCOMELEVELS } from '../../../models/constants/income-levels';
 /* tslint:disable */
 export class English implements Language {
     // GENERAL VARIABLES
@@ -97,6 +98,9 @@ export class English implements Language {
     add_beneficiary_getOccupation = 'Livelihood'
     add_beneficiary_getTypeNationalId = 'ID Type'
     add_beneficiary_getTypePhone = 'Type'
+    add_beneficiary_income = 'Level of income'
+    add_beneficiary_income_level = INCOMELEVELS.en
+    add_beneficiary_nationalID = 'National ID'
     add_beneficiary_res_address = 'Resident Address'
     add_beneficiary_step1 = 'Information'
     add_beneficiary_step2 = 'Head'

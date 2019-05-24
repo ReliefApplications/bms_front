@@ -112,8 +112,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             this.getVulnerabilityCriteria().subscribe(() => {
                 const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
                     .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
-                this.mainFields = [
-                    'adm1', 'adm2', 'adm3', 'adm4', 'addressNumber', 'addressPostcode', 'addressStreet', 'livelihood', 'notes', 'projects'];
+                this.mainFields = ['adm1', 'adm2', 'adm3', 'adm4', 'addressNumber', 'addressPostcode', 'addressStreet',
+                    'incomeLevel', 'livelihood', 'notes', 'projects'];
                 this.mainFields = this.mainFields.concat(countrySpecificNames);
 
                 const vulnerabilityCriteriaNames = this.vulnerabilityList.map((vulnerability: VulnerabilityCriteria) => {
@@ -376,6 +376,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.household.set('addressPostcode', this.mainForm.controls.addressPostcode.value),
         this.household.set('livelihood', this.getLivelihood());
         this.household.set('notes', this.mainForm.controls.notes.value);
+        this.household.set('incomeLevel', this.mainForm.controls.incomeLevel.value);
 
         this.household.set(
             'projects',

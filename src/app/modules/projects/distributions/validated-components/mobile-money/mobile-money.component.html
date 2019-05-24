@@ -114,8 +114,9 @@
                     <br />
                 </div>
                 <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                    <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')">{{language.cancel}}</button>
-                    <button mat-raised-button class="button-background-accent confirm" [disabled]="!enteredCodeControl.valid" (click)="confirmTransaction()">{{language.transaction_confirm_button}}</button>
+                    <button mat-button class="button-text-accent" (click)="exit('Transaction canceled')">{{language.cancel}}</button>
+                    <button mat-raised-button class="button-background-accent" *ngIf="!transacting" [disabled]="!enteredCodeControl.valid" (click)="confirmTransaction()">{{language.transaction_confirm_button}}</button>
+                    <mat-spinner [diameter]="30" *ngIf="transacting"></mat-spinner>
                 </div>
             </div>
 

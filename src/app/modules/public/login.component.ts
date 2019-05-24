@@ -91,25 +91,27 @@ export class LoginComponent implements OnInit {
         ));
         subscription.subscribe(
             (user: User) => {
-            if (user) {
-                this.userService.currentUser = user;
-                if (user.get('countries') &&
-                    user.get<Array<Country>>('countries').length === 0 &&
-                    this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
-                    this.initCountry('KHM', true).subscribe(success => {
-                        this.goToHomePage(user);
-                    });
-                } else {
-                    this.initCountry(user.get<Array<Country>>('countries')[0].get<string>('id'), false).subscribe(success => {
-                        this.goToHomePage(user);
-                    });
-                }
-                if (user.get<boolean>('mustChangePassword') === true) {
-                    this.router.navigate(['/profile']);
-                    this.snackbar.info(this.language.profile_change_password);
-                } else {
-                    this.router.navigate(['/']);
-                }
+                if (user) {
+                    this.userService.currentUser = user;
+                    this.asyncacheService.setUser(user).subscribe();
+
+                    if (user.get('countries') &&
+                        user.get<Array<Country>>('countries').length === 0 &&
+                        this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
+                        this.initCountry('KHM', true).subscribe((_success: any) => {
+                            this.goToHomePage(user);
+                        });
+                    } else {
+                        this.initCountry(user.get<Array<Country>>('countries')[0].get<string>('id'), false).subscribe((_success: any) => {
+                            this.goToHomePage(user);
+                        });
+                    }
+                    if (user.get<boolean>('mustChangePassword') === true) {
+                        this.router.navigate(['/profile']);
+                        this.snackbar.info(this.language.profile_change_password);
+                    } else {
+                        this.router.navigate(['/']);
+                    }
                 if (user.get<string>('language')) {
                     this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
                 } else {

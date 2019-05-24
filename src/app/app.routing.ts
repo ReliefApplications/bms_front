@@ -5,6 +5,7 @@ import { NotFoundComponent } from './components/error-pages/not-found/not-found.
 // Services
 import { AuthGuard } from './core/guards/auth.guard';
 import { DeactivateGuard } from './core/guards/deactivate.guard';
+import { LogoutGuard } from './core/guards/logout.guard';
 import { PermissionsGuard } from './core/guards/permissions.guard';
 import { CountryResolver } from './core/resolvers/countries.resolver';
 import { BeneficiariesImportComponent } from './modules/beneficiaries/beneficiaries-import/beneficiaries-import.component';
@@ -29,7 +30,8 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
-        resolve: {language: LanguageResolver, country: CountryResolver}
+        canActivate: [LogoutGuard],
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'projects',

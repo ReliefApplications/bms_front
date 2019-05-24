@@ -73,9 +73,9 @@
           </th>
       </tr>
     </table>
-    <div class="modal-button action-buttons stickyFooter">
-        <button mat-button (click)="onCancel()" class="button-text-accent">Cancel</button>
-        <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">Save</button>
+    <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
+        <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">{{language.save}}</button>
     </div>
   </form>
 </div>

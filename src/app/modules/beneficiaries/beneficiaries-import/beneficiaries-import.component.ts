@@ -13,6 +13,7 @@ import { Adm, Location } from 'src/app/models/location';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 import { ImportService } from '../../../core/api/beneficiaries-import.service';
 import { Project } from '../../../models/project';
 import { User } from 'src/app/models/user';
@@ -108,6 +109,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
+        this.countryService.selectedCountry.getValue().get<string>('id') :
+        this.countryService.khm.get<string>('id');
 
     constructor(
         public _householdsService: HouseholdsService,
@@ -121,6 +125,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         private locationService: LocationService,
         private userService: UserService,
         private languageService: LanguageService,
+        private countryService: CountriesService,
     ) { }
 
     ngOnInit() {

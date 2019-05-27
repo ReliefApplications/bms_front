@@ -47,6 +47,10 @@ export class LeafletService {
         this.addKML();
     }
 
+    removeMap() {
+        this.map.remove();
+    }
+
     addTileLayer() {
         // Add title layer to the map
 

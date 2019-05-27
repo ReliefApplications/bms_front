@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { concat, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { StoredRequestInterface } from 'src/app/models/stored-request';
+import { StoredRequestInterface } from 'src/app/models/interfaces/stored-request';
 import { URL_BMS_API } from '../../../environments/environment';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { NetworkService } from './network.service';
@@ -122,13 +122,14 @@ export class HttpService {
                 this.http.get(url, options).pipe(
                     map(
                         result => {
+
                             if (result !== undefined) {
                                 if (Array.isArray(result) && Array.isArray(cacheData)) {
                                     if (JSON.stringify(result) !== JSON.stringify(cacheData) && this.save) {
-                                        this.cacheService.set(itemKey, result);
+                                        this.cacheService.set(itemKey, result).subscribe();
                                     }
                                 } else if (result !== cacheData && this.save) {
-                                    this.cacheService.set(itemKey, result);
+                                    this.cacheService.set(itemKey, result).subscribe();
                                 }
                             }
                             return (result);
@@ -287,7 +288,7 @@ export class HttpService {
                     }
 
                     if (this.save) {
-                        this.cacheService.set(itemKey, dataArray);
+                        this.cacheService.set(itemKey, dataArray).subscribe();
                     }
                 }
             );

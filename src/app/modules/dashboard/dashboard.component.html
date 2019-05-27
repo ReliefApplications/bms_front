@@ -2,14 +2,14 @@
     <div class="container-boxes">
         <div class="boxes-map">
             <div class="container-title">
-                <h1 >{{language.dashboard_distribution_map | titlecase}}</h1>
+                <h1 >{{language.dashboard_distribution_map | uppercaseFirst}}</h1>
             </div>
             <div class="map-content">
                 <div id="map"></div>
             </div>
         </div>
         <div *ngIf="currentDisplayType.type !== 'mobile'" class="boxes-summary">
-            <h1 class="dashboard-title">{{language.dashboard_summary | titlecase}}</h1>
+            <h1 class="dashboard-title">{{language.dashboard_summary | uppercaseFirst}}</h1>
             <app-placeholder-summary *ngIf="loadingSummary" class="summary-content"></app-placeholder-summary>
             <div class="summary-content" *ngIf="!loadingSummary">
                 <div class="lign-container">
@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="container-distribution">
-        <h1 class="dashboard-title">{{language.dashboard_recent_distributions | titlecase}}</h1>
+        <h1 class="dashboard-title">{{language.dashboard_recent_distributions | uppercaseFirst}}</h1>
         <app-placeholder-panel *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-panel>
         <div class="distribution-content" *ngIf='!loadingTable'>
         <app-table *ngIf="currentDisplayType.type !== 'mobile'" [deletable]="false" [editable]="false"

@@ -1,3 +1,4 @@
+import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
 
 /* tslint:disable */
@@ -6,10 +7,10 @@ export class Arabic implements Language {
     LANGUAGE_ISO = 'arabic'
     // Utils
     add = 'أضف'
-    adm1 = 'المحافظة'
-    adm2 = 'المنطقة'
-    adm3 = 'البلدية'
-    adm4 = 'القرية'
+    adm1 = ADMINLEVELS.ar.adm1
+    adm2 = ADMINLEVELS.ar.adm2
+    adm3 = ADMINLEVELS.ar.adm3
+    adm4 = ADMINLEVELS.ar.adm4
     back = 'إلى الوراء'
     beneficiaries = 'المستفيدون'
     beneficiary = 'المستفيد'
@@ -34,6 +35,7 @@ export class Arabic implements Language {
     individual = 'فرد '
     is_required = 'مطلوب'
     location = 'الموقع'
+    name = 'اسم'
     new = 'الجديد'
     next = 'التالى'
     no_data = 'لايوجد بيانات'
@@ -175,6 +177,7 @@ export class Arabic implements Language {
     beneficiaries_import_check_fields= ' محتوى فارغ  تثبت من أدخال جميع المعطيات و اختيار مشروع '
     beneficiaries_import_csv= ' تنزيل ملف'
     beneficiaries_import_convert= 'تحويل الملف'
+    beneficiaries_import_conversion_success = 'التحويل بنجاح!'
     beneficiaries_import_error_importing= 'وقع خطأ عندالتحميل البيانات'
     beneficiaries_import_error_file = 'يجب عليك تحديد ملف'
     beneficiaries_import_error_selection= 'You must to select at least one choice'
@@ -187,7 +190,9 @@ export class Arabic implements Language {
     beneficiaries_location= 'مكان الأسرة='
     beneficiaries_member= 'فرد من العائلة'
     beneficiaries_missing_selected_project= 'يجب أن تختار مشروعاقبل التحميل'
+    beneficiaries_personnal = 'معلومات شخصية'
     beneficiaries_proxy= 'الوكيل'
+    beneficiaries_residency = 'الإقامة'
     beneficiaries_residency_refugee= 'لاجئ'
     beneficiaries_residency_idp= 'IDP'
     beneficiaries_residency_resident= 'مقيم'
@@ -425,8 +430,10 @@ export class Arabic implements Language {
     model_duplicate = 'مكرر'
     model_familyName = 'اللقب'
     model_firstName = 'الاسم '
+    model_household_sentence = 'الأسرة من'
     model_individual_to_all = 'تعيين قيمة القسائم بشكل فردي'
     model_individual_value = 'القيمة الفردية'
+    model_item = 'بند'
     model_notes = 'الملاحظات'
     model_product_name = 'اسم'
     model_product_unit = 'وحدة'
@@ -485,15 +492,15 @@ export class Arabic implements Language {
     profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'
 
     // Project
-    project_add = 'الرجاء إضافة بعض المشاريع أولاً! ثم ستتمكن من إدارة بعض التوزيعات ...'
+    project_add = 'الرجاء إضافة مشروع جديد للبدء!'
     project_add_household = 'الرجاء إضافة بعض المستفيدين أولاً! ثم ستتمكن من إدارة بعض التوزيعات ...'
-    project_click = 'انقر فوق'
+    project_click = 'انقر فوق' + this.add
     project_create = 'قم بإنشاء مشروع جديد'
     project_description = 'سوف يمكنك تعديل اسم المشروع حتى توزيعك الأول'
     project_go_import_beneficiaries = 'استيراد المستفيدين'
     project_no_distribution = 'هذا المشروع لا يحتوي على أي توزيع. اصنع اول واحد!'
     project_no_household = 'هذا المشروع لا يحتوي على أي منزل.'
-    project_no_projects = 'هذا البلد لا يحتوي على أي مشروع.'
+    project_no_projects = 'لا يحتوي هذا البلد حاليًا على أي مشاريع نشطة.'
 
     // Report
     report_apply = 'تطبيق'

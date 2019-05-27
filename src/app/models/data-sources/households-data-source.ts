@@ -2,6 +2,7 @@ import { CollectionViewer } from '@angular/cdk/collections';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
+import { CountriesService } from '../../core/countries/countries.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { AppInjector } from '../../app-injector';
 import { HouseholdsService } from '../../core/api/households.service';
@@ -15,6 +16,16 @@ import { Location } from '../location';
 import { CustomDataSource } from './custom-data-source.interface';
 
 export class HouseholdFilters extends CustomModel {
+
+    protected countryService = AppInjector.get(CountriesService);
+
+    // TO DO: stop duplicating that (in location.ts and vendor.ts too) once the location structure is stable
+    // (cannot put it in customModel because of circular dependency with country.ts)
+    // Maybe create an intermediary customModel->customModelWithLocation->householdFilters
+    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
+    this.countryService.selectedCountry.getValue().get<string>('id') :
+    this.countryService.khm.get<string>('id');
+
     public fields = {
         projects: new MultipleSelectModelField({
             title: this.language.project,
@@ -56,7 +67,7 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'locations'
         }),
         adm1: new NestedFieldModelField({
-            title: this.language.adm1,
+            title: this.language.adm1[this.country],
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm1',
@@ -73,7 +84,7 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         adm2: new NestedFieldModelField({
-            title: this.language.adm2,
+            title: this.language.adm2[this.country],
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm2',
@@ -89,7 +100,7 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         adm3: new NestedFieldModelField({
-            title: this.language.adm3,
+            title: this.language.adm3[this.country],
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm3',
@@ -104,7 +115,7 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         adm4: new NestedFieldModelField({
-            title: this.language.adm4,
+            title: this.language.adm4[this.country],
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm4',

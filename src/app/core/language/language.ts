@@ -152,6 +152,8 @@ export interface Language {
     beneficiaries_added: string
     beneficiaries_advanced_research: string
     beneficiaries_clear_all_research: string
+    beneficiaries_english_name: string
+    beneficiaries_local_name: string
     beneficiaries_full_address: string
     beneficiaries_head: string
     beneficiaries_household_info: string

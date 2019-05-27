@@ -1,6 +1,6 @@
 <form [formGroup]="form">
   <div class="column-container">
-    <h4 class="location">{{ language.name | uppercaseFirst }}</h4>
+    <h4 class="location">{{ language.beneficiaries_local_name | uppercaseFirst }}</h4>
     <mat-form-field>
       <input matInput type="text" placeholder="{{language.add_beneficiary_getFamilyName | uppercaseFirst}}" formControlName="localFamilyName" required>
       <app-hint-error [form]="form" fieldName="localFamilyName" [field]="beneficiaryFields.localFamilyName" [isMatField]="true"></app-hint-error>
@@ -11,6 +11,7 @@
     </mat-form-field>
   </div>
   <div class="column-container">
+    <h4 class="location">{{ language.beneficiaries_english_name | uppercaseFirst }}</h4>
     <mat-form-field>
       <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishFamilyName | uppercaseFirst}}" formControlName="enFamilyName">
       <app-hint-error [form]="form" fieldName="enFamilyName" [field]="beneficiaryFields.enFamilyName" [isMatField]="true"></app-hint-error>

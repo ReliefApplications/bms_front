@@ -168,6 +168,8 @@ export class Arabic implements Language {
     beneficiaries_added= 'تم إضافة المستفيدين الى المشروع'
     beneficiaries_advanced_research= 'بحث متقدم'
     beneficiaries_clear_all_research= 'امسح الكل'
+    beneficiaries_english_name = 'اسم الانجليزية'
+    beneficiaries_local_name = 'الاسم المحلي'
     beneficiaries_full_address= 'عنوان المنزل بالكامل:'
     beneficiaries_household_info= 'ملخص المعلومات الخاصة بالمنزل  :'
     beneficiaries_head= 'رب الأسرة'

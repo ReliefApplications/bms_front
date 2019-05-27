@@ -168,6 +168,8 @@ export class French implements Language {
     beneficiaries_added = 'Les bénéficiaires ont été ajouté au projet sélectionné'
     beneficiaries_advanced_research = 'Recherche avancée'
     beneficiaries_clear_all_research = 'Réinitialiser les filtres'
+    beneficiaries_english_name = 'Nom anglais'
+    beneficiaries_local_name = 'Nom local'
     beneficiaries_full_address = 'Adresse entière du ménage'
     beneficiaries_household_info = 'Résumé des informations du ménage'
     beneficiaries_head = 'Chef de famille'

@@ -166,6 +166,8 @@ export class English implements Language {
     beneficiaries_added = 'Beneficiairies added to the selected project'
     beneficiaries_advanced_research = 'Advanced search'
     beneficiaries_clear_all_research = 'Clear all'
+    beneficiaries_english_name = 'English name'
+    beneficiaries_local_name = 'Local name'
     beneficiaries_full_address = 'Full household address'
     beneficiaries_head = 'Head'
     beneficiaries_household_info = 'Household information summary'

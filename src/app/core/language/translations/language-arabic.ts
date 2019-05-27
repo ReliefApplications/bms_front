@@ -180,7 +180,7 @@ export class Arabic implements Language {
     beneficiaries_import_conversion_success = 'التحويل بنجاح!'
     beneficiaries_import_error_importing= 'وقع خطأ عندالتحميل البيانات'
     beneficiaries_import_error_file = 'يجب عليك تحديد ملف'
-    beneficiaries_import_error_selection= 'You must to select at least one choice'
+    beneficiaries_import_error_selection= 'You must select at least one choice'
     beneficiaries_import_file= 'تحميل من ملف'
     beneficiaries_import_response= 'استعد لاستعادة الملف'
     beneficiaries_import_select_location= 'يجب تحديد الموقع وإضافة ملف قبل التحميل'

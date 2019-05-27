@@ -106,7 +106,7 @@ export class LoginComponent implements OnInit {
                             this.goToHomePage(user);
                         });
                     }
-                    if (user.get<boolean>('mustChangePassword') === true) {
+                    if (user.get<boolean>('changePassword') === true) {
                         this.router.navigate(['/profile']);
                         this.snackbar.info(this.language.profile_change_password);
                     } else {
@@ -128,7 +128,7 @@ export class LoginComponent implements OnInit {
     }
 
     goToHomePage(user: User) {
-        if (user.get<boolean>('mustChangePassword') === true) {
+        if (user.get<boolean>('changePassword') === true) {
             this.router.navigate(['/profile']);
             this.snackbar.info(this.language.profile_change_password);
         }

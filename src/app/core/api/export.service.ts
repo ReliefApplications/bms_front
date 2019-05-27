@@ -3,7 +3,6 @@ import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from '../network/http.service';
 import { saveAs      } from 'file-saver/FileSaver';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Filter } from 'src/app/components/table/table-server/table-server.component';
 
 @Injectable({
     providedIn: 'root'

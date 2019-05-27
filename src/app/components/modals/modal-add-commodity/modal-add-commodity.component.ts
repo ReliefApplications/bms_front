@@ -74,28 +74,41 @@ export class ModalAddCommodityComponent implements OnInit {
             this.commodityService.fillTypeOptions(this.commodity, modalityId);
         }
         this.form.controls.modalityType.setValue(null);
+        this.form.controls.unit.setValue('');
     }
 
-  getUnit(): string {
-    this.isCurrency = false;
-    this.form.controls.unit.setValue('');
-    switch (this.form.controls.modalityType.value) {
-        case 1: // Mobile Cash
-        case 2: // QR Code Voucher
-        case 3: // Paper Voucher
-        case 9: // Loan
-            this.isCurrency = true;
-            this.form.controls.unit.setValue(this.localCurrency);
-            return this.language.model_currency;
-        case 4: // Food
-        case 5: // RTE Kit
-        case 7: // Agricultural Kit
-        case 8: // Wash kit
-            return this.language.model_commodity_kit;
-        case 6: // Bread
-            return this.language.model_commodity_kgs;
-        default:
-            return this.language.model_commodity_unit;
+    getUnit(): string {
+        switch (this.form.controls.modalityType.value) {
+            case 1: // Mobile Cash
+            case 2: // QR Code Voucher
+            case 3: // Paper Voucher
+            case 13: // Loan
+                return this.language.model_currency;
+            case 4: // Food
+            case 5: // RTE Kit
+            case 7: // Agricultural Kit
+            case 8: // Wash kit
+            case 10: // Shelter tool kit
+            case 11: // Hygiene kit
+            case 12: // Dignity kit
+                return this.language.model_commodity_kit;
+            case 6: // Bread
+                return this.language.model_commodity_kgs;
+            default:
+                return this.language.model_commodity_unit;
+        }
+    }
+
+    setUnit() {
+        this.isCurrency = false;
+        this.form.controls.unit.setValue('');
+        switch (this.form.controls.modalityType.value) {
+            case 1: // Mobile Cash
+            case 2: // QR Code Voucher
+            case 3: // Paper Voucher
+            case 13: // Loan
+                this.isCurrency = true;
+                this.form.controls.unit.setValue(this.localCurrency);
         }
     }
 

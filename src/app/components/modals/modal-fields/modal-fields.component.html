@@ -138,13 +138,13 @@
                 </ng-container>
             </ng-container>
         </table>
-        <div class="modal-button action-buttons stickyFooter" *ngIf="modalType !== 'Details'">
-            <button type="button" mat-button (click)="onCancel()" class="button-text-accent" [ngClass]="{'button-text-accent': modalType === 'Add', 'button-text-primary': modalType !== 'Add'}">Cancel</button>
-            <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Add'" (click)="onSubmit()" class="button-background-accent">Create</button>
-            <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Edit'" (click)="onSubmit()" class="button-background-primary">Save</button>
+        <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" *ngIf="modalType !== 'Details'">
+            <button mat-button (click)="onCancel()" [ngClass]="{'button-text-accent': modalType === 'Add', 'button-text-primary': modalType !== 'Add'}">{{language.cancel}}</button>
+            <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Add'" (click)="onSubmit()" class="button-background-accent">{{language.create}}</button>
+            <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Edit'" (click)="onSubmit()" class="button-background-primary">{{language.save}}</button>
         </div>
-        <div class="modal-button action-buttons stickyFooter" *ngIf="modalType === 'Details'">
-            <button mat-button (click)="onCancel()" class="button-background-primary">Close</button>
+        <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" *ngIf="modalType === 'Details'">
+            <button mat-raised-button (click)="onCancel()" class="button-background-primary">{{language.close}}</button>
         </div>
     </form>
 </mat-dialog-content>

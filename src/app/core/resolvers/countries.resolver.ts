@@ -35,7 +35,7 @@ export class CountryResolver implements Resolve<Observable<Country> | Country> {
         return this.asyncCacheService.getCountry().pipe(
             map((country: Country) => {
                 // Navigate to one-depth url if the url is more than one-depth
-                if (route.url.length >= 2) {
+                if (route && route.url.length >= 2) {
                     this.router.navigate(route.url.slice(0, 1).map((urlSegment: UrlSegment) => {
                         return urlSegment.path;
                     }));

@@ -1,3 +1,5 @@
+import { ADMINLEVELS } from '../adm-constants';
+
 import { Language } from '../language';
 /* tslint:disable */
 export class French implements Language {
@@ -5,10 +7,10 @@ export class French implements Language {
     LANGUAGE_ISO = 'french'
     // Utils
     add = 'Ajouter'
-    adm1 = 'Province'
-    adm2 = 'District'
-    adm3 = 'Commune'
-    adm4 = 'Village'
+    adm1 = ADMINLEVELS.fr.adm1
+    adm2 = ADMINLEVELS.fr.adm2
+    adm3 = ADMINLEVELS.fr.adm3
+    adm4 = ADMINLEVELS.fr.adm4
     back = 'Retour'
     beneficiaries = 'Bénéficiaires'
     beneficiary = 'Bénéficiaire'
@@ -18,6 +20,7 @@ export class French implements Language {
     create = 'Créer'
     delete = 'Supprimer'
     details = 'Détails'
+    description = 'description'
     distribution = 'Distribution'
     distributions = 'Distributions'
     done = 'Fin'
@@ -32,6 +35,7 @@ export class French implements Language {
     individual = 'Individual'
     is_required = 'est un champ obligatoire'
     location = 'Lieu'
+    name = 'nom'
     new = 'Nouveau'
     next = 'Suivant'
     no_data = 'Pas de données'
@@ -186,7 +190,9 @@ export class French implements Language {
     beneficiaries_location = 'Localisation du ménage'
     beneficiaries_member = 'Membre'
     beneficiaries_missing_selected_project = 'Vous devez selectionner un projet avant l\'importation'
+    beneficiaries_personnal = 'informations personnelles'
     beneficiaries_proxy = 'Proxy'
+    beneficiaries_residency = 'résidence'
     beneficiaries_residency_refugee = 'Réfugié'
     beneficiaries_residency_idp = 'IDP'
     beneficiaries_residency_resident = 'Résident'
@@ -209,6 +215,10 @@ export class French implements Language {
     commodity_wash = 'Kit d\'hygiène'
     commodity_agriculture = 'Kit d\'agriculture'
     commodity_rte = 'Kit RTE'
+    commodity_distribution = 'distribution sur place'
+    commodity_shelter = 'Kit d\'abris'
+    commodity_hygiene = 'kit d\'hygiène'
+    commodity_dignity = 'kit de dignité'
 
     // Countries
     country_khm = 'Cambodge'
@@ -480,15 +490,15 @@ export class French implements Language {
     profile_password_would_not_be_changed = 'Les deux mots de passe sont identiques, les changements seront ignorés.'
 
     // Project
-    project_add = 'S\'il vous plait, créez d\'abord des projets ! Ensuite, vous pourrez gérer des distributions...'
+    project_add = 'Veuillez créer un projet pour commencer !'
     project_add_household = 'S\'il vous plait, ajoutez d\'abord des bénéficiaires ! Ensuite, vous pourrez gérer des distributions...'
-    project_click = 'Cliquer sur '
+    project_click = 'Cliquer sur '  + this.add
     project_create = 'Créer un nouveau projet'
     project_description = 'Vous pourrez modifier le nom du projet jusqu\'à votre première distribution'
     project_go_import_beneficiaries = 'Importer des bénéficiaires'
     project_no_distribution = 'Le projet ne contient aucune distribution. Créer votre première !'
     project_no_household = 'Le projet ne contient aucun ménage.'
-    project_no_projects = 'Le pays ne contient aucun projet.'
+    project_no_projects = 'Le pays ne contient aucun projet actif pour le moment.'
 
     // Report
     report_apply = 'appliquer'
@@ -529,7 +539,10 @@ export class French implements Language {
     sector_protection = 'Protection'
     sector_shelter = 'Hébergement'
     sector_water = 'Assainissement de l\'eau'
-
+    sector_cash_for_work = 'cash for work'
+    sector_tvet = 'TVET'
+    sector_food_kits = 'nourriture, kits RTE'
+    sector_nfi = 'NFIs'
     // Settings
     settings_country_specific_options = 'options par pays'
     settings_created = ' créé(e)'

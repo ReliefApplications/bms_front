@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { UserService } from 'src/app/core/api/user.service';
 import { Language } from 'src/app/core/language/language';
-import { Arabic } from 'src/app/core/language/translations/language-arabic';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { Arabic } from 'src/app/core/language/translations/language-arabic';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 @Component({
@@ -72,12 +72,12 @@ export class ModalLanguageComponent implements OnInit {
                 newLanguage
                 ).subscribe((_response: any) => {
                     this.snackbar.success('Default Language Saved');
-                    this.asyncacheService.setLanguage(newLanguage);
+                    this.asyncacheService.setLanguage(newLanguage).subscribe();
                     window.location.reload();
                 }
             );
         } else {
-            this.asyncacheService.setLanguage(newLanguage);
+            this.asyncacheService.setLanguage(newLanguage).subscribe();
             window.location.reload();
         }
     }

@@ -41,7 +41,7 @@
                     <mat-icon>person_outline</mat-icon>
                     <span>{{language.header_profile | titlecase}}</span>
                 </button>
-                <button mat-menu-item routerLink="/login">
+                <button mat-menu-item (click)="logout()">
                     <mat-icon>exit_to_app</mat-icon>
                     <span>{{language.header_disconnect | titlecase}}</span>
                 </button>

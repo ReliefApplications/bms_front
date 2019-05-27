@@ -1,17 +1,21 @@
-import { GraphValue } from './graph-value.model';
-import { GraphDTO, GraphValueDTO } from './graph.dto';
+import { GraphPeriods } from './graph-value.model';
+import { GraphDTO } from './graph.dto';
 
 export class Graph  {
     type: string;
     name: string;
-    values: Array<GraphValue>;
+    values: GraphPeriods;
 
     constructor (graphDTO: GraphDTO) {
-        this.type = graphDTO.graphType;
         this.name = graphDTO.name;
-        this.values = graphDTO.values.map((graphValueDTO: GraphValueDTO) => {
-            return new GraphValue(graphValueDTO);
-        });
+        this.type = graphDTO.graphType;
+        this.values = new GraphPeriods(graphDTO.values);
+        // console.log(graphDTO)
+        // this.type = graphDTO.graphType;
+        // this.name = graphDTO.name;
+        // this.values = Object.keys(graphDTO.values).map((key: string) => {
+        //     return new GraphValue(graphDTO[key]);
+        // });
     }
 }
 

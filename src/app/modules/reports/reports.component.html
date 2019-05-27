@@ -112,7 +112,7 @@
                 <div class="graph" *ngFor="let graph of graphs">
                     <h2>{{graph.name}}</h2>
                     <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'"></app-line-chart>
-                    <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie'"></app-pie-chart>
+                    <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie' || graph.type === 'grid'"></app-pie-chart>
                     <app-bar-chart [graphInfo]="graph" *ngIf="graph.type === 'number'"></app-bar-chart>
                 </div>
             </div>

@@ -1,12 +1,13 @@
 <div style="display: block">
-    <canvas *ngIf="dataSet.values.length; else noData" baseChart
+    <canvas *ngIf="barChartDataSet.length; else noData" baseChart
     width="400px"
     height="400px"
-    [datasets]="dataSet.values"
-    [labels]="dataSet.labels"
+    [datasets]="barChartDataSet"
+    [labels]="periods"
     [options]="options"
     [chartType]="'bar'"
-    [legend]="'true'">
+    [legend]="'true'"
+    [colors]="colors">
     </canvas>
 </div>
 

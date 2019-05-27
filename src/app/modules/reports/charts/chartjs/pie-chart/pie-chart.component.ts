@@ -4,7 +4,7 @@ import { Color, Label } from 'ng2-charts';
 import { Colorizer } from '../../../colors';
 import { GraphValue } from '../../../graph-value.model';
 import { BaseChartComponent } from '../base-chart/base-chart.component';
-import { PeriodGraphInfo, PieChartDataSet } from './pie-chart-dataset';
+import { PieChartDataSet } from './pie-chart-dataset';
 
 @Component({
     selector: 'app-pie-chart',
@@ -13,11 +13,12 @@ import { PeriodGraphInfo, PieChartDataSet } from './pie-chart-dataset';
 })
 export class PieChartComponent extends BaseChartComponent implements OnInit {
 
-    periodGraphInfo: PeriodGraphInfo;
 
     pieChartDataSets: Array<PieChartDataSet>;
 
     colors: Array<Color>;
+
+    periods: Array<string>;
 
     public pieChartOptions: ChartOptions = {
         responsive: true,
@@ -33,24 +34,25 @@ export class PieChartComponent extends BaseChartComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.periodGraphInfo = this.formatValuePerPeriod();
 
         this.formatPieChartDataSet();
 
         this.generateColors();
     }
 
-    formatPieChartDataSet() {
-        this.pieChartDataSets = Object.keys(this.periodGraphInfo).map((period: string) => {
-            const labels: Array<Label> = [];
-            const values: Array<number> = [];
-            this.periodGraphInfo[period].forEach((graphValue: GraphValue) => {
+    private formatPieChartDataSet() {
+        this.periods = [];
+        this.pieChartDataSets = [];
+
+        this.pieChartDataSets = Object.keys(this.graphInfo.values).map((period: string) => {
+            this.periods.push(period);
+            const labels: Array<Label> = [], values: Array<number> = [];
+            this.graphInfo.values[period].map((graphValue: GraphValue) => {
                 labels.push(graphValue.unit);
                 values.push(graphValue.value);
             });
-            return {labels, values: PieChartComponent.valuesToPercentages(values), period};
+            return new PieChartDataSet(labels, PieChartComponent.valuesToPercentages(values));
         });
-
     }
 
     generateColors() {

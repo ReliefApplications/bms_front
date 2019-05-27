@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartOptions } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { ChartDataSets, ChartOptions } from 'chart.js';
+import { Color as GraphColor, Label } from 'ng2-charts';
+import { Color, Colorizer } from '../../../colors';
 import { GraphValue } from '../../../graph-value.model';
 import { BaseChartComponent } from '../base-chart/base-chart.component';
-import { PeriodGraphInfo } from '../pie-chart/pie-chart-dataset';
-import { BarChartDataSet, NestedLabeledValue } from './bar-chart-dataset';
+import { NestedLabeledValue } from './bar-chart-dataset';
 
 @Component({
     selector: 'app-bar-chart',
@@ -12,8 +12,13 @@ import { BarChartDataSet, NestedLabeledValue } from './bar-chart-dataset';
     styleUrls: [ './bar-chart.component.scss' ]
 })
 export class BarChartComponent extends BaseChartComponent implements OnInit {
-    periodGraphInfo: PeriodGraphInfo;
-    dataSet: BarChartDataSet = new BarChartDataSet();
+    // periodGraphInfo: PeriodGraphInfo;
+
+    public periods: Array<Label>;
+
+    public barChartDataSet: Array<ChartDataSets>;
+
+    colors: Array<GraphColor>;
 
     public options: ChartOptions = {
         responsive: true,
@@ -29,33 +34,49 @@ export class BarChartComponent extends BaseChartComponent implements OnInit {
     };
 
     ngOnInit() {
-        this.periodGraphInfo = this.formatValuePerPeriod();
-
+        this.generatePeriods();
         this.formatBarChartDataSet();
+        this.generateColors();
     }
 
-    formatBarChartDataSet() {
-        const labels: Array<Label> = [];
-        const dataSet: NestedLabeledValue = {};
-        Object.keys(this.periodGraphInfo).forEach((period: string) => {
-            labels.push(period);
-            this.periodGraphInfo[period].forEach((graphValue: GraphValue) => {
-                const dataSetEntryKey = graphValue.name;
-                if (!dataSet[dataSetEntryKey]) {
-                    dataSet[dataSetEntryKey] = [];
+    private generatePeriods() {
+        this.periods = Object.keys(this.graphInfo.values);
+    }
+
+    private formatBarChartDataSet() {
+        const dataSets: NestedLabeledValue = {};
+
+        // 0 padding for data starting only after the first period
+        const periodValuePadding: Array<number> = [];
+        this.periods.forEach((period: string) => {
+            this.graphInfo.values[period].forEach((graphValue: GraphValue) => {
+
+                const dataSetKey: string = graphValue.name;
+                if (! dataSets[dataSetKey]) {
+                    dataSets[dataSetKey] = [
+                        ...periodValuePadding,
+                    ];
                 }
-                dataSet[dataSetEntryKey].push(graphValue.value);
+
+                dataSets[dataSetKey].push(graphValue.value);
             });
+            periodValuePadding.push(0);
         });
-        console.log(this.dataSet);
-        console.log(dataSet);
-        Object.entries(dataSet).forEach((value: [string, Array<number>]) => {
-            this.dataSet.values.push({
+
+        this.barChartDataSet = [];
+
+        Object.entries(dataSets).forEach((value: [string, Array<number>]) => {
+            this.barChartDataSet.push({
                 label: value[0],
                 data: value[1]
             });
         });
-        this.dataSet.labels = labels;
-        console.log(this.dataSet);
+    }
+
+    private generateColors() {
+        const colors = Colorizer.chooseRandomColors(this.barChartDataSet.length);
+        this.colors = colors.map((color: Color) => {
+            return {backgroundColor: color};
+        });
     }
 }

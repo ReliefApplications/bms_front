@@ -1,4 +1,4 @@
-enum Color {
+export enum Color {
     $bms_black = '#132F30',
     $bms_grey= '#F1F1FB',
     $bms_dark_blue= '#02617F',

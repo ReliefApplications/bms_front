@@ -1,9 +1,12 @@
 export interface GraphDTO {
     graphType: string;
     name: string;
-    values: Array<GraphValueDTO>;
+    values: GraphPeriodsDTO;
 }
 
+export interface GraphPeriodsDTO {
+    [period: string]: Array<GraphValueDTO>;
+}
 export interface GraphValueDTO {
     date: string;
     name: string;

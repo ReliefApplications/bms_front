@@ -1,12 +1,11 @@
 import { Label } from 'ng2-charts';
-import { GraphValue } from '../../../graph-value.model';
 
-export interface PieChartDataSet {
-    period: string;
+export class PieChartDataSet {
     labels: Array<Label>;
     values: Array<number|string>;
-}
 
-export interface PeriodGraphInfo {
-    [period: string]: Array<GraphValue>;
+    constructor(labels: Array<Label>, values: Array<number|string>) {
+        this.labels = labels;
+        this.values = values;
+    }
 }

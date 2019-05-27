@@ -63,14 +63,24 @@
                       <input matInput placeholder="{{language.add_beneficiary_getAddressPostcode | uppercaseFirst}}" formControlName="addressPostcode" required>
                       <app-hint-error [form]="mainForm" fieldName="addressPostcode" [field]="household.fields.addressPostcode" [isMatField]="true"></app-hint-error>
                     </mat-form-field>
+                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.add_beneficiary_getOccupation | uppercaseFirst}}" formControlName="livelihood">
+                      <ng-option *ngFor="let livelihood of household.getOptions('livelihood')" [value]="livelihood.get('id')">
+                        {{livelihood.get('name') | uppercaseFirst}}
+                      </ng-option>
+                    </ng-select>
+                    <app-hint-error [form]="mainForm" fieldName="livelihood" [field]="household.fields.livelihood" [isMatField]="false"></app-hint-error>
                   </div>
                   <div class="column-container">
-                      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.add_beneficiary_getOccupation | uppercaseFirst}}" formControlName="livelihood">
-                        <ng-option *ngFor="let livelihood of household.getOptions('livelihood')" [value]="livelihood.get('id')">
-                          {{livelihood.get('name') | uppercaseFirst}}
-                        </ng-option>
-                      </ng-select>
-                      <app-hint-error [form]="mainForm" fieldName="livelihood" [field]="household.fields.livelihood" [isMatField]="false"></app-hint-error>
+                    <div class="income">
+                      <h4>{{ language.add_beneficiary_income | uppercaseFirst }}</h4>
+                      <mat-form-field>
+                        <mat-select class="single-select" [multiple]="false" placeholder="{{language.add_beneficiary_income | uppercaseFirst}}" formControlName="incomeLevel">
+                          <mat-option *ngFor="let index of [1, 2, 3, 4, 5]" [value]="index">
+                              {{ index }} ({{ language['add_beneficiary_income_level'][index.toString()][household.country] }})
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
                     <div class="specifics" *ngIf="household.get('countrySpecificAnswers').length">
                       <h4>{{ language.settings_country_specific_options | uppercaseFirst }}</h4>
                       <mat-form-field *ngFor="let countrySpecificAnswer of household.get('countrySpecificAnswers')">

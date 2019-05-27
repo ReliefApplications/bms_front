@@ -1,5 +1,6 @@
 import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
+import { INCOMELEVELS } from '../../../models/constants/income-levels';
 
 /* tslint:disable */
 export class Arabic implements Language {
@@ -102,6 +103,9 @@ export class Arabic implements Language {
     add_beneficiary_getOccupation = 'الوظيفة'
     add_beneficiary_getTypeNationalId = 'نوع الهوية الوطنية'
     add_beneficiary_getTypePhone = 'نوع'
+    add_beneficiary_income = 'مستوى الدخل'
+    add_beneficiary_income_level = INCOMELEVELS.ar
+    add_beneficiary_nationalID = 'الهوية الوطنية'
     add_beneficiary_res_address = 'عنوان الإقامة'
     add_beneficiary_step1 = 'معلومات'
     add_beneficiary_step2 = 'رب العائلة'

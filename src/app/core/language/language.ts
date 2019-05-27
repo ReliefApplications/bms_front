@@ -86,6 +86,9 @@ export interface Language {
     add_beneficiary_getOccupation: string
     add_beneficiary_getTypeNationalId: string
     add_beneficiary_getTypePhone: string
+    add_beneficiary_income: string
+    add_beneficiary_income_level: object
+    add_beneficiary_nationalID: string
     add_beneficiary_res_address: string
     add_beneficiary_step1: string
     add_beneficiary_step2: string

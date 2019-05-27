@@ -11,6 +11,8 @@ import { TextModelField } from './custom-models/text-model-field';
 import { Location } from './location';
 import { Project } from './project';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
+import { CountriesService } from '../core/countries/countries.service';
+import { AppInjector } from '../app-injector';
 
 export class Livelihood extends CustomModel {
 
@@ -29,6 +31,12 @@ export class Household extends CustomModel {
 
     title = this.language.households;
     matSortActive = 'localFamilyName';
+
+    protected countryService = AppInjector.get(CountriesService);
+
+    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
+    this.countryService.selectedCountry.getValue().get<string>('id') :
+    this.countryService.khm.get<string>('id');
 
     public fields = {
         id: new NumberModelField(
@@ -131,15 +139,21 @@ export class Household extends CustomModel {
                 value: []
             }
         ),
-        addressNumber: new NumberModelField({
-            title: this.language.add_beneficiary_getAddressNumber,
-        }),
-        addressPostcode: new TextModelField({
-            title: this.language.add_beneficiary_getAddressPostcode,
-        }),
-        addressStreet: new TextModelField({
-            title: this.language.add_beneficiary_getAddressStreet,
-        }),
+        addressNumber: new NumberModelField(
+            {
+                title: this.language.add_beneficiary_getAddressNumber,
+            }
+        ),
+        addressPostcode: new TextModelField(
+            {
+                title: this.language.add_beneficiary_getAddressPostcode,
+            }
+        ),
+        addressStreet: new TextModelField(
+            {
+                title: this.language.add_beneficiary_getAddressStreet,
+            }
+        ),
         livelihood: new SingleSelectModelField(
             {
                 options: LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, this.language[livelihood.language_key]))
@@ -148,6 +162,12 @@ export class Household extends CustomModel {
         notes: new TextModelField(
             {
                 isLongText: true
+            }
+        ),
+        incomeLevel: new NumberModelField(
+            {
+                title: this.language.add_beneficiary_income,
+                isDisplayedInModal: true,
             }
         ),
 
@@ -169,6 +189,7 @@ export class Household extends CustomModel {
         newHousehold.set('addressPostcode', householdFromApi.address_postcode);
         newHousehold.set('addressStreet', householdFromApi.address_street);
         newHousehold.set('notes', householdFromApi.notes);
+        newHousehold.set('incomeLevel', householdFromApi.income_level);
         newHousehold.set('livelihood',
             householdFromApi.livelihood !== null && householdFromApi.livelihood !== undefined ?
             newHousehold.getOptions('livelihood')
@@ -242,7 +263,8 @@ export class Household extends CustomModel {
             notes: this.get('notes'),
             location: this.get('location').modelToApi(),
             country_specific_answers: this.get<CountrySpecificAnswer[]>('countrySpecificAnswers').map(answer => answer.modelToApi()),
-            beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi())
+            beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi()),
+            income_level: this.get('incomeLevel')
         };
     }
 }

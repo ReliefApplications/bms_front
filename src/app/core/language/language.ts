@@ -4,10 +4,10 @@ export interface Language {
     readonly LANGUAGE_ISO: string;
     // Utils
     add: string
-    adm1: string
-    adm2: string
-    adm3: string
-    adm4: string
+    adm1: object
+    adm2: object
+    adm3: object
+    adm4: object
     back: string
     beneficiaries: string
     beneficiary: string

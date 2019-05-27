@@ -1,3 +1,4 @@
+import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
 /* tslint:disable */
 export class English implements Language {
@@ -5,10 +6,10 @@ export class English implements Language {
     LANGUAGE_ISO = 'english'
     // Utils
     add = 'Add'
-    adm1 = 'Province'
-    adm2 = 'District'
-    adm3 = 'Commune'
-    adm4 = 'Village'
+    adm1 = ADMINLEVELS.en.adm1
+    adm2 = ADMINLEVELS.en.adm2
+    adm3 = ADMINLEVELS.en.adm3
+    adm4 = ADMINLEVELS.en.adm4
     back = 'Back'
     beneficiaries = 'Beneficiaries'
     beneficiary = 'Beneficiary'

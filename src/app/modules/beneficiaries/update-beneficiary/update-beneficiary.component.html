@@ -24,25 +24,25 @@
                 <div class="step1 all-information">
                   <div class="column-container">
                     <h4 class="location">{{ language.location }}</h4>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1 | uppercaseFirst}}" formControlName="adm1" (change)='loadDistrict($event)' required>
+                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1[countryId] | uppercaseFirst}}" formControlName="adm1" (change)='loadDistrict($event)' required>
                       <ng-option *ngFor="let option of household.get('location').getOptions('adm1')" [value]="option.get('id')">
                         {{option.get('name') | uppercaseFirst}}
                       </ng-option>
                     </ng-select>
                     <app-hint-error [form]="mainForm" fieldName="adm1" [field]="household.get('location').fields.adm1" [isMatField]="false"></app-hint-error>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm2 | uppercaseFirst}}" formControlName="adm2" (change)='loadCommune($event)'>
+                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm2[countryId] | uppercaseFirst}}" formControlName="adm2" (change)='loadCommune($event)'>
                       <ng-option *ngFor="let option of household.get('location').getOptions('adm2')" [value]="option.get('id')">
                         {{option.get('name') | uppercaseFirst}}
                       </ng-option>
                     </ng-select>
                     <app-hint-error [form]="mainForm" fieldName="adm2" [field]="household.get('location').fields.adm2" [isMatField]="false"></app-hint-error>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm3 | uppercaseFirst}}" formControlName="adm3" (change)='loadVillage($event)'>
+                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm3[countryId] | uppercaseFirst}}" formControlName="adm3" (change)='loadVillage($event)'>
                       <ng-option *ngFor="let option of household.get('location').getOptions('adm3')" [value]="option.get('id')">
                         {{option.get('name') | uppercaseFirst}}
                       </ng-option>
                     </ng-select>
                     <app-hint-error [form]="mainForm" fieldName="adm3" [field]="household.get('location').fields.adm3" [isMatField]="false"></app-hint-error>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm4 | uppercaseFirst}}" formControlName="adm4">
+                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm4[countryId] | uppercaseFirst}}" formControlName="adm4">
                       <ng-option *ngFor="let option of household.get('location').getOptions('adm4')" [value]="option.get('id')">
                         {{option.get('name') | uppercaseFirst}}
                       </ng-option>

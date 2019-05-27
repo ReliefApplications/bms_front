@@ -1,5 +1,6 @@
 <form [formGroup]="form">
   <div class="column-container">
+    <h4 class="location">{{ language.beneficiaries_local_name | uppercaseFirst }}</h4>
     <mat-form-field>
       <input matInput type="text" placeholder="{{language.add_beneficiary_getFamilyName | uppercaseFirst}}" formControlName="localFamilyName" required>
       <app-hint-error [form]="form" fieldName="localFamilyName" [field]="beneficiaryFields.localFamilyName" [isMatField]="true"></app-hint-error>
@@ -10,6 +11,7 @@
     </mat-form-field>
   </div>
   <div class="column-container">
+    <h4 class="location">{{ language.beneficiaries_english_name | uppercaseFirst }}</h4>
     <mat-form-field>
       <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishFamilyName | uppercaseFirst}}" formControlName="enFamilyName">
       <app-hint-error [form]="form" fieldName="enFamilyName" [field]="beneficiaryFields.enFamilyName" [isMatField]="true"></app-hint-error>
@@ -20,6 +22,7 @@
     </mat-form-field>
   </div>
   <div class="column-container">
+      <h4 class="location">{{ language.beneficiaries_personnal | uppercaseFirst }}</h4>
     <ng-select class="single-select gender" [multiple]="false" [searchable]=true [closeOnSelect]="true"
       placeholder="{{language.gender | uppercaseFirst }}" formControlName="gender" required>
       <ng-option *ngFor="let option of options.genderList" [value]="option.get('id')">
@@ -43,6 +46,7 @@
     </mat-form-field>
   </div>
   <div class="column-container">
+    <h4 class="location">{{ language.id | uppercaseFirst }}</h4>
     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
       placeholder="{{language.add_beneficiary_getTypeNationalId | uppercaseFirst }}" formControlName="IDType">
       <ng-option *ngFor="let option of options.nationalIdList" [value]="option.get('id')">
@@ -56,6 +60,7 @@
     </mat-form-field>
   </div>
   <div class="column-container">
+    <h4 class="location">{{ language.beneficiaries_residency | uppercaseFirst }}</h4>
     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
       placeholder="{{language.model_residencystatus | uppercaseFirst }}" formControlName="residencyStatus">
       <ng-option *ngFor="let option of options.residencyStatusList" [value]="option.get('id')">
@@ -65,6 +70,7 @@
     <app-hint-error [form]="form" fieldName="residencyStatus" [field]="beneficiaryFields.residencyStatus" [isMatField]="false"></app-hint-error>
   </div>
   <div *ngFor="let index of [0, 1]" class="column-container columns-phones">
+    <h4 class="location">{{ language.phone | uppercaseFirst }} {{ index + 1 }}</h4>
     <div class="items-line">
       <ng-select class="single-select phone-type" [multiple]="false" [searchable]=true [closeOnSelect]="true"
         placeholder="{{language.add_beneficiary_getTypePhone | uppercaseFirst }}" [formControlName]="'phoneType'+index">

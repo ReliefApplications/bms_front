@@ -50,6 +50,20 @@ export class CriteriaType extends CustomModel {
         this.set('name', name);
     }
 }
+
+export class CriteriaValue extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
 export class Criteria extends CustomModel {
     title =  this.language.model_criteria;
     matSortActive = 'field';
@@ -84,17 +98,22 @@ export class Criteria extends CustomModel {
                 isDisplayedInModal: true,
                 isRequired: true,
                 bindField: 'name',
+                apiLabel: 'name'
             }
         ),
         type: new SingleSelectModelField(
             {
             }
         ),
-        value: new TextModelField(
+
+        // Not really a single select, but can have an id and string, as gender for example
+        value: new SingleSelectModelField(
             {
                 title: this.language.model_value,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
+                bindField: 'name',
+                apiLabel: 'id'
             }
         ),
         weight: new NumberModelField(
@@ -124,7 +143,7 @@ export class Criteria extends CustomModel {
             field_string: this.get('field').get('field'),
             kind_beneficiary: this.get('kindOfBeneficiary'),
             table_string: this.get('tableString'),
-            value_string: this.get('value'),
+            value_string: this.get('value').get('id'),
             weight: this.get('weight'),
             type: this.get('type'),
         };

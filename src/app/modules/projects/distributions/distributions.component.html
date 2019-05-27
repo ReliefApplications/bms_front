@@ -1,17 +1,17 @@
 <div class="page-container">
 
     <div class="container-title" *ngIf="actualDistribution && !actualDistribution.get('validated') && !loadingDistribution">
-        <h2>{{language.distribution_edit | titlecase}}</h2>
+        <h2>{{language.distribution_edit | uppercaseFirst}}</h2>
     </div>
 
     <div class="container-title" *ngIf="actualDistribution && actualDistribution.get('validated') && !loadingDistribution">
-        <h2>{{ language.distribution_validated_title | titlecase }}</h2>
+        <h2>{{ language.distribution_validated_title | uppercaseFirst }}</h2>
     </div>
 
     <div class="container-data" *ngIf="actualDistribution && !loadingDistribution">
         <div class="container-content">
             <h3 class="container-subtitle">
-                {{actualDistribution.get('name') | titlecase}}
+                {{actualDistribution.get('name') | uppercaseFirst}}
                 <mat-icon class="valid" *ngIf="actualDistribution.get('validated') === true">lock</mat-icon>
                 <mat-icon class="unvalid" *ngIf="actualDistribution.get('validated') === false">lock_open</mat-icon>
                 <mat-icon class="valid" *ngIf="actualDistribution.get('validated') === true && distributionFinished">done</mat-icon>

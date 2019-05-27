@@ -8,16 +8,20 @@ import { ObjectModelField } from './custom-models/object-model-field';
 import { TextModelField } from './custom-models/text-model-field';
 import { Location } from './location';
 import { User } from './user';
-
-export class ErrorInterface {
-    message: string;
-}
+import { CountriesService } from '../core/countries/countries.service';
 
 export class Vendor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
     title = this.language.settings_vendors;
     matSortActive = 'username';
+
+    protected countryService = AppInjector.get(CountriesService);
+    // Country
+    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
+    this.countryService.selectedCountry.getValue().get<string>('id') :
+    this.countryService.khm.get<string>('id');
+
 
     public fields = {
         id: new NumberModelField({
@@ -89,7 +93,7 @@ export class Vendor extends CustomModel {
 
         }),
         adm1: new NestedFieldModelField({
-            title: this.language.adm1,
+            title: this.language.adm1[this.country],
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
@@ -111,7 +115,7 @@ export class Vendor extends CustomModel {
             },
         }),
         adm2: new NestedFieldModelField({
-            title: this.language.adm2,
+            title: this.language.adm2[this.country],
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
@@ -131,7 +135,7 @@ export class Vendor extends CustomModel {
             },
         }),
         adm3: new NestedFieldModelField({
-            title: this.language.adm3,
+            title: this.language.adm3[this.country],
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
@@ -149,7 +153,7 @@ export class Vendor extends CustomModel {
             },
         }),
         adm4: new NestedFieldModelField({
-            title: this.language.adm4,
+            title: this.language.adm4[this.country],
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
@@ -169,6 +173,7 @@ export class Vendor extends CustomModel {
         newVendor.set('addressPostcode', vendorFromApi.address_postcode);
         newVendor.set('location', vendorFromApi.location ? Location.apiToModel(vendorFromApi.location) : null);
         newVendor.fields.location.displayTableFunction = (value: Location) => value ? value.getLocationName() : null;
+        newVendor.fields.password.isRequired = false; // No need to enter the password on update
 
         return newVendor;
     }

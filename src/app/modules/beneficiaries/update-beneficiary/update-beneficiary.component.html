@@ -1,7 +1,7 @@
 <div class="page-container">
   <div class="container-title">
-    <h2 *ngIf='mode=="update"'>{{language.update_beneficiary_title | titlecase}}</h2>
-    <h2 *ngIf='mode=="create"'>{{language.add_beneficiary_title | titlecase}}</h2>
+    <h2 *ngIf='mode=="update"'>{{language.update_beneficiary_title | uppercaseFirst}}</h2>
+    <h2 *ngIf='mode=="create"'>{{language.add_beneficiary_title | uppercaseFirst}}</h2>
   </div>
 
   <app-placeholder-stepper *ngIf="!household"></app-placeholder-stepper>
@@ -24,27 +24,27 @@
                 <div class="step1 all-information">
                   <div class="column-container">
                     <h4 class="location">{{ language.location }}</h4>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1 | titlecase}}" formControlName="adm1" (change)='loadDistrict($event)' required>
+                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1[countryId] | uppercaseFirst}}" formControlName="adm1" (change)='loadDistrict($event)' required>
                       <ng-option *ngFor="let option of household.get('location').getOptions('adm1')" [value]="option.get('id')">
-                        {{option.get('name') | titlecase}}
+                        {{option.get('name') | uppercaseFirst}}
                       </ng-option>
                     </ng-select>
                     <app-hint-error [form]="mainForm" fieldName="adm1" [field]="household.get('location').fields.adm1" [isMatField]="false"></app-hint-error>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm2 | titlecase}}" formControlName="adm2" (change)='loadCommune($event)'>
+                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm2[countryId] | uppercaseFirst}}" formControlName="adm2" (change)='loadCommune($event)'>
                       <ng-option *ngFor="let option of household.get('location').getOptions('adm2')" [value]="option.get('id')">
-                        {{option.get('name') | titlecase}}
+                        {{option.get('name') | uppercaseFirst}}
                       </ng-option>
                     </ng-select>
                     <app-hint-error [form]="mainForm" fieldName="adm2" [field]="household.get('location').fields.adm2" [isMatField]="false"></app-hint-error>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm3 | titlecase}}" formControlName="adm3" (change)='loadVillage($event)'>
+                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm3[countryId] | uppercaseFirst}}" formControlName="adm3" (change)='loadVillage($event)'>
                       <ng-option *ngFor="let option of household.get('location').getOptions('adm3')" [value]="option.get('id')">
-                        {{option.get('name') | titlecase}}
+                        {{option.get('name') | uppercaseFirst}}
                       </ng-option>
                     </ng-select>
                     <app-hint-error [form]="mainForm" fieldName="adm3" [field]="household.get('location').fields.adm3" [isMatField]="false"></app-hint-error>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm4 | titlecase}}" formControlName="adm4">
+                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm4[countryId] | uppercaseFirst}}" formControlName="adm4">
                       <ng-option *ngFor="let option of household.get('location').getOptions('adm4')" [value]="option.get('id')">
-                        {{option.get('name') | titlecase}}
+                        {{option.get('name') | uppercaseFirst}}
                       </ng-option>
                     </ng-select>
                     <app-hint-error [form]="mainForm" fieldName="adm4" [field]="household.get('location').fields.adm4" [isMatField]="false"></app-hint-error>
@@ -52,30 +52,30 @@
                   <div class="column-container">
                     <h4>{{ language.add_beneficiary_res_address }}</h4>
                     <mat-form-field>
-                      <input matInput placeholder="{{language.add_beneficiary_getAddressNumber | titlecase}}" formControlName="addressNumber" required>
+                      <input matInput placeholder="{{language.add_beneficiary_getAddressNumber | uppercaseFirst}}" formControlName="addressNumber" required>
                       <app-hint-error [form]="mainForm" fieldName="addressNumber" [field]="household.fields.addressNumber" [isMatField]="true"></app-hint-error>
                     </mat-form-field>
                     <mat-form-field>
-                      <input matInput placeholder="{{language.add_beneficiary_getAddressStreet | titlecase}}" formControlName="addressStreet" required>
+                      <input matInput placeholder="{{language.add_beneficiary_getAddressStreet | uppercaseFirst}}" formControlName="addressStreet" required>
                       <app-hint-error [form]="mainForm" fieldName="addressStreet" [field]="household.fields.addressStreet" [isMatField]="true"></app-hint-error>
                     </mat-form-field>
                     <mat-form-field>
-                      <input matInput placeholder="{{language.add_beneficiary_getAddressPostcode | titlecase}}" formControlName="addressPostcode" required>
+                      <input matInput placeholder="{{language.add_beneficiary_getAddressPostcode | uppercaseFirst}}" formControlName="addressPostcode" required>
                       <app-hint-error [form]="mainForm" fieldName="addressPostcode" [field]="household.fields.addressPostcode" [isMatField]="true"></app-hint-error>
                     </mat-form-field>
                   </div>
                   <div class="column-container">
-                      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.add_beneficiary_getOccupation | titlecase}}" formControlName="livelihood">
+                      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.add_beneficiary_getOccupation | uppercaseFirst}}" formControlName="livelihood">
                         <ng-option *ngFor="let livelihood of household.getOptions('livelihood')" [value]="livelihood.get('id')">
-                          {{livelihood.get('name') | titlecase}}
+                          {{livelihood.get('name') | uppercaseFirst}}
                         </ng-option>
                       </ng-select>
                       <app-hint-error [form]="mainForm" fieldName="livelihood" [field]="household.fields.livelihood" [isMatField]="false"></app-hint-error>
                     <div class="specifics" *ngIf="household.get('countrySpecificAnswers').length">
-                      <h4>{{ language.settings_country_specific_options | titlecase }}</h4>
+                      <h4>{{ language.settings_country_specific_options | uppercaseFirst }}</h4>
                       <mat-form-field *ngFor="let countrySpecificAnswer of household.get('countrySpecificAnswers')">
                         <input *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') === 'IDPoor'" matInput [type]="countrySpecificAnswer.get('countrySpecific').get('type')" placeholder="IDPoor No." [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
-                        <input *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') !== 'IDPoor'" matInput [type]="countrySpecificAnswer.get('countrySpecific').get('type')" [placeholder]="countrySpecificAnswer.get('countrySpecific').get('field') | titlecase" [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
+                        <input *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') !== 'IDPoor'" matInput [type]="countrySpecificAnswer.get('countrySpecific').get('type')" [placeholder]="countrySpecificAnswer.get('countrySpecific').get('field') | uppercaseFirst" [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
                         <app-hint-error [form]="mainForm" fieldName="countrySpecificAnswer.get('countrySpecific').get('field')" [field]="household.fields.countrySpecificAnswers" [isMatField]="true"></app-hint-error>
                       </mat-form-field>
                     </div>
@@ -83,7 +83,7 @@
                   <div class="lign-container textarea-input">
                     <mat-form-field class="area-size">
                       <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="5" matAutosizeMaxRows="5"
-                        placeholder="{{language.model_notes | titlecase}}" formControlName="notes"></textarea>
+                        placeholder="{{language.model_notes | uppercaseFirst}}" formControlName="notes"></textarea>
                         <app-hint-error [form]="mainForm" fieldName="notes" [field]="household.fields.notes" [isMatField]="true"></app-hint-error>
                     </mat-form-field>
                   </div>
@@ -191,9 +191,9 @@
           <div class="container-content box-primary">
             <div class="content-table">
               <form [formGroup]="mainForm">
-                <ng-select class="multiple-select" formControlName="projects" placeholder="{{language.projects | titlecase}}" [multiple]="true"  [closeOnSelect]="false" [searchable]="true" required>
+                <ng-select class="multiple-select" formControlName="projects" placeholder="{{language.projects | uppercaseFirst}}" [multiple]="true"  [closeOnSelect]="false" [searchable]="true" required>
                     <ng-option *ngFor="let option of household.getOptions('projects')" [value]="option.get('id')">
-                        {{option.get(household.fields.projects.bindField) | titlecase}}
+                        {{option.get(household.fields.projects.bindField) | uppercaseFirst}}
                     </ng-option>
                 </ng-select>
                 <app-hint-error [form]="mainForm" fieldName="projects" [field]="household.fields.projects" [isMatField]="false"></app-hint-error>
@@ -223,35 +223,35 @@
                 <h3> {{ language.beneficiaries}}</h3>
                 <table mat-table [dataSource]="tableData" class="mat-elevation-z8">
                   <ng-container matColumnDef="givenName">
-                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getGivenName | titlecase }} </th>
+                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getGivenName | uppercaseFirst }} </th>
                     <td mat-cell *matCellDef="let element"> {{ element.controls.givenName.value }} </td>
                   </ng-container>
 
                   <ng-container matColumnDef=familyName>
-                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getFamilyName | titlecase }} </th>
+                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getFamilyName | uppercaseFirst }} </th>
                     <td mat-cell *matCellDef="let element"> {{ element.controls.familyName.value }} </td>
                   </ng-container>
 
                   <ng-container matColumnDef="gender">
-                    <th mat-header-cell *matHeaderCellDef> {{ language.gender |titlecase }} </th>
-                    <td mat-cell *matCellDef="let element"> {{ getGender(element.controls.gender.value) | titlecase }} </td>
+                    <th mat-header-cell *matHeaderCellDef> {{ language.gender |uppercaseFirst }} </th>
+                    <td mat-cell *matCellDef="let element"> {{ getGender(element.controls.gender.value) | uppercaseFirst }} </td>
                   </ng-container>
 
                   <ng-container matColumnDef="dateOfBirth">
-                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getDateOfBirth |titlecase }} </th>
+                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getDateOfBirth |uppercaseFirst }} </th>
                     <td mat-cell *matCellDef="let element"> {{ element.controls.dateOfBirth.value | date: 'dd-MM-yyyy' }}
                     </td>
                   </ng-container>
 
                   <ng-container matColumnDef="phone">
-                    <th mat-header-cell *matHeaderCellDef> {{ language.phone |titlecase}} </th>
+                    <th mat-header-cell *matHeaderCellDef> {{ language.phone |uppercaseFirst}} </th>
                     <td mat-cell *matCellDef="let element">
                       {{ element.controls.phoneNumber0.value }} {{ element.controls.phoneNumber1.value }}
                     </td>
                   </ng-container>
 
                   <ng-container matColumnDef="nationalId">
-                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_nationalID | titlecase }} </th>
+                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_nationalID | uppercaseFirst }} </th>
                     <td mat-cell *matCellDef="let element"> {{element.controls.IDNumber.value}} </td>
                   </ng-container>
 

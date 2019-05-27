@@ -2,21 +2,21 @@
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
             <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
-                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress | titlecase }} {{ getPercentageValue(commodity) }} % </h4>
+                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress | uppercaseFirst }} {{ getPercentageValue(commodity) }} % </h4>
                 <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">
-                        <h5>{{language.transaction_amount_total | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_total | uppercaseFirst}}</h5>
                         {{ getTotalCommodityValue(commodity) }} {{commodity.get('unit')}}
                     </div>
 
                     <ng-container>
                         <div class="info_2">
-                            <h5>{{language.transaction_amount_done | titlecase}}</h5>
+                            <h5>{{language.transaction_amount_done | uppercaseFirst}}</h5>
                             {{ getAmountSent(commodity) }} {{commodity.get('unit')}}
                         </div>
                         <div class="info_3">
-                            <h5>{{language.transaction_amount_waiting | titlecase}}</h5>
+                            <h5>{{language.transaction_amount_waiting | uppercaseFirst}}</h5>
                             {{ getReceivedValue(commodity) }} {{commodity.get('unit')}}
                         </div>
                     </ng-container>
@@ -28,7 +28,7 @@
             <div class="action-buttons">
                 <button mat-raised-button class="button-background-primary" [matMenuTriggerFor]="menu">
                     <mat-icon>more_vert</mat-icon>
-                    <span>{{language.table_actions | titlecase}}</span>
+                    <span>{{language.table_actions | uppercaseFirst}}</span>
                 </button>
                 <div class="extension">
                     <mat-menu #menu class="extMenu">
@@ -45,9 +45,9 @@
                 <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                     <button mat-raised-button class="button-background-primary" (click)="exportTransaction(extensionType, 'transactionDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{language.export | titlecase}}</span>
+                        <span>{{language.export | uppercaseFirst}}</span>
                     </button>
-                    <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+                    <mat-spinner [diameter]='35' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">
                         <button mat-raised-button class="dropdown button-background-primary" [matMenuTriggerFor]="exportTypeTransaction">
                             <mat-icon>keyboard_arrow_down</mat-icon>
@@ -101,7 +101,7 @@
             <h4 *ngIf="!codeSent" class="modal-title underline-accent stickyHeader">{{language.transaction_confirm}}</h4>
             <div class="dialog-template">
                 <div class="modal-body" *ngIf="!codeSent">
-                    <p> {{language.transaction_email_code}} <br /> {{actualUser.get('email') | titlecase}}. </p>
+                    <p> {{language.transaction_email_code}} <br /> {{actualUser.get('email') | uppercaseFirst}}. </p>
                     <p> {{language.transaction_paste_code}}</p>
                     <br />
                     <div class="lign-container">
@@ -114,8 +114,9 @@
                     <br />
                 </div>
                 <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                    <button mat-button class="cancel button-text-accent" (click)="exit('Transaction canceled')">{{language.cancel}}</button>
-                    <button mat-raised-button class="button-background-accent confirm" [disabled]="!enteredCodeControl.valid" (click)="confirmTransaction()">{{language.transaction_confirm_button}}</button>
+                    <button mat-button class="button-text-accent" (click)="exit('Transaction canceled')">{{language.cancel}}</button>
+                    <button mat-raised-button class="button-background-accent" *ngIf="!transacting" [disabled]="!enteredCodeControl.valid" (click)="confirmTransaction()">{{language.transaction_confirm_button}}</button>
+                    <mat-spinner [diameter]="30" *ngIf="transacting"></mat-spinner>
                 </div>
             </div>
 

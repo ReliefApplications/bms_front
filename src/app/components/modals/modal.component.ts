@@ -118,113 +118,6 @@ export class ModalComponent {
     }
 
     /**
-     * load data for selects
-     */
-    loadData(updateObject?) {
-        if ((this.newObject && this.newObject.sectors) || (this.data.data && this.data.data.sectors)) {
-            this.sectorService.get().subscribe(
-                result => {
-                    this.loadedData.sectors_name = result;
-                }
-            );
-
-        }
-        if ((this.newObject && this.newObject.donors) || (this.data.data && this.data.data.donors)) {
-            this.donorService.get().subscribe(
-                result => {
-                    this.loadedData.donors_name = result;
-                }
-            );
-        }
-        if ((this.data.data && this.data.data.projects)) {
-            this.projectService.get().subscribe(
-                result => {
-                    this.loadedData.projects_name = result;
-                }
-            );
-        }
-
-        // Distribution in projects
-        if ((updateObject && updateObject.date_distribution && updateObject.location_name
-          && updateObject.name && updateObject.updated_on)) {
-            this.loadedData.type = [
-                {
-                    'id': '0',
-                    'name': 'Households'
-                },
-                {
-                    'id': '1',
-                    'name': 'Beneficiaries'
-                }
-            ];
-        }
-
-        // User in settings
-        if ((this.newObject && this.newObject.password === '') || (updateObject && updateObject.email && updateObject.rights)) {
-            // this.loadedData.rights = this.user.getAllRights();
-            // this.loadedData.country = this.user.getAllCountries();
-            this.projectService.get().subscribe(response => {
-                this.loadedData.projects = response;
-            });
-        }
-
-        // Country specific option in settings
-        if ((this.newObject && this.newObject.countryIso3 === '' && this.newObject.field === '' &&
-        this.newObject.name === '') || (updateObject && updateObject.field && updateObject.type)) {
-            this.loadedData.type = [
-                {
-                    'id': 'text',
-                    'name': 'text',
-                },
-                {
-                    'id': 'number',
-                    'name': 'number',
-                }
-            ];
-        }
-
-        if (this.newObject && this.newObject.field_string === '') {
-            // this.allCriteria = this._cacheService.get(AsyncacheService.CRITERIAS);
-            if (this.allCriteria.length === 0) {
-                this.criteriaService.get().subscribe(response => {
-                    this.allCriteria = response;
-                    this.loadedData.field_string = [];
-                });
-            }
-        }
-
-        // for criterias
-        if (this.newObject && this.newObject.kind_beneficiary === '') {
-            this.loadedData.kind_beneficiary = [
-                { 'field_string': this.language.beneficiary },
-                { 'field_string': this.language.households }
-            ];
-        }
-
-        // for commodities
-        if (this.newObject && this.newObject.modality === '') {
-            this.modalitiesService.getModalities().subscribe(
-                response => {
-                    this.loadedData.modality = response;
-                    if (response) {
-                        for (let i = 0; i < this.loadedData.modality.length; i++) {
-                            if (this.loadedData.modality[i].name === 'CTP') {
-                                this.loadedData.modality[i].name = 'Cash';
-                            }
-                        }
-                    }
-                }
-            );
-        }
-
-       if (this.data.entity.__classname__ === 'Booklet') {
-            this.voucherService.getCurrencies().subscribe(currencies => {
-                this.loadedData['currency'] = Object.keys(currencies);
-            });
-       }
-    }
-
-    /**
        * Recover the right from the model
        * @param element
        */
@@ -251,15 +144,17 @@ export class ModalComponent {
     loadProvince() {
         return this.locationService.getAdm1().pipe(
             map(response => {
-                this.provinceList = response.map(province => {
-                    return {
-                        id: province.id,
-                        name: province.name
-                    };
-                });
-                this.districtList = [];
-                this.communeList = [];
-                this.villageList = [];
+                if (response) {
+                    this.provinceList = response.map(province => {
+                        return {
+                            id: province.id,
+                            name: province.name
+                        };
+                    });
+                    this.districtList = [];
+                    this.communeList = [];
+                    this.villageList = [];
+                }
         }));
     }
 
@@ -276,14 +171,16 @@ export class ModalComponent {
         };
         return this.locationService.getAdm2(body).pipe(
             map(response => {
-                this.districtList = response.map(district => {
-                    return {
-                        id: district.id,
-                        name: district.name
-                    };
-                });
-                this.communeList = [];
-                this.villageList = [];
+                if (response) {
+                    this.districtList = response.map(district => {
+                        return {
+                            id: district.id,
+                            name: district.name
+                        };
+                    });
+                    this.communeList = [];
+                    this.villageList = [];
+                }
         }));
     }
 
@@ -300,13 +197,15 @@ export class ModalComponent {
         };
         return this.locationService.getAdm3(body).pipe(
             map(response => {
-                this.communeList = response.map(commune => {
-                    return {
-                        id: commune.id,
-                        name: commune.name
-                    };
-                });
-                this.villageList = [];
+                if (response) {
+                    this.communeList = response.map(commune => {
+                        return {
+                            id: commune.id,
+                            name: commune.name
+                        };
+                    });
+                    this.villageList = [];
+                }
         }));
     }
 
@@ -323,12 +222,14 @@ export class ModalComponent {
         };
         return this.locationService.getAdm4(body).pipe(
             map(response => {
-                this.villageList = response.map(village => {
-                    return {
-                        id: village.id,
-                        name: village.name
-                    };
-                });
+                if (response) {
+                    this.villageList = response.map(village => {
+                        return {
+                            id: village.id,
+                            name: village.name
+                        };
+                    });
+                }
         }));
     }
 }

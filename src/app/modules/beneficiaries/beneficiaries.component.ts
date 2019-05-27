@@ -183,7 +183,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
                 return {id: household.get('id')};
             });
             this.projectService.addBeneficiaries(this.projectAddControl.value, benefForApi).subscribe(
-                success => {
+                (_success: any) => {
                     this.snackbar.success(this.language.beneficiaries_added);
                     this.table.loadDataPage();
                     this.selection = new SelectionModel<Household>(true, []);

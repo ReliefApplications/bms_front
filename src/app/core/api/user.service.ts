@@ -44,7 +44,9 @@ export class UserService extends CustomModelService {
 
     public getUserFromCache(): Observable<User> {
         return this.authenticationService.getUser().pipe(map((userObject: any) => {
-            this.currentUser = User.apiToModel(userObject);
+            if (userObject) {
+                this.currentUser = User.apiToModel(userObject);
+            }
             return this.currentUser;
         }));
     }
@@ -116,11 +118,12 @@ export class UserService extends CustomModelService {
         const appInjector = AppInjector;
         appInjector.get(ProjectService).get().subscribe((projects: any) => {
 
-            const projectOptions = projects.map(project => {
-                return Project.apiToModel(project);
-            });
-
-            user.setOptions('projects', projectOptions);
+            if (projects) {
+                const projectOptions = projects.map(project => {
+                    return Project.apiToModel(project);
+                });
+                user.setOptions('projects', projectOptions);
+            }
         });
     }
 

@@ -16,7 +16,7 @@ import { HttpService } from '../network/http.service';
 import { LocationService } from './location.service';
 import { ProjectService } from './project.service';
 import { Gender, ResidencyStatus } from 'src/app/models/beneficiary';
-import { LIVELIHOOD } from 'src/app/models/livelihood';
+import { LIVELIHOOD } from 'src/app/models/constants/livelihood';
 
 @Injectable({
     providedIn: 'root'
@@ -155,7 +155,8 @@ export class HouseholdsService extends CustomModelService {
             params: params
         };
 
-        const url = this.api + '/import/households?adm=' + location.adm + '&name=' + location.name;
+        const url = this.api + '/import/households?adm1=' + location.adm1 + '&adm2=' + location.adm2 +
+            '&adm3=' + location.adm3 + '&adm4=' + location.adm4;
         return this.http.post(url, file, options).toPromise()
             .then((response) => {
                 saveAs(response, 'templateSyria.xls');
@@ -166,12 +167,12 @@ export class HouseholdsService extends CustomModelService {
 
         const appInjector = AppInjector;
         appInjector.get(ProjectService).get().subscribe((projects: any) => {
-
-            const projectOptions = projects.map(project => {
-                return Project.apiToModel(project);
-            });
-
-            household.setOptions('projects', projectOptions);
+            if (projects) {
+                const projectOptions = projects.map(project => {
+                    return Project.apiToModel(project);
+                });
+                household.setOptions('projects', projectOptions);
+            }
         });
     }
 
@@ -180,22 +181,23 @@ export class HouseholdsService extends CustomModelService {
 
         // Get Projects
         appInjector.get(ProjectService).get().subscribe((projects: any) => {
-
-            const projectOptions = projects.map(project => {
-                return Project.apiToModel(project);
-            });
-
-            filters.setOptions('projects', projectOptions);
+            if (projects) {
+                const projectOptions = projects.map(project => {
+                    return Project.apiToModel(project);
+                });
+                filters.setOptions('projects', projectOptions);
+            }
         });
 
         // Get vulnerabilities
         appInjector.get(CriteriaService).getVulnerabilityCriteria().subscribe((vulnerabilities: any) => {
 
-            const vulnerabilityOptions = vulnerabilities.map(vulnerability => {
-                return VulnerabilityCriteria.apiToModel(vulnerability);
-            });
-
-            filters.setOptions('vulnerabilities', vulnerabilityOptions);
+            if (vulnerabilities) {
+                const vulnerabilityOptions = vulnerabilities.map(vulnerability => {
+                    return VulnerabilityCriteria.apiToModel(vulnerability);
+                });
+                filters.setOptions('vulnerabilities', vulnerabilityOptions);
+            }
         });
 
         // Get gender

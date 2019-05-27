@@ -18,6 +18,13 @@
     }
 }
 
+.convert-button {
+    display: flex;
+    button {
+        margin: 0;
+    }
+}
+
 .content-table {
     display: flex;
     justify-content: space-between;

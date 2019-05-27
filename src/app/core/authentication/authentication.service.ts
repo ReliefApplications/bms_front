@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { Country } from 'src/app/models/country';
 import { URL_BMS_API } from '../../../environments/environment';
 import { SaltInterface } from '../../models/salt';
 import { ErrorInterface, User } from '../../models/user';
+import { CountriesService } from '../countries/countries.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
-import { Country } from 'src/app/models/country';
-import { CountriesService } from '../countries/countries.service';
 
 
 
@@ -25,7 +25,7 @@ export class AuthenticationService {
         public _cacheService: AsyncacheService,
         public countryService: CountriesService,
         public http: HttpClient,
-        public router: Router
+        public router: Router,
     ) { }
 
     // Request to the API to get the salt corresponding to a username
@@ -71,13 +71,9 @@ export class AuthenticationService {
         });
     }
 
-    logout(): Observable<User> {
+    logout(): Observable<any> {
         this.resetUser();
-        return this._cacheService.clear(false, [AsyncacheService.COUNTRY]).pipe(
-            map(
-                () => this.user
-            )
-        );
+        return this._cacheService.clear(false, [AsyncacheService.COUNTRY]);
     }
 
     getUser(): Observable<any> {

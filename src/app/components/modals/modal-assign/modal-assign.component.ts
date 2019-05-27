@@ -65,7 +65,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
         this.distributionService.getQrVoucherByProject(this.projectControl.value)
             .subscribe(
                 response => {
-                    if (response || response === []) {
+                    if (response) {
                         // this.distributions = this.distributionClass.formatArray(response);
                         this.distributions = response.map((distribution: any) => Distribution.apiToModel(distribution));
                         this.distributionControl.setValue(null);
@@ -85,7 +85,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
             .subscribe(
                 response => {
 
-                    if (response || response === []) {
+                    if (response) {
                         // this.beneficiaries = this.beneficiariesClass.formatArray(response);
                         this.beneficiaries = response
                             .map((distributionBeneficiary: any) => Beneficiary.apiToModel(distributionBeneficiary.beneficiary));
@@ -157,7 +157,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
                             }
                         )
                     );
-                forkJoin(assignObservable, passwordObservable).subscribe((res: any) => {
+                forkJoin(assignObservable, passwordObservable).subscribe((_: any) => {
                     this.snackbar.success(
                     this.language.voucher_assigned_success + this.beneficiaryName);
                     this.dialog.closeAll();
@@ -165,7 +165,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
                     this.snackbar.error(err.error);
                 });
             } else {
-                assignObservable.subscribe((res: any) => {
+                assignObservable.subscribe((_: any) => {
                     this.snackbar.success(
                     this.language.voucher_assigned_success + this.beneficiaryName);
                     this.dialog.closeAll();

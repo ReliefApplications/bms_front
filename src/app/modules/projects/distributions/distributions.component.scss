@@ -10,6 +10,10 @@ app-table-mobile{
     height: 100%;
 }
 
+app-not-validated-distribution {
+    width: 100%;
+}
+
 mat-dialog-content {
     width: min-content;
     p {
@@ -178,9 +182,6 @@ mat-dialog-content {
     font-size: 12px;
 }
 
-.text-button:hover {
-    font-size: 14px;
-}
 
 .action-buttons {
     display: flex;

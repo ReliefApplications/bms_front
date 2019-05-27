@@ -27,6 +27,7 @@ import { HouseholdsService } from '../../../core/api/households.service';
 import { LocationService } from '../../../core/api/location.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 import { PHONECODES } from 'src/app/models/constants/phone-codes';
 @Component({
     selector: 'app-update-beneficiary',
@@ -84,6 +85,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
+    public countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
+        this.countryService.selectedCountry.getValue().get<string>('id') :
+        this.countryService.khm.get<string>('id');
+
     constructor(
         public route: ActivatedRoute,
         public _projectService: ProjectService,
@@ -98,6 +103,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         public snackbar: SnackbarService,
         public router: Router,
         public languageService: LanguageService,
+        public countryService: CountriesService,
     ) { }
 
     ngOnInit() {
@@ -126,7 +132,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 this.beneficiaryFields = this.beneficiaryFields.concat(vulnerabilityCriteriaNames);
 
                 this.makeMainForm();
-                this.household.get<Beneficiary[]>('beneficiaries').forEach(beneficiary => this.makeBeneficiaryForm(beneficiary));
+                this.household.get<Beneficiary[]>('beneficiaries')
+                    .forEach((beneficiary: Beneficiary, index: number) => this.makeBeneficiaryForm(beneficiary, index));
 
                 this.beneficiarySnapshot();
                 this.loader = false;
@@ -165,10 +172,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 this.validStep3 = true;
                 this.route.params.subscribe(
                     result => {
-                        if (result['id']) {
+                        if (result && result['id']) {
                             this._householdsService.getOne(result['id']).subscribe(
                                 household => {
-                                    this.household = Household.apiToModel(household);
+                                    if (household) {
+                                        this.household = Household.apiToModel(household);
+                                    }
                                     resolve();
                                 }
                             );
@@ -243,7 +252,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         });
     }
 
-    makeBeneficiaryForm(beneficiary: Beneficiary) {
+    makeBeneficiaryForm(beneficiary: Beneficiary, index: number) {
         const beneficiaryFormControls = {};
         this.beneficiaryFields.forEach((fieldName: string) => {
 
@@ -295,7 +304,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             beneficiary.get('residencyStatus') ? beneficiary.get('residencyStatus').get('id') : null);
 
         const beneficiaryForm = new FormGroup(beneficiaryFormControls);
-        this.beneficiariesForm.push(beneficiaryForm);
+
+        if (this.beneficiariesForm[index]) {
+            this.beneficiariesForm[index] = beneficiaryForm;
+        } else {
+            this.beneficiariesForm.push(beneficiaryForm);
+        }
     }
 
 
@@ -313,7 +327,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
     addBeneficiary() {
         const beneficiary = this.createNewBeneficiary();
-        this.makeBeneficiaryForm(beneficiary);
+        const index = this.beneficiariesForm.length;
+        this.makeBeneficiaryForm(beneficiary, index);
     }
 
      /**
@@ -469,7 +484,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.validationLoading = true;
 
         if (this.mode === 'create') {
-            this._householdsService.create(body).subscribe(success => {
+            this._householdsService.create(body).subscribe((_success: any) => {
                 this.snackbar.success(this.language.update_beneficiary_created_successfully);
                 this.leave();
             }, error => {
@@ -477,7 +492,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 this.validationLoading = false;
             });
         } else if (this.mode === 'update') {
-            this._householdsService.update(this.household.get('id'), body).subscribe(success => {
+            this._householdsService.update(this.household.get('id'), body).subscribe((_success: any) => {
                 this.snackbar.success(this.language.update_beneficiary_updated_successfully);
                 this.leave();
             }, error => {
@@ -681,7 +696,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      */
     getProjects() {
         this._projectService.get().subscribe(response => {
-            this.household.setOptions('projects', response.map(project => Project.apiToModel(project)));
+            if (response) {
+                this.household.setOptions('projects', response.map(project => Project.apiToModel(project)));
+            }
         });
     }
 
@@ -739,10 +756,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getVulnerabilityCriteria() {
         return this._criteriaService.getVulnerabilityCriteria().pipe(
             map(response => {
+                if (response) {
                     this.vulnerabilityList = response.map(criteria => {
                         return VulnerabilityCriteria.apiToModel(criteria);
                     });
-                })
+                }
+            })
         );
     }
 
@@ -752,11 +771,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     getCountrySpecifics() {
         return this._countrySpecificsService.get().pipe(
             map((countrySpecifics) => {
-                this.household.set('countrySpecificAnswers', countrySpecifics.map(countrySpecific => {
-                    const countrySpecificAnswer = new CountrySpecificAnswer();
-                    countrySpecificAnswer.set('countrySpecific', CountrySpecific.apiToModel(countrySpecific));
-                    return countrySpecificAnswer;
-                }));
+                if (countrySpecifics) {
+                    this.household.set('countrySpecificAnswers', countrySpecifics.map(countrySpecific => {
+                        const countrySpecificAnswer = new CountrySpecificAnswer();
+                        countrySpecificAnswer.set('countrySpecific', CountrySpecific.apiToModel(countrySpecific));
+                        return countrySpecificAnswer;
+                    }));
+                }
             })
         );
     }

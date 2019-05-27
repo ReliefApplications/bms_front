@@ -26,7 +26,9 @@ export class AuthGuard implements CanActivate {
             return this.authenticationService.getUser()
             .pipe(
                 map((user: any) => {
-                this.userService.currentUser = User.apiToModel(user);
+                    if (user) {
+                        this.userService.currentUser = User.apiToModel(user);
+                    }
                 return this.checkLoginWrapper();
             }));
         }

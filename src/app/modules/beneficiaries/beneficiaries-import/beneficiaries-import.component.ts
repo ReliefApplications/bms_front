@@ -13,6 +13,7 @@ import { Adm, Location } from 'src/app/models/location';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 import { ImportService } from '../../../core/api/beneficiaries-import.service';
 import { Project } from '../../../models/project';
 import { User } from 'src/app/models/user';
@@ -41,7 +42,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     // for the items button
     selectedTitle = 'file import';
     isBoxClicked = false;
-
     projectList: Project[] = [];
 
     // upload
@@ -75,6 +75,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         adm4: new FormControl(),
     });
     conversionFormControlSubscriptions: Array<Subscription>;
+    loadingConversion = false;
 
     extensionType: string;
     public newHouseholds: any = {};
@@ -108,6 +109,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
+        this.countryService.selectedCountry.getValue().get<string>('id') :
+        this.countryService.khm.get<string>('id');
 
     constructor(
         public _householdsService: HouseholdsService,
@@ -121,6 +125,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         private locationService: LocationService,
         private userService: UserService,
         private languageService: LanguageService,
+        private countryService: CountriesService,
     ) { }
 
     ngOnInit() {
@@ -144,9 +149,11 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this._cacheService.getUser()
             .subscribe(
                 response => {
-                    const user = User.apiToModel(response);
-                    this.email = user.get('username');
-                    this.email = this.email.replace('@', '');
+                    if (response) {
+                        const user = User.apiToModel(response);
+                        this.email = user.get('username');
+                        this.email = this.email.replace('@', '');
+                    }
                 }
             );
     }
@@ -162,7 +169,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
      */
     getProjects() {
         this._projectService.get().subscribe((response: any) => {
-            this.projectList = response.map((project: any) => Project.apiToModel(project));
+            if (response) {
+                this.projectList = response.map((project: any) => Project.apiToModel(project));
+            }
             // this.form.controls['projects'].reset(this.projectList[0]);
         });
     }
@@ -227,27 +236,28 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     public openConversionDialog(template: TemplateRef<void>) {
         this.conversionForm.reset();
 
-
-
         this.conversionFormControlSubscriptions = Object.keys(this.conversionForm.controls).map((admKey: string) => {
-            return this.conversionForm.controls[admKey].valueChanges.subscribe((_: any) => {
-                this.onAdmChange(admKey);
+            return this.conversionForm.controls[admKey].valueChanges.subscribe((value: any) => {
+                if (value) {
+                    this.onAdmChange(admKey);
+                }
             });
         });
-
+        this.conversionDialog = this.dialog.open(template);
         this.locationService.getAdm1().subscribe((adm1: Array<any>) => {
-            this.conversionLocation.setOptions('adm1', adm1.map((singleAdm1: any) => Adm.apiToModel(singleAdm1)));
-            this.conversionDialog = this.dialog.open(template);
-
-            this.conversionDialog.afterClosed().subscribe((_: any) => {
-                this.conversionFormControlSubscriptions.forEach((subscription: Subscription) => {
-                    subscription.unsubscribe();
-                });
+            if (adm1) {
+                this.conversionLocation.setOptions('adm1', adm1.map((singleAdm1: any) => Adm.apiToModel(singleAdm1)));
+            }
+        });
+        this.conversionDialog.afterClosed().subscribe((_: any) => {
+            this.conversionFormControlSubscriptions.forEach((subscription: Subscription) => {
+                subscription.unsubscribe();
             });
         });
     }
 
     public closeConversionDialog(method: string, error?: string) {
+        this.loadingConversion = false;
         this.conversionDialog.close();
         switch (method) {
             case 'cancel':
@@ -255,7 +265,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
                 return;
             case 'success':
                 // Todo: translate
-                this.snackbar.success('Import successful');
+                this.snackbar.success(this.language.beneficiaries_import_conversion_success);
                 return;
             case 'error':
                 this.snackbar.error(error);
@@ -265,26 +275,32 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     onAdmChange(admKey: string) {
         switch (admKey) {
-            case('adm4'):
-                this.conversionLocation.set('adm4', this.conversionForm.get('adm4').value);
-
-                return;
             case('adm3'):
-                this.conversionLocation.set('adm3', this.conversionForm.get('adm3').value);
-                this.locationService.getAdm4({adm3: this.conversionLocation.get('adm3').get('id')}).subscribe((adm4: Array<any>) => {
-                    this.conversionLocation.setOptions('adm4', adm4.map((singleAdm4: any) => Adm.apiToModel(singleAdm4)));
+                this.locationService.getAdm4({adm3: this.conversionForm.get('adm3').value.get('id')}).subscribe((adm4: Array<any>) => {
+                    if (adm4) {
+                        this.conversionLocation.setOptions('adm4', adm4.map((singleAdm4: any) => Adm.apiToModel(singleAdm4)));
+                        this.conversionForm.controls.adm4.setValue(null);
+                    }
                 });
                 return;
             case('adm2'):
-                this.conversionLocation.set('adm2', this.conversionForm.get('adm2').value);
-                this.locationService.getAdm3({adm2: this.conversionLocation.get('adm2').get('id')}).subscribe((adm3: Array<any>) => {
-                    this.conversionLocation.setOptions('adm3', adm3.map((singleAdm3: any) => Adm.apiToModel(singleAdm3)));
+                this.locationService.getAdm3({adm2: this.conversionForm.get('adm2').value.get('id')}).subscribe((adm3: Array<any>) => {
+                    if (adm3) {
+                        this.conversionLocation.setOptions('adm3', adm3.map((singleAdm3: any) => Adm.apiToModel(singleAdm3)));
+                        this.conversionForm.controls.adm3.setValue(null);
+                        this.conversionForm.controls.adm4.setValue(null);
+
+                    }
                 });
                 return;
             case('adm1'):
-                this.conversionLocation.set('adm1', this.conversionForm.get('adm1').value);
-                this.locationService.getAdm2({adm1: this.conversionLocation.get('adm1').get('id')}).subscribe((adm2: Array<any>) => {
-                    this.conversionLocation.setOptions('adm2', adm2.map((singleAdm2: any) => Adm.apiToModel(singleAdm2)));
+                this.locationService.getAdm2({adm1: this.conversionForm.get('adm1').value.get('id')}).subscribe((adm2: Array<any>) => {
+                    if (adm2) {
+                        this.conversionLocation.setOptions('adm2', adm2.map((singleAdm2: any) => Adm.apiToModel(singleAdm2)));
+                        this.conversionForm.controls.adm2.setValue(null);
+                        this.conversionForm.controls.adm3.setValue(null);
+                        this.conversionForm.controls.adm4.setValue(null);
+                    }
                 });
                 return;
             default:
@@ -293,6 +309,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     }
 
     confirmConversion() {
+        this.loadingConversion = true;
         if (!this.conversionForm.valid) {
             this.snackbar.error(this.language.beneficiaries_import_select_location);
             return;
@@ -306,30 +323,12 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         const data = new FormData();
         data.append('file', this.csv2);
 
+        const body = {};
 
-        const body = {
-            adm: 0,
-            name: ''
-        };
-
-        if (this.conversionLocation.get<Adm>('adm4')) {
-            body.adm = 4;
-            body.name = this.conversionLocation.get<Adm>('adm4').get<string>('name');
-        }
-        else if (this.conversionLocation.get<Adm>('adm3')) {
-            body.adm = 3;
-            body.name = this.conversionLocation.get<Adm>('adm3').get<string>('name');
-
-        }
-        else if (this.conversionLocation.get<Adm>('adm2')) {
-            body.adm = 2;
-            body.name = this.conversionLocation.get<Adm>('adm2').get<string>('name');
-
-        }
-        else if (this.conversionLocation.get<Adm>('adm1')) {
-            body.adm = 1;
-            body.name = this.conversionLocation.get<Adm>('adm1').get<string>('name');
-        }
+        body['adm4'] = this.conversionForm.controls.adm4.value ? this.conversionForm.controls.adm4.value.get('name') : '';
+        body['adm3'] = this.conversionForm.controls.adm3.value ? this.conversionForm.controls.adm3.value.get('name') : '';
+        body['adm2'] = this.conversionForm.controls.adm2.value ? this.conversionForm.controls.adm2.value.get('name') : '';
+        body['adm1'] = this.conversionForm.controls.adm1.value ? this.conversionForm.controls.adm1.value.get('name') : '';
 
         this._householdsService.testFileTemplate(data, body)
             .then(() => {
@@ -385,7 +384,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     getAPINames() {
         this._beneficiariesService.listApi()
             .subscribe((response: object) => {
-                if (!response['listAPI'].length) {
+                if (!response || !response['listAPI'].length) {
                     return;
                 }
                 response['listAPI'].map((apiInfo: any) => {
@@ -449,7 +448,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         } else {
             this.load = true;
             this._importService.sendCsv(this.csv, this.email, this.fileForm.controls['projects'].value).subscribe((response: any) => {
-                this._importService.setResponse(response);
+                if (response) {
+                    this._importService.setResponse(response);
+                }
                 this.load = false;
                 this.router.navigate(['/beneficiaries/import/data-validation']);
             }, (error: any) => {
@@ -480,7 +481,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
         this._beneficiariesService.importApi(body, this.apiForm.controls['projects'].value)
             .subscribe(response => {
-                this.newHouseholds = response.households;
+                if (response) {
+                    this.newHouseholds = response.households;
+                }
                 this.importedHouseholds();
             }, error => {
                 this.load = false;
@@ -495,11 +498,13 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this._householdsService.getImported(this.newHouseholds)
             .subscribe(
                 response => {
-                    this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
+                    if (response) {
+                        this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
+                        this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
+                    }
                     this._importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);
                     this.load = false;
-                    this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
                 }
             );
     }

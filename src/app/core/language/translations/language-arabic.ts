@@ -1,3 +1,4 @@
+import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
 
 /* tslint:disable */
@@ -6,10 +7,10 @@ export class Arabic implements Language {
     LANGUAGE_ISO = 'arabic'
     // Utils
     add = 'أضف'
-    adm1 = 'المحافظة'
-    adm2 = 'المنطقة'
-    adm3 = 'البلدية'
-    adm4 = 'القرية'
+    adm1 = ADMINLEVELS.ar.adm1
+    adm2 = ADMINLEVELS.ar.adm2
+    adm3 = ADMINLEVELS.ar.adm3
+    adm4 = ADMINLEVELS.ar.adm4
     back = 'إلى الوراء'
     beneficiaries = 'المستفيدون'
     beneficiary = 'المستفيد'
@@ -19,6 +20,7 @@ export class Arabic implements Language {
     create = 'إنشاء'
     delete = 'حذف'
     details = 'تفاصيل'
+    description = 'وصف'
     distribution = 'التوزيع'
     distributions = 'التوزيعات'
     done = 'النهاية'
@@ -213,6 +215,10 @@ export class Arabic implements Language {
     commodity_wash = 'غسل عدة'
     commodity_agriculture = 'مجموعة الزراعية'
     commodity_rte = 'RTE عدة'
+    commodity_distribution = 'على توزيع الموقع'
+    commodity_shelter = 'مجموعة أدوات المأوى'
+    commodity_hygiene = 'طقم النظافة'
+    commodity_dignity = 'مجموعة الكرامة'
 
     // Countries
     country_khm = 'كمبوديا'
@@ -536,6 +542,10 @@ export class Arabic implements Language {
     sector_protection = 'حماية'
     sector_shelter = 'مأوى'
     sector_water = 'مياه الصرف الصحي'
+    sector_cash_for_work = 'النقد مقابل العمل'
+    sector_tvet = 'التعليم التقني والمهني والتدريب'
+    sector_food_kits = 'الغذاء ، ومجموعات التقييم في الوقت الحقيقي'
+    sector_nfi = 'البنود غير الغذائية'
 
     // Settings
     settings_country_specific_options = 'الخيارات حسب البلد'

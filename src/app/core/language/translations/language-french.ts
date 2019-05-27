@@ -1,3 +1,5 @@
+import { ADMINLEVELS } from '../adm-constants';
+
 import { Language } from '../language';
 /* tslint:disable */
 export class French implements Language {
@@ -5,10 +7,10 @@ export class French implements Language {
     LANGUAGE_ISO = 'french'
     // Utils
     add = 'Ajouter'
-    adm1 = 'Province'
-    adm2 = 'District'
-    adm3 = 'Commune'
-    adm4 = 'Village'
+    adm1 = ADMINLEVELS.fr.adm1
+    adm2 = ADMINLEVELS.fr.adm2
+    adm3 = ADMINLEVELS.fr.adm3
+    adm4 = ADMINLEVELS.fr.adm4
     back = 'Retour'
     beneficiaries = 'Bénéficiaires'
     beneficiary = 'Bénéficiaire'
@@ -18,6 +20,7 @@ export class French implements Language {
     create = 'Créer'
     delete = 'Supprimer'
     details = 'Détails'
+    description = 'description'
     distribution = 'Distribution'
     distributions = 'Distributions'
     done = 'Fin'
@@ -212,6 +215,10 @@ export class French implements Language {
     commodity_wash = 'Kit d\'hygiène'
     commodity_agriculture = 'Kit d\'agriculture'
     commodity_rte = 'Kit RTE'
+    commodity_distribution = 'distribution sur place'
+    commodity_shelter = 'Kit d\'abris'
+    commodity_hygiene = 'kit d\'hygiène'
+    commodity_dignity = 'kit de dignité'
 
     // Countries
     country_khm = 'Cambodge'
@@ -534,7 +541,10 @@ export class French implements Language {
     sector_protection = 'Protection'
     sector_shelter = 'Hébergement'
     sector_water = 'Assainissement de l\'eau'
-
+    sector_cash_for_work = 'cash for work'
+    sector_tvet = 'TVET'
+    sector_food_kits = 'nourriture, kits RTE'
+    sector_nfi = 'NFIs'
     // Settings
     settings_country_specific_options = 'options par pays'
     settings_created = ' créé(e)'

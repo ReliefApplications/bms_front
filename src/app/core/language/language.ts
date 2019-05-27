@@ -4,10 +4,10 @@ export interface Language {
     readonly LANGUAGE_ISO: string;
     // Utils
     add: string
-    adm1: string
-    adm2: string
-    adm3: string
-    adm4: string
+    adm1: object
+    adm2: object
+    adm3: object
+    adm4: object
     back: string
     beneficiaries: string
     beneficiary: string
@@ -17,6 +17,7 @@ export interface Language {
     create: string
     delete: string
     details: string
+    description: string
     distribution: string
     distributions: string
     done: string
@@ -197,6 +198,10 @@ export interface Language {
     commodity_wash: string
     commodity_agriculture: string
     commodity_rte: string
+    commodity_distribution: string
+    commodity_shelter: string
+    commodity_hygiene: string
+    commodity_dignity: string
 
     // Countries
     country_khm: string
@@ -519,6 +524,10 @@ export interface Language {
     sector_protection: string
     sector_shelter: string
     sector_water: string
+    sector_cash_for_work: string
+    sector_tvet: string
+    sector_food_kits: string
+    sector_nfi: string
 
     // Settings
     settings_country_specific_options: string

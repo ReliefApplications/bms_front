@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Household } from 'src/app/models/household';
-import { ImportService } from '../../../core/api/beneficiaries-import.service';
 import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
+import { ImportService } from '../../../core/api/beneficiaries-import.service';
 
 
 enum Step {
@@ -179,11 +179,11 @@ export class DataValidationComponent implements OnInit {
             });
 
             // Check and disable head of households
-            if (error.old.status === true || error.old.status === '1') {
+            if (error.old.status === true || error.old.status === 1) {
                 duplicatesFormGroup.controls['old'].setValue(true);
                 duplicatesFormGroup.controls['old'].disable();
             }
-            if (error.new.status === true || error.new.status === '1') {
+            if (error.new.status === true || error.new.status === 1) {
                 duplicatesFormGroup.controls['new'].setValue(true);
                 duplicatesFormGroup.controls['new'].disable();
             }

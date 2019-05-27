@@ -95,6 +95,14 @@ export class Commodity extends CustomModel {
                 isEditable: true,
             }
         ),
+        description: new TextModelField(
+            {
+                title: this.language.description,
+                isLongText: true,
+                isSettable: true,
+                isDisplayedInTable: true,
+            }
+        )
     };
 
     public static apiToModel(commodityFromApi: any): Commodity {
@@ -105,6 +113,7 @@ export class Commodity extends CustomModel {
         newCommodity.set('modality', new Modality(null, commodityFromApi.modality_type.modality));
         newCommodity.set('value', commodityFromApi.value);
         newCommodity.set('unit', commodityFromApi.unit);
+        newCommodity.set('description', commodityFromApi.description);
 
         return newCommodity;
     }
@@ -116,7 +125,8 @@ export class Commodity extends CustomModel {
             unit: this.fields.unit.formatForApi(),
             value: this.fields.value.formatForApi(),
             modality: this.fields.modality.formatForApi(),
-            modality_type: { id: this.get('modalityType').get('id') }
+            modality_type: { id: this.get('modalityType').get('id') },
+            description: this.get('description')
         };
     }
 
@@ -133,13 +143,17 @@ export class Commodity extends CustomModel {
             'WASH Kit': 'wash',
             'Agricultural Kit': 'agriculture',
             'RTE Kit': 'rte-kit',
+            'On site distribution': 'on_site_distribution',
+            'Shelter tool kit': 'shelter',
+            'Hygiene kit': 'hygiene',
+            'Dignity kit': 'dignity',
         };
         // Todo: Use global variable, fix typing in order to not do this if check
 
         const modalityName = this.get('modalityType').get('name');
 
         if (typeof modalityName === 'string') {
-            return `/assets/images/commodities/${commoditiesImages[modalityName]}.png`;
+            return `/assets/images/commodities/${commoditiesImages[modalityName]}.svg`;
         } else {
             return '';
         }
@@ -156,6 +170,10 @@ export class Commodity extends CustomModel {
             'WASH Kit': this.language.commodity_wash,
             'Agricultural Kit': this.language.commodity_agriculture,
             'RTE Kit': this.language.commodity_rte,
+            'On site distribution': this.language.commodity_distribution,
+            'Shelter tool kit': this.language.commodity_shelter,
+            'Hygiene kit': this.language.commodity_hygiene,
+            'Dignity kit': this.language.commodity_dignity,
         };
         // Todo: Use global variable, fix typing in order to not do this if check
 

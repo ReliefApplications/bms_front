@@ -93,6 +93,8 @@ export class LoginComponent implements OnInit {
             (user: User) => {
                 if (user) {
                     this.userService.currentUser = user;
+                    this.asyncacheService.setUser(user).subscribe();
+
                     if (user.get('countries') &&
                         user.get<Array<Country>>('countries').length === 0 &&
                         this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {

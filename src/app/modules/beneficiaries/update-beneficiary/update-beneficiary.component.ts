@@ -27,6 +27,7 @@ import { HouseholdsService } from '../../../core/api/households.service';
 import { LocationService } from '../../../core/api/location.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 import { PHONECODES } from 'src/app/models/constants/phone-codes';
 @Component({
     selector: 'app-update-beneficiary',
@@ -84,6 +85,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
+    public countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
+        this.countryService.selectedCountry.getValue().get<string>('id') :
+        this.countryService.khm.get<string>('id');
+
     constructor(
         public route: ActivatedRoute,
         public _projectService: ProjectService,
@@ -98,6 +103,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         public snackbar: SnackbarService,
         public router: Router,
         public languageService: LanguageService,
+        public countryService: CountriesService,
     ) { }
 
     ngOnInit() {

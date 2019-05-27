@@ -17,6 +17,7 @@ export interface Language {
     create: string
     delete: string
     details: string
+    description: string
     distribution: string
     distributions: string
     done: string
@@ -197,6 +198,10 @@ export interface Language {
     commodity_wash: string
     commodity_agriculture: string
     commodity_rte: string
+    commodity_distribution: string
+    commodity_shelter: string
+    commodity_hygiene: string
+    commodity_dignity: string
 
     // Countries
     country_khm: string
@@ -517,6 +522,10 @@ export interface Language {
     sector_protection: string
     sector_shelter: string
     sector_water: string
+    sector_cash_for_work: string
+    sector_tvet: string
+    sector_food_kits: string
+    sector_nfi: string
 
     // Settings
     settings_country_specific_options: string

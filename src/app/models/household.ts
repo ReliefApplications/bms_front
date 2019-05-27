@@ -1,4 +1,5 @@
 import { Beneficiary } from './beneficiary';
+import { LIVELIHOOD } from './constants/livelihood';
 import { CountrySpecificAnswer } from './country-specific';
 import { CustomModel } from './custom-models/custom-model';
 import { MultipleObjectsModelField } from './custom-models/multiple-object-model-field';
@@ -7,7 +8,6 @@ import { NumberModelField } from './custom-models/number-model-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
-import { LIVELIHOOD } from './constants/livelihood';
 import { Location } from './location';
 import { Project } from './project';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
@@ -152,8 +152,8 @@ export class Household extends CustomModel {
             null);
 
         let dependents: number;
-        if (householdFromApi.number_dependents == null) {
-            dependents = householdFromApi.beneficiaries.length;
+        if (!householdFromApi.number_dependents) {
+            dependents = householdFromApi.beneficiaries.length - 1;
         } else {
             dependents = householdFromApi.number_dependents;
         }

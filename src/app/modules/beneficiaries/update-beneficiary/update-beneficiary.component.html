@@ -222,14 +222,14 @@
                 </div>
                 <h3> {{ language.beneficiaries}}</h3>
                 <table mat-table [dataSource]="tableData" class="mat-elevation-z8">
-                  <ng-container matColumnDef="givenName">
+                  <ng-container matColumnDef="localGivenName">
                     <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getGivenName | uppercaseFirst }} </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.controls.givenName.value }} </td>
+                    <td mat-cell *matCellDef="let element"> {{ element.controls.localGivenName.value }} ({{ element.controls.enGivenName.value }})</td>
                   </ng-container>
 
-                  <ng-container matColumnDef=familyName>
+                  <ng-container matColumnDef=localFamilyName>
                     <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getFamilyName | uppercaseFirst }} </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.controls.familyName.value }} </td>
+                    <td mat-cell *matCellDef="let element"> {{ element.controls.localFamilyName.value }} ({{ element.controls.enFamilyName.value }}) </td>
                   </ng-container>
 
                   <ng-container matColumnDef="gender">

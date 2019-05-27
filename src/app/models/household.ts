@@ -28,7 +28,7 @@ export class Livelihood extends CustomModel {
 export class Household extends CustomModel {
 
     title = this.language.households;
-    matSortActive = 'familyName';
+    matSortActive = 'localFamilyName';
 
     public fields = {
         id: new NumberModelField(
@@ -37,7 +37,7 @@ export class Household extends CustomModel {
                 isDisplayedInTable: true,
             }
         ),
-        familyName: new TextModelField(
+        localFamilyName: new TextModelField(
             {
                 title: this.language.model_familyName,
                 placeholder: null,
@@ -46,14 +46,38 @@ export class Household extends CustomModel {
                 isRequired: true,
                 isSettable: true,
                 isLongText: false,
+                displayValue: '',
             }
         ),
-        firstName: new TextModelField(
+        localFirstName: new TextModelField(
             {
                 title: this.language.model_firstName,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
+                isRequired: true,
+                isSettable: true,
+                isLongText: false,
+                displayValue: '',
+            }
+        ),
+        enFamilyName: new TextModelField(
+            {
+                title: this.language.add_beneficiary_getEnglishFamilyName,
+                placeholder: null,
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
+                isRequired: true,
+                isSettable: true,
+                isLongText: false,
+            }
+        ),
+        enFirstName: new TextModelField(
+            {
+                title: this.language.add_beneficiary_getEnglishGivenName,
+                placeholder: null,
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
                 isRequired: true,
                 isSettable: true,
                 isLongText: false,
@@ -159,15 +183,6 @@ export class Household extends CustomModel {
         }
         newHousehold.set('dependents', dependents);
 
-        householdFromApi.beneficiaries.forEach(beneficiary => {
-            if (beneficiary.status === true) {
-                newHousehold.set('familyName', beneficiary.family_name);
-                newHousehold.set('firstName', beneficiary.given_name);
-            }
-            beneficiary.vulnerability_criteria.forEach(vulnerability => {
-                newHousehold.add('vulnerabilities', VulnerabilityCriteria.apiToModel(vulnerability));
-            });
-        });
         newHousehold.fields.vulnerabilities.displayTableFunction = value => value;
         newHousehold.fields.vulnerabilities.displayModalFunction = value => this.displayModalVulnerabilities(value);
         newHousehold.set('projects', householdFromApi.projects.map(project => Project.apiToModel(project)));
@@ -176,6 +191,21 @@ export class Household extends CustomModel {
         newHousehold.fields.location.displayModalFunction = value => value.getLocationName();
 
         newHousehold.set('beneficiaries', householdFromApi.beneficiaries.map(beneficiary => Beneficiary.apiToModel(beneficiary)));
+        newHousehold.get<Beneficiary[]>('beneficiaries').forEach((beneficiary: Beneficiary) => {
+            if (beneficiary.get('beneficiaryStatus').get<string>('id') === '1') {
+                newHousehold.set('localFamilyName', beneficiary.get<string>('localFamilyName'));
+                newHousehold.set('localFirstName', beneficiary.get<string>('localGivenName'));
+                newHousehold.fields.localFamilyName.displayValue = beneficiary.fields.localFamilyName.displayValue;
+                newHousehold.fields.localFirstName.displayValue = beneficiary.fields.localGivenName.displayValue;
+                newHousehold.set('enFamilyName', beneficiary.get<string>('enFamilyName'));
+                newHousehold.set('enFirstName', beneficiary.get<string>('enGivenName'));
+            }
+            beneficiary.get<VulnerabilityCriteria[]>('vulnerabilities').forEach((vulnerability: VulnerabilityCriteria) => {
+                newHousehold.add('vulnerabilities', vulnerability);
+            });
+        });
+
+
         newHousehold.set('countrySpecificAnswers', householdFromApi.country_specific_answers ?
         householdFromApi.country_specific_answers.map(
             countrySpecificAnswer => CountrySpecificAnswer.apiToModel(countrySpecificAnswer)
@@ -197,7 +227,7 @@ export class Household extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.language.model_household_sentence + this.get('firstName') + ' ' + this.get('familyName');
+        return this.language.model_household_sentence + this.get('localFirstName') + ' ' + this.get('localFamilyName');
     }
 
 

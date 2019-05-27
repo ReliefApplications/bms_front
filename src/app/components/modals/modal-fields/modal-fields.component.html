@@ -78,8 +78,12 @@
                             <ng-template #isMaterialField>
                                 <mat-form-field [ngClass]="{date: field.kindOfField === 'Date' && !isDisabled(field)}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                                     <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
-                                        <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title | uppercaseFirst"
-                                            matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
+                                        <input *ngIf="field.displayValue; else checkForPassword" [placeholder]="field.title | uppercaseFirst"
+                                            matInput [formControlName]="fieldName" [value]="field.displayValue | uppercaseFirst" disabled>
+                                        <ng-template #checkForPassword>
+                                            <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title | uppercaseFirst"
+                                                matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
+                                        </ng-template>
 
                                         <ng-template #checkForTextArea>
                                             <ng-container *ngIf="field.isLongText; else checkForTextInput">

@@ -80,6 +80,8 @@ export interface Language {
     add_beneficiary_getDateOfBirth: string
     add_beneficiary_getFamilyName: string
     add_beneficiary_getGivenName: string
+    add_beneficiary_getEnglishFamilyName: string
+    add_beneficiary_getEnglishGivenName: string
     add_beneficiary_getNationalID: string
     add_beneficiary_getOccupation: string
     add_beneficiary_getTypeNationalId: string
@@ -150,6 +152,8 @@ export interface Language {
     beneficiaries_added: string
     beneficiaries_advanced_research: string
     beneficiaries_clear_all_research: string
+    beneficiaries_english_name: string
+    beneficiaries_local_name: string
     beneficiaries_full_address: string
     beneficiaries_head: string
     beneficiaries_household_info: string

@@ -13,6 +13,7 @@ import { Project } from './project';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
 import { CountriesService } from '../core/countries/countries.service';
 import { AppInjector } from '../app-injector';
+import { HouseholdLocation } from './household-location';
 
 export class Livelihood extends CustomModel {
 
@@ -178,6 +179,11 @@ export class Household extends CustomModel {
         latitude: new TextModelField({
             value: '0'
         }),
+        householdLocations: new MultipleObjectsModelField<HouseholdLocation>(
+            {
+
+            }
+        )
 
     };
 
@@ -233,6 +239,10 @@ export class Household extends CustomModel {
         )
         : null);
 
+        newHousehold.set('householdLocations', householdFromApi.household_locations ?
+            householdFromApi.household_locations.map((householdLocation: any) => HouseholdLocation.apiToModel(householdLocation))
+            : null);
+
         return newHousehold;
     }
 
@@ -264,7 +274,9 @@ export class Household extends CustomModel {
             location: this.get('location').modelToApi(),
             country_specific_answers: this.get<CountrySpecificAnswer[]>('countrySpecificAnswers').map(answer => answer.modelToApi()),
             beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi()),
-            income_level: this.get('incomeLevel')
+            income_level: this.get('incomeLevel'),
+            household_locations: this.get<HouseholdLocation[]>('householdLocations')
+                .map((householdLocation: HouseholdLocation) => householdLocation.modelToApi()),
         };
     }
 }

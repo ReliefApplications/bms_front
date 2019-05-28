@@ -222,7 +222,6 @@ export class English implements Language {
     commodity_wash = 'WASH Kit'
     commodity_agriculture = 'Agricultural Kit'
     commodity_rte = 'RTE Kit'
-    commodity_distribution = 'On site distribution'
     commodity_shelter = 'Shelter tool kit'
     commodity_hygiene = 'Hygiene kit'
     commodity_dignity = 'Dignity kit'

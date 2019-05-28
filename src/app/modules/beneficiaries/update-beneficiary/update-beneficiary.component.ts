@@ -9,7 +9,7 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
-import { Beneficiary, BeneficiaryOptions, Gender, ResidencyStatus } from 'src/app/models/beneficiary';
+import { Beneficiary, BeneficiaryOptions, Gender, ResidencyStatus, BeneficiaryReferralType } from 'src/app/models/beneficiary';
 import { CountrySpecific, CountrySpecificAnswer } from 'src/app/models/country-specific';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { Household, Livelihood } from 'src/app/models/household';
@@ -129,7 +129,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     'id', 'localGivenName', 'localFamilyName', 'enGivenName', 'enFamilyName',
                     'gender', 'dateOfBirth', 'IDType', 'IDNumber', 'residencyStatus',
                     'phoneType0', 'phoneNumber0', 'phonePrefix0', 'phoneProxy0',
-                    'phoneType1', 'phoneNumber1', 'phonePrefix1', 'phoneProxy1'];
+                    'phoneType1', 'phoneNumber1', 'phonePrefix1', 'phoneProxy1',
+                    'addReferral', 'referralType', 'referralComment'
+                ];
                 this.beneficiaryFields = this.beneficiaryFields.concat(vulnerabilityCriteriaNames);
 
                 this.makeMainForm();
@@ -358,7 +360,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             genderList: this.household.get<Beneficiary[]>('beneficiaries')[0].getOptions('gender'),
             nationalIdList: this.household.get<Beneficiary[]>('beneficiaries')[0].get<NationalId[]>('nationalIds')[0].getOptions('type'),
             residencyStatusList: this.household.get<Beneficiary[]>('beneficiaries')[0].getOptions('residencyStatus'),
-            phoneList: this.household.get<Beneficiary[]>('beneficiaries')[0].get<Phone[]>('phones')[0].getOptions('type')
+            phoneList: this.household.get<Beneficiary[]>('beneficiaries')[0].get<Phone[]>('phones')[0].getOptions('type'),
+            referralTypeList: this.household.get<Beneficiary[]>('beneficiaries')[0].getOptions('referralType'),
 
         };
     }
@@ -482,6 +485,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             beneficiary.set('vulnerabilities', this.vulnerabilityList.filter((vulnerability: VulnerabilityCriteria) => {
                 return form.controls[vulnerability.get<string>('name')].value === true;
             }));
+
+            if (form.controls.referralComment.value && form.controls.referralType.value) {
+                beneficiary.set('referralType', beneficiary.getOptions('referralType').filter((referralType: BeneficiaryReferralType) => {
+                    return form.controls.referralType.value === referralType.get('id');
+                })[0]);
+                beneficiary.set('referralComment', form.controls.referralComment.value);
+            }
             beneficiaries.push(beneficiary);
         });
 

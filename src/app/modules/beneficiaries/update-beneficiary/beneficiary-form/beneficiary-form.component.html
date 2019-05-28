@@ -64,10 +64,32 @@
     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
       placeholder="{{language.model_residencystatus | uppercaseFirst }}" formControlName="residencyStatus">
       <ng-option *ngFor="let option of options.residencyStatusList" [value]="option.get('id')">
-        {{option.get('name') | uppercaseFirst  }}
+        {{ option.get('name') | uppercaseFirst  }}
       </ng-option>
     </ng-select>
     <app-hint-error [form]="form" fieldName="residencyStatus" [field]="beneficiaryFields.residencyStatus" [isMatField]="false"></app-hint-error>
+  </div>
+  <div class="column-container">
+    <h4 class="location">{{ language.beneficiaries_referral | uppercaseFirst }}</h4>
+    <div class="referral-question" *ngIf="!form.controls.referralType.value && !form.controls.referralComment.value && !form.controls.addReferral.value">
+      <mat-checkbox formControlName="addReferral" type="checkbox" color="primary" [checked]="default">
+      </mat-checkbox>
+      <span>{{ language.beneficiaries_referral_question | uppercaseFirst }}</span>
+    </div>
+    <ng-container *ngIf="form.controls.addReferral.value || (form.controls.referralType.value && form.controls.referralComment.value)">
+      <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+        placeholder="{{language.beneficiaries_referral_type | uppercaseFirst }}" formControlName="referralType">
+        <ng-option *ngFor="let option of options.referralTypeList" [value]="option.get('id')">
+          {{option.get('name') | uppercaseFirst  }}
+        </ng-option>
+      </ng-select>
+      <app-hint-error [form]="form" fieldName="referralType" [field]="beneficiaryFields.referralType" [isMatField]="false"></app-hint-error>
+      <mat-form-field class="area-size">
+        <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="2" matAutosizeMaxRows="5"
+          placeholder="{{language.beneficiaries_referral_comment | uppercaseFirst}}" formControlName="referralComment"></textarea>
+        <app-hint-error [form]="form" fieldName="referralComment" [field]="beneficiaryFields.referralComment" [isMatField]="true"></app-hint-error>
+      </mat-form-field>
+    </ng-container>
   </div>
   <div *ngFor="let index of [0, 1]" class="column-container columns-phones">
     <h4 class="location">{{ language.phone | uppercaseFirst }} {{ index + 1 }}</h4>

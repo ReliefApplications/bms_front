@@ -93,8 +93,12 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
 	* open each modal dialog
 	*/
   openModal(dialogDetails: any): void {
-    // Can only be a modalDetails
-    this.modalService.openDialog(TransactionQRVoucher, this.beneficiariesService, dialogDetails);
+    if (dialogDetails.action === 'details') {
+        this.modalService.openDialog(TransactionQRVoucher, this.beneficiariesService, dialogDetails);
+    } else if (dialogDetails.action === 'edit') {
+        dialogDetails.element = dialogDetails.element.get('beneficiary');
+        this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+    }
     this.modalService.isCompleted.subscribe(() => {
     });
   }

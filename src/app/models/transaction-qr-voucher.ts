@@ -75,12 +75,39 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'value',
-        })
+        }),
+        addReferral: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_question,
+            isDisplayedInModal: true,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'addReferral',
+            isEditable: true,
+        }),
+        referralType: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_type,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralType',
+            isEditable: true,
+        }),
+        referralComment: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_comment,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralComment',
+            isEditable: true,
+        }),
     };
 
     public static apiToModel(distributionBeneficiaryFromApi: any): TransactionQRVoucher {
         const newQRVoucher = new TransactionQRVoucher();
         newQRVoucher.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
+
+        if (distributionBeneficiaryFromApi.beneficiary.referral) {
+            newQRVoucher.fields.addReferral.isDisplayedInModal = false;
+            newQRVoucher.fields.referralType.isDisplayedInModal = true;
+            newQRVoucher.fields.referralComment.isDisplayedInModal = true;
+        }
 
         let booklet = null;
         if (distributionBeneficiaryFromApi.booklets.length) {

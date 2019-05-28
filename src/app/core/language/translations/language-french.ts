@@ -2,6 +2,7 @@ import { ADMINLEVELS } from '../adm-constants';
 
 import { Language } from '../language';
 import { INCOMELEVELS } from '../../../models/constants/income-levels';
+import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 /* tslint:disable */
 export class French implements Language {
     // GENERAL VARIABLES
@@ -200,6 +201,11 @@ export class French implements Language {
     beneficiaries_missing_selected_project = 'Vous devez selectionner un projet avant l\'importation'
     beneficiaries_personnal = 'informations personnelles'
     beneficiaries_proxy = 'Proxy'
+    beneficiaries_referral = 'Référence'
+    beneficiaries_referral_question = 'Ajouter une référence'
+    beneficiaries_referral_type = 'Type de référence'
+    beneficiaries_referral_types = REFERRALTYPES.fr
+    beneficiaries_referral_comment = 'Commentaire'
     beneficiaries_residency = 'résidence'
     beneficiaries_residency_refugee = 'Réfugié'
     beneficiaries_residency_idp = 'IDP'

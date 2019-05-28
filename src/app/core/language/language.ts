@@ -183,6 +183,11 @@ export interface Language {
     beneficiaries_missing_selected_project: string
     beneficiaries_personnal: string
     beneficiaries_proxy: string
+    beneficiaries_referral: string
+    beneficiaries_referral_question: string
+    beneficiaries_referral_type: string
+    beneficiaries_referral_types: object
+    beneficiaries_referral_comment: string
     beneficiaries_residency: string
     beneficiaries_residency_refugee: string
     beneficiaries_residency_idp: string

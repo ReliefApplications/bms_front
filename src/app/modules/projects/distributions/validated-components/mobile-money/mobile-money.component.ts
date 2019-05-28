@@ -6,6 +6,7 @@ import { Commodity } from 'src/app/models/commodity';
 import { State, TransactionMobileMoney } from 'src/app/models/transaction-mobile-money';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { User } from 'src/app/models/user';
+import { Beneficiary } from 'src/app/models/beneficiary';
 
 @Component({
     selector: 'app-mobile-money',
@@ -301,8 +302,12 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 	* open each modal dialog
 	*/
     openModal(dialogDetails: any): void {
-        // Can only be a modalDetails
-        this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);
+        if (dialogDetails.action === 'details') {
+            this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);
+        } else if (dialogDetails.action === 'edit') {
+            dialogDetails.element = dialogDetails.element.get('beneficiary');
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+        }
         this.modalService.isCompleted.subscribe(() => {
         });
     }

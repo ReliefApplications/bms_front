@@ -316,6 +316,17 @@ export class Arabic implements Language {
     'header_update-beneficiary' = 'تحديث المستفيد'
     header_vouchers = 'قسائم'
 
+    // Household
+    household_location_current = 'العنوان الحالي'
+    household_location_resident = 'عنوان الإقامة'
+    household_location_type = 'نوع الموقع'
+    household_location_camp = 'معسكر'
+    household_location_residence = 'إقامة'
+    household_location_settlement = 'تسوية مؤقتة'
+    household_location_address = 'عنوان'
+    household_location_camp_name = 'اسم المخيم'
+    household_location_tent = 'خيمة رقم'
+
     // Import
     import_added = 'تم إضافتها'
     import_back_to_beneficiaries = 'العودة إلى المستفيدين'

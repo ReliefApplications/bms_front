@@ -316,6 +316,17 @@ export class French implements Language {
     'header_update-beneficiary' = 'Modifier'
     header_vouchers = 'Brochures'
 
+    // Household
+    household_location_current = 'Adresse actuelle'
+    household_location_resident = 'Adresse de résidence'
+    household_location_type = 'Type d\'habitation'
+    household_location_camp = 'Camp'
+    household_location_residence = 'Résidence'
+    household_location_settlement = 'Installation temporaire'
+    household_location_address = 'Adresse'
+    household_location_camp_name = 'Nom du camp'
+    household_location_tent = 'Numéro de tente'
+
     // Import
     import_added = 'Ajout'
     import_back_to_beneficiaries = 'Back to Beneficiaries'

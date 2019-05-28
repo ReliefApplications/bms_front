@@ -299,6 +299,17 @@ export interface Language {
     'header_update-beneficiary': string
     header_vouchers: string
 
+    // Household
+    household_location_current: string
+    household_location_resident: string
+    household_location_type: string
+    household_location_camp: string
+    household_location_residence: string
+    household_location_settlement: string
+    household_location_address: string
+    household_location_camp_name: string
+    household_location_tent: string
+
     // Import
     import_added: string
     import_back_to_beneficiaries: string

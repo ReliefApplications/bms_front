@@ -315,6 +315,17 @@ export class English implements Language {
     'header_update-beneficiary' = 'Update Beneficiaries'
     header_vouchers = 'Vouchers'
 
+    // Household
+    household_location_current = 'Current address'
+    household_location_resident = 'Resident address'
+    household_location_type = 'Type of location'
+    household_location_camp = 'Camp'
+    household_location_residence = 'Residence'
+    household_location_settlement = 'Temporary settlement'
+    household_location_address = 'Address'
+    household_location_camp_name = 'Camp\'s name'
+    household_location_tent = 'Tent number'
+
     // Import
     import_added = 'Added from existing beneficiaries'
     import_back_to_beneficiaries = 'Back to Beneficiaries'

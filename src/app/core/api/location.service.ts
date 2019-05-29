@@ -7,6 +7,7 @@ import { HttpService } from '../network/http.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { map } from 'rxjs/operators';
 import { Adm } from 'src/app/models/location';
+import { Location } from 'src/app/models/location';
 
 
 @Injectable({
@@ -64,7 +65,12 @@ export class LocationService {
     }
 
     fillAdm1Options(object: CustomModel) {
-        const location = object.get('location');
+        let location: Location;
+        if (object instanceof Location) {
+            location = object;
+        } else {
+            location = object.get('location');
+        }
 
         return this.getAdm1()
             .pipe(
@@ -75,7 +81,9 @@ export class LocationService {
                         location.setOptions('adm2', []);
                         location.setOptions('adm3', []);
                         location.setOptions('adm4', []);
-                        object.set('location', location);
+                        if (!(object instanceof Location)) {
+                            object.set('location', location);
+                        }
                     }
             }));
     }
@@ -84,7 +92,13 @@ export class LocationService {
         const body = {
             adm1: adm1Id
         };
-        const location = object.get('location');
+
+        let location: Location;
+        if (object instanceof Location) {
+            location = object;
+        } else {
+            location = object.get('location');
+        }
 
         return this.getAdm2(body)
             .pipe(
@@ -94,7 +108,9 @@ export class LocationService {
                         location.setOptions('adm2', adm2Options);
                         location.setOptions('adm3', []);
                         location.setOptions('adm4', []);
-                        object.set('location', location);
+                        if (!(object instanceof Location)) {
+                            object.set('location', location);
+                        }
                     }
             }));
     }
@@ -103,7 +119,13 @@ export class LocationService {
         const body = {
             adm2: adm2Id
         };
-        const location = object.get('location');
+
+        let location: Location;
+        if (object instanceof Location) {
+            location = object;
+        } else {
+            location = object.get('location');
+        }
 
         return this.getAdm3(body)
             .pipe(
@@ -112,7 +134,9 @@ export class LocationService {
                         const adm3Options = options.map(adm3 => new Adm(adm3.id, adm3.name));
                         location.setOptions('adm3', adm3Options);
                         location.setOptions('adm4', []);
-                        object.set('location', location);
+                        if (!(object instanceof Location)) {
+                            object.set('location', location);
+                        }
                     }
                 }));
     }
@@ -121,7 +145,13 @@ export class LocationService {
         const body = {
             adm3: adm3Id
         };
-        const location = object.get('location');
+
+        let location: Location;
+        if (object instanceof Location) {
+            location = object;
+        } else {
+            location = object.get('location');
+        }
 
         return this.getAdm4(body)
             .pipe(
@@ -129,7 +159,9 @@ export class LocationService {
                     if (options) {
                         const adm4Options = options.map(adm4 => new Adm(adm4.id, adm4.name));
                         location.setOptions('adm4', adm4Options);
-                        object.set('location', location);
+                        if (!(object instanceof Location)) {
+                            object.set('location', location);
+                        }
                     }
                 }));
     }

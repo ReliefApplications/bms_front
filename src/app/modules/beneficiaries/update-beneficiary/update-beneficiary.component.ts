@@ -29,6 +29,7 @@ import { ProjectService } from '../../../core/api/project.service';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { PHONECODES } from 'src/app/models/constants/phone-codes';
+import { HouseholdLocation } from 'src/app/models/household-location';
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
@@ -89,6 +90,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.countryService.selectedCountry.getValue().get<string>('id') :
         this.countryService.khm.get<string>('id');
 
+    // public location = new Location();
+    public locations = {
+        'current': new Location,
+        'resident': new Location
+    };
+
     constructor(
         public route: ActivatedRoute,
         public _projectService: ProjectService,
@@ -118,7 +125,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             this.getVulnerabilityCriteria().subscribe(() => {
                 const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
                     .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
-                this.mainFields = ['adm1', 'adm2', 'adm3', 'adm4', 'addressNumber', 'addressPostcode', 'addressStreet',
+                this.mainFields = [
+                    'currentAdm1', 'currentAdm2', 'currentAdm3', 'currentAdm4', 'currentAddressNumber',
+                    'currentAddressPostcode', 'currentAddressStreet', 'currentType', 'currentCamp', 'currentTentNumber',
+                    'residentAdm1', 'residentAdm2', 'residentAdm3', 'residentAdm4', 'residentAddressNumber',
+                    'residentAddressPostcode', 'residentAddressStreet', 'residentType', 'residentCamp', 'residentTentNumber',
                     'incomeLevel', 'livelihood', 'notes', 'projects'];
                 this.mainFields = this.mainFields.concat(countrySpecificNames);
 
@@ -158,7 +169,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                             this.countryISO3 = 'KHM';
                         }
                         this.household = new Household();
-                        this.household.set('location', new Location());
+                        // this.household.set('location', new Location());
+                        this.household.set('householdLocations', [new HouseholdLocation()]);
                         this.household.set('beneficiaries', [this.createNewBeneficiary()]);
                         this.getCountrySpecifics().subscribe(() => {
                             resolve();
@@ -217,36 +229,57 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         this.mainForm = new FormGroup(mainFormControls);
 
-        const location = this.household.get('location');
-        this.loadProvince().subscribe(() => {
-            if (!location.get('adm1') || !location.get('adm1').get('id')) {
-                this.snapshot();
-                return;
+        // const location = this.household.get('location');
+        const householdLocations = this.household.get<HouseholdLocation[]>('householdLocations');
+
+        householdLocations.forEach((householdLocation: HouseholdLocation) => {
+            const prefix = householdLocation.get('locationGroup') &&
+                householdLocation.get('locationGroup').get<string>('id') === 'resident' ? 'resident' : 'current';
+            mainFormControls[prefix + 'Type'].setValue(householdLocation.get('type') ? householdLocation.get('type').get('id') : null);
+
+            if (householdLocation.get('address') && householdLocation.get('address').get('location')) {
+                this.locations[prefix] = householdLocation.get('address').get('location');
+                mainFormControls[prefix + 'AddressNumber'].setValue(householdLocation.get('address').get('number'));
+                mainFormControls[prefix + 'AddressStreet'].setValue(householdLocation.get('address').get('street'));
+                mainFormControls[prefix + 'AddressPostcode'].setValue(householdLocation.get('address').get('postcode'));
+            } else if (householdLocation.get('campAddress') &&
+                householdLocation.get('campAddress').get('camp') &&
+                householdLocation.get('campAddress').get('camp').get('location')) {
+                this.locations[prefix] = householdLocation.get('campAddress').get('camp').get('location');
+                mainFormControls[prefix + 'Camp'].setValue(householdLocation.get('campAddress').get('camp').get('id'));
+                mainFormControls[prefix + 'TentNumber'].setValue(householdLocation.get('campAddress').get('tentNumber'));
             }
-            const adm1Id = location.get('adm1').get<number>('id');
-            mainFormControls['adm1'].setValue(adm1Id);
-            this._locationService.fillAdm2Options(this.household, adm1Id).subscribe(() => {
-                if (!location.get('adm2') || !location.get('adm2').get('id')) {
+
+            this.loadProvince(prefix).subscribe(() => {
+                if (!this.locations[prefix].get('adm1') || !this.locations[prefix].get('adm1').get('id')) {
                     this.snapshot();
                     return;
                 }
-                const adm2Id = location.get('adm2').get<number>('id');
-                mainFormControls['adm2'].setValue(adm2Id);
-                this._locationService.fillAdm3Options(this.household, adm2Id).subscribe(() => {
-                    if (!location.get('adm3') || !location.get('adm3').get('id')) {
+                const adm1Id = this.locations[prefix].get('adm1').get<number>('id');
+                mainFormControls[prefix + 'Adm1'].setValue(adm1Id);
+                this._locationService.fillAdm2Options(this.locations[prefix], adm1Id).subscribe(() => {
+                    if (!this.locations[prefix].get('adm2') || !this.locations[prefix].get('adm2').get('id')) {
                         this.snapshot();
                         return;
                     }
-                    const adm3Id = location.get('adm3').get<number>('id');
-                    mainFormControls['adm3'].setValue(adm3Id);
-                    this._locationService.fillAdm4Options(this.household, adm3Id).subscribe(() => {
-                        if (!location.get('adm4')) {
+                    const adm2Id = this.locations[prefix].get('adm2').get<number>('id');
+                    mainFormControls[prefix + 'adm2'].setValue(adm2Id);
+                    this._locationService.fillAdm3Options(this.locations[prefix], adm2Id).subscribe(() => {
+                        if (!this.locations[prefix].get('adm3') || !this.locations[prefix].get('adm3').get('id')) {
                             this.snapshot();
                             return;
                         }
-                        mainFormControls['adm4'].setValue(
-                        location.get('adm4').get('id'));
-                        this.snapshot();
+                        const adm3Id = this.locations[prefix].get('adm3').get<number>('id');
+                        mainFormControls[prefix + 'adm3'].setValue(adm3Id);
+                        this._locationService.fillAdm4Options(this.locations[prefix], adm3Id).subscribe(() => {
+                            if (!this.locations[prefix].get('adm4')) {
+                                this.snapshot();
+                                return;
+                            }
+                            mainFormControls[prefix + 'adm4'].setValue(
+                            this.locations[prefix].get('adm4').get('id'));
+                            this.snapshot();
+                        });
                     });
                 });
             });
@@ -716,24 +749,24 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get list of all Province (adm1) and put it in the province selector
      */
-    loadProvince() {
-        return this._locationService.fillAdm1Options(this.household).pipe(
+    loadProvince(prefix) {
+        return this._locationService.fillAdm1Options(this.locations[prefix]).pipe(
             map(() => {
-            this.mainForm.controls.adm2.setValue(null);
-            this.mainForm.controls.adm3.setValue(null);
-            this.mainForm.controls.adm4.setValue(null);
+            this.mainForm.controls[prefix + 'Adm2'].setValue(null);
+            this.mainForm.controls[prefix + 'Adm3'].setValue(null);
+            this.mainForm.controls[prefix + 'Adm4'].setValue(null);
         }));
     }
 
     /**
      * Get list of all District (adm2) and put it in the district selector
      */
-    loadDistrict(adm1Id: number) {
+    loadDistrict(prefix, adm1Id: number) {
         if (adm1Id) {
-            this._locationService.fillAdm2Options(this.household, adm1Id).subscribe(() => {
-                this.mainForm.controls.adm2.setValue(null);
-                this.mainForm.controls.adm3.setValue(null);
-                this.mainForm.controls.adm4.setValue(null);
+            this._locationService.fillAdm2Options(this.locations[prefix], adm1Id).subscribe(() => {
+                this.mainForm.controls[prefix + 'Adm2'].setValue(null);
+                this.mainForm.controls[prefix + 'Adm3'].setValue(null);
+                this.mainForm.controls[prefix + 'Adm4'].setValue(null);
             });
         }
     }
@@ -741,11 +774,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get list of all Commune (adm3) and put it in the commune selector
      */
-    loadCommune(adm2Id: number) {
+    loadCommune(prefix, adm2Id: number) {
         if (adm2Id) {
-            this._locationService.fillAdm3Options(this.household, adm2Id).subscribe(() => {
-                this.mainForm.controls.adm3.setValue(null);
-                this.mainForm.controls.adm4.setValue(null);
+            this._locationService.fillAdm3Options(this.locations[prefix], adm2Id).subscribe(() => {
+                this.mainForm.controls[prefix + 'Adm3'].setValue(null);
+                this.mainForm.controls[prefix + 'Adm4'].setValue(null);
             });
         }
     }
@@ -753,10 +786,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get list of all Vilage (adm4) and put it in the village selector
      */
-    loadVillage(adm3Id: number) {
+    loadVillage(prefix, adm3Id: number) {
         if (adm3Id) {
-            this._locationService.fillAdm4Options(this.household, adm3Id).subscribe(() => {
-                this.mainForm.controls.adm4.setValue(null);
+            this._locationService.fillAdm4Options(this.locations[prefix], adm3Id).subscribe(() => {
+                this.mainForm.controls[prefix + 'Adm4'].setValue(null);
             });
         }
     }

@@ -181,7 +181,7 @@ export class Household extends CustomModel {
         }),
         householdLocations: new MultipleObjectsModelField<HouseholdLocation>(
             {
-
+                value: []
             }
         )
 

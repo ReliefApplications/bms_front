@@ -52,6 +52,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Input() updatable = false;
     @Input() printable = false;
     @Input() assignable = false;
+    @Input() duplicable = false;
 
     @Input() searchable = false;
     @Input() paginable = false;
@@ -87,6 +88,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Output() printOne = new EventEmitter<any>();
     @Output() assignOne = new EventEmitter<any>();
     @Output() completeOne = new EventEmitter<any>();
+    @Output() duplicateOne = new EventEmitter<any>();
 
     sortedData: any;
     allData: any = undefined;
@@ -241,7 +243,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     public getDisplayedColumns(): string[] {
         const actionable = this.validatable || this.updatable || this.loggable ||
-            this.editable || this.deletable || this.printable || this.assignable || this.completable;
+            this.editable || this.deletable || this.printable || this.assignable || this.completable || this.duplicable;
         if (this.selectable && actionable) {
             return this.displayProperties ? ['check', ...this.displayProperties, 'actions'] : [];
         } else if (this.selectable && !actionable) {
@@ -320,6 +322,10 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     complete(element) {
         this.completeOne.emit(element);
+    }
+
+    duplicate(element) {
+        this.duplicateOne.emit(element);
     }
 
     requestLogs(element: any) {

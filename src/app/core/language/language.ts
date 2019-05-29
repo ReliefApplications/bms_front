@@ -81,10 +81,15 @@ export interface Language {
     add_beneficiary_getDateOfBirth: string
     add_beneficiary_getFamilyName: string
     add_beneficiary_getGivenName: string
+    add_beneficiary_getEnglishFamilyName: string
+    add_beneficiary_getEnglishGivenName: string
     add_beneficiary_getNationalID: string
     add_beneficiary_getOccupation: string
     add_beneficiary_getTypeNationalId: string
     add_beneficiary_getTypePhone: string
+    add_beneficiary_income: string
+    add_beneficiary_income_level: object
+    add_beneficiary_nationalID: string
     add_beneficiary_res_address: string
     add_beneficiary_step1: string
     add_beneficiary_step2: string
@@ -151,6 +156,8 @@ export interface Language {
     beneficiaries_added: string
     beneficiaries_advanced_research: string
     beneficiaries_clear_all_research: string
+    beneficiaries_english_name: string
+    beneficiaries_local_name: string
     beneficiaries_full_address: string
     beneficiaries_head: string
     beneficiaries_household_info: string
@@ -199,7 +206,6 @@ export interface Language {
     commodity_wash: string
     commodity_agriculture: string
     commodity_rte: string
-    commodity_distribution: string
     commodity_shelter: string
     commodity_hygiene: string
     commodity_dignity: string
@@ -414,6 +420,7 @@ export interface Language {
     model_donor: string
     model_donor_fullname: string
     model_donor_shortname: string
+    model_duplicate: string
     model_familyName: string
     model_firstName: string
     model_household_sentence: string
@@ -444,6 +451,7 @@ export interface Language {
     model_used: string
     model_user: string
     model_password: string
+    model_user_password_question: string
     model_value: string
     modal_values_format_error: string
     model_vendors_address: string
@@ -470,6 +478,7 @@ export interface Language {
     placeholder_one_many: string
 
     // Profile
+    profile_change_password: string
     profile_user_change_password: string
     profile_user_hint_new_password: string
     profile_user_hint_new_password_again: string

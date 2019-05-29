@@ -167,7 +167,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     }
 
     addDistribution() {
-        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.get('id') } });
+        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.get('id'), prefill: false } });
     }
 
     /**
@@ -217,5 +217,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 });
             }
         });
+    }
+
+    duplicate(event) {
+        this.distributionService.distributionToDuplicate = event;
+        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.get('id'), prefill: true } });
     }
 }

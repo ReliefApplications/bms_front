@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { CommodityService } from 'src/app/core/api/commodity.service';
-import { FieldService } from 'src/app/core/utils/field.service';
+import { FormService } from 'src/app/core/utils/form.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { Commodity } from 'src/app/models/commodity';
 
@@ -25,7 +25,7 @@ export class ModalAddCommodityComponent implements OnInit {
     constructor(
         private commodityService: CommodityService,
         public modalReference: MatDialogRef<any>,
-        public fieldService: FieldService,
+        public formService: FormService,
         public languageService: LanguageService
     ) {}
 
@@ -40,7 +40,7 @@ export class ModalAddCommodityComponent implements OnInit {
         const formControls = {};
         this.fields.forEach((fieldName: string) => {
             const field = this.commodity.fields[fieldName];
-            const validators = this.fieldService.getFieldValidators(field.isRequired, field.pattern);
+            const validators = this.formService.getFieldValidators(field.isRequired, field.pattern);
             formControls[fieldName] = new FormControl(
                 {
                     value: this.commodity.get(fieldName),
@@ -68,15 +68,15 @@ export class ModalAddCommodityComponent implements OnInit {
             case 1: // Mobile Cash
             case 2: // QR Code Voucher
             case 3: // Paper Voucher
-            case 13: // Loan
+            case 12: // Loan
                 return this.language.model_currency;
             case 4: // Food
             case 5: // RTE Kit
             case 7: // Agricultural Kit
             case 8: // Wash kit
-            case 10: // Shelter tool kit
-            case 11: // Hygiene kit
-            case 12: // Dignity kit
+            case 9: // Shelter tool kit
+            case 10: // Hygiene kit
+            case 11: // Dignity kit
                 return this.language.model_commodity_kit;
             case 6: // Bread
                 return this.language.model_commodity_kgs;
@@ -102,7 +102,6 @@ export class ModalAddCommodityComponent implements OnInit {
                 this.commodity.set(field, this.form.controls[field].value);
             }
         }
-
         this.modalReference.close(this.commodity);
     }
 }

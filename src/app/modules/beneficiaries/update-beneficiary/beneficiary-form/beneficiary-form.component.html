@@ -1,13 +1,24 @@
 <form [formGroup]="form">
   <div class="column-container">
-    <h4 class="location">{{ language.name | uppercaseFirst }}</h4>
+    <h4 class="location">{{ language.beneficiaries_local_name | uppercaseFirst }}</h4>
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getFamilyName | uppercaseFirst }}" formControlName="familyName" required>
-      <app-hint-error [form]="form" fieldName="familyName" [field]="beneficiaryFields.familyName" [isMatField]="true"></app-hint-error>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getFamilyName | uppercaseFirst}}" formControlName="localFamilyName" required>
+      <app-hint-error [form]="form" fieldName="localFamilyName" [field]="beneficiaryFields.localFamilyName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getGivenName | uppercaseFirst }}" formControlName="givenName" required>
-      <app-hint-error [form]="form" fieldName="givenName" [field]="beneficiaryFields.givenName" [isMatField]="true"></app-hint-error>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getGivenName | uppercaseFirst}}" formControlName="localGivenName" required>
+      <app-hint-error [form]="form" fieldName="localGivenName" [field]="beneficiaryFields.localGivenName" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+  </div>
+  <div class="column-container">
+    <h4 class="location">{{ language.beneficiaries_english_name | uppercaseFirst }}</h4>
+    <mat-form-field>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishFamilyName | uppercaseFirst}}" formControlName="enFamilyName">
+      <app-hint-error [form]="form" fieldName="enFamilyName" [field]="beneficiaryFields.enFamilyName" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishGivenName | uppercaseFirst}}" formControlName="enGivenName">
+      <app-hint-error [form]="form" fieldName="enGivenName" [field]="beneficiaryFields.enGivenName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
   </div>
   <div class="column-container">

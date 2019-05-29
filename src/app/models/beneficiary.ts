@@ -216,7 +216,8 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('residencyStatus',
             beneficiaryFromApi.residency_status ?
             newBeneficiary.getOptions('residencyStatus')
-                .filter((option: ResidencyStatus) => option.get('id') === beneficiaryFromApi.residency_status)[0] :
+                .filter((option: ResidencyStatus) =>
+                    option.get<string>('id').toLowerCase() === beneficiaryFromApi.residency_status.toLowerCase())[0] :
             newBeneficiary.get('residencyStatus'));
 
         newBeneficiary.set('gender',

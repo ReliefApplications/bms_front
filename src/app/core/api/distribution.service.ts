@@ -15,6 +15,8 @@ import { NetworkService } from '../network/network.service';
 export class DistributionService extends CustomModelService {
     customModelPath = 'distributions';
 
+    distributionToDuplicate: Distribution;
+
     constructor(
         protected http: HttpService,
         protected exportService: ExportService,

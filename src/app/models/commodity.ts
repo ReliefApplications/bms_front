@@ -109,8 +109,11 @@ export class Commodity extends CustomModel {
         const newCommodity = new Commodity();
 
         newCommodity.set('id', commodityFromApi.id);
-        newCommodity.set('modalityType', new ModalityType(null, commodityFromApi.modality_type.name));
-        newCommodity.set('modality', new Modality(null, commodityFromApi.modality_type.modality));
+        newCommodity.set('modalityType', new ModalityType(commodityFromApi.modality_type.id, commodityFromApi.modality_type.name));
+        const modalityName = commodityFromApi.modality_type.modality.name ?
+            commodityFromApi.modality_type.modality.name :
+            commodityFromApi.modality_type.modality;
+        newCommodity.set('modality', new Modality(null, modalityName));
         newCommodity.set('value', commodityFromApi.value);
         newCommodity.set('unit', commodityFromApi.unit);
         newCommodity.set('description', commodityFromApi.description);

@@ -435,6 +435,7 @@ export class Arabic implements Language {
     model_donor = 'المانح'
     model_donor_fullname = 'اسم المانح'
     model_donor_shortname = 'الاسم المختصر'
+    model_duplicate = 'مكرر'
     model_familyName = 'اللقب'
     model_firstName = 'الاسم '
     model_household_sentence = 'الأسرة من'

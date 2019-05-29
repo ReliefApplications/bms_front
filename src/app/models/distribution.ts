@@ -12,6 +12,10 @@ import { TextModelField } from './custom-models/text-model-field';
 import { DistributionBeneficiary } from './distribution-beneficiary';
 import { Location } from './location';
 import { Project } from './project';
+import { NestedFieldModelField } from './custom-models/nested-field';
+import { FormGroup } from '@angular/forms';
+import { AppInjector } from '../app-injector';
+import { LocationService } from '../core/api/location.service';
 export class DistributionType extends CustomModel {
 
     public fields = {
@@ -146,6 +150,64 @@ export class Distribution extends CustomModel {
                 // Not displayed anywhere but used as a condition
             }
         ),
+        adm1: new NestedFieldModelField({
+            title: this.language.adm1,
+            isSettable: true,
+            isEditable: true,
+            childrenObject: 'location',
+            childrenFieldName: 'adm1',
+            isTrigger: true,
+            triggerFunction: (distribution: Distribution, value: string, form: FormGroup) => {
+                const appInjector = AppInjector;
+                form.controls.adm2.setValue(null);
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
+                if (value) {
+                    appInjector.get(LocationService).fillAdm2Options(distribution, parseInt(value, 10)).subscribe();
+                }
+                return distribution;
+            },
+        }),
+        adm2: new NestedFieldModelField({
+            title: this.language.adm2,
+            isSettable: true,
+            isEditable: true,
+            childrenObject: 'location',
+            childrenFieldName: 'adm2',
+            isTrigger: true,
+            triggerFunction: (distribution: Distribution, value: string, form: FormGroup) => {
+                const appInjector = AppInjector;
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
+                if (value) {
+                    appInjector.get(LocationService).fillAdm3Options(distribution, parseInt(value, 10)).subscribe();
+                }
+                return distribution;
+            },
+        }),
+        adm3: new NestedFieldModelField({
+            title: this.language.adm3,
+            isSettable: true,
+            isEditable: true,
+            childrenObject: 'location',
+            childrenFieldName: 'adm3',
+            isTrigger: true,
+            triggerFunction: (distribution: Distribution, value: string, form: FormGroup) => {
+                const appInjector = AppInjector;
+                form.controls.adm4.setValue(null);
+                if (value) {
+                    appInjector.get(LocationService).fillAdm4Options(distribution, parseInt(value, 10)).subscribe();
+                }
+                return distribution;
+            },
+        }),
+        adm4: new NestedFieldModelField({
+            title: this.language.adm4,
+            isSettable: true,
+            isEditable: true,
+            childrenObject: 'location',
+            childrenFieldName: 'adm4',
+        }),
     };
 
     public static apiToModel(distributionFromApi: any): Distribution {
@@ -175,6 +237,10 @@ export class Distribution extends CustomModel {
         distributionFromApi.commodities ?
             distributionFromApi.commodities.map((commodity: any) => Commodity.apiToModel(commodity)) :
             null);
+
+        newDistribution.set('selectionCriteria', distributionFromApi.selection_criteria ?
+            distributionFromApi.selection_criteria.map((criteria: any) => Criteria.apiToModel(criteria)) :
+            []);
 
         newDistribution.set('finished', true);
 

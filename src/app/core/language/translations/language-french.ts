@@ -435,6 +435,7 @@ export class French implements Language {
     model_donor = 'Donneur'
     model_donor_fullname = 'Nom du donneur'
     model_donor_shortname = 'Surnom'
+    model_duplicate = 'dupliquer'
     model_familyName = 'Nom'
     model_firstName = 'Prénom'
     model_household_sentence = 'Le ménage de '

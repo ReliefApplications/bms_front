@@ -435,6 +435,7 @@ export class English implements Language {
     model_donor = 'Donor'
     model_donor_fullname = 'Donor\'s name'
     model_donor_shortname = 'Shortname'
+    model_duplicate = 'duplicate'
     model_familyName = 'Family name'
     model_firstName = 'First name'
     model_household_sentence = 'The household of '

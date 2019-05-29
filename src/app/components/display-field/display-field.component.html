@@ -16,18 +16,22 @@
 
 <ng-template #isMultipleObject>
     <ng-container *ngIf="field.kindOfField === 'MultipleObject'; else isArrayField">
-        <ng-container *ngIf="!field.displayTableFunction(field.value).length; else isArrayMultipleObjects">
-            {{ field.displayTableFunction(field.value) }}
+        <ng-container *ngIf="!field.isImageInTable; else isArrayOfImages">
+            <span *ngIf="!field.displayTableFunction(field.value).length || field.displayTableFunction(field.value).length <= MAX_PROP_LENGTH; else isTooLong">
+                    {{field.displayTableFunction(field.value)}}
+            </span>
+            <ng-template #isTooLong>
+                <span [matTooltip]="field.displayTableFunction(field.value)">
+                    {{field.displayTableFunction(field.value).substring(0,MAX_PROP_LENGTH-1)}} ...
+                </span>
+            </ng-template>
         </ng-container>
-        <ng-template #isArrayMultipleObjects>
+        <ng-template #isArrayOfImages>
                 <div class="multiple-items">
                     <span *ngFor="let value of field.displayTableFunction(field.value)">
-                            <ng-container *ngIf="field.isImageInTable; else notImage">
+                            <ng-container *ngIf="field.isImageInTable">
                                 <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
                             </ng-container>
-                            <ng-template #notImage>
-                                {{value}}
-                            </ng-template>
                     </span>
                 </div>
         </ng-template>

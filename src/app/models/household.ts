@@ -11,6 +11,7 @@ import { TextModelField } from './custom-models/text-model-field';
 import { Location } from './location';
 import { Project } from './project';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
+import { UppercaseFirstPipe } from '../shared/pipes/uppercase-first.pipe';
 
 export class Livelihood extends CustomModel {
 
@@ -169,7 +170,9 @@ export class Household extends CustomModel {
             });
         });
         newHousehold.fields.vulnerabilities.displayTableFunction = value => value;
-        newHousehold.fields.vulnerabilities.displayModalFunction = value => this.displayModalVulnerabilities(value);
+        const pipe = new UppercaseFirstPipe();
+        newHousehold.fields.vulnerabilities.displayModalFunction = value => value
+            .map((vulnerability: VulnerabilityCriteria) => pipe.transform(vulnerability.get('name'))).join(', ');
         newHousehold.set('projects', householdFromApi.projects.map(project => Project.apiToModel(project)));
         newHousehold.set('location', Location.apiToModel(householdFromApi.location));
         newHousehold.fields.location.displayTableFunction = value => value.getLocationName();
@@ -183,17 +186,6 @@ export class Household extends CustomModel {
         : null);
 
         return newHousehold;
-    }
-
-    public static displayModalVulnerabilities(value) {
-        let vulnerabilityNames = '';
-        value.forEach((vulnerability: VulnerabilityCriteria, index: number) => {
-            const name = vulnerability.get<string>('name');
-            if (!vulnerabilityNames.includes(name)) {
-                vulnerabilityNames += index === 0 ? name : ', ' + name;
-            }
-        });
-        return vulnerabilityNames;
     }
 
     public getIdentifyingName() {

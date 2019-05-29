@@ -112,6 +112,7 @@ export class French implements Language {
     add_beneficiary_step3 = 'Membres'
     add_beneficiary_title = 'Ajout d\'un bénéficiaire'
     add_beneficiary_code = 'Ext'
+    add_beneficiary_occupation = 'Occupation'
 
     // Add beneficiary options
     national_id_passport = 'Passeport'

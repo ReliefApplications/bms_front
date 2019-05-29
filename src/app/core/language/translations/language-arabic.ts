@@ -112,6 +112,7 @@ export class Arabic implements Language {
     add_beneficiary_step3 = 'أفراد العائلة'
     add_beneficiary_title = 'إضافة مستفيد'
     add_beneficiary_code = 'تحويلة'
+    add_beneficiary_occupation = 'الاحتلال'
 
     // Add beneficiary options
     national_id_passport = 'جواز سفر'

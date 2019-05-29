@@ -110,6 +110,7 @@ export class English implements Language {
     add_beneficiary_step3 = 'Members'
     add_beneficiary_title = 'add beneficiary'
     add_beneficiary_code = 'Ext'
+    add_beneficiary_occupation = 'Occupation'
 
     // Add beneficiary options
     national_id_passport = 'Passport'

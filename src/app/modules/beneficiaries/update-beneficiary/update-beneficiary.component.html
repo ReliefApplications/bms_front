@@ -30,7 +30,7 @@
                     (changeAdm)="changeAdm($event)"
                   >
                   </app-location-form>
-                  <form [formGroup]="mainForm">
+                  <form [formGroup]="mainForm" class="not-location-form">
                     <!-- <div class="column-container">
                       <h4 class="location">{{ language.household_location_current_location | uppercaseFirst}}</h4>
                       <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1[countryId] | uppercaseFirst}}" formControlName="currentAdm1" (change)="loadDistrict('current', $event)" required>
@@ -98,13 +98,13 @@
                     </div> -->
                     <div class="column-container">
                       <div class="income">
+                        <h4>{{ language.add_beneficiary_occupation | uppercaseFirst }}</h4>
                         <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.add_beneficiary_getOccupation | uppercaseFirst}}" formControlName="livelihood">
                           <ng-option *ngFor="let livelihood of household.getOptions('livelihood')" [value]="livelihood.get('id')">
                             {{livelihood.get('name') | uppercaseFirst}}
                           </ng-option>
                         </ng-select>
                         <app-hint-error [form]="mainForm" fieldName="livelihood" [field]="household.fields.livelihood" [isMatField]="false"></app-hint-error>
-                        <h4>{{ language.add_beneficiary_income | uppercaseFirst }}</h4>
                         <mat-form-field>
                           <mat-select class="single-select" [multiple]="false" placeholder="{{language.add_beneficiary_income | uppercaseFirst}}" formControlName="incomeLevel">
                             <mat-option *ngFor="let index of [1, 2, 3, 4, 5]" [value]="index">
@@ -113,6 +113,8 @@
                           </mat-select>
                         </mat-form-field>
                       </div>
+                    </div>
+                    <div class="column-container">
                       <div class="specifics" *ngIf="household.get('countrySpecificAnswers').length">
                         <h4>{{ language.settings_country_specific_options | uppercaseFirst }}</h4>
                         <mat-form-field *ngFor="let countrySpecificAnswer of household.get('countrySpecificAnswers')">

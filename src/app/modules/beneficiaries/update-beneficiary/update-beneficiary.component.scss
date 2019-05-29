@@ -29,11 +29,9 @@ app-placeholder-panel {
   flex-direction: column;
   .main-information-content {
     display:flex;
-    app-location-form {
-      width:66%;
-    }
-    form {
-      width: 33%;
+    flex-direction: column;
+    .not-location-form {
+      display: flex;
     }
   }
 }

@@ -1,0 +1,16 @@
+.location-form {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    .column-container {
+        width: 45%;
+        .create-camp {
+            display: flex;
+            align-items: center;
+            span {
+              margin-left: 10px;
+              width: 50%;
+            }
+        }
+    }
+}

@@ -797,6 +797,18 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         });
     }
 
+    changeAdm(event) {
+        if (event.adm === 'adm1') {
+            this.loadDistrict(event.type, event.id);
+        } else if (event.adm === 'adm2') {
+            this.loadCommune(event.type, event.id);
+        } else if (event.adm === 'adm3') {
+            this.loadVillage(event.type, event.id);
+        } else if (event.adm === 'adm1') {
+            this.loadCamps(event.type, event.adm, event.id);
+        }
+    }
+
     /**
      * Get list of all Province (adm1) and put it in the province selector
      */

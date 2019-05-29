@@ -12,129 +12,142 @@
       <mat-icon>done</mat-icon>
     </ng-template>
       <mat-step [completed]="validStep1">
-        <form [formGroup]="mainForm">
-          <ng-template class="step" matStepLabel>{{language.add_beneficiary_step1}} </ng-template>
-          <div class="container-table">
-            <div class="stepInMobile">
-              <span class="dot">1</span>
-              <span>{{language.add_beneficiary_step1}} </span>
-            </div>
-            <div class="container-content box-primary">
-              <div class="content-table content-table-step1">
-                <div class="step1 all-information">
-                  <div class="column-container">
-                    <h4 class="location">{{ language.household_location_current_location | uppercaseFirst}}</h4>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1[countryId] | uppercaseFirst}}" formControlName="currentAdm1" (change)="loadDistrict('current', $event)" required>
-                      <ng-option *ngFor="let option of locations.current.getOptions('adm1')" [value]="option.get('id')">
-                        {{option.get('name') | uppercaseFirst}}
-                      </ng-option>
-                    </ng-select>
-                    <app-hint-error [form]="mainForm" fieldName="currentAdm1" [field]="locations.current.fields.adm1" [isMatField]="false"></app-hint-error>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm2[countryId] | uppercaseFirst}}" formControlName="currentAdm2" (change)="loadCommune('current', $event)">
-                      <ng-option *ngFor="let option of locations.current.getOptions('adm2')" [value]="option.get('id')">
-                        {{option.get('name') | uppercaseFirst}}
-                      </ng-option>
-                    </ng-select>
-                    <app-hint-error [form]="mainForm" fieldName="currentAdm2" [field]="locations.current.fields.adm2" [isMatField]="false"></app-hint-error>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm3[countryId] | uppercaseFirst}}" formControlName="currentAdm3" (change)="loadVillage('current', $event)">
-                      <ng-option *ngFor="let option of locations.current.getOptions('adm3')" [value]="option.get('id')">
-                        {{option.get('name') | uppercaseFirst}}
-                      </ng-option>
-                    </ng-select>
-                    <app-hint-error [form]="mainForm" fieldName="currentAdm3" [field]="locations.current.fields.adm3" [isMatField]="false"></app-hint-error>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm4[countryId] | uppercaseFirst}}" formControlName="currentAdm4" (change)="loadCamps('current', 'adm4', $event)">
-                      <ng-option *ngFor="let option of locations.current.getOptions('adm4')" [value]="option.get('id')">
-                        {{option.get('name') | uppercaseFirst}}
-                      </ng-option>
-                    </ng-select>
-                    <app-hint-error [form]="mainForm" fieldName="currentAdm4" [field]="locations.current.fields.adm4" [isMatField]="false"></app-hint-error>
-                  </div>
-                  <div class="column-container">
-                    <h4>{{ language.household_location_type }}</h4>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_type | uppercaseFirst}}" formControlName="currentType">
-                      <ng-option *ngFor="let option of household.get('householdLocations')[0].getOptions('type')" [value]="option.get('id')">
-                        {{option.get('name') | uppercaseFirst}}
-                      </ng-option>
-                    </ng-select>
-                    <ng-container *ngIf="mainForm.controls.currentType.value && mainForm.controls.currentType.value !== 'camp'">
-                      <h4>{{ language.household_location_address }}</h4>
-                      <mat-form-field>
-                        <input matInput placeholder="{{language.add_beneficiary_getAddressNumber | uppercaseFirst}}" formControlName="currentAddressNumber" required>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput placeholder="{{language.add_beneficiary_getAddressStreet | uppercaseFirst}}" formControlName="currentAddressStreet" required>
-                      </mat-form-field>
-                      <mat-form-field>
-                        <input matInput placeholder="{{language.add_beneficiary_getAddressPostcode | uppercaseFirst}}" formControlName="currentAddressPostcode" required>
-                      </mat-form-field>
-                    </ng-container>
-                    <ng-container *ngIf="mainForm.controls.currentType.value && mainForm.controls.currentType.value === 'camp'">
-                      <h4>{{ language.household_location_address }}</h4>
-                      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_camp | uppercaseFirst}}" formControlName="currentCamp">
-                        <ng-option *ngFor="let option of campLists.current" [value]="option.get('id')">
+        <ng-template class="step" matStepLabel>{{language.add_beneficiary_step1}} </ng-template>
+        <div class="container-table">
+          <div class="stepInMobile">
+            <span class="dot">1</span>
+            <span>{{language.add_beneficiary_step1}} </span>
+          </div>
+          <div class="container-content box-primary">
+            <div class="content-table content-table-step1">
+              <div class="step1 all-information">
+                <div class="main-information-content">
+                  <app-location-form
+                    [locations]="locations"
+                    [form]="mainForm"
+                    [householdLocationTypes]="household.get('householdLocations')[0].getOptions('type')"
+                    [campLists]="campLists"
+                    (changeAdm)="changeAdm($event)"
+                  >
+                  </app-location-form>
+                  <form [formGroup]="mainForm">
+                    <!-- <div class="column-container">
+                      <h4 class="location">{{ language.household_location_current_location | uppercaseFirst}}</h4>
+                      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1[countryId] | uppercaseFirst}}" formControlName="currentAdm1" (change)="loadDistrict('current', $event)" required>
+                        <ng-option *ngFor="let option of locations.current.getOptions('adm1')" [value]="option.get('id')">
                           {{option.get('name') | uppercaseFirst}}
                         </ng-option>
                       </ng-select>
-                      <div class="create-camp">
-                        <mat-checkbox color="primary" formControlName="currentCreateCamp"></mat-checkbox>
-                        <span>{{ language.household_location_create_camp }}</span>
-                        <mat-form-field *ngIf="mainForm.controls.currentCreateCamp.value">
-                          <input matInput placeholder="{{language.household_location_camp_name | uppercaseFirst}}" formControlName="currentNewCamp" required>
-                        </mat-form-field>
-                        </div>
-                      <mat-form-field>
-                        <input matInput placeholder="{{language.household_location_tent | uppercaseFirst}}" formControlName="currentTentNumber" required>
-                      </mat-form-field>
-                    </ng-container>
-                  </div>
-                  <div class="column-container">
-                    <div class="income">
-                      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.add_beneficiary_getOccupation | uppercaseFirst}}" formControlName="livelihood">
-                        <ng-option *ngFor="let livelihood of household.getOptions('livelihood')" [value]="livelihood.get('id')">
-                          {{livelihood.get('name') | uppercaseFirst}}
+                      <app-hint-error [form]="mainForm" fieldName="currentAdm1" [field]="locations.current.fields.adm1" [isMatField]="false"></app-hint-error>
+                      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm2[countryId] | uppercaseFirst}}" formControlName="currentAdm2" (change)="loadCommune('current', $event)">
+                        <ng-option *ngFor="let option of locations.current.getOptions('adm2')" [value]="option.get('id')">
+                          {{option.get('name') | uppercaseFirst}}
                         </ng-option>
                       </ng-select>
-                      <app-hint-error [form]="mainForm" fieldName="livelihood" [field]="household.fields.livelihood" [isMatField]="false"></app-hint-error>
-                      <h4>{{ language.add_beneficiary_income | uppercaseFirst }}</h4>
-                      <mat-form-field>
-                        <mat-select class="single-select" [multiple]="false" placeholder="{{language.add_beneficiary_income | uppercaseFirst}}" formControlName="incomeLevel">
-                          <mat-option *ngFor="let index of [1, 2, 3, 4, 5]" [value]="index">
-                              {{ index }} ({{ language['add_beneficiary_income_level'][index.toString()][household.country] }})
-                          </mat-option>
-                        </mat-select>
+                      <app-hint-error [form]="mainForm" fieldName="currentAdm2" [field]="locations.current.fields.adm2" [isMatField]="false"></app-hint-error>
+                      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm3[countryId] | uppercaseFirst}}" formControlName="currentAdm3" (change)="loadVillage('current', $event)">
+                        <ng-option *ngFor="let option of locations.current.getOptions('adm3')" [value]="option.get('id')">
+                          {{option.get('name') | uppercaseFirst}}
+                        </ng-option>
+                      </ng-select>
+                      <app-hint-error [form]="mainForm" fieldName="currentAdm3" [field]="locations.current.fields.adm3" [isMatField]="false"></app-hint-error>
+                      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm4[countryId] | uppercaseFirst}}" formControlName="currentAdm4" (change)="loadCamps('current', 'adm4', $event)">
+                        <ng-option *ngFor="let option of locations.current.getOptions('adm4')" [value]="option.get('id')">
+                          {{option.get('name') | uppercaseFirst}}
+                        </ng-option>
+                      </ng-select>
+                      <app-hint-error [form]="mainForm" fieldName="currentAdm4" [field]="locations.current.fields.adm4" [isMatField]="false"></app-hint-error>
+                    </div>
+                    <div class="column-container">
+                      <h4>{{ language.household_location_type }}</h4>
+                      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_type | uppercaseFirst}}" formControlName="currentType">
+                        <ng-option *ngFor="let option of household.get('householdLocations')[0].getOptions('type')" [value]="option.get('id')">
+                          {{option.get('name') | uppercaseFirst}}
+                        </ng-option>
+                      </ng-select>
+                      <ng-container *ngIf="mainForm.controls.currentType.value && mainForm.controls.currentType.value !== 'camp'">
+                        <h4>{{ language.household_location_address }}</h4>
+                        <mat-form-field>
+                          <input matInput placeholder="{{language.add_beneficiary_getAddressNumber | uppercaseFirst}}" formControlName="currentAddressNumber" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput placeholder="{{language.add_beneficiary_getAddressStreet | uppercaseFirst}}" formControlName="currentAddressStreet" required>
+                        </mat-form-field>
+                        <mat-form-field>
+                          <input matInput placeholder="{{language.add_beneficiary_getAddressPostcode | uppercaseFirst}}" formControlName="currentAddressPostcode" required>
+                        </mat-form-field>
+                      </ng-container>
+                      <ng-container *ngIf="mainForm.controls.currentType.value && mainForm.controls.currentType.value === 'camp'">
+                        <h4>{{ language.household_location_address }}</h4>
+                        <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_camp | uppercaseFirst}}" formControlName="currentCamp">
+                          <ng-option *ngFor="let option of campLists.current" [value]="option.get('id')">
+                            {{option.get('name') | uppercaseFirst}}
+                          </ng-option>
+                        </ng-select>
+                        <div class="create-camp">
+                          <mat-checkbox color="primary" formControlName="currentCreateCamp"></mat-checkbox>
+                          <span>{{ language.household_location_create_camp }}</span>
+                          <mat-form-field *ngIf="mainForm.controls.currentCreateCamp.value">
+                            <input matInput placeholder="{{language.household_location_camp_name | uppercaseFirst}}" formControlName="currentNewCamp" required>
+                          </mat-form-field>
+                          </div>
+                        <mat-form-field>
+                          <input matInput placeholder="{{language.household_location_tent | uppercaseFirst}}" formControlName="currentTentNumber" required>
+                        </mat-form-field>
+                      </ng-container>
+                    </div> -->
+                    <div class="column-container">
+                      <div class="income">
+                        <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.add_beneficiary_getOccupation | uppercaseFirst}}" formControlName="livelihood">
+                          <ng-option *ngFor="let livelihood of household.getOptions('livelihood')" [value]="livelihood.get('id')">
+                            {{livelihood.get('name') | uppercaseFirst}}
+                          </ng-option>
+                        </ng-select>
+                        <app-hint-error [form]="mainForm" fieldName="livelihood" [field]="household.fields.livelihood" [isMatField]="false"></app-hint-error>
+                        <h4>{{ language.add_beneficiary_income | uppercaseFirst }}</h4>
+                        <mat-form-field>
+                          <mat-select class="single-select" [multiple]="false" placeholder="{{language.add_beneficiary_income | uppercaseFirst}}" formControlName="incomeLevel">
+                            <mat-option *ngFor="let index of [1, 2, 3, 4, 5]" [value]="index">
+                                {{ index }} ({{ language['add_beneficiary_income_level'][index.toString()][household.country] }})
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="specifics" *ngIf="household.get('countrySpecificAnswers').length">
+                        <h4>{{ language.settings_country_specific_options | uppercaseFirst }}</h4>
+                        <mat-form-field *ngFor="let countrySpecificAnswer of household.get('countrySpecificAnswers')">
+                          <input *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') === 'IDPoor'" matInput [type]="countrySpecificAnswer.get('countrySpecific').get('type')" placeholder="IDPoor No." [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
+                          <input *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') !== 'IDPoor'" matInput [type]="countrySpecificAnswer.get('countrySpecific').get('type')" [placeholder]="countrySpecificAnswer.get('countrySpecific').get('field') | uppercaseFirst" [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
+                          <app-hint-error [form]="mainForm" fieldName="countrySpecificAnswer.get('countrySpecific').get('field')" [field]="household.fields.countrySpecificAnswers" [isMatField]="true"></app-hint-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="step-one-footer">
+                  <form [formGroup]="mainForm">
+                    <div class="lign-container textarea-input">
+                      <mat-form-field class="area-size">
+                        <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="5" matAutosizeMaxRows="5"
+                          placeholder="{{language.model_notes | uppercaseFirst}}" formControlName="notes"></textarea>
+                          <app-hint-error [form]="mainForm" fieldName="notes" [field]="household.fields.notes" [isMatField]="true"></app-hint-error>
                       </mat-form-field>
                     </div>
-                    <div class="specifics" *ngIf="household.get('countrySpecificAnswers').length">
-                      <h4>{{ language.settings_country_specific_options | uppercaseFirst }}</h4>
-                      <mat-form-field *ngFor="let countrySpecificAnswer of household.get('countrySpecificAnswers')">
-                        <input *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') === 'IDPoor'" matInput [type]="countrySpecificAnswer.get('countrySpecific').get('type')" placeholder="IDPoor No." [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
-                        <input *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') !== 'IDPoor'" matInput [type]="countrySpecificAnswer.get('countrySpecific').get('type')" [placeholder]="countrySpecificAnswer.get('countrySpecific').get('field') | uppercaseFirst" [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
-                        <app-hint-error [form]="mainForm" fieldName="countrySpecificAnswer.get('countrySpecific').get('field')" [field]="household.fields.countrySpecificAnswers" [isMatField]="true"></app-hint-error>
-                      </mat-form-field>
+                    <div class="content-button-footer">
+                      <div class="action-buttons">
+                        <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
+                        <button mat-raised-button class="button-background-primary" (click)="nextValidation(1)">
+                          {{language.next}}
+                        </button>
+                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="submit(); nextValidation(1, true)">{{language.update}}</button>
+                      </div>
                     </div>
-                  </div>
-                  <div class="lign-container textarea-input">
-                    <mat-form-field class="area-size">
-                      <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="5" matAutosizeMaxRows="5"
-                        placeholder="{{language.model_notes | uppercaseFirst}}" formControlName="notes"></textarea>
-                        <app-hint-error [form]="mainForm" fieldName="notes" [field]="household.fields.notes" [isMatField]="true"></app-hint-error>
-                    </mat-form-field>
-                  </div>
-                  <div class="content-button-footer">
-                    <div class="action-buttons">
-                      <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
-                      <button mat-raised-button class="button-background-primary" (click)="nextValidation(1)">
-                        {{language.next}}
-                      </button>
-                      <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="submit(); nextValidation(1, true)">{{language.update}}</button>
-                    </div>
-                  </div>
+                  </form>
                 </div>
               </div>
-
             </div>
           </div>
-        </form>
+        </div>
       </mat-step>
 
       <mat-step [completed]="validStep2">

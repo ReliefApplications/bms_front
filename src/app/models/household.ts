@@ -264,14 +264,14 @@ export class Household extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            address_number: this.get('addressNumber'),
-            address_street: this.get('addressStreet'),
-            address_postcode: this.get('addressPostcode'),
+            // address_number: this.get('addressNumber'),
+            // address_street: this.get('addressStreet'),
+            // address_postcode: this.get('addressPostcode'),
             livelihood: this.get('livelihood') ? this.get('livelihood').get('id') : null,
             longitude: this.get('longitude'),
             latitude: this.get('latitude'),
             notes: this.get('notes'),
-            location: this.get('location').modelToApi(),
+            // location: this.get('location').modelToApi(),
             country_specific_answers: this.get<CountrySpecificAnswer[]>('countrySpecificAnswers').map(answer => answer.modelToApi()),
             beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi()),
             income_level: this.get('incomeLevel'),

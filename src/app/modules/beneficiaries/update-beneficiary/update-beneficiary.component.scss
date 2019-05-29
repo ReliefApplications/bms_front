@@ -58,6 +58,15 @@ app-placeholder-panel {
         margin-right: 10px;
       }
     }
+
+    .create-camp {
+      display: flex;
+      align-items: center;
+      span {
+        margin-left: 10px;
+        width: 50%;
+      }
+    }
   }
 
   .specifics {

@@ -320,8 +320,10 @@ export class Arabic implements Language {
     header_vouchers = 'قسائم'
 
     // Household
-    household_location_current = 'العنوان الحالي'
-    household_location_resident = 'عنوان الإقامة'
+    household_location_current_address = 'العنوان الحالي'
+    household_location_resident_address = 'عنوان الإقامة'
+    household_location_current_location = 'الموقع الحالي'
+    household_location_resident_location: 'موقع المقيمين'
     household_location_type = 'نوع الموقع'
     household_location_camp = 'معسكر'
     household_location_residence = 'إقامة'
@@ -329,6 +331,7 @@ export class Arabic implements Language {
     household_location_address = 'عنوان'
     household_location_camp_name = 'اسم المخيم'
     household_location_tent = 'خيمة رقم'
+    household_location_create_camp = 'إنشاء معسكر'
 
     // Import
     import_added = 'تم إضافتها'

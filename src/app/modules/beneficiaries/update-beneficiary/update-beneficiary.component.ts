@@ -29,7 +29,10 @@ import { ProjectService } from '../../../core/api/project.service';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { PHONECODES } from 'src/app/models/constants/phone-codes';
-import { HouseholdLocation } from 'src/app/models/household-location';
+import { HouseholdLocation, HouseholdLocationGroup, HouseholdLocationType } from 'src/app/models/household-location';
+import { Camp } from 'src/app/models/camp';
+import { Address } from 'src/app/models/address';
+import { CampAddress } from 'src/app/models/camp-address';
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
@@ -63,6 +66,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     public communeList = [];
     public villageList = [];
     public vulnerabilityList: Array<VulnerabilityCriteria>;
+    public campLists = {
+        'current': [],
+        'resident': []
+    };
 
     // Country Codes (PhoneNumber lib)
     private getCountryISO2 = CountryIso;
@@ -126,10 +133,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
                     .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
                 this.mainFields = [
-                    'currentAdm1', 'currentAdm2', 'currentAdm3', 'currentAdm4', 'currentAddressNumber', 'locationDifferent',
-                    'currentAddressPostcode', 'currentAddressStreet', 'currentType', 'currentCamp', 'currentTentNumber',
-                    'residentAdm1', 'residentAdm2', 'residentAdm3', 'residentAdm4', 'residentAddressNumber',
-                    'residentAddressPostcode', 'residentAddressStreet', 'residentType', 'residentCamp', 'residentTentNumber',
+                    'currentAdm1', 'currentAdm2', 'currentAdm3', 'currentAdm4', 'currentAddressNumber', 'currentCreateCamp',
+                    'currentAddressPostcode', 'currentAddressStreet', 'currentType', 'currentCamp', 'currentTentNumber', 'currentNewCamp',
+                    'residentAdm1', 'residentAdm2', 'residentAdm3', 'residentAdm4', 'residentAddressNumber', 'residentCreateCamp',
+                    'residentAddressPostcode', 'residentAddressStreet', 'residentType', 'residentCamp',
+                    'residentTentNumber', 'residentNewCamp', 'locationDifferent',
                     'incomeLevel', 'livelihood', 'notes', 'projects'];
                 this.mainFields = this.mainFields.concat(countrySpecificNames);
 
@@ -234,6 +242,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         mainFormControls['locationDifferent'].setValue(householdLocations.length > 1 ? true : false);
 
+        mainFormControls['currentCreateCamp'].setValue(false);
+        mainFormControls['residentCreateCamp'].setValue(false);
+
         householdLocations.forEach((householdLocation: HouseholdLocation) => {
             const prefix = householdLocation.get('locationGroup') &&
                 householdLocation.get('locationGroup').get<string>('id') === 'resident' ? 'resident' : 'current';
@@ -259,6 +270,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 }
                 const adm1Id = this.locations[prefix].get('adm1').get<number>('id');
                 mainFormControls[prefix + 'Adm1'].setValue(adm1Id);
+                this.loadCamps(prefix, 'adm1', adm1Id);
                 this._locationService.fillAdm2Options(this.locations[prefix], adm1Id).subscribe(() => {
                     if (!this.locations[prefix].get('adm2') || !this.locations[prefix].get('adm2').get('id')) {
                         this.snapshot();
@@ -266,6 +278,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     }
                     const adm2Id = this.locations[prefix].get('adm2').get<number>('id');
                     mainFormControls[prefix + 'adm2'].setValue(adm2Id);
+                    this.loadCamps(prefix, 'adm2', adm2Id);
                     this._locationService.fillAdm3Options(this.locations[prefix], adm2Id).subscribe(() => {
                         if (!this.locations[prefix].get('adm3') || !this.locations[prefix].get('adm3').get('id')) {
                             this.snapshot();
@@ -273,13 +286,15 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         }
                         const adm3Id = this.locations[prefix].get('adm3').get<number>('id');
                         mainFormControls[prefix + 'adm3'].setValue(adm3Id);
+                        this.loadCamps(prefix, 'adm3', adm3Id);
                         this._locationService.fillAdm4Options(this.locations[prefix], adm3Id).subscribe(() => {
                             if (!this.locations[prefix].get('adm4')) {
                                 this.snapshot();
                                 return;
                             }
-                            mainFormControls[prefix + 'adm4'].setValue(
-                            this.locations[prefix].get('adm4').get('id'));
+                            mainFormControls[prefix + 'adm4'].setValue(this.locations[prefix].get('adm4').get('id'));
+                            this.loadCamps(prefix, 'adm4', this.locations[prefix].get('adm4').get('id'));
+
                             this.snapshot();
                         });
                     });
@@ -412,9 +427,59 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             return;
         }
 
-        this.household.set('addressNumber', this.mainForm.controls.addressNumber.value);
-        this.household.set('addressStreet', this.mainForm.controls.addressStreet.value);
-        this.household.set('addressPostcode', this.mainForm.controls.addressPostcode.value),
+        const currentType = this.mainForm.controls.currentType.value;
+        const currentLocation = this.locations['current'];
+        const adms = ['1', '2', '3', '4'];
+
+        adms.forEach(index => {
+            if (this.mainForm.controls['currentAdm' + index].value) {
+                currentLocation.set('adm' + index,
+                    currentLocation.getOptions('adm' + index).filter((option: Adm) => {
+                        return option.get('id') === this.mainForm.controls['currentAdm' + index].value;
+                    })[0]);
+            } else {
+                currentLocation.set('adm' + index, null);
+            }
+        });
+
+        // Never worked : asynchronous !!
+        this._cacheService.get('country')
+            .subscribe(
+                result => {
+                    currentLocation.set('countryIso3', result);
+                }
+            );
+
+        const currentHouseholdLocation = new HouseholdLocation();
+        currentHouseholdLocation.set('locationGroup', currentHouseholdLocation.getOptions('locationGroup')
+            .filter((option: HouseholdLocationGroup) => option.get<string>('id') === 'current')[0]);
+
+        currentHouseholdLocation.set('type', currentHouseholdLocation.getOptions('type')
+            .filter((option: HouseholdLocationType) => option.get<string>('id') === this.mainForm.controls.currentType.value)[0]);
+
+        if (currentType !== 'camp') {
+            const address = new Address();
+            address.set('number', this.mainForm.controls.currentAddressNumber.value);
+            address.set('street', this.mainForm.controls.currentAddressStreet.value);
+            address.set('postcode', this.mainForm.controls.currentAddressPostcode.value);
+            address.set('location', currentLocation);
+            currentHouseholdLocation.set('address', address);
+        } else if (currentType === 'camp') {
+            const campAddress = new CampAddress();
+            let camp = new Camp();
+            if (this.mainForm.controls.currentCreateCamp.value) {
+                camp.set('name', this.mainForm.controls.currentNewCamp.value);
+            } else {
+                camp = this.campLists['current']
+                .filter((campFromList: Camp) => campFromList.get<string>('id') === this.mainForm.controls.currentCamp.value)[0];
+            }
+            camp.set('location', currentLocation);
+            campAddress.set('tentNumber', this.mainForm.controls.currentTentNumber.value);
+            campAddress.set('camp', camp);
+            currentHouseholdLocation.set('campAddress', campAddress);
+        }
+
+        this.household.set('householdLocations', [currentHouseholdLocation]);
         this.household.set('livelihood', this.getLivelihood());
         this.household.set('notes', this.mainForm.controls.notes.value);
         this.household.set('incomeLevel', this.mainForm.controls.incomeLevel.value);
@@ -425,28 +490,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 return this.mainForm.controls.projects.value.includes(project.get('id'));
             })
         );
-        const adms = ['adm1', 'adm2', 'adm3', 'adm4'];
-        const location = this.household.get('location');
-
-        adms.forEach(field => {
-            if (this.mainForm.controls[field].value) {
-                location.set(field,
-                    location.getOptions(field).filter((option: Adm) => {
-                        return option.get('id') === this.mainForm.controls[field].value;
-                    })[0]);
-            } else {
-                location.set(field, null);
-            }
-        });
-
-        this._cacheService.get('country')
-            .subscribe(
-                result => {
-                    location.set('countryIso3', result);
-                }
-            );
-
-        this.household.set('location', location);
 
         this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers').forEach(countrySpecificAnswer => {
             countrySpecificAnswer.set('answer',
@@ -757,7 +800,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get list of all Province (adm1) and put it in the province selector
      */
-    loadProvince(prefix) {
+    loadProvince(prefix: string) {
         return this._locationService.fillAdm1Options(this.locations[prefix]).pipe(
             map(() => {
             this.mainForm.controls[prefix + 'Adm2'].setValue(null);
@@ -769,7 +812,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get list of all District (adm2) and put it in the district selector
      */
-    loadDistrict(prefix, adm1Id: number) {
+    loadDistrict(prefix: string, adm1Id: number) {
+        this.loadCamps(prefix, 'adm1', adm1Id);
         if (adm1Id) {
             this._locationService.fillAdm2Options(this.locations[prefix], adm1Id).subscribe(() => {
                 this.mainForm.controls[prefix + 'Adm2'].setValue(null);
@@ -782,7 +826,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get list of all Commune (adm3) and put it in the commune selector
      */
-    loadCommune(prefix, adm2Id: number) {
+    loadCommune(prefix: string, adm2Id: number) {
+        this.loadCamps(prefix, 'adm2', adm2Id);
         if (adm2Id) {
             this._locationService.fillAdm3Options(this.locations[prefix], adm2Id).subscribe(() => {
                 this.mainForm.controls[prefix + 'Adm3'].setValue(null);
@@ -794,12 +839,28 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     /**
      * Get list of all Vilage (adm4) and put it in the village selector
      */
-    loadVillage(prefix, adm3Id: number) {
+    loadVillage(prefix: string, adm3Id: number) {
+        this.loadCamps(prefix, 'adm3', adm3Id);
         if (adm3Id) {
             this._locationService.fillAdm4Options(this.locations[prefix], adm3Id).subscribe(() => {
                 this.mainForm.controls[prefix + 'Adm4'].setValue(null);
             });
         }
+    }
+
+     /**
+     * Get list of all Camps and put it in the camp selector
+     */
+    loadCamps(prefix: string, admType: string, admId: number) {
+        this._locationService.getCamps(admType, admId).subscribe((camps) => {
+            if (camps) {
+                this.campLists[prefix] = camps.map((camp: any) => Camp.apiToModel(camp));
+                this.mainForm.controls[prefix + 'Camp'].setValue(null);
+            } else {
+                this.campLists[prefix] = [];
+                this.mainForm.controls[prefix + 'Camp'].setValue(null);
+            }
+        });
     }
 
     /**

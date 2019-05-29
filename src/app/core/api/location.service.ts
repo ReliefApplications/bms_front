@@ -165,4 +165,11 @@ export class LocationService {
                     }
                 }));
     }
+
+    getCamps(admType, admId) {
+        const body = {
+            [admType]: admId
+        };
+        return this.http.post(this.api + '/location/camps', body);
+    }
 }

@@ -303,8 +303,10 @@ export interface Language {
     header_vouchers: string
 
     // Household
-    household_location_current: string
-    household_location_resident: string
+    household_location_current_address: string
+    household_location_resident_address: string
+    household_location_current_location: string
+    household_location_resident_location: string
     household_location_type: string
     household_location_camp: string
     household_location_residence: string
@@ -312,7 +314,7 @@ export interface Language {
     household_location_address: string
     household_location_camp_name: string
     household_location_tent: string
-
+    household_location_create_camp: string
     // Import
     import_added: string
     import_back_to_beneficiaries: string

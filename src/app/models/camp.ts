@@ -28,7 +28,7 @@ export class Camp extends CustomModel {
         const newCamp = new Camp();
         newCamp.set('id', camp.id);
         newCamp.set('name', camp.name);
-        newCamp.set('location', Location.apiToModel(camp.location));
+        newCamp.set('location', camp.location ? Location.apiToModel(camp.location) : null);
 
         return newCamp;
     }

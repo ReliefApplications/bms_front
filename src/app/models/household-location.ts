@@ -47,8 +47,8 @@ export class HouseholdLocation extends CustomModel {
                 apiLabel: 'id',
                 bindField: 'name',
                 options: [
-                    new HouseholdLocationGroup('current', this.language.household_location_current),
-                    new HouseholdLocationGroup('resident', this.language.household_location_resident),
+                    new HouseholdLocationGroup('current', this.language.household_location_current_address),
+                    new HouseholdLocationGroup('resident', this.language.household_location_resident_address),
                 ],
             }
         ),

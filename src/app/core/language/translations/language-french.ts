@@ -164,6 +164,9 @@ export class French implements Language {
      beneficiary_error_country_code = 'Veuillez sélectionner un préfixe de la liste pour '
      beneficiairy_error_birth_date = 'Veuillez sélectionner une date de naissance valide pour '
      beneficiairy_error_project = 'Veuillez sélectionner au moins un projet'
+     beneficiary_error_camp = 'Vous devez sélectionner un camp ou en créer un'
+    beneficiary_error_tent = 'Vous devez renseigner un numéro de tente'
+    beneficiairy_error_location_type = 'Vous devez sélectionner un type de lieu'
 
     // Beneficiaries
     beneficiaries_add_distribution = 'Ajouter les bénéficiaires à cette distribution'

@@ -56,21 +56,24 @@
                         {{option.get('name') | uppercaseFirst}}
                       </ng-option>
                     </ng-select>
-                  </div>
-                  <div class="column-container" *ngIf="mainForm.controls.currentType.value === 'residence'">
-                    <h4>{{ language.add_beneficiary_res_address }}</h4>
-                    <mat-form-field>
-                      <input matInput placeholder="{{language.add_beneficiary_getAddressNumber | uppercaseFirst}}" formControlName="currentAddressNumber" required>
-                      <app-hint-error [form]="mainForm" fieldName="currentAddressNumber" [field]="household.fields.addressNumber" [isMatField]="true"></app-hint-error>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <input matInput placeholder="{{language.add_beneficiary_getAddressStreet | uppercaseFirst}}" formControlName="currentAddressStreet" required>
-                      <app-hint-error [form]="mainForm" fieldName="currentAddressStreet" [field]="household.fields.addressStreet" [isMatField]="true"></app-hint-error>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <input matInput placeholder="{{language.add_beneficiary_getAddressPostcode | uppercaseFirst}}" formControlName="currentAddressPostcode" required>
-                      <app-hint-error [form]="mainForm" fieldName="currentAddressPostcode" [field]="household.fields.addressPostcode" [isMatField]="true"></app-hint-error>
-                    </mat-form-field>
+                    <ng-container *ngIf="mainForm.controls.currentType.value && mainForm.controls.currentType.value !== 'camp'">
+                      <h4>{{ language.household_location_address }}</h4>
+                      <mat-form-field>
+                        <input matInput placeholder="{{language.add_beneficiary_getAddressNumber | uppercaseFirst}}" formControlName="currentAddressNumber" required>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput placeholder="{{language.add_beneficiary_getAddressStreet | uppercaseFirst}}" formControlName="currentAddressStreet" required>
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input matInput placeholder="{{language.add_beneficiary_getAddressPostcode | uppercaseFirst}}" formControlName="currentAddressPostcode" required>
+                      </mat-form-field>
+                    </ng-container>
+                    <ng-container *ngIf="mainForm.controls.currentType.value && mainForm.controls.currentType.value === 'camp'">
+                      <h4>{{ language.household_location_address }}</h4>
+                      <mat-form-field>
+                        <input matInput placeholder="{{language.household_location_tent | uppercaseFirst}}" formControlName="currentTentNumber" required>
+                      </mat-form-field>
+                    </ng-container>
                   </div>
                   <div class="column-container">
                     <div class="income">

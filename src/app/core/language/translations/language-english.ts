@@ -162,6 +162,9 @@ export class English implements Language {
     beneficiary_error_country_code = 'Please select a country code for the phone number for '
     beneficiairy_error_birth_date = 'Please select a valid birth date for '
     beneficiairy_error_project = 'You must select at least one project'
+    beneficiary_error_camp = 'You must select a camp or create one'
+    beneficiary_error_tent = 'You must enter a tent number'
+    beneficiairy_error_location_type = 'You must select a location type'
 
     // Beneficiaries
     beneficiaries_add_distribution = 'Add beneficiaries to this distribution'

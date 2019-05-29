@@ -164,6 +164,9 @@ export class Arabic implements Language {
     beneficiary_error_country_code = ' يرجى اختيار رمز البلد لرقم الهاتف ل'
     beneficiairy_error_birth_date = ' يرجى تحديد تاريخ ميلاد صالح لـ'
     beneficiairy_error_project = 'يجب عليك اختيار مشروع واحد على الأقل'
+    beneficiary_error_camp = 'يجب عليك تحديد معسكر أو إنشاء معسكر'
+    beneficiary_error_tent = 'يجب إدخال رقم خيمة'
+    beneficiairy_error_location_type = 'يجب عليك تحديد نوع الموقع'
 
     // Beneficiaries
     beneficiaries_add_distribution= 'إضافة المستفيدين لهذا التوزيع'

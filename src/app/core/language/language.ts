@@ -147,6 +147,9 @@ export interface Language {
     beneficiary_error_country_code: string
     beneficiairy_error_birth_date: string
     beneficiairy_error_project: string
+    beneficiary_error_camp: string
+    beneficiary_error_tent: string
+    beneficiairy_error_location_type: string
 
     // Beneficiaries
     beneficiaries_add_distribution: string

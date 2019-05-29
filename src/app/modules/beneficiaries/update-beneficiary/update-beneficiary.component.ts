@@ -126,7 +126,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
                     .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
                 this.mainFields = [
-                    'currentAdm1', 'currentAdm2', 'currentAdm3', 'currentAdm4', 'currentAddressNumber',
+                    'currentAdm1', 'currentAdm2', 'currentAdm3', 'currentAdm4', 'currentAddressNumber', 'locationDifferent',
                     'currentAddressPostcode', 'currentAddressStreet', 'currentType', 'currentCamp', 'currentTentNumber',
                     'residentAdm1', 'residentAdm2', 'residentAdm3', 'residentAdm4', 'residentAddressNumber',
                     'residentAddressPostcode', 'residentAddressStreet', 'residentType', 'residentCamp', 'residentTentNumber',
@@ -231,6 +231,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         // const location = this.household.get('location');
         const householdLocations = this.household.get<HouseholdLocation[]>('householdLocations');
+
+        mainFormControls['locationDifferent'].setValue(householdLocations.length > 1 ? true : false);
 
         householdLocations.forEach((householdLocation: HouseholdLocation) => {
             const prefix = householdLocation.get('locationGroup') &&
@@ -557,14 +559,20 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         if (step === 1 || final) {
 
-            if (!this.mainForm.controls.adm1.value) {
+            if (!this.mainForm.controls.currentAdm1.value) {
                 message = this.language.beneficiary_error_location;
-            } else if (!this.mainForm.controls.addressNumber.value) {
+            } else if (!this.mainForm.controls.currentType.value) {
+                message = this.language.beneficiairy_error_location_type;
+            } else if (this.mainForm.controls.currentType.value !== 'camp' && !this.mainForm.controls.currentAddressNumber.value) {
                 message = this.language.beneficiairy_error_address_number;
-            } else if (!this.mainForm.controls.addressPostcode.value) {
-                message = this.language.beneficiary_error_address_postcode;
-            } else if (!this.mainForm.controls.addressStreet.value) {
+            } else if (this.mainForm.controls.currentType.value !== 'camp' && !this.mainForm.controls.currentAddressStreet.value) {
                 message = this.language.beneficiary_error_address_street;
+            } else if (this.mainForm.controls.currentType.value !== 'camp' && !this.mainForm.controls.currentAddressPostcode.value) {
+                message = this.language.beneficiary_error_address_postcode;
+            } else if (this.mainForm.controls.currentType.value === 'camp' && !this.mainForm.controls.currentCamp.value) {
+                message = this.language.beneficiary_error_camp;
+            } else if (this.mainForm.controls.currentType.value === 'camp' && !this.mainForm.controls.currentTentNumber.value) {
+                message = this.language.beneficiary_error_tent;
             } else {
                 this.validStep1 = true;
                 this.stepper.selected.completed = true;

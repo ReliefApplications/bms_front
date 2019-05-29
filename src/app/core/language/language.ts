@@ -205,7 +205,6 @@ export interface Language {
     commodity_wash: string
     commodity_agriculture: string
     commodity_rte: string
-    commodity_distribution: string
     commodity_shelter: string
     commodity_hygiene: string
     commodity_dignity: string

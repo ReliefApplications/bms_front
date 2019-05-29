@@ -223,7 +223,6 @@ export class French implements Language {
     commodity_wash = 'Kit d\'hygiène'
     commodity_agriculture = 'Kit d\'agriculture'
     commodity_rte = 'Kit RTE'
-    commodity_distribution = 'distribution sur place'
     commodity_shelter = 'Kit d\'abris'
     commodity_hygiene = 'kit d\'hygiène'
     commodity_dignity = 'kit de dignité'

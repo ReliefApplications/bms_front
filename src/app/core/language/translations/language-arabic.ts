@@ -223,7 +223,6 @@ export class Arabic implements Language {
     commodity_wash = 'غسل عدة'
     commodity_agriculture = 'مجموعة الزراعية'
     commodity_rte = 'RTE عدة'
-    commodity_distribution = 'على توزيع الموقع'
     commodity_shelter = 'مجموعة أدوات المأوى'
     commodity_hygiene = 'طقم النظافة'
     commodity_dignity = 'مجموعة الكرامة'

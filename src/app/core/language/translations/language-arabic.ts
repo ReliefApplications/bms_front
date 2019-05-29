@@ -188,7 +188,7 @@ export class Arabic implements Language {
     beneficiaries_import_conversion_success = 'التحويل بنجاح!'
     beneficiaries_import_error_importing= 'وقع خطأ عندالتحميل البيانات'
     beneficiaries_import_error_file = 'يجب عليك تحديد ملف'
-    beneficiaries_import_error_selection= 'You must to select at least one choice'
+    beneficiaries_import_error_selection= 'You must select at least one choice'
     beneficiaries_import_file= 'تحميل من ملف'
     beneficiaries_import_response= 'استعد لاستعادة الملف'
     beneficiaries_import_select_location= 'يجب تحديد الموقع وإضافة ملف قبل التحميل'
@@ -465,6 +465,7 @@ export class Arabic implements Language {
     model_user = 'المستخدم'
     model_unassigned = 'غير معين'
     model_password = 'كلمة المرور'
+    model_user_password_question = 'تحديث كلمة المرور عند تسجيل الدخول المقبل'
     model_value = 'القيمة'
     model_vendors_address = 'عنوان'
     model_transaction_state = 'الحالة'
@@ -491,6 +492,7 @@ export class Arabic implements Language {
     placeholder_one_many = 'اختر واحدة أو أكثر'
 
     // Profile
+    profile_change_password = 'تحتاج إلى تغيير كلمة المرور الخاصة بك'
     profile_user_change_password = 'تغيير كلمة المرور'
     profile_user_hint_new_password = 'كلمة المرور الجديدة'
     profile_user_hint_new_password_again = 'أعد إدخال كلمة المرور الجديدة'

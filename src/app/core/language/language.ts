@@ -447,6 +447,7 @@ export interface Language {
     model_used: string
     model_user: string
     model_password: string
+    model_user_password_question: string
     model_value: string
     modal_values_format_error: string
     model_vendors_address: string
@@ -473,6 +474,7 @@ export interface Language {
     placeholder_one_many: string
 
     // Profile
+    profile_change_password: string
     profile_user_change_password: string
     profile_user_hint_new_password: string
     profile_user_hint_new_password_again: string

@@ -465,6 +465,8 @@ export class English implements Language {
     model_used = 'Used'
     model_user = 'User'
     model_password = 'Password'
+    model_user_password_question = 'Update password on next login'
+
     model_value = 'Value'
     model_vendors_address = 'Address'
     model_vendor = 'Vendor'
@@ -490,6 +492,7 @@ export class English implements Language {
     placeholder_one_many = 'Select one or many'
 
     // Profile
+    profile_change_password = 'You need to change your password'
     profile_user_change_password = 'Change password'
     profile_user_hint_new_password = 'New password'
     profile_user_hint_new_password_again = 'Re-enter new password'

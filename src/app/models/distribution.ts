@@ -242,17 +242,9 @@ export class Distribution extends CustomModel {
             distributionFromApi.selection_criteria.map((criteria: any) => Criteria.apiToModel(criteria)) :
             []);
 
-        newDistribution.set('finished', true);
+        newDistribution.set('finished', distributionFromApi.completed);
 
         if (distributionFromApi.distribution_beneficiaries) {
-            distributionFromApi.distribution_beneficiaries.forEach(benef => {
-                if (benef.transactions.length === 0) {
-                    newDistribution.set('finished', false);
-                } else if (benef.transactions && benef.transactions[0].transaction_status !== 1) {
-                    newDistribution.set('finished', false);
-                }
-            });
-
             newDistribution.set('distributionBeneficiaries',
                 distributionFromApi.distribution_beneficiaries
                     .map((distributionBeneficiary: any) =>

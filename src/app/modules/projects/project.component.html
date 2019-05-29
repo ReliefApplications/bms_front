@@ -105,9 +105,11 @@
                         *ngIf="currentDisplayType.type !== 'mobile'" [validatable]="true"
                         [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')"
                         [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
-                        [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" 
+                        [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
-                        (openModal)="openDialog($event)" [duplicable]="true" (duplicateOne)="duplicate($event)"
+                        [duplicable]="true" (duplicateOne)="duplicate($event)"
+                        [completable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (completeOne)="complete($event)"
+                        (openModal)="openDialog($event)"
                     ></app-table>
                     <app-table-mobile
                         [isLoading]="loadingDistributions"
@@ -116,7 +118,9 @@
                         [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
-                        (openModal)="openDialog($event)" [duplicable]="true" (duplicateOne)="duplicate($event)"
+                        [duplicable]="true" (duplicateOne)="duplicate($event)"
+                        [completable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (completeOne)="complete($event)"
+                        (openModal)="openDialog($event)"
                     ></app-table-mobile>
                 </div>
                 <div class='no-data-container' *ngIf="noNetworkData">

@@ -34,6 +34,11 @@ export class DistributionService extends CustomModelService {
         return this.http.post(url, '');
     }
 
+    public complete(distributionId) {
+        const url = this.apiBase + '/distributions/complete/' + distributionId;
+        return this.http.post(url, '');
+    }
+
     public getOne(id: number) {
         const url = this.apiBase + '/distributions/' + id;
         return this.http.get(url);

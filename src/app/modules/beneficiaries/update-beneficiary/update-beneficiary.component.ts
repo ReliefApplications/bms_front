@@ -19,7 +19,7 @@ import { Phone, PhoneType } from 'src/app/models/phone';
 import { Profile } from 'src/app/models/profile';
 import { Project } from 'src/app/models/project';
 import { VulnerabilityCriteria } from 'src/app/models/vulnerability-criteria';
-import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
+import { ModalConfirmationComponent } from '../../../components/modals/modal-confirmation/modal-confirmation.component';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
 import { CriteriaService } from '../../../core/api/criteria.service';
@@ -641,7 +641,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (this.checkIfFormHasBeenModified() && !this.validationLoading) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+            const dialogRef = this.dialog.open(ModalConfirmationComponent, {
+                data: {
+                    title: this.language.modal_leave,
+                    sentence: this.language.modal_leave_sentence,
+                    ok: this.language.modal_leave
+                }
+            });
 
             return dialogRef.afterClosed();
         } else {

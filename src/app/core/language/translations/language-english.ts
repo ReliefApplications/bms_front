@@ -17,6 +17,7 @@ export class English implements Language {
     cancel = 'Cancel'
     characters = 'Characters'
     close = 'Close'
+    complete = 'Complete'
     create = 'Create'
     delete = 'Delete'
     details = 'Details'
@@ -238,6 +239,8 @@ export class English implements Language {
     dashboard_summary_2 = 'active projects'
     dashboard_summary_3 = 'enrolled beneficiaries'
     dashboard_summary_4 = 'total value transactions'
+    dashboard_summary_5 = 'served beneficiaries'
+    dashboard_summary_6 = 'completed distributions'
 
     // Data verification
     data_verification_chip_actual = 'Household targeted'
@@ -375,6 +378,7 @@ export class English implements Language {
     modal_add_multiple_title = 'Create multiple new'
     modal_check_date = 'Invalid fields = Your start date cannot be older than the end date'
     modal_check_fields = 'Invalid fields = check you filled every field'
+    modal_complete_distribution = 'Are you sure you want to manually complete this distribution ?'
     modal_delete_sentence = 'You are about to delete '
     modal_details_title = 'Details of this'
     modal_edit_title = 'Edit this'

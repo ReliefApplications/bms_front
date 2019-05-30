@@ -7,6 +7,7 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { CURRENCIES } from 'src/app/models/constants/currencies';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Commodity } from 'src/app/models/commodity';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 
 
 @Component({
@@ -32,7 +33,8 @@ export class ModalAddCommodityComponent implements OnInit {
         public modalReference: MatDialogRef<any>,
         public fieldService: FieldService,
         public languageService: LanguageService,
-        public asyncacheService: AsyncacheService
+        public asyncacheService: AsyncacheService,
+        private countryService: CountriesService,
     ) {}
 
     ngOnInit() {
@@ -40,13 +42,14 @@ export class ModalAddCommodityComponent implements OnInit {
         this.fields = Object.keys(this.commodity.fields);
         this.makeForm();
         this.loadModalities();
-        this.asyncacheService.get(AsyncacheService.COUNTRY).subscribe((country) => {
-            if (country === 'SYR') {
-                this.localCurrency = 'SYP';
-            } else if (country === 'KHM') {
-                this.localCurrency = 'KHR';
-            }
-        });
+        const countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
+            this.countryService.selectedCountry.getValue().get<string>('id') :
+            null;
+        if (countryId === 'SYR') {
+            this.localCurrency = 'SYP';
+        } else if (countryId === 'KHM') {
+            this.localCurrency = 'KHR';
+        }
     }
 
     makeForm() {

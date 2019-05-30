@@ -5,7 +5,7 @@ import { ObjectModelField } from './custom-models/object-model-field';
 import { Address } from './address';
 import { CampAddress } from './camp-address';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
-
+import { Location } from './location';
 export class HouseholdLocationGroup extends CustomModel {
 
     public fields = {
@@ -86,7 +86,7 @@ export class HouseholdLocation extends CustomModel {
             newHouseholdLocation.getOptions('type')
                 .filter((option: HouseholdLocationType) => option.get('id') === householdLocationFromApi.type)[0]
             : null);
-        newHouseholdLocation.set('type', householdLocationFromApi.type);
+
         newHouseholdLocation.set('address', householdLocationFromApi.address ? Address.apiToModel(householdLocationFromApi.address) : null);
         newHouseholdLocation.set('campAddress', householdLocationFromApi.camp_address ?
             CampAddress.apiToModel(householdLocationFromApi.camp_address) : null);
@@ -103,5 +103,11 @@ export class HouseholdLocation extends CustomModel {
             camp_address: this.get('campAddress') ? this.get('campAddress').modelToApi() : null,
 
         };
+    }
+
+    getHouseholdLocationName() {
+        const location = this.get('address') ? this.get('address').get<Location>('location') :
+            this.get('campAddress').get('camp').get<Location>('location');
+        return location.getLocationName();
     }
 }

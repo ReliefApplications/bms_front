@@ -184,7 +184,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         const residentLocation = new HouseholdLocation();
                         residentLocation.set('locationGroup',
                             new HouseholdLocationGroup('resident', this.language.household_location_resident_address));
-                        this.household.set('householdLocations', [currentLocation, residentLocation]);
+                        this.household.set('currentHouseholdLocation', currentLocation);
+                        this.household.set('residentHouseholdLocation', residentLocation);
                         this.household.set('beneficiaries', [this.createNewBeneficiary()]);
                         this.getCountrySpecifics().subscribe(() => {
                             resolve();
@@ -244,7 +245,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.mainForm = new FormGroup(mainFormControls);
 
         // const location = this.household.get('location');
-        const householdLocations = this.household.get<HouseholdLocation[]>('householdLocations');
+        const householdLocations = [this.household.get<HouseholdLocation>('currentHouseholdLocation')];
+        if (this.household.get<HouseholdLocation>('residentHouseholdLocation')) {
+            householdLocations.push(this.household.get<HouseholdLocation>('residentHouseholdLocation'));
+        }
 
         mainFormControls['locationDifferent'].setValue(householdLocations.length > 1 ? true : false);
 
@@ -435,67 +439,67 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
 
         const locationGroups = ['current', 'resident'];
 
-        const householdLocations = [];
-
         locationGroups.forEach((locationGroup: string) => {
-            const locationType = this.mainForm.controls[locationGroup + 'Type'].value;
-            const location = this.locations[locationGroup];
-            const adms = ['1', '2', '3', '4'];
+            if (locationGroup === 'current' || this.mainForm.controls.locationDifferent.value) {
 
-            adms.forEach(index => {
-                if (this.mainForm.controls[locationGroup + 'Adm' + index].value) {
-                    location.set('adm' + index,
-                        location.getOptions('adm' + index).filter((option: Adm) => {
-                            return option.get('id') === this.mainForm.controls[locationGroup + 'Adm' + index].value;
-                        })[0]);
-                } else {
-                    location.set('adm' + index, null);
-                }
-            });
+                const locationType = this.mainForm.controls[locationGroup + 'Type'].value;
+                const location = this.locations[locationGroup];
+                const adms = ['1', '2', '3', '4'];
 
-            // Never worked : asynchronous !!
-            this._cacheService.get('country')
-                .subscribe(
-                    result => {
-                        location.set('countryIso3', result);
+                adms.forEach(index => {
+                    if (this.mainForm.controls[locationGroup + 'Adm' + index].value) {
+                        location.set('adm' + index,
+                            location.getOptions('adm' + index).filter((option: Adm) => {
+                                return option.get('id') === this.mainForm.controls[locationGroup + 'Adm' + index].value;
+                            })[0]);
+                    } else {
+                        location.set('adm' + index, null);
                     }
-                );
+                });
 
-            const householdLocation = new HouseholdLocation();
-            householdLocation.set('locationGroup', householdLocation.getOptions('locationGroup')
-                .filter((option: HouseholdLocationGroup) => option.get<string>('id') === locationGroup)[0]);
+                // Never worked : asynchronous !!
+                this._cacheService.get('country')
+                    .subscribe(
+                        result => {
+                            location.set('countryIso3', result);
+                        }
+                    );
 
-            householdLocation.set('type', householdLocation.getOptions('type')
-                .filter((option: HouseholdLocationType) =>
-                    option.get<string>('id') === this.mainForm.controls[locationGroup + 'Type'].value)[0]);
+                const householdLocation = new HouseholdLocation();
+                householdLocation.set('locationGroup', householdLocation.getOptions('locationGroup')
+                    .filter((option: HouseholdLocationGroup) => option.get<string>('id') === locationGroup)[0]);
 
-            if (locationType !== 'camp') {
-                const address = new Address();
-                address.set('number', this.mainForm.controls[locationGroup + 'AddressNumber'].value);
-                address.set('street', this.mainForm.controls[locationGroup + 'AddressStreet'].value);
-                address.set('postcode', this.mainForm.controls[locationGroup + 'AddressPostcode'].value);
-                address.set('location', location);
-                householdLocation.set('address', address);
-            } else if (locationType === 'camp') {
-                const campAddress = new CampAddress();
-                let camp = new Camp();
-                if (this.mainForm.controls[locationGroup + 'CreateCamp'].value) {
-                    camp.set('name', this.mainForm.controls[locationGroup + 'NewCamp'].value);
-                } else {
-                    camp = this.campLists[locationGroup]
-                    .filter((campFromList: Camp) =>
-                        campFromList.get<string>('id') === this.mainForm.controls[locationGroup + 'Camp'].value)[0];
+                householdLocation.set('type', householdLocation.getOptions('type')
+                    .filter((option: HouseholdLocationType) =>
+                        option.get<string>('id') === this.mainForm.controls[locationGroup + 'Type'].value)[0]);
+
+                if (locationType !== 'camp') {
+                    const address = new Address();
+                    address.set('number', this.mainForm.controls[locationGroup + 'AddressNumber'].value);
+                    address.set('street', this.mainForm.controls[locationGroup + 'AddressStreet'].value);
+                    address.set('postcode', this.mainForm.controls[locationGroup + 'AddressPostcode'].value);
+                    address.set('location', location);
+                    householdLocation.set('address', address);
+                } else if (locationType === 'camp') {
+                    const campAddress = new CampAddress();
+                    let camp = new Camp();
+                    if (this.mainForm.controls[locationGroup + 'CreateCamp'].value) {
+                        camp.set('name', this.mainForm.controls[locationGroup + 'NewCamp'].value);
+                    } else {
+                        camp = this.campLists[locationGroup]
+                        .filter((campFromList: Camp) =>
+                            campFromList.get<string>('id') === this.mainForm.controls[locationGroup + 'Camp'].value)[0];
+                    }
+                    camp.set('location', location);
+                    campAddress.set('tentNumber', this.mainForm.controls[locationGroup + 'TentNumber'].value);
+                    campAddress.set('camp', camp);
+                    householdLocation.set('campAddress', campAddress);
                 }
-                camp.set('location', location);
-                campAddress.set('tentNumber', this.mainForm.controls[locationGroup + 'TentNumber'].value);
-                campAddress.set('camp', camp);
-                householdLocation.set('campAddress', campAddress);
+                this.household.set(locationGroup + 'HouseholdLocation', householdLocation);
             }
-            householdLocations.push(householdLocation);
         });
 
 
-        this.household.set('householdLocations', householdLocations);
         this.household.set('livelihood', this.getLivelihood());
         this.household.set('notes', this.mainForm.controls.notes.value);
         this.household.set('incomeLevel', this.mainForm.controls.incomeLevel.value);

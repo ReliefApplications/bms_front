@@ -25,7 +25,7 @@
                   <app-location-form
                     [locations]="locations"
                     [form]="mainForm"
-                    [householdLocationTypes]="household.get('householdLocations')[0].getOptions('type')"
+                    [householdLocationTypes]="household.get('currentHouseholdLocation').getOptions('type')"
                     [campLists]="campLists"
                     (changeAdm)="changeAdm($event)"
                     locationGroup="current"
@@ -39,7 +39,7 @@
                     *ngIf="mainForm.controls.locationDifferent.value"
                     [locations]="locations"
                     [form]="mainForm"
-                    [householdLocationTypes]="household.get('householdLocations')[0].getOptions('type')"
+                    [householdLocationTypes]="household.get('currentHouseholdLocation').getOptions('type')"
                     [campLists]="campLists"
                     (changeAdm)="changeAdm($event)"
                     locationGroup="resident"

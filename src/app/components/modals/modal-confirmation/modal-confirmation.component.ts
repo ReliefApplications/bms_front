@@ -1,26 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { LanguageService } from 'src/app/core/language/language.service';
 
 @Component({
-    selector: 'app-modal-leave',
-    templateUrl: './modal-leave.component.html',
-    styleUrls: ['../modal.component.scss', './modal-leave.component.scss']
+    selector: 'app-modal-confirmation',
+    templateUrl: './modal-confirmation.component.html',
+    styleUrls: ['../modal.component.scss', './modal-confirmation.component.scss']
 })
-export class ModalLeaveComponent implements OnInit {
+export class ModalConfirmationComponent implements OnInit {
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
-        private dialogs: MatDialogRef<ModalLeaveComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private dialogs: MatDialogRef<ModalConfirmationComponent>,
         public languageService: LanguageService,
     ) { }
 
     ngOnInit() {
     }
 
-    leave() {
+    accept() {
         // this.choice.emit('true');
         this.dialogs.close(true);
     }

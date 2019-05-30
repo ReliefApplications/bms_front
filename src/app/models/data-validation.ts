@@ -98,10 +98,10 @@ export class FormatDataNewOld {
                 if (beneficiary.status) {
                     data.old.isHead = true;
                 }
-                oldBeneficiary = element.old.id + beneficiary.family_name + beneficiary.given_name;
+                oldBeneficiary = element.old.id + beneficiary.local_family_name + beneficiary.local_given_name;
             });
             element.new.beneficiaries.forEach(beneficiary => {
-                newBeneficiary = beneficiary.family_name + beneficiary.given_name;
+                newBeneficiary = beneficiary.local_family_name + beneficiary.local_given_name;
             });
 
             // concat oldBeneficiary and newBeneficiary created earlier to get an unique identifiant for every beneficiary
@@ -112,18 +112,18 @@ export class FormatDataNewOld {
             element.new.beneficiaries.forEach(beneficiary => {
                 if (beneficiary.status === '1') {
                     // get the full name of head of household
-                    data.new.nameHead = beneficiary.family_name + ' ' + beneficiary.given_name;
+                    data.new.nameHead = beneficiary.local_family_name + ' ' + beneficiary.local_given_name;
                 }
                 // create an unique identifiant
-                beneficiary.id_tmp = element.old.id + beneficiary.family_name + beneficiary.given_name;
+                beneficiary.id_tmp = element.old.id + beneficiary.local_family_name + beneficiary.local_given_name;
             });
             element.old.beneficiaries.forEach(beneficiary => {
                 if (beneficiary.status === '1') {
                     // get the full name of head of household
-                    data.old.nameHead = beneficiary.family_name + ' ' + beneficiary.given_name;
+                    data.old.nameHead = beneficiary.local_family_name + ' ' + beneficiary.local_given_name;
                 }
                 // create an unique identifiant
-                beneficiary.id_tmp = element.old.id + beneficiary.family_name + beneficiary.given_name;
+                beneficiary.id_tmp = element.old.id + beneficiary.local_family_name + beneficiary.local_given_name;
             });
         }
         return data;
@@ -159,7 +159,7 @@ export class VerifiedData {
      */
     index?: number;
     /**
-     * object containing given_name and family_name of beneficiary to remove in case of duplicate
+     * object containing local_given_name and local_family_name of beneficiary to remove in case of duplicate
      * @type {any}
      */
     to_delete?: any;

@@ -55,7 +55,7 @@ export class BeneficiaryStatus extends CustomModel {
 
 export class Beneficiary extends CustomModel {
     title = this.language.beneficiary;
-    matSortActive = 'familyName';
+    matSortActive = 'localFamilyName';
     public fields = {
         id : new NumberModelField(
             {
@@ -63,7 +63,7 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInTable: true,
             },
         ),
-        givenName: new TextModelField(
+        localGivenName: new TextModelField(
             {
                 title: this.language.model_firstName,
                 placeholder: null,
@@ -72,14 +72,38 @@ export class Beneficiary extends CustomModel {
                 isRequired: true,
                 isSettable: true,
                 isLongText: false,
+                displayValue: '',
             }
         ),
-        familyName: new TextModelField(
+        localFamilyName: new TextModelField(
             {
                 title: this.language.model_familyName,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
+                isRequired: true,
+                isSettable: true,
+                isLongText: false,
+                displayValue: '',
+            }
+        ),
+        enGivenName: new TextModelField(
+            {
+                title: this.language.add_beneficiary_getEnglishGivenName,
+                placeholder: null,
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
+                isRequired: true,
+                isSettable: true,
+                isLongText: false,
+            }
+        ),
+        enFamilyName: new TextModelField(
+            {
+                title: this.language.add_beneficiary_getEnglishFamilyName,
+                placeholder: null,
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
                 isRequired: true,
                 isSettable: true,
                 isLongText: false,
@@ -179,7 +203,7 @@ export class Beneficiary extends CustomModel {
                 value: []
             }
         ),
-        fullName: new TextModelField(
+        localFullName: new TextModelField(
             {
                 title: this.language.model_donor_fullname,
                 placeholder: null,
@@ -203,15 +227,23 @@ export class Beneficiary extends CustomModel {
         const newBeneficiary = new Beneficiary();
 
         newBeneficiary.set('id', beneficiaryFromApi.id);
-        newBeneficiary.set('givenName', beneficiaryFromApi.given_name);
-        newBeneficiary.set('familyName', beneficiaryFromApi.family_name);
+        newBeneficiary.set('localGivenName', beneficiaryFromApi.local_given_name);
+        newBeneficiary.set('localFamilyName', beneficiaryFromApi.local_family_name);
+        newBeneficiary.set('enGivenName', beneficiaryFromApi.en_given_name);
+        newBeneficiary.set('enFamilyName', beneficiaryFromApi.en_family_name);
+        newBeneficiary.fields.localFamilyName.displayValue = beneficiaryFromApi.en_family_name ?
+            beneficiaryFromApi.local_family_name + ' (' + beneficiaryFromApi.en_family_name + ')' :
+            beneficiaryFromApi.local_family_name;
+        newBeneficiary.fields.localGivenName.displayValue = beneficiaryFromApi.en_given_name ?
+            beneficiaryFromApi.local_given_name + ' (' + beneficiaryFromApi.en_given_name + ')' :
+            beneficiaryFromApi.local_given_name;
         newBeneficiary.set('dateOfBirth', DateModelField.formatFromApi(beneficiaryFromApi.date_of_birth));
         const status = beneficiaryFromApi.status ? '1' : '0';
         newBeneficiary.set('beneficiaryStatus', newBeneficiary.getOptions('beneficiaryStatus')
                 .filter((option: BeneficiaryStatus) => option.get<string>('id') === status)[0]);
-        newBeneficiary.set('fullName',
-        (beneficiaryFromApi.given_name ? beneficiaryFromApi.given_name : '') + ' ' +
-        (beneficiaryFromApi.family_name ? beneficiaryFromApi.family_name : ''));
+        newBeneficiary.set('localFullName',
+        (beneficiaryFromApi.local_given_name ? beneficiaryFromApi.local_given_name : '') + ' ' +
+        (beneficiaryFromApi.local_family_name ? beneficiaryFromApi.local_family_name : ''));
 
         newBeneficiary.set('residencyStatus',
             beneficiaryFromApi.residency_status ?
@@ -260,8 +292,10 @@ export class Beneficiary extends CustomModel {
     public modelToApi(): Object {
         return {
             id: this.fields.id.formatForApi(),
-            given_name: this.fields.givenName.formatForApi(),
-            family_name: this.fields.familyName.formatForApi(),
+            local_given_name: this.fields.localGivenName.formatForApi(),
+            local_family_name: this.fields.localFamilyName.formatForApi(),
+            en_given_name: this.fields.enGivenName.formatForApi(),
+            en_family_name: this.fields.enFamilyName.formatForApi(),
             gender: this.fields.gender.formatForApi(),
             date_of_birth: this.fields.dateOfBirth.formatForApi(),
             residency_status: this.fields.residencyStatus.formatForApi(),
@@ -299,7 +333,7 @@ export class Beneficiary extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.get('givenName') + ' ' + this.get('familyName');
+        return this.get('localGivenName') + ' ' + this.get('localFamilyName');
     }
 }
 

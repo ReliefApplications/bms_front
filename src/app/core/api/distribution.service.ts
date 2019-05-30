@@ -15,6 +15,8 @@ import { NetworkService } from '../network/network.service';
 export class DistributionService extends CustomModelService {
     customModelPath = 'distributions';
 
+    distributionToDuplicate: Distribution;
+
     constructor(
         protected http: HttpService,
         protected exportService: ExportService,
@@ -29,6 +31,11 @@ export class DistributionService extends CustomModelService {
 
     public delete(distributionId) {
         const url = this.apiBase + '/distributions/archive/' + distributionId;
+        return this.http.post(url, '');
+    }
+
+    public complete(distributionId) {
+        const url = this.apiBase + '/distributions/complete/' + distributionId;
         return this.http.post(url, '');
     }
 

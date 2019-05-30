@@ -39,8 +39,8 @@ export class GeneralRelief extends CustomModel {
 
 export class TransactionGeneralRelief extends DistributionBeneficiary {
 
+    matSortActive = 'localFamilyName';
     title = this.language.model_item;
-    matSortActive = 'familyName';
 
     public fields = {
         id: new NumberModelField({
@@ -55,19 +55,33 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
         beneficiary: new ObjectModelField<Beneficiary>({
                 value: []
         }),
-        givenName: new NestedFieldModelField({
+        localGivenName: new NestedFieldModelField({
             title: this.language.model_firstName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'givenName'
+            childrenFieldName: 'localGivenName'
         }),
-        familyName: new NestedFieldModelField({
+        localFamilyName: new NestedFieldModelField({
             title: this.language.model_familyName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'familyName'
+            childrenFieldName: 'localFamilyName'
+        }),
+        enGivenName: new NestedFieldModelField({
+            title: this.language.add_beneficiary_getEnglishGivenName,
+            isDisplayedInTable: false,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enGivenName'
+        }),
+        enFamilyName: new NestedFieldModelField({
+            title: this.language.add_beneficiary_getEnglishFamilyName,
+            isDisplayedInTable: false,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enFamilyName'
         }),
         generalReliefs: new MultipleObjectsModelField<GeneralRelief>({
 
@@ -116,8 +130,10 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
 
         return {
             id: this.get('id'),
-            given_name: this.get('givenName'),
-            family_name: this.get('familyName'),
+            local_given_name: this.get('localGivenName'),
+            local_family_name: this.get('localFamilyName'),
+            en_given_name: this.get('enGivenName'),
+            en_family_name: this.get('enFamilyName'),
             used: this.fields.distributedAt.formatForApi(),
             values: this.get('values'),
             notes: this.get('notes'),

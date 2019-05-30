@@ -19,7 +19,7 @@ import { Phone, PhoneType } from 'src/app/models/phone';
 import { Profile } from 'src/app/models/profile';
 import { Project } from 'src/app/models/project';
 import { VulnerabilityCriteria } from 'src/app/models/vulnerability-criteria';
-import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
+import { ModalConfirmationComponent } from '../../../components/modals/modal-confirmation/modal-confirmation.component';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
 import { CriteriaService } from '../../../core/api/criteria.service';
@@ -73,7 +73,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     validStep3 = false;
 
     // Table
-    public tableColumns: string[] = ['givenName', 'familyName', 'gender', 'dateOfBirth', 'phone', 'nationalId'];
+    public tableColumns: string[] = ['localGivenName', 'localFamilyName', 'gender', 'dateOfBirth', 'phone', 'nationalId'];
     public tableData: MatTableDataSource<any>;
 
     // Edit watcher
@@ -118,15 +118,16 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             this.getVulnerabilityCriteria().subscribe(() => {
                 const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
                     .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
-                this.mainFields = [
-                    'adm1', 'adm2', 'adm3', 'adm4', 'addressNumber', 'addressPostcode', 'addressStreet', 'livelihood', 'notes', 'projects'];
+                this.mainFields = ['adm1', 'adm2', 'adm3', 'adm4', 'addressNumber', 'addressPostcode', 'addressStreet',
+                    'incomeLevel', 'livelihood', 'notes', 'projects'];
                 this.mainFields = this.mainFields.concat(countrySpecificNames);
 
                 const vulnerabilityCriteriaNames = this.vulnerabilityList.map((vulnerability: VulnerabilityCriteria) => {
                     return vulnerability.get<string>('name');
                 });
                 this.beneficiaryFields = [
-                    'id', 'familyName', 'givenName', 'gender', 'dateOfBirth', 'IDType', 'IDNumber', 'residencyStatus',
+                    'id', 'localGivenName', 'localFamilyName', 'enGivenName', 'enFamilyName',
+                    'gender', 'dateOfBirth', 'IDType', 'IDNumber', 'residencyStatus',
                     'phoneType0', 'phoneNumber0', 'phonePrefix0', 'phoneProxy0',
                     'phoneType1', 'phoneNumber1', 'phonePrefix1', 'phoneProxy1'];
                 this.beneficiaryFields = this.beneficiaryFields.concat(vulnerabilityCriteriaNames);
@@ -267,12 +268,19 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     beneficiary.get(fieldName) ? beneficiary.get(fieldName) : null,
                 );
             }
-            if ( beneficiaryFormControls['familyName'] &&
-                !beneficiaryFormControls['familyName'].value &&
+            if ( beneficiaryFormControls['localFamilyName'] &&
+                !beneficiaryFormControls['localFamilyName'].value &&
                 this.beneficiariesForm[0] &&
-                this.beneficiariesForm[0].controls['familyName'].value
+                this.beneficiariesForm[0].controls['localFamilyName'].value
             ) {
-                beneficiaryFormControls['familyName'].setValue(this.beneficiariesForm[0].controls['familyName'].value);
+                beneficiaryFormControls['localFamilyName'].setValue(this.beneficiariesForm[0].controls['localFamilyName'].value);
+            }
+            if ( beneficiaryFormControls['enFamilyName'] &&
+                !beneficiaryFormControls['enFamilyName'].value &&
+                this.beneficiariesForm[0] &&
+                this.beneficiariesForm[0].controls['enFamilyName'].value
+            ) {
+                beneficiaryFormControls['enFamilyName'].setValue(this.beneficiariesForm[0].controls['enFamilyName'].value);
             }
         });
 
@@ -374,6 +382,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         this.household.set('addressPostcode', this.mainForm.controls.addressPostcode.value),
         this.household.set('livelihood', this.getLivelihood());
         this.household.set('notes', this.mainForm.controls.notes.value);
+        this.household.set('incomeLevel', this.mainForm.controls.incomeLevel.value);
 
         this.household.set(
             'projects',
@@ -421,8 +430,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                 beneficiary = this.createNewBeneficiary();
             }
 
-            beneficiary.set('familyName', form.controls.familyName.value);
-            beneficiary.set('givenName', form.controls.givenName.value);
+            beneficiary.set('localFamilyName', form.controls.localFamilyName.value);
+            beneficiary.set('localGivenName', form.controls.localGivenName.value);
+            beneficiary.set('enFamilyName', form.controls.enFamilyName.value);
+            beneficiary.set('enGivenName', form.controls.enGivenName.value);
             beneficiary.set('dateOfBirth', form.controls.dateOfBirth.value);
             beneficiary.set('beneficiaryStatus', index === 0 ?
                 beneficiary.getOptions('beneficiaryStatus')[1] : // Head
@@ -581,9 +592,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             this.language.beneficiairy_error_head :
             this.language.the + ' ' + formIndex + this.getNumberSuffix(formIndex) + this.language.beneficiary_error_member;
 
-        if (!beneficiary.familyName.value) {
+        if (!beneficiary.localFamilyName.value) {
             message = this.language.beneficiary_error_family_name + beneficiaryName;
-        } else if (!beneficiary.givenName.value) {
+        } else if (!beneficiary.localGivenName.value) {
             message = this.language.beneficiary_error_given_name + beneficiaryName;
         } else if (beneficiary.gender.value === null) {
             message = this.language.beneficiairy_error_gender + beneficiaryName;
@@ -630,7 +641,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (this.checkIfFormHasBeenModified() && !this.validationLoading) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+            const dialogRef = this.dialog.open(ModalConfirmationComponent, {
+                data: {
+                    title: this.language.modal_leave,
+                    sentence: this.language.modal_leave_sentence,
+                    ok: this.language.modal_leave
+                }
+            });
 
             return dialogRef.afterClosed();
         } else {

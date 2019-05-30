@@ -6,9 +6,8 @@ import { Observable } from 'rxjs';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { Household } from 'src/app/models/household';
-import { ModalLeaveComponent } from '../../../components/modals/modal-leave/modal-leave.component';
 import { ImportService } from '../../../core/api/beneficiaries-import.service';
-
+import { ModalConfirmationComponent } from '../../../components/modals/modal-confirmation/modal-confirmation.component';
 
 enum Step {
     Import = 1,
@@ -405,7 +404,13 @@ export class DataValidationComponent implements OnInit {
         if (this.currentStep === Step.Completed) {
             return true;
         }
-        const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+        const dialogRef = this.dialog.open(ModalConfirmationComponent, {
+            data: {
+                title: this.language.modal_leave,
+                sentence: this.language.modal_leave_sentence,
+                ok: this.language.modal_leave
+            }
+        });
 
         return dialogRef.afterClosed();
     }

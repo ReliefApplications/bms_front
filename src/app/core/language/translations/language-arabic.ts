@@ -1,5 +1,6 @@
 import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
+import { INCOMELEVELS } from '../../../models/constants/income-levels';
 
 /* tslint:disable */
 export class Arabic implements Language {
@@ -16,6 +17,7 @@ export class Arabic implements Language {
     beneficiary = 'المستفيد'
     cancel = 'إلغاء'
     close = 'إغلاق'
+    complete = 'اكتمال'
     characters = 'حرف'
     create = 'إنشاء'
     delete = 'حذف'
@@ -94,12 +96,17 @@ export class Arabic implements Language {
     add_beneficiary_getAddressPostcode = 'عنوان البريدي'
     add_beneficiary_getAddressStreet = 'اسم الشارع '
     add_beneficiary_getDateOfBirth = 'تاريخ الميلاد'
-    add_beneficiary_getFamilyName = 'اللقب'
-    add_beneficiary_getGivenName = 'الاسم'
+    add_beneficiary_getFamilyName = 'اسم العائلة المحلية'
+    add_beneficiary_getGivenName = 'الاسم المحلي المعطى'
+    add_beneficiary_getEnglishFamilyName = 'اسم العائلة الانجليزية'
+    add_beneficiary_getEnglishGivenName = 'الاسم باللغة الإنجليزية'
     add_beneficiary_getNationalID = 'رقم الهوية الوطنية'
     add_beneficiary_getOccupation = 'الوظيفة'
     add_beneficiary_getTypeNationalId = 'نوع الهوية الوطنية'
     add_beneficiary_getTypePhone = 'نوع'
+    add_beneficiary_income = 'مستوى الدخل'
+    add_beneficiary_income_level = INCOMELEVELS.ar
+    add_beneficiary_nationalID = 'الهوية الوطنية'
     add_beneficiary_res_address = 'عنوان الإقامة'
     add_beneficiary_step1 = 'معلومات'
     add_beneficiary_step2 = 'رب العائلة'
@@ -150,8 +157,8 @@ export class Arabic implements Language {
     beneficiary_error_address_street = 'يجب عليك إدخال شارع العنوان'
     beneficiairy_error_head = 'رب الأسرة'
     beneficiary_error_member = ' عضو'
-    beneficiary_error_family_name = ' يجب إدخال اسم العائلة ل'
-    beneficiary_error_given_name = ' يجب إدخال اسم معين لـ'
+    beneficiary_error_family_name = ' يجب إدخال اسم عائلة محلي لـ'
+    beneficiary_error_given_name = ' يجب إدخال اسم محلي معين لـ'
     beneficiairy_error_gender = ' يجب عليك إدخال الجنس من أجل'
     beneficiary_error_phone = ' يمكن أن يتكون الهاتف فقط من أرقام لـ'
     beneficiary_error_existing_country_code = ' يرجى اختيار رمز البلد الحالي من القائمة ل'
@@ -166,6 +173,8 @@ export class Arabic implements Language {
     beneficiaries_added= 'تم إضافة المستفيدين الى المشروع'
     beneficiaries_advanced_research= 'بحث متقدم'
     beneficiaries_clear_all_research= 'امسح الكل'
+    beneficiaries_english_name = 'اسم الانجليزية'
+    beneficiaries_local_name = 'الاسم المحلي'
     beneficiaries_full_address= 'عنوان المنزل بالكامل:'
     beneficiaries_household_info= 'ملخص المعلومات الخاصة بالمنزل  :'
     beneficiaries_head= 'رب الأسرة'
@@ -180,7 +189,7 @@ export class Arabic implements Language {
     beneficiaries_import_conversion_success = 'التحويل بنجاح!'
     beneficiaries_import_error_importing= 'وقع خطأ عندالتحميل البيانات'
     beneficiaries_import_error_file = 'يجب عليك تحديد ملف'
-    beneficiaries_import_error_selection= 'You must to select at least one choice'
+    beneficiaries_import_error_selection= 'You must select at least one choice'
     beneficiaries_import_file= 'تحميل من ملف'
     beneficiaries_import_response= 'استعد لاستعادة الملف'
     beneficiaries_import_select_location= 'يجب تحديد الموقع وإضافة ملف قبل التحميل'
@@ -215,7 +224,6 @@ export class Arabic implements Language {
     commodity_wash = 'غسل عدة'
     commodity_agriculture = 'مجموعة الزراعية'
     commodity_rte = 'RTE عدة'
-    commodity_distribution = 'على توزيع الموقع'
     commodity_shelter = 'مجموعة أدوات المأوى'
     commodity_hygiene = 'طقم النظافة'
     commodity_dignity = 'مجموعة الكرامة'
@@ -232,6 +240,8 @@ export class Arabic implements Language {
     dashboard_summary_2 = 'المشاريع الناشطة'
     dashboard_summary_3 = 'المستفيدين المسجلين'
     dashboard_summary_4 = ' القيمة الإجمالية للمعملات'
+    dashboard_summary_5 = 'المستفيدين خدم'
+    dashboard_summary_6 = 'توزيعات كاملة'
 
     // Data verification
     data_verification_chip_actual = 'المنزل المستهدف'
@@ -369,6 +379,7 @@ export class Arabic implements Language {
     modal_check_date = 'الحقول غير الصالح: لا يمكن أن يكون تاريخ الانتهاء  أقدم من تاريخ البدء'
     modal_check_fields = 'تحقق جيدا انك أدخلت جميع المعطيات'
     modal_delete_many = 'هذه العناصر'
+    modal_complete_distribution = 'هل تريد بالتأكيد إكمال هذا التوزيع يدويًا؟'
     modal_delete_sentence = 'أنت على وشك الحذف'
     modal_delete_sentence_2 = 'هل أنت متأكد'
     modal_details_title = 'تفاصيل هذا'
@@ -428,6 +439,7 @@ export class Arabic implements Language {
     model_donor = 'المانح'
     model_donor_fullname = 'اسم المانح'
     model_donor_shortname = 'الاسم المختصر'
+    model_duplicate = 'مكرر'
     model_familyName = 'اللقب'
     model_firstName = 'الاسم '
     model_household_sentence = 'الأسرة من'
@@ -458,6 +470,7 @@ export class Arabic implements Language {
     model_user = 'المستخدم'
     model_unassigned = 'غير معين'
     model_password = 'كلمة المرور'
+    model_user_password_question = 'تحديث كلمة المرور عند تسجيل الدخول المقبل'
     model_value = 'القيمة'
     model_vendors_address = 'عنوان'
     model_transaction_state = 'الحالة'
@@ -484,6 +497,7 @@ export class Arabic implements Language {
     placeholder_one_many = 'اختر واحدة أو أكثر'
 
     // Profile
+    profile_change_password = 'تحتاج إلى تغيير كلمة المرور الخاصة بك'
     profile_user_change_password = 'تغيير كلمة المرور'
     profile_user_hint_new_password = 'كلمة المرور الجديدة'
     profile_user_hint_new_password_again = 'أعد إدخال كلمة المرور الجديدة'

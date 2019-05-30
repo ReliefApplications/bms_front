@@ -7,7 +7,7 @@ import { DistributionBeneficiary } from './distribution-beneficiary';
 export class TransactionQRVoucher extends DistributionBeneficiary {
 
     title = this.language.beneficiary;
-    matSortActive = 'familyName';
+    matSortActive = 'localFamilyName';
 
     public fields = {
         // id: new NumberModelField({
@@ -19,19 +19,33 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
         booklet: new ObjectModelField<Booklet>({
 
         }),
-        givenName: new NestedFieldModelField({
+        localGivenName: new NestedFieldModelField({
             title: this.language.model_firstName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'givenName'
+            childrenFieldName: 'localGivenName'
         }),
-        familyName: new NestedFieldModelField({
+        localFamilyName: new NestedFieldModelField({
             title: this.language.model_familyName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'familyName'
+            childrenFieldName: 'localFamilyName'
+        }),
+        enGivenName: new NestedFieldModelField({
+            title: this.language.add_beneficiary_getEnglishGivenName,
+            isDisplayedInTable: false,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enGivenName'
+        }),
+        enFamilyName: new NestedFieldModelField({
+            title: this.language.add_beneficiary_getEnglishFamilyName,
+            isDisplayedInTable: false,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enFamilyName'
         }),
         bookletCode: new NestedFieldModelField({
             title: this.language.model_booklet,
@@ -79,8 +93,8 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
 
     public modelToApi(): Object {
         return {
-            given_name: this.get('benficiary').get('givenName'),
-            family_name: this.get('benficiary').get('familyName'),
+            local_given_name: this.get('beneficiary').get('localGivenName'),
+            local_family_name: this.get('beneficiary').get('localFamilyName'),
             booklet: this.get('booklet').modelToApi(),
         };
     }

@@ -1,5 +1,6 @@
 import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
+import { INCOMELEVELS } from '../../../models/constants/income-levels';
 /* tslint:disable */
 export class English implements Language {
     // GENERAL VARIABLES
@@ -17,6 +18,7 @@ export class English implements Language {
     cancel = 'Cancel'
     characters = 'Characters'
     close = 'Close'
+    complete = 'Complete'
     create = 'Create'
     delete = 'Delete'
     details = 'Details'
@@ -94,12 +96,17 @@ export class English implements Language {
     add_beneficiary_getAddressPostcode = 'Address Postcode'
     add_beneficiary_getAddressStreet = 'Address Street'
     add_beneficiary_getDateOfBirth = 'Date of Birth'
-    add_beneficiary_getFamilyName = 'Family Name'
-    add_beneficiary_getGivenName = 'Given Name'
+    add_beneficiary_getFamilyName = 'Local family name'
+    add_beneficiary_getGivenName = 'Local given name'
+    add_beneficiary_getEnglishFamilyName = 'English family name'
+    add_beneficiary_getEnglishGivenName = 'English given name'
     add_beneficiary_getNationalID = 'ID Number'
     add_beneficiary_getOccupation = 'Livelihood'
     add_beneficiary_getTypeNationalId = 'ID Type'
     add_beneficiary_getTypePhone = 'Type'
+    add_beneficiary_income = 'Level of income'
+    add_beneficiary_income_level = INCOMELEVELS.en
+    add_beneficiary_nationalID = 'National ID'
     add_beneficiary_res_address = 'Resident Address'
     add_beneficiary_step1 = 'Information'
     add_beneficiary_step2 = 'Head'
@@ -150,8 +157,8 @@ export class English implements Language {
     beneficiary_error_address_street = 'You must enter an address street'
     beneficiairy_error_head = 'the head of household'
     beneficiary_error_member = ' member'
-    beneficiary_error_family_name = 'You must enter a family name for '
-    beneficiary_error_given_name = 'You must enter a given name for '
+    beneficiary_error_family_name = 'You must enter a local family name for '
+    beneficiary_error_given_name = 'You must enter a local given name for '
     beneficiairy_error_gender = 'You must select a gender for '
     beneficiary_error_phone = 'Phone can only be composed of digits for '
     beneficiary_error_existing_country_code = 'Please select an existing country code from the list for '
@@ -166,6 +173,8 @@ export class English implements Language {
     beneficiaries_added = 'Beneficiairies added to the selected project'
     beneficiaries_advanced_research = 'Advanced search'
     beneficiaries_clear_all_research = 'Clear all'
+    beneficiaries_english_name = 'English name'
+    beneficiaries_local_name = 'Local name'
     beneficiaries_full_address = 'Full household address'
     beneficiaries_head = 'Head'
     beneficiaries_household_info = 'Household information summary'
@@ -216,7 +225,6 @@ export class English implements Language {
     commodity_wash = 'WASH Kit'
     commodity_agriculture = 'Agricultural Kit'
     commodity_rte = 'RTE Kit'
-    commodity_distribution = 'On site distribution'
     commodity_shelter = 'Shelter tool kit'
     commodity_hygiene = 'Hygiene kit'
     commodity_dignity = 'Dignity kit'
@@ -233,6 +241,8 @@ export class English implements Language {
     dashboard_summary_2 = 'active projects'
     dashboard_summary_3 = 'enrolled beneficiaries'
     dashboard_summary_4 = 'total value transactions'
+    dashboard_summary_5 = 'served beneficiaries'
+    dashboard_summary_6 = 'completed distributions'
 
     // Data verification
     data_verification_chip_actual = 'Household targeted'
@@ -371,6 +381,7 @@ export class English implements Language {
     modal_add_multiple_title = 'Create multiple new'
     modal_check_date = 'Invalid fields = Your start date cannot be older than the end date'
     modal_check_fields = 'Invalid fields = check you filled every field'
+    modal_complete_distribution = 'Are you sure you want to manually complete this distribution ?'
     modal_delete_sentence = 'You are about to delete '
     modal_details_title = 'Details of this'
     modal_edit_title = 'Edit this'
@@ -431,6 +442,7 @@ export class English implements Language {
     model_donor = 'Donor'
     model_donor_fullname = 'Donor\'s name'
     model_donor_shortname = 'Shortname'
+    model_duplicate = 'duplicate'
     model_familyName = 'Family name'
     model_firstName = 'First name'
     model_household_sentence = 'The household of '
@@ -467,6 +479,8 @@ export class English implements Language {
     model_used = 'Used'
     model_user = 'User'
     model_password = 'Password'
+    model_user_password_question = 'Update password on next login'
+
     model_value = 'Value'
     model_vendors_address = 'Address'
     model_vendor = 'Vendor'
@@ -492,6 +506,7 @@ export class English implements Language {
     placeholder_one_many = 'Select one or many'
 
     // Profile
+    profile_change_password = 'You need to change your password'
     profile_user_change_password = 'Change password'
     profile_user_hint_new_password = 'New password'
     profile_user_hint_new_password_again = 'Re-enter new password'

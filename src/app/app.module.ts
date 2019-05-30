@@ -14,7 +14,7 @@ import { NotFoundComponent } from './components/error-pages/not-found/not-found.
 import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
 import { HeaderComponent } from './components/headers/header/header.component';
 import { RequestDisplayComponent } from './components/headers/request-display/request-display.component';
-import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
+import { ModalConfirmationComponent } from './components/modals/modal-confirmation/modal-confirmation.component';
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 import { ModalComponent } from './components/modals/modal.component';
 import { httpInterceptorProviders } from './core/interceptors/index-interceptors';
@@ -30,7 +30,7 @@ import { SharedModule } from './shared/shared.module';
         ProfileComponent,
         HeaderMobileComponent,
         HeaderComponent,
-        ModalLeaveComponent,
+        ModalConfirmationComponent,
         RequestDisplayComponent,
         ModalRequestsComponent,
         ModalComponent,

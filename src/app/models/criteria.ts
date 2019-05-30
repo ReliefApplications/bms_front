@@ -2,6 +2,7 @@ import { CustomModel } from './custom-models/custom-model';
 import { NumberModelField } from './custom-models/number-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
+import { Gender } from './beneficiary';
 
 export class CriteriaField extends CustomModel {
 
@@ -68,13 +69,18 @@ export class Criteria extends CustomModel {
     title =  this.language.model_criteria;
     matSortActive = 'field';
 
+    public genders = [
+        new Gender('0', this.language.add_distribution_female),
+        new Gender('1', this.language.add_distribution_male)
+    ];
+
     public fields = {
         // id: new NumberModelField(
         //     {
         //         // Not displayed anywhere
         //     }
         // ),
-        kindOfBeneficiary: new NumberModelField(
+        kindOfBeneficiary: new TextModelField(
             {
 
             }
@@ -130,10 +136,31 @@ export class Criteria extends CustomModel {
     public static apiToModel(criteriaFromApi: any): Criteria {
         const newCriteria = new Criteria();
 
-        newCriteria.set('field', criteriaFromApi.field_string);
+        if (criteriaFromApi.field_string) {
+            const field = new CriteriaField();
+            field.set('field', criteriaFromApi.field_string);
+            newCriteria.set('field', field);
+
+        }
         newCriteria.set('type', criteriaFromApi.type);
-        newCriteria.set('kindOfBeneficiary', criteriaFromApi.distribution_type);
+        newCriteria.set('kindOfBeneficiary', criteriaFromApi.distribution_type ?
+            criteriaFromApi.distribution_type :
+            criteriaFromApi.kind_beneficiary);
+        newCriteria.set('condition', criteriaFromApi.condition_string ?
+            new CriteriaCondition(null, criteriaFromApi.condition_string) :
+            null);
         newCriteria.set('tableString', criteriaFromApi.table_string);
+
+
+        const value = criteriaFromApi.value_string;
+        if (criteriaFromApi.field_string === 'gender') {
+            const genderValue = newCriteria.genders.filter((gender: Gender) => gender.get('id') === value)[0];
+            newCriteria.set('value', new CriteriaValue(value, genderValue.get('name')));
+        }
+        else {
+            newCriteria.set('value', new CriteriaValue(value, value));
+        }
+
         return newCriteria;
     }
 

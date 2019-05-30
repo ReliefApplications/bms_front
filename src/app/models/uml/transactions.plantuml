@@ -4,8 +4,10 @@ class TransactionGeneralRelief {
     - id
     - idTransaction
     - beneficiary
-    - givenName
-    - familyName
+    - localGivenName
+    - localFamilyName
+    - enGivenName
+    - enFamilyName
     - generalReliefs
     - distributedAt
     - values
@@ -21,8 +23,10 @@ class GeneralRelief {
 class TransactionMobileMoney {
     - idTransaction
     - beneficiary
-    - givenName
-    - familyName
+    - localGivenName
+    - localFamilyName
+    - enGivenName
+    - enFamilyName
     - phones
     - state
     - values
@@ -38,8 +42,10 @@ class State {
 class TransactionQRVoucher {
     - beneficiary
     - booklet
-    - givenName
-    - familyName
+    - localGivenName
+    - localFamilyName
+    - enGivenName
+    - enFamilyName
     - bookletCode
     - status
     - usedAt

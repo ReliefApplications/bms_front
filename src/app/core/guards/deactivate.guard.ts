@@ -29,7 +29,7 @@ export class DeactivateGuard implements CanDeactivate<DesactivationGuarded> {
 
     //     let leaveChoice: Promise<boolean> = null;
 
-    //     const confirmation = this.dialog.open(ModalLeaveComponent, {});
+    //     const confirmation = this.dialog.open(ModalConfirmationComponent, {});
     //     confirmation.afterClosed().subscribe(
     //             choice => {
     //             this.dialog.closeAll();

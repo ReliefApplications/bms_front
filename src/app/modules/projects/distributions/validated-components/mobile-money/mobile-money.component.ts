@@ -81,9 +81,10 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                 }
             );
         }
-         if (amount === 0) {
+        if (amount === 0) {
             this.finishedEmitter.emit();
-         }
+            this.distributionService.complete(this.actualDistribution.get('id')).subscribe();
+        }
     }
 
     refreshStatuses() {

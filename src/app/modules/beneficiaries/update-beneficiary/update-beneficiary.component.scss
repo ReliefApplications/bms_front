@@ -45,6 +45,7 @@ app-placeholder-panel {
 
     mat-form-field {
         margin-top: 6px;
+        width: 100%
     }
 
     .combo {
@@ -193,6 +194,7 @@ app-placeholder-panel {
 .ng-select-opened ::ng-deep .ng-option-selected {
   color: #424242 !important;
 }
+
 .country-code,
 .phone-type {
     width: 25%;

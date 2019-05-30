@@ -295,12 +295,12 @@ export class French implements Language {
     // Header
     'header_add-beneficiaries' = 'Ajouter un ménage'
     'header_add-distribution' = 'Ajouter une distribution'
-    'header_administrative-settings' = 'Paramètres administratifs'
+    'header_admin' = 'Paramètres administratifs'
     header_beneficiaries = 'Bénéficiaires'
     'header_data-validation' = 'Validation de données'
     header_disconnect = 'déconnexion'
     'header_distributions' = 'Distribution'
-    'header_general-settings' = 'Configuration'
+    'header_settings' = 'Configuration'
     header_home = 'Accueil'
     header_import = 'Import de bénéficiaires'
     header_imported = 'Données des bénéficiaires importés'
@@ -308,7 +308,6 @@ export class French implements Language {
     header_profile = 'Profil'
     header_projects = 'Projets'
     header_reports = 'Rapports'
-    header_settings = 'Paramètres'
     'header_update-beneficiary' = 'Modifier'
     header_vouchers = 'Brochures'
 

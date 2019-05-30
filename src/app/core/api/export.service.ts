@@ -73,7 +73,7 @@ export class ExportService {
     }
 
     public printOrganizationTemplate() {
-        return this.http.get(this.api + '/organization-print-template', {responseType: 'blob'}).toPromise()
+        return this.http.get(this.api + '/organization/print/template', {responseType: 'blob'}).toPromise()
         .then(response => {
             const blob = new Blob([response], {type: ('blob')});
             const filename = 'Pdf-template.pdf';

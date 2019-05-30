@@ -279,12 +279,12 @@ export interface Language {
     // Header
     'header_add-beneficiaries': string
     'header_add-distribution': string
-    'header_administrative-settings': string
+    'header_admin': string
     header_beneficiaries: string
     header_disconnect: string
     'header_distributions': string
     'header_data-validation': string
-    'header_general-settings': string
+    'header_settings': string
     header_home: string
     header_import: string
     header_imported: string
@@ -292,7 +292,6 @@ export interface Language {
     header_profile: string
     header_projects: string
     header_reports: string
-    header_settings: string
     'header_update-beneficiary': string
     header_vouchers: string
 

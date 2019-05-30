@@ -294,12 +294,12 @@ export class English implements Language {
     // Header
     'header_add-beneficiaries' = 'Add Beneficiaries'
     'header_add-distribution' = 'Add Distribution'
-    'header_administrative-settings' = 'Administrative Settings'
+    'header_admin' = 'Administrative Settings'
     header_beneficiaries = 'Beneficiaries'
     header_disconnect = 'log out'
     'header_distributions' = 'Distribution'
     'header_data-validation' = 'Data Validation'
-    'header_general-settings' = 'Configuration'
+    'header_settings' = 'Configuration'
     header_home = 'Home'
     header_import = 'Import beneficiary data'
     header_imported = 'Imported beneficiaries data'
@@ -307,7 +307,6 @@ export class English implements Language {
     header_profile = 'Profile'
     header_projects = 'Projects'
     header_reports = 'Reports'
-    header_settings = 'Settings'
     'header_update-beneficiary' = 'Update Beneficiaries'
     header_vouchers = 'Vouchers'
 

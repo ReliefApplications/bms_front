@@ -67,7 +67,7 @@ export const routes: Routes = [
         resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
-        path: 'general-settings',
+        path: 'settings',
         component: GeneralSettingsComponent,
         canActivate: [AuthGuard, PermissionsGuard],
         resolve: {language: LanguageResolver, country: CountryResolver},
@@ -119,7 +119,7 @@ export const routes: Routes = [
         resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
-        path: 'administrative-settings',
+        path: 'admin',
         component: AdministrativeSettingsComponent,
         canActivate: [AuthGuard, PermissionsGuard],
         resolve: {language: LanguageResolver, country: CountryResolver},

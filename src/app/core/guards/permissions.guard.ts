@@ -66,11 +66,11 @@ export class PermissionsGuard implements CanActivate {
             return (this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT'));
         }
 
-        if (segmentedRoute[0] === 'general-settings') {
+        if (segmentedRoute[0] === 'settings') {
             return this.userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS');
         }
 
-        if (segmentedRoute[0] === 'administrative-settings') {
+        if (segmentedRoute[0] === 'admin') {
             return this.userService.hasRights('ROLE_ADMIN');
         }
         return true;

@@ -295,12 +295,12 @@ export class Arabic implements Language {
     // Header
     'header_add-beneficiaries' = 'إضافة المستفيد'
     'header_add-distribution' = 'إضافة توزيع'
-    'header_administrative-settings' = 'الإعدادات الإدارية'
+    'header_admin' = 'الإعدادات الإدارية'
     header_beneficiaries = 'المستفيدون'
     'header_data-validation' = 'التأكد من صحة البيانات'
     header_disconnect =  'تسجيل الخروج من الحساب'
     'header_distributions' = 'التوزيع'
-    'header_general-settings' = 'ترتيب'
+    'header_settings' = 'ترتيب'
     header_home = 'الصفحة الرئيسية'
     header_import =  'تحميل بيانات المستفيد'
     header_imported = 'إستيراد بيانات المستفيدين'
@@ -308,7 +308,6 @@ export class Arabic implements Language {
     header_profile = ' المعطيات الشخصية'
     header_projects = 'المشاريع'
     header_reports = 'التقارير'
-    header_settings = 'الإعدادات'
     'header_update-beneficiary' = 'تحديث المستفيد'
     header_vouchers = 'قسائم'
 

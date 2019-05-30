@@ -22,6 +22,13 @@
                         [ngClass]="{'selected-frequency': frequency === selectedFrequency}">
                         {{frequency.label | titlecase}}
                     </button>
+
+                    <button
+                        (click)="togglePeriod()"
+                        mat-raised-button
+                        [ngClass]="{'period-mode-enabled': periodMode}">
+                        {{language.report_filter_chose_periode | titlecase}}
+                    </button>
                 </div>
 
                 <div class="action-buttons">
@@ -45,20 +52,20 @@
             </div>
 
             <div class="content-body">
-                <form [formGroup]="periodControl" *ngIf="selectedFrequency?.value === 'period'">
-                    <mat-card class="content-card">
-                            <mat-form-field>
-                                <input matInput [matDatepicker]="pickerFrom" [placeholder]="language.report_from | titlecase"
-                                    formControlName="startDate" #inputFrom required>
-                                <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
-                                <mat-datepicker #pickerFrom></mat-datepicker>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <input matInput [matDatepicker]="pickerTo" [placeholder]="language.report_to | titlecase" formControlName="endDate"
-                                    #inputTo required>
-                                <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
-                                <mat-datepicker #pickerTo></mat-datepicker>
-                            </mat-form-field>
+                <form [formGroup]="periodControl" >
+                    <mat-card class="content-card" [@periodDisplay]="periodMode? 'showing': 'hidden'">
+                        <ng-container *ngIf="selectedFrequency.value === 'year'; else month">
+                            <app-year-picker [control]="periodControl.controls['startDate']"
+                                [placeholder]="language.report_from"></app-year-picker>
+                            <app-year-picker [control]="periodControl.controls['endDate']"
+                                [placeholder]="language.report_to"></app-year-picker>
+                        </ng-container>
+                        <ng-template #month>
+                            <app-month-picker [control]="periodControl.controls['startDate']"
+                                [placeholder]="language.report_from"></app-month-picker>
+                            <app-month-picker [control]="periodControl.controls['endDate']"
+                                [placeholder]="language.report_to"></app-month-picker>
+                        </ng-template>
                     </mat-card>
                 </form>
 
@@ -106,9 +113,7 @@
                     </ng-template>
                 </div>
             </div>
-
             <div class="graphs">
-
                 <div class="graph" *ngFor="let graph of graphs">
                     <h2>{{graph.name}}</h2>
                     <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'"></app-line-chart>
@@ -116,70 +121,6 @@
                     <app-bar-chart [graphInfo]="graph" *ngIf="graph.type === 'number'"></app-bar-chart>
                 </div>
             </div>
-
-<!--
-
-            <mat-accordion class="panel-frequency">
-                <mat-expansion-panel>
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>
-                            {{language.report_select_frequency}}
-                        </mat-panel-title>
-                        <mat-panel-description>
-                            {{frequency}}
-                        </mat-panel-description>
-                    </mat-expansion-panel-header>
-                    <div class="panel-body">
-                        <app-button-filter-date [id]="'frequency'" [page]="'reporting'" (emitFilter)="onFilter($event)"
-                            [data]="dataFilter1" [referenceKey]="'frequency'"></app-button-filter-date>
-                        <div class="panel-selectPeriod">
-                            <div class="content-select-period-mobile" *ngIf="period == true">
-                                <div class="datepicker">
-                                    <mat-form-field>
-                                        <input matInput [matDatepicker]="pickerFrom" [placeholder]="language.report_from | titlecase">
-                                        <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
-                                        <mat-datepicker touchUi #pickerFrom></mat-datepicker>
-                                    </mat-form-field>
-                                    <mat-form-field>
-                                        <input matInput [matDatepicker]="pickerTo" [placeholder]="language.report_to | titlecase">
-                                        <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
-                                        <mat-datepicker touchUi #pickerTo></mat-datepicker>
-                                    </mat-form-field>
-                                    <button mat-raised-button class="apply-period-mobile">{{language.report_apply |
-                                        titlecase}}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-            <div class="content-table">
-                <div *ngIf="indicators && indicators.length" class="container-indicator">
-                    <div *ngFor="let indicator of indicators; let i = index">
-                        <app-indicator *ngIf="type == indicator['type'] && display" [indicator]="indicator"
-                            [chartDimensions]="chartDimensions" [filters]="findFilter(indicator['filter'])" [project]="selectedProject"
-                            [distribution]="selectedDistribution" [periodFrequency]="selectedPeriodFrequency"></app-indicator>
-                    </div>
-                </div>
-
-                <div *ngIf="indicators && (indicators.length == 0) && !indicatorsLoading" class="no-data-box">
-                    <h1 class="box-title">{{language.report_upcoming_reporting}}</h1>
-                </div>
-
-                <div class="no-data-container" *ngIf="!indicators">
-                    <div class="loadingContent">
-                        <h4 class="no-data">
-                            <mat-icon>cloud_off</mat-icon>
-                            <span> No data </span>
-                        </h4>
-                    </div>
-                </div>
-
-                <div *ngIf="indicatorsLoading" class="container-fluid">
-                    <mat-spinner></mat-spinner>
-                </div>
-            </div> -->
         </div>
     </div>
 </div>

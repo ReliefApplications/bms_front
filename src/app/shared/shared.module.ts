@@ -28,6 +28,9 @@ import { BoxDashboardComponent } from '../components/box/box-dashboard/box-dashb
 import { BoxPropertiesComponent } from '../components/box/box-properties/box-properties.component';
 import { BoxSettingComponent } from '../components/box/box-setting/box-setting.component';
 import { DisplayFieldComponent } from '../components/common/display-field/display-field.component';
+import { DatePickerComponent } from '../components/date-pickers/date-picker/date-picker.component';
+import { MonthPickerComponent } from '../components/date-pickers/month-picker/month-picker.component';
+import { YearPickerComponent } from '../components/date-pickers/year-picker/year-picker.component';
 import { HintErrorComponent } from '../components/hint-error/hint-error.component';
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
 import { ModalAddCommodityComponent } from '../components/modals/modal-add-commodity/modal-add-commodity.component';
@@ -131,6 +134,9 @@ imports: [
         DashboardComponent,
         BeneficiariesComponent,
         BeneficiariesImportComponent,
+        DatePickerComponent,
+        MonthPickerComponent,
+        YearPickerComponent,
         ProjectComponent,
         AddDistributionComponent,
         SettingsComponent,
@@ -203,6 +209,9 @@ imports: [
         BoxDashboardComponent,
         BoxPropertiesComponent,
         DisplayFieldComponent,
+        DatePickerComponent,
+        MonthPickerComponent,
+        YearPickerComponent,
         HintErrorComponent,
         TableComponent,
         TableMobileComponent,

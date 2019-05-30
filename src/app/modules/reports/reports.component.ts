@@ -1,6 +1,8 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { DistributionService } from 'src/app/core/api/distribution.service';
@@ -8,6 +10,7 @@ import { ProjectService } from 'src/app/core/api/project.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
 import { Distribution } from 'src/app/model/distribution';
 import { Project } from 'src/app/model/project';
 import { GraphDTO } from './graph.dto';
@@ -16,7 +19,27 @@ import { IndicatorService } from './services/indicator.service';
 @Component({
     selector: 'app-reports',
     templateUrl: './reports.component.html',
-    styleUrls: ['./reports.component.scss']
+    styleUrls: ['./reports.component.scss'],
+    animations: [
+        trigger('periodDisplay', [
+            state('hidden', style({
+                height: '0px',
+                padding: '0px',
+                opacity: '0',
+            })),
+            state('showing', style({
+                height: 'auto',
+                padding: '24px',
+                opacity: '1',
+            })),
+            transition('hidden => showing', animate('0.5s')),
+            transition('showing => hidden', animate('0.5s')),
+        ])
+    ],
+    providers: [
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
+    ],
 })
 export class ReportsComponent implements OnInit, OnDestroy {
 
@@ -34,6 +57,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     // Choose period
+    public periodMode = false;
     public periodControl = new FormGroup({
         startDate:  new FormControl(undefined, [Validators.required]),
         endDate:    new FormControl(undefined, [Validators.required]),
@@ -135,7 +159,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     }
 
-
     private generateFrequencies() {
 
         // Data Button Declaration
@@ -143,7 +166,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
                 { label: this.language.report_filter_per_year, value: 'year' },
                 { label: this.language.report_filter_per_quarter, value: 'quarter' },
                 { label: this.language.report_filter_per_month, value: 'month' },
-                { label: this.language.report_filter_chose_periode, value: 'period' },
             ];
     }
 
@@ -186,7 +208,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
             ).subscribe((_: any) => {
                 this.onFilterChange();
             }),
-
             // Send request when period report form is valid
             this.periodControl.statusChanges.pipe(
                 filter((event) => event === 'VALID' )
@@ -199,7 +220,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
     // Helper function: reset all forms
     private resetForms() {
         this.projectsControl.reset();
-        this.periodControl.reset();
         this.distributionsControl.reset();
     }
 
@@ -217,7 +237,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     // Called on frequency button press
     selectFrequency(clickedFrequency: object) {
-        this.periodControl.reset();
         const selectedFrequencies = this.enabledFrequencies.filter((report: object) => {
             if (report === clickedFrequency) {
                 return report;
@@ -225,7 +244,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
         });
 
         this.selectedFrequency = selectedFrequencies.length ? selectedFrequencies[0] : undefined;
+        this.onFilterChange();
+    }
 
+    // Called on period button press
+    togglePeriod() {
+        this.periodMode = ! this.periodMode;
         this.onFilterChange();
     }
 
@@ -238,7 +262,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
         }
 
         // If period is selected, check for period form validity
-        if (this.selectedFrequency.value === 'period') {
+        if (this.periodMode) {
             if (! this.periodControl.valid) {
                 return;
             }
@@ -311,7 +335,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
     // The value in the code and the one sent to the API are not necessarily the same
     private generateFrequency(): object {
         let frequency: string;
-        let period: Array<string>;
         switch (this.selectedFrequency.value) {
             case('year'):
                 frequency = 'Year';
@@ -322,16 +345,19 @@ export class ReportsComponent implements OnInit, OnDestroy {
             case('month'):
             default:
                 frequency = 'Month';
-                break;
-            case('period'):
-                frequency = 'Period';
-                period = [
-                    this.datePipe.transform(this.periodControl.value.startDate, 'yyyy-mm-dd'),
-                    this.datePipe.transform(this.periodControl.value.endDate, 'yyyy-mm-dd'),
-                ];
-                break;
         }
-        return {frequency, period};
+            if (this.periodMode) {
+                return {
+                    frequency,
+                    period: [
+                        this.datePipe.transform(this.periodControl.value.startDate, 'dd-MM-yyyy'),
+                        this.datePipe.transform(this.periodControl.value.endDate, 'dd-MM-yyyy'),
+                    ]
+                };
+            }
+            return {
+                frequency,
+            };
     }
 
     private generateCountry(): object {

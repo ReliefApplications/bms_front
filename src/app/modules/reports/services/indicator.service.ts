@@ -32,7 +32,7 @@ export class IndicatorService {
     public getAllGraphs(filters: object) {
         filters['projects'] = filters['projects'] ? filters['projects'].join(',') : '';
         filters['distributions'] = filters['distributions'] ? filters['distributions'].join(',') : '';
-        filters['period'] = filters['period'] ? filters['period'] : '';
+        filters['period'] = filters['period'] ? filters['period'].join(',') : '';
         const url = `${this.api}/filtered`;
         // const params = Object.keys(filters).map(key => key + '=' + filters[key]).join('&');
         // console.log(url + params);

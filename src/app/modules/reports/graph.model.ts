@@ -10,12 +10,5 @@ export class Graph  {
         this.name = graphDTO.name;
         this.type = graphDTO.graphType;
         this.values = new GraphPeriods(graphDTO.values);
-        // console.log(graphDTO)
-        // this.type = graphDTO.graphType;
-        // this.name = graphDTO.name;
-        // this.values = Object.keys(graphDTO.values).map((key: string) => {
-        //     return new GraphValue(graphDTO[key]);
-        // });
     }
 }
-

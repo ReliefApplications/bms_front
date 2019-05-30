@@ -20,6 +20,9 @@
                     &.selected-frequency {
                         background-color: $bms_green!important;
                     }
+                    &.period-mode-enabled {
+                        background-color: $bms_dark_blue!important;
+                    }
                 }
             }
         }

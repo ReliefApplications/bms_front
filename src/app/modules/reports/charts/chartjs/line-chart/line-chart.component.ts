@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartDataSets, ChartOptions } from 'chart.js';
+import { ChartDataSets, ChartOptions, ChartPoint } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { BaseChartComponent } from '../base-chart/base-chart.component';
 
@@ -62,11 +62,10 @@ export class LineChartComponent extends BaseChartComponent implements OnInit {
         };
         this.xAxisLabels = [];
 
-
-
         // Object.values does not type correctly. Using Object.keys is the safe option here
         Object.keys(this.graphInfo.values).forEach((period: string) => {
-            this.dataSet.data.push(this.graphInfo.values[period][0].value);
+            // Casting is necessary due to a type error otherwise
+            (this.dataSet.data as (number | ChartPoint)[]).push(this.graphInfo.values[period][0].value);
             this.xAxisLabels.push(this.graphInfo.values[period][0].date);
         });
     }

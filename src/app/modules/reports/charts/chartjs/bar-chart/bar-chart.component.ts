@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color as GraphColor, Label } from 'ng2-charts';
-import { Color, Colorizer } from '../../../colors';
+import { Colorizer } from '../../../colors';
 import { GraphValue } from '../../../graph-value.model';
 import { BaseChartComponent } from '../base-chart/base-chart.component';
 import { NestedLabeledValue } from './bar-chart-dataset';
@@ -68,15 +68,12 @@ export class BarChartComponent extends BaseChartComponent implements OnInit {
         Object.entries(dataSets).forEach((value: [string, Array<number>]) => {
             this.barChartDataSet.push({
                 label: value[0],
-                data: value[1]
+                data: value[1],
             });
         });
     }
 
     private generateColors() {
-        const colors = Colorizer.chooseRandomColors(this.barChartDataSet.length);
-        this.colors = colors.map((color: Color) => {
-            return {backgroundColor: color};
-        });
+        this.colors = Colorizer.generateColorSets(this.barChartDataSet.length);
     }
 }

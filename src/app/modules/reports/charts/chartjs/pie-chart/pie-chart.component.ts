@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartOptions } from 'chart.js';
-import { Color, Label } from 'ng2-charts';
+import { Color as ChartColor, Label } from 'ng2-charts';
 import { Colorizer } from '../../../colors';
 import { GraphValue } from '../../../graph-value.model';
 import { BaseChartComponent } from '../base-chart/base-chart.component';
@@ -16,7 +16,7 @@ export class PieChartComponent extends BaseChartComponent implements OnInit {
 
     pieChartDataSets: Array<PieChartDataSet>;
 
-    colors: Array<Color>;
+    colors: Array<ChartColor>;
 
     periods: Array<string>;
 
@@ -56,9 +56,6 @@ export class PieChartComponent extends BaseChartComponent implements OnInit {
     }
 
     generateColors() {
-
-        this.colors = [{
-            backgroundColor: Colorizer.chooseRandomColors(this.pieChartDataSets[0].labels.length)
-        }];
+        this.colors = [Colorizer.generateColorsSet(this.pieChartDataSets.length)];
     }
 }

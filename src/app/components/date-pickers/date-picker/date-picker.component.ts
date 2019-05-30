@@ -26,6 +26,7 @@ export class DatePickerComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.pickerControl.setValue(this.control.value);
         this.pickerControl.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),

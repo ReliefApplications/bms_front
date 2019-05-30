@@ -323,7 +323,7 @@ export class English implements Language {
     household_location_current_address = 'Current address'
     household_location_resident_address = 'Resident address'
     household_location_current_location = 'Current location'
-    household_location_resident_location: 'Resident location'
+    household_location_resident_location = 'Resident location'
     household_location_type = 'Type of location'
     household_location_camp = 'Camp'
     household_location_residence = 'Residence'
@@ -332,6 +332,7 @@ export class English implements Language {
     household_location_camp_name = 'Camp\'s name'
     household_location_tent = 'Tent number'
     household_location_create_camp = 'Create a camp'
+    household_location_question = 'Is your current location different than your address?'
 
     // Import
     import_added = 'Added from existing beneficiaries'

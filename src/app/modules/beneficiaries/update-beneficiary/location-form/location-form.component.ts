@@ -20,6 +20,7 @@ export class LocationFormComponent implements OnInit {
   @Input() form: FormGroup;
   @Input() householdLocationTypes: Array<HouseholdLocationType>;
   @Input() campLists: Array<any>;
+  @Input() locationGroup: string;
 
   @Output() changeAdm = new EventEmitter<any>();
 

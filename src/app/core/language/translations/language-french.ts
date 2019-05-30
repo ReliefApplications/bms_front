@@ -324,7 +324,7 @@ export class French implements Language {
     household_location_current_address = 'Adresse actuelle'
     household_location_resident_address = 'adresse de résidence'
     household_location_current_location = 'Lieu actuel'
-    household_location_resident_location: 'Lieu de résidence'
+    household_location_resident_location = 'Lieu de résidence'
     household_location_type = 'Type d\'habitation'
     household_location_camp = 'Camp'
     household_location_residence = 'Résidence'
@@ -333,6 +333,7 @@ export class French implements Language {
     household_location_camp_name = 'Nom du camp'
     household_location_tent = 'Numéro de tente'
     household_location_create_camp = 'Créer un camp'
+    household_location_question = 'Votre adresse actuelle est-elle différente de votre adresse habituelle ?'
 
     // Import
     import_added = 'Ajout'

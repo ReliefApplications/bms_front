@@ -324,7 +324,7 @@ export class Arabic implements Language {
     household_location_current_address = 'العنوان الحالي'
     household_location_resident_address = 'عنوان الإقامة'
     household_location_current_location = 'الموقع الحالي'
-    household_location_resident_location: 'موقع المقيمين'
+    household_location_resident_location = 'موقع المقيمين'
     household_location_type = 'نوع الموقع'
     household_location_camp = 'معسكر'
     household_location_residence = 'إقامة'
@@ -333,6 +333,7 @@ export class Arabic implements Language {
     household_location_camp_name = 'اسم المخيم'
     household_location_tent = 'خيمة رقم'
     household_location_create_camp = 'إنشاء معسكر'
+    household_location_question = 'هل موقعك الحالي مختلف عن عنوانك؟'
 
     // Import
     import_added = 'تم إضافتها'

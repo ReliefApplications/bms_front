@@ -316,6 +316,8 @@ export interface Language {
     household_location_camp_name: string
     household_location_tent: string
     household_location_create_camp: string
+    household_location_question: string
+
     // Import
     import_added: string
     import_back_to_beneficiaries: string

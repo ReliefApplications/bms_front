@@ -178,7 +178,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                         }
                         this.household = new Household();
                         // this.household.set('location', new Location());
-                        this.household.set('householdLocations', [new HouseholdLocation()]);
+                        const currentLocation = new HouseholdLocation();
+                        currentLocation.set('locationGroup',
+                            new HouseholdLocationGroup('current', this.language.household_location_current_address));
+                        const residentLocation = new HouseholdLocation();
+                        residentLocation.set('locationGroup',
+                            new HouseholdLocationGroup('resident', this.language.household_location_resident_address));
+                        this.household.set('householdLocations', [currentLocation, residentLocation]);
                         this.household.set('beneficiaries', [this.createNewBeneficiary()]);
                         this.getCountrySpecifics().subscribe(() => {
                             resolve();
@@ -427,59 +433,69 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             return;
         }
 
-        const currentType = this.mainForm.controls.currentType.value;
-        const currentLocation = this.locations['current'];
-        const adms = ['1', '2', '3', '4'];
+        const locationGroups = ['current', 'resident'];
 
-        adms.forEach(index => {
-            if (this.mainForm.controls['currentAdm' + index].value) {
-                currentLocation.set('adm' + index,
-                    currentLocation.getOptions('adm' + index).filter((option: Adm) => {
-                        return option.get('id') === this.mainForm.controls['currentAdm' + index].value;
-                    })[0]);
-            } else {
-                currentLocation.set('adm' + index, null);
+        const householdLocations = [];
+
+        locationGroups.forEach((locationGroup: string) => {
+            const locationType = this.mainForm.controls[locationGroup + 'Type'].value;
+            const location = this.locations[locationGroup];
+            const adms = ['1', '2', '3', '4'];
+
+            adms.forEach(index => {
+                if (this.mainForm.controls[locationGroup + 'Adm' + index].value) {
+                    location.set('adm' + index,
+                        location.getOptions('adm' + index).filter((option: Adm) => {
+                            return option.get('id') === this.mainForm.controls[locationGroup + 'Adm' + index].value;
+                        })[0]);
+                } else {
+                    location.set('adm' + index, null);
+                }
+            });
+
+            // Never worked : asynchronous !!
+            this._cacheService.get('country')
+                .subscribe(
+                    result => {
+                        location.set('countryIso3', result);
+                    }
+                );
+
+            const householdLocation = new HouseholdLocation();
+            householdLocation.set('locationGroup', householdLocation.getOptions('locationGroup')
+                .filter((option: HouseholdLocationGroup) => option.get<string>('id') === locationGroup)[0]);
+
+            householdLocation.set('type', householdLocation.getOptions('type')
+                .filter((option: HouseholdLocationType) =>
+                    option.get<string>('id') === this.mainForm.controls[locationGroup + 'Type'].value)[0]);
+
+            if (locationType !== 'camp') {
+                const address = new Address();
+                address.set('number', this.mainForm.controls[locationGroup + 'AddressNumber'].value);
+                address.set('street', this.mainForm.controls[locationGroup + 'AddressStreet'].value);
+                address.set('postcode', this.mainForm.controls[locationGroup + 'AddressPostcode'].value);
+                address.set('location', location);
+                householdLocation.set('address', address);
+            } else if (locationType === 'camp') {
+                const campAddress = new CampAddress();
+                let camp = new Camp();
+                if (this.mainForm.controls[locationGroup + 'CreateCamp'].value) {
+                    camp.set('name', this.mainForm.controls[locationGroup + 'NewCamp'].value);
+                } else {
+                    camp = this.campLists[locationGroup]
+                    .filter((campFromList: Camp) =>
+                        campFromList.get<string>('id') === this.mainForm.controls[locationGroup + 'Camp'].value)[0];
+                }
+                camp.set('location', location);
+                campAddress.set('tentNumber', this.mainForm.controls[locationGroup + 'TentNumber'].value);
+                campAddress.set('camp', camp);
+                householdLocation.set('campAddress', campAddress);
             }
+            householdLocations.push(householdLocation);
         });
 
-        // Never worked : asynchronous !!
-        this._cacheService.get('country')
-            .subscribe(
-                result => {
-                    currentLocation.set('countryIso3', result);
-                }
-            );
 
-        const currentHouseholdLocation = new HouseholdLocation();
-        currentHouseholdLocation.set('locationGroup', currentHouseholdLocation.getOptions('locationGroup')
-            .filter((option: HouseholdLocationGroup) => option.get<string>('id') === 'current')[0]);
-
-        currentHouseholdLocation.set('type', currentHouseholdLocation.getOptions('type')
-            .filter((option: HouseholdLocationType) => option.get<string>('id') === this.mainForm.controls.currentType.value)[0]);
-
-        if (currentType !== 'camp') {
-            const address = new Address();
-            address.set('number', this.mainForm.controls.currentAddressNumber.value);
-            address.set('street', this.mainForm.controls.currentAddressStreet.value);
-            address.set('postcode', this.mainForm.controls.currentAddressPostcode.value);
-            address.set('location', currentLocation);
-            currentHouseholdLocation.set('address', address);
-        } else if (currentType === 'camp') {
-            const campAddress = new CampAddress();
-            let camp = new Camp();
-            if (this.mainForm.controls.currentCreateCamp.value) {
-                camp.set('name', this.mainForm.controls.currentNewCamp.value);
-            } else {
-                camp = this.campLists['current']
-                .filter((campFromList: Camp) => campFromList.get<string>('id') === this.mainForm.controls.currentCamp.value)[0];
-            }
-            camp.set('location', currentLocation);
-            campAddress.set('tentNumber', this.mainForm.controls.currentTentNumber.value);
-            campAddress.set('camp', camp);
-            currentHouseholdLocation.set('campAddress', campAddress);
-        }
-
-        this.household.set('householdLocations', [currentHouseholdLocation]);
+        this.household.set('householdLocations', householdLocations);
         this.household.set('livelihood', this.getLivelihood());
         this.household.set('notes', this.mainForm.controls.notes.value);
         this.household.set('incomeLevel', this.mainForm.controls.incomeLevel.value);
@@ -601,26 +617,15 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
 
         if (step === 1 || final) {
+            const locationMessage = this.validateLocationForm();
 
-            if (!this.mainForm.controls.currentAdm1.value) {
-                message = this.language.beneficiary_error_location;
-            } else if (!this.mainForm.controls.currentType.value) {
-                message = this.language.beneficiairy_error_location_type;
-            } else if (this.mainForm.controls.currentType.value !== 'camp' && !this.mainForm.controls.currentAddressNumber.value) {
-                message = this.language.beneficiairy_error_address_number;
-            } else if (this.mainForm.controls.currentType.value !== 'camp' && !this.mainForm.controls.currentAddressStreet.value) {
-                message = this.language.beneficiary_error_address_street;
-            } else if (this.mainForm.controls.currentType.value !== 'camp' && !this.mainForm.controls.currentAddressPostcode.value) {
-                message = this.language.beneficiary_error_address_postcode;
-            } else if (this.mainForm.controls.currentType.value === 'camp' && !this.mainForm.controls.currentCamp.value) {
-                message = this.language.beneficiary_error_camp;
-            } else if (this.mainForm.controls.currentType.value === 'camp' && !this.mainForm.controls.currentTentNumber.value) {
-                message = this.language.beneficiary_error_tent;
-            } else {
+            if (locationMessage === '') {
                 this.validStep1 = true;
                 this.stepper.selected.completed = true;
                 if (step <= 1) { this.stepper.next(); }
                 if (final) { validSteps++; }
+            } else {
+                message = locationMessage;
             }
         }
         if (step === 2 || final) {
@@ -666,6 +671,45 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
 
         return (false);
+    }
+
+    validateLocationForm() {
+        let locationMessage = '';
+        const locationGroups = ['current', 'resident'];
+
+        locationGroups.forEach((locationGroup: string) => {
+            if (locationGroup === 'current' || this.mainForm.controls.locationDifferent.value) {
+                if (!this.mainForm.controls[locationGroup + 'Adm1'].value) {
+                    locationMessage = this.language.beneficiary_error_location;
+                } else if (!this.mainForm.controls[locationGroup + 'Type'].value) {
+                    locationMessage = this.language.beneficiairy_error_location_type;
+                } else if (this.mainForm.controls[locationGroup + 'Type'].value !== 'camp' &&
+                    !this.mainForm.controls[locationGroup + 'AddressNumber'].value) {
+                    locationMessage = this.language.beneficiairy_error_address_number;
+                } else if (this.mainForm.controls[locationGroup + 'Type'].value !== 'camp' &&
+                    !this.mainForm.controls[locationGroup + 'AddressStreet'].value) {
+                    locationMessage = this.language.beneficiary_error_address_street;
+                } else if (this.mainForm.controls[locationGroup + 'Type'].value !== 'camp' &&
+                    !this.mainForm.controls[locationGroup + 'AddressPostcode'].value) {
+                    locationMessage = this.language.beneficiary_error_address_postcode;
+                } else if (
+                    this.mainForm.controls[locationGroup + 'Type'].value === 'camp' &&
+                    ((!this.mainForm.controls[locationGroup + 'CreateCamp'].value &&
+                        !this.mainForm.controls[locationGroup + 'Camp'].value) ||
+                    (this.mainForm.controls[locationGroup + 'CreateCamp'].value &&
+                        !this.mainForm.controls[locationGroup + 'NewCamp'].value))
+                ) {
+                    locationMessage = this.language.beneficiary_error_camp;
+                } else if (this.mainForm.controls[locationGroup + 'Type'].value === 'camp' &&
+                    !this.mainForm.controls.currentTentNumber.value) {
+                    locationMessage = this.language.beneficiary_error_tent;
+                }
+            }
+
+        });
+
+        return locationMessage;
+
     }
 
     validateBeneficiaryForm(formIndex: number) {
@@ -804,7 +848,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             this.loadCommune(event.type, event.id);
         } else if (event.adm === 'adm3') {
             this.loadVillage(event.type, event.id);
-        } else if (event.adm === 'adm1') {
+        } else if (event.adm === 'adm4') {
             this.loadCamps(event.type, event.adm, event.id);
         }
     }

@@ -138,7 +138,7 @@ export class HouseholdsService extends CustomModelService {
     }
 
     public deleteMany(householdIds: Array<number>) {
-        const url = this.api + '/delete-households';
+        const url = this.api + '/households/delete';
         const body = {
             ids: householdIds
         };

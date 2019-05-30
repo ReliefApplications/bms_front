@@ -23,7 +23,7 @@ import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
 import { GeneralSettingsComponent } from './modules/general-settings/general-settings.component';
 import { VouchersComponent } from './modules/vouchers/vouchers.component';
-import { AdministrativeSettingsComponent } from './modules/administrative-settings/administrative-settings.component';
+import { AdministrationComponent } from './modules/administration/administration.component';
 
 
 // Do not change the order of the routes, it matters
@@ -120,7 +120,7 @@ export const routes: Routes = [
     },
     {
         path: 'admin',
-        component: AdministrativeSettingsComponent,
+        component: AdministrationComponent,
         canActivate: [AuthGuard, PermissionsGuard],
         resolve: {language: LanguageResolver, country: CountryResolver},
     },

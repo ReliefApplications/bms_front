@@ -14,6 +14,7 @@ export interface Language {
     cancel: string
     characters: string
     close: string
+    complete: string
     create: string
     delete: string
     details: string
@@ -209,7 +210,6 @@ export interface Language {
     commodity_wash: string
     commodity_agriculture: string
     commodity_rte: string
-    commodity_distribution: string
     commodity_shelter: string
     commodity_hygiene: string
     commodity_dignity: string
@@ -227,6 +227,8 @@ export interface Language {
     dashboard_summary_2: string
     dashboard_summary_3: string
     dashboard_summary_4: string
+    dashboard_summary_5: string
+    dashboard_summary_6: string
 
     // Data verification
     data_verification_chip_actual: string
@@ -378,6 +380,7 @@ export interface Language {
     modal_add_multiple_title: string
     modal_check_date: string
     modal_check_fields: string
+    modal_complete_distribution: string
     modal_delete_sentence: string
     modal_delete_sentence_2: string
     modal_details_title: string
@@ -436,6 +439,7 @@ export interface Language {
     model_donor: string
     model_donor_fullname: string
     model_donor_shortname: string
+    model_duplicate: string
     model_familyName: string
     model_firstName: string
     model_household_sentence: string
@@ -466,6 +470,7 @@ export interface Language {
     model_used: string
     model_user: string
     model_password: string
+    model_user_password_question: string
     model_value: string
     modal_values_format_error: string
     model_vendors_address: string
@@ -492,6 +497,7 @@ export interface Language {
     placeholder_one_many: string
 
     // Profile
+    profile_change_password: string
     profile_user_change_password: string
     profile_user_hint_new_password: string
     profile_user_hint_new_password_again: string

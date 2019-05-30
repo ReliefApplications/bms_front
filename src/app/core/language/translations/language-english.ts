@@ -17,6 +17,7 @@ export class English implements Language {
     cancel = 'Cancel'
     characters = 'Characters'
     close = 'Close'
+    complete = 'Complete'
     create = 'Create'
     delete = 'Delete'
     details = 'Details'
@@ -226,7 +227,6 @@ export class English implements Language {
     commodity_wash = 'WASH Kit'
     commodity_agriculture = 'Agricultural Kit'
     commodity_rte = 'RTE Kit'
-    commodity_distribution = 'On site distribution'
     commodity_shelter = 'Shelter tool kit'
     commodity_hygiene = 'Hygiene kit'
     commodity_dignity = 'Dignity kit'
@@ -243,6 +243,8 @@ export class English implements Language {
     dashboard_summary_2 = 'active projects'
     dashboard_summary_3 = 'enrolled beneficiaries'
     dashboard_summary_4 = 'total value transactions'
+    dashboard_summary_5 = 'served beneficiaries'
+    dashboard_summary_6 = 'completed distributions'
 
     // Data verification
     data_verification_chip_actual = 'Household targeted'
@@ -395,6 +397,7 @@ export class English implements Language {
     modal_add_multiple_title = 'Create multiple new'
     modal_check_date = 'Invalid fields = Your start date cannot be older than the end date'
     modal_check_fields = 'Invalid fields = check you filled every field'
+    modal_complete_distribution = 'Are you sure you want to manually complete this distribution ?'
     modal_delete_sentence = 'You are about to delete '
     modal_details_title = 'Details of this'
     modal_edit_title = 'Edit this'
@@ -454,6 +457,7 @@ export class English implements Language {
     model_donor = 'Donor'
     model_donor_fullname = 'Donor\'s name'
     model_donor_shortname = 'Shortname'
+    model_duplicate = 'duplicate'
     model_familyName = 'Family name'
     model_firstName = 'First name'
     model_household_sentence = 'The household of '
@@ -484,6 +488,8 @@ export class English implements Language {
     model_used = 'Used'
     model_user = 'User'
     model_password = 'Password'
+    model_user_password_question = 'Update password on next login'
+
     model_value = 'Value'
     model_vendors_address = 'Address'
     model_vendor = 'Vendor'
@@ -509,6 +515,7 @@ export class English implements Language {
     placeholder_one_many = 'Select one or many'
 
     // Profile
+    profile_change_password = 'You need to change your password'
     profile_user_change_password = 'Change password'
     profile_user_hint_new_password = 'New password'
     profile_user_hint_new_password_again = 'Re-enter new password'

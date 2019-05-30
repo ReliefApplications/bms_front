@@ -73,6 +73,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         }
          if (amount === 0) {
             this.finishedEmitter.emit();
+            this.distributionService.complete(this.actualDistribution.get('id')).subscribe();
          }
     }
 

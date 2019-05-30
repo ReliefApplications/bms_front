@@ -17,6 +17,7 @@ export class French implements Language {
     beneficiary = 'Bénéficiaire'
     cancel = 'Annuler'
     close = 'Fermer'
+    complete = 'Terminer'
     characters = 'Caractères'
     create = 'Créer'
     delete = 'Supprimer'
@@ -227,7 +228,6 @@ export class French implements Language {
     commodity_wash = 'Kit d\'hygiène'
     commodity_agriculture = 'Kit d\'agriculture'
     commodity_rte = 'Kit RTE'
-    commodity_distribution = 'distribution sur place'
     commodity_shelter = 'Kit d\'abris'
     commodity_hygiene = 'kit d\'hygiène'
     commodity_dignity = 'kit de dignité'
@@ -244,6 +244,8 @@ export class French implements Language {
     dashboard_summary_2 = 'projets en cours'
     dashboard_summary_3 = 'bénéficiaires enregistrés'
     dashboard_summary_4 = 'montant total des transactions'
+    dashboard_summary_5 = 'bénéficiaires servis'
+    dashboard_summary_6 = 'distributions terminées'
 
     // Data verification
     data_verification_chip_actual = 'Ménage ciblé'
@@ -395,6 +397,7 @@ export class French implements Language {
     modal_add_multiple_title = 'Ajouter plusieurs nouveaux'
     modal_check_date = 'Champs invalides = La date de début ne peut pas être plus ancienne que la date de fin et vice versa'
     modal_check_fields = 'Champs invalides = vérifiez que vous avez rempli tous les champs'
+    modal_complete_distribution = 'Etes-vous sûr de vouloir manuellement terminer cette distribution ?'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
     modal_delete_sentence_2 = '. '
     modal_details_title = 'Détails de ce'
@@ -454,6 +457,7 @@ export class French implements Language {
     model_donor = 'Donneur'
     model_donor_fullname = 'Nom du donneur'
     model_donor_shortname = 'Surnom'
+    model_duplicate = 'dupliquer'
     model_familyName = 'Nom'
     model_firstName = 'Prénom'
     model_household_sentence = 'Le ménage de '
@@ -483,6 +487,7 @@ export class French implements Language {
     model_unassigned = 'Non assigné'
     model_used = 'Utilisé'
     model_user = 'Utilisateur'
+    model_user_password_question = 'Modifier le mot de passe à la prochaine connexion'
     model_password = 'Mot de passe'
     model_value = 'Valeur'
     model_vendors_address = 'Adresse'
@@ -509,6 +514,7 @@ export class French implements Language {
     placeholder_one_many = 'Select one or many'
 
     // Profile
+    profile_change_password = 'Vous devez changer de mot de passe'
     profile_user_change_password = 'Changer de mot de passe'
     profile_user_hint_new_password = 'Nouveau mot de passe'
     profile_user_hint_new_password_again = 'Ré-entrez votre nouveau mot de passe'

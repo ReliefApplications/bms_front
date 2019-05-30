@@ -622,6 +622,7 @@ export interface Language {
     voucher_print_selection: string
     voucher_print_error: string
     voucher_print_starting: string
+    voucher_purchased: string
 
     // Vulnerability
     vulnerability_pregnant: string

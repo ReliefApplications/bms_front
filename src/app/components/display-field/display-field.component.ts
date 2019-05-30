@@ -12,6 +12,8 @@ export class DisplayFieldComponent implements OnInit {
   @Input() field;
   @Input() element;
 
+  readonly MAX_PROP_LENGTH = 20;
+
   constructor(public fieldService: FieldService) { }
 
   ngOnInit() {

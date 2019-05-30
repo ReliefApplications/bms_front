@@ -3,6 +3,9 @@ import { Booklet } from './booklet';
 import { NestedFieldModelField } from './custom-models/nested-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { DistributionBeneficiary } from './distribution-beneficiary';
+import { MultipleObjectsModelField } from './custom-models/multiple-object-model-field';
+import { Product } from './product';
+import { UppercaseFirstPipe } from '../shared/pipes/uppercase-first.pipe';
 
 export class TransactionQRVoucher extends DistributionBeneficiary {
 
@@ -61,7 +64,17 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'value',
-        })
+        }),
+        products: new MultipleObjectsModelField<Product>(
+            {
+                title: this.language.voucher_purchased,
+                isDisplayedInModal: true,
+                isDisplayedInTable: true,
+                displayTableFunction: null,
+                displayModalFunction: null,
+                value: []
+            }
+        )
     };
 
     public static apiToModel(distributionBeneficiaryFromApi: any): TransactionQRVoucher {
@@ -74,6 +87,22 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             booklet = booklet ? booklet : distributionBeneficiaryFromApi.booklets[0];
         }
         newQRVoucher.set('booklet', booklet ? Booklet.apiToModel(booklet) : null);
+
+        const products: Product[] = [];
+        if (booklet) {
+            booklet.vouchers.forEach((voucher: any) => {
+                voucher.products.forEach((product: any) => {
+                    products.push(Product.apiToModel(product));
+                });
+            });
+        }
+        newQRVoucher.set('products', products);
+
+        const pipe = new UppercaseFirstPipe();
+        newQRVoucher.fields.products.displayTableFunction = value => value
+            .map((product: Product) => pipe.transform(product.get('name'))).join(', ');
+        newQRVoucher.fields.products.displayModalFunction = value => value
+            .map((product: Product) => pipe.transform(product.get('name'))).join(', ');
         return newQRVoucher;
     }
 

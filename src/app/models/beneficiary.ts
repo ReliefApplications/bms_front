@@ -9,6 +9,7 @@ import { NationalId } from './national-id';
 import { Phone } from './phone';
 import { Profile } from './profile';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
+import { UppercaseFirstPipe } from 'src/app/shared/pipes/uppercase-first.pipe';
 
 export class Gender extends CustomModel {
 
@@ -248,11 +249,14 @@ export class Beneficiary extends CustomModel {
 
 
         newBeneficiary.fields.vulnerabilities.displayTableFunction = value => value;
+        const pipe = new UppercaseFirstPipe();
+
         newBeneficiary.fields.vulnerabilities.displayModalFunction =
-            value => value.map((vulnerability: VulnerabilityCriteria) => vulnerability.get('name'));
-        newBeneficiary.fields.phones.displayTableFunction = value => value.map((phone: Phone) => phone.get('number'));
-        newBeneficiary.fields.phones.displayModalFunction = value => value.map((phone: Phone) => phone.get('number'));
-        newBeneficiary.fields.nationalIds.displayModalFunction = value => value.map((nationalId: NationalId) => nationalId.get('number'));
+            value => value.map((vulnerability: VulnerabilityCriteria) => pipe.transform(vulnerability.get('name'))).join(', ');
+        newBeneficiary.fields.phones.displayTableFunction = value => value.map((phone: Phone) => phone.get('number')).join(', ');
+        newBeneficiary.fields.phones.displayModalFunction = value => value.map((phone: Phone) => phone.get('number')).join(', ');
+        newBeneficiary.fields.nationalIds.displayModalFunction = value => value
+            .map((nationalId: NationalId) => nationalId.get('number')).join(', ');
 
         return newBeneficiary;
 

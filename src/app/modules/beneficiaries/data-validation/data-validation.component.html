@@ -34,7 +34,7 @@
                             <div class ="error" *ngFor="let error of errors; let i=index">
                                 <div class="beneficiary old">
                                     <mat-checkbox [formControl]="form.controls[i].controls.old" color="primary">
-                                        <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
+                                        <h4>{{error.old.beneficiaries[0].local_given_name}} {{error.old.beneficiaries[0].local_family_name}}</h4>
                                         <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
                                         <p>{{language.data_verification_last_updated| uppercaseFirst}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                     </mat-checkbox>
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="beneficiary new">
                                     <mat-checkbox [formControl]="form.controls[i].controls.new" color="primary">
-                                        <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
+                                        <h4>{{error.new.beneficiaries[0].local_given_name}} {{error.new.beneficiaries[0].local_family_name}}</h4>
                                         <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
                                         <p>{{language.data_verification_last_updated| uppercaseFirst}}: {{language.data_verification_just_now| uppercaseFirst}}</p>
                                     </mat-checkbox>
@@ -84,7 +84,7 @@
                                 <div class="household old">
                                     <div class="head">
                                         <div class="head-info">
-                                            <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
+                                            <h4>{{error.old.beneficiaries[0].local_given_name}} {{error.old.beneficiaries[0].local_family_name}}</h4>
                                             <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
                                             <p>{{language.data_verification_last_updated| uppercaseFirst}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                         </div>
@@ -95,7 +95,7 @@
                                     <div class="members">
                                         <ng-container *ngFor="let beneficiary of error.old.beneficiaries; let beneficiaryIndex=index">
                                             <div class="member" *ngIf="beneficiaryIndex !== 0">
-                                                <h4>{{error.old.beneficiaries[beneficiaryIndex].given_name}} {{error.old.beneficiaries[beneficiaryIndex].family_name}}</h4>
+                                                <h4>{{error.old.beneficiaries[beneficiaryIndex].local_given_name}} {{error.old.beneficiaries[beneficiaryIndex].local_family_name}}</h4>
                                             </div>
                                         </ng-container>
                                     </div>
@@ -103,7 +103,7 @@
                                 <div class="household new">
                                     <div class="head">
                                         <div class="head-info">
-                                            <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
+                                            <h4>{{error.new.beneficiaries[0].local_given_name}} {{error.new.beneficiaries[0].local_family_name}}</h4>
                                             <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
                                             <p>{{language.data_verification_last_updated| uppercaseFirst}}: {{language.data_verification_just_now| uppercaseFirst}}</p>
                                         </div>
@@ -115,7 +115,7 @@
                                         <ng-container *ngFor="let beneficiary of error.new.beneficiaries; let beneficiaryIndex=index">
                                             <div class="member" *ngIf="beneficiaryIndex !== 0">
                                                 <mat-checkbox [formControl]="form.controls[householdIndex].controls[beneficiaryIndex]" color="primary" >
-                                                    <h4>{{error.new.beneficiaries[beneficiaryIndex].given_name}} {{error.new.beneficiaries[beneficiaryIndex].family_name}}</h4>
+                                                    <h4>{{error.new.beneficiaries[beneficiaryIndex].local_given_name}} {{error.new.beneficiaries[beneficiaryIndex].local_family_name}}</h4>
                                                 </mat-checkbox>
                                             </div>
                                         </ng-container>
@@ -153,7 +153,7 @@
                                 <div class="household old">
                                     <div class="head">
                                         <div class="head-info">
-                                            <h4>{{error.old.beneficiaries[0].given_name}} {{error.old.beneficiaries[0].family_name}}</h4>
+                                            <h4>{{error.old.beneficiaries[0].local_given_name}} {{error.old.beneficiaries[0].local_family_name}}</h4>
                                             <p>{{error.old.address_number}} {{error.old.address_street}} {{error.old.address_postcode}}</p>
                                             <p>{{language.data_verification_last_updated| uppercaseFirst}}: {{error.old.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                         </div>
@@ -165,7 +165,7 @@
                                         <ng-container *ngFor="let beneficiary of error.old.beneficiaries; let beneficiaryIndex=index">
                                             <div class="member" *ngIf="beneficiaryIndex !== 0">
                                                 <mat-checkbox [formControl]="form.controls[householdIndex].controls[beneficiaryIndex]" color="primary" >
-                                                    <h4>{{error.old.beneficiaries[beneficiaryIndex].given_name}} {{error.old.beneficiaries[beneficiaryIndex].family_name}}</h4>
+                                                    <h4>{{error.old.beneficiaries[beneficiaryIndex].local_given_name}} {{error.old.beneficiaries[beneficiaryIndex].local_family_name}}</h4>
                                                 </mat-checkbox>
                                             </div>
                                         </ng-container>
@@ -174,7 +174,7 @@
                                 <div class="household new">
                                     <div class="head">
                                         <div class="head-info">
-                                            <h4>{{error.new.beneficiaries[0].given_name}} {{error.new.beneficiaries[0].family_name}}</h4>
+                                            <h4>{{error.new.beneficiaries[0].local_given_name}} {{error.new.beneficiaries[0].local_family_name}}</h4>
                                             <p>{{error.new.address_number}} {{error.new.address_street}} {{error.new.address_postcode}}</p>
                                             <p>{{language.data_verification_last_updated| uppercaseFirst}}: {{language.data_verification_just_now| uppercaseFirst}}</p>
 
@@ -186,12 +186,12 @@
                                     <div class="members">
                                         <ng-container *ngFor="let beneficiary of error.new.beneficiaries; let beneficiaryIndex=index">
                                             <div class="member" *ngIf="beneficiaryIndex !== 0">
-                                                <h4>{{error.new.beneficiaries[beneficiaryIndex].given_name}} {{error.new.beneficiaries[beneficiaryIndex].family_name}}</h4>
+                                                <h4>{{error.new.beneficiaries[beneficiaryIndex].local_given_name}} {{error.new.beneficiaries[beneficiaryIndex].local_family_name}}</h4>
                                             </div>
                                         </ng-container>
                                         <ng-container *ngFor="let beneficiary of getOldRestoredBeneficiaries(householdIndex)">
                                             <div class="member">
-                                                <h4>{{beneficiary.given_name}} {{beneficiary.family_name}}</h4>
+                                                <h4>{{beneficiary.local_given_name}} {{beneficiary.local_family_name}}</h4>
                                             </div>
                                         </ng-container>
 
@@ -236,7 +236,7 @@
                                 <div class="household old">
                                     <div class="head">
                                         <div class="head-info">
-                                            <h4>{{error.old_household.beneficiaries[0].given_name}} {{error.old_household.beneficiaries[0].family_name}}</h4>
+                                            <h4>{{error.old_household.beneficiaries[0].local_given_name}} {{error.old_household.beneficiaries[0].local_family_name}}</h4>
                                             <p>{{error.old_household.address_number}} {{error.old_household.address_street}} {{error.old_household.address_postcode}}</p>
                                             <p>{{language.data_verification_last_updated| uppercaseFirst}}: {{error.old_household.beneficiaries[0].updated_on | date:'dd-MM-yyyy'}}</p>
                                         </div>
@@ -247,20 +247,20 @@
                                     <div class="members step-duplicates">
                                         <ng-container *ngFor="let beneficiary of error.old_household.beneficiaries; let beneficiaryIndex=index">
                                             <div class="member" *ngIf="beneficiaryIndex !== 0">
-                                                <h4>{{beneficiary.given_name}} {{beneficiary.family_name}}</h4>
+                                                <h4>{{beneficiary.local_given_name}} {{beneficiary.local_family_name}}</h4>
                                             </div>
                                         </ng-container>
                                     </div>
                                     <div class="duplicate">
                                         <mat-checkbox [formControl]="form.controls[householdIndex].controls.old" color="primary">
-                                            <h4>{{error.old.given_name}} {{error.old.family_name}}</h4>
+                                            <h4>{{error.old.local_given_name}} {{error.old.local_family_name}}</h4>
                                         </mat-checkbox>
                                     </div>
                                 </div>
                                 <div class="household new">
                                     <div class="head">
                                         <div class="head-info">
-                                            <h4>{{error.new_household.beneficiaries[0].given_name}} {{error.new_household.beneficiaries[0].family_name}}</h4>
+                                            <h4>{{error.new_household.beneficiaries[0].local_given_name}} {{error.new_household.beneficiaries[0].local_family_name}}</h4>
                                             <p>{{error.new_household.address_number}} {{error.new_household.address_street}} {{error.new_household.address_postcode}}</p>
                                             <p>{{language.data_verification_last_updated| uppercaseFirst}}: {{language.data_verification_just_now| uppercaseFirst}}</p>
                                         </div>
@@ -271,13 +271,13 @@
                                     <div class="members step-duplicates">
                                         <ng-container *ngFor="let beneficiary of error.new_household.beneficiaries; let beneficiaryIndex=index">
                                             <div class="member" *ngIf="beneficiaryIndex !== 0">
-                                                <h4>{{beneficiary.given_name}} {{beneficiary.family_name}}</h4>
+                                                <h4>{{beneficiary.local_given_name}} {{beneficiary.local_family_name}}</h4>
                                             </div>
                                         </ng-container>
                                     </div>
                                     <div class="duplicate">
                                         <mat-checkbox [formControl]="form.controls[householdIndex].controls.new" color="primary">
-                                            <h4>{{error.new.given_name}} {{error.new.family_name}}</h4>
+                                            <h4>{{error.new.local_given_name}} {{error.new.local_family_name}}</h4>
                                         </mat-checkbox>
                                     </div>
                                 </div>

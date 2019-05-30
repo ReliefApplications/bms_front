@@ -67,6 +67,12 @@
     </ng-container>
 </ng-template>
 <ng-template #isNotDate>
+    <ng-container *ngIf="field.displayValue; else isGeneralValue">
+        {{ field.displayValue | uppercaseFirst }}
+    </ng-container>
+</ng-template>
+
+<ng-template #isGeneralValue>
     <ng-container *ngIf="isString(field.value); else notAString">
         <ng-container *ngIf="field.isImageInTable; else checkColor">
             <app-icon-svg [imagePath]="field.value"></app-icon-svg>

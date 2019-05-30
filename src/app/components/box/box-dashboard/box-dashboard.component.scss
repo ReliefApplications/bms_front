@@ -70,14 +70,13 @@ $box-content: 80px;
         justify-content: center;
         align-items: center;
 
-        img{
+        mat-icon {
             padding: 5px;
-            display:inline-block;
-            color:white;
-            text-align: center;
-            vertical-align: bottom;
-            -webkit-filter: invert(1);
-            height: 5vh;
+            display: flex;
+            color: white;
+            font-size: 2.5em;
+            align-items: center;
+            justify-content: center;
         }
     }
 }

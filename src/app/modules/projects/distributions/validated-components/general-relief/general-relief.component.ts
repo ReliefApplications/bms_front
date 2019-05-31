@@ -75,6 +75,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         }
          if (amount === 0) {
             this.finishedEmitter.emit();
+            this.distributionService.complete(this.actualDistribution.get('id')).subscribe();
          }
     }
 
@@ -182,6 +183,11 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         const generalReliefsForApi = generalReliefs.map((generalRelief: GeneralRelief) => generalRelief.modelToApi());
         this.distributionService.addNotes(generalReliefsForApi).subscribe(() => {
         });
+
+        // Then, send the updatee associated Beneficiary to the api
+        const apiUpdateElement = updateElement.get<Beneficiary>('beneficiary').modelToApi();
+        this.beneficiariesService.update(apiUpdateElement['id'], apiUpdateElement).subscribe();
+
 
         // Then, replace the old value of the transaction by updateElement in the actual distribution
         const distributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');

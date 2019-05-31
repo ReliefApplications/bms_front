@@ -338,7 +338,7 @@ setType(step, choice) {
     }
 }
 
-/**
+    /**
 	* open each modal dialog
 	*/
     openModal(dialogDetails: any): void {

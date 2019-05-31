@@ -74,6 +74,9 @@ export class ModalService {
                     dialogRef = this.openDeleteDialog(dialogDetails.element);
                 }
                 break;
+            case 'deleteMany':
+                dialogRef = this.openDeleteManyDialog(dialogDetails.ids);
+                break;
             case 'visit':
                 this.referedClassService.visit(dialogDetails.element.get('id'));
                 break;
@@ -98,7 +101,11 @@ export class ModalService {
                     this.updateElement(dialogDetails.element);
                 } else if (closeMethod === 'Delete') {
                     this.isLoading.next();
-                    this.deleteElement(dialogDetails.element);
+                    if (dialogDetails.action === 'delete') {
+                        this.deleteElement(dialogDetails.element);
+                    } else {
+                        this.deleteMany(dialogDetails.ids);
+                    }
                 } else if (closeMethod && closeMethod.method === 'AddBeneficiary') {
                     this.isLoading.next();
                     this.addBeneficiary(closeMethod.beneficiaries, closeMethod.justification, dialogDetails.distribution);
@@ -161,6 +168,14 @@ export class ModalService {
         return this.dialog.open(ModalDeleteBeneficiaryComponent, {
             data: {
                 beneficiary: beneficiary.getIdentifyingName(),
+            }
+        });
+    }
+
+    openDeleteManyDialog(ids: Array<string>) {
+        return this.dialog.open(ModalDeleteComponent, {
+            data: {
+                name: this.language.modal_delete_many,
             }
         });
     }
@@ -246,6 +261,12 @@ export class ModalService {
             .subscribe((_response: any) => {
                 this.isCompleted.next();
             });
+    }
+
+    deleteMany(ids: Array<number>) {
+        this.referedClassService.deleteMany(ids).subscribe((_response: any) => {
+            this.isCompleted.next();
+        });
     }
 
     // createElement(createElement: Object) {

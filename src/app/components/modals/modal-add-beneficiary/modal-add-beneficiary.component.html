@@ -9,7 +9,7 @@
             <div *ngIf="!loading" class="selectBeneficiaries">
                 <ng-select class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true" placeholder="{{language.beneficiaries | uppercaseFirst}}" [closeOnSelect]="false" [searchable]="true" required>
                     <ng-option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">
-                        {{beneficiary.get('fullName') | uppercaseFirst}}
+                        {{beneficiary.get('localFullName') | uppercaseFirst}}
                     </ng-option>
                 </ng-select>
             </div>

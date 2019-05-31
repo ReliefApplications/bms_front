@@ -28,7 +28,7 @@ export class State extends CustomModel {
 export class TransactionMobileMoney extends DistributionBeneficiary {
 
     title = this.language.beneficiary;
-    matSortActive = 'familyName';
+    matSortActive = 'localFamilyName';
 
     public fields = {...this.fields, ...{
         idTransaction: new NumberModelField({
@@ -37,19 +37,38 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
             isDisplayedInModal: true,
             nullValue: this.language.null_not_yet_defined,
         }),
-        givenName: new NestedFieldModelField({
+        beneficiary: new ObjectModelField<Beneficiary>(
+            {
+                value: []
+            }
+        ),
+        localGivenName: new NestedFieldModelField({
             title: this.language.model_firstName,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'givenName',
+            childrenFieldName: 'localGivenName',
             isDisplayedInModal: true,
         }),
-        familyName: new NestedFieldModelField({
+        localFamilyName: new NestedFieldModelField({
             title: this.language.model_familyName,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'familyName',
+            childrenFieldName: 'localFamilyName',
             isDisplayedInModal: true,
+        }),
+        enGivenName: new NestedFieldModelField({
+            title: this.language.add_beneficiary_getEnglishGivenName,
+            isDisplayedInTable: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enGivenName',
+            isDisplayedInModal: false,
+        }),
+        enFamilyName: new NestedFieldModelField({
+            title: this.language.add_beneficiary_getEnglishFamilyName,
+            isDisplayedInTable: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enFamilyName',
+            isDisplayedInModal: false,
         }),
         phones: new NestedFieldModelField({
             title: this.language.phone,
@@ -92,10 +111,36 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
             title: this.language.model_transaction_message,
             isDisplayedInModal: true,
         }),
+        addReferral: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_question,
+            isDisplayedInModal: true,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'addReferral',
+            isEditable: true,
+        }),
+        referralType: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_type,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralType',
+            isEditable: true,
+        }),
+        referralComment: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_comment,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralComment',
+            isEditable: true,
+        }),
     }};
 
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionMobileMoney {
         const newDistributionBeneficiary = new TransactionMobileMoney();
+        if (distributionBeneficiaryFromApi.beneficiary.referral) {
+            newDistributionBeneficiary.fields.addReferral.isDisplayedInModal = false;
+            newDistributionBeneficiary.fields.referralType.isDisplayedInModal = true;
+            newDistributionBeneficiary.fields.referralComment.isDisplayedInModal = true;
+        }
         const transactions = distributionBeneficiaryFromApi.transactions;
 
         if (transactions && transactions.length > 0 && isNumber(transactions[0].transaction_status)) {
@@ -127,8 +172,8 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
 
         return {
             id: this.get('id'),
-            givenName: this.get('beneficiary').get('givenName'),
-            familyName: this.get('beneficiary').get('familyName'),
+            localGivenName: this.get('beneficiary').get('localGivenName'),
+            localFamilyName: this.get('beneficiary').get('localFamilyName'),
             phone: this.get('beneficiary').get<Phone[]>('phones').map(phone => phone.modelToApi())
         };
 

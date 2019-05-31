@@ -1,13 +1,24 @@
 <form [formGroup]="form">
   <div class="column-container">
-    <h4 class="location">{{ language.name | uppercaseFirst }}</h4>
+    <h4 class="location">{{ language.beneficiaries_local_name | uppercaseFirst }}</h4>
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getFamilyName | uppercaseFirst }}" formControlName="familyName" required>
-      <app-hint-error [form]="form" fieldName="familyName" [field]="beneficiaryFields.familyName" [isMatField]="true"></app-hint-error>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getFamilyName | uppercaseFirst}}" formControlName="localFamilyName" required>
+      <app-hint-error [form]="form" fieldName="localFamilyName" [field]="beneficiaryFields.localFamilyName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getGivenName | uppercaseFirst }}" formControlName="givenName" required>
-      <app-hint-error [form]="form" fieldName="givenName" [field]="beneficiaryFields.givenName" [isMatField]="true"></app-hint-error>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getGivenName | uppercaseFirst}}" formControlName="localGivenName" required>
+      <app-hint-error [form]="form" fieldName="localGivenName" [field]="beneficiaryFields.localGivenName" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+  </div>
+  <div class="column-container">
+    <h4 class="location">{{ language.beneficiaries_english_name | uppercaseFirst }}</h4>
+    <mat-form-field>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishFamilyName | uppercaseFirst}}" formControlName="enFamilyName">
+      <app-hint-error [form]="form" fieldName="enFamilyName" [field]="beneficiaryFields.enFamilyName" [isMatField]="true"></app-hint-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishGivenName | uppercaseFirst}}" formControlName="enGivenName">
+      <app-hint-error [form]="form" fieldName="enGivenName" [field]="beneficiaryFields.enGivenName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
   </div>
   <div class="column-container">
@@ -53,10 +64,32 @@
     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
       placeholder="{{language.model_residencystatus | uppercaseFirst }}" formControlName="residencyStatus">
       <ng-option *ngFor="let option of options.residencyStatusList" [value]="option.get('id')">
-        {{option.get('name') | uppercaseFirst  }}
+        {{ option.get('name') | uppercaseFirst  }}
       </ng-option>
     </ng-select>
     <app-hint-error [form]="form" fieldName="residencyStatus" [field]="beneficiaryFields.residencyStatus" [isMatField]="false"></app-hint-error>
+  </div>
+  <div class="column-container">
+    <h4 class="location">{{ language.beneficiaries_referral | uppercaseFirst }}</h4>
+    <div class="referral-question" *ngIf="!form.controls.referralType.value && !form.controls.referralComment.value && !form.controls.addReferral.value">
+      <mat-checkbox formControlName="addReferral" type="checkbox" color="primary" [checked]="default">
+      </mat-checkbox>
+      <span>{{ language.beneficiaries_referral_question | uppercaseFirst }}</span>
+    </div>
+    <ng-container *ngIf="form.controls.addReferral.value || (form.controls.referralType.value && form.controls.referralComment.value)">
+      <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+        placeholder="{{language.beneficiaries_referral_type | uppercaseFirst }}" formControlName="referralType">
+        <ng-option *ngFor="let option of options.referralTypeList" [value]="option.get('id')">
+          {{option.get('name') | uppercaseFirst  }}
+        </ng-option>
+      </ng-select>
+      <app-hint-error [form]="form" fieldName="referralType" [field]="beneficiaryFields.referralType" [isMatField]="false"></app-hint-error>
+      <mat-form-field class="area-size">
+        <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="2" matAutosizeMaxRows="5"
+          placeholder="{{language.beneficiaries_referral_comment | uppercaseFirst}}" formControlName="referralComment"></textarea>
+        <app-hint-error [form]="form" fieldName="referralComment" [field]="beneficiaryFields.referralComment" [isMatField]="true"></app-hint-error>
+      </mat-form-field>
+    </ng-container>
   </div>
   <div *ngFor="let index of [0, 1]" class="column-container columns-phones">
     <h4 class="location">{{ language.phone | uppercaseFirst }} {{ index + 1 }}</h4>

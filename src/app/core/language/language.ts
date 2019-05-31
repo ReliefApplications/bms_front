@@ -14,6 +14,7 @@ export interface Language {
     cancel: string
     characters: string
     close: string
+    complete: string
     create: string
     delete: string
     details: string
@@ -81,10 +82,15 @@ export interface Language {
     add_beneficiary_getDateOfBirth: string
     add_beneficiary_getFamilyName: string
     add_beneficiary_getGivenName: string
+    add_beneficiary_getEnglishFamilyName: string
+    add_beneficiary_getEnglishGivenName: string
     add_beneficiary_getNationalID: string
     add_beneficiary_getOccupation: string
     add_beneficiary_getTypeNationalId: string
     add_beneficiary_getTypePhone: string
+    add_beneficiary_income: string
+    add_beneficiary_income_level: object
+    add_beneficiary_nationalID: string
     add_beneficiary_res_address: string
     add_beneficiary_step1: string
     add_beneficiary_step2: string
@@ -151,6 +157,8 @@ export interface Language {
     beneficiaries_added: string
     beneficiaries_advanced_research: string
     beneficiaries_clear_all_research: string
+    beneficiaries_english_name: string
+    beneficiaries_local_name: string
     beneficiaries_full_address: string
     beneficiaries_head: string
     beneficiaries_household_info: string
@@ -177,6 +185,11 @@ export interface Language {
     beneficiaries_missing_selected_project: string
     beneficiaries_personnal: string
     beneficiaries_proxy: string
+    beneficiaries_referral: string
+    beneficiaries_referral_question: string
+    beneficiaries_referral_type: string
+    beneficiaries_referral_types: object
+    beneficiaries_referral_comment: string
     beneficiaries_residency: string
     beneficiaries_residency_refugee: string
     beneficiaries_residency_idp: string
@@ -199,7 +212,6 @@ export interface Language {
     commodity_wash: string
     commodity_agriculture: string
     commodity_rte: string
-    commodity_distribution: string
     commodity_shelter: string
     commodity_hygiene: string
     commodity_dignity: string
@@ -217,6 +229,8 @@ export interface Language {
     dashboard_summary_2: string
     dashboard_summary_3: string
     dashboard_summary_4: string
+    dashboard_summary_5: string
+    dashboard_summary_6: string
 
     // Data verification
     data_verification_chip_actual: string
@@ -362,6 +376,8 @@ export interface Language {
     modal_delete_beneficiary_sentence: string
     modal_delete_beneficiary_sentence_2: string
     modal_delete_justification: string
+    modal_delete_many: string
+    modal_complete_distribution: string
     modal_delete_sentence: string
     modal_delete_sentence_2: string
     modal_details_title: string
@@ -420,6 +436,7 @@ export interface Language {
     model_donor: string
     model_donor_fullname: string
     model_donor_shortname: string
+    model_duplicate: string
     model_familyName: string
     model_firstName: string
     model_household_sentence: string
@@ -450,6 +467,7 @@ export interface Language {
     model_used: string
     model_user: string
     model_password: string
+    model_user_password_question: string
     model_value: string
     modal_values_format_error: string
     model_vendors_address: string
@@ -476,6 +494,7 @@ export interface Language {
     placeholder_one_many: string
 
     // Profile
+    profile_change_password: string
     profile_user_change_password: string
     profile_user_hint_new_password: string
     profile_user_hint_new_password_again: string

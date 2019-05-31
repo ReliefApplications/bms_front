@@ -83,9 +83,10 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                 }
             );
         }
-         if (amount === 0) {
+        if (amount === 0) {
             this.finishedEmitter.emit();
-         }
+            this.distributionService.complete(this.actualDistribution.get('id')).subscribe();
+        }
     }
 
     refreshStatuses() {
@@ -315,6 +316,11 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                 if (this.networkService.getStatus()) {
                     this.getDistributionBeneficiaries();
                 }
+            });
+        }  else if (dialogDetails.action === 'edit') {
+            dialogDetails.element = dialogDetails.element.get('beneficiary');
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
             });
         } else {
             this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);

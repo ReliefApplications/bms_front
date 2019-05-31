@@ -10,6 +10,7 @@ import { Phone } from './phone';
 import { Profile } from './profile';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
 import { BooleanModelField } from './custom-models/boolan-model-field';
+import { FormGroup } from '@angular/forms';
 
 export class Gender extends CustomModel {
 
@@ -54,9 +55,23 @@ export class BeneficiaryStatus extends CustomModel {
     }
 }
 
+export class BeneficiaryReferralType extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
+
 export class Beneficiary extends CustomModel {
     title = this.language.beneficiary;
-    matSortActive = 'familyName';
+    matSortActive = 'localFamilyName';
     public fields = {
         id : new NumberModelField(
             {
@@ -64,25 +79,45 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInTable: true,
             },
         ),
-        givenName: new TextModelField(
+        localGivenName: new TextModelField(
             {
                 title: this.language.model_firstName,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
-                isSettable: true,
                 isLongText: false,
+                displayValue: '',
             }
         ),
-        familyName: new TextModelField(
+        localFamilyName: new TextModelField(
             {
                 title: this.language.model_familyName,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
-                isSettable: true,
+                isLongText: false,
+                displayValue: '',
+            }
+        ),
+        enGivenName: new TextModelField(
+            {
+                title: this.language.add_beneficiary_getEnglishGivenName,
+                placeholder: null,
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
+                isRequired: true,
+                isLongText: false,
+            }
+        ),
+        enFamilyName: new TextModelField(
+            {
+                title: this.language.add_beneficiary_getEnglishFamilyName,
+                placeholder: null,
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
+                isRequired: true,
                 isLongText: false,
             }
         ),
@@ -91,10 +126,8 @@ export class Beneficiary extends CustomModel {
                 title: this.language.gender,
                 placeholder: null,
                 isRequired: true,
-                isSettable: true,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
-                isEditable: true,
                 options: [
                     new Gender('0', this.language.add_distribution_female),
                     new Gender('1', this.language.add_distribution_male)
@@ -110,8 +143,6 @@ export class Beneficiary extends CustomModel {
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isRequired: true,
-            isSettable: true,
-            isEditable: true,
         }),
         residencyStatus: new SingleSelectModelField(
             {
@@ -120,7 +151,6 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
-                isSettable: true,
                 isLongText: false,
                 options: [
                     new ResidencyStatus('refugee', this.language.residency_refugee),
@@ -142,8 +172,6 @@ export class Beneficiary extends CustomModel {
                     new BeneficiaryStatus('1', this.language.beneficiaries_head)
                 ],
                 isRequired: true,
-                isSettable: true,
-                isEditable: true,
                 bindField: 'name',
                 apiLabel: 'id',
             }
@@ -180,14 +208,13 @@ export class Beneficiary extends CustomModel {
                 value: []
             }
         ),
-        fullName: new TextModelField(
+        localFullName: new TextModelField(
             {
                 title: this.language.model_donor_fullname,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
                 isRequired: true,
-                isSettable: true,
                 isLongText: false,
             }
         ),
@@ -200,6 +227,44 @@ export class Beneficiary extends CustomModel {
         removed: new BooleanModelField({
 
         }),
+        addReferral: new BooleanModelField(
+            {
+                title: this.language.beneficiaries_referral_question,
+                isTrigger: true,
+                isDisplayedInModal: true,
+                isEditable: true,
+                value: false,
+                triggerFunction: (beneficiary: Beneficiary, value: boolean, form: FormGroup) => {
+                    beneficiary.fields.referralComment.isDisplayedInModal = value;
+                    beneficiary.fields.referralType.isDisplayedInModal = value;
+                    return beneficiary;
+                },
+            }
+        ),
+        referralType: new SingleSelectModelField(
+            {
+                title: this.language.beneficiaries_referral_type,
+                isDisplayedInModal: false,
+                isEditable: true,
+                bindField: 'name',
+                apiLabel: 'id',
+                options: [
+                    new BeneficiaryReferralType('1', this.language.beneficiaries_referral_types['1']),
+                    new BeneficiaryReferralType('2', this.language.beneficiaries_referral_types['2']),
+                    new BeneficiaryReferralType('3', this.language.beneficiaries_referral_types['3']),
+                    new BeneficiaryReferralType('4', this.language.beneficiaries_referral_types['4']),
+                    new BeneficiaryReferralType('5', this.language.beneficiaries_referral_types['5']),
+                ],
+            }
+        ),
+        referralComment: new TextModelField(
+            {
+                title: this.language.beneficiaries_referral_comment,
+                isDisplayedInModal: false,
+                isEditable: true,
+                isLongText: true,
+            }
+        )
     };
 
 
@@ -207,15 +272,23 @@ export class Beneficiary extends CustomModel {
         const newBeneficiary = new Beneficiary();
 
         newBeneficiary.set('id', beneficiaryFromApi.id);
-        newBeneficiary.set('givenName', beneficiaryFromApi.given_name);
-        newBeneficiary.set('familyName', beneficiaryFromApi.family_name);
+        newBeneficiary.set('localGivenName', beneficiaryFromApi.local_given_name);
+        newBeneficiary.set('localFamilyName', beneficiaryFromApi.local_family_name);
+        newBeneficiary.set('enGivenName', beneficiaryFromApi.en_given_name);
+        newBeneficiary.set('enFamilyName', beneficiaryFromApi.en_family_name);
+        newBeneficiary.fields.localFamilyName.displayValue = beneficiaryFromApi.en_family_name ?
+            beneficiaryFromApi.local_family_name + ' (' + beneficiaryFromApi.en_family_name + ')' :
+            beneficiaryFromApi.local_family_name;
+        newBeneficiary.fields.localGivenName.displayValue = beneficiaryFromApi.en_given_name ?
+            beneficiaryFromApi.local_given_name + ' (' + beneficiaryFromApi.en_given_name + ')' :
+            beneficiaryFromApi.local_given_name;
         newBeneficiary.set('dateOfBirth', DateModelField.formatFromApi(beneficiaryFromApi.date_of_birth));
         const status = beneficiaryFromApi.status ? '1' : '0';
         newBeneficiary.set('beneficiaryStatus', newBeneficiary.getOptions('beneficiaryStatus')
                 .filter((option: BeneficiaryStatus) => option.get<string>('id') === status)[0]);
-        newBeneficiary.set('fullName',
-        (beneficiaryFromApi.given_name ? beneficiaryFromApi.given_name : '') + ' ' +
-        (beneficiaryFromApi.family_name ? beneficiaryFromApi.family_name : ''));
+        newBeneficiary.set('localFullName',
+        (beneficiaryFromApi.local_given_name ? beneficiaryFromApi.local_given_name : '') + ' ' +
+        (beneficiaryFromApi.local_family_name ? beneficiaryFromApi.local_family_name : ''));
 
         newBeneficiary.set('residencyStatus',
             beneficiaryFromApi.residency_status ?
@@ -257,6 +330,15 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.fields.phones.displayModalFunction = value => value.map((phone: Phone) => phone.get('number'));
         newBeneficiary.fields.nationalIds.displayModalFunction = value => value.map((nationalId: NationalId) => nationalId.get('number'));
 
+        if (beneficiaryFromApi.referral) {
+            newBeneficiary.fields.addReferral.isDisplayedInModal = false;
+            newBeneficiary.set('referralType', newBeneficiary.getOptions('referralType')
+                .filter((option: BeneficiaryReferralType) => option.get('id') === beneficiaryFromApi.referral.type)[0]);
+            newBeneficiary.set('referralComment', beneficiaryFromApi.referral.comment);
+            newBeneficiary.fields.referralType.isDisplayedInModal = true;
+            newBeneficiary.fields.referralComment.isDisplayedInModal = true;
+        }
+
         return newBeneficiary;
 
     }
@@ -264,8 +346,10 @@ export class Beneficiary extends CustomModel {
     public modelToApi(): Object {
         return {
             id: this.fields.id.formatForApi(),
-            given_name: this.fields.givenName.formatForApi(),
-            family_name: this.fields.familyName.formatForApi(),
+            local_given_name: this.fields.localGivenName.formatForApi(),
+            local_family_name: this.fields.localFamilyName.formatForApi(),
+            en_given_name: this.fields.enGivenName.formatForApi(),
+            en_family_name: this.fields.enFamilyName.formatForApi(),
             gender: this.fields.gender.formatForApi(),
             date_of_birth: this.fields.dateOfBirth.formatForApi(),
             residency_status: this.fields.residencyStatus.formatForApi(),
@@ -273,7 +357,9 @@ export class Beneficiary extends CustomModel {
             vulnerability_criteria: this.get<VulnerabilityCriteria[]>('vulnerabilities').map(vulnerability => vulnerability.modelToApi()),
             phones: this.get<Phone[]>('phones').map(phone => phone.modelToApi()),
             national_ids: this.get<NationalId[]>('nationalIds').map(nationalId => nationalId.modelToApi()),
-            profile: this.get('profile') ? this.get('profile').modelToApi() : null
+            profile: this.get('profile') ? this.get('profile').modelToApi() : null,
+            referral_type: this.fields.referralType.value ? this.fields.referralType.formatForApi() : null,
+            referral_comment: this.fields.referralComment.value ? this.fields.referralComment.formatForApi() : null,
         };
     }
 
@@ -303,7 +389,7 @@ export class Beneficiary extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.get('givenName') + ' ' + this.get('familyName');
+        return this.get('localGivenName') + ' ' + this.get('localFamilyName');
     }
 }
 
@@ -314,6 +400,7 @@ export interface BeneficiaryOptions {
     nationalIdList: any;
     residencyStatusList: any;
     phoneList: any;
+    referralTypeList: any;
 }
 
 

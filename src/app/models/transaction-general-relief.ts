@@ -8,6 +8,7 @@ import { NumberModelField } from './custom-models/number-model-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { TextModelField } from './custom-models/text-model-field';
 import { DistributionBeneficiary } from './distribution-beneficiary';
+import { FormGroup } from '@angular/forms';
 
 
 export class GeneralRelief extends CustomModel {
@@ -39,8 +40,8 @@ export class GeneralRelief extends CustomModel {
 
 export class TransactionGeneralRelief extends DistributionBeneficiary {
 
+    matSortActive = 'localFamilyName';
     title = this.language.model_item;
-    matSortActive = 'familyName';
 
     public fields = {...this.fields, ...{
         id: new NumberModelField({
@@ -52,19 +53,36 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             isDisplayedInModal: true,
             nullValue: this.language.null_not_yet_defined,
         }),
-        givenName: new NestedFieldModelField({
+        beneficiary: new ObjectModelField<Beneficiary>({
+                value: []
+        }),
+        localGivenName: new NestedFieldModelField({
             title: this.language.model_firstName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'givenName'
+            childrenFieldName: 'localGivenName'
         }),
-        familyName: new NestedFieldModelField({
+        localFamilyName: new NestedFieldModelField({
             title: this.language.model_familyName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'familyName'
+            childrenFieldName: 'localFamilyName'
+        }),
+        enGivenName: new NestedFieldModelField({
+            title: this.language.add_beneficiary_getEnglishGivenName,
+            isDisplayedInTable: false,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enGivenName'
+        }),
+        enFamilyName: new NestedFieldModelField({
+            title: this.language.add_beneficiary_getEnglishFamilyName,
+            isDisplayedInTable: false,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enFamilyName'
         }),
         generalReliefs: new MultipleObjectsModelField<GeneralRelief>({
 
@@ -90,11 +108,44 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             isDisplayedInModal: true,
             isEditable: true,
         }),
+        addReferral: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_question,
+            isDisplayedInModal: true,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'addReferral',
+            isEditable: true,
+            isTrigger: true,
+            triggerFunction: (transactionGeneralRelief: TransactionGeneralRelief, value: boolean, form: FormGroup) => {
+                transactionGeneralRelief.fields.referralComment.isDisplayedInModal = value;
+                transactionGeneralRelief.fields.referralType.isDisplayedInModal = value;
+                return transactionGeneralRelief;
+            },
+        }),
+        referralType: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_type,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralType',
+            isEditable: true,
+        }),
+        referralComment: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_comment,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralComment',
+            isEditable: true,
+        }),
     }
     };
 
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionGeneralRelief {
         const newGeneralRelief = new TransactionGeneralRelief();
+        newGeneralRelief.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
+        if (distributionBeneficiaryFromApi.beneficiary.referral) {
+            newGeneralRelief.fields.addReferral.isDisplayedInModal = false;
+            newGeneralRelief.fields.referralType.isDisplayedInModal = true;
+            newGeneralRelief.fields.referralComment.isDisplayedInModal = true;
+        }
         newGeneralRelief.set('distributedAt', distributionBeneficiaryFromApi.general_reliefs[0] ?
             DateModelField.formatDateTimeFromApi(distributionBeneficiaryFromApi.general_reliefs[0].distributed_at) :
             null);
@@ -106,6 +157,11 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
         }
         newGeneralRelief.fields.notes.numberOfInputs = newGeneralRelief.get<GeneralRelief[]>('generalReliefs').length;
         this.addCommonFields(newGeneralRelief, distributionBeneficiaryFromApi, distributionId);
+        if (distributionBeneficiaryFromApi.beneficiary.referral) {
+            newGeneralRelief.fields.addReferral.isDisplayedInModal = false;
+            newGeneralRelief.fields.referralType.isDisplayedInModal = true;
+            newGeneralRelief.fields.referralComment.isDisplayedInModal = true;
+        }
         return newGeneralRelief;
     }
 
@@ -114,8 +170,10 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
 
         return {
             id: this.get('id'),
-            given_name: this.get('givenName'),
-            family_name: this.get('familyName'),
+            local_given_name: this.get('localGivenName'),
+            local_family_name: this.get('localFamilyName'),
+            en_given_name: this.get('enGivenName'),
+            en_family_name: this.get('enFamilyName'),
             used: this.fields.distributedAt.formatForApi(),
             values: this.get('values'),
             notes: this.get('notes'),

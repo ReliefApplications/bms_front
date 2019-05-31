@@ -53,10 +53,13 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Input() printable = false;
     @Input() assignable = false;
     @Input() justifiable = false;
+    @Input() duplicable = false;
 
     @Input() searchable = false;
     @Input() paginable = false;
     @Input() selectable = false;
+
+    @Input() completable = false;
 
     // For Imported Beneficiaries
     @Input() parentId: number = null;
@@ -86,6 +89,8 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Output() printOne = new EventEmitter<any>();
     @Output() assignOne = new EventEmitter<any>();
     @Output() justifyOne = new EventEmitter<any>();
+    @Output() completeOne = new EventEmitter<any>();
+    @Output() duplicateOne = new EventEmitter<any>();
 
     sortedData: any;
     allData: any = undefined;
@@ -240,7 +245,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     public getDisplayedColumns(): string[] {
         const actionable = this.validatable || this.updatable || this.loggable ||
-            this.editable || this.deletable || this.printable || this.assignable || this.justifiable;
+            this.editable || this.deletable || this.printable || this.assignable || this.justifiable || this.completable || this.duplicable;
         if (this.selectable && actionable) {
             return this.displayProperties ? ['check', ...this.displayProperties, 'actions'] : [];
         } else if (this.selectable && !actionable) {
@@ -319,6 +324,14 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     justify(element) {
         this.justifyOne.emit(element);
+    }
+
+    complete(element) {
+        this.completeOne.emit(element);
+    }
+
+    duplicate(element) {
+        this.duplicateOne.emit(element);
     }
 
     requestLogs(element: any) {

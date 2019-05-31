@@ -109,8 +109,11 @@ export class Commodity extends CustomModel {
         const newCommodity = new Commodity();
 
         newCommodity.set('id', commodityFromApi.id);
-        newCommodity.set('modalityType', new ModalityType(null, commodityFromApi.modality_type.name));
-        newCommodity.set('modality', new Modality(null, commodityFromApi.modality_type.modality));
+        newCommodity.set('modalityType', new ModalityType(commodityFromApi.modality_type.id, commodityFromApi.modality_type.name));
+        const modalityName = commodityFromApi.modality_type.modality.name ?
+            commodityFromApi.modality_type.modality.name :
+            commodityFromApi.modality_type.modality;
+        newCommodity.set('modality', new Modality(null, modalityName));
         newCommodity.set('value', commodityFromApi.value);
         newCommodity.set('unit', commodityFromApi.unit);
         newCommodity.set('description', commodityFromApi.description);
@@ -143,7 +146,6 @@ export class Commodity extends CustomModel {
             'WASH Kit': 'wash',
             'Agricultural Kit': 'agriculture',
             'RTE Kit': 'rte-kit',
-            'On site distribution': 'on_site_distribution',
             'Shelter tool kit': 'shelter',
             'Hygiene kit': 'hygiene',
             'Dignity kit': 'dignity',
@@ -170,7 +172,6 @@ export class Commodity extends CustomModel {
             'WASH Kit': this.language.commodity_wash,
             'Agricultural Kit': this.language.commodity_agriculture,
             'RTE Kit': this.language.commodity_rte,
-            'On site distribution': this.language.commodity_distribution,
             'Shelter tool kit': this.language.commodity_shelter,
             'Hygiene kit': this.language.commodity_hygiene,
             'Dignity kit': this.language.commodity_dignity,

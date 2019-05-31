@@ -7,7 +7,7 @@ import { DistributionBeneficiary } from './distribution-beneficiary';
 export class TransactionQRVoucher extends DistributionBeneficiary {
 
     title = this.language.beneficiary;
-    matSortActive = 'familyName';
+    matSortActive = 'localFamilyName';
 
     public fields = {...this.fields, ...{
         // id: new NumberModelField({
@@ -16,19 +16,33 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
         booklet: new ObjectModelField<Booklet>({
 
         }),
-        givenName: new NestedFieldModelField({
+        localGivenName: new NestedFieldModelField({
             title: this.language.model_firstName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'givenName'
+            childrenFieldName: 'localGivenName'
         }),
-        familyName: new NestedFieldModelField({
+        localFamilyName: new NestedFieldModelField({
             title: this.language.model_familyName,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'familyName'
+            childrenFieldName: 'localFamilyName'
+        }),
+        enGivenName: new NestedFieldModelField({
+            title: this.language.add_beneficiary_getEnglishGivenName,
+            isDisplayedInTable: false,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enGivenName'
+        }),
+        enFamilyName: new NestedFieldModelField({
+            title: this.language.add_beneficiary_getEnglishFamilyName,
+            isDisplayedInTable: false,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enFamilyName'
         }),
         bookletCode: new NestedFieldModelField({
             title: this.language.model_booklet,
@@ -58,11 +72,38 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'value',
-        })
+        }),
+        addReferral: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_question,
+            isDisplayedInModal: true,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'addReferral',
+            isEditable: true,
+        }),
+        referralType: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_type,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralType',
+            isEditable: true,
+        }),
+        referralComment: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_comment,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralComment',
+            isEditable: true,
+        }),
     }};
 
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionQRVoucher {
         const newQRVoucher = new TransactionQRVoucher();
+
+        if (distributionBeneficiaryFromApi.beneficiary.referral) {
+            newQRVoucher.fields.addReferral.isDisplayedInModal = false;
+            newQRVoucher.fields.referralType.isDisplayedInModal = true;
+            newQRVoucher.fields.referralComment.isDisplayedInModal = true;
+        }
 
         let booklet = null;
         if (distributionBeneficiaryFromApi.booklets.length) {
@@ -76,8 +117,8 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
 
     public modelToApi(): Object {
         return {
-            given_name: this.get('beneficiary').get('givenName'),
-            family_name: this.get('beneficiary').get('familyName'),
+            local_given_name: this.get('beneficiary').get('localGivenName'),
+            local_family_name: this.get('beneficiary').get('localFamilyName'),
             booklet: this.get('booklet').modelToApi(),
         };
     }

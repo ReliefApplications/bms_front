@@ -1,6 +1,8 @@
 import { ADMINLEVELS } from '../adm-constants';
 
 import { Language } from '../language';
+import { INCOMELEVELS } from '../../../models/constants/income-levels';
+import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 /* tslint:disable */
 export class French implements Language {
     // GENERAL VARIABLES
@@ -16,6 +18,7 @@ export class French implements Language {
     beneficiary = 'Bénéficiaire'
     cancel = 'Annuler'
     close = 'Fermer'
+    complete = 'Terminer'
     characters = 'Caractères'
     create = 'Créer'
     delete = 'Supprimer'
@@ -95,12 +98,17 @@ export class French implements Language {
     add_beneficiary_getAddressPostcode = 'Code Postal'
     add_beneficiary_getAddressStreet = 'Rue'
     add_beneficiary_getDateOfBirth = 'Date de naissance'
-    add_beneficiary_getFamilyName = 'Nom de famille'
-    add_beneficiary_getGivenName = 'Prénom'
+    add_beneficiary_getFamilyName = 'Nom de famille local'
+    add_beneficiary_getGivenName = 'Prénom local'
+    add_beneficiary_getEnglishFamilyName = 'Nom de famille anglais'
+    add_beneficiary_getEnglishGivenName = 'Prénom anglais'
     add_beneficiary_getNationalID = 'Identifiant national'
     add_beneficiary_getOccupation = 'Métier'
     add_beneficiary_getTypeNationalId = 'Type d\'identifiant national'
     add_beneficiary_getTypePhone = 'Type'
+    add_beneficiary_income = 'Niveau de revenu'
+    add_beneficiary_income_level = INCOMELEVELS.fr
+    add_beneficiary_nationalID = 'Document d\'identité'
     add_beneficiary_res_address = 'Adresse du résident'
     add_beneficiary_step1 = 'Information'
     add_beneficiary_step2 = 'Chef de famille'
@@ -151,8 +159,8 @@ export class French implements Language {
      beneficiary_error_address_street = 'Vous devez entrer un nom de voie'
      beneficiairy_error_head = 'le chef de famille'
      beneficiary_error_member = ' membre'
-     beneficiary_error_family_name = 'Vous devez entrer un nom de famille pour '
-     beneficiary_error_given_name = 'Vous devez entrer un prénom pour '
+     beneficiary_error_family_name = 'Vous devez entrer un nom de famille local pour '
+     beneficiary_error_given_name = 'Vous devez entrer un prénom local pour '
      beneficiairy_error_gender = 'Vous devez sélectionner un genre pour '
      beneficiary_error_phone = 'Le numéro de téléphone doit être uniquement composé de chiffres pour '
      beneficiary_error_existing_country_code = 'Veuillez sélectionner un préfixe valide pour '
@@ -167,6 +175,8 @@ export class French implements Language {
     beneficiaries_added = 'Les bénéficiaires ont été ajouté au projet sélectionné'
     beneficiaries_advanced_research = 'Recherche avancée'
     beneficiaries_clear_all_research = 'Réinitialiser les filtres'
+    beneficiaries_english_name = 'Nom anglais'
+    beneficiaries_local_name = 'Nom local'
     beneficiaries_full_address = 'Adresse entière du ménage'
     beneficiaries_household_info = 'Résumé des informations du ménage'
     beneficiaries_head = 'Chef de famille'
@@ -193,6 +203,11 @@ export class French implements Language {
     beneficiaries_missing_selected_project = 'Vous devez selectionner un projet avant l\'importation'
     beneficiaries_personnal = 'informations personnelles'
     beneficiaries_proxy = 'Proxy'
+    beneficiaries_referral = 'Référence'
+    beneficiaries_referral_question = 'Ajouter une référence'
+    beneficiaries_referral_type = 'Type de référence'
+    beneficiaries_referral_types = REFERRALTYPES.fr
+    beneficiaries_referral_comment = 'Commentaire'
     beneficiaries_residency = 'résidence'
     beneficiaries_residency_refugee = 'Réfugié'
     beneficiaries_residency_idp = 'IDP'
@@ -216,7 +231,6 @@ export class French implements Language {
     commodity_wash = 'Kit d\'hygiène'
     commodity_agriculture = 'Kit d\'agriculture'
     commodity_rte = 'Kit RTE'
-    commodity_distribution = 'distribution sur place'
     commodity_shelter = 'Kit d\'abris'
     commodity_hygiene = 'kit d\'hygiène'
     commodity_dignity = 'kit de dignité'
@@ -233,6 +247,8 @@ export class French implements Language {
     dashboard_summary_2 = 'projets en cours'
     dashboard_summary_3 = 'bénéficiaires enregistrés'
     dashboard_summary_4 = 'montant total des transactions'
+    dashboard_summary_5 = 'bénéficiaires servis'
+    dashboard_summary_6 = 'distributions terminées'
 
     // Data verification
     data_verification_chip_actual = 'Ménage ciblé'
@@ -378,6 +394,8 @@ export class French implements Language {
     modal_delete_beneficiary_sentence: 'Vous êtes sur le point de retirer '
     modal_delete_beneficiary_sentence_2 = ' de cette distribution'
     modal_delete_justification = 'justification'
+    modal_delete_many = 'ces éléments'
+    modal_complete_distribution = 'Etes-vous sûr de vouloir manuellement terminer cette distribution ?'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
     modal_delete_sentence_2 = '. '
     modal_details_title = 'Détails de ce'
@@ -437,6 +455,7 @@ export class French implements Language {
     model_donor = 'Donneur'
     model_donor_fullname = 'Nom du donneur'
     model_donor_shortname = 'Surnom'
+    model_duplicate = 'dupliquer'
     model_familyName = 'Nom'
     model_firstName = 'Prénom'
     model_household_sentence = 'Le ménage de '
@@ -466,6 +485,7 @@ export class French implements Language {
     model_unassigned = 'Non assigné'
     model_used = 'Utilisé'
     model_user = 'Utilisateur'
+    model_user_password_question = 'Modifier le mot de passe à la prochaine connexion'
     model_password = 'Mot de passe'
     model_value = 'Valeur'
     model_vendors_address = 'Adresse'
@@ -492,6 +512,7 @@ export class French implements Language {
     placeholder_one_many = 'Select one or many'
 
     // Profile
+    profile_change_password = 'Vous devez changer de mot de passe'
     profile_user_change_password = 'Changer de mot de passe'
     profile_user_hint_new_password = 'Nouveau mot de passe'
     profile_user_hint_new_password_again = 'Ré-entrez votre nouveau mot de passe'

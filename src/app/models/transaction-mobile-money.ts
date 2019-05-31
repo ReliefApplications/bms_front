@@ -111,11 +111,37 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
             title: this.language.model_transaction_message,
             isDisplayedInModal: true,
         }),
+        addReferral: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_question,
+            isDisplayedInModal: true,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'addReferral',
+            isEditable: true,
+        }),
+        referralType: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_type,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralType',
+            isEditable: true,
+        }),
+        referralComment: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_comment,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralComment',
+            isEditable: true,
+        }),
     };
 
     public static apiToModel(distributionBeneficiaryFromApi): TransactionMobileMoney {
         const newDistributionBeneficiary = new TransactionMobileMoney();
         newDistributionBeneficiary.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
+        if (distributionBeneficiaryFromApi.beneficiary.referral) {
+            newDistributionBeneficiary.fields.addReferral.isDisplayedInModal = false;
+            newDistributionBeneficiary.fields.referralType.isDisplayedInModal = true;
+            newDistributionBeneficiary.fields.referralComment.isDisplayedInModal = true;
+        }
         const transactions = distributionBeneficiaryFromApi.transactions;
 
         if (transactions && transactions.length > 0 && isNumber(transactions[0].transaction_status)) {

@@ -83,6 +83,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         }
     }
 
+
     loadDataPage() {
         this.tableServerData.loadData(
             this.filtersForAPI,

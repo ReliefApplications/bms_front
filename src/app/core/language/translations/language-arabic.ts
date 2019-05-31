@@ -1,6 +1,7 @@
 import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
 import { INCOMELEVELS } from '../../../models/constants/income-levels';
+import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 
 /* tslint:disable */
 export class Arabic implements Language {
@@ -12,6 +13,7 @@ export class Arabic implements Language {
     adm2 = ADMINLEVELS.ar.adm2
     adm3 = ADMINLEVELS.ar.adm3
     adm4 = ADMINLEVELS.ar.adm4
+    administrative_settings = 'الإعدادات الإدارية'
     back = 'إلى الوراء'
     beneficiaries = 'المستفيدون'
     beneficiary = 'المستفيد'
@@ -30,6 +32,7 @@ export class Arabic implements Language {
     export = 'تحميل'
     export_codes = 'رموز كتيب التصدير'
     gender = 'الجنس'
+    general_settings = 'ترتيب'
     home = 'الصفحة الرئيسية'
     households = 'الأسرة'
     id = 'دخول'
@@ -205,6 +208,11 @@ export class Arabic implements Language {
     beneficiaries_missing_selected_project= 'يجب أن تختار مشروعاقبل التحميل'
     beneficiaries_personnal = 'معلومات شخصية'
     beneficiaries_proxy= 'الوكيل'
+    beneficiaries_referral = 'إحالة'
+    beneficiaries_referral_question = 'إضافة الإحالة'
+    beneficiaries_referral_type = 'نوع الإحالة'
+    beneficiaries_referral_types = REFERRALTYPES.ar
+    beneficiaries_referral_comment = 'تعليق'
     beneficiaries_residency = 'الإقامة'
     beneficiaries_residency_refugee= 'لاجئ'
     beneficiaries_residency_idp= 'IDP'
@@ -307,10 +315,12 @@ export class Arabic implements Language {
     // Header
     'header_add-beneficiaries' = 'إضافة المستفيد'
     'header_add-distribution' = 'إضافة توزيع'
+    'header_admin' = 'الإعدادات الإدارية'
     header_beneficiaries = 'المستفيدون'
     'header_data-validation' = 'التأكد من صحة البيانات'
     header_disconnect =  'تسجيل الخروج من الحساب'
     'header_distributions' = 'التوزيع'
+    'header_settings' = 'ترتيب'
     header_home = 'الصفحة الرئيسية'
     header_import =  'تحميل بيانات المستفيد'
     header_imported = 'إستيراد بيانات المستفيدين'
@@ -318,7 +328,6 @@ export class Arabic implements Language {
     header_profile = ' المعطيات الشخصية'
     header_projects = 'المشاريع'
     header_reports = 'التقارير'
-    header_settings = 'الإعدادات'
     'header_update-beneficiary' = 'تحديث المستفيد'
     header_vouchers = 'قسائم'
 
@@ -397,6 +406,7 @@ export class Arabic implements Language {
     modal_add_multiple_title = 'خلق جديد إبداع جديد'
     modal_check_date = 'الحقول غير الصالح: لا يمكن أن يكون تاريخ الانتهاء  أقدم من تاريخ البدء'
     modal_check_fields = 'تحقق جيدا انك أدخلت جميع المعطيات'
+    modal_delete_many = 'هذه العناصر'
     modal_complete_distribution = 'هل تريد بالتأكيد إكمال هذا التوزيع يدويًا؟'
     modal_delete_sentence = 'أنت على وشك الحذف'
     modal_delete_sentence_2 = 'هل أنت متأكد'
@@ -415,6 +425,7 @@ export class Arabic implements Language {
     modal_password_required = 'كنت موسى تعريف كلمة مرور'
     modal_pending_requests = 'الطلبات المعلقة'
     modal_project_name_characters_limit = 'لا تتجاوز'
+    modal_pick_color = 'اختيار اللون'
     modal_save_language_as_default = 'قم بتعيين هذه اللغة كلغتي المفضلة.'
     modal_success = 'نجاح'
     modal_required = 'مطلوب'
@@ -465,6 +476,12 @@ export class Arabic implements Language {
     model_individual_value = 'القيمة الفردية'
     model_item = 'بند'
     model_notes = 'الملاحظات'
+    model_organization_name = 'اسم المنظمة'
+    model_organization_logo = 'شعار المنظمة'
+    model_organization_font = 'الخط لتطبيقه على .pdf'
+    model_organization_primary = 'اللون الأساسي للمنظمة'
+    model_organization_secondary = 'تنظيم اللون الثانوي'
+    model_organization_footer = '.pdf محتوى تذييل الصفحة'
     model_product_name = 'اسم'
     model_product_unit = 'وحدة'
     model_product_image = 'صورة'
@@ -584,6 +601,8 @@ export class Arabic implements Language {
     settings_donors = 'المانحين'
     settings_financial_provider = 'مزود المالية'
     settings_log_button = 'احصل على سجلات المستخدم عن طريق البريد الإلكتروني'
+    settings_organization = 'مؤسستي'
+    settings_print_starting = 'التحميل بدأ'
     settings_product = 'منتجات'
     settings_project_exists = 'مشروع بهذا الاسم يوجود بالفعل'
     settings_users = 'المستخدمون'

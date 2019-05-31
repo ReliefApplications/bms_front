@@ -35,10 +35,10 @@
                     </button>
                 </div>
                 <div class="content-table">
-                    <app-table [isLoading]="loadingFirstStep" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                    <app-table [isLoading]="loadingFirstStep" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                        (openModal)="openModal($event)">
                     </app-table>
-                    <app-table-mobile [isLoading]="loadingFirstStep" *ngIf="currentDisplayType.type === 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                    <app-table-mobile [isLoading]="loadingFirstStep" *ngIf="currentDisplayType.type === 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                        (openModal)="openModal($event)">
                     </app-table-mobile>
                 </div>
@@ -116,9 +116,9 @@
                     </p>
                 </div>
                 <div class="content-table" *ngIf="randomSampleData">
-                    <app-table [isLoading]="loadingThirdStep" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
+                    <app-table [isLoading]="loadingThirdStep" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
                     </app-table>
-                    <app-table-mobile [isLoading]="loadingThirdStep" *ngIf="currentDisplayType.type === 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
+                    <app-table-mobile [isLoading]="loadingThirdStep" *ngIf="currentDisplayType.type === 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
                     </app-table-mobile>
                 </div>
                 <div class="content-button content-button-footer">
@@ -142,9 +142,9 @@
                             {{language.distribution_show_data}} </button>
                     </div>
                     <div class="content-table" *ngIf="finalBeneficiaryData">
-                        <app-table [isLoading]="loadingFinalStep" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
+                        <app-table [isLoading]="loadingFinalStep" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
                         </app-table>
-                        <app-table-mobile [isLoading]="loadingFinalStep" *ngIf="currentDisplayType.type === 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
+                        <app-table-mobile [isLoading]="loadingFinalStep" *ngIf="currentDisplayType.type === 'mobile'" [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (openModal)="openModal($event)">
                         </app-table-mobile>
                     </div>
                     <div class="content-button content-button-footer">

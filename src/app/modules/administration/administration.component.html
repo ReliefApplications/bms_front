@@ -1,0 +1,11 @@
+<div class="page-container">
+  <div class="container-title">
+    <h2>{{language.administrative_settings | uppercaseFirst}}</h2>
+  </div>
+  <div class="container-boxes">
+    <app-box-setting [isSelected]="selectedTitle === 'users'" (click)="selectTitle('users')" [info]='{icon: "settings/users", color: "green", title:language.settings_users, ref:"users"}'></app-box-setting>
+    <app-box-setting [isSelected]="selectedTitle === 'donors'" (click)="selectTitle('donors')" [info]='{icon: "settings/donors", color: "green", title:language.settings_donors, ref:"donors"}'></app-box-setting>
+    <app-box-setting [isSelected]="selectedTitle === 'organization'" (click)="selectTitle('organization')" [info]='{icon: "settings/organization", color: "green", title:language.settings_organization, ref:"organization"}'></app-box-setting>
+  </div>
+  <app-settings [selectedTitle]="selectedTitle"></app-settings>
+</div>

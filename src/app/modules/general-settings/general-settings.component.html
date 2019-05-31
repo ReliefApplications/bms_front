@@ -1,0 +1,13 @@
+<div class="page-container">
+  <div class="container-title">
+    <h2>{{language.general_settings | titlecase}}</h2>
+  </div>
+  <div class="container-boxes">
+    <app-box-setting [isSelected]="selectedTitle === 'projects'" (click)="selectTitle('projects')" [info]='{icon: "settings/projects", color: "red", title:language.projects, ref:"projects"}'></app-box-setting>
+    <app-box-setting [isSelected]="selectedTitle === 'country specific options'" (click)="selectTitle('country specific options')" [info]='{icon: "settings/country_specific", color: "red", title:language.settings_country_specific_options, ref:"country specific options"}'></app-box-setting>
+    <app-box-setting [isSelected]="selectedTitle === 'financialProvider'" (click)="selectTitle('financialProvider')" [info]='{icon: "settings/api", color: "green", title:language.settings_financial_provider, ref:"financialProvider"}'></app-box-setting>
+    <app-box-setting [isSelected]="selectedTitle === 'product'" (click)="selectTitle('product')" [info]='{icon: "settings/product", color: "green", title:language.settings_product, ref:"product"}'></app-box-setting>
+    <app-box-setting [isSelected]="selectedTitle === 'vendors'" (click)="selectTitle('vendors')" [info]='{icon: "settings/vendor", color: "green", title:language.settings_vendors, ref:"vendors"}'></app-box-setting>
+  </div>
+  <app-settings [selectedTitle]="selectedTitle"></app-settings>
+</div>

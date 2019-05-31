@@ -42,6 +42,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     // addButtons
     addToggled = false;
 
+    numberToExport: number = null;
 
     @ViewChild(TableServerComponent) table: TableServerComponent;
 
@@ -82,6 +83,9 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         this.getProjects('updateSelection');
         this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
         this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
+        this.dataSource.length$.subscribe((length) => {
+            this.numberToExport = length;
+        });
     }
 
     ngOnDestroy() {
@@ -111,11 +115,33 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
      */
     export() {
         this.loadingExport = true;
-        this.householdsService.export(this.extensionType).then(
+        let filters = null;
+        let ids = [];
+        if (this.checkedElements.length > 0) {
+            ids = this.checkedElements.map((household: Household) => household.get('id'));
+        } else {
+            filters = {
+                filter: this.table.filtersForAPI,
+                sort: {
+                    sort: (this.table.sort && this.table.sort.active) ? this.table.sort.active : null,
+                    direction: (this.table.sort && this.table.sort.direction !== '') ? this.table.sort.direction : null
+                },
+                pageIndex: 0,
+                pageSize: -1 // No limit
+            };
+        }
+        this.householdsService.export(this.extensionType, filters, ids).then(
             () => { this.loadingExport = false; }
         ).catch(
             () => { this.loadingExport = false; }
         );
+    }
+
+    getNumberToExport() {
+        if (this.checkedElements.length > 0) {
+            return this.checkedElements.length;
+        }
+        return this.numberToExport > 0 ? this.numberToExport : null;
     }
 
     addToProject(template) {
@@ -177,6 +203,15 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         this.modalService.openDialog(Household, this.householdsService, event);
         this.modalService.isCompleted.subscribe(() => {
             this.table.loadDataPage();
+            this.checkedElements = [];
+            this.selection = new SelectionModel<Household>(true, []);
+        });
+    }
+
+    deleteSelected() {
+        this.openDialog({
+            action: 'deleteMany',
+            ids: this.checkedElements.map((household: Household) => household.get('id'))
         });
     }
 }

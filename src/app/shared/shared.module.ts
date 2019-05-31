@@ -69,9 +69,11 @@ import { QrVoucherComponent } from '../modules/projects/distributions/validated-
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
 import { ProjectComponent } from '../modules/projects/project.component';
 import { LoginComponent } from '../modules/public/login.component';
-import { SettingsComponent } from '../modules/settings/settings.component';
+import { GeneralSettingsComponent } from '../modules/general-settings/general-settings.component';
+import { AdministrationComponent } from '../modules/administration/administration.component';
 import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
 import { VouchersComponent } from '../modules/vouchers/vouchers.component';
+import { SettingsComponent } from '../components/settings/settings.component';
 
 
 
@@ -134,7 +136,7 @@ imports: [
         BeneficiariesImportComponent,
         ProjectComponent,
         AddDistributionComponent,
-        SettingsComponent,
+        GeneralSettingsComponent,
         IconSvgComponent,
         BoxDashboardComponent,
         TableComponent,
@@ -179,6 +181,8 @@ imports: [
         QrVoucherComponent,
         VouchersComponent,
         ScannerComponent,
+        SettingsComponent,
+        AdministrationComponent,
     ],
     entryComponents: [
         ModalDeleteComponent,
@@ -200,7 +204,7 @@ imports: [
         BeneficiariesImportComponent,
         ProjectComponent,
         AddDistributionComponent,
-        SettingsComponent,
+        GeneralSettingsComponent,
         IconSvgComponent,
         BoxDashboardComponent,
         BoxPropertiesComponent,
@@ -259,6 +263,8 @@ imports: [
         PlaceholderPanelComponent,
         PlaceholderStepperComponent,
         PlaceholderTitleComponent,
+        SettingsComponent,
+        AdministrationComponent,
     ],
     providers: [
         { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },

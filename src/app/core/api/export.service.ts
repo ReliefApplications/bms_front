@@ -21,9 +21,10 @@ export class ExportService {
      * @param  key           key to define data to export (e.g. distributions)
      * @param  value         value to define data to export (e.g. projet_id)
      * @param  extensionType extension of the file
+     * @param filters        the filters to apply to the data
      * @return               file to export
      */
-    public export(key: string, value: any, extensionType: string, body = null) {
+    public export(key: string, value: any, extensionType: string, body = null, filters: any = null, ids: Array<string> = []) {
 
         const params = {};
         params['type'] = extensionType;
@@ -33,6 +34,12 @@ export class ExportService {
             params: params
         };
         const url = this.api + '/export';
+        if (filters) {
+            body['filters'] = filters;
+        }
+        if (ids && ids.length > 0) {
+            body['ids'] = ids;
+        }
         return this.http.post(url, body, options).toPromise()
         .then(response => {
             if (! response) {

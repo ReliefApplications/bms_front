@@ -119,8 +119,8 @@ export class HouseholdsService extends CustomModelService {
      * @param  extensionType type of file to export
      * @return               file
      */
-    public export (extensionType: string) {
-        return this.exportService.export('beneficiaries', true, extensionType);
+    public export (extensionType: string, filters: any = null, ids: Array<string> = []) {
+        return this.exportService.export('beneficiaries', true, extensionType, {}, filters, ids);
     }
 
     /**
@@ -135,6 +135,14 @@ export class HouseholdsService extends CustomModelService {
     public delete(householdId: number) {
         const url = this.api + '/households/' + householdId;
         return this.http.delete(url);
+    }
+
+    public deleteMany(householdIds: Array<number>) {
+        const url = this.api + '/households/delete';
+        const body = {
+            ids: householdIds
+        };
+        return this.http.post(url, body);
     }
 
     public testFileTemplate(file: any, location: any) {

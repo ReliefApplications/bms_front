@@ -2,6 +2,7 @@ import { ADMINLEVELS } from '../adm-constants';
 
 import { Language } from '../language';
 import { INCOMELEVELS } from '../../../models/constants/income-levels';
+import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 /* tslint:disable */
 export class French implements Language {
     // GENERAL VARIABLES
@@ -203,6 +204,11 @@ export class French implements Language {
     beneficiaries_missing_selected_project = 'Vous devez selectionner un projet avant l\'importation'
     beneficiaries_personnal = 'informations personnelles'
     beneficiaries_proxy = 'Proxy'
+    beneficiaries_referral = 'Référence'
+    beneficiaries_referral_question = 'Ajouter une référence'
+    beneficiaries_referral_type = 'Type de référence'
+    beneficiaries_referral_types = REFERRALTYPES.fr
+    beneficiaries_referral_comment = 'Commentaire'
     beneficiaries_residency = 'résidence'
     beneficiaries_residency_refugee = 'Réfugié'
     beneficiaries_residency_idp = 'IDP'
@@ -305,12 +311,12 @@ export class French implements Language {
     // Header
     'header_add-beneficiaries' = 'Ajouter un ménage'
     'header_add-distribution' = 'Ajouter une distribution'
-    'header_administrative-settings' = 'Paramètres administratifs'
+    'header_admin' = 'Paramètres administratifs'
     header_beneficiaries = 'Bénéficiaires'
     'header_data-validation' = 'Validation de données'
     header_disconnect = 'déconnexion'
     'header_distributions' = 'Distribution'
-    'header_general-settings' = 'Configuration'
+    'header_settings' = 'Configuration'
     header_home = 'Accueil'
     header_import = 'Import de bénéficiaires'
     header_imported = 'Données des bénéficiaires importés'
@@ -318,7 +324,6 @@ export class French implements Language {
     header_profile = 'Profil'
     header_projects = 'Projets'
     header_reports = 'Rapports'
-    header_settings = 'Paramètres'
     'header_update-beneficiary' = 'Modifier'
     header_vouchers = 'Brochures'
 
@@ -382,6 +387,7 @@ export class French implements Language {
     modal_add_multiple_title = 'Ajouter plusieurs nouveaux'
     modal_check_date = 'Champs invalides = La date de début ne peut pas être plus ancienne que la date de fin et vice versa'
     modal_check_fields = 'Champs invalides = vérifiez que vous avez rempli tous les champs'
+    modal_delete_many = 'ces éléments'
     modal_complete_distribution = 'Etes-vous sûr de vouloir manuellement terminer cette distribution ?'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
     modal_delete_sentence_2 = '. '

@@ -1,6 +1,7 @@
 import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
 import { INCOMELEVELS } from '../../../models/constants/income-levels';
+import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 
 /* tslint:disable */
 export class Arabic implements Language {
@@ -203,6 +204,11 @@ export class Arabic implements Language {
     beneficiaries_missing_selected_project= 'يجب أن تختار مشروعاقبل التحميل'
     beneficiaries_personnal = 'معلومات شخصية'
     beneficiaries_proxy= 'الوكيل'
+    beneficiaries_referral = 'إحالة'
+    beneficiaries_referral_question = 'إضافة الإحالة'
+    beneficiaries_referral_type = 'نوع الإحالة'
+    beneficiaries_referral_types = REFERRALTYPES.ar
+    beneficiaries_referral_comment = 'تعليق'
     beneficiaries_residency = 'الإقامة'
     beneficiaries_residency_refugee= 'لاجئ'
     beneficiaries_residency_idp= 'IDP'
@@ -305,12 +311,12 @@ export class Arabic implements Language {
     // Header
     'header_add-beneficiaries' = 'إضافة المستفيد'
     'header_add-distribution' = 'إضافة توزيع'
-    'header_administrative-settings' = 'الإعدادات الإدارية'
+    'header_admin' = 'الإعدادات الإدارية'
     header_beneficiaries = 'المستفيدون'
     'header_data-validation' = 'التأكد من صحة البيانات'
     header_disconnect =  'تسجيل الخروج من الحساب'
     'header_distributions' = 'التوزيع'
-    'header_general-settings' = 'ترتيب'
+    'header_settings' = 'ترتيب'
     header_home = 'الصفحة الرئيسية'
     header_import =  'تحميل بيانات المستفيد'
     header_imported = 'إستيراد بيانات المستفيدين'
@@ -318,7 +324,6 @@ export class Arabic implements Language {
     header_profile = ' المعطيات الشخصية'
     header_projects = 'المشاريع'
     header_reports = 'التقارير'
-    header_settings = 'الإعدادات'
     'header_update-beneficiary' = 'تحديث المستفيد'
     header_vouchers = 'قسائم'
 
@@ -382,6 +387,7 @@ export class Arabic implements Language {
     modal_add_multiple_title = 'خلق جديد إبداع جديد'
     modal_check_date = 'الحقول غير الصالح: لا يمكن أن يكون تاريخ الانتهاء  أقدم من تاريخ البدء'
     modal_check_fields = 'تحقق جيدا انك أدخلت جميع المعطيات'
+    modal_delete_many = 'هذه العناصر'
     modal_complete_distribution = 'هل تريد بالتأكيد إكمال هذا التوزيع يدويًا؟'
     modal_delete_sentence = 'أنت على وشك الحذف'
     modal_delete_sentence_2 = 'هل أنت متأكد'

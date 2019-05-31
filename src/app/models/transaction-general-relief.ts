@@ -8,6 +8,7 @@ import { NumberModelField } from './custom-models/number-model-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { TextModelField } from './custom-models/text-model-field';
 import { DistributionBeneficiary } from './distribution-beneficiary';
+import { FormGroup } from '@angular/forms';
 
 
 export class GeneralRelief extends CustomModel {
@@ -107,11 +108,43 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             isDisplayedInModal: true,
             isEditable: true,
         }),
+        addReferral: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_question,
+            isDisplayedInModal: true,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'addReferral',
+            isEditable: true,
+            isTrigger: true,
+            triggerFunction: (transactionGeneralRelief: TransactionGeneralRelief, value: boolean, form: FormGroup) => {
+                transactionGeneralRelief.fields.referralComment.isDisplayedInModal = value;
+                transactionGeneralRelief.fields.referralType.isDisplayedInModal = value;
+                return transactionGeneralRelief;
+            },
+        }),
+        referralType: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_type,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralType',
+            isEditable: true,
+        }),
+        referralComment: new NestedFieldModelField({
+            title: this.language.beneficiaries_referral_comment,
+            isDisplayedInModal: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'referralComment',
+            isEditable: true,
+        }),
     };
 
     public static apiToModel(distributionBeneficiaryFromApi): TransactionGeneralRelief {
         const newGeneralRelief = new TransactionGeneralRelief();
         newGeneralRelief.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
+        if (distributionBeneficiaryFromApi.beneficiary.referral) {
+            newGeneralRelief.fields.addReferral.isDisplayedInModal = false;
+            newGeneralRelief.fields.referralType.isDisplayedInModal = true;
+            newGeneralRelief.fields.referralComment.isDisplayedInModal = true;
+        }
         newGeneralRelief.set('distributedAt', distributionBeneficiaryFromApi.general_reliefs[0] ?
             DateModelField.formatDateTimeFromApi(distributionBeneficiaryFromApi.general_reliefs[0].distributed_at) :
             null);
@@ -122,6 +155,11 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             newGeneralRelief.set('idTransaction', distributionBeneficiaryFromApi.transactions[0].id);
         }
         newGeneralRelief.fields.notes.numberOfInputs = newGeneralRelief.get<GeneralRelief[]>('generalReliefs').length;
+        if (distributionBeneficiaryFromApi.beneficiary.referral) {
+            newGeneralRelief.fields.addReferral.isDisplayedInModal = false;
+            newGeneralRelief.fields.referralType.isDisplayedInModal = true;
+            newGeneralRelief.fields.referralComment.isDisplayedInModal = true;
+        }
         return newGeneralRelief;
     }
 

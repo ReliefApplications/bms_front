@@ -16,14 +16,14 @@ export class TextModelField extends CustomModelField<string> {
      * Is it a color ?
      * @type {boolean}
      */
-    isColor;
+    isColor: boolean;
     /**
      * Is it a font ?
      * @type {boolean}
      */
-    isFont;
-    /**
-     * The value to display (WARNING: can be set only from the api, not a modifiable field)
+    isFont: boolean;
+
+     /* The value to display (WARNING: can be set only from the api, not a modifiable field)
      * @type {string}
      */
     displayValue: string;

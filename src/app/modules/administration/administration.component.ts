@@ -4,12 +4,12 @@ import { LanguageService } from 'src/app/core/language/language.service';
 
 
 @Component({
-    selector: 'app-administrative-settings',
-    templateUrl: './administrative-settings.component.html',
-    styleUrls: ['./administrative-settings.component.scss']
+    selector: 'app-administration',
+    templateUrl: './administration.component.html',
+    styleUrls: ['./administration.component.scss']
 })
-export class AdministrativeSettingsComponent implements OnInit {
-    public nameComponent = 'administrative-settings';
+export class AdministrationComponent implements OnInit {
+    public nameComponent = 'administration';
 
     selectedTitle = '';
 

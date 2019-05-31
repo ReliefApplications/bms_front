@@ -1,6 +1,7 @@
 import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
 import { INCOMELEVELS } from '../../../models/constants/income-levels';
+import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 /* tslint:disable */
 export class English implements Language {
     // GENERAL VARIABLES
@@ -201,6 +202,11 @@ export class English implements Language {
     beneficiaries_missing_selected_project = 'You must select a project before uploading'
     beneficiaries_personnal = 'personnal information'
     beneficiaries_proxy = 'Proxy'
+    beneficiaries_referral = 'Referral'
+    beneficiaries_referral_question = 'Add a referral'
+    beneficiaries_referral_type = 'Referral type'
+    beneficiaries_referral_types = REFERRALTYPES.en
+    beneficiaries_referral_comment = 'Comment'
     beneficiaries_residency = 'residency'
     beneficiaries_residency_refugee = 'Refugee'
     beneficiaries_residency_idp = 'IDP'
@@ -304,12 +310,12 @@ export class English implements Language {
     // Header
     'header_add-beneficiaries' = 'Add Beneficiaries'
     'header_add-distribution' = 'Add Distribution'
-    'header_administrative-settings' = 'Administrative Settings'
+    'header_admin' = 'Administrative Settings'
     header_beneficiaries = 'Beneficiaries'
     header_disconnect = 'log out'
     'header_distributions' = 'Distribution'
     'header_data-validation' = 'Data Validation'
-    'header_general-settings' = 'Configuration'
+    'header_settings' = 'Configuration'
     header_home = 'Home'
     header_import = 'Import beneficiary data'
     header_imported = 'Imported beneficiaries data'
@@ -317,7 +323,6 @@ export class English implements Language {
     header_profile = 'Profile'
     header_projects = 'Projects'
     header_reports = 'Reports'
-    header_settings = 'Settings'
     'header_update-beneficiary' = 'Update Beneficiaries'
     header_vouchers = 'Vouchers'
 
@@ -382,6 +387,7 @@ export class English implements Language {
     modal_add_multiple_title = 'Create multiple new'
     modal_check_date = 'Invalid fields = Your start date cannot be older than the end date'
     modal_check_fields = 'Invalid fields = check you filled every field'
+    modal_delete_many = 'these elements'
     modal_complete_distribution = 'Are you sure you want to manually complete this distribution ?'
     modal_delete_sentence = 'You are about to delete '
     modal_details_title = 'Details of this'

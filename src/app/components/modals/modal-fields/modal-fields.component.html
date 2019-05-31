@@ -61,12 +61,18 @@
                             </ng-template>
 
                             <ng-template #isSingleSelect>
-                                <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isMaterialField">
+                                <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isColor">
                                     <ng-select [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst">
                                         <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
                                             {{option.get(field.bindField) | uppercaseFirst}}
                                         </ng-option>
                                     </ng-select>
+                                </ng-container>
+                            </ng-template>
+
+                            <ng-template #isColor>
+                                <ng-container *ngIf="field.kindOfField === 'Text' && field.isColor; else isMaterialField">
+                                    <div class="color" [ngStyle]="{'background-color':form.controls[fieldName].value}" (click)="pickColor(colorPicker, fieldName, field)"></div>
                                 </ng-container>
                             </ng-template>
 
@@ -80,9 +86,20 @@
                                     <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
                                         <input *ngIf="field.displayValue; else checkForPassword" [placeholder]="field.title | uppercaseFirst"
                                             matInput [formControlName]="fieldName" [value]="field.displayValue | uppercaseFirst" disabled>
+
                                         <ng-template #checkForPassword>
-                                            <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title | uppercaseFirst"
+                                            <input *ngIf="field.isPassword; else isFont" [placeholder]="field.title | uppercaseFirst"
                                                 matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
+                                        </ng-template>
+
+                                        <ng-template #isFont>
+                                            <ng-container *ngIf="field.kindOfField === 'Text' && field.isFont; else checkForTextArea">
+                                                <mat-select [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst">
+                                                    <mat-option *ngFor="let font of fonts" [value]="font" [ngStyle]="{'font-family':font}" class="option">
+                                                        {{ font | uppercaseFirst }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </ng-container>
                                         </ng-template>
 
                                         <ng-template #checkForTextArea>
@@ -120,7 +137,6 @@
                                     </ng-template>
                                     <app-hint-error *ngIf="modalType !== 'Details'" [form]="form" [fieldName]="fieldName" [field]="field" [isMatField]="true"></app-hint-error>
                                 </mat-form-field>
-
                                     <ng-template #isObject>
                                         <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
                                             <mat-form-field *ngIf="modalType === 'Details'">
@@ -128,7 +144,6 @@
                                             </mat-form-field>
                                         </ng-container>
                                     </ng-template>
-
                                     <ng-template #isMultipleObject>
                                         <ng-container *ngIf="field.kindOfField === 'MultipleObject'">
                                             <mat-form-field *ngIf="modalType === 'Details'">
@@ -152,3 +167,24 @@
         </div>
     </form>
 </mat-dialog-content>
+
+<ng-template #colorPicker>
+    <mat-dialog-content class="modal-container">
+        <h4 class="modal-title underline-accent stickyHeader">{{language.modal_pick_color | titlecase}}</h4>
+        <div class="dialog-template">
+            <div class="modal-body">
+                <div class="color-grid">
+                    <div class="color-row" *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                        <div
+                            *ngFor="let j of computeNumbers(i)"
+                            class="color-column"
+                            [ngClass]="{'selected':colors[j] === currentColor}"
+                            [ngStyle]="{'background-color':colors[j]}"
+                            (click)="onPick(colors[j])"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+</ng-template>

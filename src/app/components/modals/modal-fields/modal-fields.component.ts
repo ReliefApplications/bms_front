@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS, MAT_DIALOG_DATA } from '@angular/material';
+import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { FormService } from 'src/app/core/utils/form.service';
@@ -11,6 +11,9 @@ import { APP_DATE_FORMATS } from 'src/app/shared/adapters/date.adapter';
 import { CustomModel as CustomModel } from 'src/app/models/custom-models/custom-model';
 import { TextModelField } from 'src/app/models/custom-models/text-model-field';
 import { CustomDateAdapter } from '../../../shared/adapters/date.adapter';
+import { FONTS } from 'src/app/models/constants/fonts';
+import { COLORS } from 'src/app/models/constants/colors';
+import { CustomModelField } from 'src/app/models/custom-models/custom-model-field';
 
 @Component({
     selector: 'app-project',
@@ -37,6 +40,11 @@ export class ModalFieldsComponent implements OnInit {
 
     modalTitle = 'Default Modal Text';
 
+    private fonts: string[] = FONTS;
+    private colors: string[] = COLORS;
+    private colorModalRef;
+    private currentColor: string;
+
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
@@ -46,6 +54,7 @@ export class ModalFieldsComponent implements OnInit {
         public uploadService: UploadService,
         public locationService: LocationService,
         public languageService: LanguageService,
+        private dialog: MatDialog,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 
@@ -172,7 +181,7 @@ export class ModalFieldsComponent implements OnInit {
         return typeof value;
     }
 
-    isDisabled(field) {
+    isDisabled(field): boolean {
         throw new Error('You must override this function in other components');
     }
 
@@ -187,5 +196,26 @@ export class ModalFieldsComponent implements OnInit {
                 .filter((fieldName: string) => this.objectInstance.fields[fieldName].kindOfField === 'File')[0];
             this.form.controls[fileField].setValue(formData);
         }
+    }
+
+    pickColor(template, fieldName: string, field: CustomModelField<any>) {
+        if (!this.isDisabled(field)) {
+            this.colorModalRef = this.dialog.open(template);
+            this.currentColor = this.form.controls[fieldName].value;
+            this.colorModalRef.afterClosed().subscribe((color: string) => {
+                if (color) {
+                    this.form.controls[fieldName].setValue(color);
+                }
+            });
+        }
+    }
+
+    computeNumbers(i: number) {
+        const k = i * 13;
+        return [k, k + 1, k + 2, k + 3, k + 4, k + 5, k + 6, k + 7, k + 8, k + 9, k + 10, k + 11, k + 12];
+    }
+
+    onPick(color: string): any {
+        this.colorModalRef.close(color);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -29,18 +29,21 @@ import { CountrySpecific } from '../../models/country-specific';
 import { Donor } from '../../models/donor';
 import { Project } from '../../models/project';
 import { User } from '../../models/user';
+import { Organization } from 'src/app/models/organization';
+import { OrganizationService } from 'src/app/core/api/organization.service';
 
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.scss']
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit, OnDestroy {
-    public nameComponent = 'settings';
-    loadingExport = false;
 
-    selectedTitle = '';
+  @Input() selectedTitle: string;
+
+  loadingExport = false;
+
     loadingData = true;
 
     public referedClassService;
@@ -58,6 +61,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     public printable = false;
     public loggable = false;
     public editable  = false;
+    public exportable = true;
     public httpSubscriber: Subscription;
 
     @ViewChild(TableComponent) table: TableComponent;
@@ -89,6 +93,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         private modalService: ModalService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        private organizationService: OrganizationService,
     ) { }
 
     ngOnInit() {
@@ -101,7 +106,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
                 this.displayedTable = this.table;
             }
         });
-        this.selectTitle('users');
         this.extensionType = 'xls';
     }
 
@@ -109,14 +113,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.screenSizeSubscription.unsubscribe();
     }
 
-  selectTitle(title): void {
-    if (this.httpSubscriber) {
-      this.httpSubscriber.unsubscribe();
-    }
-    this.loadingData = true;
-    this.getData(title);
-    this.selectedTitle = title;
-  }
 
   setType(choice) {
     this.extensionType = choice;
@@ -178,13 +174,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   getData(title) {
+    if (this.httpSubscriber) {
+      this.httpSubscriber.unsubscribe();
+    }
+    this.loadingData = true;
     switch (title) {
       case 'users':
         this.referedClassToken = User;
         this.referedClassService = this.userService;
         this.loggable = true;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
-        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.editable   = this.userService.hasRights('ROLE_ADMIN');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN');
         this.printable  = false;
         break;
       case 'donors':
@@ -206,18 +206,27 @@ export class SettingsComponent implements OnInit, OnDestroy {
       case 'country specific options':
         this.referedClassToken = CountrySpecific;
         this.referedClassService = this.countrySpecificService;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
-        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.editable   = this.userService.hasRights('ROLE_ADMIN');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN');
         this.printable = false;
         this.loggable = false;
         break;
       case 'financialProvider':
         this.referedClassToken = FinancialProvider;
         this.referedClassService = this.financialProviderService;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.editable   = this.userService.hasRights('ROLE_ADMIN');
         this.deletable = false;
         this.printable = false;
         this.loggable = false;
+        break;
+      case 'organization':
+        this.referedClassToken = Organization;
+        this.referedClassService = this.organizationService;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN');
+        this.deletable = false;
+        this.printable = true;
+        this.loggable = false;
+        this.exportable = false;
         break;
       case 'product':
         this.referedClassToken = Product;
@@ -243,7 +252,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   // TO DO : get from cache
     load(): void {
         this.data = new MatTableDataSource();
-
         this.httpSubscriber = this.referedClassService.get().
             pipe(
                 finalize(
@@ -281,6 +289,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
                 return this.userService.hasRights('ROLE_VENDORS_MANAGEMENT');
             case (Product):
                 return this.userService.hasRights('ROLE_PRODUCT_MANAGEMENT');
+            case (Organization):
+                return false; // We cannot add an organization because there is only one
             default:
                 return false;
         }
@@ -300,7 +310,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     print(event: CustomModel) {
-      this.snackbar.info(this.language.voucher_print_starting);
+      this.snackbar.info(this.language.settings_print_starting);
       return this.referedClassService.print(event);
   }
+
 }

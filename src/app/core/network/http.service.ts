@@ -127,12 +127,13 @@ export class HttpService {
                                 if (Array.isArray(result) && Array.isArray(cacheData)) {
                                     if (JSON.stringify(result) !== JSON.stringify(cacheData) && this.save) {
                                         this.cacheService.set(itemKey, result).subscribe();
+                                        return (result);
                                     }
                                 } else if (result !== cacheData && this.save) {
                                     this.cacheService.set(itemKey, result).subscribe();
+                                    return (result);
                                 }
                             }
-                            return (result);
                         }
                     )
                 )

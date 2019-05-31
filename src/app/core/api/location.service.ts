@@ -85,6 +85,7 @@ export class LocationService {
                             object.set('location', location);
                         }
                     }
+                return options;
             }));
     }
 

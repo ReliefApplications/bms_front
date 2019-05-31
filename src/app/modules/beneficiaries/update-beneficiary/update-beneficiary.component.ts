@@ -131,37 +131,40 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         }
 
         this.initiateHousehold().then(() => {
-            this.getVulnerabilityCriteria().subscribe(() => {
-                const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
-                    .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
-                this.mainFields = [
-                    'currentAdm1', 'currentAdm2', 'currentAdm3', 'currentAdm4', 'currentAddressNumber', 'currentCreateCamp',
-                    'currentAddressPostcode', 'currentAddressStreet', 'currentType', 'currentCamp', 'currentTentNumber', 'currentNewCamp',
-                    'residentAdm1', 'residentAdm2', 'residentAdm3', 'residentAdm4', 'residentAddressNumber', 'residentCreateCamp',
-                    'residentAddressPostcode', 'residentAddressStreet', 'residentType', 'residentCamp',
-                    'residentTentNumber', 'residentNewCamp', 'locationDifferent',
-                    'incomeLevel', 'livelihood', 'notes', 'projects'];
-                this.mainFields = this.mainFields.concat(countrySpecificNames);
+            this.getVulnerabilityCriteria().subscribe((response) => {
+                if (response) {
+                    const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
+                        .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
+                    this.mainFields = [
+                        'currentAdm1', 'currentAdm2', 'currentAdm3', 'currentAdm4',
+                        'currentAddressNumber', 'currentAddressPostcode', 'currentAddressStreet',
+                        'residentAdm1', 'residentAdm2', 'residentAdm3', 'residentAdm4',
+                        'residentAddressNumber', 'residentAddressPostcode', 'residentAddressStreet',
+                        'currentType', 'currentCamp', 'currentTentNumber', 'currentNewCamp',  'currentCreateCamp',
+                        'residentType', 'residentCamp', 'residentTentNumber', 'residentNewCamp', 'residentCreateCamp',
+                        'locationDifferent', 'incomeLevel', 'livelihood', 'notes', 'projects'];
+                    this.mainFields = this.mainFields.concat(countrySpecificNames);
 
-                const vulnerabilityCriteriaNames = this.vulnerabilityList.map((vulnerability: VulnerabilityCriteria) => {
-                    return vulnerability.get<string>('name');
-                });
-                this.beneficiaryFields = [
-                    'id', 'localGivenName', 'localFamilyName', 'enGivenName', 'enFamilyName',
-                    'gender', 'dateOfBirth', 'IDType', 'IDNumber', 'residencyStatus',
-                    'phoneType0', 'phoneNumber0', 'phonePrefix0', 'phoneProxy0',
-                    'phoneType1', 'phoneNumber1', 'phonePrefix1', 'phoneProxy1',
-                    'addReferral', 'referralType', 'referralComment'
-                ];
-                this.beneficiaryFields = this.beneficiaryFields.concat(vulnerabilityCriteriaNames);
+                    const vulnerabilityCriteriaNames = this.vulnerabilityList.map((vulnerability: VulnerabilityCriteria) => {
+                        return vulnerability.get<string>('name');
+                    });
+                    this.beneficiaryFields = [
+                        'id', 'localGivenName', 'localFamilyName', 'enGivenName', 'enFamilyName',
+                        'gender', 'dateOfBirth', 'IDType', 'IDNumber', 'residencyStatus',
+                        'phoneType0', 'phoneNumber0', 'phonePrefix0', 'phoneProxy0',
+                        'phoneType1', 'phoneNumber1', 'phonePrefix1', 'phoneProxy1',
+                        'addReferral', 'referralType', 'referralComment'
+                    ];
+                    this.beneficiaryFields = this.beneficiaryFields.concat(vulnerabilityCriteriaNames);
 
-                this.makeMainForm();
-                this.household.get<Beneficiary[]>('beneficiaries')
-                    .forEach((beneficiary: Beneficiary, index: number) => this.makeBeneficiaryForm(beneficiary, index));
+                    this.makeMainForm();
+                    this.household.get<Beneficiary[]>('beneficiaries')
+                        .forEach((beneficiary: Beneficiary, index: number) => this.makeBeneficiaryForm(beneficiary, index));
 
-                this.beneficiarySnapshot();
-                this.loader = false;
-                this.getProjects();
+                    this.beneficiarySnapshot();
+                    this.loader = false;
+                    this.getProjects();
+                }
             });
         });
     }
@@ -191,14 +194,16 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                         const currentLocation = new HouseholdLocation();
                         currentLocation.set('locationGroup',
                             new HouseholdLocationGroup('current', this.language.household_location_current_address));
-                        const residentLocation = new HouseholdLocation();
+                        // const residentLocation = new HouseholdLocation();
                         // residentLocation.set('locationGroup',
                         //     new HouseholdLocationGroup('resident', this.language.household_location_resident_address));
                         this.household.set('currentHouseholdLocation', currentLocation);
                         // this.household.set('residentHouseholdLocation', residentLocation);
                         this.household.set('beneficiaries', [this.createNewBeneficiary()]);
-                        this.getCountrySpecifics().subscribe(() => {
-                            resolve();
+                        this.getCountrySpecifics().subscribe((response) => {
+                            if (response) {
+                                resolve();
+                            }
                         });
                     }
                 );
@@ -224,12 +229,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                 );
             }
         });
-    }
-
-    fillResidentAdm1(event) {
-        if (event) {
-            this.loadProvince('resident').subscribe();
-        }
     }
 
     makeMainForm() {
@@ -265,7 +264,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
             householdLocations.push(this.household.get<HouseholdLocation>('residentHouseholdLocation'));
         }
 
-        mainFormControls['locationDifferent'].setValue(householdLocations.length > 1 ? true : false);
+        mainFormControls['locationDifferent'].setValue(householdLocations.length > 1 ? true : false, {emitEvent: false});
 
         mainFormControls['currentCreateCamp'].setValue(false);
         mainFormControls['residentCreateCamp'].setValue(false);
@@ -288,45 +287,48 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                 mainFormControls[prefix + 'TentNumber'].setValue(householdLocation.get('campAddress').get('tentNumber'));
             }
 
-            this.loadProvince(prefix).subscribe(() => {
-                if (!this.locations[prefix].get('adm1') || !this.locations[prefix].get('adm1').get('id')) {
-                    this.snapshot();
-                    return;
-                }
-                const adm1Id = this.locations[prefix].get('adm1').get<number>('id');
-                mainFormControls[prefix + 'Adm1'].setValue(adm1Id, {emitEvent: false});
-                this._locationService.fillAdm2Options(this.locations[prefix], adm1Id).subscribe(() => {
-                    if (!this.locations[prefix].get('adm2') || !this.locations[prefix].get('adm2').get('id')) {
-                        this.loadCamps(prefix, 'adm1', adm1Id).subscribe(() =>
-                            this.initializeCamp(householdLocation, prefix, mainFormControls));
+            this.loadProvince(prefix).subscribe((options) => {
+                if (options) {
+                    if (!this.locations[prefix].get('adm1') || !this.locations[prefix].get('adm1').get('id')) {
                         this.snapshot();
                         return;
                     }
-                    const adm2Id = this.locations[prefix].get('adm2').get<number>('id');
-                    mainFormControls[prefix + 'Adm2'].setValue(adm2Id, {emitEvent: false});
-                    this._locationService.fillAdm3Options(this.locations[prefix], adm2Id).subscribe(() => {
-                        if (!this.locations[prefix].get('adm3') || !this.locations[prefix].get('adm3').get('id')) {
-                            this.loadCamps(prefix, 'adm2', adm2Id).subscribe(() =>
+                    const adm1Id = this.locations[prefix].get('adm1').get<number>('id');
+                    mainFormControls[prefix + 'Adm1'].setValue(adm1Id, {emitEvent: false});
+                    this._locationService.fillAdm2Options(this.locations[prefix], adm1Id).subscribe(() => {
+                        if (!this.locations[prefix].get('adm2') || !this.locations[prefix].get('adm2').get('id')) {
+                            this.loadCamps(prefix, 'adm1', adm1Id).subscribe(() =>
                                 this.initializeCamp(householdLocation, prefix, mainFormControls));
                             this.snapshot();
                             return;
                         }
-                        const adm3Id = this.locations[prefix].get('adm3').get<number>('id');
-                        mainFormControls[prefix + 'Adm3'].setValue(adm3Id, {emitEvent: false});
-                        this._locationService.fillAdm4Options(this.locations[prefix], adm3Id).subscribe(() => {
-                            if (!this.locations[prefix].get('adm4') || !this.locations[prefix].get('adm4').get('id')) {
-                                this.loadCamps(prefix, 'adm3', adm3Id).subscribe(() =>
+                        const adm2Id = this.locations[prefix].get('adm2').get<number>('id');
+                        mainFormControls[prefix + 'Adm2'].setValue(adm2Id, {emitEvent: false});
+                        this._locationService.fillAdm3Options(this.locations[prefix], adm2Id).subscribe(() => {
+                            if (!this.locations[prefix].get('adm3') || !this.locations[prefix].get('adm3').get('id')) {
+                                this.loadCamps(prefix, 'adm2', adm2Id).subscribe(() =>
                                     this.initializeCamp(householdLocation, prefix, mainFormControls));
                                 this.snapshot();
                                 return;
                             }
-                            mainFormControls[prefix + 'Adm4'].setValue(this.locations[prefix].get('adm4').get('id'), {emitEvent: false});
-                            this.loadCamps(prefix, 'adm4', this.locations[prefix].get('adm4').get('id')).subscribe(() =>
-                                this.initializeCamp(householdLocation, prefix, mainFormControls));
-                            this.snapshot();
+                            const adm3Id = this.locations[prefix].get('adm3').get<number>('id');
+                            mainFormControls[prefix + 'Adm3'].setValue(adm3Id, {emitEvent: false});
+                            this._locationService.fillAdm4Options(this.locations[prefix], adm3Id).subscribe(() => {
+                                if (!this.locations[prefix].get('adm4') || !this.locations[prefix].get('adm4').get('id')) {
+                                    this.loadCamps(prefix, 'adm3', adm3Id).subscribe(() =>
+                                        this.initializeCamp(householdLocation, prefix, mainFormControls));
+                                    this.snapshot();
+                                    return;
+                                }
+                                mainFormControls[prefix + 'Adm4'].setValue(
+                                    this.locations[prefix].get('adm4').get('id'), {emitEvent: false});
+                                this.loadCamps(prefix, 'adm4', this.locations[prefix].get('adm4').get('id')).subscribe(() =>
+                                    this.initializeCamp(householdLocation, prefix, mainFormControls));
+                                this.snapshot();
+                            });
                         });
                     });
-                });
+                }
             });
         });
         this.mainForm = new FormGroup(mainFormControls);
@@ -901,6 +903,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                   });
             });
         });
+
+        this.locationSuscribers.push(this.mainForm.get('locationDifferent').valueChanges.subscribe((value: boolean) => {
+            if (value) {
+                this.loadProvince('resident').subscribe();
+            }
+        }));
     }
 
     changeAdm(event) {
@@ -922,10 +930,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
      */
     loadProvince(prefix: string) {
         return this._locationService.fillAdm1Options(this.locations[prefix]).pipe(
-            map(() => {
+            map((options) => {
             this.mainForm.controls[prefix + 'Adm2'].setValue(null);
             this.mainForm.controls[prefix + 'Adm3'].setValue(null);
             this.mainForm.controls[prefix + 'Adm4'].setValue(null);
+            return options;
         }));
     }
 
@@ -995,6 +1004,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                         return VulnerabilityCriteria.apiToModel(criteria);
                     });
                 }
+                return response;
             })
         );
     }
@@ -1012,6 +1022,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                         return countrySpecificAnswer;
                     }));
                 }
+                return countrySpecifics;
             })
         );
     }

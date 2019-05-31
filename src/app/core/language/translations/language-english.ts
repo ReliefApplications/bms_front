@@ -519,9 +519,11 @@ export class English implements Language {
     null_not_yet_defined = 'not yet defined'
 
     // Number suffixes
-    number_suffix_first = 'st'
-    number_suffix_second = 'nd'
-    number_suffix_third = 'rd'
+    number_suffixes = {
+      1: 'st',
+      2: 'nd',
+      3: 'rd'
+    }
     number_suffix_other = 'th'
 
     // Phone

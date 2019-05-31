@@ -500,9 +500,7 @@ export interface Language {
     null_not_yet_defined: string
 
     // Number suffixes
-    number_suffix_first: string
-    number_suffix_second: string
-    number_suffix_third: string
+    number_suffixes: object
     number_suffix_other: string
 
     // Phone

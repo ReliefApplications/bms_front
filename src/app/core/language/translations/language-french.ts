@@ -518,9 +518,11 @@ export class French implements Language {
     null_not_yet_defined = 'pas encore défini'
 
     // Number suffixes
-    number_suffix_first = 'er'
-    number_suffix_second = 'ème'
-    number_suffix_third = 'ème'
+    number_suffixes = {
+      1: 'er',
+      2: 'ème',
+      3: 'ème'
+    }
     number_suffix_other = 'ème'
 
     // Phone

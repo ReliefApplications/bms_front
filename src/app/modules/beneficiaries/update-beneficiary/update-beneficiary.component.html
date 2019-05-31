@@ -27,7 +27,6 @@
                     [form]="mainForm"
                     [householdLocationTypes]="household.get('currentHouseholdLocation').getOptions('type')"
                     [campLists]="campLists"
-                    (changeAdm)="changeAdm($event)"
                     locationGroup="current"
                   >
                   </app-location-form>
@@ -41,7 +40,6 @@
                     [form]="mainForm"
                     [householdLocationTypes]="household.get('currentHouseholdLocation').getOptions('type')"
                     [campLists]="campLists"
-                    (changeAdm)="changeAdm($event)"
                     locationGroup="resident"
                   >
                   </app-location-form>
@@ -212,9 +210,15 @@
                     </p>
                   </div> -->
                   <!-- <div class="info-container" *ngIf="mainForm.controls.adm1.value">
-                    <h4 class='summary-title'> {{ language.beneficiaries_location }} </h4>
+                    <h4 class='summary-title'> {{ language.household_location_current_location }} </h4>
                     <p class="summary-title-value">
-                      {{getFullLocation()}}
+                      {{getFullLocation('current')}}
+                    </p>
+                  </div>
+                  <div class="info-container" *ngIf="mainForm.controls.adm1.value">
+                    <h4 class='summary-title'> {{ language.household_location_resident_location }} </h4>
+                    <p class="summary-title-value">
+                      {{getFullLocation('resident')}}
                     </p>
                   </div> -->
                 </div>

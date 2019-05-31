@@ -519,9 +519,11 @@ export class Arabic implements Language {
     null_not_yet_defined = 'لم يحدد بعد'
 
     // Number suffixes
-    number_suffix_first = ''
-    number_suffix_second = ''
-    number_suffix_third = ''
+    number_suffixes = {
+        1: '',
+        2: '',
+        3: ''
+      }
     number_suffix_other = ''
 
     // Phone

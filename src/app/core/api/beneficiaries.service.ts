@@ -27,7 +27,7 @@ export class BeneficiariesService extends CustomModelService {
     }
 
     public delete(beneficiaryId: number, distributionId: any, justification: string) {
-        const url = this.api + '/delete-beneficiaries/' + beneficiaryId + '?distribution=' + distributionId;
+        const url = this.api + '/distribution/beneficiaries/' + beneficiaryId + '/delete?distribution=' + distributionId;
         const body = {
             justification: justification
         };

@@ -1,6 +1,7 @@
 import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
 import { INCOMELEVELS } from '../../../models/constants/income-levels';
+import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 
 /* tslint:disable */
 export class Arabic implements Language {
@@ -201,6 +202,11 @@ export class Arabic implements Language {
     beneficiaries_missing_selected_project= 'يجب أن تختار مشروعاقبل التحميل'
     beneficiaries_personnal = 'معلومات شخصية'
     beneficiaries_proxy= 'الوكيل'
+    beneficiaries_referral = 'إحالة'
+    beneficiaries_referral_question = 'إضافة الإحالة'
+    beneficiaries_referral_type = 'نوع الإحالة'
+    beneficiaries_referral_types = REFERRALTYPES.ar
+    beneficiaries_referral_comment = 'تعليق'
     beneficiaries_residency = 'الإقامة'
     beneficiaries_residency_refugee= 'لاجئ'
     beneficiaries_residency_idp= 'IDP'

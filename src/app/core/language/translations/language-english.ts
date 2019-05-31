@@ -1,6 +1,7 @@
 import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
 import { INCOMELEVELS } from '../../../models/constants/income-levels';
+import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 /* tslint:disable */
 export class English implements Language {
     // GENERAL VARIABLES
@@ -199,6 +200,11 @@ export class English implements Language {
     beneficiaries_missing_selected_project = 'You must select a project before uploading'
     beneficiaries_personnal = 'personnal information'
     beneficiaries_proxy = 'Proxy'
+    beneficiaries_referral = 'Referral'
+    beneficiaries_referral_question = 'Add a referral'
+    beneficiaries_referral_type = 'Referral type'
+    beneficiaries_referral_types = REFERRALTYPES.en
+    beneficiaries_referral_comment = 'Comment'
     beneficiaries_residency = 'residency'
     beneficiaries_residency_refugee = 'Refugee'
     beneficiaries_residency_idp = 'IDP'

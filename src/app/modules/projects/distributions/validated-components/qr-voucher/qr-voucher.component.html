@@ -53,9 +53,10 @@
 
         <div class="content-table">
             <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
-                [assignable]="true" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)">
+                [assignable]="true" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
             </app-table>
-            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true" [assignable]="true" (printOne)="print($event)" (assignOne)="assign($event)">
+            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
+                [assignable]="true" (printOne)="print($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
             </app-table-mobile>
         </div>
 

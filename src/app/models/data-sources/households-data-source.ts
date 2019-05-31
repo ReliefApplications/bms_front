@@ -14,6 +14,7 @@ import { SingleSelectModelField } from '../custom-models/single-select-model-fie
 import { Household } from '../household';
 import { Location } from '../location';
 import { CustomDataSource } from './custom-data-source.interface';
+import { BeneficiaryReferralType } from '../beneficiary';
 
 export class HouseholdFilters extends CustomModel {
 
@@ -121,6 +122,20 @@ export class HouseholdFilters extends CustomModel {
             childrenFieldName: 'adm4',
             apiLabel: 'id',
             isDisplayedInTable: true,
+        }),
+        referralType: new MultipleSelectModelField({
+            title: this.language.beneficiaries_referral_type,
+            filterName: 'referral',
+            isDisplayedInTable: true,
+            bindField: 'name',
+            apiLabel: 'id',
+            options: [
+                new BeneficiaryReferralType('1', this.language.beneficiaries_referral_types['1']),
+                new BeneficiaryReferralType('2', this.language.beneficiaries_referral_types['2']),
+                new BeneficiaryReferralType('3', this.language.beneficiaries_referral_types['3']),
+                new BeneficiaryReferralType('4', this.language.beneficiaries_referral_types['4']),
+                new BeneficiaryReferralType('5', this.language.beneficiaries_referral_types['5']),
+            ],
         })
     };
 }

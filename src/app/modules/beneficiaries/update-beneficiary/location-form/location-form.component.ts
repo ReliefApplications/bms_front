@@ -33,14 +33,4 @@ export class LocationFormComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  loadAdm(type, adm, event) {
-    const change = {
-      type: type,
-      adm: adm,
-      id: event
-    };
-    this.changeAdm.emit(change);
-  }
-
 }

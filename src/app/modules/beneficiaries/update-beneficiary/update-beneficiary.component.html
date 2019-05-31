@@ -32,7 +32,7 @@
                   >
                   </app-location-form>
                   <form [formGroup]="mainForm" class="location-question">
-                      <mat-checkbox color="primary" formControlName="locationDifferent"></mat-checkbox>
+                      <mat-checkbox color="primary" formControlName="locationDifferent" (change)="fillResidentAdm1($event)"></mat-checkbox>
                       <span>{{ language.household_location_question }}</span>
                   </form>
                   <app-location-form

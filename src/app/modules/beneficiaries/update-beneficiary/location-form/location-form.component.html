@@ -1,25 +1,25 @@
 <form [formGroup]="form" class="location-form">
   <div class="column-container">
     <h4 class="location">{{ language['household_location_' + locationGroup + '_location'] | uppercaseFirst}}</h4>
-    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm1'" (change)="loadAdm(locationGroup, 'adm1', $event)" required>
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm1'" required>
       <ng-option *ngFor="let option of locations[locationGroup].getOptions('adm1')" [value]="option.get('id')">
         {{option.get('name') | uppercaseFirst}}
       </ng-option>
     </ng-select>
     <app-hint-error [form]="form" [fieldName]="locationGroup + 'Adm1'" [field]="locations[locationGroup].fields.adm1" [isMatField]="false"></app-hint-error>
-    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm2[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm2'" (change)="loadAdm(locationGroup, 'adm2', $event)">
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm2[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm2'">
       <ng-option *ngFor="let option of locations[locationGroup].getOptions('adm2')" [value]="option.get('id')">
         {{option.get('name') | uppercaseFirst}}
       </ng-option>
     </ng-select>
     <app-hint-error [form]="form" [fieldName]="locationGroup + 'Adm2'" [field]="locations[locationGroup].fields.adm2" [isMatField]="false"></app-hint-error>
-    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm3[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm3'" (change)="loadAdm(locationGroup, 'adm3', $event)">
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm3[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm3'">
       <ng-option *ngFor="let option of locations[locationGroup].getOptions('adm3')" [value]="option.get('id')">
         {{option.get('name') | uppercaseFirst}}
       </ng-option>
     </ng-select>
     <app-hint-error [form]="form" [fieldName]="locationGroup + 'Adm3'" [field]="locations[locationGroup].fields.adm3" [isMatField]="false"></app-hint-error>
-    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm4[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm4'" (change)="loadAdm(locationGroup, 'adm4', $event)">
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm4[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm4'">
       <ng-option *ngFor="let option of locations[locationGroup].getOptions('adm4')" [value]="option.get('id')">
         {{option.get('name') | uppercaseFirst}}
       </ng-option>

@@ -198,32 +198,37 @@
                 <h3>{{language.beneficiaries_household_info}}</h3>
                 <div class="info-resume">
                   <div class="info-container" *ngIf="mainForm.controls.livelihood.value">
-                    <h4 class='summary-title'>{{language.add_beneficiary_getOccupation}}: </h4>
+                    <h4 class='summary-title'>{{language.add_beneficiary_getOccupation}} </h4>
                     <p class="summary-title-value">{{getLivelihood().get('name')}}</p>
                   </div>
-                  <!-- <div class="info-container" *ngIf="mainForm.controls.addressNumber.value && mainForm.controls.addressPostcode.value && mainForm.controls.addressStreet.value">
-                    <h4 class='summary-title'> {{language.beneficiaries_full_address}} </h4>
-                    <p class="summary-title-value">
-                      {{mainForm.controls.addressNumber.value}}
-                      {{mainForm.controls.addressStreet.value}},
-                      {{mainForm.controls.addressPostcode.value}}
-                    </p>
-                  </div> -->
-                  <!-- <div class="info-container" *ngIf="mainForm.controls.adm1.value">
-                    <h4 class='summary-title'> {{ language.household_location_current_location }} </h4>
-                    <p class="summary-title-value">
-                      {{getFullLocation('current')}}
-                    </p>
-                  </div>
-                  <div class="info-container" *ngIf="mainForm.controls.adm1.value">
-                    <h4 class='summary-title'> {{ language.household_location_resident_location }} </h4>
-                    <p class="summary-title-value">
-                      {{getFullLocation('resident')}}
-                    </p>
-                  </div> -->
+                  <ng-container *ngFor="let locationGroup of ['current', 'resident']">
+                    <div class="info-container" *ngIf="mainForm.controls[locationGroup + 'Type'].value !== 'camp'">
+                      <h4 class='summary-title'> {{language['household_location_' + locationGroup + '_address']}} </h4>
+                      <p class="summary-title-value">
+                        {{mainForm.controls[locationGroup + 'AddressNumber'].value}}
+                        {{mainForm.controls[locationGroup + 'AddressStreet'].value}},
+                        {{mainForm.controls[locationGroup + 'AddressPostcode'].value}}
+                      </p>
+                    </div>
+                    <div class="info-container" *ngIf="mainForm.controls[locationGroup + 'Type'].value === 'camp'">
+                      <h4 class='summary-title'> {{language['household_location_' + locationGroup + '_address']}} </h4>
+                      <p class="summary-title-value">
+                        <span *ngIf="!mainForm.controls[locationGroup + 'CreateCamp'].value">{{ getCampName(locationGroup) }}</span>
+                        <span *ngIf="mainForm.controls[locationGroup + 'CreateCamp'].value">{{ mainForm.controls[locationGroup + 'NewCamp'].value }}</span>
+                        <br>
+                        <span>{{ language.household_location_tent }} : </span> {{ mainForm.controls[locationGroup + 'TentNumber'].value }}
+                      </p>
+                    </div>
+                    <div class="info-container" *ngIf="mainForm.controls[locationGroup + 'Adm1'].value">
+                      <h4 class='summary-title'> {{ language['household_location_' + locationGroup + '_location'] }} </h4>
+                      <p class="summary-title-value">
+                        {{getFullLocation(locationGroup)}}
+                      </p>
+                    </div>
+                  </ng-container>
                 </div>
                 <h3> {{ language.beneficiaries}}</h3>
-                <table mat-table [dataSource]="tableData" class="mat-elevation-z8">
+                <table mat-table [dataSource]="tableData" class="mat-elevation-z8" *ngIf="validStep2">
                   <ng-container matColumnDef="localGivenName">
                     <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getGivenName | uppercaseFirst }} </th>
                     <td mat-cell *matCellDef="let element"> {{ element.controls.localGivenName.value }} ({{ element.controls.enGivenName.value }})</td>

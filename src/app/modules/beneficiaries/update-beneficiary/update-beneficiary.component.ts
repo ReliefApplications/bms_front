@@ -780,6 +780,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
             null;
     }
 
+    getCampName(locationGroup) {
+        const campId =  this.mainForm.controls[locationGroup + 'Camp'].value;
+        return campId ? this.campLists[locationGroup].filter((camp: Camp) => camp.get('id') === campId)[0].get('name') : null;
+    }
+
 //
 // ─── GET OPTIONS FROM THE API ───────────────────────────────────────────────────
 //

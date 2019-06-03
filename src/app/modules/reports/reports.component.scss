@@ -49,11 +49,21 @@
             align-items: baseline;
             justify-content: space-around;
 
-            .graph {
+            .graph-title {
+                text-align: center;
+            }
+
+            .placeholder {
+                width: 400px;
+                height: 400px;
                 display: flex;
-                flex-direction: column;
+                justify-content: center;
                 align-items: center;
-                justify-content: space-around;
+
+                p {
+                    color: $bms_slate;
+                    font-size: 4em;
+                }
             }
         }
 

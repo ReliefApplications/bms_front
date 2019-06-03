@@ -1,11 +1,11 @@
 <mat-tab-group>
-    <mat-tab *ngFor="let dataSet of pieChartDataSets" [label]="dataSet.period">
+    <mat-tab  *ngFor="let period of periods; index as i" [label]="period">
         <div style="display: block">
-            <canvas baseChart
+            <canvas  baseChart
             width="400px"
             height="400px"
-            [data]="dataSet.values"
-            [labels]="dataSet.labels"
+            [data]="pieChartDataSets[i].values"
+            [labels]="pieChartDataSets[i].labels"
             [options]="pieChartOptions"
             [colors]="colors"
             [chartType]="'pie'"

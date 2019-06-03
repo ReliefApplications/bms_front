@@ -36,7 +36,6 @@ export class PieChartComponent extends BaseChartComponent implements OnInit {
     ngOnInit() {
 
         this.formatPieChartDataSet();
-
         this.generateColors();
     }
 

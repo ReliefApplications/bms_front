@@ -114,11 +114,13 @@
                 </div>
             </div>
             <div class="graphs">
-                <div class="graph" *ngFor="let graph of graphs">
-                    <h2>{{graph.name}}</h2>
-                    <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'"></app-line-chart>
-                    <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie' || graph.type === 'grid'"></app-pie-chart>
-                    <app-bar-chart [graphInfo]="graph" *ngIf="graph.type === 'number'"></app-bar-chart>
+                <div *ngFor="let graph of graphs">
+                    <h2 class="graph-title">{{graph.name}}</h2>
+                    <ng-container *ngIf="!graphValuesAreEmpty(graph); else noData">
+                        <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'"></app-line-chart>
+                        <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie' || graph.type === 'grid'"></app-pie-chart>
+                        <app-bar-chart [graphInfo]="graph" *ngIf="graph.type === 'number'"></app-bar-chart>
+                    </ng-container>
                 </div>
             </div>
         </div>
@@ -127,16 +129,24 @@
 
 
 <ng-template #ngSelectHeader let-control="formControl" let-entities="entities">
-        <div class="ng-select-header select"
-            *ngIf="!control.value || control.value.length !== entities.length; else deselectAll"
-            (click)="control.setValue(entities)" >
-            Select all
+    <div class="ng-select-header select"
+        *ngIf="!control.value || control.value.length !== entities.length; else deselectAll"
+        (click)="control.setValue(entities)" >
+        Select all
+    </div>
+    <ng-template #deselectAll>
+        <div class="ng-select-header deselect"
+        (click)="control.reset()" >
+            Deselect all
         </div>
-        <ng-template #deselectAll>
-            <div class="ng-select-header deselect"
-            (click)="control.reset()" >
-                Deselect all
-            </div>
-        </ng-template>
-
     </ng-template>
+
+</ng-template>
+
+
+<ng-template #noData>
+    <div class="placeholder">
+        <p>No Data</p>
+    </div>
+</ng-template>
+

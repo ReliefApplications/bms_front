@@ -363,4 +363,11 @@ export class ReportsComponent implements OnInit, OnDestroy {
     private generateCountry(): object {
         return {country: this.countriesService.selectedCountry.value.get<string>('id')};
     }
+
+    public graphValuesAreEmpty(graph: Graph): boolean {
+        if (Object.keys(graph.values).length === 0) {
+            return true;
+        }
+        return false;
+    }
 }

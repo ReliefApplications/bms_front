@@ -3,8 +3,10 @@ import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import * as html2canvas from 'html2canvas';
+import * as jsPDF from 'jspdf';
+import { forkJoin, from, Subscription } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { UserService } from 'src/app/core/api/user.service';
@@ -16,6 +18,15 @@ import { Project } from 'src/app/model/project';
 import { GraphDTO } from './dto/graph.dto';
 import { Graph } from './dto/graph.model';
 import { IndicatorService } from './services/indicator.service';
+
+const PDFConfig = {
+    paperWidthMm : 210,
+    paperHeightMm : 297,
+    singleMarginMm : 10,
+    graphPerLine : 2,
+    graphRatioHW : 5 / 4,
+};
+
 @Component({
     selector: 'app-reports',
     templateUrl: './reports.component.html',
@@ -369,10 +380,68 @@ export class ReportsComponent implements OnInit, OnDestroy {
         return {country: this.countriesService.selectedCountry.value.get<string>('id')};
     }
 
+//
+// ─── DATA CHECKING ──────────────────────────────────────────────────────────────
+//
     public graphValuesAreEmpty(graph: Graph): boolean {
         if (Object.keys(graph.values).length === 0) {
             return true;
         }
         return false;
+    }
+
+//
+// ─── EXPORT ─────────────────────────────────────────────────────────────────────
+//
+
+    public export(exportFileType: string) {
+        switch (exportFileType) {
+            case 'xls':
+                return;
+            case 'csv':
+                return;
+            case 'ods':
+                return;
+            case 'pdf':
+            default:
+                this.generatePdf();
+        }
+
+    }
+
+    private generatePdf() {
+        const htmlGraphs = document.getElementsByClassName('graph');
+
+        const graphWidthMm = (PDFConfig.paperWidthMm - (PDFConfig.graphPerLine + 1) * PDFConfig.singleMarginMm) / PDFConfig.graphPerLine;
+        const graphHeightMm = graphWidthMm * PDFConfig.graphRatioHW;
+
+        const options: Html2Canvas.Html2CanvasOptions = {
+            width: 400,
+            height: 500,
+        };
+        const pdf = new jsPDF('p', 'mm', 'A4');
+        let x = 0, y = 0;
+        // Gather observables used for converting html elements to canvas
+        forkJoin(
+            Array.from(htmlGraphs).map((htmlGraph: HTMLElement, index: number) => {
+                return from(html2canvas(htmlGraph, options)).pipe(
+                    tap((canvas: HTMLCanvasElement) => {
+                        const img = canvas.toDataURL('image/jpeg', 1.0);
+                        pdf.addImage(img, 'JPEG', x + PDFConfig.singleMarginMm, y + PDFConfig.singleMarginMm, graphWidthMm, graphHeightMm);
+
+                        // Calculate next graph's coordinates
+                        x += PDFConfig.singleMarginMm + graphWidthMm;
+                        if (PDFConfig.paperWidthMm - x < graphWidthMm) {
+                            x = 0;
+                            y += PDFConfig.singleMarginMm + graphHeightMm;
+                            if (PDFConfig.paperHeightMm - y < graphHeightMm) {
+                                y = 0;
+                                pdf.addPage();
+                            }
+                        }
+                    })
+                );
+            })
+        ).subscribe(() => {pdf.save('Reports'); });
     }
 }

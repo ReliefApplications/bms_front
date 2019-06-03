@@ -36,7 +36,7 @@
                 <div class="action-buttons">
                     <mat-spinner [diameter]='25' *ngIf="isDownloading"></mat-spinner>
                     <div class="extension button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" *ngIf='!isDownloading'>
-                        <button mat-raised-button class="button-background-primary" (click)="export()">
+                        <button mat-raised-button class="button-background-primary" (click)="export(exportFileType)">
                             <mat-icon>get_app</mat-icon>
                             <span>{{language.export | titlecase}}</span>
                         </button>
@@ -118,8 +118,8 @@
                     </ng-template>
                 </div>
             </div>
-            <div class="graphs">
-                <div *ngFor="let graph of graphs">
+            <div id="graphs">
+                <div *ngFor="let graph of graphs" class="graph" style="page-break-after: always;">
                     <h2 class="graph-title">{{graph.name}}</h2>
                     <ng-container *ngIf="!graphValuesAreEmpty(graph); else noData">
                         <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'"></app-line-chart>

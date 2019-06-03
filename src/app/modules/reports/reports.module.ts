@@ -22,7 +22,6 @@ import { ReportsComponent } from './reports.component';
         ReactiveFormsModule,
         NgSelectModule,
         ChartsModule,
-
     ],
     declarations: [
         ReportsComponent,

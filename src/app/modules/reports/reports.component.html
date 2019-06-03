@@ -3,11 +3,13 @@
         <h2>{{language.reports | titlecase}}</h2>
     </div>
 
-    <app-box-setting *ngFor="let report of enabledReports"
-        (click)="selectReport(report)"
-        [isSelected]="report === selectedReport"
-        [info]='report'>
-    </app-box-setting>
+    <div class="container-boxes">
+        <app-box-setting *ngFor="let report of enabledReports"
+            (click)="selectReport(report)"
+            [isSelected]="report === selectedReport"
+            [info]='report'>
+        </app-box-setting>
+    </div>
 
     <div class="container-table" *ngIf="!indicatorsLoading">
         <div class="container-content">

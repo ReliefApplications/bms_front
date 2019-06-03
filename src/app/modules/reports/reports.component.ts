@@ -13,13 +13,16 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
 import { Distribution } from 'src/app/model/distribution';
 import { Project } from 'src/app/model/project';
-import { GraphDTO } from './graph.dto';
-import { Graph } from './graph.model';
+import { GraphDTO } from './dto/graph.dto';
+import { Graph } from './dto/graph.model';
 import { IndicatorService } from './services/indicator.service';
 @Component({
     selector: 'app-reports',
     templateUrl: './reports.component.html',
     styleUrls: ['./reports.component.scss'],
+//
+// ─── PERIOD ANIMATIONS ──────────────────────────────────────────────────────────
+//
     animations: [
         trigger('periodDisplay', [
             state('hidden', style({
@@ -36,6 +39,8 @@ import { IndicatorService } from './services/indicator.service';
             transition('showing => hidden', animate('0.5s')),
         ])
     ],
+// ────────────────────────────────────────────────────────────────────────────────
+
     providers: [
         { provide: DateAdapter, useClass: CustomDateAdapter },
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }

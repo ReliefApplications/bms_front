@@ -1,4 +1,4 @@
-import { GraphPeriodsDTO, GraphValueDTO } from './graph.dto';
+import { GraphPeriodsDTO, GraphValueDTO } from './dto/graph.dto';
 
 export class GraphValue {
     date: string;

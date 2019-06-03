@@ -1,4 +1,4 @@
-import { GraphPeriods } from './graph-value.model';
+import { GraphPeriods } from '../graph-value.model';
 import { GraphDTO } from './graph.dto';
 
 export class Graph  {

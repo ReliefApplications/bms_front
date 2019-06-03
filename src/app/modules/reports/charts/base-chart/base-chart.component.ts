@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Graph } from '../../../graph.model';
+import { Graph } from '../../dto/graph.model';
+import { ColorsService } from '../../services/colors.service';
 
 @Component({
     selector: 'app-base-chart',
@@ -7,5 +8,10 @@ import { Graph } from '../../../graph.model';
     styleUrls: [ './base-chart.component.scss' ]
 })
 export class BaseChartComponent {
+
+    constructor(
+        protected colorsService: ColorsService,
+    ) {}
+
     @Input() graphInfo: Graph;
 }

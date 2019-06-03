@@ -1,23 +1,17 @@
-<app-chart-header
-[title]           = "title"
-[loader]          = "loader"
-[noData]          = "noData"
-></app-chart-header>
+<mat-tab-group>
+    <mat-tab  *ngFor="let period of periods; index as i" [label]="period">
+        <div style="display: block">
+            <canvas  baseChart
+            width="400px"
+            height="400px"
+            [data]="pieChartDataSets[i].values"
+            [labels]="pieChartDataSets[i].labels"
+            [options]="pieChartOptions"
+            [colors]="colors"
+            [chartType]="'pie'"
+            [legend]="'true'">
+          </canvas>
+        </div>
+    </mat-tab>
+</mat-tab-group>
 
-<div *ngIf="!loader && (!noData)" >
-    <ngx-charts-pie-chart 
-    [view]           = "view"
-    [scheme]         = "scheme"
-    [labels]         = "'true'"
-    [results]        = "data"
-    [gradient]       = "scheme.gradient"
-    [legend]         = "false"
-    [trimLabels]     = "true"
-    [animations]     = "false">
-    </ngx-charts-pie-chart>
-</div>
-<div *ngIf="!loader && noData" class="no-data">
-  <h1>NO DATA</h1>
-</div>
-
-<div *ngIf="loader" class="boxLoader"></div>

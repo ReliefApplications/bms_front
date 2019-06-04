@@ -4,10 +4,6 @@ export interface Language {
     readonly LANGUAGE_ISO: string;
     // Utils
     add: string
-    adm1: object
-    adm2: object
-    adm3: object
-    adm4: object
     administrative_settings: string
     back: string
     beneficiaries: string
@@ -25,11 +21,14 @@ export interface Language {
     done: string
     email: string
     export: string
-    export_codes: string
+    booklet_export_codes: string
+    female: string
+    male: string
     gender: string
     general_settings: string;
     home: string
     households: string
+    language: string
     id: string
     import: string
     individual: string
@@ -61,51 +60,29 @@ export interface Language {
     not_found: string
     not_found_message: string
 
-    // Role
-    role_user_admin: string
-    role_user_country_manager: string
-    role_user_field_officer: string
-    role_user_project_manager: string
-    role_user_project_officer: string
-    role_user_regional_manager: string
-
     // Months
     months_short: Array<string>
 
 
     // SPECIFIC VARIABLES
 
+    // Address and location
+    adm1: object
+    adm2: object
+    adm3: object
+    adm4: object
+    address: string
+    address_number: string
+    address_postcode: string
+    address_street: string
+
     // Add beneficiary
     add_beneficiary_done: string
-    add_beneficiary_getAddressNumber: string
-    add_beneficiary_getAddressPostcode: string
-    add_beneficiary_getAddressStreet: string
-    add_beneficiary_getDateOfBirth: string
-    add_beneficiary_getFamilyName: string
-    add_beneficiary_getGivenName: string
-    add_beneficiary_getEnglishFamilyName: string
-    add_beneficiary_getEnglishGivenName: string
-    add_beneficiary_getNationalID: string
-    add_beneficiary_getOccupation: string
-    add_beneficiary_getTypeNationalId: string
-    add_beneficiary_getTypePhone: string
-    add_beneficiary_income: string
-    add_beneficiary_income_level: object
-    add_beneficiary_nationalID: string
-    add_beneficiary_res_address: string
     add_beneficiary_step1: string
     add_beneficiary_step2: string
     add_beneficiary_step3: string
     add_beneficiary_title: string
-    add_beneficiary_code: string
-
-    // Add beneficiary options
-    national_id_passport: string
-    national_id_card: string
-    national_id_license: string
-    national_id_family_registry: string
-    national_id_other: string
-
+    
     // Add distribution
     add_distribution_advanced_option: string
     add_distribution_beneficiaries_reached: string
@@ -116,9 +93,7 @@ export interface Language {
     add_distribution_date_inside_project: string
     add_distribution_distributed_commodity: string
     add_distribution_error_creating: string
-    add_distribution_female: string
     add_distribution_households_reached: string
-    add_distribution_male: string
     add_distribution_missing_commodity: string
     add_distribution_missing_date: string
     add_distribution_missing_location: string
@@ -135,6 +110,37 @@ export interface Language {
     add_project_title: string
     add_project_new_distribution: string
 
+    // Beneficiaries
+    beneficiaries_add_distribution: string
+    beneficiaries_add_list: string
+    beneficiaries_add_project: string
+    beneficiaries_added: string
+    beneficiaries_advanced_research: string
+    beneficiaries_clear_all_research: string
+    beneficiary_date_of_birth: string
+    beneficiary_en_family_name: string
+    beneficiary_en_given_name: string
+    beneficiaries_en_name: string
+    beneficiaries_head: string
+    beneficiary_local_family_name: string
+    beneficiary_local_given_name: string
+    beneficiaries_local_name: string
+    beneficiaries_member: string
+    beneficiaries_missing_selected_project: string
+    beneficiaries_personnal: string
+    beneficiaries_referral: string
+    beneficiaries_referral_question: string
+    beneficiaries_referral_type: string
+    beneficiaries_referral_types: object
+    beneficiaries_referral_comment: string
+    beneficiary_res_address: string
+    beneficiaries_residency: string
+    beneficiaries_beneficairy_residency_status_refugee: string
+    beneficiaries_beneficairy_residency_status_idp: string
+    beneficiaries_beneficairy_residency_status_resident: string
+    beneficiaries_select_api: string
+    beneficiaries_selected_project: string
+    
     // Benficiary form errors
     beneficiary_error_location: string
     beneficiairy_error_address_number: string
@@ -150,19 +156,8 @@ export interface Language {
     beneficiary_error_country_code: string
     beneficiairy_error_birth_date: string
     beneficiairy_error_project: string
-
-    // Beneficiaries
-    beneficiaries_add_distribution: string
-    beneficiaries_add_list: string
-    beneficiaries_add_project: string
-    beneficiaries_added: string
-    beneficiaries_advanced_research: string
-    beneficiaries_clear_all_research: string
-    beneficiaries_english_name: string
-    beneficiaries_local_name: string
-    beneficiaries_full_address: string
-    beneficiaries_head: string
-    beneficiaries_household_info: string
+    
+    // Beneficiary import
     beneficiaries_import_addFile: string
     beneficiaries_import_addModal: string
     beneficiaries_import_api: string
@@ -181,29 +176,14 @@ export interface Language {
     beneficiaries_import_select_project: string
     beneficiaries_import_title: string
     beneficiaries_import_warning: string
-    beneficiaries_location: string
-    beneficiaries_member: string
-    beneficiaries_missing_selected_project: string
-    beneficiaries_personnal: string
-    beneficiaries_proxy: string
-    beneficiaries_referral: string
-    beneficiaries_referral_question: string
-    beneficiaries_referral_type: string
-    beneficiaries_referral_types: object
-    beneficiaries_referral_comment: string
-    beneficiaries_residency: string
-    beneficiaries_residency_refugee: string
-    beneficiaries_residency_idp: string
-    beneficiaries_residency_resident: string
-    beneficiaries_select_api: string
-    beneficiaries_selected_project: string
-
+    
     // Cache
     cache_distribution_added: string
     cache_store_beneficiaries: string
     cache_stored_beneficiaries: string
     cache_no_distribution: string
 
+    // Commodities
     commodity_cash: string
     commodity_qr_voucher: string
     commodity_paper_voucher: string
@@ -216,12 +196,17 @@ export interface Language {
     commodity_shelter: string
     commodity_hygiene: string
     commodity_dignity: string
+    commodity: string
+    commodity_kgs: string
+    commodity_kit: string
+    commodity_modality: string
+    commodity_unit: string
+    commodity_value: string
 
     // Countries
     country_khm: string
     country_syr: string
-
-
+    
     // Dashboard
     dashboard_distribution_map: string
     dashboard_recent_distributions: string
@@ -232,7 +217,7 @@ export interface Language {
     dashboard_summary_4: string
     dashboard_summary_5: string
     dashboard_summary_6: string
-
+    
     // Data verification
     data_verification_chip_actual: string
     data_verification_chip_add: string
@@ -247,7 +232,6 @@ export interface Language {
     data_verification_error: string
     data_verification_just_now: string
     data_verification_last_updated: string
-    data_verification_send: string
     data_verification_snackbar_duplicate_corrected: string
     data_verification_snackbar_duplicate_no_corrected: string
     data_verification_snackbar_less_corrected: string
@@ -260,7 +244,7 @@ export interface Language {
     data_verification_step_more: string
     data_verification_step_typos: string
     data_verification_title: string
-
+    
     // Distribution
     distribution_accept_changed: string
     distribution_add_beneficiaries: string
@@ -289,7 +273,7 @@ export interface Language {
     distribution_validated: string
     distribution_validated_title: string
     distribution_want_add: string
-
+    
     // Header
     'header_add-beneficiaries': string
     'header_add-distribution': string
@@ -308,7 +292,15 @@ export interface Language {
     header_reports: string
     'header_update-beneficiary': string
     header_vouchers: string
-
+    
+    // Household
+    household_location: string
+    household_full_address: string
+    household_info: string
+    household_livelihood: string
+    household_income: string
+    household_income_level: object
+    
     // Import
     import_added: string
     import_back_to_beneficiaries: string
@@ -321,7 +313,8 @@ export interface Language {
     import_select_new: string
     import_select_old: string
     import_updated: string
-
+    
+    // Livelihoods
     livelihood_livestock: string
     livelihood_crops: string
     livelihood_fishing: string
@@ -347,7 +340,7 @@ export interface Language {
     livelihood_security: string
     livelihood_service: string
     livelihood_other: string
-
+    
     // Login
     login_bms: string
     login_captcha_invalid: string
@@ -356,14 +349,12 @@ export interface Language {
     login_prompt: string
     login_title: string
     login_username: string
-
+    
     // Modal
     modal_add_bad_weight: string
     modal_add_check_fields_budget: string
     modal_add_check_fields_quantity: string
     modal_add_fail_criteria: string
-    modal_add_invalid_mail: string
-    modal_add_no_right: string
     modal_add_no_value: string
     modal_add_title: string
     modal_add_multiple_title: string
@@ -375,20 +366,13 @@ export interface Language {
     modal_delete_sentence_2: string
     modal_details_title: string
     modal_edit_title: string
-    modal_email_is: string
     modal_failure: string
     modal_leave: string
     modal_language_actual: string
     modal_leave_sentence: string
-    modal_language_title: string
-    modal_no_country: string
-    modal_no_password: string
     modal_not_enough_strong: string
-    modal_no_project: string
-    modal_password_required: string
     modal_pending_requests: string
     modal_pick_color: string
-    modal_project_name_characters_limit: string
     modal_required: string
     modal_save_language_as_default: string
     modal_success: string
@@ -396,83 +380,100 @@ export interface Language {
     modal_warning_pending_requests_1: string
     modal_warning_pending_requests_2: string
     modal_no_file: string
+    modal_values_format_error: string
+    
+    // National ID
+    national_id_type: string
+    national_id: string
+    national_id_number: string
+
+    // Phone
+    phone_proxy: string
+    phone_type: string
+    phone_prefix: string
+    phone_no: string
 
     // Model
-    model_beneficiaries_dependents: string
-    model_beneficiaries_nationalids: string
-    model_beneficiaries_phone_no: string
-    model_beneficiaries_status: string
-    model_booklet: string
-    model_booklet_password_pattern: string
-    model_code: string
-    model_commodity: string
-    model_commodity_kgs: string
-    model_commodity_kit: string
-    model_commodity_modality: string
-    model_commodity_unit: string
-    model_commodity_value: string
-    model_countryIso3: string
-    model_country_specific: string
-    model_country_specific_field: string
-    model_criteria: string
-    model_criteria_operator: string
-    model_criteria_weight: string
-    model_currency: string
-    model_dateofbirth: string
-    model_deactivated: string
-    model_define_password: string
-    model_update_password: string
-    model_distributed: string
-    model_distribution_beneficiary: string
-    model_distribution_date: string
-    model_distribution_name: string
-    model_distribution_type: string
-    model_donor: string
-    model_donor_fullname: string
-    model_donor_shortname: string
-    model_duplicate: string
-    model_familyName: string
-    model_firstName: string
-    model_household_sentence: string
-    model_individual_to_all: string
-    model_individual_value: string
-    model_item: string
-    model_notes: string
-    model_organization_name: string
-    model_organization_logo: string
-    model_organization_font: string
-    model_organization_primary: string
-    model_organization_secondary: string
-    model_organization_footer: string
-    model_product_name: string
-    model_product_unit: string
-    model_product_image: string
-    model_number_booklets: string
-    model_number_vouchers: string
-    model_project_donors_name: string
-    model_project_end_date: string
-    model_project_name: string
-    model_project_number_of_households: string
-    model_project_start_date: string
-    model_project_value: string
-    model_residencystatus: string
-    model_sector: string
-    model_sectors_name: string
-    model_transaction_message: string
-    model_transaction_pickupDate: string
-    model_state: string
-    model_type: string
-    model_type_shop: string
-    model_unassigned: string
-    model_used: string
-    model_user: string
-    model_password: string
-    model_user_password_question: string
-    model_value: string
-    modal_values_format_error: string
-    model_vendors_address: string
-    model_vendor: string
-    model_vulnerabilities: string
+    household_dependents: string
+    household_sentence: string
+
+    beneficiary_status: string
+    beneficiary_family_name: string
+    beneficiary_given_name: string
+    beneficiary_residency_status: string
+    beneficiary_vulnerabilities: string
+
+    booklet: string
+    booklet_password_pattern: string
+    booklet_code: string
+    booklet_deactivated: string
+    booklet_define_password: string
+    booklet_update_password: string
+    booklet_individual_value: string
+    booklet_number_booklets: string
+    booklet_number_vouchers: string
+    booklet_unassigned: string
+    booklet_used: string
+    
+    countryIso3: string
+    country_specific: string
+    country_specific_field: string
+
+    criteria: string
+    criteria_operator: string
+    criteria_weight: string
+
+    currency: string
+    distributed: string
+    duplicate: string
+    general_relief: string
+    notes: string
+    sector: string
+    status: string
+    type: string
+    value: string
+    password: string
+
+    distribution_date: string
+    distribution_type: string
+
+    donor: string
+    donor_fullname: string
+    donor_shortname: string
+
+    organization_name: string
+    organization_logo: string
+    organization_font: string
+    organization_primary: string
+    organization_secondary: string
+    organization_footer: string
+
+    product_name: string
+    product_unit: string
+    product_image: string
+
+    project_end_date: string
+    project_name: string
+    project_number_of_households: string
+    project_start_date: string
+    project_value: string
+    project_sectors_name: string
+
+    transaction_message: string
+    transaction_pickupDate: string
+
+    vendor: string
+    vendor_type_shop: string
+
+    user: string
+    user_password_question: string
+    
+    // Add beneficiary options
+    national_id_passport: string
+    national_id_card: string
+    national_id_license: string
+    national_id_family_registry: string
+    national_id_other: string
 
     // Null values
     null_none: string
@@ -534,10 +535,18 @@ export interface Language {
     report_to: string
     report_upcoming_reporting: string
 
+    // Role
+    role_user_admin: string
+    role_user_country_manager: string
+    role_user_field_officer: string
+    role_user_project_manager: string
+    role_user_project_officer: string
+    role_user_regional_manager: string
+
     // Beneficiary residency status
-    residency_resident: string
-    residency_refugee: string
-    residency_idp: string
+    beneficairy_residency_status_resident: string
+    beneficairy_residency_status_refugee: string
+    beneficairy_residency_status_idp: string
 
     // Sectors tooltips
     sector_cccm: string
@@ -559,7 +568,7 @@ export interface Language {
     // Settings
     settings_country_specific_options: string
     settings_created: string
-    settings_donors: string
+    donors: string
     settings_financial_provider: string
     settings_log_button: string
     settings_organization: string
@@ -619,22 +628,9 @@ export interface Language {
     transaction_no_transaction_sent: string
 
     // Tooltip
-    tooltip_add_beneficiaries: string
-    tooltip_add_distribution: string
-    tooltip_beneficiaries: string
     tooltip_dashboard: string
-    tooltip_data: string
-    tooltip_data_validation: string
-    tooltip_distributions: string
-    tooltip_import: string
-    tooltip_profile: string
-    tooltip_projects: string
-    tooltip_reports: string
-    tooltip_settings: string
-    tooltip_update_beneficiary: string
 
     // Update beneficiary
-    update_beneficiary_check_steps: string
     update_beneficiary_created_successfully: string
     update_beneficiary_error_creating: string
     update_beneficiary_error_updated: string

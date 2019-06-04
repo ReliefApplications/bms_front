@@ -81,7 +81,7 @@ export class Beneficiary extends CustomModel {
         ),
         localGivenName: new TextModelField(
             {
-                title: this.language.model_firstName,
+                title: this.language.beneficiary_given_name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -92,7 +92,7 @@ export class Beneficiary extends CustomModel {
         ),
         localFamilyName: new TextModelField(
             {
-                title: this.language.model_familyName,
+                title: this.language.beneficiary_family_name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -103,7 +103,7 @@ export class Beneficiary extends CustomModel {
         ),
         enGivenName: new TextModelField(
             {
-                title: this.language.add_beneficiary_getEnglishGivenName,
+                title: this.language.beneficiary_en_given_name,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
@@ -113,7 +113,7 @@ export class Beneficiary extends CustomModel {
         ),
         enFamilyName: new TextModelField(
             {
-                title: this.language.add_beneficiary_getEnglishFamilyName,
+                title: this.language.beneficiary_en_family_name,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
@@ -129,8 +129,8 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 options: [
-                    new Gender('0', this.language.add_distribution_female),
-                    new Gender('1', this.language.add_distribution_male)
+                    new Gender('0', this.language.female),
+                    new Gender('1', this.language.male)
                 ],
                 bindField: 'name',
                 apiLabel: 'id',
@@ -138,7 +138,7 @@ export class Beneficiary extends CustomModel {
             }
         ),
         dateOfBirth: new DateModelField({
-            title: this.language.model_dateofbirth,
+            title: this.language.beneficiary_date_of_birth,
             placeholder: null,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
@@ -146,25 +146,25 @@ export class Beneficiary extends CustomModel {
         }),
         residencyStatus: new SingleSelectModelField(
             {
-                title: this.language.model_residencystatus,
+                title: this.language.beneficiary_residency_status,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
                 isLongText: false,
                 options: [
-                    new ResidencyStatus('refugee', this.language.residency_refugee),
-                    new ResidencyStatus('IDP', this.language.residency_idp),
-                    new ResidencyStatus('resident', this.language.residency_resident)
+                    new ResidencyStatus('refugee', this.language.beneficairy_residency_status_refugee),
+                    new ResidencyStatus('IDP', this.language.beneficairy_residency_status_idp),
+                    new ResidencyStatus('resident', this.language.beneficairy_residency_status_resident)
                 ],
                 bindField: 'name',
                 apiLabel: 'id',
-                value: new ResidencyStatus('resident', this.language.residency_resident)
+                value: new ResidencyStatus('resident', this.language.beneficairy_residency_status_resident)
             }
         ),
         beneficiaryStatus: new SingleSelectModelField(
             {
-                title: this.language.model_beneficiaries_status,
+                title: this.language.beneficiary_status,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 options: [
@@ -178,7 +178,7 @@ export class Beneficiary extends CustomModel {
         ),
         nationalIds: new MultipleObjectsModelField<NationalId>(
             {
-                title: this.language.model_beneficiaries_nationalids,
+                title: this.language.national_id_number,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 displayTableFunction: null,
@@ -199,7 +199,7 @@ export class Beneficiary extends CustomModel {
         ),
         vulnerabilities: new MultipleObjectsModelField<VulnerabilityCriteria>(
             {
-                title: this.language.model_vulnerabilities,
+                title: this.language.beneficiary_vulnerabilities,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isImageInTable: true,
@@ -210,7 +210,7 @@ export class Beneficiary extends CustomModel {
         ),
         localFullName: new TextModelField(
             {
-                title: this.language.model_donor_fullname,
+                title: this.language.donor_fullname,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,

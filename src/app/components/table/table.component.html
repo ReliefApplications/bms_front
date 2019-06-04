@@ -86,7 +86,7 @@
                     <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!element.isAssignable()">
                         <mat-icon>assignment</mat-icon>
                     </button>
-                    <button mat-icon-button [matTooltip]="language.model_duplicate" *ngIf="duplicable" (click)="duplicate(element); $event.stopPropagation()" class="grey">
+                    <button mat-icon-button [matTooltip]="language.duplicate" *ngIf="duplicable" (click)="duplicate(element); $event.stopPropagation()" class="grey">
                         <mat-icon>file_copy</mat-icon>
                     </button>
                 </mat-cell>

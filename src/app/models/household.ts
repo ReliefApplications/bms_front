@@ -47,7 +47,7 @@ export class Household extends CustomModel {
         ),
         localFamilyName: new TextModelField(
             {
-                title: this.language.model_familyName,
+                title: this.language.beneficiary_family_name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -59,7 +59,7 @@ export class Household extends CustomModel {
         ),
         localFirstName: new TextModelField(
             {
-                title: this.language.model_firstName,
+                title: this.language.beneficiary_given_name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -71,7 +71,7 @@ export class Household extends CustomModel {
         ),
         enFamilyName: new TextModelField(
             {
-                title: this.language.add_beneficiary_getEnglishFamilyName,
+                title: this.language.beneficiary_en_family_name,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
@@ -82,7 +82,7 @@ export class Household extends CustomModel {
         ),
         enFirstName: new TextModelField(
             {
-                title: this.language.add_beneficiary_getEnglishGivenName,
+                title: this.language.beneficiary_en_given_name,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
@@ -102,14 +102,14 @@ export class Household extends CustomModel {
         ),
         dependents: new NumberModelField(
             {
-                title: this.language.model_beneficiaries_dependents,
+                title: this.language.household_dependents,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
             }
         ),
         vulnerabilities: new MultipleObjectsModelField<VulnerabilityCriteria>(
             {
-                title: this.language.model_vulnerabilities,
+                title: this.language.beneficiary_vulnerabilities,
                 isDisplayedInTable: true,
                 isImageInTable: true,
                 value: [],
@@ -141,17 +141,17 @@ export class Household extends CustomModel {
         ),
         addressNumber: new NumberModelField(
             {
-                title: this.language.add_beneficiary_getAddressNumber,
+                title: this.language.address_number,
             }
         ),
         addressPostcode: new TextModelField(
             {
-                title: this.language.add_beneficiary_getAddressPostcode,
+                title: this.language.address_postcode,
             }
         ),
         addressStreet: new TextModelField(
             {
-                title: this.language.add_beneficiary_getAddressStreet,
+                title: this.language.address_street,
             }
         ),
         livelihood: new SingleSelectModelField(
@@ -166,7 +166,7 @@ export class Household extends CustomModel {
         ),
         incomeLevel: new NumberModelField(
             {
-                title: this.language.add_beneficiary_income,
+                title: this.language.household_income,
                 isDisplayedInModal: true,
             }
         ),
@@ -248,7 +248,7 @@ export class Household extends CustomModel {
     }
 
     public getIdentifyingName() {
-        return this.language.model_household_sentence + this.get('localFirstName') + ' ' + this.get('localFamilyName');
+        return this.language.household_sentence + this.get('localFirstName') + ' ' + this.get('localFamilyName');
     }
 
 

@@ -20,49 +20,49 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
 
         }),
         localGivenName: new NestedFieldModelField({
-            title: this.language.model_firstName,
+            title: this.language.beneficiary_given_name,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localGivenName'
         }),
         localFamilyName: new NestedFieldModelField({
-            title: this.language.model_familyName,
+            title: this.language.beneficiary_family_name,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localFamilyName'
         }),
         enGivenName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishGivenName,
+            title: this.language.beneficiary_en_given_name,
             isDisplayedInTable: false,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'enGivenName'
         }),
         enFamilyName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishFamilyName,
+            title: this.language.beneficiary_en_family_name,
             isDisplayedInTable: false,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'enFamilyName'
         }),
         bookletCode: new NestedFieldModelField({
-            title: this.language.model_booklet,
+            title: this.language.booklet,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'code',
         }),
         status: new NestedFieldModelField({
-            title: this.language.model_state,
+            title: this.language.status,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'status',
         }),
         usedAt: new NestedFieldModelField({
-            title: this.language.model_used,
+            title: this.language.booklet_used,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',
@@ -70,7 +70,7 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             nullValue: this.language.null_not_yet
         }),
         value: new NestedFieldModelField({
-            title: this.language.model_value,
+            title: this.language.value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',

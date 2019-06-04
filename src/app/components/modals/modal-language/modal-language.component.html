@@ -1,5 +1,5 @@
 <mat-dialog-content *ngIf="languageForm" class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': isArabic === true}">{{language.modal_language_title}}</h4>
+  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': isArabic === true}">{{language.language}}</h4>
   <form [formGroup]="languageForm" class="modal-table" [ngClass]="{'arabic': isArabic === true}" cdkFocusRegionstart>
     <div class="select-container">
       <span class="language-text">{{language.modal_language_actual}}</span>

@@ -36,7 +36,7 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         vulnerabilities: new MultipleSelectModelField({
-            title: this.language.model_vulnerabilities,
+            title: this.language.beneficiary_vulnerabilities,
             filterName: 'vulnerabilities',
             bindField: 'name',
             apiLabel: 'id',
@@ -50,14 +50,14 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         residency: new MultipleSelectModelField({
-            title: this.language.model_residencystatus,
+            title: this.language.beneficiary_residency_status,
             filterName: 'residency',
             isDisplayedInTable: true,
             bindField: 'name',
             apiLabel: 'id',
         }),
         livelihood: new MultipleSelectModelField({
-            title: this.language.add_beneficiary_getOccupation,
+            title: this.language.household_livelihood,
             filterName: 'livelihood',
             isDisplayedInTable: true,
             bindField: 'name',

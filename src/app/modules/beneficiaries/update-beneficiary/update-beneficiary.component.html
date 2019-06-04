@@ -50,20 +50,20 @@
                     <app-hint-error [form]="mainForm" fieldName="adm4" [field]="household.get('location').fields.adm4" [isMatField]="false"></app-hint-error>
                   </div>
                   <div class="column-container">
-                    <h4>{{ language.add_beneficiary_res_address }}</h4>
+                    <h4>{{ language.beneficiary_res_address }}</h4>
                     <mat-form-field>
-                      <input matInput placeholder="{{language.add_beneficiary_getAddressNumber | uppercaseFirst}}" formControlName="addressNumber" required>
+                      <input matInput placeholder="{{language.address_number | uppercaseFirst}}" formControlName="addressNumber" required>
                       <app-hint-error [form]="mainForm" fieldName="addressNumber" [field]="household.fields.addressNumber" [isMatField]="true"></app-hint-error>
                     </mat-form-field>
                     <mat-form-field>
-                      <input matInput placeholder="{{language.add_beneficiary_getAddressStreet | uppercaseFirst}}" formControlName="addressStreet" required>
+                      <input matInput placeholder="{{language.address_street | uppercaseFirst}}" formControlName="addressStreet" required>
                       <app-hint-error [form]="mainForm" fieldName="addressStreet" [field]="household.fields.addressStreet" [isMatField]="true"></app-hint-error>
                     </mat-form-field>
                     <mat-form-field>
-                      <input matInput placeholder="{{language.add_beneficiary_getAddressPostcode | uppercaseFirst}}" formControlName="addressPostcode" required>
+                      <input matInput placeholder="{{language.address_postcode | uppercaseFirst}}" formControlName="addressPostcode" required>
                       <app-hint-error [form]="mainForm" fieldName="addressPostcode" [field]="household.fields.addressPostcode" [isMatField]="true"></app-hint-error>
                     </mat-form-field>
-                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.add_beneficiary_getOccupation | uppercaseFirst}}" formControlName="livelihood">
+                    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.household_livelihood | uppercaseFirst}}" formControlName="livelihood">
                       <ng-option *ngFor="let livelihood of household.getOptions('livelihood')" [value]="livelihood.get('id')">
                         {{livelihood.get('name') | uppercaseFirst}}
                       </ng-option>
@@ -72,11 +72,11 @@
                   </div>
                   <div class="column-container">
                     <div class="income">
-                      <h4>{{ language.add_beneficiary_income | uppercaseFirst }}</h4>
+                      <h4>{{ language.household_income | uppercaseFirst }}</h4>
                       <mat-form-field>
-                        <mat-select class="single-select" [multiple]="false" placeholder="{{language.add_beneficiary_income | uppercaseFirst}}" formControlName="incomeLevel">
+                        <mat-select class="single-select" [multiple]="false" placeholder="{{language.household_income | uppercaseFirst}}" formControlName="incomeLevel">
                           <mat-option *ngFor="let index of [1, 2, 3, 4, 5]" [value]="index">
-                              {{ index }} ({{ language['add_beneficiary_income_level'][index.toString()][household.country] }})
+                              {{ index }} ({{ language['household_income_level'][index.toString()][household.country] }})
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -93,7 +93,7 @@
                   <div class="lign-container textarea-input">
                     <mat-form-field class="area-size">
                       <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="5" matAutosizeMaxRows="5"
-                        placeholder="{{language.model_notes | uppercaseFirst}}" formControlName="notes"></textarea>
+                        placeholder="{{language.notes | uppercaseFirst}}" formControlName="notes"></textarea>
                         <app-hint-error [form]="mainForm" fieldName="notes" [field]="household.fields.notes" [isMatField]="true"></app-hint-error>
                     </mat-form-field>
                   </div>
@@ -209,14 +209,14 @@
                 <app-hint-error [form]="mainForm" fieldName="projects" [field]="household.fields.projects" [isMatField]="false"></app-hint-error>
               </form>
               <div class="summary">
-                <h3>{{language.beneficiaries_household_info}}</h3>
+                <h3>{{language.household_info}}</h3>
                 <div class="info-resume">
                   <div class="info-container" *ngIf="mainForm.controls.livelihood.value">
-                    <h4 class='summary-title'>{{language.add_beneficiary_getOccupation}}: </h4>
+                    <h4 class='summary-title'>{{language.household_livelihood}}: </h4>
                     <p class="summary-title-value">{{getLivelihood().get('name')}}</p>
                   </div>
                   <div class="info-container" *ngIf="mainForm.controls.addressNumber.value && mainForm.controls.addressPostcode.value && mainForm.controls.addressStreet.value">
-                    <h4 class='summary-title'> {{language.beneficiaries_full_address}} </h4>
+                    <h4 class='summary-title'> {{language.household_full_address}} </h4>
                     <p class="summary-title-value">
                       {{mainForm.controls.addressNumber.value}}
                       {{mainForm.controls.addressStreet.value}},
@@ -224,7 +224,7 @@
                     </p>
                   </div>
                   <div class="info-container" *ngIf="mainForm.controls.adm1.value">
-                    <h4 class='summary-title'> {{ language.beneficiaries_location }} </h4>
+                    <h4 class='summary-title'> {{ language.household_location }} </h4>
                     <p class="summary-title-value">
                       {{getFullLocation()}}
                     </p>
@@ -233,12 +233,12 @@
                 <h3> {{ language.beneficiaries}}</h3>
                 <table mat-table [dataSource]="tableData" class="mat-elevation-z8">
                   <ng-container matColumnDef="localGivenName">
-                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getGivenName | uppercaseFirst }} </th>
+                    <th mat-header-cell *matHeaderCellDef> {{ language.beneficiary_local_given_name | uppercaseFirst }} </th>
                     <td mat-cell *matCellDef="let element"> {{ element.controls.localGivenName.value }} ({{ element.controls.enGivenName.value }})</td>
                   </ng-container>
 
                   <ng-container matColumnDef=localFamilyName>
-                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getFamilyName | uppercaseFirst }} </th>
+                    <th mat-header-cell *matHeaderCellDef> {{ language.beneficiary_local_family_name | uppercaseFirst }} </th>
                     <td mat-cell *matCellDef="let element"> {{ element.controls.localFamilyName.value }} ({{ element.controls.enFamilyName.value }}) </td>
                   </ng-container>
 
@@ -248,7 +248,7 @@
                   </ng-container>
 
                   <ng-container matColumnDef="dateOfBirth">
-                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_getDateOfBirth |uppercaseFirst }} </th>
+                    <th mat-header-cell *matHeaderCellDef> {{ language.beneficiary_date_of_birth |uppercaseFirst }} </th>
                     <td mat-cell *matCellDef="let element"> {{ element.controls.dateOfBirth.value | date: 'dd-MM-yyyy' }}
                     </td>
                   </ng-container>
@@ -261,7 +261,7 @@
                   </ng-container>
 
                   <ng-container matColumnDef="nationalId">
-                    <th mat-header-cell *matHeaderCellDef> {{ language.add_beneficiary_nationalID | uppercaseFirst }} </th>
+                    <th mat-header-cell *matHeaderCellDef> {{ language.national_id | uppercaseFirst }} </th>
                     <td mat-cell *matCellDef="let element"> {{element.controls.IDNumber.value}} </td>
                   </ng-container>
 

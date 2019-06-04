@@ -6,7 +6,7 @@ export class Donor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
 
-    title = this.language.model_donor;
+    title = this.language.donor;
     matSortActive = 'fullname';
 
     // TODO: Fill with options
@@ -18,7 +18,7 @@ export class Donor extends CustomModel {
         ),
         fullname: new TextModelField(
             {
-                title: this.language.model_donor_fullname,
+                title: this.language.donor_fullname,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,
@@ -28,7 +28,7 @@ export class Donor extends CustomModel {
         ),
         shortname: new TextModelField(
             {
-                title: this.language.model_donor_shortname,
+                title: this.language.donor_shortname,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,
@@ -38,7 +38,7 @@ export class Donor extends CustomModel {
         ),
         notes: new TextModelField(
             {
-                title: this.language.model_notes,
+                title: this.language.notes,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,

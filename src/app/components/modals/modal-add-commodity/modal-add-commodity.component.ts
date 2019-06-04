@@ -69,7 +69,7 @@ export class ModalAddCommodityComponent implements OnInit {
             case 2: // QR Code Voucher
             case 3: // Paper Voucher
             case 12: // Loan
-                return this.language.model_currency;
+                return this.language.currency;
             case 4: // Food
             case 5: // RTE Kit
             case 7: // Agricultural Kit
@@ -77,11 +77,11 @@ export class ModalAddCommodityComponent implements OnInit {
             case 9: // Shelter tool kit
             case 10: // Hygiene kit
             case 11: // Dignity kit
-                return this.language.model_commodity_kit;
+                return this.language.commodity_kit;
             case 6: // Bread
-                return this.language.model_commodity_kgs;
+                return this.language.commodity_kgs;
             default:
-                return this.language.model_commodity_unit;
+                return this.language.commodity_unit;
         }
     }
 

@@ -31,7 +31,7 @@ export class Role extends CustomModel {
 export class User extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
-    title = this.language.model_user;
+    title = this.language.user;
     matSortActive = 'email';
 
     public fields = {
@@ -51,7 +51,7 @@ export class User extends CustomModel {
             patternError: this.language.modal_valid_email
         }),
         password: new TextModelField({
-            title: this.language.model_password,
+            title: this.language.password,
             isPassword: true,
             isRequired: true,
             pattern:  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
@@ -114,7 +114,7 @@ export class User extends CustomModel {
 
         }),
         countries: new MultipleSelectModelField({
-            title: this.language.model_countryIso3,
+            title: this.language.countryIso3,
             options: [new Country('KHM', this.language.country_khm), new Country('SYR', this.language.country_syr)],
             isDisplayedInModal: true,
             bindField: 'name',
@@ -124,7 +124,7 @@ export class User extends CustomModel {
 
         }),
         changePassword: new BooleanModelField({
-            title: this.language.model_user_password_question,
+            title: this.language.user_password_question,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,

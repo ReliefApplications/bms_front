@@ -76,7 +76,7 @@
       <p>{{ language.voucher_ask_code }}</p>
       <div class="dialog-template">
         <mat-form-field class="full-width">
-          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" [placeholder]= "language.model_password | uppercaseFirst" />
+          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" [placeholder]= "language.password | uppercaseFirst" />
           <mat-error *ngIf=""></mat-error>
         </mat-form-field>
       </div>
@@ -92,7 +92,7 @@
   </div>
 
   <div *ngIf="step === 5">
-    <p>{{ language.model_booklet }} {{ bookletQRCode }} {{ language.voucher_step5 }} {{ beneficiaryName }} {{
+    <p>{{ language.booklet }} {{ bookletQRCode }} {{ language.voucher_step5 }} {{ beneficiaryName }} {{
       language.voucher_for }} {{ distributionName }}</p>
 
     <div class="dialog-template">

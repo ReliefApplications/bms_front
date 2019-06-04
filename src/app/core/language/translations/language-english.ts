@@ -607,6 +607,8 @@ export class English implements Language {
     table_next_page = 'Next page'
     table_of_page = 'of'
     table_previous_page = 'Previous page'
+    table_print = 'print'
+    table_assign = 'assign'
 
     // Transaction
     transaction_accept_prevention = 'I agree to these terms.'

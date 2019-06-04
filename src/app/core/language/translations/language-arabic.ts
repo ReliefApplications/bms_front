@@ -608,6 +608,8 @@ export class Arabic implements Language {
     table_next_page = 'الصفحة التالية'
     table_of_page = 'من'
     table_previous_page = 'الصفحة السابقة'
+    table_print = 'طباعة'
+    table_assign = 'تعيين'
 
     // Transaction
     transaction_accept_prevention = 'أنا أوافق على هذه الشروط.'

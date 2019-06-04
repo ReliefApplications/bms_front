@@ -605,7 +605,9 @@ export class French implements Language {
     table_next_page = 'Page suivante'
     table_of_page = 'sur'
     table_previous_page = 'Page précédente'
-
+    table_print = 'imprimer'
+    table_assign = 'assigner'
+  
     // Transaction
     transaction_accept_prevention = 'J\'accepte ces conditions.'
     transaction_again = 'Renvoyer'

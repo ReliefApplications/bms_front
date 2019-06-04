@@ -67,26 +67,26 @@
                     </button>
 
                     <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
-                        *ngIf="loggable" [matTooltip]="language.settings_log_button">
+                        *ngIf="loggable" [matTooltip]="language.settings_log_button | uppercaseFirst">
                         <mat-icon>history</mat-icon>
                     </button>
 
                     <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
-                        [matTooltip]="language.update" class="green">
+                        [matTooltip]="language.update | uppercaseFirst" class="green">
                         <mat-icon>search</mat-icon>
                     </button>
                     <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
-                        [matTooltip]="language.delete" class="red">
+                        [matTooltip]="language.delete | uppercaseFirst" class="red">
                         <mat-icon>delete_outline</mat-icon>
                     </button>
                     <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
-                        [matTooltip]="'print'" class="grey" [disabled]="!element.isPrintable()">
+                        [matTooltip]="language.table_print | uppercaseFirst" class="grey" [disabled]="!element.isPrintable()">
                         <mat-icon>printer</mat-icon>
                     </button>
-                    <button mat-icon-button [matTooltip]="'assign'" *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!element.isAssignable()">
+                    <button mat-icon-button [matTooltip]="language.table_assign | uppercaseFirst" *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!element.isAssignable()">
                         <mat-icon>assignment</mat-icon>
                     </button>
-                    <button mat-icon-button [matTooltip]="language.model_duplicate" *ngIf="duplicable" (click)="duplicate(element); $event.stopPropagation()" class="grey">
+                    <button mat-icon-button [matTooltip]="language.model_duplicate | uppercaseFirst" *ngIf="duplicable" (click)="duplicate(element); $event.stopPropagation()" class="grey">
                         <mat-icon>file_copy</mat-icon>
                     </button>
                 </mat-cell>

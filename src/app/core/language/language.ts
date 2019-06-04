@@ -587,6 +587,8 @@ export interface Language {
     table_next_page: string
     table_of_page: string
     table_previous_page: string
+    table_print: string
+    table_assign: string
 
     // Transaction
     transaction_accept_prevention: string

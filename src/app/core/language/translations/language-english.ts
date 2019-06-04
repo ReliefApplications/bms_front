@@ -7,55 +7,75 @@ export class English implements Language {
     // GENERAL VARIABLES
     LANGUAGE_ISO = 'english'
     // Utils
-    add = 'Add'
-    adm1 = ADMINLEVELS.en.adm1
-    adm2 = ADMINLEVELS.en.adm2
-    adm3 = ADMINLEVELS.en.adm3
-    adm4 = ADMINLEVELS.en.adm4
     administrative_settings = 'Administrative Settings'
     back = 'Back'
-    beneficiaries = 'Beneficiaries'
-    beneficiary = 'Beneficiary'
-    cancel = 'Cancel'
     characters = 'Characters'
-    close = 'Close'
-    complete = 'Complete'
-    create = 'Create'
-    delete = 'Delete'
-    details = 'Details'
-    description = 'description'
-    distribution = 'Distribution'
-    distributions = 'Distributions'
     done = 'Done'
     email = 'Email'
     export = 'Export'
-    booklet_export_codes = 'Export booklet codes'
-    gender = 'Gender'
     general_settings = 'Configuration'
     home = 'Home'
-    households = 'Household'
-    id = 'ID'
     import = 'Import'
     individual = 'Individual'
     is_required = 'is required'
-    location = 'Location'
     name = 'name'
     new = 'New'
     next = 'Next'
     no_data = 'No data'
+    rights = 'Rights'
+    settings = 'Settings'
+    summary = 'Summary'
+    the = 'the'
+    this = 'this'
+
+    // Models
+    beneficiaries = 'Beneficiaries'
+    beneficiary = 'Beneficiary'
+    criteria = 'Criteria'
+    distribution = 'Distribution'
+    distributions = 'Distributions'
+    donor = 'Donor'
+    donors = 'donors'
+    general_relief = 'Item'
+    households = 'Household'
+    language = 'Language'
+    location = 'Location'
     phone = 'Phone'
     project = 'Project'
     projects = 'Projects'
     reports = 'Reports'
-    rights = 'Rights'
-    save = 'Save'
-    settings = 'Settings'
-    the = 'the'
-    this = 'this'
-    summary = 'Summary'
-    update = 'Update'
+    sector = 'Sector'
+    user = 'User'
+    vendor = 'Vendor'
     voucher = 'Vouchers'
+    
+    // Actions
+    add = 'Add'
+    cancel = 'Cancel'
+    close = 'Close'
+    complete = 'Complete'
+    create = 'Create'
+    delete = 'Delete'
+    duplicate = 'duplicate'
+    save = 'Save'
+    update = 'Update'
 
+    // Common Fields
+    currency = 'Currency'
+    details = 'Details'
+    description = 'description'
+    distributed = 'Distributed'
+    female = 'Woman'
+    gender = 'Gender'
+    id = 'ID'
+    male = 'Man'
+    notes = 'Notes'
+    password = 'Password'
+    status = 'Status'
+    type = 'Type'
+    value = 'Value'
+  
+    
     // Error
     back_to_homepage = 'Go back to homepage'
     error_interceptor_msg = 'An error occured, request has failed (Empty back response).'
@@ -64,15 +84,7 @@ export class English implements Language {
     not_connected_error = 'Please log in'
     not_found = 'Page Not Found'
     not_found_message = 'Sorry, this page could not be found'
-
-    // Role
-    role_user_admin = 'Administrator'
-    role_user_country_manager = 'Country manager'
-    role_user_field_officer = 'Field officer'
-    role_user_project_manager = 'Project manager'
-    role_user_project_officer = 'Project officer'
-    role_user_regional_manager = 'Regional manager'
-
+    
     // Months
     months_short = [
       'Jan' ,
@@ -89,52 +101,33 @@ export class English implements Language {
       'Dec'
     ]
 
-    // SPECIFIC VARIABLES
+    // Address and location
+    adm1 = ADMINLEVELS.en.adm1
+    adm2 = ADMINLEVELS.en.adm2
+    adm3 = ADMINLEVELS.en.adm3
+    adm4 = ADMINLEVELS.en.adm4
+    address = 'Address'
+    address_number = 'Address Number'
+    address_postcode = 'Address Postcode'
+    address_street = 'Address Street'    
 
     // Add beneficiary
     add_beneficiary_done = 'Summary of Household to create'
-    address_number = 'Address Number'
-    address_postcode = 'Address Postcode'
-    address_street = 'Address Street'
-    beneficiary_date_of_birth = 'Date of Birth'
-    beneficiary_local_family_name = 'Local family name'
-    beneficiary_local_given_name = 'Local given name'
-    beneficiary_en_family_name = 'English family name'
-    beneficiary_en_given_name = 'English given name'
-    national_id_number = 'ID Number'
-    household_livelihood = 'Livelihood'
-    national_id_type = 'ID Type'
-    phone_type = 'Type'
-    household_income = 'Level of income'
-    household_income_level = INCOMELEVELS.en
-    national_id = 'National ID'
-    beneficiary_res_address = 'Resident Address'
     add_beneficiary_step1 = 'Information'
     add_beneficiary_step2 = 'Head'
     add_beneficiary_step3 = 'Members'
     add_beneficiary_title = 'add beneficiary'
-    phone_prefix = 'Ext'
-
-    // Add beneficiary options
-    national_id_passport = 'Passport'
-    national_id_card = 'ID Card'
-    national_id_license = 'Driver\'s License'
-    national_id_family_registry = 'Family Registry'
-    national_id_other = 'Other'
 
     // Add distribution
     add_distribution_advanced_option = 'Advanced options'
     add_distribution_beneficiaries_reached = 'Beneficiaries reached'
-    add_distribution_check_date = 'Error while saving the date, check that the format is like dd-mm-yyyy'
     add_distribution_check_fields = 'Fill new distribution\'s information before, including the commodity and a minimum selection score\'s value greater than 0.'
     add_distribution_commodities_delivered = 'to be delivered'
     add_distribution_created = ' was created'
     add_distribution_date_inside_project = 'Error while creating new distribution, your distribution date have to be inside the project dates'
     add_distribution_distributed_commodity = 'distributed commodity'
     add_distribution_error_creating = 'Error while creating new distribution'
-    female = 'Woman'
     add_distribution_households_reached = 'Households reached'
-    male = 'Man'
     add_distribution_missing_commodity = 'A commodity is missing'
     add_distribution_missing_date = 'The date is missing'
     add_distribution_missing_location = 'Add a Province'
@@ -151,22 +144,6 @@ export class English implements Language {
     add_project_title = 'new project'
     add_project_new_distribution = 'new distribution'
 
-    // Benficiary form errors
-    beneficiary_error_location = 'You must select a location'
-    beneficiairy_error_address_number = 'You must enter an address number'
-    beneficiary_error_address_postcode = 'You must enter an address postcode'
-    beneficiary_error_address_street = 'You must enter an address street'
-    beneficiairy_error_head = 'the head of household'
-    beneficiary_error_member = ' member'
-    beneficiary_error_family_name = 'You must enter a local family name for '
-    beneficiary_error_given_name = 'You must enter a local given name for '
-    beneficiairy_error_gender = 'You must select a gender for '
-    beneficiary_error_phone = 'Phone can only be composed of digits for '
-    beneficiary_error_existing_country_code = 'Please select an existing country code from the list for '
-    beneficiary_error_country_code = 'Please select a country code for the phone number for '
-    beneficiairy_error_birth_date = 'Please select a valid birth date for '
-    beneficiairy_error_project = 'You must select at least one project'
-
     // Beneficiaries
     beneficiaries_add_distribution = 'Add beneficiaries to this distribution'
     beneficiaries_add_list = 'Add this list to a project'
@@ -174,6 +151,17 @@ export class English implements Language {
     beneficiaries_added = 'Beneficiairies added to the selected project'
     beneficiaries_advanced_research = 'Advanced search'
     beneficiaries_clear_all_research = 'Clear all'
+
+
+
+
+
+
+
+
+
+
+    
     beneficiaries_en_name = 'English name'
     beneficiaries_local_name = 'Local name'
     household_full_address = 'Full household address'
@@ -208,12 +196,37 @@ export class English implements Language {
     beneficiaries_referral_types = REFERRALTYPES.en
     beneficiaries_referral_comment = 'Comment'
     beneficiaries_residency = 'residency'
-    beneficiaries_beneficairy_residency_status_refugee = 'Refugee'
-    beneficiaries_beneficairy_residency_status_idp = 'IDP'
-    beneficiaries_beneficairy_residency_status_resident = 'Resident'
-
+    beneficiary_residency_status_refugee = 'Refugee'
+    beneficiary_residency_status_idp = 'IDP'
+    beneficiary_residency_status_resident = 'Resident'
     beneficiaries_select_api = 'Select API'
     beneficiaries_selected_project = 'selected beneficiaries:'
+    beneficiary_date_of_birth = 'Date of Birth'
+    beneficiary_local_family_name = 'Local family name'
+    beneficiary_local_given_name = 'Local given name'
+    beneficiary_en_family_name = 'English family name'
+    beneficiary_en_given_name = 'English given name'
+    beneficiary_res_address = 'Resident Address'
+    
+    // Benficiary form errors
+    beneficiary_error_location = 'You must select a location'
+    beneficiairy_error_address_number = 'You must enter an address number'
+    beneficiary_error_address_postcode = 'You must enter an address postcode'
+    beneficiary_error_address_street = 'You must enter an address street'
+    beneficiairy_error_head = 'the head of household'
+    beneficiary_error_member = ' member'
+    beneficiary_error_family_name = 'You must enter a local family name for '
+    beneficiary_error_given_name = 'You must enter a local given name for '
+    beneficiairy_error_gender = 'You must select a gender for '
+    beneficiary_error_phone = 'Phone can only be composed of digits for '
+    beneficiary_error_existing_country_code = 'Please select an existing country code from the list for '
+    beneficiary_error_country_code = 'Please select a country code for the phone number for '
+    beneficiairy_error_birth_date = 'Please select a valid birth date for '
+    beneficiairy_error_project = 'You must select at least one project'
+
+
+    booklet_export_codes = 'Export booklet codes'
+
 
     // Cache
     cache_distribution_added = 'Distribution and beneficiaries of the project added to the cache'
@@ -394,7 +407,6 @@ export class English implements Language {
     modal_leave = 'Leave'
     modal_language_actual = 'Current language '
     modal_leave_sentence = 'Do you really want to leave with unsaved changes?'
-    language = 'Language'
     modal_not_enough_strong = 'The password is not strong enough... Minimum required = 8 characters, 1 lowercase, 1 uppercase, 1 numeric'
     modal_pending_requests = 'Pending Requests'
     modal_pick_color = 'Select a color'
@@ -406,6 +418,22 @@ export class English implements Language {
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
     modal_no_file = 'No file chosen'
+
+
+    // Add beneficiary options
+    national_id_passport = 'Passport'
+    national_id_card = 'ID Card'
+    national_id_license = 'Driver\'s License'
+    national_id_family_registry = 'Family Registry'
+    national_id_other = 'Other'
+    national_id_number = 'ID Number'
+    household_livelihood = 'Livelihood'
+    national_id_type = 'ID Type'
+    phone_type = 'Type'
+    household_income = 'Level of income'
+    household_income_level = INCOMELEVELS.en
+    national_id = 'National ID'
+    phone_prefix = 'Ext'
 
     // Model
     household_dependents = 'Members'
@@ -423,26 +451,19 @@ export class English implements Language {
     countryIso3 = 'Country'
     country_specific = 'Country specific option'
     country_specific_field = 'Field'
-    criteria = 'Criteria'
     criteria_operator = 'Condition'
     criteria_weight = 'Score weight'
-    currency = 'Currency'
     booklet_deactivated = 'Deactivated'
     booklet_define_password = 'Define a password'
     booklet_update_password = 'Update the password'
-    distributed = 'Distributed'
     distribution_date = 'Date of Distribution'
     distribution_type = 'Target'
-    donor = 'Donor'
     donor_fullname = 'Donor\'s name'
     donor_shortname = 'Shortname'
-    duplicate = 'duplicate'
     beneficiary_family_name = 'Family name'
     beneficiary_given_name = 'First name'
     household_sentence = 'The household of '
     booklet_individual_value = 'Individual value'
-    general_relief = 'Item'
-    notes = 'Notes'
     organization_name = 'organization name'
     organization_logo = 'organization logo'
     organization_font = 'font to apply to the pdf'
@@ -460,22 +481,15 @@ export class English implements Language {
     project_start_date = 'Start Date'
     project_value = 'Total Target Beneficiaries'
     beneficiary_residency_status = 'Residency status'
-    sector = 'Sector'
     project_sectors_name = 'Sectors'
     transaction_message = 'Message'
     transaction_pickupDate = 'Pick up date'
-    status = 'Status'
-    type = 'Type'
     vendor_type_shop = 'Description'
     booklet_unassigned = 'Unassigned'
     booklet_used = 'Used'
-    user = 'User'
-    password = 'Password'
     user_password_question = 'Update password on next login'
 
-    value = 'Value'
-    address = 'Address'
-    vendor = 'Vendor'
+    
     beneficiary_vulnerabilities = 'Vulnerabilities'
 
     // Null values
@@ -538,10 +552,13 @@ export class English implements Language {
     report_to = 'to'
     report_upcoming_reporting = 'Upcoming reporting'
 
-    // Beneficiary residency status
-    beneficairy_residency_status_resident = 'Resident'
-    beneficairy_residency_status_refugee = 'Refugee'
-    beneficairy_residency_status_idp = 'IDP'
+    // Role
+    role_user_admin = 'Administrator'
+    role_user_country_manager = 'Country manager'
+    role_user_field_officer = 'Field officer'
+    role_user_project_manager = 'Project manager'
+    role_user_project_officer = 'Project officer'
+    role_user_regional_manager = 'Regional manager'
 
     // Sectors tooltips
     sector_cccm = 'Camp coordination and management'
@@ -563,7 +580,6 @@ export class English implements Language {
     // Settings
     settings_country_specific_options = 'country specific options'
     settings_created = ' created'
-    donors = 'donors'
     settings_financial_provider = 'Third party connections'
     settings_log_button = 'Get user logs by email'
     settings_print_starting = 'Your download is starting'

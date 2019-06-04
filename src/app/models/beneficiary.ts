@@ -153,13 +153,13 @@ export class Beneficiary extends CustomModel {
                 isRequired: true,
                 isLongText: false,
                 options: [
-                    new ResidencyStatus('refugee', this.language.beneficairy_residency_status_refugee),
-                    new ResidencyStatus('IDP', this.language.beneficairy_residency_status_idp),
-                    new ResidencyStatus('resident', this.language.beneficairy_residency_status_resident)
+                    new ResidencyStatus('refugee', this.language.beneficiary_residency_status_refugee),
+                    new ResidencyStatus('IDP', this.language.beneficiary_residency_status_idp),
+                    new ResidencyStatus('resident', this.language.beneficiary_residency_status_resident)
                 ],
                 bindField: 'name',
                 apiLabel: 'id',
-                value: new ResidencyStatus('resident', this.language.beneficairy_residency_status_resident)
+                value: new ResidencyStatus('resident', this.language.beneficiary_residency_status_resident)
             }
         ),
         beneficiaryStatus: new SingleSelectModelField(

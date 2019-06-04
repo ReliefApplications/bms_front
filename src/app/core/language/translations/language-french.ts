@@ -127,7 +127,6 @@ export class French implements Language {
     // Add distribution
     add_distribution_advanced_option = 'Options avancées'
     add_distribution_beneficiaries_reached = 'Bénéficaires atteints'
-    add_distribution_check_date = 'Erreur lors de la sauvegarde de la date, vérifiez que le format est dd-mm-yyyy'
     add_distribution_check_fields = 'Remplissez les informations de la nouvelle distribution avant, incluant les commodités et le score minimum de sélection supérieur à 0.'
     add_distribution_commodities_delivered = 'a être délivrées'
     add_distribution_created = ' a été créée'
@@ -210,9 +209,9 @@ export class French implements Language {
     beneficiaries_referral_types = REFERRALTYPES.fr
     beneficiaries_referral_comment = 'Commentaire'
     beneficiaries_residency = 'résidence'
-    beneficiaries_beneficairy_residency_status_refugee = 'Réfugié'
-    beneficiaries_beneficairy_residency_status_idp = 'IDP'
-    beneficiaries_beneficairy_residency_status_resident = 'Résident'
+    beneficiary_residency_status_refugee = 'Réfugié'
+    beneficiary_residency_status_idp = 'IDP'
+    beneficiary_residency_status_resident = 'Résident'
     beneficiaries_select_api = 'Sélectionner une API'
     beneficiaries_selected_project = 'bénéficiaires sélectionnés:'
 
@@ -539,9 +538,9 @@ export class French implements Language {
     report_upcoming_reporting = 'Graphiques à venir'
 
     // Beneficiary residency status
-    beneficairy_residency_status_resident = 'Resident'
-    beneficairy_residency_status_refugee = 'Refugee'
-    beneficairy_residency_status_idp = 'IDP'
+    beneficiary_residency_status_resident = 'Resident'
+    beneficiary_residency_status_refugee = 'Refugee'
+    beneficiary_residency_status_idp = 'IDP'
 
     // Sectors tooltips
     sector_cccm = 'Management et organisation de camp'

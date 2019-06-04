@@ -209,9 +209,9 @@ export class HouseholdsService extends CustomModelService {
 
         // Get residency status
         const residencyOptions = [
-            new ResidencyStatus('refugee', this.language.beneficairy_residency_status_refugee),
-            new ResidencyStatus('IDP', this.language.beneficairy_residency_status_idp),
-            new ResidencyStatus('resident', this.language.beneficairy_residency_status_resident)
+            new ResidencyStatus('refugee', this.language.beneficiary_residency_status_refugee),
+            new ResidencyStatus('IDP', this.language.beneficiary_residency_status_idp),
+            new ResidencyStatus('resident', this.language.beneficiary_residency_status_resident)
         ];
         filters.setOptions('residency', residencyOptions);
 

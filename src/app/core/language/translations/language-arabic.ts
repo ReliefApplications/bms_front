@@ -127,7 +127,6 @@ export class Arabic implements Language {
     // Add distribution
     add_distribution_advanced_option = 'خيارات متقدمة'
     add_distribution_beneficiaries_reached = 'المستفيدون الذين تم الوصول إليهم'
-    add_distribution_check_date = ' dd-mm-yyyy حدث خطأ أثناء حفظ التاريخ ، تحقق من أن التنسيق يشبه'
     add_distribution_check_fields = 'إملء معلومات التوزيع الجديدة  قبل ، بما في ذلك قيمة السلع والقيمة الأدنى يجب أن تكون أعلى من 0.'
     add_distribution_commodities_delivered = 'تم اعطاء'
     add_distribution_created = 'تم انشائه'
@@ -210,9 +209,9 @@ export class Arabic implements Language {
     beneficiaries_referral_types = REFERRALTYPES.ar
     beneficiaries_referral_comment = 'تعليق'
     beneficiaries_residency = 'الإقامة'
-    beneficiaries_beneficairy_residency_status_refugee= 'لاجئ'
-    beneficiaries_beneficairy_residency_status_idp= 'IDP'
-    beneficiaries_beneficairy_residency_status_resident= 'مقيم'
+    beneficiary_residency_status_refugee= 'لاجئ'
+    beneficiary_residency_status_idp= 'IDP'
+    beneficiary_residency_status_resident= 'مقيم'
     beneficiaries_select_api= 'API اختر'
     beneficiaries_selected_project = 'المستفيدين المختارين='
 
@@ -540,9 +539,9 @@ export class Arabic implements Language {
     report_upcoming_reporting = 'الرسوم البيانية القادمة'
 
     // Beneficiary residency status
-    beneficairy_residency_status_resident = 'مقيم'
-    beneficairy_residency_status_refugee = 'لاجئ'
-    beneficairy_residency_status_idp = 'اشخاص الارشاد الداخلى'
+    beneficiary_residency_status_resident = 'مقيم'
+    beneficiary_residency_status_refugee = 'لاجئ'
+    beneficiary_residency_status_idp = 'اشخاص الارشاد الداخلى'
 
     // Sectors tooltips
     sector_cccm = 'معسكر التنسيق والإدارة'

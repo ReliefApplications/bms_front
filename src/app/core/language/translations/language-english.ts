@@ -302,6 +302,7 @@ export class English implements Language {
     distribution_request_logs = 'Send transaction logs by email'
     distribution_select_beneficiaries = 'Please select the beneficiaries from the project'
     distribution_show_data = 'Show data anyway'
+    distribution_succes_completed = 'Distribution successfully completed!'
     distribution_validate = 'Validate'
     distribution_validated = 'Distribution has been validated'
     distribution_validated_title = 'Validated distribution'
@@ -634,6 +635,7 @@ export class English implements Language {
     transaction_state_already_sent = 'Sent' // Means sent during a previous transaction (before loading the page)
     transaction_state_picked_up = 'Picked up'
     transaction_transaction = 'Start transaction'
+    transaction_update_success = 'Update successful!'
     transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'
     transaction_validation = 'Confirm the validation'
     transaction_no_transaction_sent = 'No completed transaction, cannot export'

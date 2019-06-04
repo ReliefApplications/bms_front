@@ -108,7 +108,6 @@
                         [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
                         [duplicable]="true" (duplicateOne)="duplicate($event)"
-                        [completable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (completeOne)="complete($event)"
                         (openModal)="openDialog($event)"
                     ></app-table>
                     <app-table-mobile
@@ -119,7 +118,6 @@
                         [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
                         [duplicable]="true" (duplicateOne)="duplicate($event)"
-                        [completable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (completeOne)="complete($event)"
                         (openModal)="openDialog($event)"
                     ></app-table-mobile>
                 </div>

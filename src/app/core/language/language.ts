@@ -285,6 +285,7 @@ export interface Language {
     distribution_request_logs: string
     distribution_select_beneficiaries: string
     distribution_show_data: string
+    distribution_succes_completed: string
     distribution_validate: string
     distribution_validated: string
     distribution_validated_title: string
@@ -614,8 +615,8 @@ export interface Language {
     transaction_state_sent: string
     transaction_state_already_sent: string
     transaction_state_picked_up: string
-
     transaction_transaction: string
+    transaction_update_success: string
     transaction_validate_distribution: string
     transaction_validation: string
     transaction_no_transaction_sent: string

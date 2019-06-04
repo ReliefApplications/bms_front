@@ -26,7 +26,7 @@
 
         <div class="content-button" *ngIf="transactionData">
             <div class="action-buttons">
-                <button mat-raised-button class="button-background-primary" [matMenuTriggerFor]="menu">
+                <button [disabled]="actualDistribution.get('finished')" mat-raised-button class="button-background-primary" [matMenuTriggerFor]="menu">
                     <mat-icon>more_vert</mat-icon>
                     <span>{{language.table_actions | uppercaseFirst}}</span>
                 </button>
@@ -88,7 +88,7 @@
                     </ng-template>
                 </button>
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
-                <button mat-raised-button *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !transacting && transactionData" (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getPeopleCount()" matBadgePosition="before" matBadgeColor="primary">
+                <button [disabled]="actualDistribution.get('finished')" mat-raised-button *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !transacting && transactionData" (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getPeopleCount()" matBadgePosition="before" matBadgeColor="primary">
                     <mat-icon>send</mat-icon> {{language.transaction_transaction}}
                 </button>
             </div>

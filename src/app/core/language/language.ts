@@ -612,8 +612,8 @@ export interface Language {
     transaction_state_sent: string
     transaction_state_already_sent: string
     transaction_state_picked_up: string
-
     transaction_transaction: string
+    transaction_update_success: string
     transaction_validate_distribution: string
     transaction_validation: string
     transaction_no_transaction_sent: string

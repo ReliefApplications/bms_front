@@ -303,6 +303,7 @@ export class French implements Language {
     distribution_request_logs = 'Recevoir l\'historique des transactions par mail'
     distribution_select_beneficiaries = 'S\'il vous plait, selectionner les bénéficiaires depuis le projet'
     distribution_show_data = 'Afficher les données quand même'
+    distribution_succes_completed = 'La distribution a été complétée avec succès !'
     distribution_validate = 'Valider'
     distribution_validated = 'La distribution a été validée'
     distribution_validated_title = 'Distribution validée'

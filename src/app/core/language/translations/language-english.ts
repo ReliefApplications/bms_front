@@ -302,6 +302,7 @@ export class English implements Language {
     distribution_request_logs = 'Send transaction logs by email'
     distribution_select_beneficiaries = 'Please select the beneficiaries from the project'
     distribution_show_data = 'Show data anyway'
+    distribution_succes_completed = 'Distribution successfully completed!'
     distribution_validate = 'Validate'
     distribution_validated = 'Distribution has been validated'
     distribution_validated_title = 'Validated distribution'

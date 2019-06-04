@@ -303,6 +303,7 @@ export class Arabic implements Language {
     distribution_request_logs = 'إرسل سجلات المعاملات عن طريق البريد الإلكتروني'
     distribution_select_beneficiaries = 'يرجى تحديد المستفيدين من المشروع'
     distribution_show_data = 'عرض البيانات على أي حال'
+    distribution_succes_completed = 'اكتمل التوزيع بنجاح!'
     distribution_validate = 'التحقق من صحة'
     distribution_validated = ' تم التحقق من صحة التوزيع'
     distribution_validated_title = 'توزيع التحقق من صحة'

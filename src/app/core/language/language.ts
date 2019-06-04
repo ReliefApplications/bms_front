@@ -285,6 +285,7 @@ export interface Language {
     distribution_request_logs: string
     distribution_select_beneficiaries: string
     distribution_show_data: string
+    distribution_succes_completed: string
     distribution_validate: string
     distribution_validated: string
     distribution_validated_title: string

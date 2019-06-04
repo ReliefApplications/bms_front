@@ -12,6 +12,7 @@ export class English implements Language {
     adm2 = ADMINLEVELS.en.adm2
     adm3 = ADMINLEVELS.en.adm3
     adm4 = ADMINLEVELS.en.adm4
+    administrative_settings = 'Administrative Settings'
     back = 'Back'
     beneficiaries = 'Beneficiaries'
     beneficiary = 'Beneficiary'
@@ -30,6 +31,7 @@ export class English implements Language {
     export = 'Export'
     export_codes = 'Export booklet codes'
     gender = 'Gender'
+    general_settings = 'Configuration'
     home = 'Home'
     households = 'Household'
     id = 'ID'
@@ -306,6 +308,7 @@ export class English implements Language {
     distribution_request_logs = 'Send transaction logs by email'
     distribution_select_beneficiaries = 'Please select the beneficiaries from the project'
     distribution_show_data = 'Show data anyway'
+    distribution_succes_completed = 'Distribution successfully completed!'
     distribution_validate = 'Validate'
     distribution_validated = 'Distribution has been validated'
     distribution_validated_title = 'Validated distribution'
@@ -314,10 +317,12 @@ export class English implements Language {
     // Header
     'header_add-beneficiaries' = 'Add Beneficiaries'
     'header_add-distribution' = 'Add Distribution'
+    'header_admin' = 'Administrative Settings'
     header_beneficiaries = 'Beneficiaries'
     header_disconnect = 'log out'
     'header_distributions' = 'Distribution'
     'header_data-validation' = 'Data Validation'
+    'header_settings' = 'Configuration'
     header_home = 'Home'
     header_import = 'Import beneficiary data'
     header_imported = 'Imported beneficiaries data'
@@ -325,7 +330,6 @@ export class English implements Language {
     header_profile = 'Profile'
     header_projects = 'Projects'
     header_reports = 'Reports'
-    header_settings = 'Settings'
     'header_update-beneficiary' = 'Update Beneficiaries'
     header_vouchers = 'Vouchers'
 
@@ -413,6 +417,7 @@ export class English implements Language {
     modal_password_required = 'You must define a password'
     modal_pending_requests = 'Pending Requests'
     modal_project_name_characters_limit = 'do not exceed'
+    modal_pick_color = 'Select a color'
     modal_required = 'required'
     modal_save_language_as_default = 'Set this as my default language'
     modal_success = 'Success'
@@ -463,6 +468,12 @@ export class English implements Language {
     model_individual_value = 'Individual value'
     model_item = 'Item'
     model_notes = 'Notes'
+    model_organization_name = 'organization name'
+    model_organization_logo = 'organization logo'
+    model_organization_font = 'font to apply to the pdf'
+    model_organization_primary = 'organization primary color'
+    model_organization_secondary = 'organization secondary color'
+    model_organization_footer = 'pdf footer content'
     model_product_name = 'Name'
     model_product_unit = 'Unit'
     model_product_image = 'Image'
@@ -581,7 +592,9 @@ export class English implements Language {
     settings_donors = 'donors'
     settings_financial_provider = 'Third party connections'
     settings_log_button = 'Get user logs by email'
+    settings_print_starting = 'Your download is starting'
     settings_product = 'Products'
+    settings_organization = 'My organization'
     settings_project_exists = 'A project with this name already exists'
     settings_users = 'users'
     settings_vendors = 'vendors'
@@ -604,6 +617,8 @@ export class English implements Language {
     table_next_page = 'Next page'
     table_of_page = 'of'
     table_previous_page = 'Previous page'
+    table_print = 'print'
+    table_assign = 'assign'
 
     // Transaction
     transaction_accept_prevention = 'I agree to these terms.'
@@ -630,6 +645,7 @@ export class English implements Language {
     transaction_state_already_sent = 'Sent' // Means sent during a previous transaction (before loading the page)
     transaction_state_picked_up = 'Picked up'
     transaction_transaction = 'Start transaction'
+    transaction_update_success = 'Update successful!'
     transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'
     transaction_validation = 'Confirm the validation'
     transaction_no_transaction_sent = 'No completed transaction, cannot export'

@@ -49,7 +49,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
             this.distributionName = this.data.distribution.get('name');
             if (this.data.beneficiary) {
                 this.beneficiaryControl.setValue(this.data.beneficiary.get('id'));
-                this.beneficiaryName = this.data.beneficiary.get('fullName');
+                this.beneficiaryName = this.data.beneficiary.get('localFullName');
             } else if (this.data.beneficiaries) {
                 this.beneficiaries = this.data.beneficiaries;
             }
@@ -111,7 +111,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
                         (distribution: Distribution) => distribution.get('id') === this.distributionControl.value)[0].get('name');
                 } if (!this.data.beneficiary) {
                     this.beneficiaryName = this.beneficiaries.filter(
-                        (beneficiary: Beneficiary) => beneficiary.get('id') === this.beneficiaryControl.value)[0].get('fullName');
+                        (beneficiary: Beneficiary) => beneficiary.get('id') === this.beneficiaryControl.value)[0].get('localFullName');
                 }
                 this.step = 2;
             }

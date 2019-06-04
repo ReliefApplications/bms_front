@@ -1,11 +1,5 @@
 @import '../../../assets/css/variable.scss';
 
-app-placeholder-panel {
-    margin-top: 15px;
-    width: 100% !important;
-    height: 300px;
-    margin-left: 10px;
-}
 
 app-table {
     width: 100%;
@@ -17,6 +11,6 @@ app-table-mobile {
     height: 100%;
 }
 
-app-table {
-    width: 100%
-  }
+.container-table {
+    width: auto;
+}

@@ -13,6 +13,7 @@ export class French implements Language {
     adm2 = ADMINLEVELS.fr.adm2
     adm3 = ADMINLEVELS.fr.adm3
     adm4 = ADMINLEVELS.fr.adm4
+    administrative_settings = 'Paramètres administratifs'
     back = 'Retour'
     beneficiaries = 'Bénéficiaires'
     beneficiary = 'Bénéficiaire'
@@ -31,6 +32,7 @@ export class French implements Language {
     export = 'Export'
     export_codes = 'Export des codes des brochures'
     gender = 'Sexe'
+    general_settings = 'Configuration'
     home = 'Accueil'
     households = 'Ménage'
     id = 'ID'
@@ -307,6 +309,7 @@ export class French implements Language {
     distribution_request_logs = 'Recevoir l\'historique des transactions par mail'
     distribution_select_beneficiaries = 'S\'il vous plait, selectionner les bénéficiaires depuis le projet'
     distribution_show_data = 'Afficher les données quand même'
+    distribution_succes_completed = 'La distribution a été complétée avec succès !'
     distribution_validate = 'Valider'
     distribution_validated = 'La distribution a été validée'
     distribution_validated_title = 'Distribution validée'
@@ -315,10 +318,12 @@ export class French implements Language {
     // Header
     'header_add-beneficiaries' = 'Ajouter un ménage'
     'header_add-distribution' = 'Ajouter une distribution'
+    'header_admin' = 'Paramètres administratifs'
     header_beneficiaries = 'Bénéficiaires'
     'header_data-validation' = 'Validation de données'
     header_disconnect = 'déconnexion'
     'header_distributions' = 'Distribution'
+    'header_settings' = 'Configuration'
     header_home = 'Accueil'
     header_import = 'Import de bénéficiaires'
     header_imported = 'Données des bénéficiaires importés'
@@ -326,7 +331,6 @@ export class French implements Language {
     header_profile = 'Profil'
     header_projects = 'Projets'
     header_reports = 'Rapports'
-    header_settings = 'Paramètres'
     'header_update-beneficiary' = 'Modifier'
     header_vouchers = 'Brochures'
 
@@ -413,6 +417,7 @@ export class French implements Language {
     modal_password_required = 'Vous devez indiquer un mot de passe'
     modal_pending_requests = 'Pending Requests'
     modal_project_name_characters_limit = 'ne pas dépasser'
+    modal_pick_color = 'Veuillez selectionner une couleur'
     modal_save_language_as_default = 'Définir ceci comme langage par défaut'
     modal_success = 'Succès'
     modal_required = 'obligatoire'
@@ -463,6 +468,12 @@ export class French implements Language {
     model_individual_value = 'Valeur individuelle'
     model_item = 'Item'
     model_notes = 'Notes'
+    model_organization_name = 'nom de l\'organisation'
+    model_organization_logo = 'logo de l\'organisation'
+    model_organization_font = 'police à appliquer au pdf'
+    model_organization_primary = 'couleur principale de l\'organisation'
+    model_organization_secondary = 'couleur secondaire de l\'organisation'
+    model_organization_footer = 'contenu du pied de page du pdf'
     model_product_name = 'Nom'
     model_product_unit = 'Unité'
     model_product_image = 'Image'
@@ -580,6 +591,8 @@ export class French implements Language {
     settings_donors = 'donateurs'
     settings_financial_provider = 'Connexions tiers'
     settings_log_button = 'Recevoir les logs de cet utilisateur par email'
+    settings_organization = 'Mon organisation'
+    settings_print_starting = 'Le téléchargement va démarrer'
     settings_project_exists = 'Un projet avec le même nom existe déjà'
     settings_product = 'Produits'
     settings_users = 'utilisateurs'
@@ -602,7 +615,9 @@ export class French implements Language {
     table_next_page = 'Page suivante'
     table_of_page = 'sur'
     table_previous_page = 'Page précédente'
-
+    table_print = 'imprimer'
+    table_assign = 'assigner'
+  
     // Transaction
     transaction_accept_prevention = 'J\'accepte ces conditions.'
     transaction_again = 'Renvoyer'
@@ -628,6 +643,7 @@ export class French implements Language {
     transaction_state_already_sent = 'Envoyé'
     transaction_state_picked_up = 'Récupéré'
     transaction_transaction = 'Démarrer la transaction'
+    transaction_update_success = 'Modification réussie !'
     transaction_validate_distribution = 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier'
     transaction_validation = 'Confirmer la validation'
     transaction_no_transaction_sent = 'Aucune transaction n\'est envoyée, impossible d\'exporter'

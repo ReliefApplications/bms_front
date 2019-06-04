@@ -8,6 +8,7 @@ export interface Language {
     adm2: object
     adm3: object
     adm4: object
+    administrative_settings: string
     back: string
     beneficiaries: string
     beneficiary: string
@@ -26,6 +27,7 @@ export interface Language {
     export: string
     export_codes: string
     gender: string
+    general_settings: string;
     home: string
     households: string
     id: string
@@ -289,6 +291,7 @@ export interface Language {
     distribution_request_logs: string
     distribution_select_beneficiaries: string
     distribution_show_data: string
+    distribution_succes_completed: string
     distribution_validate: string
     distribution_validated: string
     distribution_validated_title: string
@@ -297,10 +300,12 @@ export interface Language {
     // Header
     'header_add-beneficiaries': string
     'header_add-distribution': string
+    'header_admin': string
     header_beneficiaries: string
     header_disconnect: string
     'header_distributions': string
     'header_data-validation': string
+    'header_settings': string
     header_home: string
     header_import: string
     header_imported: string
@@ -308,7 +313,6 @@ export interface Language {
     header_profile: string
     header_projects: string
     header_reports: string
-    header_settings: string
     'header_update-beneficiary': string
     header_vouchers: string
 
@@ -394,6 +398,7 @@ export interface Language {
     modal_no_project: string
     modal_password_required: string
     modal_pending_requests: string
+    modal_pick_color: string
     modal_project_name_characters_limit: string
     modal_required: string
     modal_save_language_as_default: string
@@ -444,6 +449,12 @@ export interface Language {
     model_individual_value: string
     model_item: string
     model_notes: string
+    model_organization_name: string
+    model_organization_logo: string
+    model_organization_font: string
+    model_organization_primary: string
+    model_organization_secondary: string
+    model_organization_footer: string
     model_product_name: string
     model_product_unit: string
     model_product_image: string
@@ -562,6 +573,8 @@ export interface Language {
     settings_donors: string
     settings_financial_provider: string
     settings_log_button: string
+    settings_organization: string
+    settings_print_starting: string
     settings_product: string
     settings_project_exists: string
     settings_users: string
@@ -585,6 +598,8 @@ export interface Language {
     table_next_page: string
     table_of_page: string
     table_previous_page: string
+    table_print: string
+    table_assign: string
 
     // Transaction
     transaction_accept_prevention: string
@@ -610,8 +625,8 @@ export interface Language {
     transaction_state_sent: string
     transaction_state_already_sent: string
     transaction_state_picked_up: string
-
     transaction_transaction: string
+    transaction_update_success: string
     transaction_validate_distribution: string
     transaction_validation: string
     transaction_no_transaction_sent: string

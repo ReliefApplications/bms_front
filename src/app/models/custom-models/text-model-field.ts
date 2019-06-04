@@ -13,7 +13,17 @@ export class TextModelField extends CustomModelField<string> {
      */
     isPassword: boolean;
     /**
-     * The value to display (WARNING: can be set only from the api, not a modifiable field)
+     * Is it a color ?
+     * @type {boolean}
+     */
+    isColor: boolean;
+    /**
+     * Is it a font ?
+     * @type {boolean}
+     */
+    isFont: boolean;
+
+     /* The value to display (WARNING: can be set only from the api, not a modifiable field)
      * @type {string}
      */
     displayValue: string;
@@ -23,6 +33,8 @@ export class TextModelField extends CustomModelField<string> {
 
         this.isLongText             = properties['isLongText'];
         this.isPassword             = properties['isPassword'];
+        this.isColor                = properties['isColor'];
+        this.isFont                 = properties['isFont'];
         this.displayValue             = properties['displayValue'];
 
     }

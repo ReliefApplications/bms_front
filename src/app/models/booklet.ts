@@ -201,8 +201,8 @@ export class Booklet extends CustomModel {
         // No need to format the date, it is a voucher's date so already formatted
         newBooklet.set('usedAt',  newBooklet.getUsedAt());
 
-        newBooklet.fields.beneficiary.displayTableFunction = (value: Beneficiary) => value ? value.get('fullName') : null;
-        newBooklet.fields.beneficiary.displayModalFunction = (value: Beneficiary) => value ? value.get('fullName') : null;
+        newBooklet.fields.beneficiary.displayTableFunction = (value: Beneficiary) => value ? value.get('localFullName') : null;
+        newBooklet.fields.beneficiary.displayModalFunction = (value: Beneficiary) => value ? value.get('localFullName') : null;
         newBooklet.fields.distribution.displayTableFunction = (value: Distribution) => value ? value.get('name') : null;
         newBooklet.fields.distribution.displayModalFunction = (value: Distribution) => value ? value.get('name') : null;
 

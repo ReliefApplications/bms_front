@@ -150,6 +150,9 @@ export class Distribution extends CustomModel {
                 // Not displayed anywhere but used as a condition
             }
         ),
+        updatedOn: new DateModelField({
+            // Only displayed in the distribution component title
+        }),
         adm1: new NestedFieldModelField({
             title: this.language.adm1,
             isSettable: true,
@@ -250,6 +253,8 @@ export class Distribution extends CustomModel {
                     .map((distributionBeneficiary: any) =>
                         DistributionBeneficiary.apiToModel(distributionBeneficiary, distributionFromApi.id)));
         }
+
+        newDistribution.set('updatedOn', DateModelField.formatDateTimeFromApi(distributionFromApi.updated_on));
 
         return newDistribution;
     }

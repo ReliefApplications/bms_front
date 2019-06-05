@@ -30,9 +30,9 @@
           <th class="table-value">
               <ng-select class="full-width single-select" [clearable]=false
               formControlName="beneficiaryControl" *ngIf="!data.beneficiary">
-                <ng-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.get('id')">{{beneficiary.get('fullName')}}</ng-option>
+                <ng-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.get('id')">{{beneficiary.get('localFullName')}}</ng-option>
               </ng-select>
-              <p *ngIf="data.beneficiary">{{ data.beneficiary.get('fullName') }}</p>
+              <p *ngIf="data.beneficiary">{{ data.beneficiary.get('localFullName') }}</p>
 
           </th>
       </tr>

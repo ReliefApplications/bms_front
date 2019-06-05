@@ -42,6 +42,7 @@ export interface Language {
     phone: string
     project: string
     projects: string
+    remove: string
     reports: string
     rights: string
     save: string
@@ -268,6 +269,10 @@ export interface Language {
     // Distribution
     distribution_accept_changed: string
     distribution_add_beneficiaries: string
+    distribution_add_justification: string
+    distribution_justify_added: string
+    distribution_justify_created: string
+    distribution_justify_deleted: string
     distribution_beneficiary_added: string
     distribution_beneficiary_not_added: string
     distribution_cant_update: string
@@ -279,6 +284,7 @@ export interface Language {
     distribution_distribute: string
     distribution_edit: string
     distribution_error_validate: string
+    distribution_last_modification: string
     distribution_no_beneficiaries: string
     distribution_no_random_sample: string
     distribution_no_right_transaction: string
@@ -289,6 +295,7 @@ export interface Language {
     distribution_request_logs: string
     distribution_select_beneficiaries: string
     distribution_show_data: string
+    distribution_succes_completed: string
     distribution_validate: string
     distribution_validated: string
     distribution_validated_title: string
@@ -388,6 +395,10 @@ export interface Language {
     modal_add_multiple_title: string
     modal_check_date: string
     modal_check_fields: string
+    modal_delete_beneficiary: string
+    modal_delete_beneficiary_sentence: string
+    modal_delete_beneficiary_sentence_2: string
+    modal_delete_justification: string
     modal_delete_many: string
     modal_complete_distribution: string
     modal_delete_sentence: string
@@ -604,6 +615,8 @@ export interface Language {
     table_next_page: string
     table_of_page: string
     table_previous_page: string
+    table_print: string
+    table_assign: string
 
     // Transaction
     transaction_accept_prevention: string
@@ -629,8 +642,8 @@ export interface Language {
     transaction_state_sent: string
     transaction_state_already_sent: string
     transaction_state_picked_up: string
-
     transaction_transaction: string
+    transaction_update_success: string
     transaction_validate_distribution: string
     transaction_validation: string
     transaction_no_transaction_sent: string

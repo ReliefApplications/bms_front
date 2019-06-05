@@ -110,7 +110,7 @@ export class Project extends CustomModel {
                 isLongText: false,
             }
         ),
-        value : new NumberModelField(
+        target : new NumberModelField(
             {
                 title: this.language.model_project_value,
                 placeholder: null,
@@ -154,7 +154,7 @@ export class Project extends CustomModel {
         newProject.set('endDate', DateModelField.formatFromApi(projectFromApi.end_date));
         newProject.set('numberOfHouseholds', projectFromApi.number_of_households);
         newProject.set('iso3', projectFromApi.iso3);
-        newProject.set('value', projectFromApi.value);
+        newProject.set('target', projectFromApi.target);
         newProject.set('notes', projectFromApi.notes);
 
         // Assign select fields
@@ -190,7 +190,7 @@ export class Project extends CustomModel {
             end_date: this.fields.endDate.formatForApi(),
             number_of_households: this.fields.numberOfHouseholds.formatForApi(),
             iso3: this.fields.iso3.formatForApi(),
-            value: this.fields.value.formatForApi(),
+            target: this.fields.target.formatForApi(),
             notes: this.fields.notes.formatForApi(),
             sectors: this.fields.sectors.formatForApi(),
             donors: this.fields.donors.formatForApi(),

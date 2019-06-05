@@ -37,7 +37,8 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         this.actualDistribution.set(
             'distributionBeneficiaries',
             distributionBeneficiaries
-                .map((distributionBeneficiariy: any) => TransactionMobileMoney.apiToModel(distributionBeneficiariy)));
+                .map((distributionBeneficiariy: any) =>
+                    TransactionMobileMoney.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
     }
 
     formatTransactionTable() {
@@ -303,13 +304,29 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 	* open each modal dialog
 	*/
     openModal(dialogDetails: any): void {
-        if (dialogDetails.action === 'details') {
-            this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);
+        if (dialogDetails.action === 'delete') {
+            dialogDetails.element = dialogDetails.element.get('beneficiary');
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+                this.getDistributionBeneficiaries();
+            });
+        }  else if (dialogDetails.action === 'addBeneficiary') {
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+                if (this.networkService.getStatus()) {
+                    this.getDistributionBeneficiaries();
+                }
+            });
         } else if (dialogDetails.action === 'edit') {
             dialogDetails.element = dialogDetails.element.get('beneficiary');
             this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+                this.snackbar.success(this.language.transaction_update_success);
+            });
+        } else {
+            this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+            });
         }
-        this.modalService.isCompleted.subscribe(() => {
-        });
     }
 }

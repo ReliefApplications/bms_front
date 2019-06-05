@@ -33,8 +33,10 @@ import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
 import { ModalAddCommodityComponent } from '../components/modals/modal-add-commodity/modal-add-commodity.component';
 import { ModalAddCriteriaComponent } from '../components/modals/modal-add-criteria/modal-add-criteria.component';
 import { ModalAddComponent } from '../components/modals/modal-add/modal-add.component';
+import { ModalAddBeneficiaryComponent } from '../components/modals/modal-add-beneficiary/modal-add-beneficiary.component';
 import { ModalAssignComponent } from '../components/modals/modal-assign/modal-assign.component';
 import { ModalDeleteComponent } from '../components/modals/modal-delete/modal-delete.component';
+import { ModalDeleteBeneficiaryComponent } from '../components/modals/modal-delete-beneficiary/modal-delete-beneficiary.component';
 import { ModalDetailsComponent } from '../components/modals/modal-details/modal-details.component';
 import { ModalEditComponent } from '../components/modals/modal-edit/modal-edit.component';
 import { ModalFieldsComponent } from '../components/modals/modal-fields/modal-fields.component';
@@ -146,7 +148,9 @@ imports: [
         ModalAddCommodityComponent,
         ModalFieldsComponent,
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalEditComponent,
         ModalAssignComponent,
         ModalDetailsComponent,
@@ -184,10 +188,12 @@ imports: [
     ],
     entryComponents: [
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalEditComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalAssignComponent,
@@ -215,9 +221,11 @@ imports: [
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalAssignComponent,
         BoxSettingComponent,
         MatCheckboxModule,

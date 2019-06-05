@@ -42,6 +42,7 @@ export interface Language {
     phone: string
     project: string
     projects: string
+    remove: string
     reports: string
     rights: string
     save: string
@@ -264,6 +265,10 @@ export interface Language {
     // Distribution
     distribution_accept_changed: string
     distribution_add_beneficiaries: string
+    distribution_add_justification: string
+    distribution_justify_added: string
+    distribution_justify_created: string
+    distribution_justify_deleted: string
     distribution_beneficiary_added: string
     distribution_beneficiary_not_added: string
     distribution_cant_update: string
@@ -275,6 +280,7 @@ export interface Language {
     distribution_distribute: string
     distribution_edit: string
     distribution_error_validate: string
+    distribution_last_modification: string
     distribution_no_beneficiaries: string
     distribution_no_random_sample: string
     distribution_no_right_transaction: string
@@ -370,6 +376,10 @@ export interface Language {
     modal_add_multiple_title: string
     modal_check_date: string
     modal_check_fields: string
+    modal_delete_beneficiary: string
+    modal_delete_beneficiary_sentence: string
+    modal_delete_beneficiary_sentence_2: string
+    modal_delete_justification: string
     modal_delete_many: string
     modal_complete_distribution: string
     modal_delete_sentence: string

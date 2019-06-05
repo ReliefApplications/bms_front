@@ -218,8 +218,15 @@ export class Beneficiary extends CustomModel {
                 isLongText: false,
             }
         ),
-        profile: new ObjectModelField<Profile>({}),
-        distributionId: new NumberModelField({}),
+        profile: new ObjectModelField<Profile>({
+
+        }),
+        distributionId: new NumberModelField({
+
+        }),
+        removed: new BooleanModelField({
+
+        }),
         addReferral: new BooleanModelField(
             {
                 title: this.language.beneficiaries_referral_question,

@@ -30,7 +30,7 @@
                     </mat-checkbox>
                 </mat-header-cell>
                 <mat-cell class="content-cell" *matCellDef="let element">
-                    <mat-checkbox *ngIf="element.isCheckable()" (click)="$event.stopPropagation()" (change)="selectCheck($event, element)" [checked]="selection.isSelected(element)"
+                    <mat-checkbox *ngIf="element.isCheckable() && !element.get('removed')" (click)="$event.stopPropagation()" (change)="selectCheck($event, element)" [checked]="selection.isSelected(element)"
                     color="primary">
                     </mat-checkbox>
                     <i class="material-icons" *ngIf="!element.isCheckable()">check</i>
@@ -66,11 +66,11 @@
                         <mat-icon>history</mat-icon>
                     </button>
 
-                    <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
+                    <button *ngIf="editable && (!validatable || !element.get('validated')) && !element.get('removed')" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
                         [matTooltip]="language.update | uppercaseFirst" class="light-blue">
                         <mat-icon>search</mat-icon>
                     </button>
-                    <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
+                    <button *ngIf="deletable && (!validatable || !element.get('validated')) && !element.get('removed')" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"
                         [matTooltip]="language.delete | uppercaseFirst" class="red">
                         <mat-icon>delete_outline</mat-icon>
                     </button>
@@ -81,6 +81,9 @@
                     <button mat-icon-button [matTooltip]="language.table_assign | uppercaseFirst" *ngIf="assignable" (click)="assign(element); $event.stopPropagation()" class="grey" [disabled]="!element.isAssignable()">
                         <mat-icon>assignment</mat-icon>
                     </button>
+                    <button mat-icon-button [matTooltip]="language.distribution_add_justification" *ngIf="justifiable" (click)="justify(element); $event.stopPropagation()" class="grey">
+                        <mat-icon>add_circle</mat-icon>
+                    </button>
                     <button mat-icon-button [matTooltip]="language.model_duplicate | uppercaseFirst" *ngIf="duplicable" (click)="duplicate(element); $event.stopPropagation()" class="grey">
                         <mat-icon>file_copy</mat-icon>
                     </button>
@@ -88,7 +91,7 @@
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="getDisplayedColumns()"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: getDisplayedColumns(); let element" class="cursor-pointer" (click)="openDialog('details', element)"></mat-row>
+            <mat-row *matRowDef="let row; columns: getDisplayedColumns(); let element" class="cursor-pointer" [ngClass]="{removed: element.get('removed')}" (click)="openDialog('details', element)"></mat-row>
         </mat-table>
         <mat-paginator *ngIf="paginable" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons></mat-paginator>
     </ng-template>

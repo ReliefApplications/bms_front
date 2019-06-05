@@ -168,8 +168,8 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 options: [
-                    new BeneficiaryStatus('0', this.language.beneficiaries_member),
-                    new BeneficiaryStatus('1', this.language.beneficiaries_head)
+                    new BeneficiaryStatus('0', this.language.beneficiary_member),
+                    new BeneficiaryStatus('1', this.language.beneficiary_head)
                 ],
                 isRequired: true,
                 bindField: 'name',
@@ -222,7 +222,7 @@ export class Beneficiary extends CustomModel {
         distributionId: new NumberModelField({}),
         addReferral: new BooleanModelField(
             {
-                title: this.language.beneficiaries_referral_question,
+                title: this.language.beneficiary_referral_question,
                 isTrigger: true,
                 isDisplayedInModal: true,
                 isEditable: true,
@@ -236,23 +236,23 @@ export class Beneficiary extends CustomModel {
         ),
         referralType: new SingleSelectModelField(
             {
-                title: this.language.beneficiaries_referral_type,
+                title: this.language.beneficiary_referral_type,
                 isDisplayedInModal: false,
                 isEditable: true,
                 bindField: 'name',
                 apiLabel: 'id',
                 options: [
-                    new BeneficiaryReferralType('1', this.language.beneficiaries_referral_types['1']),
-                    new BeneficiaryReferralType('2', this.language.beneficiaries_referral_types['2']),
-                    new BeneficiaryReferralType('3', this.language.beneficiaries_referral_types['3']),
-                    new BeneficiaryReferralType('4', this.language.beneficiaries_referral_types['4']),
-                    new BeneficiaryReferralType('5', this.language.beneficiaries_referral_types['5']),
+                    new BeneficiaryReferralType('1', this.language.beneficiary_referral_types['1']),
+                    new BeneficiaryReferralType('2', this.language.beneficiary_referral_types['2']),
+                    new BeneficiaryReferralType('3', this.language.beneficiary_referral_types['3']),
+                    new BeneficiaryReferralType('4', this.language.beneficiary_referral_types['4']),
+                    new BeneficiaryReferralType('5', this.language.beneficiary_referral_types['5']),
                 ],
             }
         ),
         referralComment: new TextModelField(
             {
-                title: this.language.beneficiaries_referral_comment,
+                title: this.language.beneficiary_referral_comment,
                 isDisplayedInModal: false,
                 isEditable: true,
                 isLongText: true,

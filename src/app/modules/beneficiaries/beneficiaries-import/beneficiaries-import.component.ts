@@ -261,11 +261,11 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this.conversionDialog.close();
         switch (method) {
             case 'cancel':
-                this.snackbar.info(this.language.beneficiaries_import_canceled);
+                this.snackbar.info(this.language.beneficiary_import_canceled);
                 return;
             case 'success':
                 // Todo: translate
-                this.snackbar.success(this.language.beneficiaries_import_conversion_success);
+                this.snackbar.success(this.language.beneficiary_import_conversion_success);
                 return;
             case 'error':
                 this.snackbar.error(error);
@@ -311,12 +311,12 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     confirmConversion() {
         this.loadingConversion = true;
         if (!this.conversionForm.valid) {
-            this.snackbar.error(this.language.beneficiaries_import_select_location);
+            this.snackbar.error(this.language.beneficiary_import_select_location);
             return;
         }
 
         if (!this.csv2 ) {
-            this.snackbar.error(this.language.beneficiaries_import_error_file);
+            this.snackbar.error(this.language.beneficiary_import_error_file);
             return;
         }
 
@@ -444,7 +444,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
      */
     importHouseholdsFile() {
         if (!this.csv || !this.fileForm.controls['projects'].valid || this.load) {
-            this.snackbar.error(this.language.beneficiaries_import_select_project);
+            this.snackbar.error(this.language.beneficiary_import_select_project);
         } else {
             this.load = true;
             this._importService.sendCsv(this.csv, this.email, this.fileForm.controls['projects'].value).subscribe((response: any) => {
@@ -465,7 +465,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     importHousholdsApi() {
         this.load = true;
         if (!this.apiForm.valid) {
-            this.snackbar.error(this.language.beneficiaries_import_check_fields);
+            this.snackbar.error(this.language.beneficiary_import_check_fields);
             return;
         }
         const params = {};
@@ -500,7 +500,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
                 response => {
                     if (response) {
                         this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
-                        this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
+                        this.snackbar.success(response.message + this.language.beneficiary_import_beneficiaries_imported);
                     }
                     this._importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);

@@ -8,7 +8,7 @@
         </div>
         <div class="select-file">
           <a href="javascript:void(0)" (click)="file.click()">
-            <button mat-stroked-button color="primary">{{language.beneficiaries_import_addFile | uppercaseFirst}}</button>
+            <button mat-stroked-button color="primary">{{language.beneficiary_import_addFile | uppercaseFirst}}</button>
           </a>
           <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
         </div>

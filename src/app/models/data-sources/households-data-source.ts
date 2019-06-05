@@ -124,17 +124,17 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         referralType: new MultipleSelectModelField({
-            title: this.language.beneficiaries_referral_type,
+            title: this.language.beneficiary_referral_type,
             filterName: 'referral',
             isDisplayedInTable: true,
             bindField: 'name',
             apiLabel: 'id',
             options: [
-                new BeneficiaryReferralType('1', this.language.beneficiaries_referral_types['1']),
-                new BeneficiaryReferralType('2', this.language.beneficiaries_referral_types['2']),
-                new BeneficiaryReferralType('3', this.language.beneficiaries_referral_types['3']),
-                new BeneficiaryReferralType('4', this.language.beneficiaries_referral_types['4']),
-                new BeneficiaryReferralType('5', this.language.beneficiaries_referral_types['5']),
+                new BeneficiaryReferralType('1', this.language.beneficiary_referral_types['1']),
+                new BeneficiaryReferralType('2', this.language.beneficiary_referral_types['2']),
+                new BeneficiaryReferralType('3', this.language.beneficiary_referral_types['3']),
+                new BeneficiaryReferralType('4', this.language.beneficiary_referral_types['4']),
+                new BeneficiaryReferralType('5', this.language.beneficiary_referral_types['5']),
             ],
         })
     };

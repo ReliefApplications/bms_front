@@ -109,7 +109,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             isEditable: true,
         }),
         addReferral: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_question,
+            title: this.language.beneficiary_referral_question,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'addReferral',
@@ -122,14 +122,14 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             },
         }),
         referralType: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_type,
+            title: this.language.beneficiary_referral_type,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'referralType',
             isEditable: true,
         }),
         referralComment: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_comment,
+            title: this.language.beneficiary_referral_comment,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'referralComment',

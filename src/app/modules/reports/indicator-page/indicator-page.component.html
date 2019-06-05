@@ -27,7 +27,7 @@
                             <mat-icon>get_app</mat-icon>
                             <span>{{language.export | titlecase}}</span>
                         </button>
-                        <mat-spinner [diameter]='25' *ngIf="isDownloading"></mat-spinner>
+                        <mat-spinner [diameter]='35' *ngIf="isDownloading"></mat-spinner>
                         <div class="extension" *ngIf='!isDownloading'>
                             <button mat-raised-button class="dropdown button-background-primary" [matMenuTriggerFor]="exportType">
                                 <mat-icon>keyboard_arrow_down</mat-icon>

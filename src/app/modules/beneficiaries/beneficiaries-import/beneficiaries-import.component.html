@@ -13,7 +13,7 @@
 
       <div class="content-button">
         <div class="action-buttons">
-          <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'"></mat-spinner>
+          <mat-spinner [diameter]="35" class="spinner" *ngIf="loadLocations && country === 'SYR'"></mat-spinner>
           <div class="convert-button">
             <button mat-stroked-button color="primary" class="template" *ngIf="!loadLocations && country === 'SYR'" (click)="openConversionDialog(mapFile)">
               <mat-icon>publish</mat-icon>
@@ -25,7 +25,7 @@
             <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
               {{language.beneficiaries_import_csv | uppercaseFirst }}
             </button>
-            <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+            <mat-spinner [diameter]='35' *ngIf="loadingExport"></mat-spinner>
             <div class="extension" *ngIf="!loadingExport">
               <button mat-stroked-button color="primary" class="dropdown template" [matMenuTriggerFor]="exportType">
                 <mat-icon>keyboard_arrow_down</mat-icon>
@@ -217,7 +217,7 @@
 
             <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <button mat-button class="button-text-accent" (click)="closeConversionDialog('canceled')">{{language.cancel}}</button>
-                <mat-spinner [diameter]="25" *ngIf="loadingConversion"></mat-spinner>
+                <mat-spinner [diameter]="35" *ngIf="loadingConversion"></mat-spinner>
                 <button mat-raised-button class="button-background-accent" (click)="confirmConversion()" *ngIf="!loadingConversion">
                   {{language.transaction_confirm_button}}
                 </button>

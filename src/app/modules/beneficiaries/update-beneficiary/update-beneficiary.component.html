@@ -274,7 +274,7 @@
                 <div class="action-buttons">
                   <button mat-button class="button-text-primary" (click)="leave()">{{language.cancel}}</button>
 
-                  <mat-spinner [diameter]="25" *ngIf="validationLoading"></mat-spinner>
+                  <mat-spinner [diameter]="35" *ngIf="validationLoading"></mat-spinner>
                   <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading"
                     (click)="submit()">{{language.create}}</button>
                   <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"

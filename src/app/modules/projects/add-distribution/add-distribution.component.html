@@ -81,14 +81,14 @@
             <h3 class="summary-text" *ngIf="criteriaData.data.length != 0 && form.controls.type.value === '1'">
               <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span>
               <span *ngIf="load">
-                <mat-spinner [diameter]="25"></mat-spinner>
+                <mat-spinner [diameter]="35"></mat-spinner>
               </span>
               {{language.add_distribution_beneficiaries_reached | uppercaseFirst}}
             </h3>
             <h3 class="summary-text" *ngIf="criteriaData.data.length != 0 && form.controls.type.value === '0'">
               <span *ngIf="!load">{{criteriaNbBeneficiaries}}</span>
               <span *ngIf="load">
-                <mat-spinner [diameter]="25"></mat-spinner>
+                <mat-spinner [diameter]="35"></mat-spinner>
               </span>
               {{language.add_distribution_households_reached | uppercaseFirst}}
             </h3>
@@ -124,7 +124,7 @@
   </div>
   <div class="action-buttons content-button content-button-footer">
     <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{language.create}}</button>
-    <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
+    <mat-spinner *ngIf="loadingCreation" [diameter]="35"></mat-spinner>
     <button mat-button (click)="cancel()" class="button-text-primary">{{language.cancel}}</button>
   </div>
 </div>

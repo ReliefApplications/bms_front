@@ -13,13 +13,13 @@
           <button mat-raised-button [disabled]="!bookletData" *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
               <span>{{language.voucher_assign | uppercaseFirst }}</span>
           </button>
-          <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
+          <mat-spinner [diameter]='35' *ngIf="loadingAssign"></mat-spinner>
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-raised-button [disabled]="!bookletData" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
               <mat-icon>get_app</mat-icon>
               <span>{{language.export | uppercaseFirst}}</span>
             </button>
-            <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+            <mat-spinner [diameter]='35' *ngIf="loadingExport"></mat-spinner>
             <div class="extension">
               <button mat-raised-button class="dropdown button-background-primary" *ngIf="!loadingExport" [disabled]="!bookletData" [matMenuTriggerFor]="exportType">
                 <mat-icon>keyboard_arrow_down</mat-icon>
@@ -40,7 +40,7 @@
                 <mat-icon>get_app</mat-icon>
                 <span>{{language.export_codes | uppercaseFirst}}</span>
               </button>
-              <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
+              <mat-spinner [diameter]='35' *ngIf="loadingExportCodes"></mat-spinner>
               <div class="extension" *ngIf="!loadingExportCodes">
                 <button mat-raised-button class="dropdown button-background-primary" [disabled]="!bookletData" [matMenuTriggerFor]="exportCodesType">
                   <mat-icon>keyboard_arrow_down</mat-icon>

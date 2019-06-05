@@ -54,7 +54,7 @@
                         <mat-icon>get_app</mat-icon>
                         <span>{{language.export | uppercaseFirst}}</span>
                         </button>
-                        <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+                        <mat-spinner [diameter]='35' *ngIf="loadingExport"></mat-spinner>
                         <div class="extension" *ngIf="!loadingExport">
                             <button mat-raised-button class="dropdown button-background-primary" [disabled]="!(distributionData && distributionData.data.length > 0)" [matMenuTriggerFor]="exportType">
                                 <mat-icon>keyboard_arrow_down</mat-icon>

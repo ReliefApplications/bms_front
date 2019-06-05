@@ -85,7 +85,7 @@
     <div class="dialog-template">
       <div class="modal-footer action">
         <button mat-button class="button-text-accent" (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
+        <mat-spinner [diameter]="35" *ngIf="loadingPassword"></mat-spinner>
         <button mat-raised-button class="button-background-accent" (click)="nextStep()" *ngIf="!loadingPassword">{{language.next}}</button>
       </div>
     </div>
@@ -98,7 +98,7 @@
     <div class="dialog-template">
       <div class="modal-footer action">
         <button mat-button class="button-text-accent" (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
+        <mat-spinner [diameter]="35" *ngIf="loadingAssignation"></mat-spinner>
         <button mat-raised-button class="button-background-accent" (click)="assignBooklet()" *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>
       </div>
     </div>

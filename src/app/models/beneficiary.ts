@@ -164,7 +164,7 @@ export class Beneficiary extends CustomModel {
         ),
         beneficiaryStatus: new SingleSelectModelField(
             {
-                title: this.language.beneficiary_status,
+                title: this.language.status,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 options: [

@@ -13,7 +13,7 @@ import { CountriesService } from '../core/countries/countries.service';
 export class Vendor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
-    title = this.language.settings_vendors;
+    title = this.language.vendors;
     matSortActive = 'username';
 
     protected countryService = AppInjector.get(CountriesService);
@@ -31,7 +31,7 @@ export class Vendor extends CustomModel {
 
         }),
         username: new NestedFieldModelField({
-            title: this.language.login_username,
+            title: this.language.username,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isSettable: true,

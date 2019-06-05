@@ -106,14 +106,12 @@ export class Arabic implements Language {
     national_id_number = 'رقم الهوية الوطنية'
     household_livelihood = 'الوظيفة'
     national_id_type = 'نوع الهوية الوطنية'
-    phone_type = 'نوع'
     household_income = 'مستوى الدخل'
     household_income_level = INCOMELEVELS.ar
     national_id = 'الهوية الوطنية'
     beneficiary_res_address = 'عنوان الإقامة'
-    add_beneficiary_step1 = 'معلومات'
-    add_beneficiary_step2 = 'رب العائلة'
-    add_beneficiary_step3 = 'أفراد العائلة'
+    information = 'معلومات'
+    household_members = 'أفراد العائلة'
     add_beneficiary_title = 'إضافة مستفيد'
     phone_prefix = 'تحويلة'
 
@@ -122,7 +120,6 @@ export class Arabic implements Language {
     national_id_card = 'بطاقة التعريف'
     national_id_license = 'رخصة السائق'
     national_id_family_registry = 'سجل العائلة'
-    national_id_other = 'آخر'
 
     // Add distribution
     add_distribution_advanced_option = 'خيارات متقدمة'
@@ -318,12 +315,10 @@ export class Arabic implements Language {
     header_home = 'الصفحة الرئيسية'
     header_import =  'تحميل بيانات المستفيد'
     header_imported = 'إستيراد بيانات المستفيدين'
-    header_language = 'اللغة'
-    header_profile = ' المعطيات الشخصية'
-    header_projects = 'المشاريع'
+    language = 'اللغة'
+    profile = ' المعطيات الشخصية'
     header_reports = 'التقارير'
     'header_update-beneficiary' = 'تحديث المستفيد'
-    header_vouchers = 'قسائم'
 
     // Import
     import_added = 'تم إضافتها'
@@ -362,7 +357,7 @@ export class Arabic implements Language {
     livelihood_garment = 'صناعة الملابس'
     livelihood_security = 'صناعة الأمن'
     livelihood_service = 'صناعة الخدمات وغيرهم من المهنيين'
-    livelihood_other = 'آخر'
+    other = 'آخر'
 
     // Login
     login_bms = 'نظام إدارة المستفيدين'
@@ -371,7 +366,7 @@ export class Arabic implements Language {
     login_password = 'كلمة المرور'
     login_prompt = 'Please log in'
     login_title = ' تسجيل الدخول الى الحساب'
-    login_username = 'اسم المستخدم'
+    username = 'اسم المستخدم'
 
     // Modal
     modal_add_bad_weight = 'يجب أن يكون الوزن أكبر من 0'
@@ -393,7 +388,6 @@ export class Arabic implements Language {
     modal_failure = 'بالفشل'
     modal_leave = 'المغادرة'
     modal_leave_sentence = 'هل تريد حقا أن تغادر دون حفظ التغييرات'
-    language = 'اللغة'
     modal_not_enough_strong = 'كلمة المرور ليست قوية بما فيه الكفاية ... الحد الأدنى المطلوب: 8 أحرف ، وحرف صغير واحد ، وحجم واحد ، ورقم 1'
     modal_pending_requests = 'الطلبات المعلقة'
     modal_pick_color = 'اختيار اللون'
@@ -407,9 +401,8 @@ export class Arabic implements Language {
     modal_no_file = 'لم تقم باختيار ملف'
 
     // Model
-    household_dependents = 'عضو'
     phone_no = 'رقم الهاتف'
-    beneficiary_status = 'الرتبة في الأسرة'
+    status = 'الرتبة في الأسرة'
     booklet = 'كتيب'
     booklet_password_pattern = 'يجب أن تتكون كلمة المرور من 4 أرقام'
     booklet_code = 'الشفرة'
@@ -417,11 +410,11 @@ export class Arabic implements Language {
     commodity_kgs= 'كلغ'
     commodity_kit= 'عدة'
     commodity_modality = 'القيد'
-    commodity_unit = 'وحدة'
+    unit = 'وحدة'
     commodity_value = 'كمية'
     country_specific = 'خيار حسب بالبلد'
     country_specific_field = 'الميدان'
-    countryIso3 = 'البلد'
+    country = 'البلد'
     criteria = 'المعاير'
     criteria_operator = 'الشروط'
     criteria_weight = 'وزن النتيجة'
@@ -448,8 +441,6 @@ export class Arabic implements Language {
     organization_primary = 'اللون الأساسي للمنظمة'
     organization_secondary = 'تنظيم اللون الثانوي'
     organization_footer = '.pdf محتوى تذييل الصفحة'
-    product_name = 'اسم'
-    product_unit = 'وحدة'
     product_image = 'صورة'
     booklet_number_booklets = 'كمية من الكتيبات لخلق'
     booklet_number_vouchers = 'كمية القسائم'
@@ -475,7 +466,6 @@ export class Arabic implements Language {
     address = 'عنوان'
     transaction_state = 'الحالة'
     vendor = 'بائع'
-    status = 'الحالة'
 
     // Null values
     null_none = 'لا شيء'
@@ -563,10 +553,10 @@ export class Arabic implements Language {
     settings_log_button = 'احصل على سجلات المستخدم عن طريق البريد الإلكتروني'
     settings_organization = 'مؤسستي'
     settings_print_starting = 'التحميل بدأ'
-    settings_product = 'منتجات'
+    products = 'منتجات'
     settings_project_exists = 'مشروع بهذا الاسم يوجود بالفعل'
-    settings_users = 'المستخدمون'
-    settings_vendors = 'الباعة'
+    users = 'المستخدمون'
+    vendors = 'الباعة'
 
     // Snackbar
     snackbar_change_password_done = '!تم تغيير كلمة المرور'

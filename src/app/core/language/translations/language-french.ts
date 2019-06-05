@@ -106,14 +106,12 @@ export class French implements Language {
     national_id_number = 'Identifiant national'
     household_livelihood = 'Métier'
     national_id_type = 'Type d\'identifiant national'
-    phone_type = 'Type'
     household_income = 'Niveau de revenu'
     household_income_level = INCOMELEVELS.fr
     national_id = 'Document d\'identité'
     beneficiary_res_address = 'Adresse du résident'
-    add_beneficiary_step1 = 'Information'
-    add_beneficiary_step2 = 'Chef de famille'
-    add_beneficiary_step3 = 'Membres'
+    information = 'Information'
+    household_members = 'Membres'
     add_beneficiary_title = 'Ajout d\'un bénéficiaire'
     phone_prefix = 'Ext'
 
@@ -122,7 +120,6 @@ export class French implements Language {
     national_id_card = 'Carte d\'identité'
     national_id_license = 'Permis de conduire'
     national_id_family_registry = 'Livret de famille'
-    national_id_other = 'Autre'
 
     // Add distribution
     add_distribution_advanced_option = 'Options avancées'
@@ -318,12 +315,10 @@ export class French implements Language {
     header_home = 'Accueil'
     header_import = 'Import de bénéficiaires'
     header_imported = 'Données des bénéficiaires importés'
-    header_language = 'langue'
-    header_profile = 'Profil'
-    header_projects = 'Projets'
+    language = 'langue'
+    profile = 'Profil'
     header_reports = 'Rapports'
     'header_update-beneficiary' = 'Modifier'
-    header_vouchers = 'Brochures'
 
     // Import
     import_added = 'Ajout'
@@ -362,7 +357,7 @@ export class French implements Language {
     livelihood_garment = 'Industrie textile'
     livelihood_security = 'Sécurité'
     livelihood_service = 'Service et autres professionnels'
-    livelihood_other = 'Autre'
+    other = 'Autre'
 
     // Login
     login_bms = 'Beneficiary management system'
@@ -371,7 +366,7 @@ export class French implements Language {
     login_password = '*********'
     login_prompt = 'Veuillez vous connecter'
     login_title = 'Connexion'
-    login_username = 'Identifiant'
+    username = 'Identifiant'
 
     // Modal
     modal_add_bad_weight = 'Le poids doit être supérieur à 0'
@@ -390,7 +385,6 @@ export class French implements Language {
     modal_details_title = 'Détails de ce'
     modal_edit_title = 'Modifier ce'
     modal_language_actual = 'Langue actuelle :'
-    language = 'Langage'
     modal_failure = 'Echecs'
     modal_leave = 'Quitter'
     modal_leave_sentence = 'Souhaitez-vous réellement quitter sans enregistrer vos modifications ?'
@@ -407,9 +401,8 @@ export class French implements Language {
     modal_no_file = 'Aucun fichier selectionné'
 
     // Model
-    household_dependents = 'Membres'
     phone_no = 'Téléphone No. '
-    beneficiary_status = 'Satut'
+    status = 'Satut'
     booklet = 'Brochure'
     booklet_password_pattern = 'Le mot de passe doit se composer de 4 chiffres'
     booklet_code = 'Code'
@@ -417,9 +410,9 @@ export class French implements Language {
     commodity_modality = 'Modalité'
     commodity_kgs = 'Kgs'
     commodity_kit = 'Kit'
-    commodity_unit = 'Unité'
+    unit = 'Unité'
     commodity_value = 'Quantité'
-    countryIso3 = 'Pays'
+    country = 'Pays'
     country_specific = 'Option par pays'
     country_specific_field = 'Champ'
     criteria = 'Critère'
@@ -448,8 +441,6 @@ export class French implements Language {
     organization_primary = 'couleur principale de l\'organisation'
     organization_secondary = 'couleur secondaire de l\'organisation'
     organization_footer = 'contenu du pied de page du pdf'
-    product_name = 'Nom'
-    product_unit = 'Unité'
     product_image = 'Image'
     booklet_number_booklets = 'Nombre de brochures'
     booklet_number_vouchers = 'Nombre de bons'
@@ -463,7 +454,6 @@ export class French implements Language {
     project_sectors_name = 'Secteurs'
     transaction_message = 'Message'
     transaction_pickupDate = 'Date de récupération'
-    status = 'État'
     type = 'Type'
     vendor_type_shop = 'Description'
     booklet_unassigned = 'Non assigné'
@@ -556,15 +546,15 @@ export class French implements Language {
     // Settings
     settings_country_specific_options = 'options par pays'
     settings_created = ' créé(e)'
-    donors = 'donateurs'
     settings_financial_provider = 'Connexions tiers'
     settings_log_button = 'Recevoir les logs de cet utilisateur par email'
     settings_organization = 'Mon organisation'
     settings_print_starting = 'Le téléchargement va démarrer'
     settings_project_exists = 'Un projet avec le même nom existe déjà'
-    settings_product = 'Produits'
-    settings_users = 'utilisateurs'
-    settings_vendors = 'vendeurs'
+    donors = 'donateurs'
+    products = 'Produits'
+    users = 'utilisateurs'
+    vendors = 'vendeurs'
 
     // Snackbar
     snackbar_change_password_done = 'Mot de passe modifié !'

@@ -95,7 +95,7 @@
     <h4 class="location">{{ language.phone | uppercaseFirst }} {{ index + 1 }}</h4>
     <div class="items-line">
       <ng-select class="single-select phone-type" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-        placeholder="{{language.phone_type | uppercaseFirst }}" [formControlName]="'phoneType'+index">
+        placeholder="{{language.type | uppercaseFirst }}" [formControlName]="'phoneType'+index">
         <ng-option *ngFor="let option of options.phoneList" [value]="option.get('id')">
           {{ option.get('name') }}
         </ng-option>

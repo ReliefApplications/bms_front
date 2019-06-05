@@ -39,7 +39,7 @@ export class User extends CustomModel {
 
         }),
         username: new TextModelField({
-            title: this.language.login_username,
+            title: this.language.username,
         }),
         email: new TextModelField({
             title: this.language.email,
@@ -114,7 +114,7 @@ export class User extends CustomModel {
 
         }),
         countries: new MultipleSelectModelField({
-            title: this.language.countryIso3,
+            title: this.language.country,
             options: [new Country('KHM', this.language.country_khm), new Country('SYR', this.language.country_syr)],
             isDisplayedInModal: true,
             bindField: 'name',

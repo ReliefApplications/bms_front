@@ -102,7 +102,7 @@ export class Household extends CustomModel {
         ),
         dependents: new NumberModelField(
             {
-                title: this.language.household_dependents,
+                title: this.language.household_members,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
             }

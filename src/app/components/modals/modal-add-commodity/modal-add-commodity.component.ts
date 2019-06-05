@@ -81,7 +81,7 @@ export class ModalAddCommodityComponent implements OnInit {
             case 6: // Bread
                 return this.language.commodity_kgs;
             default:
-                return this.language.commodity_unit;
+                return this.language.unit;
         }
     }
 

@@ -13,11 +13,11 @@
     </ng-template>
       <mat-step [completed]="validStep1">
         <form [formGroup]="mainForm">
-          <ng-template class="step" matStepLabel>{{language.add_beneficiary_step1}} </ng-template>
+          <ng-template class="step" matStepLabel>{{language.information}} </ng-template>
           <div class="container-table">
             <div class="stepInMobile">
               <span class="dot">1</span>
-              <span>{{language.add_beneficiary_step1}} </span>
+              <span>{{language.information}} </span>
             </div>
             <div class="container-content box-primary">
               <div class="content-table content-table-step1">
@@ -115,11 +115,11 @@
       </mat-step>
 
       <mat-step [completed]="validStep2">
-        <ng-template class="step" matStepLabel>{{language.add_beneficiary_step2}}</ng-template>
+        <ng-template class="step" matStepLabel>{{language.beneficiaries_head}}</ng-template>
         <div class="container-table">
           <div class="stepInMobile">
             <span class="dot">2</span>
-            <span>{{language.add_beneficiary_step2}}</span>
+            <span>{{language.beneficiaries_head}}</span>
           </div>
           <div class="container-content box-primary">
             <div class="content-table">
@@ -145,11 +145,11 @@
       </mat-step>
 
       <mat-step [completed]="validStep3">
-        <ng-template class="step" matStepLabel>{{language.add_beneficiary_step3}}</ng-template>
+        <ng-template class="step" matStepLabel>{{language.household_members}}</ng-template>
         <div class="container-table">
           <div class="stepInMobile">
             <span class="dot">3</span>
-            <span>{{language.add_beneficiary_step3}}</span>
+            <span>{{language.household_members}}</span>
           </div>
           <div class="container-content box-primary">
             <div class="content-table">

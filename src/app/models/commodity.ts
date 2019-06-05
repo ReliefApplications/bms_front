@@ -74,7 +74,7 @@ export class Commodity extends CustomModel {
         ),
         unit: new TextModelField(
             {
-                title: this.language.commodity_unit,
+                title: this.language.unit,
                 placeholder: null,
                 isSettable: true,
                 isRequired: true,

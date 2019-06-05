@@ -6,7 +6,7 @@ import { TextModelField } from './custom-models/text-model-field';
 export class Product extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
-    title = this.language.settings_product;
+    title = this.language.products;
     matSortActive = 'name';
 
     public fields = {
@@ -14,14 +14,14 @@ export class Product extends CustomModel {
 
         }),
         name: new TextModelField({
-            title: this.language.product_name,
+            title: this.language.name,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isSettable: true,
             isRequired: true,
         }),
         unit: new TextModelField({
-            title: this.language.product_unit,
+            title: this.language.unit,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isSettable: true,

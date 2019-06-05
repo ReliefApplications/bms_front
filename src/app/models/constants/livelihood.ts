@@ -97,6 +97,6 @@ export const LIVELIHOOD = [
     },
     {
         id: '24',
-        language_key: 'livelihood_other'
+        language_key: 'other'
     }
 ];

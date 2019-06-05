@@ -27,7 +27,10 @@ export interface Language {
     // Models
     beneficiaries: string
     beneficiary: string
+    booklet: string
+    commodity: string
     criteria: string
+    country: string
     distribution: string
     distributions: string
     donor: string
@@ -36,7 +39,9 @@ export interface Language {
     households: string
     language: string
     location: string
+    national_id: string
     phone: string
+    profile: string
     project: string
     projects: string
     reports: string
@@ -44,6 +49,9 @@ export interface Language {
     user: string
     vendor: string
     voucher: string
+    products: string
+    users: string
+    vendors: string
 
     // Actions
     add: string
@@ -64,11 +72,15 @@ export interface Language {
     female: string
     gender: string
     id: string
+    information: string
     male: string
     notes: string
+    other: string
     password: string
     status: string
     type: string
+    unit: string
+    username: string
     value: string
     
     // Error
@@ -95,9 +107,6 @@ export interface Language {
 
     // Add beneficiary
     add_beneficiary_done: string
-    add_beneficiary_step1: string
-    add_beneficiary_step2: string
-    add_beneficiary_step3: string
     add_beneficiary_title: string
     
     // Add distribution
@@ -159,7 +168,6 @@ export interface Language {
     beneficiary_residency_status_resident: string
     beneficiaries_select_api: string
     beneficiaries_selected_project: string
-    beneficiary_status: string
     beneficiary_vulnerabilities: string
     
     // Benficiary form errors
@@ -199,7 +207,6 @@ export interface Language {
     beneficiaries_import_warning: string
 
     // Booklets
-    booklet: string
     booklet_code: string
     booklet_deactivated: string
     booklet_define_password: string
@@ -214,9 +221,9 @@ export interface Language {
     
     // Cache
     cache_distribution_added: string
+    cache_no_distribution: string
     cache_store_beneficiaries: string
     cache_stored_beneficiaries: string
-    cache_no_distribution: string
 
     // Commodities
     commodity_cash: string
@@ -231,15 +238,12 @@ export interface Language {
     commodity_shelter: string
     commodity_hygiene: string
     commodity_dignity: string
-    commodity: string
     commodity_kgs: string
     commodity_kit: string
     commodity_modality: string
-    commodity_unit: string
     commodity_value: string
 
     // Countries
-    countryIso3: string
     country_khm: string
     country_syr: string
     country_specific: string
@@ -334,21 +338,17 @@ export interface Language {
     header_home: string
     header_import: string
     header_imported: string
-    header_language: string
-    header_profile: string
-    header_projects: string
     header_reports: string
     'header_update-beneficiary': string
-    header_vouchers: string
     
     // Household
-    household_dependents: string
+    household_members: string
     household_full_address: string
-    household_location: string
     household_income: string
     household_income_level: object
     household_info: string
     household_livelihood: string
+    household_location: string
     household_sentence: string
 
     // Import
@@ -389,7 +389,6 @@ export interface Language {
     livelihood_garment: string
     livelihood_security: string
     livelihood_service: string
-    livelihood_other: string
     
     // Login
     login_bms: string
@@ -398,7 +397,6 @@ export interface Language {
     login_password: string
     login_prompt: string
     login_title: string
-    login_username: string
     
     // Modal
     modal_add_bad_weight: string
@@ -433,14 +431,12 @@ export interface Language {
     modal_warning_pending_requests_2: string
     
     // National ID
-    national_id: string
     national_id_number: string
     national_id_type: string
     national_id_card: string
     national_id_family_registry: string
     national_id_license: string
     national_id_passport: string
-    national_id_other: string
 
     // Organization
     organization_font: string
@@ -454,7 +450,6 @@ export interface Language {
     phone_no: string
     phone_prefix: string
     phone_proxy: string
-    phone_type: string
     phone_type_landline: string
     phone_type_mobile: string
 
@@ -474,8 +469,6 @@ export interface Language {
     placeholder_one_many: string
 
     // Product
-    product_name: string
-    product_unit: string
     product_image: string
 
     // Profile
@@ -557,10 +550,7 @@ export interface Language {
     settings_log_button: string
     settings_organization: string
     settings_print_starting: string
-    settings_product: string
     settings_project_exists: string
-    settings_users: string
-    settings_vendors: string
 
     // Snackbar
     snackbar_change_password_done: string

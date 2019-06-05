@@ -31,6 +31,9 @@ export class English implements Language {
     // Models
     beneficiaries = 'Beneficiaries'
     beneficiary = 'Beneficiary'
+    booklet = 'Booklet'
+    commodity = 'Commodity'
+    country = 'Country'
     criteria = 'Criteria'
     distribution = 'Distribution'
     distributions = 'Distributions'
@@ -40,13 +43,18 @@ export class English implements Language {
     households = 'Household'
     language = 'Language'
     location = 'Location'
+    national_id = 'National ID'
     phone = 'Phone'
+    products = 'Products'
+    profile = 'Profile'
     project = 'Project'
     projects = 'Projects'
     reports = 'Reports'
     sector = 'Sector'
     user = 'User'
+    users = 'users'
     vendor = 'Vendor'
+    vendors = 'vendors'
     voucher = 'Vouchers'
     
     // Actions
@@ -68,14 +76,17 @@ export class English implements Language {
     female = 'Woman'
     gender = 'Gender'
     id = 'ID'
+    information = 'Information'
     male = 'Man'
     notes = 'Notes'
+    other = 'Other'
     password = 'Password'
     status = 'Status'
     type = 'Type'
+    unit = 'unit'
+    username = 'Username'
     value = 'Value'
   
-    
     // Error
     back_to_homepage = 'Go back to homepage'
     error_interceptor_msg = 'An error occured, request has failed (Empty back response).'
@@ -113,9 +124,6 @@ export class English implements Language {
 
     // Add beneficiary
     add_beneficiary_done = 'Summary of Household to create'
-    add_beneficiary_step1 = 'Information'
-    add_beneficiary_step2 = 'Head'
-    add_beneficiary_step3 = 'Members'
     add_beneficiary_title = 'add beneficiary'
 
     // Add distribution
@@ -139,34 +147,63 @@ export class English implements Language {
     add_distribution_text_explanation = 'The system will only select beneficiaries/households that have a score higher than the minimum selection score'
     add_distribution_threshold = 'Minimum selection score'
     add_distribution_zero = 'The number of households reached or the amount to be distributed is 0'
-
+    
     // Add project
     add_project_title = 'new project'
     add_project_new_distribution = 'new distribution'
-
+    
     // Beneficiaries
     beneficiaries_add_distribution = 'Add beneficiaries to this distribution'
     beneficiaries_add_list = 'Add this list to a project'
     beneficiaries_add_project = 'Please select the project(s) in which you would like to add the'
     beneficiaries_added = 'Beneficiairies added to the selected project'
     beneficiaries_advanced_research = 'Advanced search'
-    beneficiaries_clear_all_research = 'Clear all'
-
-
-
-
-
-
-
-
-
-
-    
+    beneficiaries_clear_all_research = 'Clear all'    
+    beneficiary_date_of_birth = 'Date of Birth'
+    beneficiary_en_family_name = 'English family name'
+    beneficiary_en_given_name = 'English given name'
     beneficiaries_en_name = 'English name'
-    beneficiaries_local_name = 'Local name'
-    household_full_address = 'Full household address'
+    beneficiary_family_name = 'Family name'
+    beneficiary_given_name = 'First name'
     beneficiaries_head = 'Head'
-    household_info = 'Household information summary'
+    beneficiary_local_family_name = 'Local family name'
+    beneficiary_local_given_name = 'Local given name'
+    beneficiaries_local_name = 'Local name'
+    beneficiaries_member = 'Member'
+    beneficiaries_missing_selected_project = 'You must select a project before uploading'
+    beneficiaries_personnal = 'personnal information'
+    beneficiaries_referral = 'Referral'
+    beneficiaries_referral_question = 'Add a referral'
+    beneficiaries_referral_type = 'Referral type'
+    beneficiaries_referral_types = REFERRALTYPES.en
+    beneficiaries_referral_comment = 'Comment'
+    beneficiary_res_address = 'Resident Address'
+    beneficiaries_residency = 'residency'
+    beneficiary_residency_status = 'Residency status'
+    beneficiary_residency_status_refugee = 'Refugee'
+    beneficiary_residency_status_idp = 'IDP'
+    beneficiary_residency_status_resident = 'Resident'
+    beneficiaries_select_api = 'Select API'
+    beneficiaries_selected_project = 'selected beneficiaries:'
+    beneficiary_vulnerabilities = 'Vulnerabilities'
+    
+    // Beneficiary form errors
+    beneficiary_error_location = 'You must select a location'
+    beneficiairy_error_address_number = 'You must enter an address number'
+    beneficiary_error_address_postcode = 'You must enter an address postcode'
+    beneficiary_error_address_street = 'You must enter an address street'
+    beneficiairy_error_head = 'the head of household'
+    beneficiary_error_member = ' member'
+    beneficiary_error_family_name = 'You must enter a local family name for '
+    beneficiary_error_given_name = 'You must enter a local given name for '
+    beneficiairy_error_gender = 'You must select a gender for '
+    beneficiary_error_phone = 'Phone can only be composed of digits for '
+    beneficiary_error_existing_country_code = 'Please select an existing country code from the list for '
+    beneficiary_error_country_code = 'Please select a country code for the phone number for '
+    beneficiairy_error_birth_date = 'Please select a valid birth date for '
+    beneficiairy_error_project = 'You must select at least one project'
+    
+    // Beneficiary import
     beneficiaries_import_addFile = 'add file or drag and drop'
     beneficiaries_import_addModal = 'add file'
     beneficiaries_import_api = 'import from external data source'
@@ -185,55 +222,26 @@ export class English implements Language {
     beneficiaries_import_select_project = 'You must select a project and add a file before uploading'
     beneficiaries_import_title = 'import beneficiary data'
     beneficiaries_import_warning = 'Warning: if the provided file is incomplete, the resulting one may need to be completed for the import to succeed.'
-    household_location = 'Household Location'
-    beneficiaries_member = 'Member'
-    beneficiaries_missing_selected_project = 'You must select a project before uploading'
-    beneficiaries_personnal = 'personnal information'
-    phone_proxy = 'Proxy'
-    beneficiaries_referral = 'Referral'
-    beneficiaries_referral_question = 'Add a referral'
-    beneficiaries_referral_type = 'Referral type'
-    beneficiaries_referral_types = REFERRALTYPES.en
-    beneficiaries_referral_comment = 'Comment'
-    beneficiaries_residency = 'residency'
-    beneficiary_residency_status_refugee = 'Refugee'
-    beneficiary_residency_status_idp = 'IDP'
-    beneficiary_residency_status_resident = 'Resident'
-    beneficiaries_select_api = 'Select API'
-    beneficiaries_selected_project = 'selected beneficiaries:'
-    beneficiary_date_of_birth = 'Date of Birth'
-    beneficiary_local_family_name = 'Local family name'
-    beneficiary_local_given_name = 'Local given name'
-    beneficiary_en_family_name = 'English family name'
-    beneficiary_en_given_name = 'English given name'
-    beneficiary_res_address = 'Resident Address'
     
-    // Benficiary form errors
-    beneficiary_error_location = 'You must select a location'
-    beneficiairy_error_address_number = 'You must enter an address number'
-    beneficiary_error_address_postcode = 'You must enter an address postcode'
-    beneficiary_error_address_street = 'You must enter an address street'
-    beneficiairy_error_head = 'the head of household'
-    beneficiary_error_member = ' member'
-    beneficiary_error_family_name = 'You must enter a local family name for '
-    beneficiary_error_given_name = 'You must enter a local given name for '
-    beneficiairy_error_gender = 'You must select a gender for '
-    beneficiary_error_phone = 'Phone can only be composed of digits for '
-    beneficiary_error_existing_country_code = 'Please select an existing country code from the list for '
-    beneficiary_error_country_code = 'Please select a country code for the phone number for '
-    beneficiairy_error_birth_date = 'Please select a valid birth date for '
-    beneficiairy_error_project = 'You must select at least one project'
-
-
+    // Booklets
+    booklet_code = 'Code'
+    booklet_deactivated = 'Deactivated'
+    booklet_define_password = 'Define a password'
     booklet_export_codes = 'Export booklet codes'
-
-
+    booklet_individual_value = 'Individual value'
+    booklet_number_booklets = 'Quantity of booklets'
+    booklet_number_vouchers = 'Quantity of vouchers'
+    booklet_password_pattern = 'The password must be four digits'
+    booklet_unassigned = 'Unassigned'
+    booklet_update_password = 'Update the password'
+    booklet_used = 'Used'
+  
     // Cache
     cache_distribution_added = 'Distribution and beneficiaries of the project added to the cache'
+    cache_no_distribution = 'This distribution isn\'t stored in the cache, you can\'t access it offline'
     cache_store_beneficiaries = 'Offline Mode'
     cache_stored_beneficiaries = 'Saved For Offline Mode'
-    cache_no_distribution = 'This distribution isn\'t stored in the cache, you can\'t access it offline'
-
+    
     // Commodities tooltips
     commodity_cash = 'Mobile Money'
     commodity_qr_voucher = 'QR Code Voucher'
@@ -247,11 +255,21 @@ export class English implements Language {
     commodity_shelter = 'Shelter tool kit'
     commodity_hygiene = 'Hygiene kit'
     commodity_dignity = 'Dignity kit'
+    commodity_kgs = 'Kgs'
+    commodity_kit = 'Kit'
+    commodity_modality = 'Modality'
+    commodity_value = 'Quantity'
 
     // Countries
     country_khm = 'Cambodia'
     country_syr = 'Syria'
+    country_specific = 'Country specific option'
+    country_specific_field = 'Field'
 
+    // Criteria
+    criteria_operator = 'Condition'
+    criteria_weight = 'Score weight'
+    
     // Dashboard
     dashboard_distribution_map = 'distribution map'
     dashboard_recent_distributions = 'upcoming distributions'
@@ -262,7 +280,7 @@ export class English implements Language {
     dashboard_summary_4 = 'total value transactions'
     dashboard_summary_5 = 'served beneficiaries'
     dashboard_summary_6 = 'completed distributions'
-
+    
     // Data verification
     data_verification_chip_actual = 'Household targeted'
     data_verification_chip_add = 'To add'
@@ -296,6 +314,7 @@ export class English implements Language {
     distribution_beneficiary_added = 'Beneficiary added'
     distribution_beneficiary_not_added = 'Beneficiary could not be added'
     distribution_cant_update = 'You can\'t update this distribution.'
+    distribution_date = 'Date of Distribution'
     distribution_details_export = 'distribution list'
     distribution_details_import = 'import & compare'
     distribution_details_random = 'export random sample'
@@ -314,11 +333,16 @@ export class English implements Language {
     distribution_request_logs = 'Send transaction logs by email'
     distribution_select_beneficiaries = 'Please select the beneficiaries from the project'
     distribution_show_data = 'Show data anyway'
+    distribution_type = 'Target'
     distribution_validate = 'Validate'
     distribution_validated = 'Distribution has been validated'
     distribution_validated_title = 'Validated distribution'
     distribution_want_add = 'that you want to add to the '
 
+    // Donor
+    donor_fullname = 'Donor\'s name'
+    donor_shortname = 'Shortname'
+    
     // Header
     'header_add-beneficiaries' = 'Add Beneficiaries'
     'header_add-distribution' = 'Add Distribution'
@@ -331,13 +355,19 @@ export class English implements Language {
     header_home = 'Home'
     header_import = 'Import beneficiary data'
     header_imported = 'Imported beneficiaries data'
-    header_language = 'language'
-    header_profile = 'Profile'
-    header_projects = 'Projects'
     header_reports = 'Reports'
     'header_update-beneficiary' = 'Update Beneficiaries'
-    header_vouchers = 'Vouchers'
 
+    // Household
+    household_members = 'Members'
+    household_full_address = 'Full household address'
+    household_income = 'Level of income'
+    household_income_level = INCOMELEVELS.en
+    household_info = 'Household information summary'
+    household_livelihood = 'Livelihood'
+    household_location = 'Household Location'
+    household_sentence = 'The household of '
+  
     // Import
     import_added = 'Added from existing beneficiaries'
     import_back_to_beneficiaries = 'Back to Beneficiaries'
@@ -350,7 +380,8 @@ export class English implements Language {
     import_select_new = 'Select all new'
     import_select_old = 'Select all old'
     import_updated = 'Will be updated'
-
+    
+    // Livelihoods
     livelihood_livestock = 'Agriculture - Livestock'
     livelihood_crops = 'Agriculture - Crops'
     livelihood_fishing = 'Agriculture – Fishing'
@@ -375,8 +406,6 @@ export class English implements Language {
     livelihood_garment = 'Garment Industry'
     livelihood_security = 'Security Industry'
     livelihood_service = 'Service Industry and Other Professionals'
-    livelihood_other = 'Other'
-
 
     // Login
     login_bms = 'Beneficiary management system'
@@ -385,8 +414,7 @@ export class English implements Language {
     login_password = '*********'
     login_prompt = 'Please log in'
     login_title = 'Login'
-    login_username = 'Username'
-
+    
     // Modal
     modal_add_bad_weight = 'The weight should be greater than 0'
     modal_add_check_fields_budget = 'Invalid fields = check you filled every fields and budget is greater than 0'
@@ -407,6 +435,7 @@ export class English implements Language {
     modal_leave = 'Leave'
     modal_language_actual = 'Current language '
     modal_leave_sentence = 'Do you really want to leave with unsaved changes?'
+    modal_no_file = 'No file chosen'
     modal_not_enough_strong = 'The password is not strong enough... Minimum required = 8 characters, 1 lowercase, 1 uppercase, 1 numeric'
     modal_pending_requests = 'Pending Requests'
     modal_pick_color = 'Select a color'
@@ -417,81 +446,30 @@ export class English implements Language {
     modal_values_format_error = 'If you want to set individual values, type numeric values separated by commas (max 5)'
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
-    modal_no_file = 'No file chosen'
-
-
-    // Add beneficiary options
-    national_id_passport = 'Passport'
-    national_id_card = 'ID Card'
-    national_id_license = 'Driver\'s License'
-    national_id_family_registry = 'Family Registry'
-    national_id_other = 'Other'
+    
+    // National ID
     national_id_number = 'ID Number'
-    household_livelihood = 'Livelihood'
     national_id_type = 'ID Type'
-    phone_type = 'Type'
-    household_income = 'Level of income'
-    household_income_level = INCOMELEVELS.en
-    national_id = 'National ID'
-    phone_prefix = 'Ext'
+    national_id_card = 'ID Card'
+    national_id_family_registry = 'Family Registry'
+    national_id_license = 'Driver\'s License'
+    national_id_passport = 'Passport'
 
-    // Model
-    household_dependents = 'Members'
-    phone_no = 'Phone No. '
-    beneficiary_status = 'Status'
-    booklet = 'Booklet'
-    booklet_password_pattern = 'The password must be four digits'
-    booklet_code = 'Code'
-    commodity = 'Commodity'
-    commodity_kgs = 'Kgs'
-    commodity_kit = 'Kit'
-    commodity_modality = 'Modality'
-    commodity_unit = 'Unit'
-    commodity_value = 'Quantity'
-    countryIso3 = 'Country'
-    country_specific = 'Country specific option'
-    country_specific_field = 'Field'
-    criteria_operator = 'Condition'
-    criteria_weight = 'Score weight'
-    booklet_deactivated = 'Deactivated'
-    booklet_define_password = 'Define a password'
-    booklet_update_password = 'Update the password'
-    distribution_date = 'Date of Distribution'
-    distribution_type = 'Target'
-    donor_fullname = 'Donor\'s name'
-    donor_shortname = 'Shortname'
-    beneficiary_family_name = 'Family name'
-    beneficiary_given_name = 'First name'
-    household_sentence = 'The household of '
-    booklet_individual_value = 'Individual value'
-    organization_name = 'organization name'
-    organization_logo = 'organization logo'
+    // Organization
     organization_font = 'font to apply to the pdf'
+    organization_footer = 'pdf footer content'
+    organization_logo = 'organization logo'
+    organization_name = 'organization name'
     organization_primary = 'organization primary color'
     organization_secondary = 'organization secondary color'
-    organization_footer = 'pdf footer content'
-    product_name = 'Name'
-    product_unit = 'Unit'
-    product_image = 'Image'
-    booklet_number_booklets = 'Quantity of booklets'
-    booklet_number_vouchers = 'Quantity of vouchers'
-    project_end_date = 'End Date'
-    project_name = 'Project\'s name'
-    project_number_of_households = 'Number of Households'
-    project_start_date = 'Start Date'
-    project_value = 'Total Target Beneficiaries'
-    beneficiary_residency_status = 'Residency status'
-    project_sectors_name = 'Sectors'
-    transaction_message = 'Message'
-    transaction_pickupDate = 'Pick up date'
-    vendor_type_shop = 'Description'
-    booklet_unassigned = 'Unassigned'
-    booklet_used = 'Used'
-    user_password_question = 'Update password on next login'
 
-    
-    beneficiary_vulnerabilities = 'Vulnerabilities'
-
+    // Phone
+    phone_no = 'Phone No. '
+    phone_prefix = 'Ext'
+    phone_proxy = 'Proxy'
+    phone_type_landline = 'Landline'
+    phone_type_mobile = 'Mobile'
+  
     // Null values
     null_none = 'none'
     null_not_yet = 'not yet'
@@ -503,13 +481,12 @@ export class English implements Language {
     number_suffix_second = 'nd'
     number_suffix_third = 'rd'
     number_suffix_other = 'th'
-
-    // Phone
-    phone_type_landline = 'Landline'
-    phone_type_mobile = 'Mobile'
-
+  
     // Placeholder
     placeholder_one_many = 'Select one or many'
+
+    // Product
+    product_image = 'Image'
 
     // Profile
     profile_change_password = 'You need to change your password'
@@ -518,19 +495,26 @@ export class English implements Language {
     profile_user_hint_new_password_again = 'Re-enter new password'
     profile_user_hint_old_password = 'Old password'
     profile_user_information = 'User information'
-    profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'
-
+    profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'    
+    
+    
     // Project
     project_add = 'Please add a new project to begin!'
     project_add_household = 'Please add some beneficiaries first! Then you will be able to manage some distributions...'
     project_click = 'Click on '  + this.add
     project_create = 'Create a new project'
     project_description = 'You will be able to modify project\'s name until your first distribution.'
+    project_end_date = 'End Date'
     project_go_import_beneficiaries = 'Import Beneficiaries'
+    project_name = 'Project\'s name'
     project_no_distribution = 'This project does not contain any distributions. Create your first one !'
     project_no_household = 'This project does not contain any households.'
     project_no_projects = 'This country currently does not contain any active projects.'
-
+    project_number_of_households = 'Number of Households'
+    project_sectors_name = 'Sectors'
+    project_start_date = 'Start Date'
+    project_value = 'Total Target Beneficiaries'
+    
     // Report
     report_apply = 'apply'
     report_country = 'country'
@@ -551,7 +535,7 @@ export class English implements Language {
     report_select_frequency = 'Select frequency'
     report_to = 'to'
     report_upcoming_reporting = 'Upcoming reporting'
-
+    
     // Role
     role_user_admin = 'Administrator'
     role_user_country_manager = 'Country manager'
@@ -559,7 +543,7 @@ export class English implements Language {
     role_user_project_manager = 'Project manager'
     role_user_project_officer = 'Project officer'
     role_user_regional_manager = 'Regional manager'
-
+    
     // Sectors tooltips
     sector_cccm = 'Camp coordination and management'
     sector_recovery = 'Early recovery'
@@ -576,18 +560,15 @@ export class English implements Language {
     sector_tvet = 'TVET'
     sector_food_kits = 'food, RTE kits'
     sector_nfi = 'NFIs'
-
+    
     // Settings
     settings_country_specific_options = 'country specific options'
     settings_created = ' created'
     settings_financial_provider = 'Third party connections'
     settings_log_button = 'Get user logs by email'
     settings_print_starting = 'Your download is starting'
-    settings_product = 'Products'
     settings_organization = 'My organization'
     settings_project_exists = 'A project with this name already exists'
-    settings_users = 'users'
-    settings_vendors = 'vendors'
 
     // Snackbar
     snackbar_change_password_done = 'Password has been changed!'
@@ -595,7 +576,7 @@ export class English implements Language {
     snackbar_change_password_not_possible = 'Password must be longer than 1 character and match with verification'
     snackbar_invalid_transaction_date = 'The transaction\'s deadline is over.'
     snackbar_pickup_error = 'It is currently impossible to check the pickup status'
-
+    
     // Table
     table_actions = 'Actions'
     table_element_deleted = ' deleted'
@@ -607,7 +588,7 @@ export class English implements Language {
     table_next_page = 'Next page'
     table_of_page = 'of'
     table_previous_page = 'Previous page'
-
+    
     // Transaction
     transaction_accept_prevention = 'I agree to these terms.'
     transaction_again = 'Send again'
@@ -622,6 +603,8 @@ export class English implements Language {
     transaction_id_transaction = 'ID Transaction'
     transaction_info_export = 'If the distribution doesn\'t have any transactions, no file will be exported'
     transaction_inProgress = 'Transaction in progress...'
+    transaction_message = 'Message'
+    transaction_pickupDate = 'Pick up date'
     transaction_paste_code = 'Please paste the code here and click on \'Confirm\' to proceed with the transaction '
     transaction_prevention = 'This platform is still under development and the online cash transaction functionality may not be fully stable yet. The development team denies responsibility for any errors that may occur in terms of money loss. By ticking the box below, you agree to use the system knowing fully well its limitations and take responsibility for the results of the transaction.'
     transaction_progress = 'commodity distribution progress:'
@@ -636,16 +619,19 @@ export class English implements Language {
     transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'
     transaction_validation = 'Confirm the validation'
     transaction_no_transaction_sent = 'No completed transaction, cannot export'
-
+    
     // Tooltip
     tooltip_dashboard = 'This page is the dashboard. You have a global view on some numbers about the country and its projects. You have access to a map with distributions of the country and summary of last distributions.'
-
+    
     // Update beneficiary
     update_beneficiary_created_successfully = 'Created successfuly !'
     update_beneficiary_error_creating = 'Error while creating = '
     update_beneficiary_error_updated = 'Error while updating = '
     update_beneficiary_title = 'Update Beneficiary'
     update_beneficiary_updated_successfully = 'Updated successfuly !'
+
+    // Vendor
+    vendor_type_shop = 'Description'
 
     //Vouchers
     voucher_ask_code = 'Please ask beneficiary to enter his 4 digits code here'
@@ -668,15 +654,16 @@ export class English implements Language {
     voucher_print_selection = 'Print selection'
     voucher_print_error = 'You can\'t print a booklet if it has no beneficiary'
     voucher_print_starting = 'Your voucher download is starting'
-
+    
     // Vulnerability
     vulnerability_pregnant = 'pregnant'
     vulnerability_disabled = 'disabled'
     vulnerability_lactating = 'lactating'
     vulnerability_solo_parent = 'solo parent'
     vulnerability_nutrional = 'nutritional issues'
-
+    
     // User
     user_only_one_country = 'You can select only one country'
+    user_password_question = 'Update password on next login'
 
   };

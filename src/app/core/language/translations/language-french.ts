@@ -414,15 +414,9 @@ export class French implements Language {
     login_title = 'Connexion'
     
     // Modal
-    modal_add_bad_weight = 'Le poids doit être supérieur à 0'
-    modal_add_check_fields_budget = 'Champs invalides : vérifiez que vous avez rempli tous les champs et que le budget est supérieur à 0'
-    modal_add_check_fields_quantity = 'Champs invalides : vérifiez que vous avez rempli tous les champs et que la quantité est supérieur à 0'
-    modal_add_fail_criteria = 'Erreur lors de la création du critère'
     modal_add_multiple_title = 'Ajouter plusieurs nouveaux'
     modal_add_no_value = 'Vous devez entrer une valeur'
     modal_add_title = 'Ajouter un nouveau'
-    modal_check_date = 'Champs invalides = La date de début ne peut pas être plus ancienne que la date de fin et vice versa'
-    modal_check_fields = 'Champs invalides = vérifiez que vous avez rempli tous les champs'
     modal_complete_distribution = 'Etes-vous sûr de vouloir manuellement terminer cette distribution ?'
     modal_delete_many = 'ces éléments'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
@@ -627,9 +621,6 @@ export class French implements Language {
     update_beneficiary_title = 'Modifier un bénéficiaire'
     update_beneficiary_updated_successfully = 'Modifié avec succès !'
 
-    // Vendor
-    vendor_type_shop = 'Description'
-    
     //Vouchers
     voucher_ask_code = 'S\'il vous plaît, demandez au bénéficiaire de saisir 4 chiffres ci-dessous'
     voucher_assign = 'Assigner aux vouchers'

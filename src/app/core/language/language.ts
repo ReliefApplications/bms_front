@@ -397,15 +397,9 @@ export interface Language {
     login_title: string
     
     // Modal
-    modal_add_bad_weight: string
-    modal_add_check_fields_budget: string
-    modal_add_check_fields_quantity: string
-    modal_add_fail_criteria: string
     modal_add_multiple_title: string
     modal_add_no_value: string
     modal_add_title: string
-    modal_check_date: string
-    modal_check_fields: string
     modal_complete_distribution: string
     modal_delete_many: string
     modal_delete_sentence_2: string
@@ -609,9 +603,6 @@ export interface Language {
     update_beneficiary_error_updated: string
     update_beneficiary_title: string
     update_beneficiary_updated_successfully: string
-
-    // Vendor
-    vendor_type_shop: string
 
     //Vouchers
     voucher_ask_code: string

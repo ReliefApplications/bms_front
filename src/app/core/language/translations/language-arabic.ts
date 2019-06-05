@@ -414,15 +414,9 @@ export class Arabic implements Language {
     login_title = ' تسجيل الدخول الى الحساب'
     
     // Modal
-    modal_add_bad_weight = 'يجب أن يكون الوزن أكبر من 0'
-    modal_add_check_fields_budget = 'تحقق جيدا انك أدخلت جميع المعطيات و ان المبلغ يفوق 0'
-    modal_add_check_fields_quantity = 'تحقق جيدا انك أدخلت جميع المعطيات و ان الكمية تفوق 0 '
-    modal_add_fail_criteria = 'خطأ في انشاء معيار'
     modal_add_multiple_title = 'خلق جديد إبداع جديد'
     modal_add_no_value = 'عليك بادخال قيمة عددية'
     modal_add_title = 'إضافة جديد'
-    modal_check_date = 'الحقول غير الصالح: لا يمكن أن يكون تاريخ الانتهاء  أقدم من تاريخ البدء'
-    modal_check_fields = 'تحقق جيدا انك أدخلت جميع المعطيات'
     modal_complete_distribution = 'هل تريد بالتأكيد إكمال هذا التوزيع يدويًا؟'
     modal_delete_many = 'هذه العناصر'
     modal_delete_sentence = 'أنت على وشك الحذف'
@@ -626,10 +620,7 @@ export class Arabic implements Language {
     update_beneficiary_error_updated = ': حدث خطأ أثناء التحديث'
     update_beneficiary_title = 'تحديث المستفيدين'
     update_beneficiary_updated_successfully = ' !تم التحديث بنجاح'
-    
-    // Vendor
-    vendor_type_shop = 'وصف'
-    
+
     //Vouchers
     voucher_ask_code = 'الرجاء مطالبة المستفيد بإدخال رمزه المكون من 4 أرقام هنا'
     voucher_assign = 'تعيين قسائم'

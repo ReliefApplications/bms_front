@@ -58,7 +58,7 @@ export class Vendor extends CustomModel {
             isSettable: true,
         }),
         shopType: new TextModelField({
-            title: this.language.vendor_type_shop,
+            title: this.language.description,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isRequired: true,

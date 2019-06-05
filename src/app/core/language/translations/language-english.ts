@@ -414,15 +414,9 @@ export class English implements Language {
     login_title = 'Login'
     
     // Modal
-    modal_add_bad_weight = 'The weight should be greater than 0'
-    modal_add_check_fields_budget = 'Invalid fields = check you filled every fields and budget is greater than 0'
-    modal_add_check_fields_quantity = 'Invalid fields = check you filled every fields and quantity greater than 0'
-    modal_add_fail_criteria = 'Failed to create the criteria'
     modal_add_multiple_title = 'Create multiple new'
     modal_add_no_value = 'You need to enter a value'
     modal_add_title = 'Create a new '
-    modal_check_date = 'Invalid fields = Your start date cannot be older than the end date'
-    modal_check_fields = 'Invalid fields = check you filled every field'
     modal_complete_distribution = 'Are you sure you want to manually complete this distribution ?'
     modal_delete_many = 'these elements'
     modal_delete_sentence = 'You are about to delete '
@@ -626,9 +620,6 @@ export class English implements Language {
     update_beneficiary_error_updated = 'Error while updating = '
     update_beneficiary_title = 'Update Beneficiary'
     update_beneficiary_updated_successfully = 'Updated successfuly !'
-
-    // Vendor
-    vendor_type_shop = 'Description'
 
     //Vouchers
     voucher_ask_code = 'Please ask beneficiary to enter his 4 digits code here'

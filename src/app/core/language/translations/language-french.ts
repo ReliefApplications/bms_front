@@ -537,11 +537,6 @@ export class French implements Language {
     report_to = 'à'
     report_upcoming_reporting = 'Graphiques à venir'
 
-    // Beneficiary residency status
-    beneficiary_residency_status_resident = 'Resident'
-    beneficiary_residency_status_refugee = 'Refugee'
-    beneficiary_residency_status_idp = 'IDP'
-
     // Sectors tooltips
     sector_cccm = 'Management et organisation de camp'
     sector_recovery = 'Relèvement précoce'

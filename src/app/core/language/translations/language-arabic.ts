@@ -538,11 +538,6 @@ export class Arabic implements Language {
     report_to = 'إلى'
     report_upcoming_reporting = 'الرسوم البيانية القادمة'
 
-    // Beneficiary residency status
-    beneficiary_residency_status_resident = 'مقيم'
-    beneficiary_residency_status_refugee = 'لاجئ'
-    beneficiary_residency_status_idp = 'اشخاص الارشاد الداخلى'
-
     // Sectors tooltips
     sector_cccm = 'معسكر التنسيق والإدارة'
     sector_recovery = 'الانتعاش المبكر'

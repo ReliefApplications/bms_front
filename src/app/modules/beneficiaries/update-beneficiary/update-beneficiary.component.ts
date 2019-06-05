@@ -375,7 +375,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                     } else if (adm === 'Adm3') {
                         this.loadVillage(type, value);
                     } else if (adm === 'Adm4') {
-                        this.loadCamps(event.type, 'adm4', value).subscribe();
+                        this.loadCamps(type, 'adm4', value).subscribe();
                     }
                 }
             });
@@ -858,14 +858,14 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
     loadCamps(prefix: string, admType: string, admId: number) {
         return this._locationService.getCamps(admType, admId).pipe(
             map((camps) => {
-            if (camps) {
-                this.campLists[prefix] = camps.map((camp: any) => Camp.apiToModel(camp));
-                this.mainForm.controls[prefix + 'Camp'].setValue(null);
-            } else {
-                this.campLists[prefix] = [];
-                this.mainForm.controls[prefix + 'Camp'].setValue(null);
-            }
-        }));
+                if (camps) {
+                    this.campLists[prefix] = camps.map((camp: any) => Camp.apiToModel(camp));
+                    this.mainForm.controls[prefix + 'Camp'].setValue(null);
+                } else {
+                    this.campLists[prefix] = [];
+                    this.mainForm.controls[prefix + 'Camp'].setValue(null);
+                }
+            }));
     }
 
     /**

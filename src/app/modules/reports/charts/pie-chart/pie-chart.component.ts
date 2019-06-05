@@ -22,17 +22,7 @@ export class PieChartComponent extends BaseChartComponent implements OnInit {
         responsive: true,
       };
 
-    private static valuesToPercentages (values: Array<number>) {
-        const total = values.reduce((previousValue: number, currentValue: number) => {
-            return previousValue + currentValue;
-        });
-        return values.map((value: number) => {
-            return (100 * value / total).toFixed(2);
-        });
-    }
-
     ngOnInit() {
-
         this.formatPieChartDataSet();
         this.generateColors();
     }
@@ -44,11 +34,11 @@ export class PieChartComponent extends BaseChartComponent implements OnInit {
         this.pieChartDataSets = Object.keys(this.graphInfo.values).map((period: string) => {
             this.periods.push(period);
             const labels: Array<Label> = [], values: Array<number> = [];
-            this.graphInfo.values[period].map((graphValue: GraphValue) => {
+            this.graphInfo.values[period].forEach((graphValue: GraphValue) => {
                 labels.push(graphValue.unit);
                 values.push(graphValue.value);
             });
-            return new PieChartDataSet(labels, PieChartComponent.valuesToPercentages(values));
+            return new PieChartDataSet(labels, values);
         });
     }
 

@@ -30,9 +30,7 @@ export class IndicatorService {
     }
 
     public getAllGraphs(filters: object) {
-        filters['projects'] = filters['projects'] ? filters['projects'].join(',') : '';
-        filters['distributions'] = filters['distributions'] ? filters['distributions'].join(',') : '';
-        filters['period'] = filters['period'] ? filters['period'].join(',') : '';
+        this.formatFilters(filters);
         const url = `${this.api}/filtered`;
         // const params = Object.keys(filters).map(key => key + '=' + filters[key]).join('&');
         // console.log(url + params);
@@ -43,14 +41,15 @@ export class IndicatorService {
         return this.http.get(url, options);
     }
 
-    public exportReportData(indicatorsId: number[], frequency: string, projectsId: number[], distributionsId: number[], fileType: string) {
-        const body = {
-            indicators: indicatorsId,
-            frequency: frequency,
-            projects: projectsId,
-            distributions: distributionsId
-        };
+    public exportReportData(filters: object, fileType: string) {
+        this.formatFilters(filters);
         const url = `${URL_BMS_API}/export?reporting=true&type=${fileType}`;
-        return this.http.post(url, body, {responseType: 'blob'});
+        return this.http.post(url, filters, {responseType: 'blob'});
+    }
+
+    private formatFilters(filters: object) {
+        filters['projects'] = filters['projects'] ? filters['projects'].join(',') : '';
+        filters['distributions'] = filters['distributions'] ? filters['distributions'].join(',') : '';
+        filters['period'] = filters['period'] ? filters['period'].join(',') : '';
     }
 }

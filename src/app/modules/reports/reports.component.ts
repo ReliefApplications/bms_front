@@ -3,6 +3,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { saveAs } from 'file-saver/FileSaver';
 import * as html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import { forkJoin, from, Subscription } from 'rxjs';
@@ -100,7 +101,11 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     subscriptions: Array<Subscription>;
 
+    // Graphs
     graphs: Array<Graph>;
+
+    // Export
+    exportFileType = 'csv';
 
 //
 // ─── INITIALIZATION ─────────────────────────────────────────────────────────────
@@ -307,15 +312,20 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     private updateReports() {
 
-        this.indicatorService.getAllGraphs({
-        ...this.generateReport(),
-        ...this.generateFrequency(),
-        ...this.generateCountry(),
-        }).subscribe((graphsDTO: Array<GraphDTO>) => {
+        this.indicatorService.getAllGraphs(this.generateFilters())
+            .subscribe((graphsDTO: Array<GraphDTO>) => {
             this.graphs = graphsDTO.map((graphDTO: GraphDTO) => {
                 return new Graph(graphDTO);
             });
         });
+    }
+
+    private generateFilters() {
+        return {
+            ...this.generateReport(),
+            ...this.generateFrequency(),
+            ...this.generateCountry(),
+        };
     }
 
     // Map reports for api
@@ -397,16 +407,19 @@ export class ReportsComponent implements OnInit, OnDestroy {
     public export(exportFileType: string) {
         switch (exportFileType) {
             case 'xls':
-                return;
             case 'csv':
-                return;
             case 'ods':
-                return;
+                this.indicatorService.exportReportData(
+                    this.generateFilters(),
+                    exportFileType
+                ).subscribe((file: File) => {
+                        saveAs(file, `reporting.${exportFileType}`);
+                    });
+            break;
             case 'pdf':
             default:
                 this.generatePdf();
         }
-
     }
 
     private generatePdf() {

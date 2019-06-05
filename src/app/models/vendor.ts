@@ -99,6 +99,7 @@ export class Vendor extends CustomModel {
             isEditable: true,
             childrenObject: 'location',
             childrenFieldName: 'adm1',
+            isRequired: true,
             isTrigger: true,
             triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;

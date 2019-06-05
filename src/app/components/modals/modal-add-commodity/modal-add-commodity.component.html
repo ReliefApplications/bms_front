@@ -17,7 +17,7 @@
         <tr class="modal-row">
           <th class="table-title">{{ commodity.fields.modalityType.title }}</th>
           <td class="form-item">
-            <ng-select formControlName="modalityType" [placeholder]="commodity.fields.modalityType.title | uppercaseFirst">
+            <ng-select formControlName="modalityType" [placeholder]="commodity.fields.modalityType.title | uppercaseFirst" (change)="setUnit()">
                 <ng-option *ngFor="let option of commodity.getOptions('modalityType')" [value]="option.get('id')">
                     {{option.get('name') | uppercaseFirst}}
                 </ng-option>
@@ -29,10 +29,16 @@
         <tr class="modal-row">
           <th class="table-title">{{ getUnit() }}</th>
           <td class="form-item">
-            <mat-form-field>
+            <mat-form-field *ngIf="!isCurrency">
               <input matInput type="text" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
               <app-hint-error [form]="form" fieldName="unit" [field]="commodity.fields.unit" [isMatField]="true"></app-hint-error>
             </mat-form-field>
+            <ng-select *ngIf="isCurrency" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
+              <ng-option *ngFor="let currency of currencies" [value]="currency.name">
+                  {{currency.name | uppercaseFirst}}
+              </ng-option>
+            </ng-select>
+            <app-hint-error *ngIf="isCurrency" [form]="form" fieldName="unit" [field]="commodity.fields.unit" [isMatField]="false"></app-hint-error>
           </td>
         </tr>
 

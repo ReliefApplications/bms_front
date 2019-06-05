@@ -500,7 +500,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
                 response => {
                     if (response) {
                         this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
-                        this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
+                        this.snackbar.success(response.length + this.language.beneficiaries_import_beneficiaries_imported);
                     }
                     this._importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);

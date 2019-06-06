@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/models/criteria';
+import { Criteria, CriteriaCondition } from 'src/app/models/criteria';
 import { CustomModelService } from '../utils/custom-model.service';
 import { HttpService } from '../network/http.service';
 
@@ -33,19 +33,6 @@ export class CriteriaService extends CustomModelService {
     public getVulnerabilityCriteria() {
         const url = this.apiBase + '/vulnerability_criteria';
         return this.http.get(url);
-    }
-
-    fillFieldOptions(criteria: Criteria) {
-        this.get()
-            .subscribe((options: any) => {
-                if (options) {
-                    const fields = options.map(criterion => {
-                        return CriteriaField.apiToModel(criterion);
-                    });
-                    criteria.setOptions('field', fields);
-                }
-                return;
-            });
     }
 
     fillConditionOptions(criteria: Criteria, fieldName: string) {

@@ -6,7 +6,7 @@
         <th class="table-title">{{ criteria.fields.field.title | uppercaseFirst }}</th>
         <td class="form-item">
           <ng-select formControlName="field" [placeholder]="criteria.fields.field.title | uppercaseFirst" (change)="loadConditions($event)">
-              <ng-option *ngFor="let option of criteria.getOptions('field')" [value]="option.get('field')">
+              <ng-option *ngFor="let option of criteriaList" [value]="option.get('field')">
                   {{option.get('field') | formatCamelCase }}
               </ng-option>
           </ng-select>

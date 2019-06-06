@@ -7,7 +7,7 @@ import { FormService } from 'src/app/core/utils/form.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
-import { Criteria, CriteriaCondition, CriteriaField, CriteriaValue } from 'src/app/models/criteria';
+import { Criteria, CriteriaCondition, CriteriaValue } from 'src/app/models/criteria';
 import { Gender } from 'src/app/models/beneficiary';
 
 
@@ -26,6 +26,8 @@ export class ModalAddCriteriaComponent implements OnInit {
     public form: FormGroup;
     public displayWeight = false;
     public iconAdvanced = 'arrow_drop_down';
+
+    criteriaList: Array<Criteria>;
 
    // Language
    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -62,7 +64,9 @@ export class ModalAddCriteriaComponent implements OnInit {
     }
 
     loadFields() {
-        this.criteriaService.fillFieldOptions(this.criteria);
+        this.criteriaService.get().subscribe((criteria: any) => {
+            this.criteriaList = criteria.map((criterion: any) => Criteria.apiToModel(criterion));
+        });
     }
 
     loadConditions(fieldName) {
@@ -92,6 +96,16 @@ export class ModalAddCriteriaComponent implements OnInit {
     }
 
     onSubmit() {
+        // get the information about the field with the selected field name
+        this.criteriaList.forEach((option: Criteria) => {
+            if (option.get('field') === this.form.controls.field.value) {
+                this.criteria.set('kindOfBeneficiary', option.get('kindOfBeneficiary'));
+                this.criteria.set('tableString', option.get('tableString'));
+                this.criteria.set('type', option.get('type'));
+                this.criteria.set('field', option.get('field'));
+            }
+        });
+
         this.criteria.set(
             'condition',
             this.criteria.getOptions('condition').filter((option: CriteriaCondition) => {
@@ -113,15 +127,6 @@ export class ModalAddCriteriaComponent implements OnInit {
         }
         this.criteria.set('weight', this.form.controls.weight.value);
 
-        // get the information about the field with the selected field name
-        this.criteria.getOptions('field').forEach((option: CriteriaField) => {
-            if (option.get('field') === this.form.controls.field.value) {
-                this.criteria.set('kindOfBeneficiary', option.get('kindOfBeneficiary'));
-                this.criteria.set('tableString', option.get('tableString'));
-                this.criteria.set('type', option.get('type'));
-                this.criteria.set('field', option);
-            }
-        });
 
         if (
             (this.form.controls.field.value === 'gender' ||

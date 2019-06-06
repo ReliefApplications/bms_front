@@ -143,9 +143,7 @@ export class Criteria extends CustomModel {
 
         }
         newCriteria.set('type', criteriaFromApi.type);
-        newCriteria.set('kindOfBeneficiary', criteriaFromApi.distribution_type ?
-            criteriaFromApi.distribution_type :
-            criteriaFromApi.kind_beneficiary);
+        newCriteria.set('kindOfBeneficiary', criteriaFromApi.kind_beneficiary);
         newCriteria.set('condition', criteriaFromApi.condition_string ?
             new CriteriaCondition(null, criteriaFromApi.condition_string) :
             null);

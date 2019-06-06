@@ -79,6 +79,9 @@ export class HouseholdFilters extends CustomModel {
                 householdFilters.set('adm2', null);
                 householdFilters.set('adm3', null);
                 householdFilters.set('adm4', null);
+                form.controls.adm2.setValue(null);
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
                 const location = householdFilters.get<Location>('location');
                 appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {
                     householdFilters.set('location', location);
@@ -96,6 +99,8 @@ export class HouseholdFilters extends CustomModel {
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
                 householdFilters.set('adm3', null);
                 householdFilters.set('adm4', null);
                 const location = householdFilters.get<Location>('location');
@@ -115,6 +120,7 @@ export class HouseholdFilters extends CustomModel {
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
+                form.controls.adm4.setValue(null);
                 householdFilters.set('adm4', null);
                 const location = householdFilters.get<Location>('location');
                 appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {

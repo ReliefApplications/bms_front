@@ -28,15 +28,15 @@
         </td>
       </tr>
 
-      <tr class="modal-row" *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
+      <tr class="modal-row" *ngIf="needsValue(form.controls.field.value)">
         <th class="table-title">{{ criteria.fields.value.title  | uppercaseFirst }}</th>
         <td class="form-item">
-          <ng-select *ngIf="form.controls.field.value === 'gender'" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
+          <ng-select *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'headOfHouseholdGender'" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
             <ng-option *ngFor="let gender of criteria.genders" [value]="gender.get('id')">{{gender.get('name')}}</ng-option>
           </ng-select>
           <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="false"></app-hint-error>
 
-          <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth'">
+          <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'headOfHouseholdDateOfBirth'">
               <input formControlName="value" matInput [matDatepicker]="date">
               <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
               <mat-datepicker #date></mat-datepicker>

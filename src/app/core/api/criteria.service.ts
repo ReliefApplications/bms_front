@@ -39,9 +39,9 @@ export class CriteriaService extends CustomModelService {
             const conditions = new Array<CriteriaCondition>();
             let conditionNames = [];
 
-            if ((fieldName === 'dateOfBirth')) {
+            if ((fieldName === 'dateOfBirth') || (fieldName === 'headOfHouseholdDateOfBirth')) {
                 conditionNames = ['>', '<', '>=', '<=', '=', '!='];
-            }  else if ((fieldName === 'gender') || (fieldName === 'equityCardNo')) {
+            }  else if ((fieldName === 'gender') || (fieldName === 'equityCardNo') || (fieldName === 'headOfHouseholdGender')) {
                 conditionNames = ['=', '!='];
             } else if (fieldName === 'IDPoor') {
                 conditionNames = ['='];

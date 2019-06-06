@@ -77,18 +77,17 @@ export class ModalAddCriteriaComponent implements OnInit {
         this.form.controls.value.setValue(null);
     }
 
+    needsValue(field) {
+        return ['gender', 'dateOfBirth', 'equityCardNo', 'IDPoor', 'headOfHouseholdDateOfBirth', 'headOfHouseholdGender'].includes(field);
+    }
+
     /**
    * Function to change the value of the displayWeight variable
    * and the icon used
    */
     changeDisplay() {
         this.displayWeight = !this.displayWeight;
-
-        if (this.displayWeight) {
-            this.iconAdvanced = 'arrow_drop_up';
-        } else {
-            this.iconAdvanced = 'arrow_drop_down';
-        }
+        this.iconAdvanced = this.displayWeight ? 'arrow_drop_up' : 'arrow_drop_down';
     }
 
     onCancel() {

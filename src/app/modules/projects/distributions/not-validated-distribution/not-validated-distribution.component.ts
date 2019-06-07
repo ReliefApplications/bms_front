@@ -3,18 +3,18 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatStepper, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { DistributionService } from 'src/app/core/api/distribution.service';
-import { NetworkService } from 'src/app/core/api/network.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Beneficiary } from 'src/app/model/beneficiary';
-import { Distribution } from 'src/app/model/distribution';
-import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
-import { User } from 'src/app/model/user';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { Beneficiary } from 'src/app/models/beneficiary';
+import { Distribution } from 'src/app/models/distribution';
+import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
+import { User } from 'src/app/models/user';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { BeneficiariesService } from './../../../../core/api/beneficiaries.service';
 
 @Component({
@@ -64,8 +64,6 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
 
   // AddBeneficiary Dialog variables.
-  beneficiaryList = new Array<Beneficiary>();
-  selectedBeneficiariesControl = new FormControl([], [Validators.minLength(1)]);
   selected = false;
 
   actualUser = new User();
@@ -128,17 +126,16 @@ getDistributionBeneficiaries(type: string) {
             if (type === 'initial') {
                 // Step 1 table
                 this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
-                this.loadingFirstStep = false;
             } else if (type === 'final') {
                 // Step 4 table
                 this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
-                this.loadingFinalStep = false;
             } else if (type === 'both') {
                 this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
                 this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
-                this.loadingFirstStep = false;
-                this.loadingFinalStep = false;
             }
+
+            this.loadingFirstStep = false;
+            this.loadingFinalStep = false;
             this.generateRandom();
 
             if (this.loadingDatas === true) {
@@ -152,11 +149,13 @@ getDistributionBeneficiaries(type: string) {
 }
 
 setDistributionBenefAndGetBenef(distributionBeneficiaries: any): Beneficiary[] {
-    this.actualDistribution.set(
-        'distributionBeneficiaries',
-        distributionBeneficiaries
-            .map((distributionBeneficiariy: any) =>
-                DistributionBeneficiary.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
+    if (distributionBeneficiaries) {
+        this.actualDistribution.set(
+            'distributionBeneficiaries',
+            distributionBeneficiaries
+                .map((distributionBeneficiariy: any) =>
+                    DistributionBeneficiary.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
+    }
     return this.actualDistribution.get<DistributionBeneficiary[]>('distributionBeneficiaries').map(
         (distributionBeneficiariy: any) => distributionBeneficiariy.get('beneficiary')
     );
@@ -172,34 +171,6 @@ storeBeneficiaries() {
 
   jumpStep(stepper: MatStepper) {
     stepper.next();
-}
-
-/**
- * Gets all the beneficiaries of the project to be able to add some to this distribution
- */
-getProjectBeneficiaries() {
-    this.loadingAdd = true;
-    const target = this.actualDistribution.get('type').get<string>('name');
-
-    this.beneficiariesService.getAllFromProject(this.actualDistribution.get('project').get('id'), target)
-        .subscribe(
-            allBeneficiaries => {
-                this.loadingAdd = false;
-                if (allBeneficiaries) {
-                    this.beneficiaryList = allBeneficiaries.map((beneficiary: any) => Beneficiary.apiToModel(beneficiary));
-                } else {
-                    this.cacheService.get(
-                        AsyncacheService.PROJECTS + '_' + this.actualDistribution.get('project').get('id') + '_beneficiaries')
-                        .subscribe(
-                            beneficiaries => {
-                                if (beneficiaries) {
-                                    this.beneficiaryList = beneficiaries.map((beneficiary: any) => Beneficiary.apiToModel(beneficiary));
-                                }
-                            }
-                        );
-                }
-            }
-        );
 }
 
 /**
@@ -228,34 +199,6 @@ openDialog(template) {
 exit(message: string) {
     this.snackbar.info(message);
     this.dialog.closeAll();
-}
-
-/**
- * To confirm on AddBeneficiary dialog
- */
-confirmAdding() {
-    this.dialog.closeAll();
-    const beneficiariesArray = this.selectedBeneficiariesControl.value.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
-    this.beneficiariesService.add(this.actualDistribution.get('id'), beneficiariesArray)
-        .subscribe(
-            success => {
-                if (this.networkService.getStatus()) {
-                    this.distributionService.getBeneficiaries(this.actualDistribution.get('id'))
-                        .subscribe(
-                            distributionBeneficiaries => {
-                                if (distributionBeneficiaries) {
-                                    const beneficiaries = this.setDistributionBenefAndGetBenef(distributionBeneficiaries);
-                                    this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
-                                }
-                            }
-                        );
-                    this.snackbar.success(this.language.distribution_beneficiary_added);
-                    this.getDistributionBeneficiaries('final');
-                }
-            },
-            error => {
-                this.snackbar.error(error.error ? error.error : this.language.distribution_beneficiary_not_added);
-            });
 }
 
 /**
@@ -289,9 +232,11 @@ confirmValidation() {
                     }
                 );
         } else {
+            this.loaderValidation = false;
             this.snackbar.error(this.language.distribution_error_validate);
         }
     } else {
+        this.loaderValidation = false;
         this.snackbar.error(this.language.distribution_no_right_validate);
     }
 
@@ -318,12 +263,14 @@ generateRandom() {
         this.beneficiariesService.getRandom(this.actualDistribution.get('id'), sampleLength)
             .subscribe(
                 response => {
-                    const data = response.map((beneficiary: any) => {
-                        const newBeneficiary = Beneficiary.apiToModel(beneficiary);
-                        newBeneficiary.set('distributionId', this.actualDistribution.get('id'));
-                        return newBeneficiary;
-                    });
-                    this.randomSampleData = new MatTableDataSource(data);
+                    if (response) {
+                        const data = response.map((beneficiary: any) => {
+                            const newBeneficiary = Beneficiary.apiToModel(beneficiary);
+                            newBeneficiary.set('distributionId', this.actualDistribution.get('id'));
+                            return newBeneficiary;
+                        });
+                        this.randomSampleData = new MatTableDataSource(data);
+                    }
                     this.loadingThirdStep = false;
                 }, error => {
                     this.loadingThirdStep = false;
@@ -391,14 +338,31 @@ setType(step, choice) {
     }
 }
 
-/**
+    /**
 	* open each modal dialog
 	*/
     openModal(dialogDetails: any): void {
-        // Can only be a modalDetails
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+        this.modalService.isLoading.subscribe(() => {
+            this.loadingFirstStep = true;
+            this.loadingFinalStep = true;
+        });
         this.modalService.isCompleted.subscribe(() => {
-            this.getDistributionBeneficiaries('both');
+            if (this.networkService.getStatus() && dialogDetails.action === 'addBeneficiary') {
+                this.distributionService.getBeneficiaries(this.actualDistribution.get('id'))
+                    .subscribe(
+                        distributionBeneficiaries => {
+                            if (distributionBeneficiaries) {
+                                const beneficiaries = this.setDistributionBenefAndGetBenef(distributionBeneficiaries);
+                                this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
+                            }
+                        }
+                    );
+                this.snackbar.success(this.language.distribution_beneficiary_added);
+                this.getDistributionBeneficiaries('final');
+            } else {
+                this.getDistributionBeneficiaries('both');
+            }
         });
     }
 

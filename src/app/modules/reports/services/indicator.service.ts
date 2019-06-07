@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpService } from 'src/app/core/network/http.service';
 // Constants
 import { URL_BMS_API } from '../../../../environments/environment';
-import { HttpService } from '../../../core/api/http.service';
+
 
 
 @Injectable({
@@ -32,9 +33,6 @@ export class IndicatorService {
     public getAllGraphs(filters: object) {
         this.formatFilters(filters);
         const url = `${this.api}/filtered`;
-        // const params = Object.keys(filters).map(key => key + '=' + filters[key]).join('&');
-        // console.log(url + params);
-        // const params = new HttpParams(filters);
         const options = {
             params: filters
         };

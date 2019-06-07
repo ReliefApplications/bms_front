@@ -5,13 +5,14 @@ import { NotFoundComponent } from './components/error-pages/not-found/not-found.
 // Services
 import { AuthGuard } from './core/guards/auth.guard';
 import { DeactivateGuard } from './core/guards/deactivate.guard';
+import { LogoutGuard } from './core/guards/logout.guard';
 import { PermissionsGuard } from './core/guards/permissions.guard';
 import { CountryResolver } from './core/resolvers/countries.resolver';
-import { BeneficiariesImportComponent } from './modules/beneficiary/beneficiaries-import/beneficiaries-import.component';
-import { ImportedDataComponent } from './modules/beneficiary/beneficiaries-import/imported-data/imported-data.component';
-import { BeneficiariesComponent } from './modules/beneficiary/beneficiaries.component';
-import { DataValidationComponent } from './modules/beneficiary/data-validation/data-validation.component';
-import { UpdateBeneficiaryComponent } from './modules/beneficiary/update-beneficiary/update-beneficiary.component';
+import { BeneficiariesImportComponent } from './modules/beneficiaries/beneficiaries-import/beneficiaries-import.component';
+import { ImportedDataComponent } from './modules/beneficiaries/beneficiaries-import/imported-data/imported-data.component';
+import { BeneficiariesComponent } from './modules/beneficiaries/beneficiaries.component';
+import { DataValidationComponent } from './modules/beneficiaries/data-validation/data-validation.component';
+import { UpdateBeneficiaryComponent } from './modules/beneficiaries/update-beneficiary/update-beneficiary.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
 import { ProfileComponent } from './modules/profile/profile.component';
 import { AddDistributionComponent } from './modules/projects/add-distribution/add-distribution.component';
@@ -20,8 +21,9 @@ import { ProjectComponent } from './modules/projects/project.component';
 // Components
 import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
-import { SettingsComponent } from './modules/settings/settings.component';
+import { GeneralSettingsComponent } from './modules/general-settings/general-settings.component';
 import { VouchersComponent } from './modules/vouchers/vouchers.component';
+import { AdministrationComponent } from './modules/administration/administration.component';
 
 
 // Do not change the order of the routes, it matters
@@ -29,7 +31,8 @@ export const routes: Routes = [
     {
         path: 'login',
         component: LoginComponent,
-        resolve: {language: LanguageResolver, country: CountryResolver}
+        canActivate: [LogoutGuard],
+        resolve: {language: LanguageResolver, country: CountryResolver},
     },
     {
         path: 'projects',
@@ -65,7 +68,7 @@ export const routes: Routes = [
     },
     {
         path: 'settings',
-        component: SettingsComponent,
+        component: GeneralSettingsComponent,
         canActivate: [AuthGuard, PermissionsGuard],
         resolve: {language: LanguageResolver, country: CountryResolver},
     },
@@ -112,6 +115,12 @@ export const routes: Routes = [
     {
         path: 'vouchers',
         component: VouchersComponent,
+        canActivate: [AuthGuard, PermissionsGuard],
+        resolve: {language: LanguageResolver, country: CountryResolver},
+    },
+    {
+        path: 'admin',
+        component: AdministrationComponent,
         canActivate: [AuthGuard, PermissionsGuard],
         resolve: {language: LanguageResolver, country: CountryResolver},
     },

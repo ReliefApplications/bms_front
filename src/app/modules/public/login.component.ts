@@ -7,10 +7,10 @@ import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Country } from 'src/app/model/country';
+import { Country } from 'src/app/models/country';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { ErrorInterface, User } from '../../model/user';
+import { ErrorInterface, User } from '../../models/user';
 
 
 
@@ -91,23 +91,32 @@ export class LoginComponent implements OnInit {
         ));
         subscription.subscribe(
             (user: User) => {
-                this.userService.currentUser = user;
-                if (user.get('countries') &&
-                    user.get<Array<Country>>('countries').length === 0 &&
-                    this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
-                    this.initCountry('KHM', true).subscribe(success => {
-                        this.goToHomePage(user);
-                    });
-                } else {
-                    this.initCountry(user.get<Array<Country>>('countries')[0].get<string>('id'), false).subscribe(success => {
-                        this.goToHomePage(user);
-                    });
-                }
-                this.router.navigate(['/']);
+                if (user) {
+                    this.userService.currentUser = user;
+                    this.asyncacheService.setUser(user).subscribe();
+
+                    if (user.get('countries') &&
+                        user.get<Array<Country>>('countries').length === 0 &&
+                        this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
+                        this.initCountry('KHM', true).subscribe((_success: any) => {
+                            this.goToHomePage(user);
+                        });
+                    } else {
+                        this.initCountry(user.get<Array<Country>>('countries')[0].get<string>('id'), false).subscribe((_success: any) => {
+                            this.goToHomePage(user);
+                        });
+                    }
+                    if (user.get<boolean>('changePassword') === true) {
+                        this.router.navigate(['/profile']);
+                        this.snackbar.info(this.language.profile_change_password);
+                    } else {
+                        this.router.navigate(['/']);
+                    }
                 if (user.get<string>('language')) {
                     this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
                 } else {
                     this.languageService.selectedLanguage = this.languageService.stringToLanguage('en');
+                }
                 }
 
                 this.loader = false;
@@ -119,14 +128,20 @@ export class LoginComponent implements OnInit {
     }
 
     goToHomePage(user: User) {
-        if (user.get<string>('language')) {
-            this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
-        } else {
-            // TODO: load default language
-            this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];
-
+        if (user.get<boolean>('changePassword') === true) {
+            this.router.navigate(['/profile']);
+            this.snackbar.info(this.language.profile_change_password);
         }
-        this.router.navigate(['/']);
+        else {
+            if (user.get<string>('language')) {
+            this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
+            } else {
+                // TODO: load default language
+                this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];
+
+            }
+            this.router.navigate(['/']);
+        }
     }
 
     onScriptError() {

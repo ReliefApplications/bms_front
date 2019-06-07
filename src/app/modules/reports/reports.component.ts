@@ -13,9 +13,9 @@ import { ProjectService } from 'src/app/core/api/project.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { Distribution } from 'src/app/model/distribution';
-import { Project } from 'src/app/model/project';
+import { Distribution } from 'src/app/models/distribution';
+import { Project } from 'src/app/models/project';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { GraphDTO } from './dto/graph.dto';
 import { Graph } from './dto/graph.model';
 import { IndicatorService } from './services/indicator.service';
@@ -197,7 +197,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
 //
 // ─── FORM CHANGES SUBSRIPTIONS ──────────────────────────────────────────────────
 //
-
     private generateFormsEvents() {
         this.subscriptions = [
             // Send request when project report form is valid
@@ -215,11 +214,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
                 // Remove any selected distributions on project select
                 this.distributionsControl.controls.distributionsSelect.reset();
                 // Get project's distributions
+
                 this.distributionService.getByProject(project.get<number>('id'))
                     .subscribe((apiDistributions: Array<any>) => {
-                        this.distributions = apiDistributions.map((apiDistribution: any) => {
-                            return Distribution.apiToModel(apiDistribution);
-                    });
+                        if (apiDistributions || apiDistributions === []) {
+                            this.distributions = apiDistributions.map((apiDistribution: any) => {
+                                return Distribution.apiToModel(apiDistribution);
+                            });
+                        }
                 });
             }),
 
@@ -309,7 +311,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
 //
 // ─── PREPARE DATA FOR API ───────────────────────────────────────────────────────
 //
-
     private updateReports() {
 
         this.indicatorService.getAllGraphs(this.generateFilters())

@@ -1,0 +1,34 @@
+<div class="page-container">
+  <div class="container-title">
+    <h2>{{language.header_imported | uppercaseFirst}}</h2>
+  </div>
+
+  <div class="container-table">
+    <div class="container-content box-primary">
+      <div class="content-table">
+        <app-table [isLoading]="false" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'; else mobile" [entity]="referedClassToken" [service]="referedClassService"
+          [data]="data">
+        </app-table>
+
+        <ng-template #mobile>
+            <app-table-mobile [isLoading]="false" [entity]="referedClassToken" [service]="referedClassService"
+                [data]="data">
+            </app-table-mobile>
+        </ng-template>
+      </div>
+
+      <div class="content-button content-button-footer">
+        <div class="action-buttons">
+          <button mat-raised-button class="button-background-primary project-button" (click)="goProject()">
+            <mat-icon>assignment</mat-icon>
+            <span>{{ language.import_back_to_project }}</span>
+          </button>
+          <button mat-raised-button class="button-background-primary" (click)="goBeneficiaries()">
+            <mat-icon>supervisor_account</mat-icon>
+            <span>{{ language.import_back_to_beneficiaries }}</span>
+          </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

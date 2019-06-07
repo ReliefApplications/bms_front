@@ -5,7 +5,7 @@ import { timer } from 'rxjs';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { StoredRequestInterface } from 'src/app/model/stored-request';
+import { StoredRequestInterface } from 'src/app/models/interfaces/stored-request';
 
 @Component({
     selector: 'app-modal-requests',

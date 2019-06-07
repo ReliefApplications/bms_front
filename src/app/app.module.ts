@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { LivechatWidgetModule } from '@livechat/angular-widget';
 import { environment } from '../environments/environment';
 import { setAppInjector } from './app-injector';
 import { AppComponent } from './app.component';
@@ -13,14 +14,14 @@ import { NotFoundComponent } from './components/error-pages/not-found/not-found.
 import { HeaderMobileComponent } from './components/headers/header-mobile/header-mobile.component';
 import { HeaderComponent } from './components/headers/header/header.component';
 import { RequestDisplayComponent } from './components/headers/request-display/request-display.component';
-import { ModalLeaveComponent } from './components/modals/modal-leave/modal-leave.component';
+import { ModalConfirmationComponent } from './components/modals/modal-confirmation/modal-confirmation.component';
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
 import { ModalComponent } from './components/modals/modal.component';
-import { UpdateService } from './core/api/update.service';
 import { httpInterceptorProviders } from './core/interceptors/index-interceptors';
-import { CustomDateAdapter } from './core/utils/date.adapter';
+import { UpdateService } from './core/service-worker/update.service';
 import { ProfileComponent } from './modules/profile/profile.component';
 import { ReportsModule } from './modules/reports/reports.module';
+import { CustomDateAdapter } from './shared/adapters/date.adapter';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
@@ -30,7 +31,7 @@ import { SharedModule } from './shared/shared.module';
         ProfileComponent,
         HeaderMobileComponent,
         HeaderComponent,
-        ModalLeaveComponent,
+        ModalConfirmationComponent,
         RequestDisplayComponent,
         ModalRequestsComponent,
         ModalComponent,
@@ -43,6 +44,7 @@ import { SharedModule } from './shared/shared.module';
         HttpClientModule,
         SharedModule,
         HttpModule,
+        LivechatWidgetModule,
 
         // Reporting
         ReportsModule,

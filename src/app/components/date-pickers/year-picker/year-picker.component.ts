@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import { CustomDateAdapter } from 'src/app/core/utils/date.adapter';
+import { CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 
 // Please look at https://stackoverflow.com/questions/49569854/mat-date-formats-definition-meaning-of-fields for more info

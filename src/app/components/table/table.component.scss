@@ -1,4 +1,5 @@
 @import '../../../assets/css/variable.scss';
+@import '../../../assets/css/global.scss';
 
 .table-container {
     display: block;
@@ -8,6 +9,31 @@
     .mat-form-field {
         font-size: 14px;
         width: 100%;
+    }
+
+    .buttons-header {
+        display: flex;
+    }
+
+    .container-header {
+        width: 25%;
+        mat-icon {
+            vertical-align: middle;
+            color: rgba(0, 0, 0, 0.54);
+            margin-right: 5px;
+        }
+    }
+
+    .buttons-search-clear {
+        margin-left: 10px;
+        button {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        mat-icon.material-icons {
+            margin-left: 0;
+            padding-bottom: 2px;
+        }
     }
 
     .filter-combo {
@@ -102,8 +128,12 @@ button {
     }
 }
 
-.green {
+.light-blue {
     color: $bms_light_blue;
+}
+
+.green {
+    color: $bms_green
 }
 
 .red {
@@ -134,9 +164,12 @@ button {
 }
 
 .noDataContainer {
-    text-align: center;
     margin: 10px auto;
     font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    color: $bms_dark_grey;
 }
 
 .waitingDataContainer {
@@ -180,31 +213,8 @@ button {
     }
 }
 
-.ng-select.multiple-select ::ng-deep .ng-select-container .ng-value-container .ng-value {
-    background-color: #424242;
-}
-
-.ng-select-focused ::ng-deep {
-    .ng-select-container::after {
-        border-color: #424242;
-        border-width: 2px;
-    }
-}
-
 .ng-select.ng-select-multiple ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
     line-height: 25px;
-}
-
-.ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
-    color: #424242;
-}
-
-.ng-select-focused ::ng-deep .ng-arrow {
-    color: #424242 !important;
-}
-
-.ng-select-opened ::ng-deep .ng-option-selected {
-    color: #424242 !important;
 }
 
 .loadingContent {
@@ -220,4 +230,22 @@ mat-table.arabic {
     mat-cell {
         padding-right: 0;
     }
+}
+
+.spinner-container {
+    min-height: 360px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.table-placeholder {
+    height: 400px;
+}
+
+.removed {
+    background-color: $bms_neutral_grey;
+    opacity: 0.7;
 }

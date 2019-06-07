@@ -2,19 +2,19 @@
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
             <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
-                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress | titlecase }} {{ getPercentageValue(commodity) }} % </h4>
+                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress | uppercaseFirst }} {{ getPercentageValue(commodity) }} % </h4>
                 <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">
-                        <h5>{{language.transaction_amount_total | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_total | uppercaseFirst}}</h5>
                         {{ getTotalCommodityValue(commodity) }} {{commodity.get('unit')}}
                     </div>
                     <div class="info_2">
-                        <h5>{{language.transaction_amount_distributed | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_distributed | uppercaseFirst}}</h5>
                         {{ getAmountSent(commodity) }} {{commodity.get('unit')}}
                     </div>
                     <div class="info_3">
-                        <h5>{{language.transaction_amount_used | titlecase}}</h5>
+                        <h5>{{language.transaction_amount_used | uppercaseFirst}}</h5>
                         {{ getReceivedValue(commodity) }} {{commodity.get('unit')}}
                     </div>
 
@@ -24,14 +24,14 @@
 
         <div class="content-button">
             <div class="action-buttons">
-                <button mat-raised-button *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
-                        <span>{{language.voucher_assign | titlecase }}</span>
+                <button [disabled]="actualDistribution.get('finished')" mat-raised-button *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
+                        <span>{{language.voucher_assign | uppercaseFirst }}</span>
                 </button>
                 <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
                 <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                     <button mat-raised-button class="button-background-primary" (click)="exportTransaction(extensionType, 'voucherDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
-                        <span>{{language.export | titlecase}}</span>
+                        <span>{{language.export | uppercaseFirst}}</span>
                     </button>
                     <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">
@@ -49,17 +49,21 @@
                     </div>
                 </div>
             </div>
+            <button mat-raised-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button-create">
+                <mat-icon>add</mat-icon>
+                {{language.add | titlecase}}
+            </button>
+            <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
+                <mat-icon>add</mat-icon>
+            </button>
         </div>
 
-        <div class="waitingDataContainer" *ngIf="loadingTransaction">
-            <mat-spinner></mat-spinner>
-        </div>
-
-        <div class="content-table" *ngIf="!loadingTransaction">
-            <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
-                [assignable]="true" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)">
+        <div class="content-table">
+            <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
+                [assignable]="!actualDistribution.get('finished')" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table>
-            <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true" [assignable]="true" (printOne)="print($event)" (assignOne)="assign($event)">
+            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
+                [assignable]="!actualDistribution.get('finished')" (printOne)="print($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table-mobile>
         </div>
 

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { User } from 'src/app/model/user';
+import { User } from 'src/app/models/user';
 import { UserService } from '../api/user.service';
 import { SnackbarService } from '../logging/snackbar.service';
 
@@ -34,7 +34,9 @@ export class PermissionsGuard implements CanActivate {
             return this.authenticationService.getUser()
             .pipe(
                 map((user: User) => {
-                this.userService.currentUser = user;
+                    if (user) {
+                        this.userService.currentUser = User.apiToModel(user);
+                    }
                 return this.checkPermissionsWrapper(route);
             }));
         }
@@ -66,7 +68,10 @@ export class PermissionsGuard implements CanActivate {
 
         if (segmentedRoute[0] === 'settings') {
             return this.userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS');
+        }
 
+        if (segmentedRoute[0] === 'admin') {
+            return this.userService.hasRights('ROLE_ADMIN');
         }
         return true;
 

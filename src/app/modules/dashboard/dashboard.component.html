@@ -2,34 +2,38 @@
     <div class="container-boxes">
         <div class="boxes-map">
             <div class="container-title">
-                <h1 >{{language.dashboard_distribution_map | titlecase}}</h1>
+                <h1 >{{language.dashboard_distribution_map | uppercaseFirst}}</h1>
             </div>
             <div class="map-content">
                 <div id="map"></div>
             </div>
         </div>
         <div *ngIf="currentDisplayType.type !== 'mobile'" class="boxes-summary">
-            <h1 class="dashboard-title">{{language.dashboard_summary | titlecase}}</h1>
+            <h1 class="dashboard-title">{{language.dashboard_summary | uppercaseFirst}}</h1>
             <app-placeholder-summary *ngIf="loadingSummary" class="summary-content"></app-placeholder-summary>
             <div class="summary-content" *ngIf="!loadingSummary">
                 <div class="lign-container">
-                    <app-box-dashboard [info]='{icon: "home", color: "green", title:language.dashboard_summary_1, subtitle:summary[0], ref:""}'></app-box-dashboard>
-                    <app-box-dashboard [info]='{icon: "project", color: "green", title:language.dashboard_summary_2, subtitle:summary[1], undersubtitle:"",ref:""}'></app-box-dashboard>
+                    <app-box-dashboard [info]='{icon: "group", color: "green", title:language.dashboard_summary_1, subtitle:summary[0], ref:""}'></app-box-dashboard>
+                    <app-box-dashboard [info]='{icon: "assignment", color: "blue", title:language.dashboard_summary_2, subtitle:summary[1], undersubtitle:"",ref:""}'></app-box-dashboard>
                 </div>
                 <div class="lign-container">
-                    <app-box-dashboard [info]='{icon: "enrol", color: "blue", title:language.dashboard_summary_3, subtitle:summary[2], undersubtitle:"",ref:""}'></app-box-dashboard>
-                    <app-box-dashboard [info]='{icon: "dollar", color: "blue", title:language.dashboard_summary_4, subtitle:summary[3], undersubtitle:"",ref:""}'></app-box-dashboard>
+                    <app-box-dashboard [info]='{icon: "group_add", color: "blue", title:language.dashboard_summary_3, subtitle:summary[2], undersubtitle:"",ref:""}'></app-box-dashboard>
+                    <app-box-dashboard [info]='{icon: "monetization_on", color: "green", title:language.dashboard_summary_4, subtitle:summary[3], undersubtitle:"",ref:""}'></app-box-dashboard>
+                </div>
+                <div class="lign-container">
+                    <app-box-dashboard [info]='{icon: "how_to_reg", color: "green", title:language.dashboard_summary_5, subtitle:summary[4], undersubtitle:"",ref:""}'></app-box-dashboard>
+                    <app-box-dashboard [info]='{icon: "assignment_turned_in", color: "blue", title:language.dashboard_summary_6, subtitle:summary[5], undersubtitle:"",ref:""}'></app-box-dashboard>
                 </div>
             </div>
         </div>
     </div>
     <div class="container-distribution">
-        <h1 class="dashboard-title">{{language.dashboard_recent_distributions | titlecase}}</h1>
+        <h1 class="dashboard-title">{{language.dashboard_recent_distributions | uppercaseFirst}}</h1>
         <app-placeholder-panel *ngIf='loadingTable' class="distribution-content-placeholder"></app-placeholder-panel>
         <div class="distribution-content" *ngIf='!loadingTable'>
-        <app-table *ngIf="currentDisplayType.type !== 'mobile'" [deletable]="deletable" [editable]="editable"
+        <app-table *ngIf="currentDisplayType.type !== 'mobile'" [deletable]="false" [editable]="false"
             [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
-        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [deletable]="deletable" [editable]="editable"
+        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [deletable]="false" [editable]="false"
             [entity]="distributionClass" [service]="_distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
         </div>
     </div>

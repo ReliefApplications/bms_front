@@ -8,15 +8,18 @@ import { ModalDeleteComponent } from 'src/app/components/modals/modal-delete/mod
 import { ModalDetailsComponent } from 'src/app/components/modals/modal-details/modal-details.component';
 import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Beneficiary } from 'src/app/model/beneficiary';
-import { Commodity } from 'src/app/model/commodity';
-import { Criteria } from 'src/app/model/criteria';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
+import { Beneficiary } from 'src/app/models/beneficiary';
+import { Commodity } from 'src/app/models/commodity';
+import { Criteria } from 'src/app/models/criteria';
+import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { CommodityService } from '../api/commodity.service';
 import { CriteriaService } from '../api/criteria.service';
-import { NetworkService } from '../api/network.service';
+import { NetworkService } from '../network/network.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { SnackbarService } from '../logging/snackbar.service';
+import { ModalDeleteBeneficiaryComponent } from 'src/app/components/modals/modal-delete-beneficiary/modal-delete-beneficiary.component';
+import { ModalAddBeneficiaryComponent } from 'src/app/components/modals/modal-add-beneficiary/modal-add-beneficiary.component';
+import { Distribution } from 'src/app/models/distribution';
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +31,7 @@ export class ModalService {
     public referedClassInstance;
 
     isCompleted = new Subject;
+    isLoading = new Subject;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -54,6 +58,9 @@ export class ModalService {
             case 'add':
                 dialogRef = this.openAddDialog();
                 break;
+            case 'addBeneficiary':
+                dialogRef = this.openAddBeneficiaryDialog(dialogDetails.distribution);
+                break;
             case 'details':
                 dialogRef = this.openDetailsDialog(dialogDetails.element);
                 break;
@@ -61,7 +68,14 @@ export class ModalService {
                 dialogRef = this.openEditDialog(dialogDetails.element);
                 break;
             case 'delete':
-                dialogRef = this.openDeleteDialog(dialogDetails.element);
+                if (dialogDetails.element instanceof Beneficiary) {
+                    dialogRef = this.openDeleteBeneficiaryDialog(dialogDetails.element);
+                } else {
+                    dialogRef = this.openDeleteDialog(dialogDetails.element);
+                }
+                break;
+            case 'deleteMany':
+                dialogRef = this.openDeleteManyDialog(dialogDetails.ids);
                 break;
             case 'visit':
                 this.referedClassService.visit(dialogDetails.element.get('id'));
@@ -72,9 +86,10 @@ export class ModalService {
         }
 
         if (dialogRef) {
-            const subscription = dialogRef.afterClosed().subscribe((closeMethod: string) => {
+            const subscription = dialogRef.afterClosed().subscribe((closeMethod: any) => {
                 // TODO: add enum for modal methods
                 if (closeMethod === 'Add') {
+                    this.isLoading.next();
                     this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
                         this.snackbar.success(
                             this.referedClassInstance.title + ' ' + this.language.update_beneficiary_created_successfully
@@ -85,7 +100,18 @@ export class ModalService {
                 } else if (closeMethod === 'Edit') {
                     this.updateElement(dialogDetails.element);
                 } else if (closeMethod === 'Delete') {
-                    this.deleteElement(dialogDetails.element);
+                    this.isLoading.next();
+                    if (dialogDetails.action === 'delete') {
+                        this.deleteElement(dialogDetails.element);
+                    } else {
+                        this.deleteMany(dialogDetails.ids);
+                    }
+                } else if (closeMethod && closeMethod.method === 'AddBeneficiary') {
+                    this.isLoading.next();
+                    this.addBeneficiary(closeMethod.beneficiaries, closeMethod.justification, dialogDetails.distribution);
+                } else if (closeMethod && closeMethod.method === 'DeleteBeneficiary') {
+                    this.isLoading.next();
+                    this.deleteBeneficiary(dialogDetails.element, closeMethod.justification);
                 }
                 // Prevent memory leaks
                 subscription.unsubscribe();
@@ -100,6 +126,14 @@ export class ModalService {
         return this.dialog.open(ModalAddComponent, {
             data: {
                 objectInstance: this.referedClassInstance,
+            }
+        });
+    }
+
+    openAddBeneficiaryDialog(distribution: Distribution) {
+        return this.dialog.open(ModalAddBeneficiaryComponent, {
+            data: {
+                distribution: distribution
             }
         });
     }
@@ -126,6 +160,22 @@ export class ModalService {
         return this.dialog.open(ModalDeleteComponent, {
             data: {
                 name: objectInfo.getIdentifyingName(),
+            }
+        });
+    }
+
+    openDeleteBeneficiaryDialog(beneficiary: Beneficiary) {
+        return this.dialog.open(ModalDeleteBeneficiaryComponent, {
+            data: {
+                beneficiary: beneficiary.getIdentifyingName(),
+            }
+        });
+    }
+
+    openDeleteManyDialog(ids: Array<string>) {
+        return this.dialog.open(ModalDeleteComponent, {
+            data: {
+                name: this.language.modal_delete_many,
             }
         });
     }
@@ -174,7 +224,7 @@ export class ModalService {
 
     updateElement(updateElement) {
         const apiUpdateElement = updateElement.modelToApi(updateElement);
-        this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((response: any) => {
+        this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((_response: any) => {
         this.isCompleted.next();
         });
     }
@@ -182,14 +232,41 @@ export class ModalService {
     deleteElement(deleteElement: CustomModel) {
 
         if (deleteElement instanceof Beneficiary) {
-            this.referedClassService.delete(deleteElement.get('id'), deleteElement.get('distributionId')).subscribe(response => {
+            this.referedClassService.delete(deleteElement.get('id'), deleteElement.get('distributionId')).subscribe((_response: any) => {
                 this.isCompleted.next();
                 });
         } else {
-            this.referedClassService.delete(deleteElement.get('id')).subscribe(response => {
+            this.referedClassService.delete(deleteElement.get('id')).subscribe((_response: any) => {
                 this.isCompleted.next();
             });
         }
+    }
+
+    addBeneficiary(beneficiaries: Beneficiary[], justification: string, distribution: Distribution) {
+        const beneficiariesArray = beneficiaries.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
+        this.referedClassService.add(distribution.get('id'), beneficiariesArray, justification)
+        .subscribe(
+            success => {
+               this.isCompleted.next();
+            },
+            error => {
+                this.isCompleted.next();
+                this.snackbar.error(error.error ? error.error : this.language.distribution_beneficiary_not_added);
+            });
+
+    }
+
+    deleteBeneficiary(beneficiary: Beneficiary, justification) {
+        this.referedClassService.delete(beneficiary.get('id'), beneficiary.get('distributionId'), justification)
+            .subscribe((_response: any) => {
+                this.isCompleted.next();
+            });
+    }
+
+    deleteMany(ids: Array<number>) {
+        this.referedClassService.deleteMany(ids).subscribe((_response: any) => {
+            this.isCompleted.next();
+        });
     }
 
     // createElement(createElement: Object) {

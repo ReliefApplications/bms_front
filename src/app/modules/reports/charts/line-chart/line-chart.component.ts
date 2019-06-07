@@ -8,6 +8,7 @@ import { BaseChartComponent } from '../base-chart/base-chart.component';
     templateUrl: './line-chart.component.html',
     styleUrls: [ './line-chart.component.scss' ]
 })
+
 export class LineChartComponent extends BaseChartComponent implements OnInit {
 
     dataSet: ChartDataSets;

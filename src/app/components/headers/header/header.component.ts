@@ -2,13 +2,16 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/core/api/user.service';
+import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { Language } from 'src/app/core/language/language';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { Country } from 'src/app/model/country';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { Country } from 'src/app/models/country';
+import { User } from 'src/app/models/user';
 import { ModalLanguageComponent } from './../../modals/modal-language/modal-language.component';
 
 export interface Breadcrumb {
@@ -49,6 +52,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private countriesService: CountriesService,
         private router: Router,
         private screenSizeService: ScreenSizeService,
+        private authenticationService: AuthenticationService,
+        private userService: UserService,
     ) {
 
     }
@@ -138,7 +143,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //
 
     /**
-     * Update the breadcrumb according to the current route
+     * Update the tooltip according to the current route
      */
     updateTooltip(url: string) {
         const currentRoute = url.split('?')[0].split('/');
@@ -150,5 +155,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
 
         this.tooltip = (page === '') ? this.language['tooltip_dashboard'] : this.language['tooltip_' + page.replace('-', '_')];
+    }
+
+    //
+    // ─── LOGOUT ─────────────────────────────────────────────────────────────────────
+    //
+
+    logout() {
+        this.authenticationService.logout().subscribe((_user: User) => {
+            this.userService.currentUser = undefined;
+            this.router.navigate(['/login']);
+        });
     }
 }

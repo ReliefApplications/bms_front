@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 
 @Component({
     selector: 'app-box-setting',

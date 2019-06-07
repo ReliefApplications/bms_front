@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Beneficiary } from 'src/app/model/beneficiary';
-import { Distribution } from 'src/app/model/distribution';
-import { Project } from 'src/app/model/project';
+import { Beneficiary } from 'src/app/models/beneficiary';
+import { Distribution } from 'src/app/models/distribution';
+import { Project } from 'src/app/models/project';
 import { ModalComponent } from '../modal.component';
 
 @Component({
@@ -49,7 +49,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
             this.distributionName = this.data.distribution.get('name');
             if (this.data.beneficiary) {
                 this.beneficiaryControl.setValue(this.data.beneficiary.get('id'));
-                this.beneficiaryName = this.data.beneficiary.get('fullName');
+                this.beneficiaryName = this.data.beneficiary.get('localFullName');
             } else if (this.data.beneficiaries) {
                 this.beneficiaries = this.data.beneficiaries;
             }
@@ -65,7 +65,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
         this.distributionService.getQrVoucherByProject(this.projectControl.value)
             .subscribe(
                 response => {
-                    if (response || response === []) {
+                    if (response) {
                         // this.distributions = this.distributionClass.formatArray(response);
                         this.distributions = response.map((distribution: any) => Distribution.apiToModel(distribution));
                         this.distributionControl.setValue(null);
@@ -85,7 +85,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
             .subscribe(
                 response => {
 
-                    if (response || response === []) {
+                    if (response) {
                         // this.beneficiaries = this.beneficiariesClass.formatArray(response);
                         this.beneficiaries = response
                             .map((distributionBeneficiary: any) => Beneficiary.apiToModel(distributionBeneficiary.beneficiary));
@@ -111,7 +111,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
                         (distribution: Distribution) => distribution.get('id') === this.distributionControl.value)[0].get('name');
                 } if (!this.data.beneficiary) {
                     this.beneficiaryName = this.beneficiaries.filter(
-                        (beneficiary: Beneficiary) => beneficiary.get('id') === this.beneficiaryControl.value)[0].get('fullName');
+                        (beneficiary: Beneficiary) => beneficiary.get('id') === this.beneficiaryControl.value)[0].get('localFullName');
                 }
                 this.step = 2;
             }
@@ -157,7 +157,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
                             }
                         )
                     );
-                forkJoin(assignObservable, passwordObservable).subscribe((res: any) => {
+                forkJoin(assignObservable, passwordObservable).subscribe((_: any) => {
                     this.snackbar.success(
                     this.language.voucher_assigned_success + this.beneficiaryName);
                     this.dialog.closeAll();
@@ -165,7 +165,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
                     this.snackbar.error(err.error);
                 });
             } else {
-                assignObservable.subscribe((res: any) => {
+                assignObservable.subscribe((_: any) => {
                     this.snackbar.success(
                     this.language.voucher_assigned_success + this.beneficiaryName);
                     this.dialog.closeAll();

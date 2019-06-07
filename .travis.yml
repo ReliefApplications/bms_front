@@ -15,7 +15,7 @@ install:
 jobs:
     include:
         - stage: test
-          script: npm run lint
+          script: npm run lint && npm run build -- --prod --stats-json
           fast_finish: true
         - stage: deploy
           if: branch = dev AND NOT type = "pull_request"
@@ -24,7 +24,7 @@ jobs:
               - sudo pip3 install awscli --upgrade
           script: ./build-deploy.sh testing
         - stage: deploy
-          if: branch = voucher AND NOT type = "pull_request"
+          if: branch = 2.0 AND NOT type = "pull_request"
           before_install:
               - sudo apt-get install python3-pip
               - sudo pip3 install awscli --upgrade

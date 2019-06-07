@@ -1,41 +1,22 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DateAdapter, MatDialog, MatPaginator, MatSort, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { Router } from '@angular/router';
-import { CustomModelService } from 'src/app/core/api/custom-model.service';
+import { CustomModelService } from 'src/app/core/utils/custom-model.service';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { LocationService } from 'src/app/core/api/location.service';
-import { NetworkService } from 'src/app/core/api/network.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
-import { CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
+import { CustomModel } from 'src/app/models/custom-models/custom-model';
+import { TextModelField } from 'src/app/models/custom-models/text-model-field';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ExportService } from '../../core/api/export.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
-
-
-// Todo: is this necessary ?
-// const rangeLabel = (page: number, pageSize: number, length: number) => {
-//     const table = GlobalText.TEXTS;
-
-//     if (length === 0 || pageSize === 0) { return `0 ` + table.table_of_page + ` ${length}`; }
-
-//     length = Math.max(length, 0);
-
-//     const startIndex = page * pageSize;
-
-//     // If the start index exceeds the list length, do not try and fix the end index to the end.
-//     const endIndex = startIndex < length ?
-//         Math.min(startIndex + pageSize, length) :
-//         startIndex + pageSize;
-
-//     return `${startIndex + 1} - ${endIndex} ` + table.table_of_page + ` ${length}`;
-// };
 
 @Component({
     selector: 'app-table',
@@ -71,6 +52,8 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Input() updatable = false;
     @Input() printable = false;
     @Input() assignable = false;
+    @Input() justifiable = false;
+    @Input() duplicable = false;
 
     @Input() searchable = false;
     @Input() paginable = false;
@@ -96,11 +79,15 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Input() service: CustomModelService;
     @Input() selection: any;
 
+    @Input() isLoading: boolean;
+
     @Output() selectChecked = new EventEmitter<any>();
 
     @Output() openModal = new EventEmitter<object>();
     @Output() printOne = new EventEmitter<any>();
     @Output() assignOne = new EventEmitter<any>();
+    @Output() justifyOne = new EventEmitter<any>();
+    @Output() duplicateOne = new EventEmitter<any>();
 
     sortedData: any;
     allData: any = undefined;
@@ -158,7 +145,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
                 } else if (field.kindOfField === 'SingleSelect') {
                     value = field.value ? field.value.get(field.bindField) : '';
                 } else if (field.kindOfField === 'Date') {
-                    value = field.value;
+                    value = field.formatForApi();
                 } else {
                     value = field.value;
                 }
@@ -254,10 +241,16 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
     public getDisplayedColumns(): string[] {
-        if (this.selectable) {
+        const actionable = this.validatable || this.updatable || this.loggable ||
+            this.editable || this.deletable || this.printable || this.assignable || this.justifiable || this.duplicable;
+        if (this.selectable && actionable) {
             return this.displayProperties ? ['check', ...this.displayProperties, 'actions'] : [];
+        } else if (this.selectable && !actionable) {
+            return this.displayProperties ? ['check', ...this.displayProperties] : [];
+        } else if (!this.selectable && actionable) {
+            return this.displayProperties ? [...this.displayProperties, 'actions'] : [];
         }
-        return this.displayProperties ? [...this.displayProperties, 'actions'] : [];
+        return this.displayProperties ? this.displayProperties : [];
     }
 
     /**
@@ -324,6 +317,14 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     assign(element) {
         this.assignOne.emit(element);
+    }
+
+    justify(element) {
+        this.justifyOne.emit(element);
+    }
+
+    duplicate(element) {
+        this.duplicateOne.emit(element);
     }
 
     requestLogs(element: any) {

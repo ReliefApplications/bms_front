@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { SelectionModel } from '@angular/cdk/collections';
-import { TransactionQRVoucher } from 'src/app/model/transaction-qr-voucher';
-import { Beneficiary } from 'src/app/model/beneficiary';
+import { TransactionQRVoucher } from 'src/app/models/transaction-qr-voucher';
+import { Beneficiary } from 'src/app/models/beneficiary';
 import { MatTableDataSource } from '@angular/material';
-import { BookletStatus } from 'src/app/model/booklet';
-import { Booklet } from 'src/app/model/booklet';
+import { BookletStatus } from 'src/app/models/booklet';
+import { Booklet } from 'src/app/models/booklet';
 import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
 
 @Component({
@@ -31,7 +31,8 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
       this.actualDistribution.set(
           'distributionBeneficiaries',
           distributionBeneficiaries
-              .map((distributionBeneficiariy: any) => TransactionQRVoucher.apiToModel(distributionBeneficiariy)));
+              .map((distributionBeneficiariy: any) =>
+                TransactionQRVoucher.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
   }
 
   formatTransactionTable() {
@@ -93,10 +94,30 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
 	* open each modal dialog
 	*/
   openModal(dialogDetails: any): void {
-    // Can only be a modalDetails
-    this.modalService.openDialog(TransactionQRVoucher, this.beneficiariesService, dialogDetails);
-    this.modalService.isCompleted.subscribe(() => {
-    });
+    if (dialogDetails.action === 'delete') {
+        dialogDetails.element = dialogDetails.element.get('beneficiary');
+        this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            this.getDistributionBeneficiaries();
+        });
+    }  else if (dialogDetails.action === 'addBeneficiary') {
+        this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            if (this.networkService.getStatus()) {
+                this.getDistributionBeneficiaries();
+            }
+        });
+    } else if (dialogDetails.action === 'edit') {
+        dialogDetails.element = dialogDetails.element.get('beneficiary');
+        this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+            this.snackbar.success(this.language.transaction_update_success);
+        });
+    } else {
+        this.modalService.openDialog(TransactionQRVoucher, this.beneficiariesService, dialogDetails);
+        this.modalService.isCompleted.subscribe(() => {
+        });
+    }
   }
 
   print(element: TransactionQRVoucher) {

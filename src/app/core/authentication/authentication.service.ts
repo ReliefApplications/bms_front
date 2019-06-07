@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { Country } from 'src/app/models/country';
 import { URL_BMS_API } from '../../../environments/environment';
-import { SaltInterface } from '../../model/salt';
-import { ErrorInterface, User } from '../../model/user';
+import { SaltInterface } from '../../models/salt';
+import { ErrorInterface, User } from '../../models/user';
+import { CountriesService } from '../countries/countries.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
 
@@ -21,8 +23,9 @@ export class AuthenticationService {
     constructor(
         public _wsseService: WsseService,
         public _cacheService: AsyncacheService,
+        public countryService: CountriesService,
         public http: HttpClient,
-        public router: Router
+        public router: Router,
     ) { }
 
     // Request to the API to get the salt corresponding to a username
@@ -54,7 +57,6 @@ export class AuthenticationService {
                 this.logUser(user.modelToApi()).subscribe((userFromApi: object) => {
                     if (userFromApi) {
                         this.user = User.apiToModel(userFromApi);
-                        this.user.set('loggedIn', true);
                         this.setUser(this.user);
                         resolve(this.user);
                     } else {
@@ -69,21 +71,21 @@ export class AuthenticationService {
         });
     }
 
-    logout(): Observable<User> {
+    logout(): Observable<any> {
         this.resetUser();
-        this.user.set('loggedIn', false);
-        return this._cacheService.clear(false, [AsyncacheService.COUNTRY]).pipe(
-            map(
-                () => this.user
-            )
-        );
+        return this._cacheService.clear(false, [AsyncacheService.COUNTRY]);
     }
 
-    getUser(): Observable<User> {
+    getUser(): Observable<any> {
         return this._cacheService.getUser();
     }
 
     setUser(user: User) {
+        const countries = user.get<Country[]>('countries');
+        if (countries.length === 1) {
+            this.countryService.setCountry(countries[0]);
+            this._cacheService.setCountry(countries[0]).subscribe();
+        }
         this._cacheService.set(AsyncacheService.USER, user.modelToApi());
     }
 
@@ -130,12 +132,5 @@ export class AuthenticationService {
         body.password = saltedPassword;
         body.salt = salt.salt;
         return body;
-    }
-
-    public isLoggedIn(): boolean {
-        if (!this.user) {
-            return false;
-        }
-        return this.user.get('loggedIn');
     }
 }

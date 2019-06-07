@@ -211,3 +211,24 @@
         justify-content: center;
     }
 }
+
+mat-dialog-content .mat-form-field {
+    width: 100%;
+}
+
+.table-content {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    button {
+        margin-top: 15px;
+        width: fit-content;
+    }
+    app-table {
+        width: 100%
+    }
+}
+
+.load-update {
+    align-self: center;
+}

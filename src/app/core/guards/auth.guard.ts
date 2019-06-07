@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { User } from 'src/app/model/user';
+import { User } from 'src/app/models/user';
 import { UserService } from '../api/user.service';
 
 @Injectable({
@@ -25,8 +25,10 @@ export class AuthGuard implements CanActivate {
         if (this.userService.currentUser === undefined) {
             return this.authenticationService.getUser()
             .pipe(
-                map((user: User) => {
-                this.userService.currentUser = user;
+                map((user: any) => {
+                    if (user) {
+                        this.userService.currentUser = User.apiToModel(user);
+                    }
                 return this.checkLoginWrapper();
             }));
         }

@@ -4,19 +4,22 @@ export interface Language {
     readonly LANGUAGE_ISO: string;
     // Utils
     add: string
-    adm1: string
-    adm2: string
-    adm3: string
-    adm4: string
+    adm1: object
+    adm2: object
+    adm3: object
+    adm4: object
+    administrative_settings: string
     back: string
     beneficiaries: string
     beneficiary: string
     cancel: string
     characters: string
     close: string
+    complete: string
     create: string
     delete: string
     details: string
+    description: string
     distribution: string
     distributions: string
     done: string
@@ -24,18 +27,22 @@ export interface Language {
     export: string
     export_codes: string
     gender: string
+    general_settings: string;
     home: string
     households: string
+    id: string
     import: string
     individual: string
     is_required: string
     location: string
+    name: string
     new: string
     next: string
     no_data: string
     phone: string
     project: string
     projects: string
+    remove: string
     reports: string
     rights: string
     save: string
@@ -77,10 +84,15 @@ export interface Language {
     add_beneficiary_getDateOfBirth: string
     add_beneficiary_getFamilyName: string
     add_beneficiary_getGivenName: string
+    add_beneficiary_getEnglishFamilyName: string
+    add_beneficiary_getEnglishGivenName: string
     add_beneficiary_getNationalID: string
     add_beneficiary_getOccupation: string
     add_beneficiary_getTypeNationalId: string
     add_beneficiary_getTypePhone: string
+    add_beneficiary_income: string
+    add_beneficiary_income_level: object
+    add_beneficiary_nationalID: string
     add_beneficiary_res_address: string
     add_beneficiary_step1: string
     add_beneficiary_step2: string
@@ -114,6 +126,7 @@ export interface Language {
     add_distribution_missing_selection_criteria: string
     add_distribution_missing_threshold: string
     add_distribution_multiple_modalities: string
+    add_distribution_no_beneficiaries: string
     add_distribution_selection_criteria: string
     add_distribution_text_explanation: string
     add_distribution_threshold: string
@@ -146,6 +159,8 @@ export interface Language {
     beneficiaries_added: string
     beneficiaries_advanced_research: string
     beneficiaries_clear_all_research: string
+    beneficiaries_english_name: string
+    beneficiaries_local_name: string
     beneficiaries_full_address: string
     beneficiaries_head: string
     beneficiaries_household_info: string
@@ -153,9 +168,12 @@ export interface Language {
     beneficiaries_import_addModal: string
     beneficiaries_import_api: string
     beneficiaries_import_beneficiaries_imported: string
+    beneficiaries_import_canceled: string
     beneficiaries_import_check_fields: string
     beneficiaries_import_csv: string
     beneficiaries_import_convert: string
+    beneficiaries_import_conversion_success: string
+    beneficiaries_import_error_file: string
     beneficiaries_import_error_importing: string
     beneficiaries_import_error_selection: string
     beneficiaries_import_file: string
@@ -167,7 +185,14 @@ export interface Language {
     beneficiaries_location: string
     beneficiaries_member: string
     beneficiaries_missing_selected_project: string
+    beneficiaries_personnal: string
     beneficiaries_proxy: string
+    beneficiaries_referral: string
+    beneficiaries_referral_question: string
+    beneficiaries_referral_type: string
+    beneficiaries_referral_types: object
+    beneficiaries_referral_comment: string
+    beneficiaries_residency: string
     beneficiaries_residency_refugee: string
     beneficiaries_residency_idp: string
     beneficiaries_residency_resident: string
@@ -189,6 +214,9 @@ export interface Language {
     commodity_wash: string
     commodity_agriculture: string
     commodity_rte: string
+    commodity_shelter: string
+    commodity_hygiene: string
+    commodity_dignity: string
 
     // Countries
     country_khm: string
@@ -203,6 +231,8 @@ export interface Language {
     dashboard_summary_2: string
     dashboard_summary_3: string
     dashboard_summary_4: string
+    dashboard_summary_5: string
+    dashboard_summary_6: string
 
     // Data verification
     data_verification_chip_actual: string
@@ -235,6 +265,10 @@ export interface Language {
     // Distribution
     distribution_accept_changed: string
     distribution_add_beneficiaries: string
+    distribution_add_justification: string
+    distribution_justify_added: string
+    distribution_justify_created: string
+    distribution_justify_deleted: string
     distribution_beneficiary_added: string
     distribution_beneficiary_not_added: string
     distribution_cant_update: string
@@ -246,6 +280,7 @@ export interface Language {
     distribution_distribute: string
     distribution_edit: string
     distribution_error_validate: string
+    distribution_last_modification: string
     distribution_no_beneficiaries: string
     distribution_no_random_sample: string
     distribution_no_right_transaction: string
@@ -256,6 +291,7 @@ export interface Language {
     distribution_request_logs: string
     distribution_select_beneficiaries: string
     distribution_show_data: string
+    distribution_succes_completed: string
     distribution_validate: string
     distribution_validated: string
     distribution_validated_title: string
@@ -264,10 +300,12 @@ export interface Language {
     // Header
     'header_add-beneficiaries': string
     'header_add-distribution': string
+    'header_admin': string
     header_beneficiaries: string
     header_disconnect: string
     'header_distributions': string
     'header_data-validation': string
+    'header_settings': string
     header_home: string
     header_import: string
     header_imported: string
@@ -275,7 +313,6 @@ export interface Language {
     header_profile: string
     header_projects: string
     header_reports: string
-    header_settings: string
     'header_update-beneficiary': string
     header_vouchers: string
 
@@ -339,6 +376,12 @@ export interface Language {
     modal_add_multiple_title: string
     modal_check_date: string
     modal_check_fields: string
+    modal_delete_beneficiary: string
+    modal_delete_beneficiary_sentence: string
+    modal_delete_beneficiary_sentence_2: string
+    modal_delete_justification: string
+    modal_delete_many: string
+    modal_complete_distribution: string
     modal_delete_sentence: string
     modal_delete_sentence_2: string
     modal_details_title: string
@@ -355,6 +398,7 @@ export interface Language {
     modal_no_project: string
     modal_password_required: string
     modal_pending_requests: string
+    modal_pick_color: string
     modal_project_name_characters_limit: string
     modal_required: string
     modal_save_language_as_default: string
@@ -367,7 +411,6 @@ export interface Language {
     // Model
     model_beneficiaries_dependents: string
     model_beneficiaries_nationalids: string
-    model_beneficiaries_phones: string
     model_beneficiaries_phone_no: string
     model_beneficiaries_status: string
     model_booklet: string
@@ -398,11 +441,20 @@ export interface Language {
     model_donor: string
     model_donor_fullname: string
     model_donor_shortname: string
+    model_duplicate: string
     model_familyName: string
     model_firstName: string
+    model_household_sentence: string
     model_individual_to_all: string
     model_individual_value: string
+    model_item: string
     model_notes: string
+    model_organization_name: string
+    model_organization_logo: string
+    model_organization_font: string
+    model_organization_primary: string
+    model_organization_secondary: string
+    model_organization_footer: string
     model_product_name: string
     model_product_unit: string
     model_product_image: string
@@ -426,6 +478,7 @@ export interface Language {
     model_used: string
     model_user: string
     model_password: string
+    model_user_password_question: string
     model_value: string
     modal_values_format_error: string
     model_vendors_address: string
@@ -452,6 +505,7 @@ export interface Language {
     placeholder_one_many: string
 
     // Profile
+    profile_change_password: string
     profile_user_change_password: string
     profile_user_hint_new_password: string
     profile_user_hint_new_password_again: string
@@ -508,6 +562,10 @@ export interface Language {
     sector_protection: string
     sector_shelter: string
     sector_water: string
+    sector_cash_for_work: string
+    sector_tvet: string
+    sector_food_kits: string
+    sector_nfi: string
 
     // Settings
     settings_country_specific_options: string
@@ -515,6 +573,8 @@ export interface Language {
     settings_donors: string
     settings_financial_provider: string
     settings_log_button: string
+    settings_organization: string
+    settings_print_starting: string
     settings_product: string
     settings_project_exists: string
     settings_users: string
@@ -538,6 +598,8 @@ export interface Language {
     table_next_page: string
     table_of_page: string
     table_previous_page: string
+    table_print: string
+    table_assign: string
 
     // Transaction
     transaction_accept_prevention: string
@@ -563,8 +625,8 @@ export interface Language {
     transaction_state_sent: string
     transaction_state_already_sent: string
     transaction_state_picked_up: string
-
     transaction_transaction: string
+    transaction_update_success: string
     transaction_validate_distribution: string
     transaction_validation: string
     transaction_no_transaction_sent: string

@@ -1,12 +1,12 @@
 <div class="page-container">
   <div class="container-title">
-    <h2>{{language.projects | titlecase}}</h2>
+    <h2>{{language.projects | uppercaseFirst}}</h2>
   </div>
   <app-placeholder-boxline *ngIf="loadingProjects && projects != undefined" class="container-boxes"></app-placeholder-boxline>
   <div class="container-boxes" *ngIf="!loadingProjects">
     <button class="button-add-project" *ngIf="!loadingProjects && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openNewProjectDialog()">
       <mat-icon>add</mat-icon>
-      <h3>{{language.new | titlecase}}</h3>
+      <h3>{{language.new | uppercaseFirst}}</h3>
     </button>
     <app-box-setting
         *ngFor="let project of projects"
@@ -31,93 +31,107 @@
           <app-box-properties class="properties-displayed" [displayedInstance]="selectedProject"></app-box-properties>
       </div>
     </div>
-    <app-placeholder-panel *ngIf="loadingDistributions; else distributionsLoaded" class="container-table" ></app-placeholder-panel>
-    <ng-template #distributionsLoaded>
-        <div class="container-table">
-            <div class="container-content box-primary" >
-                <ng-container *ngIf="!selectedProject; else distribution">
-                    <div class="undisplay new-project">
-                    <mat-icon>note_add</mat-icon>
-                    <div class="resume">
-                    <p> {{language.project_no_projects}}</p>
+    <div class="container-table" *ngIf="!loadingProjects">
+        <div class="container-content box-primary" >
+            <ng-container *ngIf="!selectedProject; else distribution">
+                <div class="undisplay new-project">
+                <mat-icon>note_add</mat-icon>
+                <div class="resume">
+                <p> {{language.project_no_projects}}</p>
+                </div>
+                <p> {{language.project_add}} </p>
+                <button mat-raised-button class="button-background-primary" (click)="openNewProjectDialog()">
+                {{language.project_create}}
+                </button>
+            </div>
+            </ng-container>
+
+            <ng-template #distribution>
+                <div class="content-button" *ngIf="selectedProject.get('numberOfHouseholds') !== 0 ">
+                    <div class="action-buttons">
+                    <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                        <button mat-raised-button [disabled]="!(distributionData && distributionData.data.length > 0)" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
+                        <mat-icon>get_app</mat-icon>
+                        <span>{{language.export | uppercaseFirst}}</span>
+                        </button>
+                        <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+                        <div class="extension" *ngIf="!loadingExport">
+                            <button mat-raised-button class="dropdown button-background-primary" [disabled]="!(distributionData && distributionData.data.length > 0)" [matMenuTriggerFor]="exportType">
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                            <mat-menu #exportType>
+                                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setType('pdf')"> .pdf <mat-icon *ngIf="extensionType=='pdf'">done</mat-icon>
+                                </button>
+                            </mat-menu>
+                        </div>
                     </div>
-                    <p> {{language.project_add}} </p>
-                    <button mat-raised-button class="button-background-primary" (click)="openNewProjectDialog()">
-                    {{language.project_create}}
+                    </div>
+                    <h3 *ngIf="distributionData && distributionData.data.length > 0">{{language.distributions }}</h3>
+                    <button mat-raised-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button-create">
+                    <mat-icon>add</mat-icon>
+                    {{language.add | uppercaseFirst}}
+                    </button>
+                    <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
+                    <mat-icon>add</mat-icon>
                     </button>
                 </div>
-                </ng-container>
 
-                <ng-template #distribution>
-                    <div class="content-button" *ngIf="selectedProject.number_of_households != '0' ">
-                        <div class="action-buttons">
-                        <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                            <button mat-raised-button [disabled]="!(distributionData && distributionData.data.length > 0)" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
-                            <mat-icon>get_app</mat-icon>
-                            <span>{{language.export | titlecase}}</span>
-                            </button>
-                            <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-                            <div class="extension" *ngIf="!loadingExport">
-                                <button mat-raised-button class="dropdown button-background-primary" [disabled]="!(distributionData && distributionData.data.length > 0)">
-                                    <mat-icon>keyboard_arrow_down</mat-icon>
-                                </button>
-                                <mat-menu #exportType>
-                                    <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
-                                    </button>
-                                    <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
-                                    </button>
-                                    <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
-                                    </button>
-                                </mat-menu>
-                            </div>
-                        </div>
-                        </div>
-                        <h3 *ngIf="distributionData && distributionData.data.length > 0">{{language.distributions }}</h3>
-                        <button mat-raised-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button-create">
-                        <mat-icon>add</mat-icon>
-                        {{language.add | titlecase}}
-                        </button>
-                        <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
-                        <mat-icon>add</mat-icon>
-                        </button>
+                <div class="undisplay new-project" *ngIf="selectedProject.get('numberOfHouseholds') === 0 &&  !noNetworkData">
+                    <mat-icon>group_add</mat-icon>
+                    <div class="resume">
+                    <p> {{language.project_no_household}}</p>
                     </div>
-
-                    <div class="undisplay new-project" *ngIf="selectedProject.number_of_households == '0' &&  !noNetworkData">
-                        <mat-icon>group_add</mat-icon>
-                        <div class="resume">
-                        <p> {{language.project_no_household}}</p>
-                        </div>
-                        <p> {{language.project_add_household}}</p>
-                        <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
-                            {{language.project_go_import_beneficiaries}}
-                        </button>
+                    <p> {{language.project_add_household}}</p>
+                    <button mat-raised-button class="button-background-primary" routerLink="/beneficiaries/import">
+                        {{language.project_go_import_beneficiaries}}
+                    </button>
+                </div>
+                <div class="undisplay empty-project" *ngIf="selectedProject.get('numberOfHouseholds') !== 0 && distributionData && distributionData.data.length==0 && !noNetworkData && !loadingDistributions">
+                    <mat-icon>find_in_page</mat-icon>
+                    <div class="resume">
+                        <p> {{language.project_no_distribution}}</p>
                     </div>
-                    <div class="undisplay empty-project" *ngIf="selectedProject.number_of_households != '0' && distributionData && distributionData.data.length==0 && !noNetworkData">
-                        <mat-icon>find_in_page</mat-icon>
-                        <div class="resume">
-                            <p> {{language.project_no_distribution}}</p>
-                        </div>
-                        <i> {{language.project_click}}
-                            <mat-icon>add_circle</mat-icon>
-                        </i>
+                    <i> {{language.project_click}}
+                        <mat-icon class="cursor-pointer" (click)="addDistribution()">add_circle</mat-icon>
+                    </i>
+                </div>
+                <div class="content-table" *ngIf="((distributionData && distributionData.data.length>0) && !noNetworkData) || loadingDistributions">
+                    <app-table
+                        [isLoading]="loadingDistributions" [searchable]="true" [paginable]="true"
+                        *ngIf="currentDisplayType.type !== 'mobile'" [validatable]="true"
+                        [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')"
+                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
+                        [duplicable]="true" (duplicateOne)="duplicate($event)"
+                        (openModal)="openDialog($event)"
+                    ></app-table>
+                    <app-table-mobile
+                        [isLoading]="loadingDistributions"
+                        *ngIf="currentDisplayType.type === 'mobile'"
+                        [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')"
+                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
+                        [duplicable]="true" (duplicateOne)="duplicate($event)"
+                        (openModal)="openDialog($event)"
+                    ></app-table-mobile>
+                </div>
+                <div class='no-data-container' *ngIf="noNetworkData">
+                    <div class="loadingContent">
+                        <h4 class="no-data">
+                            <mat-icon>cloud_off</mat-icon>
+                            <span> {{language.no_data}} </span>
+                        </h4>
                     </div>
-                    <div class="content-table" *ngIf="(distributionData && distributionData.data.length>0) && !noNetworkData">
-                        <app-table [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [entity]="distributionClass" [service]="distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
-                        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [entity]="distributionClass" [service]="distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
-                    </div>
-                    <div>
-                        <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-                    </div>
-                    <div class='no-data-container' *ngIf="noNetworkData">
-                        <div class="loadingContent">
-                            <h4 class="no-data">
-                                <mat-icon>cloud_off</mat-icon>
-                                <span> {{language.no_data}} </span>
-                            </h4>
-                        </div>
-                    </div>
-                </ng-template>
-            </div>
+                </div>
+            </ng-template>
         </div>
-    </ng-template>
+    </div>
 </div>

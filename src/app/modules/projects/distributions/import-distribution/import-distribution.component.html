@@ -8,7 +8,7 @@
         </div>
         <div class="select-file">
           <a href="javascript:void(0)" (click)="file.click()">
-            <button mat-stroked-button color="primary">{{language.beneficiaries_import_addFile | titlecase}}</button>
+            <button mat-stroked-button color="primary">{{language.beneficiaries_import_addFile | uppercaseFirst}}</button>
           </a>
           <input type="file" #file [multiple] (change)="fileChange($event, 'target')" style="display:none" />
         </div>
@@ -19,7 +19,7 @@
   <div class="content-button content-button-footer">
     <button mat-raised-button class="upload-button" (click)="updateDistribution(1)" *ngIf="csv && !loadFile">
       <mat-icon>publish</mat-icon>
-      <span>{{language.import | titlecase }}</span>
+      <span>{{language.import | uppercaseFirst }}</span>
     </button>
     <mat-spinner [diameter]="35" *ngIf="loadFile"></mat-spinner>
     <mat-list *ngIf="csv">
@@ -38,7 +38,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ language.import_added | titlecase }}
+            {{ language.import_added | uppercaseFirst }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberAdded}}</mat-chip>
@@ -46,9 +46,13 @@
         </div>
       </ng-template>
       <div class="table-content">
-        <app-table *ngIf="currentDisplayType.type !== 'mobile'" [searchable]="true" [paginable]="true" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="addingData" [editable]="false">
+        <button mat-raised-button class="button-background-primary" (click)="justifyAll('added', justificationDialog)">
+          <mat-icon>add_circle</mat-icon>
+          <span>{{language.distribution_add_justification}}</span>
+        </button>
+        <app-table *ngIf="currentDisplayType.type !== 'mobile'" [searchable]="true" [paginable]="true" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="addingData" [editable]="false" [justifiable]="true" (justifyOne)="justify($event, justificationDialog)">
         </app-table>
-        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="addingData" [editable]="false">
+        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="addingData" [editable]="false" [justifiable]="true" (justifyOne)="justify($event, justificationDialog)">
         </app-table-mobile>
       </div>
     </mat-tab>
@@ -56,7 +60,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ language.import_deleted | titlecase }}
+            {{ language.import_deleted | uppercaseFirst }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberRemoved}}</mat-chip>
@@ -64,9 +68,13 @@
         </div>
       </ng-template>
       <div class="table-content">
-        <app-table *ngIf="currentDisplayType.type !== 'mobile'" [searchable]="true" [paginable]="true" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="removingData" [editable]="false">
+          <button mat-raised-button class="button-background-primary" (click)="justifyAll('deleted', justificationDialog)">
+            <mat-icon>add_circle</mat-icon>
+            <span>{{language.distribution_add_justification}}</span>
+          </button>
+        <app-table *ngIf="currentDisplayType.type !== 'mobile'" [searchable]="true" [paginable]="true" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="removingData" [editable]="false" [justifiable]="true" (justifyOne)="justify($event, justificationDialog)">
         </app-table>
-        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="removingData" [editable]="false">
+        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="removingData" [editable]="false" [justifiable]="true" (justifyOne)="justify($event, justificationDialog)">
         </app-table-mobile>
       </div>
     </mat-tab>
@@ -74,7 +82,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ language.import_created | titlecase }}
+            {{ language.import_created | uppercaseFirst }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberCreated}}</mat-chip>
@@ -82,9 +90,13 @@
         </div>
       </ng-template>
       <div class="table-content">
-        <app-table *ngIf="currentDisplayType.type !== 'mobile'" [searchable]="true" [paginable]="true" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="createData" [editable]="false">
+          <button mat-raised-button class="button-background-primary" (click)="justifyAll('created', justificationDialog)">
+            <mat-icon>add_circle</mat-icon>
+            <span>{{language.distribution_add_justification}}</span>
+          </button>
+        <app-table *ngIf="currentDisplayType.type !== 'mobile'" [searchable]="true" [paginable]="true" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="createData" [editable]="false" [justifiable]="true" (justifyOne)="justify($event, justificationDialog)">
         </app-table>
-        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="createData" [editable]="false">
+        <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [entity]="importedBeneficiaryEntity" [service]="distributionService" [data]="createData" [editable]="false" [justifiable]="true" (justifyOne)="justify($event, justificationDialog)">
         </app-table-mobile>
       </div>
     </mat-tab>
@@ -92,7 +104,7 @@
       <ng-template mat-tab-label>
         <div class="badge">
           <label>
-            {{ language.import_updated | titlecase }}
+            {{ language.import_updated | uppercaseFirst }}
           </label>
           <mat-chip-list>
             <mat-chip>{{numberUpdated}}</mat-chip>
@@ -113,7 +125,7 @@
     </h2>
   </div>
 
-  <mat-spinner [diameter]="35" *ngIf="loadUpdate"></mat-spinner>
+  <mat-spinner [diameter]="35" *ngIf="loadUpdate" class="load-update"></mat-spinner>
   <div class="footer-content" *ngIf="! loadUpdate">
     <button mat-button class="button-text-accent" (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
@@ -125,3 +137,16 @@
     </button>
   </div>
 </div>
+
+
+<ng-template #justificationDialog>
+    <mat-dialog-content class="modal-container">
+        <mat-form-field>
+            <textarea matInput [formControl]="justification" type="text" [placeholder]="language.modal_delete_justification | uppercaseFirst" required></textarea>
+        </mat-form-field>
+    </mat-dialog-content>
+    <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+      <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
+      <button mat-raised-button  [disabled]="!justification.valid"  (click)="onAdd()" class="button-background-accent">{{language.add}}</button>
+    </div>
+</ng-template>

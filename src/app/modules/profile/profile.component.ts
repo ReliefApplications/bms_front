@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { Constants } from 'src/app/core/utils/constants';
+import { Constants } from 'src/app/models/constants/constants';
 import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
-import { User } from '../../model/user';
+import { User } from '../../models/user';
 
 @Component({
     selector: 'app-profile',
@@ -25,6 +25,8 @@ export class ProfileComponent implements OnInit {
         newPassword1: new FormControl(''),
         newPassword2: new FormControl('')
     });
+
+    loading = false;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -46,7 +48,9 @@ export class ProfileComponent implements OnInit {
     setActualUser() {
         this.authenticationService.getUser().subscribe(
             result => {
-                this.actualUser = result;
+                if (result) {
+                    this.actualUser = User.apiToModel(result);
+                }
                 if (this.actualUser) {
                     this.profileForm.patchValue({
                         email: this.actualUser.get<string>('username')
@@ -71,10 +75,12 @@ export class ProfileComponent implements OnInit {
             this.snackbar.error(this.language.modal_not_enough_strong);
             return;
         }
+        this.loading = true;
         this.userService.updatePassword(this.actualUser, this.profileForm.value.oldPassword, this.profileForm.value.newPassword1)
             .then(
                 () => {
+                    this.loading = false;
                     this.snackbar.success('Password changed');
-                });
+                }, err => this.loading = false);
         }
 }

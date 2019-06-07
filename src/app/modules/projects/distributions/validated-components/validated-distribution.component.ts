@@ -2,7 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Observable, Subscription } from 'rxjs';
-import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { ModalConfirmationComponent } from 'src/app/components/modals/modal-confirmation/modal-confirmation.component';
 import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { ExportService } from 'src/app/core/api/export.service';
@@ -12,11 +12,12 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Commodity } from 'src/app/model/commodity';
-import { Distribution } from 'src/app/model/distribution';
-import { DistributionBeneficiary } from 'src/app/model/distribution-beneficiary';
-import { User } from 'src/app/model/user';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { Commodity } from 'src/app/models/commodity';
+import { Distribution } from 'src/app/models/distribution';
+import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
+import { User } from 'src/app/models/user';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { NetworkService } from 'src/app/core/network/network.service';
 
 @Component({
     template: './validated-distribution.component.html',
@@ -69,6 +70,7 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
         public userService: UserService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        public networkService: NetworkService,
     ) { }
 
     ngOnInit() {
@@ -94,7 +96,13 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (this.transacting) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+            const dialogRef = this.dialog.open(ModalConfirmationComponent, {
+                data: {
+                    title: this.language.modal_leave,
+                    sentence: this.language.modal_leave_sentence,
+                    ok: this.language.modal_leave
+                }
+            });
 
             return dialogRef.afterClosed();
         } else {
@@ -162,6 +170,7 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
             }
         ).catch(
             (err: any) => {
+                this.loadingExport = false;
             }
         );
     }

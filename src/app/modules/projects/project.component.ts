@@ -3,18 +3,19 @@ import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { NetworkService } from 'src/app/core/api/network.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
-import { ImportService } from 'src/app/core/utils/beneficiaries-import.service';
+import { ImportService } from 'src/app/core/api/beneficiaries-import.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
-import { Distribution } from '../../model/distribution';
-import { Project } from '../../model/project';
+import { Distribution } from '../../models/distribution';
+import { Project } from '../../models/project';
+import { ModalConfirmationComponent } from 'src/app/components/modals/modal-confirmation/modal-confirmation.component';
 
 
 @Component({
@@ -166,7 +167,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     }
 
     addDistribution() {
-        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.get('id') } });
+        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.get('id'), prefill: false } });
     }
 
     /**
@@ -192,8 +193,16 @@ export class ProjectComponent implements OnInit, OnDestroy {
     openDialog(dialogDetails: any): void {
 
         this.modalService.openDialog(Distribution, this.distributionService, dialogDetails);
+        this.modalService.isLoading.subscribe(() => {
+            this.loadingDistributions = true;
+        });
         this.modalService.isCompleted.subscribe(() => {
             this.getDistributionsByProject(this.selectedProject.get('id'));
         });
+    }
+
+    duplicate(event) {
+        this.distributionService.distributionToDuplicate = event;
+        this.router.navigate(['projects/add-distribution'], { queryParams: { project: this.selectedProject.get('id'), prefill: true } });
     }
 }

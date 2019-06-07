@@ -1,16 +1,19 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS, MAT_DIALOG_DATA } from '@angular/material';
+import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FieldService } from 'src/app/core/api/field.service';
+import { FormService } from 'src/app/core/utils/form.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { UploadService } from 'src/app/core/api/upload.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { APP_DATE_FORMATS } from 'src/app/core/utils/date.adapter';
-import { CustomModel as CustomModel } from 'src/app/model/CustomModel/custom-model';
-import { TextModelField } from 'src/app/model/CustomModel/text-model-field';
-import { CustomDateAdapter } from '../../../core/utils/date.adapter';
+import { APP_DATE_FORMATS } from 'src/app/shared/adapters/date.adapter';
+import { CustomModel as CustomModel } from 'src/app/models/custom-models/custom-model';
+import { TextModelField } from 'src/app/models/custom-models/text-model-field';
+import { CustomDateAdapter } from '../../../shared/adapters/date.adapter';
+import { FONTS } from 'src/app/models/constants/fonts';
+import { COLORS } from 'src/app/models/constants/colors';
+import { CustomModelField } from 'src/app/models/custom-models/custom-model-field';
 
 @Component({
     selector: 'app-project',
@@ -37,15 +40,21 @@ export class ModalFieldsComponent implements OnInit {
 
     modalTitle = 'Default Modal Text';
 
+    private fonts: string[] = FONTS;
+    private colors: string[] = COLORS;
+    private colorModalRef;
+    private currentColor: string;
+
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public modalReference: MatDialogRef<any>,
-        public fieldService: FieldService,
+        public formService: FormService,
         public uploadService: UploadService,
         public locationService: LocationService,
         public languageService: LanguageService,
+        private dialog: MatDialog,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 
@@ -74,107 +83,11 @@ export class ModalFieldsComponent implements OnInit {
 
     // To see if a value is null, undefined, empty....
     isEmpty(field) {
-       return this.fieldService.isEmpty(field, 'modal');
+       return this.formService.isEmpty(field, 'modal');
     }
 
     makeForm() {
-        const formControls = {};
-        this.objectFields.forEach((fieldName: string) => {
-            const field = this.objectInstance.fields[fieldName];
-            const validators = this.fieldService.getFieldValidators(field.isRequired, field.pattern);
-
-            if (field.kindOfField === 'MultipleSelect') {
-                // TODO: type this
-                const selectedOptions =
-                    field.value ?
-                    field.value.map(option => {
-                        return option.get('id');
-                    }) :
-                    null;
-                formControls[fieldName] = new FormControl({
-                    value: selectedOptions,
-                    disabled: this.isDisabled(field)
-                }, validators);
-            } else if (field.kindOfField === 'SingleSelect') {
-                formControls[fieldName] = new FormControl({
-                    value: field.value ? field.value.get('id') : null,
-                    disabled: this.isDisabled(field)
-                }, validators);
-            } else if (field.kindOfField === 'Children') {
-                let value = null;
-                if (!field.isPassword) {
-                    if (field.childrenFieldName === 'adm1') {
-                        this.initLocation(this.objectInstance);
-                    } else if (
-                        field.childrenFieldName === 'adm2' || field.childrenFieldName === 'adm3' || field.childrenFieldName === 'adm4') {
-                        // Do nothing because it was initialized the line before
-                    } else {
-                        const childrenField = this.objectInstance.get(field.childrenObject);
-                        const childrenFieldName = field.childrenFieldName;
-                        if (childrenField && childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
-                            value = childrenField.get(childrenFieldName) ? childrenField.get(childrenFieldName).get('id') : null;
-                        } else {
-                            value =  childrenField ? childrenField.get(childrenFieldName) : null;
-                        }
-                    }
-                }
-
-                formControls[fieldName] = new FormControl({
-                    value: value,
-                    disabled: this.isDisabled(field)
-                }, validators);
-            } else if (field.kindOfField === 'ArrayInputField') {
-                field.value.forEach((singleValue, index) => {
-                    formControls[fieldName + index.toString()] = new FormControl({
-                        value: singleValue,
-                        disabled: this.isDisabled(field)
-                    }, validators);
-                });
-            } else {
-                let value = field.value;
-                if (field.isPassword) {
-                    value = null;
-                }
-                // Create field's form control
-                formControls[fieldName] = new FormControl({
-                    value: value,
-                    disabled: this.isDisabled(field)
-                }, validators);
-            }
-        });
-
-        this.form = new FormGroup(formControls);
-    }
-
-    // TO DO : Prevent the double call to the api
-    initLocation(object: CustomModel) {
-        this.locationService.fillAdm1Options(object).subscribe(() => {
-            if (!object.get('location').get('adm1') || !object.get('location').get('adm1').get('id')) {
-                return;
-            }
-            const adm1Id = object.get('location').get('adm1').get<number>('id');
-            this.form.controls['adm1'].setValue(adm1Id);
-            this.locationService.fillAdm2Options(object, adm1Id).subscribe(() => {
-                if (!object.get('location').get('adm2') || !object.get('location').get('adm2').get('id')) {
-                    return;
-                }
-                const adm2Id = object.get('location').get('adm2').get<number>('id');
-                this.form.controls['adm2'].setValue(adm2Id);
-                this.locationService.fillAdm3Options(object, adm2Id).subscribe(() => {
-                    if (!object.get('location').get('adm3') || !object.get('location').get('adm3').get('id')) {
-                        return;
-                    }
-                    const adm3Id = object.get('location').get('adm3').get<number>('id');
-                    this.form.controls['adm3'].setValue(adm3Id);
-                    this.locationService.fillAdm4Options(object, adm3Id).subscribe(() => {
-                        if (!object.get('location').get('adm4')) {
-                            return;
-                        }
-                        this.form.controls['adm4'].setValue(object.get('location').get('adm4').get('id'));
-                    });
-                });
-            });
-        });
+        this.form = this.formService.makeForm(this.objectInstance, this.objectFields, this.modalType);
     }
 
     onChanges(): void {
@@ -196,14 +109,6 @@ export class ModalFieldsComponent implements OnInit {
                 }
             });
         });
-        }
-
-    makeSelectFormControl(fieldName: string) {
-
-    }
-
-    makeOtherFormControl(fieldName: string) {
-
     }
 
     onCancel() {
@@ -276,7 +181,7 @@ export class ModalFieldsComponent implements OnInit {
         return typeof value;
     }
 
-    isDisabled(field) {
+    isDisabled(field): boolean {
         throw new Error('You must override this function in other components');
     }
 
@@ -291,5 +196,26 @@ export class ModalFieldsComponent implements OnInit {
                 .filter((fieldName: string) => this.objectInstance.fields[fieldName].kindOfField === 'File')[0];
             this.form.controls[fileField].setValue(formData);
         }
+    }
+
+    pickColor(template, fieldName: string, field: CustomModelField<any>) {
+        if (!this.isDisabled(field)) {
+            this.colorModalRef = this.dialog.open(template);
+            this.currentColor = this.form.controls[fieldName].value;
+            this.colorModalRef.afterClosed().subscribe((color: string) => {
+                if (color) {
+                    this.form.controls[fieldName].setValue(color);
+                }
+            });
+        }
+    }
+
+    computeNumbers(i: number) {
+        const k = i * 13;
+        return [k, k + 1, k + 2, k + 3, k + 4, k + 5, k + 6, k + 7, k + 8, k + 9, k + 10, k + 11, k + 12];
+    }
+
+    onPick(color: string): any {
+        this.colorModalRef.close(color);
     }
 }

@@ -5,7 +5,7 @@
     <h4 *ngIf="objectInstance.createMultiple && modalType === 'Add'" class="modal-title underline-accent stickyHeader" [ngClass]="{'underline-accent': modalType === 'Add', 'underline-primary': modalType !== 'Add'}">
         {{modalTitleMultiple | uppercaseFirst}} {{objectInstance.title | uppercaseFirst}}
     </h4>
-    <form [formGroup]="form">
+    <form [formGroup]="form" *ngIf="form">
         <table class="modal-table">
             <ng-container *ngFor="let fieldName of objectFields">
                 <ng-container *ngIf="objectInstance.fields[fieldName].isDisplayedInModal">
@@ -61,12 +61,18 @@
                             </ng-template>
 
                             <ng-template #isSingleSelect>
-                                <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isMaterialField">
+                                <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isColor">
                                     <ng-select [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst">
                                         <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
                                             {{option.get(field.bindField) | uppercaseFirst}}
                                         </ng-option>
                                     </ng-select>
+                                </ng-container>
+                            </ng-template>
+
+                            <ng-template #isColor>
+                                <ng-container *ngIf="field.kindOfField === 'Text' && field.isColor; else isMaterialField">
+                                    <div class="color" [ngStyle]="{'background-color':form.controls[fieldName].value}" (click)="pickColor(colorPicker, fieldName, field)"></div>
                                 </ng-container>
                             </ng-template>
 
@@ -76,10 +82,25 @@
                             </ng-container>
 
                             <ng-template #isMaterialField>
-                                <mat-form-field [ngClass]="{date: field.kindOfField === 'Date' && !isDisabled(field)}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
+                                <mat-form-field [ngClass]="{date: field.kindOfField === 'Date' && !formService.isDisabled(field, modalType)}" *ngIf="field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject'; else isObject">
                                     <ng-container *ngIf="field.kindOfField === 'Text'; else checkForDateField">
-                                        <input *ngIf="field.isPassword; else checkForTextArea" [placeholder]="field.title | uppercaseFirst"
-                                            matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
+                                        <input *ngIf="field.displayValue; else checkForPassword" [placeholder]="field.title | uppercaseFirst"
+                                            matInput [formControlName]="fieldName" [value]="field.displayValue | uppercaseFirst" disabled>
+
+                                        <ng-template #checkForPassword>
+                                            <input *ngIf="field.isPassword; else isFont" [placeholder]="field.title | uppercaseFirst"
+                                                matInput type="password" [formControlName]="fieldName" autocomplete="new-password">
+                                        </ng-template>
+
+                                        <ng-template #isFont>
+                                            <ng-container *ngIf="field.kindOfField === 'Text' && field.isFont; else checkForTextArea">
+                                                <mat-select [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst">
+                                                    <mat-option *ngFor="let font of fonts" [value]="font" [ngStyle]="{'font-family':font}" class="option">
+                                                        {{ font | uppercaseFirst }}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </ng-container>
+                                        </ng-template>
 
                                         <ng-template #checkForTextArea>
                                             <ng-container *ngIf="field.isLongText; else checkForTextInput">
@@ -96,12 +117,12 @@
                                     <ng-template #checkForDateField>
                                         <ng-container *ngIf="field.kindOfField === 'Date'; else checkForNumberField">
                                             <!-- If we don't do this, the date won't be formatted in the date picker when disabled -->
-                                            <ng-container *ngIf="isDisabled(field)">
+                                            <ng-container *ngIf="formService.isDisabled(field, modalType)">
                                                 <input matInput *ngIf="!field.value" disabled [placeholder]="field.title | uppercaseFirst" [value]="field.nullValue">
                                                 <input matInput *ngIf="field.value && !field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy' }}" [placeholder]="field.title | uppercaseFirst">
                                                 <input matInput *ngIf="field.value && field.displayTime" disabled value="{{ field.value | date: 'dd-MM-yyyy HH:mm' }}" [placeholder]="field.title | uppercaseFirst">
                                             </ng-container>
-                                            <ng-container *ngIf="!isDisabled(field)">
+                                            <ng-container *ngIf="!formService.isDisabled(field, modalType)">
                                                 <input matInput [matDatepicker]="picker" [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst">
                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
@@ -116,7 +137,6 @@
                                     </ng-template>
                                     <app-hint-error *ngIf="modalType !== 'Details'" [form]="form" [fieldName]="fieldName" [field]="field" [isMatField]="true"></app-hint-error>
                                 </mat-form-field>
-
                                     <ng-template #isObject>
                                         <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
                                             <mat-form-field *ngIf="modalType === 'Details'">
@@ -124,7 +144,6 @@
                                             </mat-form-field>
                                         </ng-container>
                                     </ng-template>
-
                                     <ng-template #isMultipleObject>
                                         <ng-container *ngIf="field.kindOfField === 'MultipleObject'">
                                             <mat-form-field *ngIf="modalType === 'Details'">
@@ -138,13 +157,34 @@
                 </ng-container>
             </ng-container>
         </table>
-        <div class="modal-button action-buttons stickyFooter" *ngIf="modalType !== 'Details'">
-            <button type="button" mat-button (click)="onCancel()" class="button-text-accent" [ngClass]="{'button-text-accent': modalType === 'Add', 'button-text-primary': modalType !== 'Add'}">Cancel</button>
-            <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Add'" (click)="onSubmit()" class="button-background-accent">Create</button>
-            <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Edit'" (click)="onSubmit()" class="button-background-primary">Save</button>
+        <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" *ngIf="modalType !== 'Details'">
+            <button mat-button (click)="onCancel()" [ngClass]="{'button-text-accent': modalType === 'Add', 'button-text-primary': modalType !== 'Add'}">{{language.cancel}}</button>
+            <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Add'" (click)="onSubmit()" class="button-background-accent">{{language.create}}</button>
+            <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Edit'" (click)="onSubmit()" class="button-background-primary">{{language.save}}</button>
         </div>
-        <div class="modal-button action-buttons stickyFooter" *ngIf="modalType === 'Details'">
-            <button mat-button (click)="onCancel()" class="button-background-primary">Close</button>
+        <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" *ngIf="modalType === 'Details'">
+            <button mat-raised-button (click)="onCancel()" class="button-background-primary">{{language.close}}</button>
         </div>
     </form>
 </mat-dialog-content>
+
+<ng-template #colorPicker>
+    <mat-dialog-content class="modal-container">
+        <h4 class="modal-title underline-accent stickyHeader">{{language.modal_pick_color | titlecase}}</h4>
+        <div class="dialog-template">
+            <div class="modal-body">
+                <div class="color-grid">
+                    <div class="color-row" *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7, 8]">
+                        <div
+                            *ngFor="let j of computeNumbers(i)"
+                            class="color-column"
+                            [ngClass]="{'selected':colors[j] === currentColor}"
+                            [ngStyle]="{'background-color':colors[j]}"
+                            (click)="onPick(colors[j])"
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+</ng-template>

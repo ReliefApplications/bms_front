@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Country } from 'src/app/model/country';
+import { Country } from 'src/app/models/country';
 
 
 @Injectable({
@@ -25,17 +25,20 @@ export class CountriesService {
 
     public fillWithCountries(countries: Array<Country>) {
         this.selectableCountries.next(this.enabledCountries.filter((storedCountry: Country) => {
-            return countries.forEach((userCountry: Country) => {
+            return countries.filter((userCountry: Country) => {
                 if (storedCountry.get<string>('id') === userCountry.get<string>('id')) {
                     return storedCountry;
                 }
-            });
+            })[0];
         }));
     }
 //
 // ─── SETTER ─────────────────────────────────────────────────────────────────────
 //
-    public setCountry(country: Country) {
+    public setCountry(country?: Country): Country {
+        if (!country) {
+            country = this.enabledCountries[0];
+        }
         if (this.selectedCountry.value !== country) {
             this.selectedCountry.next(country);
         }
@@ -48,6 +51,7 @@ export class CountriesService {
     public clearCountries(): void {
         this.selectedCountry.next(undefined);
     }
+
 //
 // ─── CONVERSION ─────────────────────────────────────────────────────────────────
 //

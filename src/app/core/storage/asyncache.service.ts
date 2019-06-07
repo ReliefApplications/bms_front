@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { LocalStorage } from '@ngx-pwa/local-storage';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, concat, map, switchMap, tap } from 'rxjs/operators';
-import { Country } from 'src/app/model/country';
-import { FailedRequestInterface, StoredRequestInterface } from 'src/app/model/stored-request';
-import { User } from 'src/app/model/user';
+import { Country } from 'src/app/models/country';
+import { FailedRequestInterface, StoredRequestInterface } from 'src/app/models/interfaces/stored-request';
+import { User } from 'src/app/models/user';
 import { CountriesService } from '../countries/countries.service';
 import { Language } from '../language/language';
 import { LanguageService } from '../language/language.service';
@@ -14,9 +14,8 @@ import { CachedItemInterface } from './cached-item.interface';
 @Injectable({
     providedIn: 'root'
 })
-export class AsyncacheService implements OnInit {
+export class AsyncacheService {
     //  Country
-    static actual_country;
 
     // Request storing
     static pendingRequests = false;
@@ -45,7 +44,6 @@ export class AsyncacheService implements OnInit {
     static readonly PENDING_REQUESTS = 'pending_requests';
     static readonly LANGUAGE = 'language';
 
-    private storage: any;
 
     // Constants
     readonly PREFIX = 'bms';
@@ -55,27 +53,39 @@ export class AsyncacheService implements OnInit {
     constructor(
         public languageService: LanguageService,
         private countriesService: CountriesService,
-        protected localStorage: LocalStorage,
+        protected storage: LocalStorage,
         protected http: HttpClient,
     ) {
-        this.storage = localStorage;
     }
 
-    ngOnInit() {
-        this.get(AsyncacheService.COUNTRY).subscribe(
-            result => {
-                AsyncacheService.actual_country = result;
-            }
+    // formatKey(key: string): string {
+    //     if (key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS
+    //         || key === AsyncacheService.PENDING_REQUESTS || key === AsyncacheService.LANGUAGE) {
+    //         return this.PREFIX + '_' + key;
+    //     } else {
+    //         return this.PREFIX + '_' +  + '_' + key;
+    //     }
+    // }
+
+    private getFormattedKey(key: string): Observable<string> {
+        if (key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS
+            || key === AsyncacheService.PENDING_REQUESTS || key === AsyncacheService.LANGUAGE) {
+            return of(this.PREFIX + '_' + key);
+        }
+        if (this.countriesService.selectedCountry.getValue()) {
+            return of(this.formatKeyCountry(key, this.countriesService.selectedCountry.getValue()));
+        }
+
+        return this.getCountry().pipe(
+            map((country: Country) => {
+                this.countriesService.setCountry(country);
+                return this.formatKeyCountry(key, country);
+            })
         );
     }
 
-    formatKey(key: string): string {
-        if (key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS
-            || key === AsyncacheService.PENDING_REQUESTS || key === AsyncacheService.LANGUAGE) {
-            return this.PREFIX + '_' + key;
-        } else {
-            return this.PREFIX + '_' + AsyncacheService.actual_country + '_' + key;
-        }
+    private formatKeyCountry(key: string, country: Country) {
+        return this.PREFIX + '_' + country.get<string>('id') + '_' + key;
     }
 
     /**
@@ -83,9 +93,8 @@ export class AsyncacheService implements OnInit {
      * @param key
      */
     get(key: string) {
-        key = this.formatKey(key);
 
-        if (key === this.formatKey(AsyncacheService.DISTRIBUTIONS)) {
+        if (key === AsyncacheService.DISTRIBUTIONS) {
             return this.getAllDistributions().pipe(
                 map(
                     (result) => {
@@ -97,22 +106,27 @@ export class AsyncacheService implements OnInit {
             );
         } else {
             return (
-                this.storage.getItem(key).pipe(
-                    map(
-                        (result: CachedItemInterface) => {
-                            if (result && result.storageTime + result.limit < (new Date).getTime()) {
-                                if (result.canBeDeleted) {
-                                    this.remove(key);
+                this.getFormattedKey(key).pipe(
+                    switchMap((formattedKey: string) => {
+                        return this.storage.getItem(formattedKey).pipe(
+                            map(
+                                (result: CachedItemInterface) => {
+                                    if (result && result.storageTime + result.limit < (new Date).getTime()) {
+                                        if (result.canBeDeleted) {
+                                            this.remove(formattedKey);
+                                        }
+                                        return null;
+                                    } else if (result) {
+                                        return result.value;
+                                    } else {
+                                        return null;
+                                    }
                                 }
-                                return null;
-                            } else if (result) {
-                                return result.value;
-                            } else {
-                                return null;
-                            }
-                        }
-                    )
+                            )
+                        );
+                    })
                 )
+
             );
         }
     }
@@ -123,7 +137,7 @@ export class AsyncacheService implements OnInit {
     getAllDistributions() {
         const allDistributions = new Array();
 
-        return new Observable(
+        return new Observable<any>(
             (observer) => {
                 this.get(AsyncacheService.PROJECTS).subscribe(
                     result => {
@@ -161,8 +175,8 @@ export class AsyncacheService implements OnInit {
         );
     }
 
-    setLanguage(language: Language) {
-        this.set(AsyncacheService.LANGUAGE, this.languageService.languageToString(language));
+    setLanguage(language: Language): Observable<any> {
+        return this.set(AsyncacheService.LANGUAGE, this.languageService.languageToString(language));
     }
 
     // Get and delete language from cache
@@ -193,24 +207,24 @@ export class AsyncacheService implements OnInit {
                     }
                 }
                 return undefined;
-            })
+            }),
         );
     }
 
     /**
      * Waits for asynchronous user value to return it synchronously.
     */
-    getUser(): Observable<User> {
+    getUser(): Observable<any> {
         return this.get(AsyncacheService.USER).pipe(
             map((cachedUser: object) => {
                     if (!cachedUser) {
                         // TODO: remove this case
                         return undefined;
                     } else {
-                        return User.apiToModel(cachedUser);
+                        return cachedUser;
                     }
                 }
-            )
+            ),
         );
     }
 
@@ -227,28 +241,27 @@ export class AsyncacheService implements OnInit {
      * @param options
      *
      */
-    set(key: string, value: any, options: any = {}) {
-        key = this.formatKey(key);
-        // this.localStorage.setItemSubscribe(key, value);
-        if (options.canBeDeleted == null) {
-            options.canBeDeleted = true;
-        }
+    set(key: string, value: any, options: any = {}): Observable<any> {
+        return this.getFormattedKey(key).pipe(
+            tap((formattedKey: string) => {
+                // this.localStorage.setItemSubscribe(key, value);
+                if (options.canBeDeleted == null) {
+                    options.canBeDeleted = true;
+                }
 
-        if (options.timeout == null) {
-            options.timeout = this.MSTIMEOUT;
-        }
+                if (options.timeout == null) {
+                    options.timeout = this.MSTIMEOUT;
+                }
 
-        const object: CachedItemInterface = {
-            storageTime: (new Date()).getTime(), // in milliseconds
-            value: value,
-            limit: options.timeout, // in milliseconds
-            canBeDeleted: options.canBeDeleted
-        };
-        this.localStorage.setItem(key, object).subscribe();
-
-        if (key === this.formatKey(AsyncacheService.COUNTRY)) {
-            AsyncacheService.actual_country = value;
-        }
+                const object: CachedItemInterface = {
+                    storageTime: (new Date()).getTime(), // in milliseconds
+                    value: value,
+                    limit: options.timeout, // in milliseconds
+                    canBeDeleted: options.canBeDeleted
+                };
+                this.storage.setItem(formattedKey, object).subscribe();
+            }),
+        );
     }
 
     /**
@@ -258,28 +271,26 @@ export class AsyncacheService implements OnInit {
      * @param options
      */
     newSet(key: string, value: any, options: any = {}): Observable<boolean> {
-        key = this.formatKey(key);
-        // this.localStorage.setItemSubscribe(key, value);
-        if (options.canBeDeleted == null) {
-            options.canBeDeleted = true;
-        }
+        return this.getFormattedKey(key).pipe(
+            switchMap((formattedKey: string) => {
 
-        if (options.timeout == null) {
-            options.timeout = this.MSTIMEOUT;
-        }
-
-        const object: CachedItemInterface = {
-            storageTime: (new Date()).getTime(), // in milliseconds
-            value: value,
-            limit: options.timeout, // in milliseconds
-            canBeDeleted: options.canBeDeleted
-        };
-        return this.localStorage.setItem(key, object).pipe(
-            tap((_: any) => {
-                if (key === this.formatKey(AsyncacheService.COUNTRY)) {
-                    AsyncacheService.actual_country = value;
+                // this.localStorage.setItemSubscribe(formattedKey, value);
+                if (options.canBeDeleted == null) {
+                    options.canBeDeleted = true;
                 }
-            })
+
+                if (options.timeout == null) {
+                    options.timeout = this.MSTIMEOUT;
+                }
+
+                const object: CachedItemInterface = {
+                    storageTime: (new Date()).getTime(), // in milliseconds
+                    value: value,
+                    limit: options.timeout, // in milliseconds
+                    canBeDeleted: options.canBeDeleted
+                };
+                return this.storage.setItem(formattedKey, object);
+            }),
         );
     }
 
@@ -288,8 +299,11 @@ export class AsyncacheService implements OnInit {
      * @param key
      */
     remove(key: string) {
-        key = this.formatKey(key);
-        this.storage.removeItemSubscribe(key);
+        this.getFormattedKey(key).pipe(
+            tap((formattedKey: string) => {
+                this.storage.removeItemSubscribe(formattedKey);
+            }),
+        );
     }
 
     /**
@@ -392,7 +406,9 @@ export class AsyncacheService implements OnInit {
             const observables = [];
             // Push all the observables in the array
             for (const field of excludedFields) {
-                observables.push(this.storage.getItem(this.formatKey(field)));
+                this.countriesService.enabledCountries.forEach((country: Country) => {
+                    observables.push(this.storage.getItem(this.formatKeyCountry(field, country)));
+                });
             }
 
             /**
@@ -403,7 +419,9 @@ export class AsyncacheService implements OnInit {
                 .pipe(
                     map(results => {
                         for (let i = 0; i < results.length; i++) {
-                            keptFields[this.formatKey(excludedFields[i])] = results[i];
+                            this.countriesService.enabledCountries.forEach((country: Country) => {
+                            keptFields[this.formatKeyCountry(excludedFields[i], country)] = results[i];
+                            });
                         }
                     }),
                     /**

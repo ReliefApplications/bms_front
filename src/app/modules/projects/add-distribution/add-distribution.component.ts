@@ -5,23 +5,25 @@ import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@a
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { ModalConfirmationComponent } from 'src/app/components/modals/modal-confirmation/modal-confirmation.component';
 import { TableComponent } from 'src/app/components/table/table.component';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/core/utils/date.adapter';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Commodity } from 'src/app/model/commodity';
-import { Criteria } from 'src/app/model/criteria';
-import { Distribution } from 'src/app/model/distribution';
-import { Location } from 'src/app/model/location';
-import { DisplayType } from 'src/constants/screen-sizes';
+import { Commodity } from 'src/app/models/commodity';
+import { Criteria } from 'src/app/models/criteria';
+import { Distribution } from 'src/app/models/distribution';
+import { Location } from 'src/app/models/location';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
+import { FormService } from 'src/app/core/utils/form.service';
+import { CustomModel } from 'src/app/models/custom-models/custom-model';
 
 @Component({
     selector: 'app-add-distribution',
@@ -74,6 +76,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         private locationService: LocationService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        public formService: FormService,
     ) { }
 
     ngOnInit() {
@@ -81,11 +84,21 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
             this.currentDisplayType = displayType;
         });
         this.loadingCreation = false;
-        this.objectInstance = new Distribution();
-        this.objectInstance.set('location', new Location());
         this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4', 'date', 'type', 'threshold'];
-        this.makeForm();
-        this.getQueryParameter();
+        this.getQueryParameter().subscribe(params => {
+            this.queryParams = params;
+            if (params.prefill === 'false') {
+                this.objectInstance = new Distribution();
+                this.objectInstance.set('location', new Location());
+                this.makeForm();
+            } else {
+                this.objectInstance = this._distributionService.distributionToDuplicate;
+                this.criteriaData.data = this.objectInstance.get<Criteria[]>('selectionCriteria');
+                this.commodityData.data = this.objectInstance.get<Commodity[]>('commodities');
+                this.makeForm();
+                this.updateNbBeneficiary();
+            }
+        });
         this.loadProvince();
         this.getProjectDates();
     }
@@ -95,13 +108,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     }
 
     makeForm() {
-        const formControls = {};
-        this.objectFields.forEach((fieldName: string) => {
-            formControls[fieldName] = new FormControl(
-                this.objectInstance.fields[fieldName] ? this.objectInstance.get(fieldName) : null,
-            );
-        });
-        this.form = new FormGroup(formControls);
+        this.form = this.formService.makeForm(this.objectInstance, this.objectFields, null);
     }
 
 
@@ -111,7 +118,13 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (this.form.touched && this.objectInstance && !this.loadingCreation) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+            const dialogRef = this.dialog.open(ModalConfirmationComponent, {
+                data: {
+                    title: this.language.modal_leave,
+                    sentence: this.language.modal_leave_sentence,
+                    ok: this.language.modal_leave
+                }
+            });
 
             return dialogRef.afterClosed();
         } else {
@@ -119,25 +132,26 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         }
     }
 
-
     /**
      * get the parameter in the route
      * use to get the active project
      */
     getQueryParameter() {
-        this.route.queryParams.subscribe(params => this.queryParams = params);
+        return this.route.queryParams;
     }
 
     getProjectDates() {
         this._projectService.get().subscribe(
             (projects) => {
-                projects.forEach((project: any) => {
-                    if (project.id === this.queryParams.project) {
-                        this.projectInfo.startDate = project.start_date;
-                        this.projectInfo.endDate = project.end_date;
-                        return;
-                    }
-                });
+                if (projects) {
+                    projects.forEach((project: any) => {
+                        if (project.id === this.queryParams.project) {
+                            this.projectInfo.startDate = project.start_date;
+                            this.projectInfo.endDate = project.end_date;
+                            return;
+                        }
+                    });
+                }
             }
         );
     }
@@ -300,7 +314,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     add() {
         if (this.form.controls.type.value && this.criteriaData.data && this.criteriaData.data.length !== 0 &&
           this.commodityData.data && this.commodityData.data.length !== 0 && this.form.controls.date.value &&
-          this.form.controls.threshold.value > 0 && this.form.controls.adm1) {
+          this.form.controls.threshold.value > 0 && this.form.controls.adm1.value && this.criteriaNbBeneficiaries > 0) {
 
             if (new Date(this.form.controls.date.value) < new Date(this.projectInfo.startDate) ||
             new Date(this.form.controls.date.value) > new Date(this.projectInfo.endDate)) {
@@ -348,7 +362,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 const datePipe = new DatePipe('en-US');
                 newDistribution.set('name', admName + '-' + datePipe.transform(this.form.controls.date.value, 'dd-MM-yyyy'));
 
-                newDistribution.set('type', this.form.controls.type.value);
+                newDistribution.set('type', this.objectInstance.getOptions('type').filter(option => {
+                    return option.get('id') === this.form.controls.type.value;
+                })[0]);
                 newDistribution.set('threshold', this.form.controls.threshold.value);
                 newDistribution.set('projectId', this.queryParams.project);
                 newDistribution.set('selectionCriteria', this.criteriaData.data);
@@ -356,9 +372,11 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 newDistribution.set('date', this.form.controls.date.value);
 
                 this._distributionService.create(newDistribution.modelToApi()).subscribe((response) => {
-                    this.snackbar.success(
-                        this.language.distribution + ' : ' + response.distribution.name + this.language.add_distribution_created);
-                    this.router.navigate(['projects/distributions/' + response.distribution.id]);
+                    if (response) {
+                        this.snackbar.success(
+                            this.language.distribution + ' : ' + response.distribution.name + this.language.add_distribution_created);
+                        this.router.navigate(['projects/distributions/' + response.distribution.id]);
+                    }
 
                 }, err => {
                     this.snackbar.error(this.language.add_distribution_error_creating);
@@ -374,8 +392,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
             this.snackbar.error(this.language.add_distribution_missing_date);
         } else if (this.form.controls.threshold.value <= 0) {
             this.snackbar.error(this.language.add_distribution_missing_threshold);
-        } else if (!this.form.controls.adm1) {
+        } else if (!this.form.controls.adm1.value) {
             this.snackbar.error(this.language.add_distribution_missing_location);
+        } else if (this.criteriaNbBeneficiaries <= 0) {
+            this.snackbar.error(this.language.add_distribution_no_beneficiaries);
         } else {
             this.snackbar.error(this.language.add_distribution_check_fields);
         }
@@ -398,7 +418,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 this.form.controls.threshold.value,
                 this.queryParams.project
             ).subscribe(response => {
-                this.criteriaNbBeneficiaries = response.number;
+                if (response) {
+                    this.criteriaNbBeneficiaries = response.number;
+                }
                 if (this.commodityData.data.length > 0) {
                     this.commodityNb = [];
                     this.commodityData.data.forEach(commodity => {

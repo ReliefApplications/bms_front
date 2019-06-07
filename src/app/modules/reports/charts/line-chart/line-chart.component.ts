@@ -13,11 +13,16 @@ export class LineChartComponent extends BaseChartComponent implements OnInit {
     dataSet: ChartDataSets;
     xAxisLabels: Label[];
 
-    public lineChartOptions: ChartOptions & { annotation: any } = {
+    public options: ChartOptions = {
         responsive: true,
         scales: {
             // We use this empty structure as a placeholder for dynamic theming.
-            xAxes: [ {} ],
+            xAxes: [ {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Time'
+                }
+            } ],
             yAxes: [
                 {
                     id: 'y-axis-0',
@@ -25,23 +30,6 @@ export class LineChartComponent extends BaseChartComponent implements OnInit {
                 },
             ]
         },
-        annotation: {
-            annotations: [
-                {
-                    type: 'line',
-                    mode: 'vertical',
-                    scaleID: 'x-axis-0',
-                    value: 'March',
-                    borderColor: 'orange',
-                    borderWidth: 2,
-                    label: {
-                        enabled: true,
-                        fontColor: 'orange',
-                        content: 'LineAnno'
-                    }
-                }
-            ]
-        }
     };
 
     public lineChartColors: ChartColor[];
@@ -55,6 +43,7 @@ export class LineChartComponent extends BaseChartComponent implements OnInit {
 
         this.generateDataSet();
         this.generateColors();
+        this.generateLabels();
     }
 
     private generateDataSet(): void {

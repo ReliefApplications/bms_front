@@ -36,6 +36,7 @@ export class BarChartComponent extends BaseChartComponent implements OnInit {
         this.generatePeriods();
         this.formatBarChartDataSet();
         this.generateColors();
+        this.generateLabels();
     }
 
     private generatePeriods() {

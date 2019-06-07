@@ -40,6 +40,5 @@ export class BaseChartComponent {
                 ]
             },
         };
-        console.log(this.options)
     }
 }

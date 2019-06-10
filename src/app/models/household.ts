@@ -170,6 +170,18 @@ export class Household extends CustomModel {
                 isDisplayedInModal: true,
             }
         ),
+        foodConsumptionScore: new NumberModelField(
+            {
+                title: '',
+                isDisplayedInModal: true,
+            }
+        ),
+        copingStrategiesIndex: new NumberModelField(
+            {
+                title: '',
+                isDisplayedInModal: true,
+            }
+        ),
 
         // For now they are never used, set, displayed, or equal to anything other than zero
         longitude: new TextModelField({

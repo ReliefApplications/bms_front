@@ -65,7 +65,9 @@ export class ModalAddCriteriaComponent implements OnInit {
 
     loadFields() {
         this.criteriaService.get().subscribe((criteria: any) => {
-            this.criteriaList = criteria.map((criterion: any) => Criteria.apiToModel(criterion));
+            if (criteria) {
+                this.criteriaList = criteria.map((criterion: any) => Criteria.apiToModel(criterion));
+            }
         });
     }
 

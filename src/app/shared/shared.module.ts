@@ -57,6 +57,7 @@ import { ImportedDataComponent } from '../modules/beneficiaries/beneficiaries-im
 import { BeneficiariesComponent } from '../modules/beneficiaries/beneficiaries.component';
 import { DataValidationComponent } from '../modules/beneficiaries/data-validation/data-validation.component';
 import { BeneficiaryFormComponent } from '../modules/beneficiaries/update-beneficiary/beneficiary-form/beneficiary-form.component';
+import { LocationFormComponent } from '../modules/beneficiaries/update-beneficiary/location-form/location-form.component';
 import { UpdateBeneficiaryComponent } from '../modules/beneficiaries/update-beneficiary/update-beneficiary.component';
 import { DashboardComponent } from '../modules/dashboard/dashboard.component';
 import { AddDistributionComponent } from '../modules/projects/add-distribution/add-distribution.component';
@@ -172,6 +173,7 @@ imports: [
         PlaceholderTitleComponent,
         UpdateBeneficiaryComponent,
         BeneficiaryFormComponent,
+        LocationFormComponent,
         ImportedDataComponent,
         ThousandsPipe,
         FormatCamelCasePipe,

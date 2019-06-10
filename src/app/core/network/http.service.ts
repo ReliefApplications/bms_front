@@ -132,7 +132,7 @@ export class HttpService {
                                     this.cacheService.set(itemKey, result).subscribe();
                                 }
                             }
-                            return (result);
+                            return result;
                         }
                     )
                 )

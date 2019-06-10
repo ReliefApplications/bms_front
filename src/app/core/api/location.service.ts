@@ -7,6 +7,7 @@ import { HttpService } from '../network/http.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { map } from 'rxjs/operators';
 import { Adm } from 'src/app/models/location';
+import { Location } from 'src/app/models/location';
 
 
 @Injectable({
@@ -63,9 +64,7 @@ export class LocationService {
         return this.http.get(url);
     }
 
-    fillAdm1Options(object: CustomModel) {
-        const location = object.get('location');
-
+    fillAdm1Options(location: Location) {
         return this.getAdm1()
             .pipe(
                 map((options) => {
@@ -75,16 +74,15 @@ export class LocationService {
                         location.setOptions('adm2', []);
                         location.setOptions('adm3', []);
                         location.setOptions('adm4', []);
-                        object.set('location', location);
                     }
+                return location;
             }));
     }
 
-    fillAdm2Options(object: CustomModel, adm1Id: Number) {
+    fillAdm2Options(location: Location, adm1Id: Number) {
         const body = {
             adm1: adm1Id
         };
-        const location = object.get('location');
 
         return this.getAdm2(body)
             .pipe(
@@ -94,16 +92,15 @@ export class LocationService {
                         location.setOptions('adm2', adm2Options);
                         location.setOptions('adm3', []);
                         location.setOptions('adm4', []);
-                        object.set('location', location);
                     }
+                return location;
             }));
     }
 
-    fillAdm3Options(object: CustomModel, adm2Id: Number) {
+    fillAdm3Options(location: Location, adm2Id: Number) {
         const body = {
             adm2: adm2Id
         };
-        const location = object.get('location');
 
         return this.getAdm3(body)
             .pipe(
@@ -112,16 +109,16 @@ export class LocationService {
                         const adm3Options = options.map(adm3 => new Adm(adm3.id, adm3.name));
                         location.setOptions('adm3', adm3Options);
                         location.setOptions('adm4', []);
-                        object.set('location', location);
                     }
-                }));
+                    return location;
+                })
+            );
     }
 
-    fillAdm4Options(object: CustomModel, adm3Id: Number) {
+    fillAdm4Options(location: Location, adm3Id: Number) {
         const body = {
             adm3: adm3Id
         };
-        const location = object.get('location');
 
         return this.getAdm4(body)
             .pipe(
@@ -129,8 +126,15 @@ export class LocationService {
                     if (options) {
                         const adm4Options = options.map(adm4 => new Adm(adm4.id, adm4.name));
                         location.setOptions('adm4', adm4Options);
-                        object.set('location', location);
                     }
+                    return location;
                 }));
+    }
+
+    getCamps(admType, admId) {
+        const body = {
+            [admType]: admId
+        };
+        return this.http.post(this.api + '/location/camps', body);
     }
 }

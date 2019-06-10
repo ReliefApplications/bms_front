@@ -13,6 +13,7 @@ import { Project } from './project';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
 import { CountriesService } from '../core/countries/countries.service';
 import { AppInjector } from '../app-injector';
+import { HouseholdLocation } from './household-location';
 
 export class Livelihood extends CustomModel {
 
@@ -91,15 +92,6 @@ export class Household extends CustomModel {
                 isLongText: false,
             }
         ),
-        location: new ObjectModelField<Location> (
-            {
-                title: this.language.location,
-                isDisplayedInTable: true,
-                isDisplayedInModal: true,
-                displayTableFunction: null,
-                displayModalFunction: null,
-            }
-        ),
         dependents: new NumberModelField(
             {
                 title: this.language.model_beneficiaries_dependents,
@@ -139,21 +131,6 @@ export class Household extends CustomModel {
                 value: []
             }
         ),
-        addressNumber: new NumberModelField(
-            {
-                title: this.language.add_beneficiary_getAddressNumber,
-            }
-        ),
-        addressPostcode: new TextModelField(
-            {
-                title: this.language.add_beneficiary_getAddressPostcode,
-            }
-        ),
-        addressStreet: new TextModelField(
-            {
-                title: this.language.add_beneficiary_getAddressStreet,
-            }
-        ),
         livelihood: new SingleSelectModelField(
             {
                 options: LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, this.language[livelihood.language_key]))
@@ -178,6 +155,22 @@ export class Household extends CustomModel {
         latitude: new TextModelField({
             value: '0'
         }),
+        currentHouseholdLocation: new ObjectModelField<HouseholdLocation>(
+            {
+                title: this.language.household_location_current_location,
+                isDisplayedInTable: true,
+                isDisplayedInModal: true,
+                displayTableFunction: null,
+                displayModalFunction: null,
+            }
+        ),
+        residentHouseholdLocation: new ObjectModelField<HouseholdLocation>(
+            {
+                title: this.language.household_location_resident_location,
+                isDisplayedInModal: true,
+                displayModalFunction: null,
+            }
+        ),
 
     };
 
@@ -185,9 +178,6 @@ export class Household extends CustomModel {
         const newHousehold = new Household();
 
         newHousehold.set('id', householdFromApi.id);
-        newHousehold.set('addressNumber', householdFromApi.address_number);
-        newHousehold.set('addressPostcode', householdFromApi.address_postcode);
-        newHousehold.set('addressStreet', householdFromApi.address_street);
         newHousehold.set('notes', householdFromApi.notes);
         newHousehold.set('incomeLevel', householdFromApi.income_level);
         newHousehold.set('livelihood',
@@ -207,9 +197,6 @@ export class Household extends CustomModel {
         newHousehold.fields.vulnerabilities.displayTableFunction = value => value;
         newHousehold.fields.vulnerabilities.displayModalFunction = value => this.displayModalVulnerabilities(value);
         newHousehold.set('projects', householdFromApi.projects.map(project => Project.apiToModel(project)));
-        newHousehold.set('location', Location.apiToModel(householdFromApi.location));
-        newHousehold.fields.location.displayTableFunction = value => value.getLocationName();
-        newHousehold.fields.location.displayModalFunction = value => value.getLocationName();
 
         newHousehold.set('beneficiaries', householdFromApi.beneficiaries.map(beneficiary => Beneficiary.apiToModel(beneficiary)));
         newHousehold.get<Beneficiary[]>('beneficiaries').forEach((beneficiary: Beneficiary) => {
@@ -233,6 +220,23 @@ export class Household extends CustomModel {
         )
         : null);
 
+        const householdLocations = householdFromApi.household_locations ?
+            householdFromApi.household_locations.map((householdLocation: any) => HouseholdLocation.apiToModel(householdLocation))
+            : null;
+
+        const currentHouseholdLocation = householdLocations.filter((householdLocation: HouseholdLocation) =>
+            householdLocation.get('locationGroup').get<string>('id') === 'current');
+        const residentHouseholdLocation = householdLocations.filter((householdLocation: HouseholdLocation) =>
+            householdLocation.get('locationGroup').get<string>('id') === 'resident');
+
+        newHousehold.set('currentHouseholdLocation', currentHouseholdLocation.length > 0 ? currentHouseholdLocation[0] : null);
+        newHousehold.set('residentHouseholdLocation', residentHouseholdLocation.length > 0 ? residentHouseholdLocation[0] : null);
+
+        newHousehold.fields.currentHouseholdLocation.displayTableFunction = (value: HouseholdLocation) => value.getHouseholdLocationName();
+        newHousehold.fields.currentHouseholdLocation.displayModalFunction = (value: HouseholdLocation) => value.getHouseholdLocationName();
+        newHousehold.fields.residentHouseholdLocation.displayModalFunction = (value: HouseholdLocation) =>
+            value ? value.getHouseholdLocationName() : null;
+
         return newHousehold;
     }
 
@@ -253,18 +257,21 @@ export class Household extends CustomModel {
 
 
     public modelToApi(): Object {
+
+        const householdLocations = [this.get<HouseholdLocation>('currentHouseholdLocation')];
+        if (this.get<HouseholdLocation>('residentHouseholdLocation')) {
+            householdLocations.push(this.get<HouseholdLocation>('residentHouseholdLocation'));
+        }
+
         return {
-            address_number: this.get('addressNumber'),
-            address_street: this.get('addressStreet'),
-            address_postcode: this.get('addressPostcode'),
             livelihood: this.get('livelihood') ? this.get('livelihood').get('id') : null,
             longitude: this.get('longitude'),
             latitude: this.get('latitude'),
             notes: this.get('notes'),
-            location: this.get('location').modelToApi(),
             country_specific_answers: this.get<CountrySpecificAnswer[]>('countrySpecificAnswers').map(answer => answer.modelToApi()),
             beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi()),
-            income_level: this.get('incomeLevel')
+            income_level: this.get('incomeLevel'),
+            household_locations: householdLocations.map((householdLocation: HouseholdLocation) => householdLocation.modelToApi()),
         };
     }
 }

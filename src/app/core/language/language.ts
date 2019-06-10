@@ -99,6 +99,7 @@ export interface Language {
     add_beneficiary_step3: string
     add_beneficiary_title: string
     add_beneficiary_code: string
+    add_beneficiary_occupation: string
 
     // Add beneficiary options
     national_id_passport: string
@@ -151,6 +152,9 @@ export interface Language {
     beneficiary_error_country_code: string
     beneficiairy_error_birth_date: string
     beneficiairy_error_project: string
+    beneficiary_error_camp: string
+    beneficiary_error_tent: string
+    beneficiairy_error_location_type: string
 
     // Beneficiaries
     beneficiaries_add_distribution: string
@@ -315,6 +319,21 @@ export interface Language {
     header_reports: string
     'header_update-beneficiary': string
     header_vouchers: string
+
+    // Household
+    household_location_current_address: string
+    household_location_resident_address: string
+    household_location_current_location: string
+    household_location_resident_location: string
+    household_location_type: string
+    household_location_camp: string
+    household_location_residence: string
+    household_location_settlement: string
+    household_location_address: string
+    household_location_camp_name: string
+    household_location_tent: string
+    household_location_create_camp: string
+    household_location_question: string
 
     // Import
     import_added: string
@@ -492,9 +511,7 @@ export interface Language {
     null_not_yet_defined: string
 
     // Number suffixes
-    number_suffix_first: string
-    number_suffix_second: string
-    number_suffix_third: string
+    number_suffixes: object
     number_suffix_other: string
 
     // Phone

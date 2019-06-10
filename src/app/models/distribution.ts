@@ -51,7 +51,7 @@ export class Distribution extends CustomModel {
         ),
         name: new TextModelField(
             {
-                title: this.language.model_distribution_name,
+                title: this.language.name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -80,7 +80,7 @@ export class Distribution extends CustomModel {
         ),
         date: new DateModelField(
             {
-                title: this.language.model_distribution_date,
+                title: this.language.distribution_date,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -112,7 +112,7 @@ export class Distribution extends CustomModel {
         ),
         type: new SingleSelectModelField(
             {
-                title: this.language.model_distribution_type,
+                title: this.language.distribution_type,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -127,7 +127,7 @@ export class Distribution extends CustomModel {
         ),
         commodities: new MultipleObjectsModelField<Commodity> (
             {
-                title: this.language.model_commodity,
+                title: this.language.commodity,
                 isDisplayedInTable: true,
                 isImageInTable: true,
                 isDisplayedInSummary: true,

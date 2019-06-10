@@ -38,7 +38,7 @@
           <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
               <button mat-raised-button [disabled]="!bookletData" class="button-background-primary" (click)="exportCodes()" *ngIf="!loadingExportCodes">
                 <mat-icon>get_app</mat-icon>
-                <span>{{language.export_codes | uppercaseFirst}}</span>
+                <span>{{language.booklet_export_codes | uppercaseFirst}}</span>
               </button>
               <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
               <div class="extension" *ngIf="!loadingExportCodes">

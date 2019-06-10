@@ -22,7 +22,7 @@ export class Sector extends CustomModel {
     // TODO: change this to instance method and fix it
     public static getDisplayedName() {
         throw new Exception();
-        // return this.language.model_sector;
+        // return this.language.sector;
     }
 
     public static apiToModel(sectorFromApi): Sector {

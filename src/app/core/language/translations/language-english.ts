@@ -50,6 +50,7 @@ export class English implements Language {
     profile = 'Profile'
     project = 'Project'
     projects = 'Projects'
+    remove = 'Remove'
     reports = 'Reports'
     sector = 'Sector'
     user = 'User'
@@ -125,6 +126,8 @@ export class English implements Language {
     // Add beneficiary
     add_beneficiary_done = 'Summary of Household to create'
     add_beneficiary_title = 'add beneficiary'
+    add_beneficiary_code = 'Ext'
+    add_beneficiary_occupation = 'Occupation'
 
     // Add distribution
     add_distribution_advanced_option = 'Advanced options'
@@ -202,7 +205,10 @@ export class English implements Language {
     beneficiary_error_location = 'You must select a location'
     beneficiary_error_member = ' member'
     beneficiary_error_phone = 'Phone can only be composed of digits for '
-    
+    beneficiary_error_camp = 'You must select or create a camp'
+    beneficiary_error_tent = 'You must enter a tent number'
+    beneficiairy_error_location_type = 'You must chose a location type'
+
     // Beneficiary import
     beneficiary_import_addFile = 'add file or drag and drop'
     beneficiary_import_addModal = 'add file'
@@ -310,6 +316,10 @@ export class English implements Language {
     // Distribution
     distribution_accept_changed = 'Accept Changes'
     distribution_add_beneficiaries = 'Add beneficiaries to this distribution'
+    distribution_add_justification = 'Add justification'
+    distribution_justify_added = 'Please provide a justification for adding beneficiaries'
+    distribution_justify_created = 'Please provide a justification for creating beneficiaries'
+    distribution_justify_deleted = 'Please provide a justification for deleting beneficiaries'
     distribution_beneficiary_added = 'Beneficiary added'
     distribution_beneficiary_not_added = 'Beneficiary could not be added'
     distribution_cant_update = 'You can\'t update this distribution.'
@@ -322,6 +332,7 @@ export class English implements Language {
     distribution_distribute = 'set as distributed'
     distribution_edit = 'Edit distribution'
     distribution_error_validate = 'The distribution is empty, please fill it before to validate it'
+    distribution_last_modification = 'last modification : '
     distribution_no_beneficiaries = 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.'
     distribution_no_random_sample = 'Random sample can\'t be generated...'
     distribution_no_right_transaction = 'You haven\'t the right to realize the transaction, ask to your project manager or your country manager'
@@ -332,6 +343,7 @@ export class English implements Language {
     distribution_request_logs = 'Send transaction logs by email'
     distribution_select_beneficiaries = 'Please select the beneficiaries from the project'
     distribution_show_data = 'Show data anyway'
+    distribution_succes_completed = 'Distribution successfully completed!'
     distribution_type = 'Target'
     distribution_validate = 'Validate'
     distribution_validated = 'Distribution has been validated'
@@ -365,7 +377,20 @@ export class English implements Language {
     household_location = 'Household Location'
     household_members = 'Members'
     household_sentence = 'The household of '
-  
+    household_location_current_address = 'Current address'
+    household_location_resident_address = 'Resident address'
+    household_location_current_location = 'Current location'
+    household_location_resident_location = 'Resident location'
+    household_location_type = 'Type of location'
+    household_location_camp = 'Camp'
+    household_location_residence = 'Residence'
+    household_location_settlement = 'Temporary settlement'
+    household_location_address = 'Address'
+    household_location_camp_name = 'Camp\'s name'
+    household_location_tent = 'Tent number'
+    household_location_create_camp = 'Create a camp'
+    household_location_question = 'Is your current location different than your address?'
+
     // Import
     import_added = 'Added from existing beneficiaries'
     import_back_to_beneficiaries = 'Back to Beneficiaries'
@@ -417,8 +442,14 @@ export class English implements Language {
     modal_add_multiple_title = 'Create multiple new'
     modal_add_no_value = 'You need to enter a value'
     modal_add_title = 'Create a new '
-    modal_complete_distribution = 'Are you sure you want to manually complete this distribution ?'
+    modal_check_date = 'Invalid fields = Your start date cannot be older than the end date'
+    modal_check_fields = 'Invalid fields = check you filled every field'
+    modal_delete_beneficiary = 'Remove beneficiary'
+    modal_delete_beneficiary_sentence = 'You are about to remove '
+    modal_delete_beneficiary_sentence_2 = ' from this distribution'
+    modal_delete_justification = 'justification'
     modal_delete_many = 'these elements'
+    modal_complete_distribution = 'Are you sure you want to manually complete this distribution ?'
     modal_delete_sentence = 'You are about to delete '
     modal_delete_sentence_2 = '. Are you sure? '
     modal_details_title = 'Details of this'
@@ -454,9 +485,11 @@ export class English implements Language {
     null_not_yet_defined = 'not yet defined'
 
     // Number suffixes
-    number_suffix_first = 'st'
-    number_suffix_second = 'nd'
-    number_suffix_third = 'rd'
+    number_suffixes = {
+      1: 'st',
+      2: 'nd',
+      3: 'rd'
+    }
     number_suffix_other = 'th'
 
     // Organization
@@ -579,7 +612,9 @@ export class English implements Language {
     table_next_page = 'Next page'
     table_of_page = 'of'
     table_previous_page = 'Previous page'
-    
+    table_print = 'print'
+    table_assign = 'assign'
+
     // Transaction
     transaction_accept_prevention = 'I agree to these terms.'
     transaction_again = 'Send again'
@@ -608,6 +643,7 @@ export class English implements Language {
     transaction_state_sending_failed = 'Sending failed'
     transaction_state_sent = 'Sent' // Means sent during the current transaction (after loading the page)
     transaction_transaction = 'Start transaction'
+    transaction_update_success = 'Update successful!'
     transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'
     transaction_validation = 'Confirm the validation'
     

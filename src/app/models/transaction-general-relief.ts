@@ -43,7 +43,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
     matSortActive = 'localFamilyName';
     title = this.language.general_relief;
 
-    public fields = {
+    public fields = {...this.fields, ...{
         id: new NumberModelField({
 
         }),
@@ -135,9 +135,10 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             childrenFieldName: 'referralComment',
             isEditable: true,
         }),
+    }
     };
 
-    public static apiToModel(distributionBeneficiaryFromApi): TransactionGeneralRelief {
+    public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionGeneralRelief {
         const newGeneralRelief = new TransactionGeneralRelief();
         newGeneralRelief.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
         if (distributionBeneficiaryFromApi.beneficiary.referral) {
@@ -155,6 +156,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             newGeneralRelief.set('idTransaction', distributionBeneficiaryFromApi.transactions[0].id);
         }
         newGeneralRelief.fields.notes.numberOfInputs = newGeneralRelief.get<GeneralRelief[]>('generalReliefs').length;
+        this.addCommonFields(newGeneralRelief, distributionBeneficiaryFromApi, distributionId);
         if (distributionBeneficiaryFromApi.beneficiary.referral) {
             newGeneralRelief.fields.addReferral.isDisplayedInModal = false;
             newGeneralRelief.fields.referralType.isDisplayedInModal = true;

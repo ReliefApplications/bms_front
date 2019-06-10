@@ -50,6 +50,7 @@ export class Arabic implements Language {
     profile = ' المعطيات الشخصية'
     project = 'المشروع'
     projects = 'المشاريع'
+    remove = 'إزالة'
     reports = 'التقارير'
     sector = 'القطاع'
     user = 'المستخدم'
@@ -125,7 +126,9 @@ export class Arabic implements Language {
     // Add beneficiary
     add_beneficiary_done = 'ملخص معطيات المستفيد قبل اضافته'
     add_beneficiary_title = 'إضافة مستفيد'
-    
+    add_beneficiary_code = 'تحويلة'
+    add_beneficiary_occupation = 'الاحتلال'
+
     // Add distribution
     add_distribution_advanced_option = 'خيارات متقدمة'
     add_distribution_beneficiaries_reached = 'المستفيدون الذين تم الوصول إليهم'
@@ -192,9 +195,11 @@ export class Arabic implements Language {
     beneficiairy_error_birth_date = ' يرجى تحديد تاريخ ميلاد صالح لـ'
     beneficiairy_error_gender = ' يجب عليك إدخال الجنس من أجل'
     beneficiairy_error_head = 'رب الأسرة'
+    beneficiairy_error_location_type = 'يجب عليك تحديد نوع الموقع'
     beneficiairy_error_project = 'يجب عليك اختيار مشروع واحد على الأقل'
     beneficiary_error_address_postcode = 'يجب إدخال الرمز البريدي للعنوان'
     beneficiary_error_address_street = 'يجب عليك إدخال شارع العنوان'
+    beneficiary_error_camp = 'يجب عليك تحديد معسكر أو إنشاء معسكر'
     beneficiary_error_country_code = ' يرجى اختيار رمز البلد لرقم الهاتف ل'
     beneficiary_error_existing_country_code = ' يرجى اختيار رمز البلد الحالي من القائمة ل'
     beneficiary_error_family_name = ' يجب إدخال اسم عائلة محلي لـ'
@@ -202,6 +207,7 @@ export class Arabic implements Language {
     beneficiary_error_location = 'يجب عليك تحديد موقع'
     beneficiary_error_member = ' عضو'
     beneficiary_error_phone = ' يمكن أن يتكون الهاتف فقط من أرقام لـ'
+    beneficiary_error_tent = 'يجب إدخال رقم خيمة'
 
     // Beneficiary imports
     beneficiary_import_addFile= ' إضافة ملف أو وضع ملف '
@@ -310,6 +316,10 @@ export class Arabic implements Language {
     // Distribution
     distribution_accept_changed = 'قبول التغييرات'
     distribution_add_beneficiaries = 'إضافة المستفيدين لهذا التوزيع'
+    distribution_add_justification = 'إضافة التبرير'
+    distribution_justify_added = 'يرجى تقديم مبرر لإضافة المستفيدين'
+    distribution_justify_created = 'يرجى تقديم مبرر لإنشاء المستفيدين'
+    distribution_justify_deleted = 'يرجى تقديم مبرر لحذف المستفيدين'
     distribution_beneficiary_added = 'تم أضافة المستفيد'
     distribution_beneficiary_not_added = 'لم بتم أضافة المستفيد'
     distribution_cant_update = 'لا يمكنك تحديث هذا التوزيع.'
@@ -322,6 +332,7 @@ export class Arabic implements Language {
     distribution_distribute = 'تعيين كما وزعت'
     distribution_edit = 'تعديل التوزيع'
     distribution_error_validate = 'التوزيع فارغ ، يرجى ملءه قبل التحقق من صحته'
+    distribution_last_modification = 'اخر تعديل :'
     distribution_no_beneficiaries = 'لم تتم إضافة أو إزالة أي مستفيدين. سيتم تحديث أي تغييرات يتم إجراؤها على المستفيدين المستوردين في النظام.'
     distribution_no_random_sample = 'لا يمكن إنشاء عينة عشوائية ...'
     distribution_no_right_transaction = 'لا يحق لك أن تقوم بالصفقة ، اسأل مدير المشروع الخاص بك أو مدير بلدك'
@@ -332,6 +343,7 @@ export class Arabic implements Language {
     distribution_request_logs = 'إرسل سجلات المعاملات عن طريق البريد الإلكتروني'
     distribution_select_beneficiaries = 'يرجى تحديد المستفيدين من المشروع'
     distribution_show_data = 'عرض البيانات على أي حال'
+    distribution_succes_completed = 'اكتمل التوزيع بنجاح!'
     distribution_type = 'العالمي'
     distribution_validate = 'التحقق من صحة'
     distribution_validated = ' تم التحقق من صحة التوزيع'
@@ -362,10 +374,23 @@ export class Arabic implements Language {
     household_income_level = INCOMELEVELS.ar
     household_info= 'ملخص المعلومات الخاصة بالمنزل  :'
     household_livelihood = 'الوظيفة'
+    household_location_address = 'عنوان'
+    household_location_camp = 'معسكر'
+    household_location_camp_name = 'اسم المخيم'
+    household_location_create_camp = 'إنشاء معسكر'
+    household_location_current_address = 'العنوان الحالي'
+    household_location_current_location = 'الموقع الحالي'
+    household_location_question = 'هل موقعك الحالي مختلف عن عنوانك؟'
+    household_location_residence = 'إقامة'
+    household_location_resident_address = 'عنوان الإقامة'
+    household_location_resident_location = 'موقع المقيمين'
+    household_location_settlement = 'تسوية مؤقتة'
+    household_location_tent = 'خيمة رقم'
+    household_location_type = 'نوع الموقع'
     household_location= 'مكان الأسرة='
     household_members = 'أفراد العائلة'
     household_sentence = 'الأسرة من'
-    
+
     // Import
     import_added = 'تم إضافتها'
     import_back_to_beneficiaries = 'العودة إلى المستفيدين'
@@ -417,7 +442,13 @@ export class Arabic implements Language {
     modal_add_multiple_title = 'خلق جديد إبداع جديد'
     modal_add_no_value = 'عليك بادخال قيمة عددية'
     modal_add_title = 'إضافة جديد'
+    modal_check_date = 'الحقول غير الصالح: لا يمكن أن يكون تاريخ الانتهاء  أقدم من تاريخ البدء'
+    modal_check_fields = 'تحقق جيدا انك أدخلت جميع المعطيات'
     modal_complete_distribution = 'هل تريد بالتأكيد إكمال هذا التوزيع يدويًا؟'
+    modal_delete_beneficiary = 'إزالة المستفيد'
+    modal_delete_beneficiary_sentence_2 = ' من هذا التوزيع'
+    modal_delete_beneficiary_sentence: ' أنت على وشك الإزالة'
+    modal_delete_justification = 'مبرر'
     modal_delete_many = 'هذه العناصر'
     modal_delete_sentence = 'أنت على وشك الحذف'
     modal_delete_sentence_2 = 'هل أنت متأكد'
@@ -454,9 +485,11 @@ export class Arabic implements Language {
     null_not_yet_defined = 'لم يحدد بعد'
     
     // Number suffixes
-    number_suffix_first = ''
-    number_suffix_second = ''
-    number_suffix_third = ''
+    number_suffixes = {
+        1: '',
+        2: '',
+        3: ''
+      }
     number_suffix_other = ''
 
     // Organization
@@ -579,7 +612,9 @@ export class Arabic implements Language {
     table_next_page = 'الصفحة التالية'
     table_of_page = 'من'
     table_previous_page = 'الصفحة السابقة'
-    
+    table_print = 'طباعة'
+    table_assign = 'تعيين'
+
     // Transaction
     transaction_accept_prevention = 'أنا أوافق على هذه الشروط.'
     transaction_again = 'أعد الإرسال'
@@ -608,6 +643,7 @@ export class Arabic implements Language {
     transaction_state_sending_failed = 'لقد تعذر الارسال'
     transaction_state_sent = 'أرسلت'
     transaction_transaction = 'عملية تجارية'
+    transaction_update_success = 'تم التحديث بنجاح'
     transaction_validate_distribution = 'هل تريد حقًا التحقق من صحة هذا التوزيع؟ لن تتمكن من تعديله بعد الآن.'
     transaction_validation = 'تأكيد التحقق من الصحة'
     

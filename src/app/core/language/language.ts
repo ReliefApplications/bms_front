@@ -108,7 +108,9 @@ export interface Language {
     // Add beneficiary
     add_beneficiary_done: string
     add_beneficiary_title: string
-    
+    add_beneficiary_code: string
+    add_beneficiary_occupation: string
+
     // Add distribution
     add_distribution_advanced_option: string
     add_distribution_beneficiaries_reached: string
@@ -169,15 +171,17 @@ export interface Language {
     beneficiary_select_api: string
     beneficiary_selected_project: string
     beneficiary_vulnerabilities: string
-    
+
     // Benficiary form errors
     beneficiairy_error_address_number: string
     beneficiairy_error_birth_date: string
     beneficiairy_error_gender: string
     beneficiairy_error_head: string
+    beneficiairy_error_location_type: string
     beneficiairy_error_project: string
     beneficiary_error_address_postcode: string
     beneficiary_error_address_street: string
+    beneficiary_error_camp: string
     beneficiary_error_country_code: string
     beneficiary_error_existing_country_code: string
     beneficiary_error_family_name: string
@@ -185,7 +189,8 @@ export interface Language {
     beneficiary_error_location: string
     beneficiary_error_member: string
     beneficiary_error_phone: string
-    
+    beneficiary_error_tent: string
+
     // Beneficiary import
     beneficiary_import_addFile: string
     beneficiary_import_addModal: string
@@ -218,7 +223,7 @@ export interface Language {
     booklet_unassigned: string
     booklet_update_password: string
     booklet_used: string
-    
+
     // Cache
     cache_distribution_added: string
     cache_no_distribution: string
@@ -293,6 +298,10 @@ export interface Language {
     // Distribution
     distribution_accept_changed: string
     distribution_add_beneficiaries: string
+    distribution_add_justification: string
+    distribution_justify_added: string
+    distribution_justify_created: string
+    distribution_justify_deleted: string
     distribution_beneficiary_added: string
     distribution_beneficiary_not_added: string
     distribution_cant_update: string
@@ -305,6 +314,7 @@ export interface Language {
     distribution_distribute: string
     distribution_edit: string
     distribution_error_validate: string
+    distribution_last_modification: string
     distribution_no_beneficiaries: string
     distribution_no_random_sample: string
     distribution_no_right_transaction: string
@@ -315,6 +325,7 @@ export interface Language {
     distribution_request_logs: string
     distribution_select_beneficiaries: string
     distribution_show_data: string
+    distribution_succes_completed: string
     distribution_type: string
     distribution_validate: string
     distribution_validated_title: string
@@ -345,6 +356,19 @@ export interface Language {
     household_income: string
     household_info: string
     household_livelihood: string
+    household_location_address: string
+    household_location_camp_name: string
+    household_location_camp: string
+    household_location_create_camp: string
+    household_location_current_address: string
+    household_location_current_location: string
+    household_location_question: string
+    household_location_residence: string
+    household_location_resident_address: string
+    household_location_resident_location: string
+    household_location_settlement: string
+    household_location_tent: string
+    household_location_type: string
     household_location: string
     household_members: string
     household_sentence: string
@@ -400,6 +424,12 @@ export interface Language {
     modal_add_multiple_title: string
     modal_add_no_value: string
     modal_add_title: string
+    modal_check_date: string
+    modal_check_fields: string
+    modal_delete_beneficiary: string
+    modal_delete_beneficiary_sentence: string
+    modal_delete_beneficiary_sentence_2: string
+    modal_delete_justification: string
     modal_complete_distribution: string
     modal_delete_many: string
     modal_delete_sentence_2: string
@@ -437,9 +467,7 @@ export interface Language {
     null_not_yet: string
 
     // Number suffixes
-    number_suffix_first: string
-    number_suffix_second: string
-    number_suffix_third: string
+    number_suffixes: object
     number_suffix_other: string
 
     // Organization
@@ -562,7 +590,9 @@ export interface Language {
     table_next_page: string
     table_of_page: string
     table_previous_page: string
-    
+    table_print: string
+    table_assign: string
+
     // Transaction
     transaction_accept_prevention: string
     transaction_again: string
@@ -591,6 +621,7 @@ export interface Language {
     transaction_state_sending_failed: string
     transaction_state_sent: string
     transaction_transaction: string
+    transaction_update_success: string
     transaction_validate_distribution: string
     transaction_validation: string
 

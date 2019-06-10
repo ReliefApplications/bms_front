@@ -3,6 +3,7 @@ import { CustomModel } from './custom-models/custom-model';
 import { NestedFieldModelField } from './custom-models/nested-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { DateModelField } from './custom-models/date-model-field';
+import { TextModelField } from './custom-models/text-model-field';
 
 export class ImportedBeneficiary extends CustomModel {
 
@@ -50,6 +51,10 @@ export class ImportedBeneficiary extends CustomModel {
             childrenObject: 'beneficiary',
             childrenFieldName: 'dateOfBirth',
         }),
+        justification: new TextModelField({
+            title: this.language.modal_delete_justification,
+            isDisplayedInTable: true,
+        })
 
     };
 

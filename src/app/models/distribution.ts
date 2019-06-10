@@ -150,6 +150,9 @@ export class Distribution extends CustomModel {
                 // Not displayed anywhere but used as a condition
             }
         ),
+        updatedOn: new DateModelField({
+            // Only displayed in the distribution component title
+        }),
         adm1: new NestedFieldModelField({
             title: this.language.adm1,
             isSettable: true,
@@ -163,7 +166,9 @@ export class Distribution extends CustomModel {
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm2Options(distribution, parseInt(value, 10)).subscribe();
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
                 }
                 return distribution;
             },
@@ -180,7 +185,9 @@ export class Distribution extends CustomModel {
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm3Options(distribution, parseInt(value, 10)).subscribe();
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
                 }
                 return distribution;
             },
@@ -196,7 +203,9 @@ export class Distribution extends CustomModel {
                 const appInjector = AppInjector;
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm4Options(distribution, parseInt(value, 10)).subscribe();
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
                 }
                 return distribution;
             },
@@ -250,6 +259,8 @@ export class Distribution extends CustomModel {
                     .map((distributionBeneficiary: any) =>
                         DistributionBeneficiary.apiToModel(distributionBeneficiary, distributionFromApi.id)));
         }
+
+        newDistribution.set('updatedOn', DateModelField.formatDateTimeFromApi(distributionFromApi.updated_on));
 
         return newDistribution;
     }

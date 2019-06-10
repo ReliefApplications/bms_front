@@ -125,7 +125,9 @@ export class French implements Language {
     // Add beneficiary
     add_beneficiary_done = 'Récapitulatif du bénéficiaire à créer'
     add_beneficiary_title = 'Ajout d\'un bénéficiaire'
-    
+    add_beneficiary_code = 'Ext'
+    add_beneficiary_occupation = 'Occupation'
+
     // Add distribution
     add_distribution_advanced_option = 'Options avancées'
     add_distribution_beneficiaries_reached = 'Bénéficaires atteints'
@@ -152,6 +154,25 @@ export class French implements Language {
     add_project_new_distribution = 'nouvelle distribution'
     add_project_title = 'nouveau projet'
     
+    // Benficiary form errors
+    beneficiary_error_location = 'Vous devez choisir une localisation'
+    beneficiairy_error_address_number = 'Vous devez entrer un numéro de voie'
+    beneficiary_error_address_postcode = 'Vous devez entrer un code postal'
+    beneficiary_error_address_street = 'Vous devez entrer un nom de voie'
+    beneficiairy_error_head = 'le chef de famille'
+    beneficiary_error_member = ' membre'
+    beneficiary_error_family_name = 'Vous devez entrer un nom de famille local pour '
+    beneficiary_error_given_name = 'Vous devez entrer un prénom local pour '
+    beneficiairy_error_gender = 'Vous devez sélectionner un genre pour '
+    beneficiary_error_phone = 'Le numéro de téléphone doit être uniquement composé de chiffres pour '
+    beneficiary_error_existing_country_code = 'Veuillez sélectionner un préfixe valide pour '
+    beneficiary_error_country_code = 'Veuillez sélectionner un préfixe de la liste pour '
+    beneficiairy_error_birth_date = 'Veuillez sélectionner une date de naissance valide pour '
+    beneficiairy_error_project = 'Veuillez sélectionner au moins un projet'
+    beneficiary_error_camp = 'Vous devez sélectionner un camp ou en créer un'
+    beneficiary_error_tent = 'Vous devez renseigner un numéro de tente'
+    beneficiairy_error_location_type = 'Vous devez sélectionner un type de lieu'
+
     // Beneficiaries
     beneficiary_add_distribution = 'Ajouter les bénéficiaires à cette distribution'
     beneficiary_add_list = 'Ajouter cette liste au projet'
@@ -186,22 +207,6 @@ export class French implements Language {
     beneficiary_select_api = 'Sélectionner une API'
     beneficiary_selected_project = 'bénéficiaires sélectionnés:'
     beneficiary_vulnerabilities = 'Vulnérabilités'
-    
-    // Benficiary form errors
-    beneficiairy_error_address_number = 'Vous devez entrer un numéro de voie'
-    beneficiairy_error_birth_date = 'Veuillez sélectionner une date de naissance valide pour '
-    beneficiairy_error_gender = 'Vous devez sélectionner un genre pour '
-    beneficiairy_error_head = 'le chef de famille'
-    beneficiairy_error_project = 'Veuillez sélectionner au moins un projet'
-    beneficiary_error_address_postcode = 'Vous devez entrer un code postal'
-    beneficiary_error_address_street = 'Vous devez entrer un nom de voie'
-    beneficiary_error_country_code = 'Veuillez sélectionner un préfixe de la liste pour '
-    beneficiary_error_existing_country_code = 'Veuillez sélectionner un préfixe valide pour '
-    beneficiary_error_family_name = 'Vous devez entrer un nom de famille local pour '
-    beneficiary_error_given_name = 'Vous devez entrer un prénom local pour '
-    beneficiary_error_location = 'Vous devez choisir une localisation'
-    beneficiary_error_member = ' membre'
-    beneficiary_error_phone = 'Le numéro de téléphone doit être uniquement composé de chiffres pour '
     
     // Benficiaries Imports
     beneficiary_import_addFile = 'ajouter un fichier ou glisser-déposer'
@@ -310,6 +315,10 @@ export class French implements Language {
     // Distribution
     distribution_accept_changed = 'Accepter les changements'
     distribution_add_beneficiaries = 'Ajouter des bénéficiaires à cette distribution'
+    distribution_add_justification = 'Ajouter une justification'
+    distribution_justify_added = 'Veuillez justifier votre choix d\'ajouter des bénéficiaires'
+    distribution_justify_created = 'Veuillez justifier votre choix de créer des bénéficiaires'
+    distribution_justify_deleted = 'Veuillez justifier votre choix de supprimer des bénéficiaires'
     distribution_beneficiary_added = 'Bénéficiaire ajouté'
     distribution_beneficiary_not_added = 'Le bénéficiaire n\'a pas pu être ajouté'
     distribution_cant_update = 'Vous ne pouvez pas modifier cette distribution'
@@ -322,6 +331,7 @@ export class French implements Language {
     distribution_distribute = 'définir comme distribué'
     distribution_edit = 'Modifier la distribution'
     distribution_error_validate = 'La distribution est vide, veuillez la remplir avant de la valider'
+    distribution_last_modification = 'dernière modification : '
     distribution_no_beneficiaries = 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.'
     distribution_no_random_sample = 'L\'échantillon aléatoire ne peut pas être généré'
     distribution_no_right_transaction = 'Vous n\'avait pas le droit nécessaire pour réaliser la transaction, demandez à votre responsable de projet ou à votre responsable de pays'
@@ -332,6 +342,7 @@ export class French implements Language {
     distribution_request_logs = 'Recevoir l\'historique des transactions par mail'
     distribution_select_beneficiaries = 'S\'il vous plait, selectionner les bénéficiaires depuis le projet'
     distribution_show_data = 'Afficher les données quand même'
+    distribution_succes_completed = 'La distribution a été complétée avec succès !'
     distribution_type = 'Cible'
     distribution_validate = 'Valider'
     distribution_validated = 'La distribution a été validée'
@@ -355,6 +366,11 @@ export class French implements Language {
     header_home = 'Accueil'
     header_import = 'Import de bénéficiaires'
     header_imported = 'Données des bénéficiaires importés'
+    header_language = 'langue'
+    header_profile = 'Profil'
+    header_projects = 'Projets'
+    header_reports = 'Rapports'
+    header_vouchers = 'Brochures'
     
     // Household
     household_full_address = 'Adresse entière du ménage'
@@ -365,7 +381,20 @@ export class French implements Language {
     household_location = 'Localisation du ménage'
     household_members = 'Membres'
     household_sentence = 'Le ménage de '
-    
+    household_location_current_address = 'Adresse actuelle'
+    household_location_resident_address = 'adresse de résidence'
+    household_location_current_location = 'Lieu actuel'
+    household_location_resident_location = 'Lieu de résidence'
+    household_location_type = 'Type d\'habitation'
+    household_location_camp = 'Camp'
+    household_location_residence = 'Résidence'
+    household_location_settlement = 'Installation temporaire'
+    household_location_address = 'Adresse'
+    household_location_camp_name = 'Nom du camp'
+    household_location_tent = 'Numéro de tente'
+    household_location_create_camp = 'Créer un camp'
+    household_location_question = 'Votre adresse actuelle est-elle différente de votre adresse habituelle ?'
+
     // Import
     import_added = 'Ajout'
     import_back_to_beneficiaries = 'Back to Beneficiaries'
@@ -417,8 +446,14 @@ export class French implements Language {
     modal_add_multiple_title = 'Ajouter plusieurs nouveaux'
     modal_add_no_value = 'Vous devez entrer une valeur'
     modal_add_title = 'Ajouter un nouveau'
-    modal_complete_distribution = 'Etes-vous sûr de vouloir manuellement terminer cette distribution ?'
+    modal_check_date = 'Champs invalides = La date de début ne peut pas être plus ancienne que la date de fin et vice versa'
+    modal_check_fields = 'Champs invalides = vérifiez que vous avez rempli tous les champs'
+    modal_delete_beneficiary = 'Retirer ce bénéficiaire'
+    modal_delete_beneficiary_sentence: 'Vous êtes sur le point de retirer '
+    modal_delete_beneficiary_sentence_2 = ' de cette distribution'
+    modal_delete_justification = 'justification'
     modal_delete_many = 'ces éléments'
+    modal_complete_distribution = 'Etes-vous sûr de vouloir manuellement terminer cette distribution ?'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
     modal_delete_sentence_2 = '. '
     modal_details_title = 'Détails de ce'
@@ -454,9 +489,11 @@ export class French implements Language {
     null_not_yet_defined = 'pas encore défini'
     
     // Number suffixes
-    number_suffix_first = 'er'
-    number_suffix_second = 'ème'
-    number_suffix_third = 'ème'
+    number_suffixes = {
+      1: 'er',
+      2: 'ème',
+      3: 'ème'
+    }
     number_suffix_other = 'ème'
   
     // Organization
@@ -579,7 +616,9 @@ export class French implements Language {
     table_next_page = 'Page suivante'
     table_of_page = 'sur'
     table_previous_page = 'Page précédente'
-    
+    table_print = 'imprimer'
+    table_assign = 'assigner'
+  
     // Transaction
     transaction_accept_prevention = 'J\'accepte ces conditions.'
     transaction_again = 'Renvoyer'
@@ -608,6 +647,7 @@ export class French implements Language {
     transaction_state_sending_failed = 'Envoie échoué'
     transaction_state_sent = 'Envoyé'
     transaction_transaction = 'Démarrer la transaction'
+    transaction_update_success = 'Modification réussie !'
     transaction_validate_distribution = 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier'
     transaction_validation = 'Confirmer la validation'
 

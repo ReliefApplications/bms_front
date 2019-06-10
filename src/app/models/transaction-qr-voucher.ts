@@ -9,13 +9,10 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
     title = this.language.beneficiary;
     matSortActive = 'localFamilyName';
 
-    public fields = {
+    public fields = {...this.fields, ...{
         // id: new NumberModelField({
 
         // }),
-        beneficiary: new ObjectModelField<Beneficiary>({
-            value: []
-        }),
         booklet: new ObjectModelField<Booklet>({
 
         }),
@@ -97,11 +94,10 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             childrenFieldName: 'referralComment',
             isEditable: true,
         }),
-    };
+    }};
 
-    public static apiToModel(distributionBeneficiaryFromApi: any): TransactionQRVoucher {
+    public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionQRVoucher {
         const newQRVoucher = new TransactionQRVoucher();
-        newQRVoucher.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
 
         if (distributionBeneficiaryFromApi.beneficiary.referral) {
             newQRVoucher.fields.addReferral.isDisplayedInModal = false;
@@ -115,6 +111,7 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             booklet = booklet ? booklet : distributionBeneficiaryFromApi.booklets[0];
         }
         newQRVoucher.set('booklet', booklet ? Booklet.apiToModel(booklet) : null);
+        this.addCommonFields(newQRVoucher, distributionBeneficiaryFromApi, distributionId);
         return newQRVoucher;
     }
 

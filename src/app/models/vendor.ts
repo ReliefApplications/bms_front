@@ -99,6 +99,7 @@ export class Vendor extends CustomModel {
             isEditable: true,
             childrenObject: 'location',
             childrenFieldName: 'adm1',
+            isRequired: true,
             isTrigger: true,
             triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
@@ -109,7 +110,9 @@ export class Vendor extends CustomModel {
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm2Options(vendor, parseInt(value, 10)).subscribe();
+                    const location = vendor.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => vendor.set('location', location));
                 }
                 return vendor;
             },
@@ -129,7 +132,9 @@ export class Vendor extends CustomModel {
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm3Options(vendor, parseInt(value, 10)).subscribe();
+                    const location = vendor.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => vendor.set('location', location));
                 }
                 return vendor;
             },
@@ -147,7 +152,9 @@ export class Vendor extends CustomModel {
                 // vendor.set('adm4', null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm4Options(vendor, parseInt(value, 10)).subscribe();
+                    const location = vendor.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => vendor.set('location', location));
                 }
                 return vendor;
             },

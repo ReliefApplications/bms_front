@@ -1,15 +1,14 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialog, MatStepper, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as CountryIso from 'country-iso-3-to-2';
-import { Observable } from 'rxjs';
+import { Observable, Subscription, SubscribableOrPromise } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
-import { Beneficiary, BeneficiaryOptions, Gender, ResidencyStatus, BeneficiaryReferralType } from 'src/app/models/beneficiary';
+import { Beneficiary, BeneficiaryOptions, Gender, BeneficiaryReferralType } from 'src/app/models/beneficiary';
 import { CountrySpecific, CountrySpecificAnswer } from 'src/app/models/country-specific';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { Household, Livelihood } from 'src/app/models/household';
@@ -20,7 +19,6 @@ import { Profile } from 'src/app/models/profile';
 import { Project } from 'src/app/models/project';
 import { VulnerabilityCriteria } from 'src/app/models/vulnerability-criteria';
 import { ModalConfirmationComponent } from '../../../components/modals/modal-confirmation/modal-confirmation.component';
-import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { CountrySpecificService } from '../../../core/api/country-specific.service';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { HouseholdsService } from '../../../core/api/households.service';
@@ -29,6 +27,12 @@ import { ProjectService } from '../../../core/api/project.service';
 import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { PHONECODES } from 'src/app/models/constants/phone-codes';
+import { HouseholdLocation, HouseholdLocationGroup, HouseholdLocationType } from 'src/app/models/household-location';
+import { Camp } from 'src/app/models/camp';
+import { Address } from 'src/app/models/address';
+import { CampAddress } from 'src/app/models/camp-address';
+import { PhoneService } from '../../../core/api/phone.service';
+
 @Component({
     selector: 'app-update-beneficiary',
     templateUrl: './update-beneficiary.component.html',
@@ -38,34 +42,30 @@ import { PHONECODES } from 'src/app/models/constants/phone-codes';
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded {
+export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded, OnDestroy {
 
     // Mode
     public mode: string;
-    public validationLoading = false;
+    public locationSuscribers: Subscription[];
 
-    public household: Household;
+    // Loaders
+    public validationLoading = false;
+    public loader = true;
+
+    // Forms
     public mainFields: string[];
     public mainForm: FormGroup;
-
-    // public headBeneficiary: Beneficiary;
     public beneficiaryFields: string[];
     public beneficiariesForm: FormGroup[] = [];
 
-    // Household objects
-    public countryISO3;
-    public loader = true;
-
-    // DB Lists
+    // NgSelect Lists
+    public countryCodesList = PHONECODES;
     public provinceList = [];
     public districtList = [];
     public communeList = [];
     public villageList = [];
     public vulnerabilityList: Array<VulnerabilityCriteria>;
-
-    // Country Codes (PhoneNumber lib)
-    private getCountryISO2 = CountryIso;
-    public countryCodesList = PHONECODES;
+    public campLists = { 'current': [], 'resident': [] };
 
     // Checkpoint
     validStep1 = false;
@@ -80,14 +80,17 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     private uneditedHouseholdSnapshot: any;
     private uneditedBeneficiariesSnapshot: any;
 
-    @ViewChild(MatStepper) stepper: MatStepper;
-
-    // Language
+    // Language and country
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
-
     public countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
         this.countryService.selectedCountry.getValue().get<string>('id') :
         this.countryService.khm.get<string>('id');
+
+    // Reference models
+    public household: Household;
+    public locations = { 'current': new Location, 'resident': new Location };
+
+    @ViewChild(MatStepper) stepper: MatStepper;
 
     constructor(
         public route: ActivatedRoute,
@@ -97,52 +100,68 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         public _countrySpecificsService: CountrySpecificService,
         public _cacheService: AsyncacheService,
         public _householdsService: HouseholdsService,
-        public _beneficiariesService: BeneficiariesService,
         public formBuilder: FormBuilder,
         public dialog: MatDialog,
         public snackbar: SnackbarService,
         public router: Router,
         public languageService: LanguageService,
         public countryService: CountriesService,
+        public phoneService: PhoneService,
     ) { }
 
     ngOnInit() {
         // Set right mode (update or create)
-        if (this.router.url.split('/')[2] === 'update-beneficiary') {
-            this.mode = 'update';
-        } else {
-            this.mode = 'create';
-        }
+        this.mode =  this.router.url.split('/')[2] === 'update-beneficiary' ? 'update' : 'create';
 
         this.initiateHousehold().then(() => {
-            this.getVulnerabilityCriteria().subscribe(() => {
-                const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
-                    .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
-                this.mainFields = ['adm1', 'adm2', 'adm3', 'adm4', 'addressNumber', 'addressPostcode', 'addressStreet',
-                    'incomeLevel', 'livelihood', 'notes', 'projects'];
-                this.mainFields = this.mainFields.concat(countrySpecificNames);
-
-                const vulnerabilityCriteriaNames = this.vulnerabilityList.map((vulnerability: VulnerabilityCriteria) => {
-                    return vulnerability.get<string>('name');
-                });
-                this.beneficiaryFields = [
-                    'id', 'localGivenName', 'localFamilyName', 'enGivenName', 'enFamilyName',
-                    'gender', 'dateOfBirth', 'IDType', 'IDNumber', 'residencyStatus',
-                    'phoneType0', 'phoneNumber0', 'phonePrefix0', 'phoneProxy0',
-                    'phoneType1', 'phoneNumber1', 'phonePrefix1', 'phoneProxy1',
-                    'addReferral', 'referralType', 'referralComment'
-                ];
-                this.beneficiaryFields = this.beneficiaryFields.concat(vulnerabilityCriteriaNames);
-
-                this.makeMainForm();
-                this.household.get<Beneficiary[]>('beneficiaries')
-                    .forEach((beneficiary: Beneficiary, index: number) => this.makeBeneficiaryForm(beneficiary, index));
-
-                this.beneficiarySnapshot();
-                this.loader = false;
-                this.getProjects();
+            this.getVulnerabilityCriteria().subscribe((response) => {
+                if (response) {
+                    this.fillFormFields();
+                    this.makeMainForm();
+                    this.household.get<Beneficiary[]>('beneficiaries').forEach((beneficiary: Beneficiary, index: number) => {
+                        this.makeBeneficiaryForm(beneficiary, index);
+                    });
+                    this.beneficiarySnapshot();
+                    this.loader = false;
+                    this.getProjects();
+                }
             });
         });
+    }
+
+    fillFormFields() {
+        this.mainFields = ['locationDifferent', 'incomeLevel', 'livelihood', 'notes', 'projects'];
+
+        const locationFields = [];
+        const locationFieldSuffixes = [
+            'Adm1', 'Adm2', 'Adm3', 'Adm4', 'AddressNumber', 'AddressPostcode', 'AddressStreet',
+            'Type', 'Camp', 'TentNumber', 'NewCamp', 'CreateCamp'
+        ];
+        ['current', 'resident'].forEach((locationGroup: string) => {
+            locationFieldSuffixes.forEach((formControlName: string) => {
+                locationFields.push(locationGroup + formControlName);
+            });
+        });
+        this.mainFields = this.mainFields.concat(locationFields);
+
+        const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
+            .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
+        this.mainFields = this.mainFields.concat(countrySpecificNames);
+
+        const vulnerabilityCriteriaNames = this.vulnerabilityList.map((vulnerability: VulnerabilityCriteria) => {
+            return vulnerability.get<string>('name');
+        });
+        this.beneficiaryFields = [
+            'id', 'localGivenName', 'localFamilyName', 'enGivenName', 'enFamilyName', 'gender', 'dateOfBirth',
+            'IDType', 'IDNumber', 'residencyStatus', 'addReferral', 'referralType', 'referralComment',
+            'phoneType0', 'phoneNumber0', 'phonePrefix0', 'phoneProxy0',
+            'phoneType1', 'phoneNumber1', 'phonePrefix1', 'phoneProxy1'
+        ];
+        this.beneficiaryFields = this.beneficiaryFields.concat(vulnerabilityCriteriaNames);
+    }
+
+    ngOnDestroy() {
+        this.locationSuscribers.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
     /**
@@ -151,62 +170,51 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
     initiateHousehold() {
         return new Promise((resolve, reject) => {
             if (this.mode === 'create') {
-                this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
-                    result => {
-                        const cacheCountry = result;
-                        if (cacheCountry) {
-                            this.countryISO3 = cacheCountry;
-                        } else {
-                            this.countryISO3 = 'KHM';
-                        }
-                        this.household = new Household();
-                        this.household.set('location', new Location());
-                        this.household.set('beneficiaries', [this.createNewBeneficiary()]);
-                        this.getCountrySpecifics().subscribe(() => {
-                            resolve();
-                        });
+                this.household = new Household();
+                const currentLocation = new HouseholdLocation();
+                const currentLocationGroup = new HouseholdLocationGroup('current', this.language.household_location_current_address);
+                currentLocation.set('locationGroup', currentLocationGroup);
+                this.household.set('currentHouseholdLocation', currentLocation);
+                this.household.set('beneficiaries', [this.createNewBeneficiary()]);
+                this.getCountrySpecifics().subscribe((response) => {
+                    if (response) {
+                        resolve();
                     }
-                );
+                });
             }
 
             if (this.mode === 'update') {
                 this.validStep1 = true;
                 this.validStep2 = true;
                 this.validStep3 = true;
-                this.route.params.subscribe(
-                    result => {
-                        if (result && result['id']) {
-                            this._householdsService.getOne(result['id']).subscribe(
-                                household => {
-                                    if (household) {
-                                        this.household = Household.apiToModel(household);
-                                    }
-                                    resolve();
-                                }
-                            );
-                        }
+                this.route.params.subscribe(result => {
+                    if (result && result['id']) {
+                        this._householdsService.getOne(result['id']).subscribe(household => {
+                            if (household) {
+                                this.household = Household.apiToModel(household);
+                            }
+                            resolve();
+                        });
                     }
-                );
+                });
             }
         });
     }
 
-    makeMainForm() {
-        const mainFormControls = {};
-        this.mainFields.forEach((fieldName: string) => {
+//
+// ─── MAKE FORMS ─────────────────────────────────────────────────────────────────
+//
 
+    makeMainForm() {
+        let mainFormControls = {};
+        this.mainFields.forEach((fieldName: string) => {
             // check if it is a field of beneficiary directly
             const field = this.household.fields[fieldName] ? this.household.fields[fieldName] : null;
             if (field && field.kindOfField === 'MultipleSelect') {
-                // TODO: type this
-                const selectedOptions = this.household.get<CustomModel[]>(fieldName).map(option => {
-                    return option.get('id');
-                });
+                const selectedOptions = this.household.get<CustomModel[]>(fieldName).map(option => option.get('id'));
                 mainFormControls[fieldName] = new FormControl(selectedOptions);
             } else {
-                mainFormControls[fieldName] = new FormControl(
-                    this.household.get(fieldName) ? this.household.get(fieldName) : null,
-                );
+                mainFormControls[fieldName] = new FormControl(this.household.get(fieldName) ? this.household.get(fieldName) : null);
             }
         });
 
@@ -216,49 +224,91 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         });
 
         mainFormControls['livelihood'].setValue(this.household.get('livelihood') ? this.household.get('livelihood').get('id') : null);
+        mainFormControls = this.makeLocationForm(mainFormControls);
 
         this.mainForm = new FormGroup(mainFormControls);
+        this.onChanges();
+    }
 
-        const location = this.household.get('location');
-        this.loadProvince().subscribe(() => {
-            if (!location.get('adm1') || !location.get('adm1').get('id')) {
-                this.snapshot();
-                return;
+    makeLocationForm(mainFormControls) {
+        const householdLocations = [this.household.get<HouseholdLocation>('currentHouseholdLocation')];
+        if (this.household.get<HouseholdLocation>('residentHouseholdLocation')) {
+            householdLocations.push(this.household.get<HouseholdLocation>('residentHouseholdLocation'));
+        }
+
+        mainFormControls['locationDifferent'].setValue(householdLocations.length > 1 ? true : false, {emitEvent: false});
+        mainFormControls['currentCreateCamp'].setValue(false);
+        mainFormControls['residentCreateCamp'].setValue(false);
+
+        householdLocations.forEach((householdLocation: HouseholdLocation) => {
+            const prefix = householdLocation.get('locationGroup') &&
+            householdLocation.get('locationGroup').get<string>('id') === 'resident' ? 'resident' : 'current';
+            mainFormControls[prefix + 'Type'].setValue(householdLocation.get('type') ? householdLocation.get('type').get('id') : null);
+
+            if (householdLocation.get('address') && householdLocation.get('address').get('location')) {
+                this.locations[prefix] = householdLocation.get('address').get('location');
+                mainFormControls[prefix + 'AddressNumber'].setValue(householdLocation.get('address').get('number'));
+                mainFormControls[prefix + 'AddressStreet'].setValue(householdLocation.get('address').get('street'));
+                mainFormControls[prefix + 'AddressPostcode'].setValue(householdLocation.get('address').get('postcode'));
+            } else if (householdLocation.get('campAddress') &&
+                householdLocation.get('campAddress').get('camp') &&
+                householdLocation.get('campAddress').get('camp').get('location')
+            ) {
+                this.locations[prefix] = householdLocation.get('campAddress').get('camp').get('location');
+                mainFormControls[prefix + 'TentNumber'].setValue(householdLocation.get('campAddress').get('tentNumber'));
             }
-            const adm1Id = location.get('adm1').get<number>('id');
-            mainFormControls['adm1'].setValue(adm1Id);
-            this._locationService.fillAdm2Options(this.household, adm1Id).subscribe(() => {
-                if (!location.get('adm2') || !location.get('adm2').get('id')) {
-                    this.snapshot();
-                    return;
-                }
-                const adm2Id = location.get('adm2').get<number>('id');
-                mainFormControls['adm2'].setValue(adm2Id);
-                this._locationService.fillAdm3Options(this.household, adm2Id).subscribe(() => {
-                    if (!location.get('adm3') || !location.get('adm3').get('id')) {
+
+            this.loadProvince(prefix).subscribe((options) => {
+                if (options) {
+                    if (!this.locations[prefix].get('adm1') || !this.locations[prefix].get('adm1').get('id')) {
                         this.snapshot();
                         return;
                     }
-                    const adm3Id = location.get('adm3').get<number>('id');
-                    mainFormControls['adm3'].setValue(adm3Id);
-                    this._locationService.fillAdm4Options(this.household, adm3Id).subscribe(() => {
-                        if (!location.get('adm4')) {
-                            this.snapshot();
+                    const adm1Id = this.locations[prefix].get('adm1').get<number>('id');
+                    mainFormControls[prefix + 'Adm1'].setValue(adm1Id, {emitEvent: false});
+                    this._locationService.fillAdm2Options(this.locations[prefix], adm1Id).subscribe(() => {
+                        if (!this.locations[prefix].get('adm2') || !this.locations[prefix].get('adm2').get('id')) {
+                            this.initializeCamps(householdLocation, prefix, mainFormControls, 'adm1', adm1Id);
                             return;
                         }
-                        mainFormControls['adm4'].setValue(
-                        location.get('adm4').get('id'));
-                        this.snapshot();
+                        const adm2Id = this.locations[prefix].get('adm2').get<number>('id');
+                        mainFormControls[prefix + 'Adm2'].setValue(adm2Id, {emitEvent: false});
+                        this._locationService.fillAdm3Options(this.locations[prefix], adm2Id).subscribe(() => {
+                            if (!this.locations[prefix].get('adm3') || !this.locations[prefix].get('adm3').get('id')) {
+                                this.initializeCamps(householdLocation, prefix, mainFormControls, 'adm2', adm2Id);
+                                return;
+                            }
+                            const adm3Id = this.locations[prefix].get('adm3').get<number>('id');
+                            mainFormControls[prefix + 'Adm3'].setValue(adm3Id, {emitEvent: false});
+                            this._locationService.fillAdm4Options(this.locations[prefix], adm3Id).subscribe(() => {
+                                if (!this.locations[prefix].get('adm4') || !this.locations[prefix].get('adm4').get('id')) {
+                                    this.initializeCamps(householdLocation, prefix, mainFormControls, 'adm3', adm3Id);
+                                    return;
+                                }
+                                const adm4Id = this.locations[prefix].get('adm4').get('id');
+                                mainFormControls[prefix + 'Adm4'].setValue(adm4Id, {emitEvent: false});
+                                this.initializeCamps(householdLocation, prefix, mainFormControls, 'adm4', adm4Id);
+                            });
+                        });
                     });
-                });
+                }
             });
         });
+        return mainFormControls;
+    }
+
+    initializeCamps(householdLocation: HouseholdLocation, prefix: string, mainFormControls: any, adm, admId) {
+        this.loadCamps(prefix, adm, admId).subscribe(() => {
+            if (householdLocation.get('campAddress') && householdLocation.get('campAddress').get('camp')) {
+                mainFormControls[prefix + 'Camp'].setValue(householdLocation.get('campAddress').get('camp').get('id'));
+            }
+        });
+        this.snapshot();
     }
 
     makeBeneficiaryForm(beneficiary: Beneficiary, index: number) {
         const beneficiaryFormControls = {};
         this.beneficiaryFields.forEach((fieldName: string) => {
-
             // check if it is a field of beneficiary directly
             const field = beneficiary.fields[fieldName] ? beneficiary.fields[fieldName] : null;
             if (field && field.kindOfField === 'SingleSelect') {
@@ -266,42 +316,28 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
                     beneficiary.get(fieldName) instanceof CustomModel ? beneficiary.get(fieldName).get('id') : null
                 );
             } else {
-                beneficiaryFormControls[fieldName] = new FormControl(
-                    beneficiary.get(fieldName) ? beneficiary.get(fieldName) : null,
-                );
-            }
-            if ( beneficiaryFormControls['localFamilyName'] &&
-                !beneficiaryFormControls['localFamilyName'].value &&
-                this.beneficiariesForm[0] &&
-                this.beneficiariesForm[0].controls['localFamilyName'].value
-            ) {
-                beneficiaryFormControls['localFamilyName'].setValue(this.beneficiariesForm[0].controls['localFamilyName'].value);
-            }
-            if ( beneficiaryFormControls['enFamilyName'] &&
-                !beneficiaryFormControls['enFamilyName'].value &&
-                this.beneficiariesForm[0] &&
-                this.beneficiariesForm[0].controls['enFamilyName'].value
-            ) {
-                beneficiaryFormControls['enFamilyName'].setValue(this.beneficiariesForm[0].controls['enFamilyName'].value);
+                beneficiaryFormControls[fieldName] = new FormControl(beneficiary.get(fieldName) ? beneficiary.get(fieldName) : null);
             }
         });
 
-        const phone0 = beneficiary.get<Phone[]>('phones')[0];
-        const phone1 = beneficiary.get<Phone[]>('phones')[1];
+        // if the head has family names and this member doesn't, fill with the same family names
+        ['localFamilyName', 'enFamilyName'].forEach((familyNameField: string) => {
+            const headFamilyName = this.beneficiariesForm[0] ? this.beneficiariesForm[0].controls[familyNameField].value : null;
+            if (beneficiaryFormControls[familyNameField] && !beneficiaryFormControls[familyNameField].value && headFamilyName) {
+                beneficiaryFormControls[familyNameField].setValue(headFamilyName);
+            }
+        });
 
-        if (phone0) {
-            beneficiaryFormControls['phoneType0'].setValue(phone0.get('type') ? phone0.get('type').get('id') : null);
-            beneficiaryFormControls['phoneNumber0'].setValue(phone0.get('number'));
-            beneficiaryFormControls['phoneProxy0'].setValue(phone0.get('proxy'));
-            beneficiaryFormControls['phonePrefix0'].setValue(this.getPhonePrefix(phone0));
-        }
-
-        if (phone1) {
-            beneficiaryFormControls['phoneType1'].setValue(phone1.get('type') ? phone1.get('type').get('id') : null);
-            beneficiaryFormControls['phoneNumber1'].setValue(phone1.get('number'));
-            beneficiaryFormControls['phoneProxy1'].setValue(phone1.get('proxy'));
-            beneficiaryFormControls['phonePrefix1'].setValue(this.getPhonePrefix(phone1));
-        }
+        // fill phones
+        [0, 1].forEach((phoneIndex: number) => {
+            const phone = beneficiary.get<Phone[]>('phones')[phoneIndex];
+            if (phone) {
+                beneficiaryFormControls['phoneType' + phoneIndex].setValue(phone.get('type') ? phone.get('type').get('id') : null);
+                beneficiaryFormControls['phoneNumber' + phoneIndex].setValue(phone.get('number'));
+                beneficiaryFormControls['phoneProxy' + phoneIndex].setValue(phone.get('proxy'));
+                beneficiaryFormControls['phonePrefix' + phoneIndex].setValue(this.phoneService.getPhonePrefix(phone, this.countryId));
+            }
+        });
 
         beneficiaryFormControls['IDType'].setValue(beneficiary.get<NationalId[]>('nationalIds')[0].get('type').get('id'));
         beneficiaryFormControls['IDNumber'].setValue(beneficiary.get<NationalId[]>('nationalIds')[0].get('number'));
@@ -322,6 +358,39 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
     }
 
+    onChanges(): void {
+        const admFields = ['currentAdm1', 'currentAdm2', 'currentAdm3', 'currentAdm4',
+            'residentAdm1', 'residentAdm2', 'residentAdm3', 'residentAdm4'];
+
+        this.locationSuscribers = admFields.map((field: string) => {
+            return this.mainForm.get(field).valueChanges.subscribe(value => {
+                const adm = field.substr(-4);
+                const type = field.slice(0, -4);
+
+                if (value) {
+                    if (adm === 'Adm1') {
+                        this.loadDistrict(type, value);
+                    } else if (adm === 'Adm2') {
+                        this.loadCommune(type, value);
+                    } else if (adm === 'Adm3') {
+                        this.loadVillage(type, value);
+                    } else if (adm === 'Adm4') {
+                        this.loadCamps(type, 'adm4', value).subscribe();
+                    }
+                }
+            });
+        });
+
+        this.locationSuscribers.push(this.mainForm.get('locationDifferent').valueChanges.subscribe((value: boolean) => {
+            if (value) {
+                this.loadProvince('resident').subscribe();
+            }
+        }));
+    }
+
+//
+// ─── CREATE AND REMOVE FORMS WHEN CREATING AND REMOVING BENEFICIARIES ───────────
+//
 
     createNewBeneficiary() {
         const beneficiary = new Beneficiary();
@@ -346,7 +415,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
      * @param index
      */
     removeBeneficiary(beneficiaryForm: FormGroup) {
-
         const index = this.beneficiariesForm.indexOf(beneficiaryForm);
         if (index < this.beneficiariesForm.length) {
             this.beneficiariesForm.splice(index, 1);
@@ -366,136 +434,38 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         };
     }
 
-
     passHousehold() {
         this.tableData = new MatTableDataSource(this.beneficiariesForm);
     }
+
+//
+// ─── SUMBIT FUNCTIONS ───────────────────────────────────────────────────────────
+//
 
     /**
      * Call backend to create a new household with filled data.
      */
     submit() {
-        if (this.mainForm.controls.projects.value.length < 1) {
+        const controls = this.mainForm.controls;
+        if (controls.projects.value.length < 1) {
             this.snackbar.error(this.language.beneficiairy_error_project);
             return;
         }
 
-        this.household.set('addressNumber', this.mainForm.controls.addressNumber.value);
-        this.household.set('addressStreet', this.mainForm.controls.addressStreet.value);
-        this.household.set('addressPostcode', this.mainForm.controls.addressPostcode.value),
         this.household.set('livelihood', this.getLivelihood());
-        this.household.set('notes', this.mainForm.controls.notes.value);
-        this.household.set('incomeLevel', this.mainForm.controls.incomeLevel.value);
+        this.household.set('notes', controls.notes.value);
+        this.household.set('incomeLevel', controls.incomeLevel.value);
 
-        this.household.set(
-            'projects',
-            this.household.getOptions('projects').filter((project: Project) => {
-                return this.mainForm.controls.projects.value.includes(project.get('id'));
-            })
+        this.household.set('projects',
+            this.household.getOptions('projects').filter((project: Project) => controls.projects.value.includes(project.get('id')))
         );
-        const adms = ['adm1', 'adm2', 'adm3', 'adm4'];
-        const location = this.household.get('location');
-
-        adms.forEach(field => {
-            if (this.mainForm.controls[field].value) {
-                location.set(field,
-                    location.getOptions(field).filter((option: Adm) => {
-                        return option.get('id') === this.mainForm.controls[field].value;
-                    })[0]);
-            } else {
-                location.set(field, null);
-            }
-        });
-
-        this._cacheService.get('country')
-            .subscribe(
-                result => {
-                    location.set('countryIso3', result);
-                }
-            );
-
-        this.household.set('location', location);
 
         this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers').forEach(countrySpecificAnswer => {
-            countrySpecificAnswer.set('answer',
-                this.mainForm.controls[countrySpecificAnswer.get('countrySpecific').get<string>('field')].value);
+            countrySpecificAnswer.set('answer', controls[countrySpecificAnswer.get('countrySpecific').get<string>('field')].value);
         });
 
-        const beneficiaries: Beneficiary[] = [];
-
-        this.beneficiariesForm.forEach((form, index) => {
-            let beneficiary: Beneficiary;
-            if (form.controls.id.value) {
-                beneficiary = this.household.get<Beneficiary[]>('beneficiaries').filter(householdBeneficiary => {
-                    return householdBeneficiary.get('id') === form.controls.id.value;
-                })[0];
-            } else {
-                beneficiary = this.createNewBeneficiary();
-            }
-
-            beneficiary.set('localFamilyName', form.controls.localFamilyName.value);
-            beneficiary.set('localGivenName', form.controls.localGivenName.value);
-            beneficiary.set('enFamilyName', form.controls.enFamilyName.value);
-            beneficiary.set('enGivenName', form.controls.enGivenName.value);
-            beneficiary.set('dateOfBirth', form.controls.dateOfBirth.value);
-            beneficiary.set('beneficiaryStatus', index === 0 ?
-                beneficiary.getOptions('beneficiaryStatus')[1] : // Head
-                beneficiary.getOptions('beneficiaryStatus')[0]); // Member
-            beneficiary.set(
-                'gender',
-                beneficiary.getOptions('gender').filter((option: Gender) => {
-                    return  option.get('id') === form.controls.gender.value;
-                })[0]
-            );
-            beneficiary.set('residencyStatus', beneficiary.getOptions('residencyStatus').filter((option: ResidencyStatus) => {
-                return  option.get('id') === form.controls.residencyStatus.value;
-            })[0]);
-
-            const nationalId = beneficiary.get<NationalId[]>('nationalIds')[0];
-            nationalId.set('type',
-                nationalId.getOptions('type').filter((option: NationalIdType) => {
-                    return form.controls.IDType.value === option.get('id');
-                })[0]);
-            nationalId.set('number', form.controls.IDNumber.value);
-            beneficiary.set('nationalIds', [nationalId]);
-
-            const phone0 = beneficiary.get<Phone[]>('phones')[0];
-            const phone1 = beneficiary.get<Phone[]>('phones')[1];
-
-            phone0.set('type', form.controls.phoneType0.value ?
-                phone0.getOptions('type').filter((type: PhoneType) => type.get('id') === form.controls.phoneType0.value)[0] :
-                null);
-            phone1.set('type', form.controls.phoneType1.value ?
-                phone1.getOptions('type').filter((type: PhoneType) => type.get('id') === form.controls.phoneType1.value)[0] :
-                null);
-
-            phone0.set('number', form.controls.phoneNumber0.value);
-            phone1.set('number', form.controls.phoneNumber1.value);
-            phone0.set('proxy', form.controls.phoneProxy0.value);
-            phone1.set('proxy', form.controls.phoneProxy1.value);
-            phone0.set('prefix', form.controls.phonePrefix0.value ?
-                form.controls.phonePrefix0.value.split('- ')[1] :
-                null);
-            phone1.set('prefix', form.controls.phonePrefix1.value ?
-                form.controls.phonePrefix1.value.split('- ')[1] :
-                null);
-
-            beneficiary.set('phones', [phone0, phone1]);
-
-            beneficiary.set('vulnerabilities', this.vulnerabilityList.filter((vulnerability: VulnerabilityCriteria) => {
-                return form.controls[vulnerability.get<string>('name')].value === true;
-            }));
-
-            if (form.controls.referralComment.value && form.controls.referralType.value) {
-                beneficiary.set('referralType', beneficiary.getOptions('referralType').filter((referralType: BeneficiaryReferralType) => {
-                    return form.controls.referralType.value === referralType.get('id');
-                })[0]);
-                beneficiary.set('referralComment', form.controls.referralComment.value);
-            }
-            beneficiaries.push(beneficiary);
-        });
-
-        this.household.set('beneficiaries', beneficiaries);
+        this.fillLocationFromForm();
+        this.fillBeneficiaryFromForms();
 
         const body = {
             household: this.household.modelToApi(),
@@ -522,6 +492,123 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
     }
 
+    fillLocationFromForm() {
+        const locationGroups = ['current', 'resident'];
+        const controls = this.mainForm.controls;
+
+        locationGroups.forEach((locationGroup: string) => {
+            this.household.set(locationGroup + 'HouseholdLocation', null);
+            if (locationGroup === 'current' || controls.locationDifferent.value) {
+                const householdLocation = new HouseholdLocation();
+
+                // fill the location group and type
+                householdLocation.set('locationGroup', householdLocation.getOptions('locationGroup')
+                    .filter((option: HouseholdLocationGroup) => option.get<string>('id') === locationGroup)[0]);
+                const locationType = controls[locationGroup + 'Type'].value;
+                householdLocation.set('type', householdLocation.getOptions('type')
+                    .filter((option: HouseholdLocationType) => option.get<string>('id') === locationType)[0]);
+
+                // fill the adms
+                const location = this.locations[locationGroup];
+                const admIndexes = ['1', '2', '3', '4'];
+                admIndexes.forEach(index => {
+                    const formControlName = locationGroup + 'Adm' + index;
+                    location.set('adm' + index, controls[formControlName].value ?
+                        location.getOptions('adm' + index).filter((option: Adm) => option.get('id') === controls[formControlName].value)[0]
+                        : null);
+                });
+
+                // fill the address field according to the location type
+                if (locationType !== 'camp') {
+                    const address = new Address();
+                    address.set('number', controls[locationGroup + 'AddressNumber'].value);
+                    address.set('street', controls[locationGroup + 'AddressStreet'].value);
+                    address.set('postcode', controls[locationGroup + 'AddressPostcode'].value);
+                    address.set('location', location);
+                    householdLocation.set('address', address);
+                } else if (locationType === 'camp') {
+                    const campAddress = new CampAddress();
+                    let camp = new Camp();
+                    if (controls[locationGroup + 'CreateCamp'].value) {
+                        camp.set('name', controls[locationGroup + 'NewCamp'].value);
+                    } else {
+                        camp = this.campLists[locationGroup].filter((campFromList: Camp) =>
+                            campFromList.get<string>('id') === controls[locationGroup + 'Camp'].value)[0];
+                    }
+                    camp.set('location', location);
+                    campAddress.set('tentNumber', controls[locationGroup + 'TentNumber'].value);
+                    campAddress.set('camp', camp);
+                    householdLocation.set('campAddress', campAddress);
+                }
+                this.household.set(locationGroup + 'HouseholdLocation', householdLocation);
+            }
+        });
+    }
+
+    fillBeneficiaryFromForms() {
+        const beneficiaries: Beneficiary[] = [];
+
+        this.beneficiariesForm.forEach((form, index) => {
+            const controls = form.controls;
+
+            // get or create the corresponding beneficiary
+            const beneficiary: Beneficiary = controls.id.value ?
+                this.household.get<Beneficiary[]>('beneficiaries')
+                    .filter(householdBeneficiary => householdBeneficiary.get('id') === controls.id.value)[0] :
+                this.createNewBeneficiary();
+
+            // fill the simple input and select fields
+            ['localFamilyName', 'localGivenName', 'enFamilyName', 'enGivenName', 'dateOfBirth'].forEach((field: string) => {
+                beneficiary.set(field, controls[field].value);
+            });
+            ['gender', 'residencyStatus'].forEach((field: string) => {
+                beneficiary.set(field, beneficiary.getOptions(field).filter((option) => option.get('id') === controls[field].value)[0]);
+            });
+
+            // fill the particular fields
+            const beneficiaryStatusOptions = beneficiary.getOptions('beneficiaryStatus');
+            beneficiary.set('beneficiaryStatus', index === 0 ? beneficiaryStatusOptions[1] : beneficiaryStatusOptions[0]);
+            beneficiary.set('vulnerabilities', this.vulnerabilityList.filter((vulnerability: VulnerabilityCriteria) => {
+                return controls[vulnerability.get<string>('name')].value === true;
+            }));
+
+            // fill the national Id
+            const nationalId = beneficiary.get<NationalId[]>('nationalIds')[0];
+            nationalId.set('type',
+                nationalId.getOptions('type').filter((option: NationalIdType) => controls.IDType.value === option.get('id'))[0]);
+            nationalId.set('number', controls.IDNumber.value);
+            beneficiary.set('nationalIds', [nationalId]);
+
+            // fill the phones
+            const phones = [];
+            [0, 1].forEach((phoneIndex: number) => {
+                const phone = beneficiary.get<Phone[]>('phones')[phoneIndex];
+                phone.set('number', controls['phoneNumber' + phoneIndex].value);
+                phone.set('proxy', controls['phoneProxy' + phoneIndex].value);
+                const phoneType = controls['phoneType' + phoneIndex].value;
+                phone.set('type', phoneType ? phone.getOptions('type').filter((type: PhoneType) => type.get('id') === phoneType)[0] : null);
+                const phonePrefix = controls['phonePrefix' + phoneIndex].value;
+                phone.set('prefix', phonePrefix ? phonePrefix.split('- ')[1] : null);
+                phones.push(phone);
+            });
+            beneficiary.set('phones', phones);
+
+            // fill the referral
+            if (controls.referralComment.value && controls.referralType.value) {
+                beneficiary.set('referralType', beneficiary.getOptions('referralType').filter((referralType: BeneficiaryReferralType) => {
+                    return controls.referralType.value === referralType.get('id');
+                })[0]);
+                beneficiary.set('referralComment', controls.referralComment.value);
+            }
+            beneficiaries.push(beneficiary);
+        });
+        this.household.set('beneficiaries', beneficiaries);
+    }
+
+//
+// ─── FORM VALIDATION FUNCTIONS ──────────────────────────────────────────────────
+//
+
     /**
      * Verify the needed forms before going next step : Blocks if any error (empty/bad type/format).
      */
@@ -533,20 +620,15 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         }
 
         if (step === 1 || final) {
+            const locationMessage = this.validateLocationForm();
 
-            if (!this.mainForm.controls.adm1.value) {
-                message = this.language.beneficiary_error_location;
-            } else if (!this.mainForm.controls.addressNumber.value) {
-                message = this.language.beneficiairy_error_address_number;
-            } else if (!this.mainForm.controls.addressPostcode.value) {
-                message = this.language.beneficiary_error_address_postcode;
-            } else if (!this.mainForm.controls.addressStreet.value) {
-                message = this.language.beneficiary_error_address_street;
-            } else {
+            if (locationMessage === '') {
                 this.validStep1 = true;
                 this.stepper.selected.completed = true;
                 if (step <= 1) { this.stepper.next(); }
                 if (final) { validSteps++; }
+            } else {
+                message = locationMessage;
             }
         }
         if (step === 2 || final) {
@@ -594,13 +676,43 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         return (false);
     }
 
+    validateLocationForm() {
+        let locationMessage = '';
+        const locationGroups = ['current', 'resident'];
+        const controls = this.mainForm.controls;
+
+        locationGroups.forEach((locationGroup: string) => {
+            if (locationGroup === 'current' || controls.locationDifferent.value) {
+                if (!controls[locationGroup + 'Adm1'].value) {
+                    locationMessage = this.language.beneficiary_error_location;
+                } else if (!controls[locationGroup + 'Type'].value) {
+                    locationMessage = this.language.beneficiairy_error_location_type;
+                } else if (controls[locationGroup + 'Type'].value !== 'camp' && !controls[locationGroup + 'AddressNumber'].value) {
+                    locationMessage = this.language.beneficiairy_error_address_number;
+                } else if (controls[locationGroup + 'Type'].value !== 'camp' && !controls[locationGroup + 'AddressStreet'].value) {
+                    locationMessage = this.language.beneficiary_error_address_street;
+                } else if (controls[locationGroup + 'Type'].value !== 'camp' && !controls[locationGroup + 'AddressPostcode'].value) {
+                    locationMessage = this.language.beneficiary_error_address_postcode;
+                } else if (controls[locationGroup + 'Type'].value === 'camp' &&
+                    ((!controls[locationGroup + 'CreateCamp'].value && !controls[locationGroup + 'Camp'].value) ||
+                    (controls[locationGroup + 'CreateCamp'].value && !controls[locationGroup + 'NewCamp'].value))
+                ) {
+                    locationMessage = this.language.beneficiary_error_camp;
+                } else if (controls[locationGroup + 'Type'].value === 'camp' && !controls.currentTentNumber.value) {
+                    locationMessage = this.language.beneficiary_error_tent;
+                }
+            }
+        });
+        return locationMessage;
+
+    }
+
     validateBeneficiaryForm(formIndex: number) {
         const beneficiary = this.beneficiariesForm[formIndex].controls;
         let message = '';
-        const beneficiaryName =
-            formIndex === 0 ?
-            this.language.beneficiairy_error_head :
-            this.language.the + ' ' + formIndex + this.getNumberSuffix(formIndex) + this.language.beneficiary_error_member;
+        const numberSuffix = formIndex <= 3 ? this.language.number_suffixes[formIndex] : this.language.number_suffix_other;
+        const beneficiaryName = formIndex === 0 ? this.language.beneficiairy_error_head :
+            this.language.the + ' ' + formIndex + numberSuffix + this.language.beneficiary_error_member;
 
         if (!beneficiary.localFamilyName.value) {
             message = this.language.beneficiary_error_family_name + beneficiaryName;
@@ -621,10 +733,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         ) {
             message = this.language.beneficiary_error_existing_country_code + beneficiaryName;
         } else if (
-            (beneficiary.phoneNumber0.value && !beneficiary.phonePrefix0.value) ||
-            (beneficiary.phoneNumber0.value && beneficiary.phonePrefix0.value === '') ||
-            (beneficiary.phoneNumber1.value && !beneficiary.phonePrefix1.value) ||
-            (beneficiary.phoneNumber1.value && beneficiary.phonePrefix1.value === '')
+            (beneficiary.phoneNumber0.value && (!beneficiary.phonePrefix0.value || beneficiary.phonePrefix0.value === '')) ||
+            (beneficiary.phoneNumber1.value && (!beneficiary.phonePrefix1.value || beneficiary.phonePrefix1.value === ''))
         ) {
             message = this.language.beneficiary_error_country_code + beneficiaryName;
         } else if (!beneficiary.dateOfBirth.value || beneficiary.dateOfBirth.value.getTime() > (new Date()).getTime()) {
@@ -633,17 +743,166 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
         return message;
     }
 
-    getNumberSuffix(number) {
-        if (number === 1) {
-            return this.language.number_suffix_first;
-        } else if (number === 2) {
-            return this.language.number_suffix_second;
-        } if (number === 3) {
-            return this.language.number_suffix_third;
-        } else {
-            return this.language.number_suffix_other;
+//
+// ─── FORMAT FIELDS TO DISPLAY IN SUMMARY ────────────────────────────────────────
+//
+
+
+    getFullLocation(locationGroup) {
+        // getting the adm names corresponding to the mainForm adm values (ids)
+        const adms = ['1', '2', '3', '4'].map(admIndex => {
+            // We look in the list of adms which one correspond to the mainForm id
+            const options = this.locations[locationGroup].getOptions('adm' + admIndex);
+            return options ?
+                options.filter((option: Adm) => option.get('id') === this.mainForm.controls[locationGroup + 'Adm' + admIndex].value)[0] :
+                null;
+        });
+
+        let fullLocation = '';
+        fullLocation += adms[0] ? adms[0].get('name') : '';
+        fullLocation += adms[1] ? ', ' + adms[1].get('name') : '';
+        fullLocation += adms[2] ? ', ' + adms[2].get('name') : '';
+        fullLocation += adms[3] ? ', ' + adms[3].get('name') : '';
+
+        return (fullLocation);
+    }
+
+    getLivelihood() {
+        return this.household.getOptions('livelihood').filter((livelihood: Livelihood) => {
+            return livelihood.get('id') === this.mainForm.controls.livelihood.value;
+        })[0];
+    }
+
+    getGender(id: string) {
+        return id ?
+            this.household.get<Beneficiary[]>('beneficiaries')[0].getOptions('gender').filter(
+                (gender: Gender) => gender.get<string>('id') === id)[0].get('name') :
+            null;
+    }
+
+    getCampName(locationGroup) {
+        const campId =  this.mainForm.controls[locationGroup + 'Camp'].value;
+        return campId ? this.campLists[locationGroup].filter((camp: Camp) => camp.get('id') === campId)[0].get('name') : null;
+    }
+
+//
+// ─── GET OPTIONS FROM THE API ───────────────────────────────────────────────────
+//
+
+    /**
+     * Get list of all project and put it in the project selector
+     */
+    getProjects() {
+        this._projectService.get().subscribe(response => {
+            if (response) {
+                this.household.setOptions('projects', response.map(project => Project.apiToModel(project)));
+            }
+        });
+    }
+
+    /**
+     * Get list of all Province (adm1) and put it in the province selector
+     */
+    loadProvince(prefix: string) {
+        return this._locationService.fillAdm1Options(this.locations[prefix]).pipe(
+            map((options) => {
+            this.mainForm.controls[prefix + 'Adm2'].setValue(null);
+            this.mainForm.controls[prefix + 'Adm3'].setValue(null);
+            this.mainForm.controls[prefix + 'Adm4'].setValue(null);
+            return options;
+        }));
+    }
+
+    /**
+     * Get list of all District (adm2) and put it in the district selector
+     */
+    loadDistrict(prefix: string, adm1Id: number) {
+        if (adm1Id) {
+            this.loadCamps(prefix, 'adm1', adm1Id).subscribe();
+            this._locationService.fillAdm2Options(this.locations[prefix], adm1Id).subscribe(() => {
+                this.mainForm.controls[prefix + 'Adm2'].setValue(null);
+                this.mainForm.controls[prefix + 'Adm3'].setValue(null);
+                this.mainForm.controls[prefix + 'Adm4'].setValue(null);
+            });
         }
     }
+
+    /**
+     * Get list of all Commune (adm3) and put it in the commune selector
+     */
+    loadCommune(prefix: string, adm2Id: number) {
+        if (adm2Id) {
+            this.loadCamps(prefix, 'adm2', adm2Id).subscribe();
+            this._locationService.fillAdm3Options(this.locations[prefix], adm2Id).subscribe(() => {
+                this.mainForm.controls[prefix + 'Adm3'].setValue(null);
+                this.mainForm.controls[prefix + 'Adm4'].setValue(null);
+            });
+        }
+    }
+
+    /**
+     * Get list of all Vilage (adm4) and put it in the village selector
+     */
+    loadVillage(prefix: string, adm3Id: number) {
+        if (adm3Id) {
+            this.loadCamps(prefix, 'adm3', adm3Id).subscribe();
+            this._locationService.fillAdm4Options(this.locations[prefix], adm3Id).subscribe(() => {
+                this.mainForm.controls[prefix + 'Adm4'].setValue(null);
+            });
+        }
+    }
+
+     /**
+     * Get list of all Camps and put it in the camp selector
+     */
+    loadCamps(prefix: string, admType: string, admId: number) {
+        return this._locationService.getCamps(admType, admId).pipe(
+            map((camps) => {
+                if (camps) {
+                    this.campLists[prefix] = camps.map((camp: any) => Camp.apiToModel(camp));
+                    this.mainForm.controls[prefix + 'Camp'].setValue(null);
+                } else {
+                    this.campLists[prefix] = [];
+                    this.mainForm.controls[prefix + 'Camp'].setValue(null);
+                }
+            }));
+    }
+
+    /**
+     * Get list of all Vulnerabilities
+     */
+    getVulnerabilityCriteria() {
+        return this._criteriaService.getVulnerabilityCriteria().pipe(
+            map(response => {
+                if (response) {
+                    this.vulnerabilityList = response.map(criteria => VulnerabilityCriteria.apiToModel(criteria));
+                }
+                return response;
+            })
+        );
+    }
+
+    /**
+     * Get list of field and type of all country specifics
+     */
+    getCountrySpecifics() {
+        return this._countrySpecificsService.get().pipe(
+            map((countrySpecifics) => {
+                if (countrySpecifics) {
+                    this.household.set('countrySpecificAnswers', countrySpecifics.map(countrySpecific => {
+                        const countrySpecificAnswer = new CountrySpecificAnswer();
+                        countrySpecificAnswer.set('countrySpecific', CountrySpecific.apiToModel(countrySpecific));
+                        return countrySpecificAnswer;
+                    }));
+                }
+                return countrySpecifics;
+            })
+        );
+    }
+
+//
+// ─── VERIFY IF THE USER CAN LEAVE WITHOUT SAVING ────────────────────────────────
+//
 
     /**
      * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them
@@ -664,6 +923,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             return (true);
         }
     }
+
     private checkIfFormHasBeenModified(): boolean {
         if (!this.checkEqualValues(this.mainForm.value, this.uneditedHouseholdSnapshot)) {
             return true;
@@ -673,160 +933,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded 
             return true;
         }
         return false;
-    }
-
-    /**
-     * Creates a string to display the full location
-     */
-    getFullLocation() {
-        let fullLocation: string;
-        // getting the full adms corresponding to the mainForm adms values (ids)
-        const adms = ['adm1', 'adm2', 'adm3', 'adm4'].map(adm => {
-            // We look in the list of adms which one correspond to the mainForm id
-            return this.household.get('location').getOptions(adm) ?
-                this.household.get('location').getOptions(adm).filter((option: Adm) => {
-                    return option.get('id') === this.mainForm.controls[adm].value;
-                })[0] :
-                null;
-        });
-
-        if (adms[0]) {
-            fullLocation = adms[0].get('name');
-        }
-        if (adms[1]) {
-            fullLocation += ', ' + adms[1].get('name');
-        }
-        if (adms[2]) {
-            fullLocation += ', ' + adms[2].get('name');
-        }
-        if (adms[3]) {
-            fullLocation += ', ' + adms[3].get('name');
-        }
-        return (fullLocation);
-    }
-
-    getLivelihood() {
-        return this.household.getOptions('livelihood').filter((livelihood: Livelihood) => {
-            return livelihood.get('id') === this.mainForm.controls.livelihood.value;
-        })[0];
-    }
-
-    getGender(id: string) {
-        return id ?
-            this.household.get<Beneficiary[]>('beneficiaries')[0].getOptions('gender').filter(
-                (gender: Gender) => gender.get<string>('id') === id)[0].get('name') :
-            null;
-    }
-
-    /**
-     * Get list of all project and put it in the project selector
-     */
-    getProjects() {
-        this._projectService.get().subscribe(response => {
-            if (response) {
-                this.household.setOptions('projects', response.map(project => Project.apiToModel(project)));
-            }
-        });
-    }
-
-    /**
-     * Get list of all Province (adm1) and put it in the province selector
-     */
-    loadProvince() {
-        return this._locationService.fillAdm1Options(this.household).pipe(
-            map(() => {
-            this.mainForm.controls.adm2.setValue(null);
-            this.mainForm.controls.adm3.setValue(null);
-            this.mainForm.controls.adm4.setValue(null);
-        }));
-    }
-
-    /**
-     * Get list of all District (adm2) and put it in the district selector
-     */
-    loadDistrict(adm1Id: number) {
-        if (adm1Id) {
-            this._locationService.fillAdm2Options(this.household, adm1Id).subscribe(() => {
-                this.mainForm.controls.adm2.setValue(null);
-                this.mainForm.controls.adm3.setValue(null);
-                this.mainForm.controls.adm4.setValue(null);
-            });
-        }
-    }
-
-    /**
-     * Get list of all Commune (adm3) and put it in the commune selector
-     */
-    loadCommune(adm2Id: number) {
-        if (adm2Id) {
-            this._locationService.fillAdm3Options(this.household, adm2Id).subscribe(() => {
-                this.mainForm.controls.adm3.setValue(null);
-                this.mainForm.controls.adm4.setValue(null);
-            });
-        }
-    }
-
-    /**
-     * Get list of all Vilage (adm4) and put it in the village selector
-     */
-    loadVillage(adm3Id: number) {
-        if (adm3Id) {
-            this._locationService.fillAdm4Options(this.household, adm3Id).subscribe(() => {
-                this.mainForm.controls.adm4.setValue(null);
-            });
-        }
-    }
-
-    /**
-     * Get list of all Vulnerabilities
-     */
-    getVulnerabilityCriteria() {
-        return this._criteriaService.getVulnerabilityCriteria().pipe(
-            map(response => {
-                if (response) {
-                    this.vulnerabilityList = response.map(criteria => {
-                        return VulnerabilityCriteria.apiToModel(criteria);
-                    });
-                }
-            })
-        );
-    }
-
-    /**
-     * Get list of field and type of all country specifics
-     */
-    getCountrySpecifics() {
-        return this._countrySpecificsService.get().pipe(
-            map((countrySpecifics) => {
-                if (countrySpecifics) {
-                    this.household.set('countrySpecificAnswers', countrySpecifics.map(countrySpecific => {
-                        const countrySpecificAnswer = new CountrySpecificAnswer();
-                        countrySpecificAnswer.set('countrySpecific', CountrySpecific.apiToModel(countrySpecific));
-                        return countrySpecificAnswer;
-                    }));
-                }
-            })
-        );
-    }
-
-
-
-    // For update, inspire from the function below (should already work)
-    getPhonePrefix(phone: Phone) {
-        let phoneCode;
-        const phonePrefix = phone.get<string>('prefix');
-
-        if (phonePrefix) {
-            return this.countryCodesList.filter(element => {
-                return element.split('- ')[1] === phonePrefix;
-            })[0];
-        } else {
-            const countryCode = String(this.getCountryISO2(String(this.countryISO3)));
-            phoneCode = this.countryCodesList.filter(element => {
-                return element.split(' -')[0] === countryCode;
-            })[0];
-            return phoneCode ? phoneCode : null;
-        }
     }
 
     /**

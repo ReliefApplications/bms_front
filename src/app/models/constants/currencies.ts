@@ -1,5 +1,17 @@
 export const CURRENCIES = [
     {
+        id: '150',
+        name: 'USD'
+    },
+    {
+        id: '46',
+        name: 'EUR'
+    },
+    {
+        id: '38',
+        name: 'CZK'
+    },
+    {
         id: '0',
         name: 'AED'
     },
@@ -152,10 +164,6 @@ export const CURRENCIES = [
         name: 'CVE'
     },
     {
-        id: '38',
-        name: 'CZK'
-    },
-    {
         id: '39',
         name: 'DJF'
     },
@@ -182,10 +190,6 @@ export const CURRENCIES = [
     {
         id: '45',
         name: 'ETB'
-    },
-    {
-        id: '46',
-        name: 'EUR'
     },
     {
         id: '47',
@@ -598,10 +602,6 @@ export const CURRENCIES = [
     {
         id: '149',
         name: 'UGX'
-    },
-    {
-        id: '150',
-        name: 'USD'
     },
     {
         id: '151',

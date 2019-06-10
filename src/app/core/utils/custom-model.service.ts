@@ -33,7 +33,7 @@ export abstract class CustomModelService {
         return this.http.post(`${this.makeUrl()}/${id}`, body);
     }
 
-    public delete(id: number, parentId?: any) {
+    public delete(id: number, parentId?: any, justification?: string) {
         return this.http.delete(`${this.makeUrl()}/${id}`);
     }
 

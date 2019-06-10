@@ -79,7 +79,13 @@ export class HouseholdFilters extends CustomModel {
                 householdFilters.set('adm2', null);
                 householdFilters.set('adm3', null);
                 householdFilters.set('adm4', null);
-                appInjector.get(LocationService).fillAdm2Options(householdFilters, parseInt(value, 10)).subscribe();
+                form.controls.adm2.setValue(null);
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
+                const location = householdFilters.get<Location>('location');
+                appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {
+                    householdFilters.set('location', location);
+                });
                 return householdFilters;
             },
             isDisplayedInTable: true,
@@ -93,9 +99,14 @@ export class HouseholdFilters extends CustomModel {
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
                 householdFilters.set('adm3', null);
                 householdFilters.set('adm4', null);
-                appInjector.get(LocationService).fillAdm3Options(householdFilters, parseInt(value, 10)).subscribe();
+                const location = householdFilters.get<Location>('location');
+                appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {
+                    householdFilters.set('location', location);
+                });
                 return householdFilters;
             },
             isDisplayedInTable: true,
@@ -109,8 +120,12 @@ export class HouseholdFilters extends CustomModel {
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
+                form.controls.adm4.setValue(null);
                 householdFilters.set('adm4', null);
-                appInjector.get(LocationService).fillAdm4Options(householdFilters, parseInt(value, 10)).subscribe();
+                const location = householdFilters.get<Location>('location');
+                appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {
+                    householdFilters.set('location', location);
+                });
                 return householdFilters;
             },
             isDisplayedInTable: true,

@@ -25,7 +25,8 @@
         </mat-form-field>
 
         <div class="action-buttons">
-          <button mat-raised-button type="submit" [disabled]="!profileForm.valid" class="button-background-primary">
+          <mat-spinner [diameter]="25" *ngIf="loading"></mat-spinner>
+          <button *ngIf="!loading" mat-raised-button type="submit" [disabled]="!profileForm.valid" class="button-background-primary">
             {{ language.save | titlecase }}
           </button>
         </div>

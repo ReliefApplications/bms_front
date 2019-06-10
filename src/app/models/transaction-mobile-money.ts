@@ -30,7 +30,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
     title = this.language.beneficiary;
     matSortActive = 'localFamilyName';
 
-    public fields = {
+    public fields = {...this.fields, ...{
         idTransaction: new NumberModelField({
             title: this.language.transaction_id_transaction,
             isDisplayedInTable: true,
@@ -132,11 +132,10 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
             childrenFieldName: 'referralComment',
             isEditable: true,
         }),
-    };
+    }};
 
-    public static apiToModel(distributionBeneficiaryFromApi): TransactionMobileMoney {
+    public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionMobileMoney {
         const newDistributionBeneficiary = new TransactionMobileMoney();
-        newDistributionBeneficiary.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
         if (distributionBeneficiaryFromApi.beneficiary.referral) {
             newDistributionBeneficiary.fields.addReferral.isDisplayedInModal = false;
             newDistributionBeneficiary.fields.referralType.isDisplayedInModal = true;
@@ -164,6 +163,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
         } else {
             newDistributionBeneficiary.updateState('-2');
         }
+        this.addCommonFields(newDistributionBeneficiary, distributionBeneficiaryFromApi, distributionId);
         return newDistributionBeneficiary;
     }
 

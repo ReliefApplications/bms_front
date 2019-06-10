@@ -26,11 +26,11 @@
                             </div>
                         </div>
                     </div>
-                    <button mat-raised-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button-create" [disabled]="actualDistribution.get('validated')">
+                    <button mat-raised-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button-create">
                         <mat-icon>add</mat-icon>
                         {{language.add | uppercaseFirst}}
                     </button>
-                    <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="getProjectBeneficiaries(); openDialog(addBeneficiary)" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}" [disabled]="actualDistribution.get('validated')">
+                    <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
                         <mat-icon>add</mat-icon>
                     </button>
                 </div>
@@ -181,30 +181,6 @@
             <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
                 <button mat-button class="button-text-accent" (click)="exit('Validation canceled')">{{language.cancel}}</button>
                 <button mat-raised-button class="button-background-accent" (click)="confirmValidation()">{{language.transaction_confirm_button}}</button>
-            </div>
-        </div>
-    </mat-dialog-content>
-</ng-template>
-
-<ng-template #addBeneficiary>
-    <mat-dialog-content class="modal-container">
-        <h4 class="modal-title underline-accent stickyHeader">{{language.distribution_add_beneficiaries}}</h4>
-        <div class="dialog-template">
-            <div class="modal-body">
-                <p> {{language.distribution_select_beneficiaries}} <strong> {{actualDistribution.get('project').get('name')}} </strong>
-                    {{language.distribution_want_add}} <strong> {{actualDistribution.get('name')}} </strong>
-                    {{language.distribution | lowercase}}.</p>
-                <div class="selectBeneficiaries">
-                    <ng-select class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true" placeholder="{{language.beneficiaries | uppercaseFirst}}" [closeOnSelect]="false" [searchable]="true" required>
-                        <ng-option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">
-                            {{beneficiary.get('fullName') | uppercaseFirst}}
-                        </ng-option>
-                    </ng-select>
-                </div>
-            </div>
-            <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                <button mat-button class="button-text-accent" (click)="exit('Adding canceled')">{{language.cancel}}</button>
-                <button mat-raised-button [disabled]="!selectedBeneficiariesControl.valid" class="button-background-accent" (click)="confirmAdding()">{{language.transaction_confirm_button}}</button>
             </div>
         </div>
     </mat-dialog-content>

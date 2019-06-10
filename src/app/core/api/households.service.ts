@@ -220,10 +220,10 @@ export class HouseholdsService extends CustomModelService {
         filters.setOptions('livelihood', livelihoodOptions);
 
         // Get adm1
-        filters.set('location', new Location());
-        appInjector.get(LocationService).fillAdm1Options(filters).subscribe();
-
-
+        const location = new Location();
+        appInjector.get(LocationService).fillAdm1Options(location).subscribe((filledLocation: Location) => {
+            filters.set('location', filledLocation);
+        });
     }
 
     public visit(householdId) {

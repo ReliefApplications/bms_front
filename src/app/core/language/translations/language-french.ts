@@ -66,6 +66,7 @@ export class French implements Language {
     create = 'Créer'
     delete = 'Supprimer'
     duplicate = 'dupliquer'
+    remove = 'retirer'
     save = 'Enregistrer'
     update = 'Modifier'
     

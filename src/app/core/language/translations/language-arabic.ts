@@ -50,7 +50,6 @@ export class Arabic implements Language {
     profile = ' المعطيات الشخصية'
     project = 'المشروع'
     projects = 'المشاريع'
-    remove = 'إزالة'
     reports = 'التقارير'
     sector = 'القطاع'
     user = 'المستخدم'
@@ -67,6 +66,7 @@ export class Arabic implements Language {
     create = 'إنشاء'
     delete = 'حذف'
     duplicate = 'مكرر'
+    remove = 'إزالة'
     save = 'حفظ'
     update = 'تحديث'
     

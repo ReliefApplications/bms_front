@@ -50,7 +50,6 @@ export class English implements Language {
     profile = 'Profile'
     project = 'Project'
     projects = 'Projects'
-    remove = 'Remove'
     reports = 'Reports'
     sector = 'Sector'
     user = 'User'
@@ -67,6 +66,7 @@ export class English implements Language {
     create = 'Create'
     delete = 'Delete'
     duplicate = 'duplicate'
+    remove = 'Remove'
     save = 'Save'
     update = 'Update'
     

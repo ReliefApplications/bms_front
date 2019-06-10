@@ -62,6 +62,7 @@ export interface Language {
     create: string
     delete: string
     duplicate: string
+    remove: string
     save: string
     update: string
     

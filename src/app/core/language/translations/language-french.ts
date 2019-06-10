@@ -117,6 +117,7 @@ export class French implements Language {
     add_beneficiary_step3 = 'Membres'
     add_beneficiary_title = 'Ajout d\'un bénéficiaire'
     add_beneficiary_code = 'Ext'
+    add_beneficiary_occupation = 'Occupation'
 
     // Add beneficiary options
     national_id_passport = 'Passeport'
@@ -169,6 +170,9 @@ export class French implements Language {
      beneficiary_error_country_code = 'Veuillez sélectionner un préfixe de la liste pour '
      beneficiairy_error_birth_date = 'Veuillez sélectionner une date de naissance valide pour '
      beneficiairy_error_project = 'Veuillez sélectionner au moins un projet'
+     beneficiary_error_camp = 'Vous devez sélectionner un camp ou en créer un'
+    beneficiary_error_tent = 'Vous devez renseigner un numéro de tente'
+    beneficiairy_error_location_type = 'Vous devez sélectionner un type de lieu'
 
     // Beneficiaries
     beneficiaries_add_distribution = 'Ajouter les bénéficiaires à cette distribution'
@@ -333,6 +337,21 @@ export class French implements Language {
     header_reports = 'Rapports'
     'header_update-beneficiary' = 'Modifier'
     header_vouchers = 'Brochures'
+
+    // Household
+    household_location_current_address = 'Adresse actuelle'
+    household_location_resident_address = 'adresse de résidence'
+    household_location_current_location = 'Lieu actuel'
+    household_location_resident_location = 'Lieu de résidence'
+    household_location_type = 'Type d\'habitation'
+    household_location_camp = 'Camp'
+    household_location_residence = 'Résidence'
+    household_location_settlement = 'Installation temporaire'
+    household_location_address = 'Adresse'
+    household_location_camp_name = 'Nom du camp'
+    household_location_tent = 'Numéro de tente'
+    household_location_create_camp = 'Créer un camp'
+    household_location_question = 'Votre adresse actuelle est-elle différente de votre adresse habituelle ?'
 
     // Import
     import_added = 'Ajout'
@@ -510,9 +529,11 @@ export class French implements Language {
     null_not_yet_defined = 'pas encore défini'
 
     // Number suffixes
-    number_suffix_first = 'er'
-    number_suffix_second = 'ème'
-    number_suffix_third = 'ème'
+    number_suffixes = {
+      1: 'er',
+      2: 'ème',
+      3: 'ème'
+    }
     number_suffix_other = 'ème'
 
     // Phone

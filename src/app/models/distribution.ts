@@ -166,7 +166,9 @@ export class Distribution extends CustomModel {
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm2Options(distribution, parseInt(value, 10)).subscribe();
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
                 }
                 return distribution;
             },
@@ -183,7 +185,9 @@ export class Distribution extends CustomModel {
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm3Options(distribution, parseInt(value, 10)).subscribe();
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
                 }
                 return distribution;
             },
@@ -199,7 +203,9 @@ export class Distribution extends CustomModel {
                 const appInjector = AppInjector;
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm4Options(distribution, parseInt(value, 10)).subscribe();
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
                 }
                 return distribution;
             },

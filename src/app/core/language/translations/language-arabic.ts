@@ -117,6 +117,7 @@ export class Arabic implements Language {
     add_beneficiary_step3 = 'أفراد العائلة'
     add_beneficiary_title = 'إضافة مستفيد'
     add_beneficiary_code = 'تحويلة'
+    add_beneficiary_occupation = 'الاحتلال'
 
     // Add beneficiary options
     national_id_passport = 'جواز سفر'
@@ -169,6 +170,9 @@ export class Arabic implements Language {
     beneficiary_error_country_code = ' يرجى اختيار رمز البلد لرقم الهاتف ل'
     beneficiairy_error_birth_date = ' يرجى تحديد تاريخ ميلاد صالح لـ'
     beneficiairy_error_project = 'يجب عليك اختيار مشروع واحد على الأقل'
+    beneficiary_error_camp = 'يجب عليك تحديد معسكر أو إنشاء معسكر'
+    beneficiary_error_tent = 'يجب إدخال رقم خيمة'
+    beneficiairy_error_location_type = 'يجب عليك تحديد نوع الموقع'
 
     // Beneficiaries
     beneficiaries_add_distribution= 'إضافة المستفيدين لهذا التوزيع'
@@ -333,6 +337,21 @@ export class Arabic implements Language {
     header_reports = 'التقارير'
     'header_update-beneficiary' = 'تحديث المستفيد'
     header_vouchers = 'قسائم'
+
+    // Household
+    household_location_current_address = 'العنوان الحالي'
+    household_location_resident_address = 'عنوان الإقامة'
+    household_location_current_location = 'الموقع الحالي'
+    household_location_resident_location = 'موقع المقيمين'
+    household_location_type = 'نوع الموقع'
+    household_location_camp = 'معسكر'
+    household_location_residence = 'إقامة'
+    household_location_settlement = 'تسوية مؤقتة'
+    household_location_address = 'عنوان'
+    household_location_camp_name = 'اسم المخيم'
+    household_location_tent = 'خيمة رقم'
+    household_location_create_camp = 'إنشاء معسكر'
+    household_location_question = 'هل موقعك الحالي مختلف عن عنوانك؟'
 
     // Import
     import_added = 'تم إضافتها'
@@ -511,9 +530,11 @@ export class Arabic implements Language {
     null_not_yet_defined = 'لم يحدد بعد'
 
     // Number suffixes
-    number_suffix_first = ''
-    number_suffix_second = ''
-    number_suffix_third = ''
+    number_suffixes = {
+        1: '',
+        2: '',
+        3: ''
+      }
     number_suffix_other = ''
 
     // Phone

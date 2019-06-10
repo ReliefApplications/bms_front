@@ -25,6 +25,27 @@ app-placeholder-panel {
   display: block;
 }
 
+.step1.all-information {
+  display:flex;
+  flex-direction: column;
+  .main-information-content {
+    display:flex;
+    flex-direction: column;
+    .location-question {
+      flex-direction: row;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-left: 15px;
+      span {
+        margin-left: 10px;
+      }
+    }
+    .not-location-form {
+      display: flex;
+    }
+  }
+}
+
 .all-information,
 .head,
 .member,
@@ -120,6 +141,7 @@ app-placeholder-panel {
 
       p {
         margin-left: 20px;
+        text-align: center;
       }
     }
   }

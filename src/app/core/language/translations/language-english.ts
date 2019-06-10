@@ -115,6 +115,7 @@ export class English implements Language {
     add_beneficiary_step3 = 'Members'
     add_beneficiary_title = 'add beneficiary'
     add_beneficiary_code = 'Ext'
+    add_beneficiary_occupation = 'Occupation'
 
     // Add beneficiary options
     national_id_passport = 'Passport'
@@ -167,6 +168,9 @@ export class English implements Language {
     beneficiary_error_country_code = 'Please select a country code for the phone number for '
     beneficiairy_error_birth_date = 'Please select a valid birth date for '
     beneficiairy_error_project = 'You must select at least one project'
+    beneficiary_error_camp = 'You must select a camp or create one'
+    beneficiary_error_tent = 'You must enter a tent number'
+    beneficiairy_error_location_type = 'You must select a location type'
 
     // Beneficiaries
     beneficiaries_add_distribution = 'Add beneficiaries to this distribution'
@@ -332,6 +336,21 @@ export class English implements Language {
     header_reports = 'Reports'
     'header_update-beneficiary' = 'Update Beneficiaries'
     header_vouchers = 'Vouchers'
+
+    // Household
+    household_location_current_address = 'Current address'
+    household_location_resident_address = 'Resident address'
+    household_location_current_location = 'Current location'
+    household_location_resident_location = 'Resident location'
+    household_location_type = 'Type of location'
+    household_location_camp = 'Camp'
+    household_location_residence = 'Residence'
+    household_location_settlement = 'Temporary settlement'
+    household_location_address = 'Address'
+    household_location_camp_name = 'Camp\'s name'
+    household_location_tent = 'Tent number'
+    household_location_create_camp = 'Create a camp'
+    household_location_question = 'Is your current location different than your address?'
 
     // Import
     import_added = 'Added from existing beneficiaries'
@@ -511,9 +530,11 @@ export class English implements Language {
     null_not_yet_defined = 'not yet defined'
 
     // Number suffixes
-    number_suffix_first = 'st'
-    number_suffix_second = 'nd'
-    number_suffix_third = 'rd'
+    number_suffixes = {
+      1: 'st',
+      2: 'nd',
+      3: 'rd'
+    }
     number_suffix_other = 'th'
 
     // Phone

@@ -1,10 +1,12 @@
-<div class="modal-container">
-    <h4 class="modal-title underline-primary stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" >{{data.title}}</h4>
+<h4 mat-dialog-title class="modal-title underline-primary" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" >{{data.title}}</h4>
+<mat-dialog-content class="modal-container">
     <div class="modal-table" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" >
         {{ data.sentence }}
     </div>
-    <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <button mat-button class="button-text-primary" (click)="cancel()">{{language.cancel}}</button>
         <button mat-raised-button class="button-background-primary" (click)="accept()">{{ data.ok }}</button>
     </div>
-</div>
+</mat-dialog-actions>

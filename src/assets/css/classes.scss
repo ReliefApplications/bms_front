@@ -360,6 +360,91 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 }
 
 
+// Modals
+.modal-title {
+    display: flex;
+    flex-grow: 1;
+    padding: 5px;
+    font-family: $bms_font_header;
+    font-size: 1.5em;
+
+    &.underline-primary {
+        border-bottom: solid 1px $bms_green;
+    }
+
+    &.underline-accent {
+        border-bottom: solid 1px $bms_red;
+    }
+
+    &.arabic {
+        direction: rtl;
+    }
+}
+
+.modal-container {
+    width: 50vw;
+
+    .modal-table {
+        &.arabic {
+            direction: rtl;
+        }
+
+        display: flex;
+        flex-wrap: wrap;
+        font-family: $bms_font_text;
+        flex-direction: column;
+
+        .modal-row {
+            display: flex;
+            width: 100%;
+            align-items: center;
+
+            .table-title {
+                text-align: left;
+                width: 60%;
+            }
+
+            .table-value {
+                text-align: left;
+                display: flex;
+                width: 100%;
+
+                .form {
+                    min-width: 150px;
+                    max-width: 500px;
+                    width: 100%;
+
+                    .full-width {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+
+        mat-form-field {
+            width: 100%;
+        }
+    }
+
+    .modal-button {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100% !important;
+        padding-top: 20px;
+        justify-content: flex-end;
+        direction: ltr;
+
+        &.arabic {
+            direction: rtl;
+        }
+    }
+}
+
 
 // TODO check addBeneficiary (done) and distributions (next)
 .box-primary,
@@ -386,121 +471,6 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     }
 }
 
-.mat-dialog-container {
-    overflow-x: hidden !important;
-}
-
-.modal-container {
-    height: 100% !important;
-    width: 100% !important;
-    min-width: 40vw;
-    display: block;
-
-    .modal-title {
-        &.arabic {
-            direction: rtl;
-        }
-
-        display: flex;
-        flex-grow: 1;
-        padding: 5px;
-        font-family: $bms_font_header;
-        font-size: 1.5em;
-    }
-
-    .underline-primary {
-        border-bottom: solid 1px $bms_green;
-    }
-
-    .underline-accent {
-        border-bottom: solid 1px $bms_red;
-    }
-
-    .modal-table {
-        &.arabic {
-            direction: rtl;
-        }
-
-        display: flex;
-        flex-wrap: wrap;
-        padding: 5px;
-        font-family: $bms_font_text;
-        flex-direction: column;
-
-        .modal-row {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            align-items: center;
-
-            .table-title {
-                text-align: left;
-                display: flex;
-                width: 35vw;
-            }
-
-            .table-value {
-                text-align: left;
-                display: flex;
-                width: 100%;
-
-                .form {
-                    min-width: 150px;
-                    max-width: 500px;
-                    width: 100%;
-
-                    .full-width {
-                        width: 100%;
-                    }
-                }
-            }
-        }
-
-        .mat-checkbox-inner-container {
-            margin-right: 8px;
-        }
-    }
-
-    .dialog-template {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        app-scanner {
-            width: 100%;
-        }
-
-        mat-form-field {
-            width: 100%;
-        }
-
-        .action {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            width: 100%;
-            margin: 10px;
-        }
-    }
-
-    .modal-subtitle {
-        width: 100%;
-    }
-
-    .modal-button {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100% !important;
-        padding-top: 20px;
-        justify-content: flex-end;
-        direction: ltr;
-
-        &.arabic {
-            direction: rtl;
-        }
-    }
-}
 
 .stepInMobile {
     display: none;

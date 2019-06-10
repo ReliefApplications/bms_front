@@ -89,7 +89,8 @@ export class ModalAddCriteriaComponent implements OnInit {
 
     needsValue(field) {
         return ['gender', 'dateOfBirth', 'equityCardNo', 'IDPoor', 'headOfHouseholdDateOfBirth', 'headOfHouseholdGender', 'livelihood',
-            'foodConsumptionScore', 'copingStrategiesIndex', 'numberDependents', 'incomeLevel', 'residencyStatus'].includes(field);
+            'foodConsumptionScore', 'copingStrategiesIndex', 'numberDependents', 'incomeLevel',
+            'residencyStatus', 'hasNotBeenInADistributionSince'].includes(field);
     }
 
     /**

@@ -45,7 +45,7 @@ export class CriteriaService extends CustomModelService {
                 fieldName === 'headOfHouseholdGender' || fieldName === 'residencyStatus') {
                 conditionNames = ['=', '!='];
             } else if (fieldName === 'IDPoor' || fieldName === 'livelihood' || fieldName === 'foodConsumptionScore' ||
-                fieldName === 'copingStrategiesIndex' || fieldName === 'incomeLevel') {
+                fieldName === 'copingStrategiesIndex' || fieldName === 'incomeLevel' || fieldName === 'hasNotBeenInADistributionSince') {
                 conditionNames = ['='];
             } else {
                 conditionNames = ['true', 'false'];

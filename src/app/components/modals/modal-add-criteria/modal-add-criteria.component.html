@@ -49,7 +49,7 @@
           </ng-template>
 
           <ng-template #date>
-            <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'headOfHouseholdDateOfBirth'; else incomeLevel">
+            <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'headOfHouseholdDateOfBirth' || form.controls.field.value === 'hasNotBeenInADistributionSince'; else incomeLevel">
               <input formControlName="value" matInput [matDatepicker]="date">
               <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
               <mat-datepicker #date></mat-datepicker>

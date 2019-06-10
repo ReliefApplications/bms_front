@@ -14,7 +14,7 @@
                 <mat-menu #menu class="extMenu">
 
                   <button mat-menu-item *ngIf="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT')" (click)="addToProject(addBeneficiaries)">
-                    {{language.beneficiaries_add_list}}
+                    {{language.beneficiary_add_list}}
                   </button>
                   <button mat-menu-item *ngIf="canDelete" (click)="deleteSelected()">
                     {{language.delete | titlecase}}
@@ -75,11 +75,11 @@
 
 <ng-template #addBeneficiaries>
   <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent stickyHeader">{{language.beneficiaries_add_distribution}}</h4>
+    <h4 class="modal-title underline-accent stickyHeader">{{language.beneficiary_add_distribution}}</h4>
     <div class="dialog-template">
       <div class="modal-body">
-        <p> {{language.beneficiaries_add_project}} {{ checkedElements.length }}
-          {{language.beneficiaries_selected_project}}</p>
+        <p> {{language.beneficiary_add_project}} {{ checkedElements.length }}
+          {{language.beneficiary_selected_project}}</p>
         <div class="selectBeneficiaries">
           <ng-select [formControl]="projectAddControl" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.projects | uppercaseFirst}}">
             <ng-option class="options" *ngFor="let project of projectsList" [value]="project.id">

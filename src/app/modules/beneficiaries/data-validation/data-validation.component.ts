@@ -83,7 +83,7 @@ export class DataValidationComponent implements OnInit {
             this.generateControls();
         // If the import context has not been set
         } catch (error) {
-            this.snackbar.error(this.language.beneficiaries_import_error_importing);
+            this.snackbar.error(this.language.beneficiary_import_error_importing);
             this.router.navigate(['beneficiaries/import']);
         }
     }
@@ -344,7 +344,7 @@ export class DataValidationComponent implements OnInit {
             return State.KeepNew;
         }
         else {
-            this.snackbar.error(this.language.beneficiaries_import_error_selection);
+            this.snackbar.error(this.language.beneficiary_import_error_selection);
         }
     }
 

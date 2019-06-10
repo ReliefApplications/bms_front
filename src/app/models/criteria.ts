@@ -45,12 +45,12 @@ export class CriteriaValue extends CustomModel {
     }
 }
 export class Criteria extends CustomModel {
-    title =  this.language.model_criteria;
+    title =  this.language.criteria;
     matSortActive = 'field';
 
     public genders = [
-        new Gender('0', this.language.add_distribution_female),
-        new Gender('1', this.language.add_distribution_male)
+        new Gender('0', this.language.female),
+        new Gender('1', this.language.male)
     ];
 
     public fields = {
@@ -69,7 +69,7 @@ export class Criteria extends CustomModel {
         }),
         field: new TextModelField(
             {
-                title: this.language.model_criteria,
+                title: this.language.criteria,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 isRequired: true,
@@ -77,7 +77,7 @@ export class Criteria extends CustomModel {
         ),
         condition: new SingleSelectModelField(
             {
-                title: this.language.model_criteria_operator,
+                title: this.language.criteria_operator,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 isRequired: true,
@@ -93,7 +93,7 @@ export class Criteria extends CustomModel {
         // Not really a single select, but can have an id and string, as gender for example
         value: new SingleSelectModelField(
             {
-                title: this.language.model_value,
+                title: this.language.value,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 bindField: 'name',
@@ -102,7 +102,7 @@ export class Criteria extends CustomModel {
         ),
         weight: new NumberModelField(
             {
-                title: this.language.model_criteria_weight,
+                title: this.language.criteria_weight,
                 value: 1,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,

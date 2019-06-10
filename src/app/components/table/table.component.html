@@ -84,7 +84,7 @@
                     <button mat-icon-button [matTooltip]="language.distribution_add_justification" *ngIf="justifiable" (click)="justify(element); $event.stopPropagation()" class="grey">
                         <mat-icon>add_circle</mat-icon>
                     </button>
-                    <button mat-icon-button [matTooltip]="language.model_duplicate | uppercaseFirst" *ngIf="duplicable" (click)="duplicate(element); $event.stopPropagation()" class="grey">
+                    <button mat-icon-button [matTooltip]="language.duplicate | uppercaseFirst" *ngIf="duplicable" (click)="duplicate(element); $event.stopPropagation()" class="grey">
                         <mat-icon>file_copy</mat-icon>
                     </button>
                 </mat-cell>

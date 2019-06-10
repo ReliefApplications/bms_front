@@ -37,13 +37,13 @@
       <h4>{{ language.household_location_address }}</h4>
       <div class="address-fields">
         <mat-form-field>
-          <input matInput placeholder="{{language.add_beneficiary_getAddressNumber | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressNumber'" required>
+          <input matInput placeholder="{{language.address_number | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressNumber'" required>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="{{language.add_beneficiary_getAddressStreet | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressStreet'" required>
+          <input matInput placeholder="{{language.address_street | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressStreet'" required>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="{{language.add_beneficiary_getAddressPostcode | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressPostcode'" required>
+          <input matInput placeholder="{{language.address_postcode | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressPostcode'" required>
         </mat-form-field>
       </div>
     </ng-container>

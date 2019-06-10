@@ -184,7 +184,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
             });
             this.projectService.addBeneficiaries(this.projectAddControl.value, benefForApi).subscribe(
                 (_success: any) => {
-                    this.snackbar.success(this.language.beneficiaries_added);
+                    this.snackbar.success(this.language.beneficiary_added);
                     this.table.loadDataPage();
                     this.selection = new SelectionModel<Household>(true, []);
                     this.checkedElements = [];

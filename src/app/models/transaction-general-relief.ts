@@ -41,7 +41,7 @@ export class GeneralRelief extends CustomModel {
 export class TransactionGeneralRelief extends DistributionBeneficiary {
 
     matSortActive = 'localFamilyName';
-    title = this.language.model_item;
+    title = this.language.general_relief;
 
     public fields = {...this.fields, ...{
         id: new NumberModelField({
@@ -57,28 +57,28 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
                 value: []
         }),
         localGivenName: new NestedFieldModelField({
-            title: this.language.model_firstName,
+            title: this.language.beneficiary_given_name,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localGivenName'
         }),
         localFamilyName: new NestedFieldModelField({
-            title: this.language.model_familyName,
+            title: this.language.beneficiary_family_name,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localFamilyName'
         }),
         enGivenName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishGivenName,
+            title: this.language.beneficiary_en_given_name,
             isDisplayedInTable: false,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'enGivenName'
         }),
         enFamilyName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishFamilyName,
+            title: this.language.beneficiary_en_family_name,
             isDisplayedInTable: false,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
@@ -88,7 +88,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
 
         }),
         distributedAt: new DateModelField({
-            title: this.language.model_distributed,
+            title: this.language.distributed,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             nullValue: this.language.null_not_distributed,
@@ -96,20 +96,20 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
         }),
         // Can only be filled by the distribution, in Distribution.apiToModel()
         values: new TextModelField({
-            title: this.language.model_value,
+            title: this.language.value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
 
         }),
         // Will be displayed in modal as an array of input field, but filled with a particular modal
         notes: new ArrayInputField<string>({
-            title: this.language.model_notes,
+            title: this.language.notes,
             numberOfInputs: null,
             isDisplayedInModal: true,
             isEditable: true,
         }),
         addReferral: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_question,
+            title: this.language.beneficiary_referral_question,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'addReferral',
@@ -122,14 +122,14 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             },
         }),
         referralType: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_type,
+            title: this.language.beneficiary_referral_type,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'referralType',
             isEditable: true,
         }),
         referralComment: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_comment,
+            title: this.language.beneficiary_referral_comment,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'referralComment',

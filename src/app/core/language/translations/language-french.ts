@@ -374,6 +374,8 @@ export class French implements Language {
     header_vouchers = 'Brochures'
     
     // Household
+    household_coping_strategies_index = 'Indice de stratégies d\'adaptation'
+    household_food_consumption_score = 'Score de consommation alimentaire'
     household_full_address = 'Adresse entière du ménage'
     household_income = 'Niveau de revenu'
     household_income_level = INCOMELEVELS.fr

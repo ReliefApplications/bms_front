@@ -3,6 +3,8 @@ import { NumberModelField } from './custom-models/number-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
 import { Gender } from './beneficiary';
+import { AppInjector } from '../app-injector';
+import { CountriesService } from '../core/countries/countries.service';
 
 export class CriteriaCondition extends CustomModel {
 
@@ -47,6 +49,11 @@ export class CriteriaValue extends CustomModel {
 export class Criteria extends CustomModel {
     title =  this.language.criteria;
     matSortActive = 'field';
+
+    protected countryService = AppInjector.get(CountriesService);
+    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
+    this.countryService.selectedCountry.getValue().get<string>('id') :
+    this.countryService.khm.get<string>('id');
 
     public genders = [
         new Gender('0', this.language.female),

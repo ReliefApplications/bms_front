@@ -72,6 +72,24 @@
                         </mat-form-field>
                       </div>
                     </div>
+                    <div class="column-container">
+                      <div class="food-score">
+                        <h4>{{ language.household_food_consumption_score | uppercaseFirst }}</h4>
+                        <mat-form-field>
+                          <input matInput [type]="number" [placeholder]="language.household_food_consumption_score" formControlName="foodConsumptionScore">
+                          <app-hint-error [form]="mainForm" fieldName="foodConsumptionScore" [field]="household.fields.foodConsumptionScore" [isMatField]="true"></app-hint-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="column-container">
+                      <div class="coping-index">
+                        <h4>{{ language.household_coping_strategies_index | uppercaseFirst }}</h4>
+                        <mat-form-field>
+                          <input matInput [type]="number" [placeholder]="language.household_coping_strategies_index" formControlName="copingStrategiesIndex">
+                          <app-hint-error [form]="mainForm" fieldName="copingStrategiesIndex" [field]="household.fields.copingStrategiesIndex" [isMatField]="true"></app-hint-error>
+                        </mat-form-field>
+                        </div>
+                    </div>
                   </form>
                 </div>
                 <div class="step-one-footer">

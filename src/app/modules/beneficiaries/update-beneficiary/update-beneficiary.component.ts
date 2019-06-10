@@ -130,7 +130,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
     }
 
     fillFormFields() {
-        this.mainFields = ['locationDifferent', 'incomeLevel', 'livelihood', 'notes', 'projects'];
+        this.mainFields = ['locationDifferent', 'incomeLevel', 'livelihood', 'notes', 'projects',
+            'foodConsumptionScore', 'copingStrategiesIndex'];
 
         const locationFields = [];
         const locationFieldSuffixes = [
@@ -455,6 +456,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         this.household.set('livelihood', this.getLivelihood());
         this.household.set('notes', controls.notes.value);
         this.household.set('incomeLevel', controls.incomeLevel.value);
+        this.household.set('foodConsumptionScore', controls.foodConsumptionScore.value);
+        this.household.set('copingStrategiesIndex', controls.copingStrategiesIndex.value);
 
         this.household.set('projects',
             this.household.getOptions('projects').filter((project: Project) => controls.projects.value.includes(project.get('id')))

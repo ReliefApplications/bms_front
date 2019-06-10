@@ -31,22 +31,44 @@
       <tr class="modal-row" *ngIf="needsValue(form.controls.field.value)">
         <th class="table-title">{{ criteria.fields.value.title  | uppercaseFirst }}</th>
         <td class="form-item">
-          <ng-select *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'headOfHouseholdGender'" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
+          <ng-select *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'headOfHouseholdGender'; else livelihood" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
             <ng-option *ngFor="let gender of criteria.genders" [value]="gender.get('id')">{{gender.get('name')}}</ng-option>
           </ng-select>
           <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="false"></app-hint-error>
 
-          <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'headOfHouseholdDateOfBirth'">
+          <ng-template #livelihood>
+            <ng-select *ngIf="form.controls.field.value === 'livelihood'; else date" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
+              <ng-option *ngFor="let livelihood of livelihoods" [value]="livelihood.get('id')">{{livelihood.get('name')}}</ng-option>
+            </ng-select>
+          </ng-template>
+
+          <ng-template #date>
+            <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'headOfHouseholdDateOfBirth'; else incomeLevel">
               <input formControlName="value" matInput [matDatepicker]="date">
               <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
               <mat-datepicker #date></mat-datepicker>
               <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="true"></app-hint-error>
-          </mat-form-field>
+            </mat-form-field>
+          </ng-template>
 
-          <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
-              <input formControlName="value" matInput type="text">
-              <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="true"></app-hint-error>
-          </mat-form-field>
+          <ng-template #incomeLevel>
+            <ng-container *ngIf="form.controls.field.value === 'incomeLevel'; else  number">
+              <mat-form-field>
+                <mat-select class="single-select" [multiple]="false" placeholder="{{language.household_income | uppercaseFirst}}" formControlName="value">
+                  <mat-option *ngFor="let index of [1, 2, 3, 4, 5]" [value]="index">
+                      {{ index }} ({{ language['household_income_level'][index.toString()][criteria.country] }})
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #number>
+            <mat-form-field class="full-width">
+                <input formControlName="value" matInput type="text">
+                <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="true"></app-hint-error>
+            </mat-form-field>
+          </ng-template>
 
         </td>
       </tr>

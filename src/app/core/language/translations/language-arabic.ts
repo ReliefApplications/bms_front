@@ -369,6 +369,8 @@ export class Arabic implements Language {
     header_imported = 'إستيراد بيانات المستفيدين'
 
     // Household
+    household_coping_strategies_index = 'مؤشر استراتيجيات المواجهة'
+    household_food_consumption_score = 'درجة استهلاك الغذاء'
     household_full_address= 'عنوان المنزل بالكامل:'
     household_income = 'مستوى الدخل'
     household_income_level = INCOMELEVELS.ar

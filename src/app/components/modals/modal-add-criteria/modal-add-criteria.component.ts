@@ -9,6 +9,8 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { Criteria, CriteriaCondition, CriteriaValue } from 'src/app/models/criteria';
 import { Gender } from 'src/app/models/beneficiary';
+import { LIVELIHOOD } from 'src/app/models/constants/livelihood';
+import { Livelihood } from 'src/app/models/household';
 
 
 @Component({
@@ -29,8 +31,10 @@ export class ModalAddCriteriaComponent implements OnInit {
 
     criteriaList: Array<Criteria>;
 
-   // Language
-   public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    livelihoods = [];
+
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         private criteriaService: CriteriaService,
@@ -38,9 +42,10 @@ export class ModalAddCriteriaComponent implements OnInit {
         private snackbar: SnackbarService,
         public formService: FormService,
         public languageService: LanguageService,
-    ) {}
+        ) {}
 
-    ngOnInit() {
+        ngOnInit() {
+        this.livelihoods = LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, this.language[livelihood.language_key]));
         this.criteria = new Criteria();
         this.fields = Object.keys(this.criteria.fields);
         this.makeForm();
@@ -80,7 +85,8 @@ export class ModalAddCriteriaComponent implements OnInit {
     }
 
     needsValue(field) {
-        return ['gender', 'dateOfBirth', 'equityCardNo', 'IDPoor', 'headOfHouseholdDateOfBirth', 'headOfHouseholdGender'].includes(field);
+        return ['gender', 'dateOfBirth', 'equityCardNo', 'IDPoor', 'headOfHouseholdDateOfBirth', 'headOfHouseholdGender',
+            'livelihood', 'foodConsumptionScore', 'copingStrategiesIndex', 'numberDependents', 'incomeLevel'].includes(field);
     }
 
     /**

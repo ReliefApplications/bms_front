@@ -369,6 +369,8 @@ export class English implements Language {
     header_imported = 'Imported beneficiaries data'
 
     // Household
+    household_coping_strategies_index = 'Coping strategies index'
+    household_food_consumption_score = 'Food consumption score'
     household_full_address = 'Full household address'
     household_income = 'Level of income'
     household_income_level = INCOMELEVELS.en

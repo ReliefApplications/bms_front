@@ -149,13 +149,13 @@ export class Household extends CustomModel {
         ),
         foodConsumptionScore: new NumberModelField(
             {
-                title: '',
+                title: this.language.household_food_consumption_score,
                 isDisplayedInModal: true,
             }
         ),
         copingStrategiesIndex: new NumberModelField(
             {
-                title: '',
+                title: this.language.household_coping_strategies_index,
                 isDisplayedInModal: true,
             }
         ),
@@ -192,6 +192,8 @@ export class Household extends CustomModel {
         newHousehold.set('id', householdFromApi.id);
         newHousehold.set('notes', householdFromApi.notes);
         newHousehold.set('incomeLevel', householdFromApi.income_level);
+        newHousehold.set('foodConsumptionScore', householdFromApi.food_consumption_score);
+        newHousehold.set('copingStrategiesIndex', householdFromApi.coping_strategies_index);
         newHousehold.set('livelihood',
             householdFromApi.livelihood !== null && householdFromApi.livelihood !== undefined ?
             newHousehold.getOptions('livelihood')
@@ -284,6 +286,8 @@ export class Household extends CustomModel {
             beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi()),
             income_level: this.get('incomeLevel'),
             household_locations: householdLocations.map((householdLocation: HouseholdLocation) => householdLocation.modelToApi()),
+            food_consumption_score: this.get('foodConsumptionScore'),
+            coping_strategies_index: this.get('copingStrategiesIndex'),
         };
     }
 }

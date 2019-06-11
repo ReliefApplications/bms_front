@@ -143,9 +143,11 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     private getProjects() {
         this.projectService.get().subscribe((apiProjects: Array<any>) => {
-            this.projects = apiProjects.map((apiProject: any) => {
-                return Project.apiToModel(apiProject);
-            });
+            if (apiProjects) {
+                this.projects = apiProjects.map((apiProject: any) => {
+                    return Project.apiToModel(apiProject);
+                });
+            }
         });
     }
 

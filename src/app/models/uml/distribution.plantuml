@@ -41,7 +41,7 @@ class ModalityType {
 }
 
 class Criteria {
-    - kindOfBeneficiary
+    - target
     - tableString
     - field
     - condition

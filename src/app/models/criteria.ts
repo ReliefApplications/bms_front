@@ -66,7 +66,7 @@ export class Criteria extends CustomModel {
         //         // Not displayed anywhere
         //     }
         // ),
-        kindOfBeneficiary: new TextModelField(
+        target: new TextModelField(
             {
 
             }
@@ -124,7 +124,7 @@ export class Criteria extends CustomModel {
 
         newCriteria.set('field', criteriaFromApi.field_string);
         newCriteria.set('type', criteriaFromApi.type);
-        newCriteria.set('kindOfBeneficiary', criteriaFromApi.kind_beneficiary);
+        newCriteria.set('target', criteriaFromApi.target);
         newCriteria.set('tableString', criteriaFromApi.table_string);
 
         // If it is a criteria associated with a distribution, it already has a value and condition
@@ -148,7 +148,7 @@ export class Criteria extends CustomModel {
         return {
             condition_string: this.get('condition').get('name'),
             field_string: this.get('field'),
-            kind_beneficiary: this.get('kindOfBeneficiary'),
+            target: this.get('target'),
             table_string: this.get('tableString'),
             value_string: this.get('value').get('id'),
             weight: this.get('weight'),

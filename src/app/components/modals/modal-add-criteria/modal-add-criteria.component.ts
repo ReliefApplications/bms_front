@@ -90,7 +90,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
     onChanges(): void {
         this.subscribers.push(this.form.get('criteriaType').valueChanges.subscribe(value => {
             this.criteriaSubList = this.criteriaList.filter((criteria: Criteria) => {
-                return criteria.get<string>('kindOfBeneficiary') === value && criteria.get<string>('field') !== 'campName';
+                return criteria.get<string>('target') === value && criteria.get<string>('field') !== 'campName';
             });
             this.form.controls.field.setValue(null);
             this.form.controls.condition.setValue(null);
@@ -151,7 +151,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
                 field = option;
             }
             if (field) {
-                this.criteria.set('kindOfBeneficiary', option.get('kindOfBeneficiary'))
+                this.criteria.set('target', option.get('target'))
                     .set('tableString', option.get('tableString'))
                     .set('type', option.get('type'))
                     .set('field', option.get('field'));

@@ -173,7 +173,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
 
     setDataTableProperties() {
-        if (this.searchable) {
+        if (this.searchable && this.tableData) {
             this.tableData.filterPredicate = (element: CustomModel, filter: string) => {
                 if (!filter) {
                     return true;
@@ -204,16 +204,18 @@ export class TableComponent implements OnInit,  AfterViewInit {
             };
         }
 
-        this.tableData.sortingDataAccessor = (item, property) => {
-            let field = item.fields[property];
+        if (this.tableData) {
+                    this.tableData.sortingDataAccessor = (item, property) => {
+                        let field = item.fields[property];
 
-            if (field.kindOfField === 'Children') {
-                field = item.get(field.childrenObject) ?
-                    item.get(field.childrenObject).fields[field.childrenFieldName] :
-                    new TextModelField({});
-            }
-            return this.getFieldStringValues(field);
-        };
+                        if (field.kindOfField === 'Children') {
+                            field = item.get(field.childrenObject) ?
+                                item.get(field.childrenObject).fields[field.childrenFieldName] :
+                                new TextModelField({});
+                        }
+                        return this.getFieldStringValues(field);
+                    };
+        }
 
         if ((this.tableData && this.tableData.data)) {
             this.tableData.sort = this.sort;

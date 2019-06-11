@@ -130,7 +130,7 @@ export class ModalAddCriteriaComponent implements OnInit {
             })[0]
         );
         const value = this.form.controls.value.value;
-        if (this.form.controls.field.value === 'gender') {
+        if (this.form.controls.field.value === 'gender' || this.form.controls.field.value === 'headOfHouseholdGender') {
             const genderValue = this.criteria.genders.filter((gender: Gender) => gender.get('id') === value)[0];
             this.criteria.set('value', new CriteriaValue(value, genderValue.get('name')));
         } else if (this.form.controls.field.value === 'livelihood') {

@@ -56,6 +56,7 @@ app-table-mobile {
 
 .action-buttons {
     flex-wrap: wrap;
+    justify-content: center;
     .button-with-extension, .action-button {
         margin-top: 10px;
     }

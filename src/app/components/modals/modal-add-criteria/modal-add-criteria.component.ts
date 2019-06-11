@@ -83,12 +83,15 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
             );
         });
         formControls['criteriaType'] = new FormControl();
+        formControls['campName'] = new FormControl();
         this.form = new FormGroup(formControls);
     }
 
     onChanges(): void {
         this.subscribers.push(this.form.get('criteriaType').valueChanges.subscribe(value => {
-            this.criteriaSubList = this.criteriaList.filter((criteria: Criteria) => criteria.get<string>('kindOfBeneficiary') === value);
+            this.criteriaSubList = this.criteriaList.filter((criteria: Criteria) => {
+                return criteria.get<string>('kindOfBeneficiary') === value && criteria.get<string>('field') !== 'campName';
+            });
             this.form.controls.field.setValue(null);
             this.form.controls.condition.setValue(null);
             this.form.controls.value.setValue(null);
@@ -137,58 +140,67 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
+        const controls = this.form.controls;
         // get the information about the field with the selected field name
         this.criteriaList.forEach((option: Criteria) => {
-            if (option.get('field') === this.form.controls.field.value) {
-                this.criteria.set('kindOfBeneficiary', option.get('kindOfBeneficiary'));
-                this.criteria.set('tableString', option.get('tableString'));
-                this.criteria.set('type', option.get('type'));
-                this.criteria.set('field', option.get('field'));
+            let field = null;
+            if (controls.field.value === 'locationType' && controls.value.value === 'camp' &&
+                controls.condition.value === '=' && controls.campName.value) {
+                field = option.get<string>('field') === 'campName' ? option : null;
+            } else if (option.get('field') === controls.field.value) {
+                field = option;
+            }
+            if (field) {
+                this.criteria.set('kindOfBeneficiary', option.get('kindOfBeneficiary'))
+                    .set('tableString', option.get('tableString'))
+                    .set('type', option.get('type'))
+                    .set('field', option.get('field'));
             }
         });
 
-        this.criteria.set(
-            'condition',
-            this.criteria.getOptions('condition').filter((option: CriteriaCondition) => {
-                return option.get('name') === this.form.controls.condition.value;
-            })[0]
-        );
-        const value = this.form.controls.value.value;
-        if (this.form.controls.field.value === 'gender' || this.form.controls.field.value === 'headOfHouseholdGender') {
-            const genderValue = this.criteria.genders.filter((gender: Gender) => gender.get('id') === value)[0];
-            this.criteria.set('value', new CriteriaValue(value, genderValue.get('name')));
-        } else if (this.form.controls.field.value === 'livelihood') {
-            const livelihoodValue = this.livelihoods.filter((livelihood: Livelihood) => livelihood.get('id') === value)[0];
-            this.criteria.set('value', new CriteriaValue(value, livelihoodValue.get('name')));
-        } else if (this.form.controls.field.value === 'residencyStatus') {
-            const residencyStatusValue = this.residencyStatuses
-                .filter((residencyStatus: ResidencyStatus) => residencyStatus.get('id') === value)[0];
-            this.criteria.set('value', new CriteriaValue(value, residencyStatusValue.get('name')));
-        } else if (this.form.controls.field.value === 'locationType') {
-            const locationTypeValue = this.locationTypes
-                .filter((locationType: HouseholdLocationType) => locationType.get('id') === value)[0];
-            this.criteria.set('value', new CriteriaValue(value, locationTypeValue.get('name')));
-        } else if (this.form.controls.field.value === 'incomeLevel') {
-            this.criteria.set('value',
-                new CriteriaValue(value, this.language['household_income_level'][value.toString()][this.criteria.country]));
-        }
-        // In case the criteria is the dateOfBirth
-        else if (value instanceof Date) {
-            const datePipe = new DatePipe('en-US');
-            const formattedValue = datePipe.transform(value, 'yyyy-MM-dd');
-            this.criteria.set('value', new CriteriaValue(formattedValue, formattedValue));
+        if (controls.field.value === 'locationType' && controls.value.value === 'camp' &&
+            controls.condition.value === '=' && controls.campName.value) {
+            this.criteria.set('value',  new CriteriaValue(controls.campName.value, controls.campName.value))
+                .set('condition',
+                    this.criteria.getOptions('condition').filter((option: CriteriaCondition) => option.get<string>('name') === '=')[0]);
         } else {
-            this.criteria.set('value', new CriteriaValue(value, value));
-        }
-        this.criteria.set('weight', this.form.controls.weight.value);
+            this.criteria.set('condition', this.criteria.getOptions('condition')
+                .filter((option: CriteriaCondition) => option.get('name') === controls.condition.value)[0]);
+            const value = controls.value.value;
 
-        if (
-            (this.form.controls.field.value === 'gender' ||
-                this.form.controls.field.value === 'dateOfBirth' ||
-                this.form.controls.field.value === 'IDPoor' ||
-                this.form.controls.field.value === 'equityCardNo') &&
-            !this.form.controls.value.value
-        ) {
+            if (controls.field.value === 'gender' || controls.field.value === 'headOfHouseholdGender') {
+                const genderValue = this.criteria.genders.filter((gender: Gender) => gender.get('id') === value)[0];
+                this.criteria.set('value', new CriteriaValue(value, genderValue.get('name')));
+            } else if (controls.field.value === 'livelihood') {
+                const livelihoodValue = this.livelihoods.filter((livelihood: Livelihood) => livelihood.get('id') === value)[0];
+                this.criteria.set('value', new CriteriaValue(value, livelihoodValue.get('name')));
+            } else if (controls.field.value === 'residencyStatus') {
+                const residencyStatusValue = this.residencyStatuses
+                    .filter((residencyStatus: ResidencyStatus) => residencyStatus.get('id') === value)[0];
+                this.criteria.set('value', new CriteriaValue(value, residencyStatusValue.get('name')));
+            } else if (controls.field.value === 'locationType') {
+                const locationTypeValue = this.locationTypes
+                    .filter((locationType: HouseholdLocationType) => locationType.get('id') === value)[0];
+                this.criteria.set('value', new CriteriaValue(value, locationTypeValue.get('name')));
+            } else if (controls.field.value === 'incomeLevel') {
+                this.criteria.set('value',
+                    new CriteriaValue(value, this.language['household_income_level'][value.toString()][this.criteria.country]));
+            }
+            // In case the criteria is the dateOfBirth
+            else if (value instanceof Date) {
+                const datePipe = new DatePipe('en-US');
+                const formattedValue = datePipe.transform(value, 'yyyy-MM-dd');
+                this.criteria.set('value', new CriteriaValue(formattedValue, formattedValue));
+            } else {
+                this.criteria.set('value', new CriteriaValue(value, value));
+            }
+        }
+
+        this.criteria.set('weight', controls.weight.value);
+
+        if ((controls.field.value === 'gender' || controls.field.value === 'dateOfBirth' ||
+            controls.field.value === 'IDPoor' || controls.field.value === 'equityCardNo') &&
+            !controls.value.value) {
             this.snackbar.error(this.language.modal_add_no_value);
         } else {
             this.modalReference.close(this.criteria);

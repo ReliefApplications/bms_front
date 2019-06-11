@@ -109,6 +109,16 @@
 
             </td>
           </tr>
+
+          <tr *ngIf="form.controls.field.value === 'locationType' && form.controls.value.value === 'camp' && form.controls.condition.value === '='" class="modal-row">
+              <th class="table-title">{{language.household_location_camp_name | uppercaseFirst }}</th>
+              <th class="table-value">
+                  <mat-form-field class="full-width">
+                      <input matInput formControlName="campName" type="text">
+                  </mat-form-field>
+              </th>
+          </tr>
+
           <tr class="modal-row">
               <th class="table-title"></th>
               <th class="table-value advanced-icon-wrapper">

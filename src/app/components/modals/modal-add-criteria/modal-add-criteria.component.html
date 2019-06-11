@@ -43,13 +43,19 @@
           </ng-template>
 
           <ng-template #residency>
-            <ng-select *ngIf="form.controls.field.value === 'residencyStatus'; else date" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
+            <ng-select *ngIf="form.controls.field.value === 'residencyStatus'; else locationType" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
               <ng-option *ngFor="let residencyStatus of residencyStatuses" [value]="residencyStatus.get('id')">{{residencyStatus.get('name')}}</ng-option>
             </ng-select>
           </ng-template>
 
+          <ng-template #locationType>
+            <ng-select *ngIf="form.controls.field.value === 'locationType'; else date" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
+              <ng-option *ngFor="let locationType of locationTypes" [value]="locationType.get('id')">{{locationType.get('name')}}</ng-option>
+            </ng-select>
+          </ng-template>
+
           <ng-template #date>
-            <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'headOfHouseholdDateOfBirth' || form.controls.field.value === 'hasNotBeenInADistributionSince'; else incomeLevel">
+            <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'headOfHouseholdDateOfBirth' || form.controls.field.value === 'hasNotBeenInDistributionsSince'; else incomeLevel">
               <input formControlName="value" matInput [matDatepicker]="date">
               <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
               <mat-datepicker #date></mat-datepicker>
@@ -58,7 +64,7 @@
           </ng-template>
 
           <ng-template #incomeLevel>
-            <ng-container *ngIf="form.controls.field.value === 'incomeLevel'; else  number">
+            <ng-container *ngIf="form.controls.field.value === 'incomeLevel'; else text">
               <mat-form-field>
                 <mat-select class="single-select" [multiple]="false" placeholder="{{language.household_income | uppercaseFirst}}" formControlName="value">
                   <mat-option *ngFor="let index of [1, 2, 3, 4, 5]" [value]="index">
@@ -69,7 +75,7 @@
             </ng-container>
           </ng-template>
 
-          <ng-template #number>
+          <ng-template #text>
             <mat-form-field class="full-width">
                 <input formControlName="value" matInput type="text">
                 <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="true"></app-hint-error>

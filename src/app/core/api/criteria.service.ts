@@ -41,11 +41,12 @@ export class CriteriaService extends CustomModelService {
 
             if ((fieldName === 'dateOfBirth') || (fieldName === 'headOfHouseholdDateOfBirth') || fieldName === 'numberDependents') {
                 conditionNames = ['>', '<', '>=', '<=', '=', '!='];
-            }  else if (fieldName === 'gender' || fieldName === 'equityCardNo' ||
+            }  else if (fieldName === 'gender' || fieldName === 'equityCardNo' || fieldName === 'locationType' ||
                 fieldName === 'headOfHouseholdGender' || fieldName === 'residencyStatus') {
                 conditionNames = ['=', '!='];
             } else if (fieldName === 'IDPoor' || fieldName === 'livelihood' || fieldName === 'foodConsumptionScore' ||
-                fieldName === 'copingStrategiesIndex' || fieldName === 'incomeLevel' || fieldName === 'hasNotBeenInADistributionSince') {
+                fieldName === 'campName' || fieldName === 'copingStrategiesIndex' ||
+                fieldName === 'incomeLevel' || fieldName === 'hasNotBeenInDistributionsSince') {
                 conditionNames = ['='];
             } else {
                 conditionNames = ['true', 'false'];

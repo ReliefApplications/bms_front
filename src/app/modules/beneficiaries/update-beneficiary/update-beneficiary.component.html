@@ -202,7 +202,7 @@
                     <p class="summary-title-value">{{getLivelihood().get('name')}}</p>
                   </div>
                   <ng-container *ngFor="let locationGroup of ['current', 'resident']">
-                    <div class="info-container" *ngIf="mainForm.controls[locationGroup + 'Type'].value !== 'camp'">
+                    <div class="info-container" *ngIf="mainForm.controls[locationGroup + 'Type'].value && mainForm.controls[locationGroup + 'Type'].value !== 'camp'">
                       <h4 class='summary-title'> {{language['household_location_' + locationGroup + '_address']}} </h4>
                       <p class="summary-title-value">
                         {{mainForm.controls[locationGroup + 'AddressNumber'].value}}

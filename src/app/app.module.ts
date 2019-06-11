@@ -16,7 +16,6 @@ import { HeaderComponent } from './components/headers/header/header.component';
 import { RequestDisplayComponent } from './components/headers/request-display/request-display.component';
 import { ModalConfirmationComponent } from './components/modals/modal-confirmation/modal-confirmation.component';
 import { ModalRequestsComponent } from './components/modals/modal-requests/modal-requests.component';
-import { ModalComponent } from './components/modals/modal.component';
 import { httpInterceptorProviders } from './core/interceptors/index-interceptors';
 import { UpdateService } from './core/service-worker/update.service';
 import { ProfileComponent } from './modules/profile/profile.component';
@@ -33,7 +32,6 @@ import { SharedModule } from './shared/shared.module';
         ModalConfirmationComponent,
         RequestDisplayComponent,
         ModalRequestsComponent,
-        ModalComponent,
     ],
     imports: [
         // Modules

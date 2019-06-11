@@ -15,14 +15,6 @@ app-not-validated-distribution {
     width: 100%;
 }
 
-mat-dialog-content {
-    width: min-content;
-    p {
-        text-align: justify;
-        max-width: 40vw;
-    }
-}
-
 .lign-container {
     display: flex;
     align-items: center;
@@ -253,14 +245,6 @@ app-mobile-money, app-general-relief, app-qr-voucher {
     .action-buttons {
         width: 100%;
         padding-bottom: 20px;
-    }
-
-    mat-dialog-content {
-        width: 70vw;
-        * {
-            text-align: left !important;
-            max-width: 70vw !important;
-        }
     }
 
     .mat-stepper-horizontal {

@@ -1,106 +1,124 @@
-<mat-dialog-content class="modal-container">
-  <h4 class="modal-title underline-accent">{{language.voucher_assign_title | uppercaseFirst}}</h4>
-  <div class="dialog-template" *ngIf="step === 1">
-    <div class="modal-body">
-      <form class="form" [formGroup]="form">
-      <table class="modal-table">
-        <tr class="modal-row">
-          <th class="table-title">{{ language.project }}</th>
-          <th class="table-value">
-              <ng-select *ngIf="!data.project" class="full-width single-select" [clearable]=false formControlName="projectControl" (change)="getDistributions()">
-                <ng-option *ngFor="let project of projects" [value]="project.get('id')">{{project.get('name')}}</ng-option>
-              </ng-select>
-              <p *ngIf="data.project">{{ data.project.get('name') }}</p>
-          </th>
-        </tr>
+<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.voucher_assign_title | uppercaseFirst}}</h4>
 
-        <tr class="modal-row">
-          <th class="table-title">{{ language.distribution }}</th>
-          <th class="table-value">
-              <ng-select *ngIf="!data.distribution" class="full-width single-select" [clearable]=false formControlName="distributionControl"
-                (change)="getBeneficiaries()">
-                <ng-option *ngFor="let distribution of distributions" [value]="distribution.get('id')">{{distribution.get('name')}}</ng-option>
-              </ng-select>
-              <p *ngIf="data.distribution">{{ data.distribution.get('name') }}</p>
-          </th>
-        </tr>
+<!-- Step 1 -->
+<mat-dialog-content class="modal-container" *ngIf="step === 1">
+    <form class="form" [formGroup]="form">
+        <table class="modal-table" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
+            <tr class="modal-row">
+                <th class="table-title">{{ language.project }}</th>
+                <th class="table-value">
+                    <ng-select *ngIf="!data.project" class="full-width single-select" [clearable]=false
+                        formControlName="projectControl" (change)="getDistributions()">
+                        <ng-option *ngFor="let project of projects" [value]="project.get('id')">
+                            {{project.get('name')}}</ng-option>
+                    </ng-select>
+                    <p *ngIf="data.project">{{ data.project.get('name') }}</p>
+                </th>
+            </tr>
 
-        <tr class="modal-row">
-          <th class="table-title">{{ language.beneficiary }}</th>
-          <th class="table-value">
-              <ng-select class="full-width single-select" [clearable]=false
-              formControlName="beneficiaryControl" *ngIf="!data.beneficiary">
-                <ng-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.get('id')">{{beneficiary.get('localFullName')}}</ng-option>
-              </ng-select>
-              <p *ngIf="data.beneficiary">{{ data.beneficiary.get('localFullName') }}</p>
+            <tr class="modal-row">
+                <th class="table-title">{{ language.distribution }}</th>
+                <th class="table-value">
+                    <ng-select *ngIf="!data.distribution" class="full-width single-select" [clearable]=false
+                        formControlName="distributionControl" (change)="getBeneficiaries()">
+                        <ng-option *ngFor="let distribution of distributions" [value]="distribution.get('id')">
+                            {{distribution.get('name')}}</ng-option>
+                    </ng-select>
+                    <p *ngIf="data.distribution">{{ data.distribution.get('name') }}</p>
+                </th>
+            </tr>
 
-          </th>
-      </tr>
-      </table>
-      </form>
+            <tr class="modal-row">
+                <th class="table-title">{{ language.beneficiary }}</th>
+                <th class="table-value">
+                    <ng-select class="full-width single-select" [clearable]=false formControlName="beneficiaryControl"
+                        *ngIf="!data.beneficiary">
+                        <ng-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.get('id')">
+                            {{beneficiary.get('localFullName')}}</ng-option>
+                    </ng-select>
+                    <p *ngIf="data.beneficiary">{{ data.beneficiary.get('localFullName') }}</p>
+
+                </th>
+            </tr>
+        </table>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions *ngIf="step === 1">
+    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        <button mat-button class="button-text-accent"
+            (click)="exit('Assignation canceled')">{{language.cancel}}</button>
+        <button mat-raised-button class="button-background-accent" (click)="nextStep()"
+            [disabled]="!form.valid && !data.beneficiary">{{language.next}}</button>
     </div>
-    <div class="modal-footer action">
-      <button mat-button class="button-text-accent" (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-      <button mat-raised-button class="button-background-accent" (click)="nextStep()" [disabled]="!form.valid && !data.beneficiary">{{language.next}}</button>
-    </div>
-  </div>
+</mat-dialog-actions>
 
-  <div class="dialog-template" *ngIf="step === 2">
-    <app-scanner (result)="getResultScanner($event)"></app-scanner>
-  </div>
+<!-- Step 2 -->
+<app-scanner *ngIf="step === 2" (result)="getResultScanner($event)"></app-scanner>
 
-  <div *ngIf="step === 3">
+<!-- Step 3 -->
+<mat-dialog-content class="modal-container" *ngIf="step === 3">
     <p>{{language.voucher_scan_text }}</p>
 
     <div class="scan-checked">
-      <mat-icon>check_circle_outline</mat-icon>
+        <mat-icon>check_circle_outline</mat-icon>
     </div>
 
     <div class="button-text-accent center-items">
-      <mat-icon>local_activity</mat-icon>
-      <span>{{ bookletQRCode }}</span>
+        <mat-icon>local_activity</mat-icon>
+        <span>{{ bookletQRCode }}</span>
     </div>
 
-    <div class="dialog-template">
-      <div class="modal-footer action">
-        <button mat-button class="button-text-accent" (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <button mat-raised-button class="button-background-accent" (click)="nextStep()">{{language.next}}</button>
-      </div>
+    <div class="modal-body">
     </div>
-  </div>
-
-  <div *ngIf="step === 4">
-    <span>{{ language.voucher_define_password}} {{ bookletQRCode }} ?</span>
-    <mat-checkbox color="primary" [formControl]="displayPasswordControl" class="margin-left"></mat-checkbox>
-    <div [hidden]="!displayPasswordControl.value">
-      <p>{{ language.voucher_ask_code }}</p>
-      <div class="dialog-template">
-        <mat-form-field class="full-width">
-          <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl" [placeholder]= "language.password | uppercaseFirst" />
-          <mat-error *ngIf=""></mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div class="dialog-template">
-      <div class="modal-footer action">
-        <button mat-button class="button-text-accent" (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
-        <button mat-raised-button class="button-background-accent" (click)="nextStep()" *ngIf="!loadingPassword">{{language.next}}</button>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="step === 5">
-    <p>{{ language.booklet }} {{ bookletQRCode }} {{ language.voucher_step5 }} {{ beneficiaryName }} {{
-      language.voucher_for }} {{ distributionName }}</p>
-
-    <div class="dialog-template">
-      <div class="modal-footer action">
-        <button mat-button class="button-text-accent" (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
-        <button mat-raised-button class="button-background-accent" (click)="assignBooklet()" *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>
-      </div>
-    </div>
-  </div>
 </mat-dialog-content>
+<mat-dialog-actions *ngIf="step === 3">
+    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        <button mat-button class="button-text-accent"
+            (click)="exit('Assignation canceled')">{{language.cancel}}</button>
+        <button mat-raised-button class="button-background-accent" (click)="nextStep()">{{language.next}}</button>
+    </div>
+</mat-dialog-actions>
+
+<!-- Step 4 -->
+<mat-dialog-content class="modal-container" *ngIf="step === 4">
+    <div class="modal-body">
+        <span>{{ language.voucher_define_password}} {{ bookletQRCode }} ?</span>
+        <mat-checkbox color="primary" [formControl]="displayPasswordControl" class="margin-left"></mat-checkbox>
+        <div [hidden]="!displayPasswordControl.value">
+            <p>{{ language.voucher_ask_code }}</p>
+            <div class="modal-body">
+                <mat-form-field class="full-width">
+                    <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl"
+                        [placeholder]="language.password | uppercaseFirst" />
+                    <mat-error *ngIf=""></mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions *ngIf="step === 4">
+    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        <button mat-button class="button-text-accent"
+            (click)="exit('Assignation canceled')">{{language.cancel}}</button>
+        <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
+        <button mat-raised-button class="button-background-accent" (click)="nextStep()"
+            *ngIf="!loadingPassword">{{language.next}}</button>
+    </div>
+</mat-dialog-actions>
+
+<!-- Step 5 -->
+<mat-dialog-content class="modal-container" *ngIf="step === 5">
+    <div class="modal-body">
+        <p>{{ language.booklet }} {{ bookletQRCode }} {{ language.voucher_step5 }} {{ beneficiaryName }} {{
+      language.voucher_for }} {{ distributionName }}</p>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions *ngIf="step === 5">
+    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        <button mat-button class="button-text-accent"
+            (click)="exit('Assignation canceled')">{{language.cancel}}</button>
+        <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
+        <button mat-raised-button class="button-background-accent" (click)="assignBooklet()"
+            *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>
+    </div>
+</mat-dialog-actions>

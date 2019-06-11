@@ -275,6 +275,7 @@ export class English implements Language {
     // Criteria
     criteria_operator = 'Condition'
     criteria_weight = 'Score weight'
+    criteria_target = 'Criteria Target'
     
     // Dashboard
     dashboard_distribution_map = 'distribution map'

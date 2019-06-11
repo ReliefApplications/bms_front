@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS } from '@angular/material';
 import { CriteriaService } from 'src/app/core/api/criteria.service';
@@ -12,6 +12,7 @@ import { Gender, Beneficiary, ResidencyStatus } from 'src/app/models/beneficiary
 import { LIVELIHOOD } from 'src/app/models/constants/livelihood';
 import { Livelihood } from 'src/app/models/household';
 import { HouseholdLocation, HouseholdLocationType } from 'src/app/models/household-location';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-modal-add-criteria',
@@ -22,7 +23,7 @@ import { HouseholdLocation, HouseholdLocationType } from 'src/app/models/househo
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ],
 })
-export class ModalAddCriteriaComponent implements OnInit {
+export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
     public criteria: Criteria;
     public fields: string[];
     public form: FormGroup;
@@ -33,6 +34,9 @@ export class ModalAddCriteriaComponent implements OnInit {
     livelihoods: Array<Livelihood>;
     residencyStatuses: Array<ResidencyStatus>;
     locationTypes: Array<HouseholdLocationType>;
+    criteriaSubList: Array<Criteria>;
+
+    subscriber: Subscription;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -51,6 +55,10 @@ export class ModalAddCriteriaComponent implements OnInit {
         this.fields = Object.keys(this.criteria.fields);
         this.makeForm();
         this.loadFields();
+    }
+
+    ngOnDestroy() {
+        this.subscriber.unsubscribe();
     }
 
     fillOptions() {
@@ -74,13 +82,25 @@ export class ModalAddCriteriaComponent implements OnInit {
                 validators
             );
         });
+        formControls['criteriaType'] = new FormControl();
         this.form = new FormGroup(formControls);
+    }
+
+    onChanges(): void {
+        this.subscriber = this.form.get('criteriaType').valueChanges.subscribe(value => {
+            this.criteriaSubList = this.criteriaList.filter((criteria: Criteria) => criteria.get<string>('kindOfBeneficiary') === value);
+            this.form.controls.field.setValue(null);
+            this.form.controls.condition.setValue(null);
+            this.form.controls.value.setValue(null);
+        });
     }
 
     loadFields() {
         this.criteriaService.get().subscribe((criteria: any) => {
             if (criteria) {
                 this.criteriaList = criteria.map((criterion: any) => Criteria.apiToModel(criterion));
+                this.onChanges();
+                this.form.controls.criteriaType.setValue('Beneficiary');
             }
         });
     }

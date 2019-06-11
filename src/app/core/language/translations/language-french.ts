@@ -275,7 +275,8 @@ export class French implements Language {
     // Criteria
     criteria_operator = 'Condition'
     criteria_weight = 'Score du poids'
-    
+    criteria_target = 'Cible du critère'
+
     // Dashboard
     dashboard_distribution_map = 'répartition des distributions'
     dashboard_recent_distributions = 'distributions récentes'

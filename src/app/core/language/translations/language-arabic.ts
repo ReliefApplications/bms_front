@@ -275,7 +275,8 @@ export class Arabic implements Language {
     // Criteria
     criteria_operator = 'الشروط'
     criteria_weight = 'وزن النتيجة'
- 
+    criteria_target = 'معايير الهدف'
+
     // Dashboard
     dashboard_distribution_map = 'خريطة التوزيع'
     dashboard_recent_distributions = 'التوزيعات الحديثة'

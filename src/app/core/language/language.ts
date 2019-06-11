@@ -258,6 +258,7 @@ export interface Language {
     // Criteria
     criteria_operator: string
     criteria_weight: string
+    criteria_target: string
 
     // Dashboard
     dashboard_distribution_map: string

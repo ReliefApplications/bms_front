@@ -22,7 +22,7 @@
         <p>{{ language.voucher_no_permission }}.</p>
     </div>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
+<mat-dialog-actions >
     <div class="modal-button action-buttons" *ngIf="!hasDevices || !hasPermission" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <button mat-raised-button class="button-background-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>

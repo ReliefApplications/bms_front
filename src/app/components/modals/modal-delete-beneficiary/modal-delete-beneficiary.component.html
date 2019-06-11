@@ -1,17 +1,17 @@
 <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" >{{language.modal_delete_beneficiary | uppercaseFirst}}</h4>
 <mat-dialog-content class="modal-container">
-  <div class="modal-table" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
+  <div class="modal-body" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
       {{language.modal_delete_beneficiary_sentence | uppercaseFirst}} {{ data.beneficiary | uppercaseFirst}}
       {{ language.modal_delete_beneficiary_sentence_2 | uppercaseFirst}} {{language.modal_delete_sentence_2 | uppercaseFirst}}
   </div>
-  <div class="modal-table" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
-    {{ language.modal_delete_justification | uppercaseFirst }} :
+  <div class="modal-body" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
+    {{ language.modal_delete_justification | uppercaseFirst }}:
   </div>
   <mat-form-field>
       <textarea matInput [formControl]="justification" type="text" [placeholder]="language.modal_delete_justification | uppercaseFirst" required></textarea>
   </mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
+<mat-dialog-actions >
     <div class="modal-button action-buttons"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
       <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
       <button mat-raised-button  [disabled]="!justification.valid"  (click)="onDelete()" class="button-background-accent">{{language.remove}}</button>

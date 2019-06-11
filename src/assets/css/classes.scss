@@ -350,12 +350,16 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         }
     }
 
-    :not(.arabic):last-child {
-        margin-right: 0 !important;
+    &:not(.arabic):last-child {
+        button {
+            margin-right: 0 !important;
+        }
     }
 
-    .arabic:last-child {
-        margin-left: 0 !important;
+    &.arabic:last-child {
+        button {
+            margin-left: 0 !important;
+        }
     }
 }
 
@@ -385,10 +389,6 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     width: 50vw;
 
     .modal-table {
-        &.arabic {
-            direction: rtl;
-        }
-
         display: flex;
         flex-wrap: wrap;
         font-family: $bms_font_text;
@@ -420,6 +420,13 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
                 }
             }
         }
+
+        &.arabic {
+            direction: rtl;
+            .table-title, .table-value {
+                text-align: right;
+            }
+        }
     }
 
     .modal-body {
@@ -430,18 +437,17 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
             width: 100%;
         }
     }
+}
+.modal-button {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100% !important;
+    padding-top: 20px;
+    justify-content: flex-end;
+    direction: ltr;
 
-    .modal-button {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100% !important;
-        padding-top: 20px;
-        justify-content: flex-end;
-        direction: ltr;
-
-        &.arabic {
-            direction: rtl;
-        }
+    &.arabic {
+        direction: rtl;
     }
 }
 

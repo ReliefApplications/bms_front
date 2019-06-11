@@ -1,9 +1,9 @@
-<h4 mat-dialog-title class="modal-title underline-accent">{{language.voucher_assign_title | uppercaseFirst}}</h4>
+<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.voucher_assign_title | uppercaseFirst}}</h4>
 
 <!-- Step 1 -->
 <mat-dialog-content class="modal-container" *ngIf="step === 1">
     <form class="form" [formGroup]="form">
-        <table class="modal-table" cdkFocusRegionstart>
+        <table class="modal-table" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
             <tr class="modal-row">
                 <th class="table-title">{{ language.project }}</th>
                 <th class="table-value">
@@ -43,7 +43,7 @@
         </table>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions align="end" *ngIf="step === 1">
+<mat-dialog-actions *ngIf="step === 1">
     <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
@@ -71,7 +71,7 @@
     <div class="modal-body">
     </div>
 </mat-dialog-content>
-<mat-dialog-actions align="end" *ngIf="step === 3">
+<mat-dialog-actions *ngIf="step === 3">
     <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
@@ -81,23 +81,22 @@
 
 <!-- Step 4 -->
 <mat-dialog-content class="modal-container" *ngIf="step === 4">
-    <span>{{ language.voucher_define_password}} {{ bookletQRCode }} ?</span>
-    <mat-checkbox color="primary" [formControl]="displayPasswordControl" class="margin-left"></mat-checkbox>
-    <div [hidden]="!displayPasswordControl.value">
-        <p>{{ language.voucher_ask_code }}</p>
-        <div class="modal-body">
-            <mat-form-field class="full-width">
-                <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl"
-                    [placeholder]="language.password | uppercaseFirst" />
-                <mat-error *ngIf=""></mat-error>
-            </mat-form-field>
+    <div class="modal-body">
+        <span>{{ language.voucher_define_password}} {{ bookletQRCode }} ?</span>
+        <mat-checkbox color="primary" [formControl]="displayPasswordControl" class="margin-left"></mat-checkbox>
+        <div [hidden]="!displayPasswordControl.value">
+            <p>{{ language.voucher_ask_code }}</p>
+            <div class="modal-body">
+                <mat-form-field class="full-width">
+                    <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl"
+                        [placeholder]="language.password | uppercaseFirst" />
+                    <mat-error *ngIf=""></mat-error>
+                </mat-form-field>
+            </div>
         </div>
     </div>
-
-    <div class="modal-body">
-    </div>
 </mat-dialog-content>
-<mat-dialog-actions align="end" *ngIf="step === 4">
+<mat-dialog-actions *ngIf="step === 4">
     <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
@@ -109,13 +108,12 @@
 
 <!-- Step 5 -->
 <mat-dialog-content class="modal-container" *ngIf="step === 5">
-    <p>{{ language.booklet }} {{ bookletQRCode }} {{ language.voucher_step5 }} {{ beneficiaryName }} {{
-  language.voucher_for }} {{ distributionName }}</p>
-
     <div class="modal-body">
+        <p>{{ language.booklet }} {{ bookletQRCode }} {{ language.voucher_step5 }} {{ beneficiaryName }} {{
+      language.voucher_for }} {{ distributionName }}</p>
     </div>
 </mat-dialog-content>
-<mat-dialog-actions align="end" *ngIf="step === 5">
+<mat-dialog-actions *ngIf="step === 5">
     <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>

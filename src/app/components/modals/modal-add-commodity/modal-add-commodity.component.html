@@ -3,7 +3,7 @@
     {{language.modal_add_title |uppercaseFirst }} {{commodity.title | uppercaseFirst}}</h4>
 <mat-dialog-content class="modal-container" *ngIf="commodity">
     <form [formGroup]="form">
-        <table class="modal-table" cdkFocusRegionstart>
+        <table class="modal-table" cdkFocusRegionstart [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <tr class="modal-row">
                 <th class="table-title">{{ commodity.fields.modality.title }}</th>
                 <td class="form-item">
@@ -79,7 +79,7 @@
         </table>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
+<mat-dialog-actions >
         <div class="modal-button action-buttons"
             [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>

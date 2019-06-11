@@ -1,4 +1,4 @@
-<h4 mat-dialog-title class="modal-title underline-accent">{{language.distribution_add_beneficiaries}}</h4>
+<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.distribution_add_beneficiaries}}</h4>
 <mat-dialog-content class="modal-container">
     <div class="modal-body" cdkFocusRegionstart>
         <p> {{language.distribution_select_beneficiaries}} <strong> {{data.distribution.get('project').get('name')}}
@@ -19,7 +19,7 @@
         </mat-form-field>
     </div>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
+<mat-dialog-actions >
     <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
         <button mat-button class="button-text-accent" (click)="onCancel()">{{language.cancel}}</button>
         <button mat-raised-button [disabled]="!selectedBeneficiariesControl.valid || !justification.valid"

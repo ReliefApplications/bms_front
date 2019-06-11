@@ -53,3 +53,10 @@ app-table-mobile {
         width: 85% !important;
     }
 }
+
+.action-buttons {
+    flex-wrap: wrap;
+    .button-with-extension, .action-button {
+        margin-top: 10px;
+    }
+}

@@ -36,7 +36,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
     locationTypes: Array<HouseholdLocationType>;
     criteriaSubList: Array<Criteria>;
 
-    subscriber: Subscription;
+    subscribers: Array<Subscription> = [];
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -58,7 +58,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscriber.unsubscribe();
+        this.subscribers.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
     fillOptions() {
@@ -87,12 +87,16 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
     }
 
     onChanges(): void {
-        this.subscriber = this.form.get('criteriaType').valueChanges.subscribe(value => {
+        this.subscribers.push(this.form.get('criteriaType').valueChanges.subscribe(value => {
             this.criteriaSubList = this.criteriaList.filter((criteria: Criteria) => criteria.get<string>('kindOfBeneficiary') === value);
             this.form.controls.field.setValue(null);
             this.form.controls.condition.setValue(null);
             this.form.controls.value.setValue(null);
-        });
+        }));
+
+        this.subscribers.push(this.form.get('field').valueChanges.subscribe(value => {
+            this.loadConditions(value);
+        }));
     }
 
     loadFields() {

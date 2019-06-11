@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Beneficiary } from 'src/app/models/beneficiary';
@@ -25,11 +25,11 @@ export class ModalAssignComponent implements OnInit {
         public distributionService: DistributionService,
         public bookletService: BookletService,
         public dialog: MatDialog,
-        public languageService: LanguageService
+        public languageService: LanguageService,
+        @Inject(MAT_DIALOG_DATA) public data: any
     ) {
     }
 
-    @Input() data: any;
     public step = 1;
 
     public projectControl = new FormControl('', Validators.required);
@@ -53,6 +53,9 @@ export class ModalAssignComponent implements OnInit {
     public loadingPassword = false;
     public loadingAssignation = false;
 
+    ngOnChanges() {
+        console.log('yo', this.data)
+    }
 
     ngOnInit() {
         if (this.data.project && this.data.distribution) {

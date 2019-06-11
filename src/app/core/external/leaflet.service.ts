@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
 // Plugins
 import * as Leaflet from 'leaflet';
-import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
-
-import * as $ from 'jquery';
 import { LocationService } from '../api/location.service';
+import { CountriesService } from '../countries/countries.service';
 import { AsyncacheService } from '../storage/asyncache.service';
+import { MapCodeDistribution } from './map-distribution';
+
 
 @Injectable({
     providedIn: 'root'
@@ -13,13 +14,14 @@ import { AsyncacheService } from '../storage/asyncache.service';
 
 export class LeafletService {
 
-    public static loading = false;
+    public loading = false;
     private map: any;
     private tiles: any;
 
     constructor(
         private _locationService: LocationService,
         private _cacheService: AsyncacheService,
+        private countriesService: CountriesService,
     ) { }
 
     // ------------------------------------------------------------------------ //
@@ -45,6 +47,7 @@ export class LeafletService {
         this.map.once('click', () => { this.map.scrollWheelZoom.enable(); });
         this.addTileLayer();
         this.addKML();
+        this.map.setView([51.505, -0.09], 13);
     }
 
     removeMap() {
@@ -54,11 +57,8 @@ export class LeafletService {
     addTileLayer() {
         // Add title layer to the map
 
-        this.tiles = Leaflet.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}@2x?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,' +
-            ' <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            id: 'raphaelreliefapplications/cjnpsw0g203rn2rt73ichorq1',
-            accessToken: 'pk.eyJ1IjoicmFwaGFlbHJlbGllZmFwcGxpY2F0aW9ucyIsImEiOiJjam5wc3Y5ZjAwMDNtM3Zud203aGdmcXVrIn0.dMsWwv-hy5OpYSXJpJM7vA'
+        this.tiles = Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
     }
 
@@ -69,96 +69,149 @@ export class LeafletService {
 
     // add all layers to show the upcoming distribution in the map dashoard
     addKML() {
-        this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
-            current_country => {
-                const country = current_country ? current_country : 'KHM';
-                LeafletService.loading = true;
-                // Check if the map is already created
-                if (this.map) {
+        const country = this.countriesService.selectedCountry.value;
+        const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.fields.id.value.toLowerCase() + '.kml').on('ready', () => {
+            // Center view on country
+            this.map.fitBounds(admLayers.getBounds());
 
-                    // get in the cache the list of upcoming distribution
-                    let upcomingDistribution;
+            // Get all upcoming distributions
+            this._locationService.getUpcomingDistributionCode().subscribe((mapDistributions: Array<MapCodeDistribution>) => {
+                const admGroup = new Leaflet.FeatureGroup();
+                mapDistributions.forEach((mapDistribution: MapCodeDistribution) => {
+                admLayers.eachLayer((layer: any) => {
+                    const adm = [
+                        layer.feature.properties.ADM0_PCODE,
+                        layer.feature.properties.ADM1_PCODE,
+                        layer.feature.properties.ADM2_PCODE,
+                        layer.feature.properties.ADM3_PCODE,
+                    ];
+                    if (this.compareAdmToMapDistribution(adm, mapDistribution)) {
+                        admGroup.addLayer(layer);
+                    }
+                });
+            });
+            const circle = Leaflet.circle(
+                admGroup.getBounds().getCenter(),
+                {
+                    color: 'red',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5,
+                    radius: 500,
+                }
+            ).addTo(this.map)
 
-                    this._locationService.getUpcomingDistributionCode().subscribe(
-                        result => {
-                            upcomingDistribution = result;
-                            // call the KML file to get the layer
-                            const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.toLowerCase() + '.kml').on('ready', () => {
-                                // center the map on the appropriate country
-                                const admGroup = Leaflet.featureGroup(admLayers.getLayers());
-                                this.map.fitBounds(admGroup.getBounds());
+            // admGroup.setStyle({
+            //     color: '#4AA896', // $bms_green
+            //     fillColor: '#4AA896', // $bms_green
+            //     weight: 2,
+            //     fillOpacity: .8,
+            //     opacity: .8
+            // }).addTo(this.map);
+        });
 
-                                // delete the displaying layer
-                                admLayers.eachLayer(adm => {
-                                    adm.setStyle({
-                                        opacity: 0,
-                                        weight: 0,
-                                        fillOpacity: 0
-                                    });
-                                });
+
+
+    })
+
+        //     current_country => {
+        //         const country = current_country ? current_country : 'KHM';
+        //         this.loading = true;
+        //         // Check if the map is already created
+        //         if (this.map) {
+        //             this._locationService.getUpcomingDistributionCode().subscribe
+        //         }
+                        // (apiDistributions: Array<any>) => {
+                        //     const upcomingDistributions = apiDistributions.map(
+                        //         (apiDistribution: any) => Distribution.apiToModel(apiDistribution)
+                        //         );
+                        //     // call the KML file to get the layer
+                        //     const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.toLowerCase() + '.kml').on('ready', () => {
+                        //         // center the map on the appropriate country
+                        //         const admGroup = Leaflet.featureGroup(admLayers.getLayers());
+                        //         this.map.fitBounds(admGroup.getBounds());
+
+                        //         // delete the displaying layer
+                        //         admLayers.eachLayer((adm: any) => {
+                        //             adm.setStyle({
+                        //                 opacity: 0,
+                        //                 weight: 0,
+                        //                 fillOpacity: 0
+                        //             });
+                        //         });
 
                                 // search in all layer which layer has a code begining with the location code of a upcoming distribution
                                 // and set a color and a weigth of them
-                                admLayers.eachLayer(function (adm, index) {
-                                    if (upcomingDistribution) {
-                                        upcomingDistribution.forEach(element => {
-                                            /**
-                                             * @TODO Change this !!! This is a temporary fix in order for the map to work.
-                                             * The link between the adm1 in database and the adm1 in `map_khm.kml` should totally
-                                             * be remade.
-                                             */
-                                            element.code_location = element.code_location.length % 2 === 1 &&
-                                                                    element.code_location[2] === '0'
-                                                                    ? element.code_location.slice(0, 2) + element.code_location.slice(3)
-                                                                    : element.code_location;
+                                // admLayers.eachLayer((adm, index) => {
+                                //     console.log(adm)
+                                    // if (upcomingDistributions) {
+                                    //     upcomingDistributions.forEach((upcomingDistribution: Distribution) => {
 
-                                            if ((adm.feature.properties.ADM3_PCODE === element.code_location.slice(0, 8)
-                                                  && element.adm_level === 'adm4') ||
-                                                (adm.feature.properties.ADM3_PCODE === element.code_location
-                                                  && element.adm_level === 'adm3') ||
-                                                (adm.feature.properties.ADM2_PCODE === element.code_location
-                                                  && element.adm_level === 'adm2') ||
-                                                (adm.feature.properties.ADM1_PCODE === element.code_location
-                                                  && element.adm_level === 'adm1')) {
+                                    //         // // console.log(adm, upcomingDistribution)
 
-                                                adm.setStyle({
-                                                    color: '#4AA896', // $bms_green
-                                                    fillColor: '#4AA896', // $bms_green
-                                                    weight: 2,
-                                                    fillOpacity: .8,
-                                                    opacity: .8
-                                                });
+                                    //         // /**
+                                    //         //  * @TODO Change this !!! This is a temporary fix in order for the map to work.
+                                    //         //  * The link between the adm1 in database and the adm1 in `map_khm.kml` should totally
+                                    //         //  * be remade.
+                                    //         //  */
+                                    //         // // let code = upcomingDistribution.get('location').get<string>('code');
+                                    //         // // code = code.length % 2 === 1 &&
+                                    //         // //                         code[2] === '0'
+                                    //         // //                         ? code.slice(0, 2) + code.slice(3)
+                                    //         // //                         : code;
 
-                                                let tooltipInformation = '';
-                                                element.distribution.forEach(function (data, i, el) {
-                                                    tooltipInformation += '<p> Distribution : ' + data.name + '</p>';
-                                                    tooltipInformation += '<p> Location : ' + data.location_name + '</p>';
+                                    //         // // if ((adm.feature.properties.ADM3_PCODE === code.slice(0, 8)
+                                    //         // //       && upcomingDistribution.adm_level === 'adm4') ||
+                                    //         // //     (adm.feature.properties.ADM3_PCODE === code
+                                    //         // //       && upcomingDistribution.adm_level === 'adm3') ||
+                                    //         // //     (adm.feature.properties.ADM2_PCODE === code
+                                    //         // //       && upcomingDistribution.adm_level === 'adm2') ||
+                                    //         // //     (adm.feature.properties.ADM1_PCODE === code
+                                    //         // //       && upcomingDistribution.adm_level === 'adm1')) {
 
-                                                    // to display a divider between distribution in a same tooltip
-                                                    // but don't put divider after thie last element
-                                                    if (!Object.is(el.length - 1, i)) {
-                                                        tooltipInformation += '<hr>';
-                                                    }
+                                    //         // //     adm.setStyle({
+                                    //         // //         color: '#4AA896', // $bms_green
+                                    //         // //         fillColor: '#4AA896', // $bms_green
+                                    //         // //         weight: 2,
+                                    //         // //         fillOpacity: .8,
+                                    //         // //         opacity: .8
+                                    //         // //     });
 
-                                                });
+                                    //         // //     let tooltipInformation = '';
+                                    //         // //     upcomingDistribution.distribution.forEach(function (data, i, el) {
+                                    //         // //         tooltipInformation += '<p> Distribution : ' + data.name + '</p>';
+                                    //         // //         tooltipInformation += '<p> Location : ' + data.location_name + '</p>';
 
-                                                const tooltip = Leaflet.tooltip({
-                                                    permanent: false,
-                                                    interactive: true
-                                                }, adm).setContent(tooltipInformation);
-                                                adm.bindTooltip(tooltip);
-                                            }
-                                        });
-                                    }
-                                });
-                                LeafletService.loading = false;
-                            });
-                            admLayers.addTo(this.map);
-                        }
-                    );
+                                    //         // //         // to display a divider between distribution in a same tooltip
+                                    //         // //         // but don't put divider after thie last element
+                                    //         // //         if (!Object.is(el.length - 1, i)) {
+                                    //         // //             tooltipInformation += '<hr>';
+                                    //         // //         }
 
-                }
-            }
-        );
+                                    //         // //     });
+
+                                    //         // //     const tooltip = Leaflet.tooltip({
+                                    //         // //         permanent: false,
+                                    //         // //         interactive: true
+                                    //         // //     }, adm).setContent(tooltipInformation);
+                                    //         // //     adm.bindTooltip(tooltip);
+                                    //         // // }
+                                    //     });
+                                    // }
+        //                         });
+        //                         this.loading = false;
+        //                     });
+        //                     admLayers.addTo(this.map);
+        //                 }
+        //             );
+
+        //         }
+        //     }
+        // );
     }
+
+    compareAdmToMapDistribution(adm: Array<string>, mapDistribution: MapCodeDistribution): boolean {
+        const admLevel = parseInt(mapDistribution.adm_level.split('adm')[1], 10);
+        return adm[admLevel] === mapDistribution.code_location;
+    }
+
 }

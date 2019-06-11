@@ -53,10 +53,6 @@ export class ModalAssignComponent implements OnInit {
     public loadingPassword = false;
     public loadingAssignation = false;
 
-    ngOnChanges() {
-        console.log('yo', this.data)
-    }
-
     ngOnInit() {
         if (this.data.project && this.data.distribution) {
             this.projectControl.setValue(this.data.project.get('id'));

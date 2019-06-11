@@ -7,6 +7,7 @@ import { Commodity } from 'src/app/models/commodity';
 import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
 import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Beneficiary } from 'src/app/models/beneficiary';
 
 @Component({
     selector: 'app-general-relief',
@@ -28,7 +29,8 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         this.actualDistribution.set(
             'distributionBeneficiaries',
             distributionBeneficiaries
-                .map((distributionBeneficiariy: any) => TransactionGeneralRelief.apiToModel(distributionBeneficiariy)));
+                .map((distributionBeneficiariy: any) =>
+                    TransactionGeneralRelief.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
     }
 
     formatTransactionTable() {
@@ -73,6 +75,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         }
          if (amount === 0) {
             this.finishedEmitter.emit();
+            this.distributionService.complete(this.actualDistribution.get('id')).subscribe();
          }
     }
 
@@ -144,6 +147,20 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
             });
             dialogRef.afterClosed().subscribe((closeMethod: string) => {
                 this.updateElement(dialogDetails.element);
+                this.snackbar.success(this.language.transaction_update_success);
+            });
+        } else if (dialogDetails.action === 'delete') {
+            dialogDetails.element = dialogDetails.element.get('beneficiary');
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+                this.getDistributionBeneficiaries();
+            });
+        }  else if (dialogDetails.action === 'addBeneficiary') {
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+                if (this.networkService.getStatus()) {
+                    this.getDistributionBeneficiaries();
+                }
             });
         }
     }
@@ -167,6 +184,11 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         const generalReliefsForApi = generalReliefs.map((generalRelief: GeneralRelief) => generalRelief.modelToApi());
         this.distributionService.addNotes(generalReliefsForApi).subscribe(() => {
         });
+
+        // Then, send the updatee associated Beneficiary to the api
+        const apiUpdateElement = updateElement.get<Beneficiary>('beneficiary').modelToApi();
+        this.beneficiariesService.update(apiUpdateElement['id'], apiUpdateElement).subscribe();
+
 
         // Then, replace the old value of the transaction by updateElement in the actual distribution
         const distributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');

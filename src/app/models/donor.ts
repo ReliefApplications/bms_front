@@ -1,12 +1,13 @@
 import { CustomModel } from './custom-models/custom-model';
 import { NumberModelField } from './custom-models/number-model-field';
 import { TextModelField } from './custom-models/text-model-field';
+import { FileModelField } from './custom-models/file-model-field';
 
 export class Donor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
 
-    title = this.language.model_donor;
+    title = this.language.donor;
     matSortActive = 'fullname';
 
     // TODO: Fill with options
@@ -18,7 +19,7 @@ export class Donor extends CustomModel {
         ),
         fullname: new TextModelField(
             {
-                title: this.language.model_donor_fullname,
+                title: this.language.donor_fullname,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,
@@ -28,7 +29,7 @@ export class Donor extends CustomModel {
         ),
         shortname: new TextModelField(
             {
-                title: this.language.model_donor_shortname,
+                title: this.language.donor_shortname,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,
@@ -36,9 +37,21 @@ export class Donor extends CustomModel {
                 isSettable: true,
             }
         ),
+        logo: new TextModelField({
+            title: this.language.organization_logo,
+            isDisplayedInTable: true,
+            isImageInTable: true,
+        }),
+        logoData: new FileModelField({
+            title: this.language.organization_logo,
+            isDisplayedInModal: true,
+            isEditable: true,
+            uploadPath: '/donor/upload/logo',
+            fileUrlField: 'logo',
+        }),
         notes: new TextModelField(
             {
-                title: this.language.model_notes,
+                title: this.language.notes,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,
@@ -64,9 +77,20 @@ export class Donor extends CustomModel {
         newDonor.set('id', donorFromApi.id);
         newDonor.set('fullname', donorFromApi.fullname);
         newDonor.set('shortname', donorFromApi.shortname);
+        newDonor.set('logo', donorFromApi.logo);
         newDonor.set('notes', donorFromApi.notes);
 
         return newDonor;
+    }
+
+    public modelToApi(): Object {
+        return {
+            id: this.get('id'),
+            fullname: this.get('fullname'),
+            shortname: this.get('shortname'),
+            logo: this.get('logo'),
+            notes: this.get('notes'),
+        };
     }
 
     public getIdentifyingName() {

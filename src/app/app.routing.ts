@@ -21,8 +21,9 @@ import { ProjectComponent } from './modules/projects/project.component';
 // Components
 import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
-import { SettingsComponent } from './modules/settings/settings.component';
+import { GeneralSettingsComponent } from './modules/general-settings/general-settings.component';
 import { VouchersComponent } from './modules/vouchers/vouchers.component';
+import { AdministrationComponent } from './modules/administration/administration.component';
 
 
 // Do not change the order of the routes, it matters
@@ -67,7 +68,7 @@ export const routes: Routes = [
     },
     {
         path: 'settings',
-        component: SettingsComponent,
+        component: GeneralSettingsComponent,
         canActivate: [AuthGuard, PermissionsGuard],
         resolve: {language: LanguageResolver, country: CountryResolver},
     },
@@ -114,6 +115,12 @@ export const routes: Routes = [
     {
         path: 'vouchers',
         component: VouchersComponent,
+        canActivate: [AuthGuard, PermissionsGuard],
+        resolve: {language: LanguageResolver, country: CountryResolver},
+    },
+    {
+        path: 'admin',
+        component: AdministrationComponent,
         canActivate: [AuthGuard, PermissionsGuard],
         resolve: {language: LanguageResolver, country: CountryResolver},
     },

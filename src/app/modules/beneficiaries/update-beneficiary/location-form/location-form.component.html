@@ -1,0 +1,69 @@
+<form [formGroup]="form" class="location-form">
+  <div class="column-container">
+    <h4 class="location">{{ language['household_location_' + locationGroup + '_location'] | uppercaseFirst}}</h4>
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm1'" required>
+      <ng-option *ngFor="let option of locations[locationGroup].getOptions('adm1')" [value]="option.get('id')">
+        {{option.get('name') | uppercaseFirst}}
+      </ng-option>
+    </ng-select>
+    <app-hint-error [form]="form" [fieldName]="locationGroup + 'Adm1'" [field]="locations[locationGroup].fields.adm1" [isMatField]="false"></app-hint-error>
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm2[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm2'">
+      <ng-option *ngFor="let option of locations[locationGroup].getOptions('adm2')" [value]="option.get('id')">
+        {{option.get('name') | uppercaseFirst}}
+      </ng-option>
+    </ng-select>
+    <app-hint-error [form]="form" [fieldName]="locationGroup + 'Adm2'" [field]="locations[locationGroup].fields.adm2" [isMatField]="false"></app-hint-error>
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm3[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm3'">
+      <ng-option *ngFor="let option of locations[locationGroup].getOptions('adm3')" [value]="option.get('id')">
+        {{option.get('name') | uppercaseFirst}}
+      </ng-option>
+    </ng-select>
+    <app-hint-error [form]="form" [fieldName]="locationGroup + 'Adm3'" [field]="locations[locationGroup].fields.adm3" [isMatField]="false"></app-hint-error>
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.adm4[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm4'">
+      <ng-option *ngFor="let option of locations[locationGroup].getOptions('adm4')" [value]="option.get('id')">
+        {{option.get('name') | uppercaseFirst}}
+      </ng-option>
+    </ng-select>
+    <app-hint-error [form]="form" [fieldName]="locationGroup + 'Adm4'" [field]="locations[locationGroup].fields.adm4" [isMatField]="false"></app-hint-error>
+  </div>
+  <div class="column-container">
+    <h4>{{ language.household_location_type | uppercaseFirst }}</h4>
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_type | uppercaseFirst}}" [formControlName]="locationGroup + 'Type'">
+      <ng-option *ngFor="let option of householdLocationTypes" [value]="option.get('id')">
+        {{option.get('name') | uppercaseFirst}}
+      </ng-option>
+    </ng-select>
+    <ng-container *ngIf="form.controls[locationGroup + 'Type'].value && form.controls[locationGroup + 'Type'].value !== 'camp'">
+      <h4>{{ language.household_location_address }}</h4>
+      <div class="address-fields">
+        <mat-form-field>
+          <input matInput placeholder="{{language.address_number | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressNumber'" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="{{language.address_street | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressStreet'" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="{{language.address_postcode | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressPostcode'" required>
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="form.controls[locationGroup + 'Type'].value && form.controls[locationGroup + 'Type'].value === 'camp'">
+      <h4>{{ language.household_location_address }}</h4>
+      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_camp | uppercaseFirst}}" [formControlName]="locationGroup + 'Camp'">
+        <ng-option *ngFor="let option of campLists[locationGroup]" [value]="option.get('id')">
+          {{option.get('name') | uppercaseFirst}}
+        </ng-option>
+      </ng-select>
+      <div class="create-camp">
+        <mat-checkbox color="primary" [formControlName]="locationGroup + 'CreateCamp'"></mat-checkbox>
+        <span>{{ language.household_location_create_camp }}</span>
+        <mat-form-field *ngIf="form.controls[locationGroup + 'CreateCamp'].value">
+          <input matInput placeholder="{{language.household_location_camp_name | uppercaseFirst}}" [formControlName]="locationGroup + 'NewCamp'" required>
+        </mat-form-field>
+        </div>
+      <mat-form-field>
+        <input matInput placeholder="{{language.household_location_tent | uppercaseFirst}}" [formControlName]="locationGroup + 'TentNumber'" required>
+      </mat-form-field>
+    </ng-container>
+  </div>
+</form>

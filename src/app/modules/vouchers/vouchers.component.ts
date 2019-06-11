@@ -128,19 +128,23 @@ export class VouchersComponent implements OnInit, OnDestroy {
                     this.loadingAssign = false;
                     if (response && response.length > 0) {
                         this.projects = response.reverse().map((project: any) => Project.apiToModel(project));
-                        // this.projects = this.projectClass.formatArray(response).reverse();
                     } else if (response === null) {
                         this.projects = [];
                     }
-                    const dialogRef = this.dialog.open(ModalAssignComponent, {
-                        id: 'modal-vouchers',
-                        data: {
-                            projects: this.projects
-                        }
-                    });
-                    dialogRef.afterClosed().subscribe((test) => {
+
+                    let dialogRef = this.dialog.getDialogById('modal-vouchers');
+                    if (dialogRef) {
+                        dialogRef.componentInstance.projects = this.projects;
+                    } else {
+                        dialogRef = this.dialog.open(ModalAssignComponent, {
+                            id: 'modal-vouchers',
+                            data: {
+                                projects: this.projects
+                            }
+                        });
+                    }
+                    dialogRef.afterClosed().subscribe(() => {
                         this.getBooklets();
-                        // this.tableVoucher.checkData();
                     });
                 }
             );

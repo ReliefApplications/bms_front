@@ -26,6 +26,8 @@ export class ProfileComponent implements OnInit {
         newPassword2: new FormControl('')
     });
 
+    loading = false;
+
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
@@ -73,10 +75,12 @@ export class ProfileComponent implements OnInit {
             this.snackbar.error(this.language.modal_not_enough_strong);
             return;
         }
+        this.loading = true;
         this.userService.updatePassword(this.actualUser, this.profileForm.value.oldPassword, this.profileForm.value.newPassword1)
             .then(
                 () => {
+                    this.loading = false;
                     this.snackbar.success('Password changed');
-                });
+                }, err => this.loading = false);
         }
 }

@@ -1,5 +1,5 @@
 @import '../../../assets/css/variable.scss';
-
+@import '../../../assets/css/global.scss';
 
 app-table-server {
     width: 100%;
@@ -24,4 +24,8 @@ app-placeholder-panel {
 
 .container-title h2 {
     padding-bottom: 0;
+}
+
+.mat-badge {
+    z-index: 1;
 }

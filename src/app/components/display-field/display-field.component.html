@@ -71,10 +71,26 @@
     </ng-container>
 </ng-template>
 <ng-template #isNotDate>
+    <ng-container *ngIf="field.displayValue; else isGeneralValue">
+        {{ field.displayValue | uppercaseFirst }}
+    </ng-container>
+</ng-template>
+
+<ng-template #isGeneralValue>
     <ng-container *ngIf="isString(field.value); else notAString">
-        <ng-container *ngIf="field.isImageInTable; else isString">
+        <ng-container *ngIf="field.isImageInTable; else checkColor">
             <app-icon-svg [imagePath]="field.value"></app-icon-svg>
         </ng-container>
+        <ng-template #checkColor>
+            <ng-container *ngIf="field.isColor; else checkFont">
+                <div class="color" [ngStyle]="{'background-color':field.value}"></div>
+            </ng-container>
+        </ng-template>
+        <ng-template #checkFont>
+            <ng-container *ngIf="field.isFont; else isString">
+                <div [ngStyle]="{'font-family':field.value}">{{ field.value | uppercaseFirst }}</div>
+            </ng-container>
+        </ng-template>
         <ng-template #isString>
             {{field.value | uppercaseFirst }}
         </ng-template>

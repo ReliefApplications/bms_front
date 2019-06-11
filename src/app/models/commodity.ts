@@ -32,7 +32,7 @@ export class ModalityType extends CustomModel {
 }
 
 export class Commodity extends CustomModel {
-    title = this.language.model_commodity;
+    title = this.language.commodity;
     matSortActive = 'modality';
 
     public fields = {
@@ -46,7 +46,7 @@ export class Commodity extends CustomModel {
         ),
         modality: new SingleSelectModelField(
             {
-                title: this.language.model_commodity_modality,
+                title: this.language.commodity_modality,
                 placeholder: null,
                 isRequired: true,
                 isSettable: true,
@@ -60,7 +60,7 @@ export class Commodity extends CustomModel {
         ),
         modalityType: new SingleSelectModelField(
             {
-                title: this.language.model_type,
+                title: this.language.type,
                 placeholder: null,
                 isRequired: true,
                 isSettable: true,
@@ -74,7 +74,7 @@ export class Commodity extends CustomModel {
         ),
         unit: new TextModelField(
             {
-                title: this.language.model_commodity_unit,
+                title: this.language.unit,
                 placeholder: null,
                 isSettable: true,
                 isRequired: true,
@@ -86,7 +86,7 @@ export class Commodity extends CustomModel {
         ),
         value: new NumberModelField(
             {
-                title: this.language.model_commodity_value,
+                title: this.language.commodity_value,
                 placeholder: null,
                 isRequired: true,
                 isSettable: true,
@@ -95,16 +95,28 @@ export class Commodity extends CustomModel {
                 isEditable: true,
             }
         ),
+        description: new TextModelField(
+            {
+                title: this.language.description,
+                isLongText: true,
+                isSettable: true,
+                isDisplayedInTable: true,
+            }
+        )
     };
 
     public static apiToModel(commodityFromApi: any): Commodity {
         const newCommodity = new Commodity();
 
         newCommodity.set('id', commodityFromApi.id);
-        newCommodity.set('modalityType', new ModalityType(null, commodityFromApi.modality_type.name));
-        newCommodity.set('modality', new Modality(null, commodityFromApi.modality_type.modality));
+        newCommodity.set('modalityType', new ModalityType(commodityFromApi.modality_type.id, commodityFromApi.modality_type.name));
+        const modalityName = commodityFromApi.modality_type.modality.name ?
+            commodityFromApi.modality_type.modality.name :
+            commodityFromApi.modality_type.modality;
+        newCommodity.set('modality', new Modality(null, modalityName));
         newCommodity.set('value', commodityFromApi.value);
         newCommodity.set('unit', commodityFromApi.unit);
+        newCommodity.set('description', commodityFromApi.description);
 
         return newCommodity;
     }
@@ -116,7 +128,8 @@ export class Commodity extends CustomModel {
             unit: this.fields.unit.formatForApi(),
             value: this.fields.value.formatForApi(),
             modality: this.fields.modality.formatForApi(),
-            modality_type: { id: this.get('modalityType').get('id') }
+            modality_type: { id: this.get('modalityType').get('id') },
+            description: this.get('description')
         };
     }
 
@@ -133,13 +146,16 @@ export class Commodity extends CustomModel {
             'WASH Kit': 'wash',
             'Agricultural Kit': 'agriculture',
             'RTE Kit': 'rte-kit',
+            'Shelter tool kit': 'shelter',
+            'Hygiene kit': 'hygiene',
+            'Dignity kit': 'dignity',
         };
         // Todo: Use global variable, fix typing in order to not do this if check
 
         const modalityName = this.get('modalityType').get('name');
 
         if (typeof modalityName === 'string') {
-            return `/assets/images/commodities/${commoditiesImages[modalityName]}.png`;
+            return `/assets/images/commodities/${commoditiesImages[modalityName]}.svg`;
         } else {
             return '';
         }
@@ -156,6 +172,9 @@ export class Commodity extends CustomModel {
             'WASH Kit': this.language.commodity_wash,
             'Agricultural Kit': this.language.commodity_agriculture,
             'RTE Kit': this.language.commodity_rte,
+            'Shelter tool kit': this.language.commodity_shelter,
+            'Hygiene kit': this.language.commodity_hygiene,
+            'Dignity kit': this.language.commodity_dignity,
         };
         // Todo: Use global variable, fix typing in order to not do this if check
 

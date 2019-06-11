@@ -18,19 +18,19 @@ export class Voucher extends CustomModel {
         ),
         // // before, was used as booklet code string
         // booklet: new ObjectModelField<Booklet>({
-        //     title: this.language.model_booklet,
+        //     title: this.language.booklet,
         // }),
         // before, was used as vendor (name ?) string
         vendor: new ObjectModelField<Vendor>({
-            title: this.language.model_vendor,
+            title: this.language.vendor,
 
         }),
         usedAt: new DateModelField({
-            title: this.language.model_used,
+            title: this.language.booklet_used,
 
         }),
         code: new TextModelField({
-            title:  this.language.model_code,
+            title:  this.language.booklet_code,
         }),
         value: new NumberModelField({
 

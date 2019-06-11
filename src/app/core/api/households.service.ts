@@ -119,8 +119,8 @@ export class HouseholdsService extends CustomModelService {
      * @param  extensionType type of file to export
      * @return               file
      */
-    public export (extensionType: string) {
-        return this.exportService.export('beneficiaries', true, extensionType);
+    public export (extensionType: string, filters: any = null, ids: Array<string> = []) {
+        return this.exportService.export('beneficiaries', true, extensionType, {}, filters, ids);
     }
 
     /**
@@ -135,6 +135,14 @@ export class HouseholdsService extends CustomModelService {
     public delete(householdId: number) {
         const url = this.api + '/households/' + householdId;
         return this.http.delete(url);
+    }
+
+    public deleteMany(householdIds: Array<number>) {
+        const url = this.api + '/households/delete';
+        const body = {
+            ids: householdIds
+        };
+        return this.http.post(url, body);
     }
 
     public testFileTemplate(file: any, location: any) {
@@ -194,16 +202,16 @@ export class HouseholdsService extends CustomModelService {
 
         // Get gender
         const genderOptions = [
-            new Gender('0', this.language.add_distribution_female),
-            new Gender('1', this.language.add_distribution_male)
+            new Gender('0', this.language.female),
+            new Gender('1', this.language.male)
         ];
         filters.setOptions('gender', genderOptions);
 
         // Get residency status
         const residencyOptions = [
-            new ResidencyStatus('refugee', this.language.residency_refugee),
-            new ResidencyStatus('IDP', this.language.residency_idp),
-            new ResidencyStatus('resident', this.language.residency_resident)
+            new ResidencyStatus('refugee', this.language.beneficiary_residency_status_refugee),
+            new ResidencyStatus('IDP', this.language.beneficiary_residency_status_idp),
+            new ResidencyStatus('resident', this.language.beneficiary_residency_status_resident)
         ];
         filters.setOptions('residency', residencyOptions);
 
@@ -212,10 +220,10 @@ export class HouseholdsService extends CustomModelService {
         filters.setOptions('livelihood', livelihoodOptions);
 
         // Get adm1
-        filters.set('location', new Location());
-        appInjector.get(LocationService).fillAdm1Options(filters).subscribe();
-
-
+        const location = new Location();
+        appInjector.get(LocationService).fillAdm1Options(location).subscribe((filledLocation: Location) => {
+            filters.set('location', filledLocation);
+        });
     }
 
     public visit(householdId) {

@@ -1,4 +1,5 @@
 @import '../../../../assets/css/variable.scss';
+@import '../../../../assets/css/global.scss';
 
 app-placeholder-stepper {
   width: 100% !important;
@@ -24,6 +25,27 @@ app-placeholder-panel {
   display: block;
 }
 
+.step1.all-information {
+  display:flex;
+  flex-direction: column;
+  .main-information-content {
+    display:flex;
+    flex-direction: column;
+    .location-question {
+      flex-direction: row;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      margin-left: 15px;
+      span {
+        margin-left: 10px;
+      }
+    }
+    .not-location-form {
+      display: flex;
+    }
+  }
+}
+
 .all-information,
 .head,
 .member,
@@ -45,6 +67,7 @@ app-placeholder-panel {
 
     mat-form-field {
         margin-top: 6px;
+        width: 100%
     }
 
     .combo {
@@ -118,6 +141,7 @@ app-placeholder-panel {
 
       p {
         margin-left: 20px;
+        text-align: center;
       }
     }
   }
@@ -174,25 +198,6 @@ app-placeholder-panel {
   }
 }
 
-
-.ng-select-focused ::ng-deep {
-  .ng-select-container::after {
-    border-color: #424242;
-    border-width: 2px;
-  }
-}
-
-.ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
-  color: #424242;
-}
-
-.ng-select-focused ::ng-deep .ng-arrow {
-  color: #424242 !important;
-}
-
-.ng-select-opened ::ng-deep .ng-option-selected {
-  color: #424242 !important;
-}
 .country-code,
 .phone-type {
     width: 25%;

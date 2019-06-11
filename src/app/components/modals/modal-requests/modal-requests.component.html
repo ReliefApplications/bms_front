@@ -1,20 +1,21 @@
+<h4 mat-dialog-title class="modal-title underline-accent"
+    [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">
+    {{language.modal_pending_requests}}
+</h4>
 <mat-dialog-content class="modal-container">
-    <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">
-        {{language.modal_pending_requests}}
-    </h4>
-
     <div class="warning-info">
         <div class="container">
             <mat-icon>warning</mat-icon>
             <div>
                 {{language.modal_warning_pending_requests_1}}
-                <br/>
+                <br />
                 <strong>{{language.modal_warning_pending_requests_2}}</strong>
             </div>
         </div>
     </div>
 
-    <table mat-table [dataSource]="requests" multiTemplateDataRows *ngIf="requests && !loading && !inProgress && requests.length > 0">
+    <table mat-table [dataSource]="requests" multiTemplateDataRows
+        *ngIf="requests && !loading && !inProgress && requests.length > 0" cdkFocusRegionstart>
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
             <th mat-header-cell *matHeaderCellDef class="{{column}}">
                 <div *ngIf="column !== 'icon'">
@@ -39,12 +40,14 @@
                     {{ formatDate(element.date) }}
                 </div>
                 <div *ngIf="column == 'actions'">
-                    <button mat-icon-button class="button-text-primary" (click)="sendRequest(element); $event.stopPropagation()">
+                    <button mat-icon-button class="button-text-primary"
+                        (click)="sendRequest(element); $event.stopPropagation()">
                         <mat-icon *ngIf="element.method == 'PUT'" matTooltip="Create it">send</mat-icon>
                         <mat-icon *ngIf="element.method == 'POST'" matTooltip="Update it">send</mat-icon>
                         <mat-icon *ngIf="element.method == 'DELETE'" matTooltip="Delete it">send</mat-icon>
                     </button>
-                    <button mat-icon-button class="button-text-accent" (click)="removeRequest(element); $event.stopPropagation()">
+                    <button mat-icon-button class="button-text-accent"
+                        (click)="removeRequest(element); $event.stopPropagation()">
                         <mat-icon matTooltip="Remove request">clear</mat-icon>
                     </button>
                 </div>
@@ -65,7 +68,8 @@
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="req-element-row"
-            [class.req-expanded-row]="expandedElement === element" (click)="expandedElement = expandedElement === element ? null : element">
+            [class.req-expanded-row]="expandedElement === element"
+            (click)="expandedElement = expandedElement === element ? null : element">
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="req-detail-row"></tr>
     </table>
@@ -81,14 +85,19 @@
         </div>
         <div class="progress-errors" *ngIf="errors && errors.length > 0">
             <div class="error-row" *ngFor="let error of errors, i as index">
-                <p *ngIf="error.status && error.statusText && error.error"> <strong>{{i}}</strong> Error: {{error.status}} ({{error.statusText}}) : {{error.error}} </p>
+                <p *ngIf="error.status && error.statusText && error.error"> <strong>{{i}}</strong> Error:
+                    {{error.status}} ({{error.statusText}}) : {{error.error}} </p>
                 <p *ngIf="!error.error && error.message"> <strong>{{i}}</strong> Error: {{error.message}} </p>
             </div>
         </div>
     </div>
 
-    <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
-        <button mat-button (click)="closeDialog()" class="button-text-accent">{{language.modal_leave}}</button>
-        <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()" *ngIf="!inProgress">Send All</button>
-    </div>
 </mat-dialog-content>
+<mat-dialog-actions >
+    <div class="modal-button action-buttons"
+        [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        <button mat-button (click)="closeDialog()" class="button-text-accent">{{language.modal_leave}}</button>
+        <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()"
+            *ngIf="!inProgress">Send All</button>
+    </div>
+</mat-dialog-actions>

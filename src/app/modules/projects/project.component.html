@@ -56,7 +56,7 @@
                         </button>
                         <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                         <div class="extension" *ngIf="!loadingExport">
-                            <button mat-raised-button class="dropdown button-background-primary" [disabled]="!(distributionData && distributionData.data.length > 0)">
+                            <button mat-raised-button class="dropdown button-background-primary" [disabled]="!(distributionData && distributionData.data.length > 0)" [matMenuTriggerFor]="exportType">
                                 <mat-icon>keyboard_arrow_down</mat-icon>
                             </button>
                             <mat-menu #exportType>
@@ -65,6 +65,8 @@
                                 <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
                                 </button>
                                 <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setType('pdf')"> .pdf <mat-icon *ngIf="extensionType=='pdf'">done</mat-icon>
                                 </button>
                             </mat-menu>
                         </div>
@@ -100,8 +102,26 @@
                     </i>
                 </div>
                 <div class="content-table" *ngIf="((distributionData && distributionData.data.length>0) && !noNetworkData) || loadingDistributions">
-                    <app-table [isLoading]="loadingDistributions" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [entity]="distributionClass" [service]="distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table>
-                    <app-table-mobile [isLoading]="loadingDistributions" *ngIf="currentDisplayType.type === 'mobile'" [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [entity]="distributionClass" [service]="distributionService" [data]="distributionData" (openModal)="openDialog($event)"></app-table-mobile>
+                    <app-table
+                        [isLoading]="loadingDistributions" [searchable]="true" [paginable]="true"
+                        *ngIf="currentDisplayType.type !== 'mobile'" [validatable]="true"
+                        [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')"
+                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
+                        [duplicable]="true" (duplicateOne)="duplicate($event)"
+                        (openModal)="openDialog($event)"
+                    ></app-table>
+                    <app-table-mobile
+                        [isLoading]="loadingDistributions"
+                        *ngIf="currentDisplayType.type === 'mobile'"
+                        [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')"
+                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
+                        [duplicable]="true" (duplicateOne)="duplicate($event)"
+                        (openModal)="openDialog($event)"
+                    ></app-table-mobile>
                 </div>
                 <div class='no-data-container' *ngIf="noNetworkData">
                     <div class="loadingContent">

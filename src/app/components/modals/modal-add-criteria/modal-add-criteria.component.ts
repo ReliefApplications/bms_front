@@ -133,6 +133,20 @@ export class ModalAddCriteriaComponent implements OnInit {
         if (this.form.controls.field.value === 'gender') {
             const genderValue = this.criteria.genders.filter((gender: Gender) => gender.get('id') === value)[0];
             this.criteria.set('value', new CriteriaValue(value, genderValue.get('name')));
+        } else if (this.form.controls.field.value === 'livelihood') {
+            const livelihoodValue = this.livelihoods.filter((livelihood: Livelihood) => livelihood.get('id') === value)[0];
+            this.criteria.set('value', new CriteriaValue(value, livelihoodValue.get('name')));
+        } else if (this.form.controls.field.value === 'residencyStatus') {
+            const residencyStatusValue = this.residencyStatuses
+                .filter((residencyStatus: ResidencyStatus) => residencyStatus.get('id') === value)[0];
+            this.criteria.set('value', new CriteriaValue(value, residencyStatusValue.get('name')));
+        } else if (this.form.controls.field.value === 'locationType') {
+            const locationTypeValue = this.locationTypes
+                .filter((locationType: HouseholdLocationType) => locationType.get('id') === value)[0];
+            this.criteria.set('value', new CriteriaValue(value, locationTypeValue.get('name')));
+        } else if (this.form.controls.field.value === 'incomeLevel') {
+            this.criteria.set('value',
+                new CriteriaValue(value, this.language['household_income_level'][value.toString()][this.criteria.country]));
         }
         // In case the criteria is the dateOfBirth
         else if (value instanceof Date) {
@@ -143,7 +157,6 @@ export class ModalAddCriteriaComponent implements OnInit {
             this.criteria.set('value', new CriteriaValue(value, value));
         }
         this.criteria.set('weight', this.form.controls.weight.value);
-
 
         if (
             (this.form.controls.field.value === 'gender' ||

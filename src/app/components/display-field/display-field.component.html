@@ -83,8 +83,13 @@
             </ng-container>
         </ng-template>
         <ng-template #checkFont>
-            <ng-container *ngIf="field.isFont; else isString">
+            <ng-container *ngIf="field.isFont; else checkCamelCase">
                 <div [ngStyle]="{'font-family':field.value}">{{ field.value | uppercaseFirst }}</div>
+            </ng-container>
+        </ng-template>
+        <ng-template #checkCamelCase>
+            <ng-container *ngIf="field.isCamelCase; else isString">
+                {{field.value | formatCamelCase }}
             </ng-container>
         </ng-template>
         <ng-template #isString>

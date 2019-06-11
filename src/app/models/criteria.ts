@@ -51,7 +51,7 @@ export class Criteria extends CustomModel {
     matSortActive = 'field';
 
     protected countryService = AppInjector.get(CountriesService);
-    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
+    public country = this.countryService.selectedCountry.getValue().get<string>('id') ?
     this.countryService.selectedCountry.getValue().get<string>('id') :
     this.countryService.khm.get<string>('id');
 
@@ -80,6 +80,7 @@ export class Criteria extends CustomModel {
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 isRequired: true,
+                isCamelCase: true,
             }
         ),
         condition: new SingleSelectModelField(

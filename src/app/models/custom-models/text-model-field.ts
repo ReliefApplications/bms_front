@@ -28,6 +28,11 @@ export class TextModelField extends CustomModelField<string> {
      */
     displayValue: string;
 
+    /* If the value is in camelCase and must be formatted
+    * @type {boolean}
+    */
+   isCamelCase: boolean;
+
     constructor(properties: any) {
         super(properties);
 
@@ -36,6 +41,6 @@ export class TextModelField extends CustomModelField<string> {
         this.isColor                = properties['isColor'];
         this.isFont                 = properties['isFont'];
         this.displayValue             = properties['displayValue'];
-
+        this.isCamelCase             = properties['isCamelCase'];
     }
 }

@@ -138,6 +138,8 @@ export class Criteria extends CustomModel {
         else {
             newCriteria.set('value', new CriteriaValue(value, value));
         }
+        const weight = criteriaFromApi.weight;
+        newCriteria.set('weight', weight ? weight : 1);
 
         return newCriteria;
     }

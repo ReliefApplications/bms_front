@@ -350,7 +350,12 @@ export interface Language {
     header_home: string
     header_import: string
     header_imported: string
-    
+    header_language: string	
+    header_profile: string	
+    header_projects: string	
+    header_reports: string	
+    header_vouchers: string
+
     // Household
     household_full_address: string
     household_income_level: object
@@ -627,7 +632,19 @@ export interface Language {
     transaction_validation: string
 
     // Tooltip
+    tooltip_add_beneficiaries: string	
+    tooltip_add_distribution: string	
+    tooltip_beneficiaries: string	
     tooltip_dashboard: string
+    tooltip_data_validation: string	
+    tooltip_data: string	
+    tooltip_distributions: string	
+    tooltip_import: string	
+    tooltip_profile: string	
+    tooltip_projects: string	
+    tooltip_reports: string	
+    tooltip_settings: string	
+    tooltip_update_beneficiary: string
     
     // Update beneficiary
     update_beneficiary_created_successfully: string

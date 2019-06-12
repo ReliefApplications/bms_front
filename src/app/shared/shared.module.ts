@@ -47,7 +47,6 @@ import { PlaceholderBoxlineComponent } from '../components/placeholders/placehol
 import { PlaceholderPanelComponent } from '../components/placeholders/placeholder-panel/placeholder-panel.component';
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
 import { PlaceholderSummaryComponent } from '../components/placeholders/placeholder-summary/placeholder-summary.component';
-import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
 import { TableMobileServerComponent } from '../components/table/table-mobile-server/table-mobile-server.component';
 import { TableMobileComponent } from '../components/table/table-mobile/table-mobile.component';
 import { TableServerComponent } from '../components/table/table-server/table-server.component';
@@ -170,7 +169,6 @@ imports: [
         PlaceholderBoxlineComponent,
         PlaceholderPanelComponent,
         PlaceholderStepperComponent,
-        PlaceholderTitleComponent,
         UpdateBeneficiaryComponent,
         BeneficiaryFormComponent,
         LocationFormComponent,
@@ -270,7 +268,6 @@ imports: [
         PlaceholderBoxlineComponent,
         PlaceholderPanelComponent,
         PlaceholderStepperComponent,
-        PlaceholderTitleComponent,
         SettingsComponent,
         AdministrationComponent,
     ],

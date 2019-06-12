@@ -18,7 +18,7 @@
                         <mat-icon class="unvalid" *ngIf="actualDistribution.get('validated') === false">lock_open</mat-icon>
                         <mat-icon class="valid" *ngIf="actualDistribution.get('validated') === true && actualDistribution.get('finished')">done</mat-icon>
                     </h3>
-                    <mat-spinner [diameter]="35" *ngIf="loadingComplete"></mat-spinner>
+                    <mat-spinner [diameter]="25" *ngIf="loadingComplete"></mat-spinner>
                     <ng-container *ngIf="!loadingComplete && actualDistribution.get('validated') && !actualDistribution.get('finished') && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
                         <mat-icon class="cursor-pointer" (click)="complete(); $event.stopPropagation();" [matTooltip]="language.complete">
                             assignment_turned_in

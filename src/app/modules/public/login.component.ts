@@ -41,12 +41,6 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         // TODO: enable this
         // GlobalText.resetMenuMargin();
-        this.asyncacheService.getUser().subscribe(user => {
-            if (user) {
-                this.router.navigate(['/']);
-            }
-        });
-
         this.userService.resetCacheUser();
         // this.asyncacheService.reset;
         this.makeForm();

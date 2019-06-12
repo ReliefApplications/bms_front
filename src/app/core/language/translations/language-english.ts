@@ -57,7 +57,7 @@ export class English implements Language {
     vendor = 'Vendor'
     vendors = 'vendors'
     voucher = 'Vouchers'
-    
+
     // Actions
     add = 'Add'
     cancel = 'Cancel'
@@ -69,7 +69,7 @@ export class English implements Language {
     remove = 'Remove'
     save = 'Save'
     update = 'Update'
-    
+
     // Common Fields
     address = 'Address'
     currency = 'Currency'
@@ -88,7 +88,7 @@ export class English implements Language {
     unit = 'unit'
     username = 'Username'
     value = 'Value'
-  
+
     // Error
     back_to_homepage = 'Go back to homepage'
     error_interceptor_msg = 'An error occured, request has failed (Empty back response).'
@@ -97,7 +97,7 @@ export class English implements Language {
     not_connected_error = 'Please log in'
     not_found = 'Page Not Found'
     not_found_message = 'Sorry, this page could not be found'
-    
+
     // Months
     months_short = [
       'Jan' ,
@@ -121,7 +121,7 @@ export class English implements Language {
     adm4 = ADMINLEVELS.en.adm4
     address_number = 'Address Number'
     address_postcode = 'Address Postcode'
-    address_street = 'Address Street'    
+    address_street = 'Address Street'
 
     // Add beneficiary
     add_beneficiary_done = 'Summary of Household to create'
@@ -150,18 +150,18 @@ export class English implements Language {
     add_distribution_text_explanation = 'The system will only select beneficiaries/households that have a score higher than the minimum selection score'
     add_distribution_threshold = 'Minimum selection score'
     add_distribution_zero = 'The number of households reached or the amount to be distributed is 0'
-    
+
     // Add project
     add_project_title = 'new project'
     add_project_new_distribution = 'new distribution'
-    
+
     // Beneficiaries
     beneficiary_add_distribution = 'Add beneficiaries to this distribution'
     beneficiary_add_list = 'Add this list to a project'
     beneficiary_add_project = 'Please select the project(s) in which you would like to add the'
     beneficiary_added = 'Beneficiairies added to the selected project'
     beneficiary_advanced_research = 'Advanced search'
-    beneficiary_clear_all_research = 'Clear all'    
+    beneficiary_clear_all_research = 'Clear all'
     beneficiary_date_of_birth = 'Date of Birth'
     beneficiary_en_family_name = 'English family name'
     beneficiary_en_given_name = 'English given name'
@@ -189,7 +189,7 @@ export class English implements Language {
     beneficiary_select_api = 'Select API'
     beneficiary_selected_project = 'selected beneficiaries:'
     beneficiary_vulnerabilities = 'Vulnerabilities'
-    
+
     // Beneficiary form errors
     beneficiairy_error_address_number = 'You must enter an address number'
     beneficiairy_error_birth_date = 'Please select a valid birth date for '
@@ -228,7 +228,7 @@ export class English implements Language {
     beneficiary_import_select_project = 'You must select a project and add a file before uploading'
     beneficiary_import_title = 'import beneficiary data'
     beneficiary_import_warning = 'Warning: if the provided file is incomplete, the resulting one may need to be completed for the import to succeed.'
-    
+
     // Booklets
     booklet_code = 'Code'
     booklet_deactivated = 'Deactivated'
@@ -241,13 +241,13 @@ export class English implements Language {
     booklet_unassigned = 'Unassigned'
     booklet_update_password = 'Update the password'
     booklet_used = 'Used'
-  
+
     // Cache
     cache_distribution_added = 'Distribution and beneficiaries of the project added to the cache'
     cache_no_distribution = 'This distribution isn\'t stored in the cache, you can\'t access it offline'
     cache_store_beneficiaries = 'Offline Mode'
     cache_stored_beneficiaries = 'Saved For Offline Mode'
-    
+
     // Commodities tooltips
     commodity_cash = 'Mobile Money'
     commodity_qr_voucher = 'QR Code Voucher'
@@ -275,7 +275,7 @@ export class English implements Language {
     // Criteria
     criteria_operator = 'Condition'
     criteria_weight = 'Score weight'
-    
+
     // Dashboard
     dashboard_distribution_map = 'distribution map'
     dashboard_recent_distributions = 'upcoming distributions'
@@ -285,7 +285,7 @@ export class English implements Language {
     dashboard_summary_4 = 'total value transactions'
     dashboard_summary_5 = 'served beneficiaries'
     dashboard_summary_6 = 'completed distributions'
-    
+
     // Data verification
     data_verification_chip_actual = 'Household targeted'
     data_verification_chip_add = 'To add'
@@ -353,7 +353,7 @@ export class English implements Language {
     // Donor
     donor_fullname = 'Donor\'s name'
     donor_shortname = 'Shortname'
-    
+
     // Header
     'header_add-beneficiaries' = 'Add Beneficiaries'
     'header_add-distribution' = 'Add Distribution'
@@ -367,12 +367,12 @@ export class English implements Language {
     header_home = 'Home'
     header_import = 'Import beneficiary data'
     header_imported = 'Imported beneficiaries data'
-    header_language = this.language	
-    header_profile = this.profile	
-    header_projects = this.projects	
-    header_reports = this.reports	
+    header_language = this.language
+    header_profile = this.profile
+    header_projects = this.projects
+    header_reports = this.reports
     header_vouchers = this.voucher
-  
+
     // Household
     household_full_address = 'Full household address'
     household_income = 'Level of income'
@@ -408,7 +408,7 @@ export class English implements Language {
     import_select_new = 'Select all new'
     import_select_old = 'Select all old'
     import_updated = 'Will be updated'
-    
+
     // Livelihoods
     livelihood_livestock = 'Agriculture - Livestock'
     livelihood_crops = 'Agriculture - Crops'
@@ -442,7 +442,7 @@ export class English implements Language {
     login_password = '*********'
     login_prompt = 'Please log in'
     login_title = 'Login'
-    
+
     // Modal
     modal_add_multiple_title = 'Create multiple new'
     modal_add_no_value = 'You need to enter a value'
@@ -474,7 +474,7 @@ export class English implements Language {
     modal_values_format_error = 'If you want to set individual values, type numeric values separated by commas (max 5)'
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
-    
+
     // National ID
     national_id_card = 'ID Card'
     national_id_family_registry = 'Family Registry'
@@ -520,13 +520,13 @@ export class English implements Language {
 
     // Profile
     profile_change_password = 'You need to change your password'
-    profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'    
+    profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'
     profile_user_change_password = 'Change password'
     profile_user_hint_new_password = 'New password'
     profile_user_hint_new_password_again = 'Re-enter new password'
     profile_user_hint_old_password = 'Old password'
     profile_user_information = 'User information'
-    
+
     // Project
     project_add = 'Please add a new project to begin!'
     project_add_household = 'Please add some beneficiaries first! Then you will be able to manage some distributions...'
@@ -543,7 +543,7 @@ export class English implements Language {
     project_sectors_name = 'Sectors'
     project_start_date = 'Start Date'
     project_value = 'Total Target Beneficiaries'
-    
+
     // Report
     report_apply = 'apply'
     report_country = 'country'
@@ -564,7 +564,7 @@ export class English implements Language {
     report_select_frequency = 'Select frequency'
     report_to = 'to'
     report_upcoming_reporting = 'Upcoming reporting'
-    
+
     // Role
     role_user_admin = 'Administrator'
     role_user_country_manager = 'Country manager'
@@ -572,7 +572,7 @@ export class English implements Language {
     role_user_project_manager = 'Project manager'
     role_user_project_officer = 'Project officer'
     role_user_regional_manager = 'Regional manager'
-    
+
     // Sectors tooltips
     sector_cccm = 'Camp coordination and management'
     sector_recovery = 'Early recovery'
@@ -589,7 +589,7 @@ export class English implements Language {
     sector_tvet = 'TVET'
     sector_food_kits = 'food, RTE kits'
     sector_nfi = 'NFIs'
-    
+
     // Settings
     settings_country_specific_options = 'country specific options'
     settings_created = ' created'
@@ -605,7 +605,7 @@ export class English implements Language {
     snackbar_change_password_not_possible = 'Password must be longer than 1 character and match with verification'
     snackbar_invalid_transaction_date = 'The transaction\'s deadline is over.'
     snackbar_pickup_error = 'It is currently impossible to check the pickup status'
-    
+
     // Table
     table_actions = 'Actions'
     table_element_deleted = ' deleted'
@@ -651,22 +651,22 @@ export class English implements Language {
     transaction_update_success = 'Update successful!'
     transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'
     transaction_validation = 'Confirm the validation'
-    
+
     // Tooltip
-    tooltip_add_beneficiaries = 'This page is the add beneficiaries\' page. This is a form to add a new household with required fields.'	
-    tooltip_add_distribution = 'This page is the add distribution\'s page. This is a form to add a new distribution with required fields. You will select households or beneficiaries by sorting them by a selection criteria and add a specific amount of commodities to the distribution.'	
-    tooltip_beneficiaries = 'This page is the beneficiaries\' page. You can see all households of the country. If you have the right, you can add new households with the "+" button, manage households and research in the list.'	
+    tooltip_add_beneficiaries = 'This page is the add beneficiaries\' page. This is a form to add a new household with required fields.'
+    tooltip_add_distribution = 'This page is the add distribution\'s page. This is a form to add a new distribution with required fields. You will select households or beneficiaries by sorting them by a selection criteria and add a specific amount of commodities to the distribution.'
+    tooltip_beneficiaries = 'This page is the beneficiaries\' page. You can see all households of the country. If you have the right, you can add new households with the "+" button, manage households and research in the list.'
     tooltip_dashboard = 'This page is the dashboard. You have a global view on some numbers about the country and its projects. You have access to a map with distributions of the country and summary of last distributions.'
-    tooltip_data = 'This page is the post import beneficiaries\' page. This is a summary of households you have imported.'	
-    tooltip_data_validation = 'This page is the import beneficiaries\' page using a file. You have to verify your file by following the steps.'	
-    tooltip_distributions = 'This page is the distribution\'s page. You can see all households of the distribution. If you have the right, you can add new households with a file or by selecting in the list, manage households and validate the distribution to a transaction.'	
-    tooltip_import = 'This page is the import beneficiaries\' page. You can choose to import new households using a file or the API (the external data source) to import all the household of a specific commune.'	
-    tooltip_profile = 'This page is the profile\'s page. You can change your password.'	
-    tooltip_projects = 'This page is the projects\' page. You can see all projects of the country (only thoses that you have the right to see). If you have the right, you can add a new distribution with households whose are in the project, manage distributions and transactions.'	
-    tooltip_reports = 'This page is the reports\' page. This page is used to see statistics of the country, like the average transactions of a projects, number of distributions...'	
-    tooltip_settings = 'This page is the settings\' page. In this page, you\'ll be able to add a new user, new country specifics, new donors, a new project and change the credential for the transaction.'	
+    tooltip_data = 'This page is the post import beneficiaries\' page. This is a summary of households you have imported.'
+    tooltip_data_validation = 'This page is the import beneficiaries\' page using a file. You have to verify your file by following the steps.'
+    tooltip_distributions = 'This page is the distribution\'s page. You can see all households of the distribution. If you have the right, you can add new households with a file or by selecting in the list, manage households and validate the distribution to a transaction.'
+    tooltip_import = 'This page is the import beneficiaries\' page. You can choose to import new households using a file or the API (the external data source) to import all the household of a specific commune.'
+    tooltip_profile = 'This page is the profile\'s page. You can change your password.'
+    tooltip_projects = 'This page is the projects\' page. You can see all projects of the country (only thoses that you have the right to see). If you have the right, you can add a new distribution with households whose are in the project, manage distributions and transactions.'
+    tooltip_reports = 'This page is the reports\' page. This page is used to see statistics of the country, like the average transactions of a projects, number of distributions...'
+    tooltip_settings = 'This page is the settings\' page. In this page, you\'ll be able to add a new user, new country specifics, new donors, a new project and change the credential for the transaction.'
     tooltip_update_beneficiary = 'This page is the update beneficiaries\' page. This is a form to update the selected household with required fields.'
-    
+
     // Update beneficiary
     update_beneficiary_created_successfully = 'Created successfuly !'
     update_beneficiary_error_creating = 'Error while creating = '
@@ -703,7 +703,7 @@ export class English implements Language {
     vulnerability_lactating = 'lactating'
     vulnerability_solo_parent = 'solo parent'
     vulnerability_nutrional = 'nutritional issues'
-    
+
     // User
     user_only_one_country = 'You can select only one country'
     user_password_question = 'Update password on next login'

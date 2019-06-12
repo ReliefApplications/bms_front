@@ -1,3 +1,6 @@
+import { AppInjector } from '../app-injector';
+import { CountriesService } from '../core/countries/countries.service';
+import { UppercaseFirstPipe } from '../shared/pipes/uppercase-first.pipe';
 import { Beneficiary } from './beneficiary';
 import { LIVELIHOOD } from './constants/livelihood';
 import { CountrySpecificAnswer } from './country-specific';
@@ -8,13 +11,9 @@ import { NumberModelField } from './custom-models/number-model-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
-import { Location } from './location';
+import { HouseholdLocation } from './household-location';
 import { Project } from './project';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
-import { CountriesService } from '../core/countries/countries.service';
-import { AppInjector } from '../app-injector';
-import { HouseholdLocation } from './household-location';
-import { UppercaseFirstPipe } from '../shared/pipes/uppercase-first.pipe';
 
 export class Livelihood extends CustomModel {
 

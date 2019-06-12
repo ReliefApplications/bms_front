@@ -690,6 +690,7 @@ export class French implements Language {
     voucher_print_error = 'Vous ne pouvez pas imprimer un booklet sans bénéficiaire'
     voucher_print_selection = 'Imprimer la sélection'
     voucher_print_starting = 'Le téléchargement du coupon va démarrer'
+    voucher_purchased = 'produits achetés'
     voucher_scan_text = 'Scanner le QR code de la brochure'
     voucher_select_beneficiary = 'Vous devez sélectionner un bénéficiaire'
     voucher_select_distribution = 'Vous devez sélectionner une distribution'

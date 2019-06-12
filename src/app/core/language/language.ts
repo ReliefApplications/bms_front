@@ -669,12 +669,13 @@ export interface Language {
     voucher_print_error: string
     voucher_print_selection: string
     voucher_print_starting: string
+    voucher_purchased: string
     voucher_scan_text: string
     voucher_select_beneficiary: string
     voucher_select_distribution: string
     voucher_select_project: string
     voucher_step5: string
-    
+
     // Vulnerability
     vulnerability_disabled: string
     vulnerability_lactating: string

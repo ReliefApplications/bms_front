@@ -690,12 +690,13 @@ export class English implements Language {
     voucher_print_error = 'You can\'t print a booklet if it has no beneficiary'
     voucher_print_selection = 'Print selection'
     voucher_print_starting = 'Your voucher download is starting'
+    voucher_purchased = 'purchased items'
     voucher_scan_text = 'Scan booklet QR code'
     voucher_select_beneficiary = 'You have to select a beneficiary'
     voucher_select_distribution = 'You have to select a distribution'
     voucher_select_project = 'You have to select a project'
     voucher_step5 = 'will be assigned to'
-    
+
     // Vulnerability
     vulnerability_pregnant = 'pregnant'
     vulnerability_disabled = 'disabled'

@@ -66,4 +66,12 @@ export class Product extends CustomModel {
         return this.get<string>('name');
     }
 
+    public getImage(): string {
+        return this.get<string>('image');
+    }
+
+    public getTooltip(): string {
+        return this.get<string>('name');
+    }
+
 }

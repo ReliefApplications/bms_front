@@ -14,6 +14,7 @@ import { VulnerabilityCriteria } from './vulnerability-criteria';
 import { CountriesService } from '../core/countries/countries.service';
 import { AppInjector } from '../app-injector';
 import { HouseholdLocation } from './household-location';
+import { UppercaseFirstPipe } from '../shared/pipes/uppercase-first.pipe';
 
 export class Livelihood extends CustomModel {
 
@@ -118,7 +119,7 @@ export class Household extends CustomModel {
                 isRequired: true,
                 bindField: 'name',
                 value: [],
-                apiLabel: 'id'
+                apiLabel: 'id',
             }
         ),
         beneficiaries: new MultipleObjectsModelField<Beneficiary>(
@@ -162,6 +163,7 @@ export class Household extends CustomModel {
                 isDisplayedInModal: true,
                 displayTableFunction: null,
                 displayModalFunction: null,
+                tooltip: null
             }
         ),
         residentHouseholdLocation: new ObjectModelField<HouseholdLocation>(
@@ -195,7 +197,9 @@ export class Household extends CustomModel {
         newHousehold.set('dependents', dependents);
 
         newHousehold.fields.vulnerabilities.displayTableFunction = value => value;
-        newHousehold.fields.vulnerabilities.displayModalFunction = value => this.displayModalVulnerabilities(value);
+        const pipe = new UppercaseFirstPipe();
+        newHousehold.fields.vulnerabilities.displayModalFunction = value => value
+            .map((vulnerability: VulnerabilityCriteria) => pipe.transform(vulnerability.get('name'))).join(', ');
         newHousehold.set('projects', householdFromApi.projects.map(project => Project.apiToModel(project)));
 
         newHousehold.set('beneficiaries', householdFromApi.beneficiaries.map(beneficiary => Beneficiary.apiToModel(beneficiary)));
@@ -232,23 +236,15 @@ export class Household extends CustomModel {
         newHousehold.set('currentHouseholdLocation', currentHouseholdLocation.length > 0 ? currentHouseholdLocation[0] : null);
         newHousehold.set('residentHouseholdLocation', residentHouseholdLocation.length > 0 ? residentHouseholdLocation[0] : null);
 
-        newHousehold.fields.currentHouseholdLocation.displayTableFunction = (value: HouseholdLocation) => value.getHouseholdLocationName();
+        newHousehold.fields.currentHouseholdLocation.displayTableFunction = (value: HouseholdLocation) => {
+            return value.getHouseholdPreciseLocationName();
+        };
         newHousehold.fields.currentHouseholdLocation.displayModalFunction = (value: HouseholdLocation) => value.getHouseholdLocationName();
+        newHousehold.fields.currentHouseholdLocation.tooltip = (value: HouseholdLocation) => value.getHouseholdLocationName();
         newHousehold.fields.residentHouseholdLocation.displayModalFunction = (value: HouseholdLocation) =>
             value ? value.getHouseholdLocationName() : null;
 
         return newHousehold;
-    }
-
-    public static displayModalVulnerabilities(value) {
-        let vulnerabilityNames = '';
-        value.forEach((vulnerability: VulnerabilityCriteria, index: number) => {
-            const name = vulnerability.get<string>('name');
-            if (!vulnerabilityNames.includes(name)) {
-                vulnerabilityNames += index === 0 ? name : ', ' + name;
-            }
-        });
-        return vulnerabilityNames;
     }
 
     public getIdentifyingName() {

@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="frequency action-buttons">
-                    <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" *ngIf='!isDownloading'>
+                    <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}" *ngIf='!isDownloading'>
                         <button mat-raised-button class="button-background-primary" (click)="export()">
                             <mat-icon>get_app</mat-icon>
                             <span>{{language.export | titlecase}}</span>

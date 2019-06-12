@@ -1,6 +1,6 @@
-<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic': isArabic === true}">{{language.language}}</h4>
+<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl': rtl === true}">{{language.language}}</h4>
 <mat-dialog-content *ngIf="languageForm" class="modal-container">
-  <form [formGroup]="languageForm" class="modal-table" [ngClass]="{'arabic': isArabic === true}" cdkFocusRegionstart>
+  <form [formGroup]="languageForm" class="modal-table" [ngClass]="{'rtl': rtl === true}" cdkFocusRegionstart>
     <div class="select-container">
       <span class="language-text">{{language.modal_language_actual}}</span>
       <ng-select (change)="updateDefault()" formControlName="languageControl" [clearable]="false" class="single-select" [multiple]="false" placeholder="{{ language.language | uppercaseFirst }}" [closeOnSelect]="true" [searchable]="true" bindLabel="LANGUAGE_ISO">
@@ -18,7 +18,7 @@
     </form>
 </mat-dialog-content>
 <mat-dialog-actions >
-    <div class="modal-button action-buttons"  [ngClass]="{'arabic':isArabic === true}">
+    <div class="modal-button action-buttons"  [ngClass]="{'rtl':rtl === true}">
       <button mat-button (click)="dialogRef.close()" class="button-text-accent">{{language.close}}</button>
       <button mat-raised-button (click)="save()" class="button-background-accent">{{language.save}}</button>
     </div>

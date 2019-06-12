@@ -6,6 +6,7 @@ import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 export class Arabic implements Language {
     // GENERAL VARIABLES
     LANGUAGE_ISO = 'arabic'
+    direction = 'rtl'
     // Utils
     administrative_settings = 'الإعدادات الإدارية'
     back = 'إلى الوراء'

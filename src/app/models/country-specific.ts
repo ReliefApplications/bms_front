@@ -21,7 +21,7 @@ export class CountrySpecific extends CustomModel {
 
     public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
 
-    title = this.language.model_country_specific;
+    title = this.language.country_specific;
     matSortActive = 'field';
 
     public fields = {
@@ -35,7 +35,7 @@ export class CountrySpecific extends CustomModel {
         ),
         field : new TextModelField(
             {
-                title: this.language.model_country_specific_field,
+                title: this.language.country_specific_field,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isEditable: true,
@@ -45,7 +45,7 @@ export class CountrySpecific extends CustomModel {
         ),
         type : new SingleSelectModelField<string>(
             {
-                title: this.language.model_type,
+                title: this.language.type,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,

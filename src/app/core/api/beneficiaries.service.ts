@@ -26,9 +26,12 @@ export class BeneficiariesService extends CustomModelService {
         return this.http.post(url, beneficiary);
     }
 
-    public delete(beneficiaryId: number, distributionId: any) {
-        const url = this.api + '/beneficiaries/' + beneficiaryId + '?distribution=' + distributionId;
-        return this.http.delete(url);
+    public delete(beneficiaryId: number, distributionId: any, justification: string) {
+        const url = this.api + '/distributions/' + distributionId + '/beneficiaries/' + beneficiaryId + '/delete';
+        const body = {
+            justification: justification
+        };
+        return this.http.post(url, body);
     }
 
     public getRandom(distributionId, size: number) {
@@ -36,9 +39,13 @@ export class BeneficiariesService extends CustomModelService {
         return this.http.get(url);
     }
 
-    public add(distributionId: number, beneficiary: any[]) {
+    public add(distributionId: number, beneficiaries: any[], justification: string) {
         const url = this.api + '/distributions/' + distributionId + '/beneficiary';
-        return this.http.put(url, beneficiary);
+        const body = {
+            beneficiaries: beneficiaries,
+            justification: justification,
+        };
+        return this.http.put(url, body);
     }
 
     public getAllFromProject(projectId: number, target: string) {

@@ -1,20 +1,35 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Beneficiary } from 'src/app/models/beneficiary';
 import { Distribution } from 'src/app/models/distribution';
 import { Project } from 'src/app/models/project';
-import { ModalComponent } from '../modal.component';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { DistributionService } from 'src/app/core/api/distribution.service';
+import { BookletService } from 'src/app/core/api/booklet.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 @Component({
     selector: 'app-modal-assign',
     templateUrl: './modal-assign.component.html',
     styleUrls: ['../modal.component.scss', './modal-assign.component.scss'],
 })
-export class ModalAssignComponent extends ModalComponent implements OnInit {
+export class ModalAssignComponent implements OnInit {
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
-    @Input() data: any;
+    constructor(
+        public snackbar: SnackbarService,
+        public distributionService: DistributionService,
+        public bookletService: BookletService,
+        public dialog: MatDialog,
+        public languageService: LanguageService,
+        @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+    }
+
     public step = 1;
 
     public projectControl = new FormControl('', Validators.required);
@@ -31,8 +46,6 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
     public beneficiaries: Beneficiary[] = [];
     public projects: Project[] = [];
     public projectClass = Project;
-    // public distributionClass = DistributionData;
-    // public beneficiariesClass = Beneficiaries;
     public distributionName = '';
     public beneficiaryName = '';
     public bookletQRCode;
@@ -40,9 +53,7 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
     public loadingPassword = false;
     public loadingAssignation = false;
 
-
     ngOnInit() {
-
         if (this.data.project && this.data.distribution) {
             this.projectControl.setValue(this.data.project.get('id'));
             this.distributionControl.setValue(this.data.distribution.get('id'));
@@ -139,8 +150,6 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
         this.loadingAssignation = true;
         const bookletId = this.bookletQRCode;
 
-
-
         const assignObservable = this.bookletService.assignBenef(bookletId, this.beneficiaryControl.value, this.distributionControl.value)
             .pipe(
                 finalize(
@@ -148,31 +157,31 @@ export class ModalAssignComponent extends ModalComponent implements OnInit {
                 )
             );
 
-            if (this.voucherPasswordControl.value) {
-                const passwordObservable = this.bookletService.setPassword(this.bookletQRCode, this.voucherPasswordControl.value)
-                    .pipe(
-                        finalize(
-                            () => {
-                                this.loadingPassword = false;
-                            }
-                        )
-                    );
-                forkJoin(assignObservable, passwordObservable).subscribe((_: any) => {
-                    this.snackbar.success(
+        if (this.voucherPasswordControl.value) {
+            const passwordObservable = this.bookletService.setPassword(this.bookletQRCode, this.voucherPasswordControl.value)
+                .pipe(
+                    finalize(
+                        () => {
+                            this.loadingPassword = false;
+                        }
+                    )
+                );
+            forkJoin(assignObservable, passwordObservable).subscribe((_: any) => {
+                this.snackbar.success(
                     this.language.voucher_assigned_success + this.beneficiaryName);
-                    this.dialog.closeAll();
-                }, err => {
-                    this.snackbar.error(err.error);
-                });
-            } else {
-                assignObservable.subscribe((_: any) => {
-                    this.snackbar.success(
+                this.dialog.closeAll();
+            }, err => {
+                this.snackbar.error(err.error);
+            });
+        } else {
+            assignObservable.subscribe((_: any) => {
+                this.snackbar.success(
                     this.language.voucher_assigned_success + this.beneficiaryName);
-                    this.dialog.closeAll();
-                }, err => {
-                    this.snackbar.error(err.error);
-                });
-            }
+                this.dialog.closeAll();
+            }, err => {
+                this.snackbar.error(err.error);
+            });
+        }
     }
 
     getResultScanner(event) {

@@ -11,6 +11,7 @@ import { Profile } from './profile';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
 import { BooleanModelField } from './custom-models/boolan-model-field';
 import { FormGroup } from '@angular/forms';
+import { UppercaseFirstPipe } from 'src/app/shared/pipes/uppercase-first.pipe';
 
 export class Gender extends CustomModel {
 
@@ -81,7 +82,7 @@ export class Beneficiary extends CustomModel {
         ),
         localGivenName: new TextModelField(
             {
-                title: this.language.model_firstName,
+                title: this.language.beneficiary_given_name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -92,7 +93,7 @@ export class Beneficiary extends CustomModel {
         ),
         localFamilyName: new TextModelField(
             {
-                title: this.language.model_familyName,
+                title: this.language.beneficiary_family_name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -103,7 +104,7 @@ export class Beneficiary extends CustomModel {
         ),
         enGivenName: new TextModelField(
             {
-                title: this.language.add_beneficiary_getEnglishGivenName,
+                title: this.language.beneficiary_en_given_name,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
@@ -113,7 +114,7 @@ export class Beneficiary extends CustomModel {
         ),
         enFamilyName: new TextModelField(
             {
-                title: this.language.add_beneficiary_getEnglishFamilyName,
+                title: this.language.beneficiary_en_family_name,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
@@ -129,8 +130,8 @@ export class Beneficiary extends CustomModel {
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 options: [
-                    new Gender('0', this.language.add_distribution_female),
-                    new Gender('1', this.language.add_distribution_male)
+                    new Gender('0', this.language.female),
+                    new Gender('1', this.language.male)
                 ],
                 bindField: 'name',
                 apiLabel: 'id',
@@ -138,7 +139,7 @@ export class Beneficiary extends CustomModel {
             }
         ),
         dateOfBirth: new DateModelField({
-            title: this.language.model_dateofbirth,
+            title: this.language.beneficiary_date_of_birth,
             placeholder: null,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
@@ -146,30 +147,30 @@ export class Beneficiary extends CustomModel {
         }),
         residencyStatus: new SingleSelectModelField(
             {
-                title: this.language.model_residencystatus,
+                title: this.language.beneficiary_residency_status,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
                 isLongText: false,
                 options: [
-                    new ResidencyStatus('refugee', this.language.residency_refugee),
-                    new ResidencyStatus('IDP', this.language.residency_idp),
-                    new ResidencyStatus('resident', this.language.residency_resident)
+                    new ResidencyStatus('refugee', this.language.beneficiary_residency_status_refugee),
+                    new ResidencyStatus('IDP', this.language.beneficiary_residency_status_idp),
+                    new ResidencyStatus('resident', this.language.beneficiary_residency_status_resident)
                 ],
                 bindField: 'name',
                 apiLabel: 'id',
-                value: new ResidencyStatus('resident', this.language.residency_resident)
+                value: new ResidencyStatus('resident', this.language.beneficiary_residency_status_resident)
             }
         ),
         beneficiaryStatus: new SingleSelectModelField(
             {
-                title: this.language.model_beneficiaries_status,
+                title: this.language.status,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 options: [
-                    new BeneficiaryStatus('0', this.language.beneficiaries_member),
-                    new BeneficiaryStatus('1', this.language.beneficiaries_head)
+                    new BeneficiaryStatus('0', this.language.beneficiary_member),
+                    new BeneficiaryStatus('1', this.language.beneficiary_head)
                 ],
                 isRequired: true,
                 bindField: 'name',
@@ -178,7 +179,7 @@ export class Beneficiary extends CustomModel {
         ),
         nationalIds: new MultipleObjectsModelField<NationalId>(
             {
-                title: this.language.model_beneficiaries_nationalids,
+                title: this.language.national_id_number,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
                 displayTableFunction: null,
@@ -199,7 +200,7 @@ export class Beneficiary extends CustomModel {
         ),
         vulnerabilities: new MultipleObjectsModelField<VulnerabilityCriteria>(
             {
-                title: this.language.model_vulnerabilities,
+                title: this.language.beneficiary_vulnerabilities,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isImageInTable: true,
@@ -210,7 +211,7 @@ export class Beneficiary extends CustomModel {
         ),
         localFullName: new TextModelField(
             {
-                title: this.language.model_donor_fullname,
+                title: this.language.donor_fullname,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
@@ -218,11 +219,18 @@ export class Beneficiary extends CustomModel {
                 isLongText: false,
             }
         ),
-        profile: new ObjectModelField<Profile>({}),
-        distributionId: new NumberModelField({}),
+        profile: new ObjectModelField<Profile>({
+
+        }),
+        distributionId: new NumberModelField({
+
+        }),
+        removed: new BooleanModelField({
+
+        }),
         addReferral: new BooleanModelField(
             {
-                title: this.language.beneficiaries_referral_question,
+                title: this.language.beneficiary_referral_question,
                 isTrigger: true,
                 isDisplayedInModal: true,
                 isEditable: true,
@@ -236,23 +244,23 @@ export class Beneficiary extends CustomModel {
         ),
         referralType: new SingleSelectModelField(
             {
-                title: this.language.beneficiaries_referral_type,
+                title: this.language.beneficiary_referral_type,
                 isDisplayedInModal: false,
                 isEditable: true,
                 bindField: 'name',
                 apiLabel: 'id',
                 options: [
-                    new BeneficiaryReferralType('1', this.language.beneficiaries_referral_types['1']),
-                    new BeneficiaryReferralType('2', this.language.beneficiaries_referral_types['2']),
-                    new BeneficiaryReferralType('3', this.language.beneficiaries_referral_types['3']),
-                    new BeneficiaryReferralType('4', this.language.beneficiaries_referral_types['4']),
-                    new BeneficiaryReferralType('5', this.language.beneficiaries_referral_types['5']),
+                    new BeneficiaryReferralType('1', this.language.beneficiary_referral_types['1']),
+                    new BeneficiaryReferralType('2', this.language.beneficiary_referral_types['2']),
+                    new BeneficiaryReferralType('3', this.language.beneficiary_referral_types['3']),
+                    new BeneficiaryReferralType('4', this.language.beneficiary_referral_types['4']),
+                    new BeneficiaryReferralType('5', this.language.beneficiary_referral_types['5']),
                 ],
             }
         ),
         referralComment: new TextModelField(
             {
-                title: this.language.beneficiaries_referral_comment,
+                title: this.language.beneficiary_referral_comment,
                 isDisplayedInModal: false,
                 isEditable: true,
                 isLongText: true,
@@ -286,7 +294,8 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('residencyStatus',
             beneficiaryFromApi.residency_status ?
             newBeneficiary.getOptions('residencyStatus')
-                .filter((option: ResidencyStatus) => option.get('id') === beneficiaryFromApi.residency_status)[0] :
+                .filter((option: ResidencyStatus) =>
+                    option.get<string>('id').toLowerCase() === beneficiaryFromApi.residency_status.toLowerCase())[0] :
             newBeneficiary.get('residencyStatus'));
 
         newBeneficiary.set('gender',
@@ -317,11 +326,14 @@ export class Beneficiary extends CustomModel {
 
 
         newBeneficiary.fields.vulnerabilities.displayTableFunction = value => value;
+        const pipe = new UppercaseFirstPipe();
+
         newBeneficiary.fields.vulnerabilities.displayModalFunction =
-            value => value.map((vulnerability: VulnerabilityCriteria) => vulnerability.get('name'));
-        newBeneficiary.fields.phones.displayTableFunction = value => value.map((phone: Phone) => phone.get('number'));
-        newBeneficiary.fields.phones.displayModalFunction = value => value.map((phone: Phone) => phone.get('number'));
-        newBeneficiary.fields.nationalIds.displayModalFunction = value => value.map((nationalId: NationalId) => nationalId.get('number'));
+            value => value.map((vulnerability: VulnerabilityCriteria) => pipe.transform(vulnerability.get('name'))).join(', ');
+        newBeneficiary.fields.phones.displayTableFunction = value => value.map((phone: Phone) => phone.get('number')).join(', ');
+        newBeneficiary.fields.phones.displayModalFunction = value => value.map((phone: Phone) => phone.get('number')).join(', ');
+        newBeneficiary.fields.nationalIds.displayModalFunction = value => value
+            .map((nationalId: NationalId) => nationalId.get('number')).join(', ');
 
         if (beneficiaryFromApi.referral) {
             newBeneficiary.fields.addReferral.isDisplayedInModal = false;

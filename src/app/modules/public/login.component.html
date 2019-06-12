@@ -9,7 +9,7 @@
                     <h1 class="title-text">{{language.login_bms | uppercaseFirst}}</h1>
                 </div>
                 <div class="login-user">
-                    <input type="text" class="user-input" aria-describedby="basic-addon1" placeholder="{{language.login_username | uppercaseFirst}}"
+                    <input type="text" class="user-input" aria-describedby="basic-addon1" placeholder="{{language.username | uppercaseFirst}}"
                     formControlName="username">
                     <input autocomplete="new-password" type="password" class="user-input" aria-describedby="basic-addon1" placeholder="{{language.login_password | uppercaseFirst}}" formControlName="password">
                     <h5 *ngIf="forgotMessage" class="user-forgot-password">{{language.login_forgot_password}}</h5>

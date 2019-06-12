@@ -178,7 +178,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
      * Get adm1 from the back or from the cache service with the key ADM1
      */
     loadProvince() {
-        this.locationService.fillAdm1Options(this.objectInstance).subscribe(() => {
+        const location = this.objectInstance.get<Location>('location');
+        this.locationService.fillAdm1Options(location).subscribe((filledLocation: Location) => {
+            this.objectInstance.set('location', filledLocation);
             this.form.controls.adm2.setValue(null);
             this.form.controls.adm3.setValue(null);
             this.form.controls.adm4.setValue(null);
@@ -191,7 +193,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
      */
     loadDistrict(adm1Id) {
         if (adm1Id) {
-            this.locationService.fillAdm2Options(this.objectInstance, adm1Id).subscribe(() => {
+            const location = this.objectInstance.get<Location>('location');
+            this.locationService.fillAdm2Options(location, adm1Id).subscribe((filledLocation: Location) => {
+                this.objectInstance.set('location', filledLocation);
                 this.form.controls.adm2.setValue(null);
                 this.form.controls.adm3.setValue(null);
                 this.form.controls.adm4.setValue(null);
@@ -204,8 +208,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
      * @param adm2Id
      */
     loadCommunity(adm2Id) {
+        const location = this.objectInstance.get<Location>('location');
         if (adm2Id) {
-            this.locationService.fillAdm3Options(this.objectInstance, adm2Id).subscribe(() => {
+            this.locationService.fillAdm3Options(location, adm2Id).subscribe((filledLocation: Location) => {
+                this.objectInstance.set('location', filledLocation);
                 this.form.controls.adm3.setValue(null);
                 this.form.controls.adm4.setValue(null);
             });
@@ -217,8 +223,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
      * @param adm3Id
      */
     loadVillage(adm3Id) {
+        const location = this.objectInstance.get<Location>('location');
         if (adm3Id) {
-            this.locationService.fillAdm4Options(this.objectInstance, adm3Id).subscribe(() => {
+            this.locationService.fillAdm4Options(location, adm3Id).subscribe((filledLocation: Location) => {
+                this.objectInstance.set('location', filledLocation);
                 this.form.controls.adm4.setValue(null);
             });
         }

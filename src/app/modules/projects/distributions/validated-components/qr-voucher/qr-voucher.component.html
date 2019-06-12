@@ -49,14 +49,21 @@
                     </div>
                 </div>
             </div>
+            <button mat-raised-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button-create">
+                <mat-icon>add</mat-icon>
+                {{language.add | titlecase}}
+            </button>
+            <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
+                <mat-icon>add</mat-icon>
+            </button>
         </div>
 
         <div class="content-table">
             <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
-                [assignable]="!actualDistribution.get('finished')" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
+                [assignable]="!actualDistribution.get('finished')" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table>
             <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
-                [assignable]="!actualDistribution.get('finished')" (printOne)="print($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
+                [assignable]="!actualDistribution.get('finished')" (printOne)="print($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table-mobile>
         </div>
 

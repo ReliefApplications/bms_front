@@ -33,8 +33,10 @@ import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
 import { ModalAddCommodityComponent } from '../components/modals/modal-add-commodity/modal-add-commodity.component';
 import { ModalAddCriteriaComponent } from '../components/modals/modal-add-criteria/modal-add-criteria.component';
 import { ModalAddComponent } from '../components/modals/modal-add/modal-add.component';
+import { ModalAddBeneficiaryComponent } from '../components/modals/modal-add-beneficiary/modal-add-beneficiary.component';
 import { ModalAssignComponent } from '../components/modals/modal-assign/modal-assign.component';
 import { ModalDeleteComponent } from '../components/modals/modal-delete/modal-delete.component';
+import { ModalDeleteBeneficiaryComponent } from '../components/modals/modal-delete-beneficiary/modal-delete-beneficiary.component';
 import { ModalDetailsComponent } from '../components/modals/modal-details/modal-details.component';
 import { ModalEditComponent } from '../components/modals/modal-edit/modal-edit.component';
 import { ModalFieldsComponent } from '../components/modals/modal-fields/modal-fields.component';
@@ -55,6 +57,7 @@ import { ImportedDataComponent } from '../modules/beneficiaries/beneficiaries-im
 import { BeneficiariesComponent } from '../modules/beneficiaries/beneficiaries.component';
 import { DataValidationComponent } from '../modules/beneficiaries/data-validation/data-validation.component';
 import { BeneficiaryFormComponent } from '../modules/beneficiaries/update-beneficiary/beneficiary-form/beneficiary-form.component';
+import { LocationFormComponent } from '../modules/beneficiaries/update-beneficiary/location-form/location-form.component';
 import { UpdateBeneficiaryComponent } from '../modules/beneficiaries/update-beneficiary/update-beneficiary.component';
 import { DashboardComponent } from '../modules/dashboard/dashboard.component';
 import { AddDistributionComponent } from '../modules/projects/add-distribution/add-distribution.component';
@@ -146,7 +149,9 @@ imports: [
         ModalAddCommodityComponent,
         ModalFieldsComponent,
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalEditComponent,
         ModalAssignComponent,
         ModalDetailsComponent,
@@ -168,6 +173,7 @@ imports: [
         PlaceholderTitleComponent,
         UpdateBeneficiaryComponent,
         BeneficiaryFormComponent,
+        LocationFormComponent,
         ImportedDataComponent,
         ThousandsPipe,
         FormatCamelCasePipe,
@@ -184,10 +190,12 @@ imports: [
     ],
     entryComponents: [
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalEditComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalAssignComponent,
@@ -215,9 +223,11 @@ imports: [
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalAssignComponent,
         BoxSettingComponent,
         MatCheckboxModule,

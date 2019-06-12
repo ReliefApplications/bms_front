@@ -13,14 +13,14 @@ export class FinancialProvider extends CustomModel {
             // Not displayed anywhere
         }),
         username: new TextModelField({
-            title: this.language.login_username,
+            title: this.language.username,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: true,
             isRequired: true,
         }),
         password: new TextModelField({
-            title: this.language.model_password,
+            title: this.language.password,
             isDisplayedInModal: true,
             isEditable: true,
             isPassword: true,

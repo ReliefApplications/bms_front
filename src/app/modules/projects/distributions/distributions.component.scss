@@ -15,14 +15,6 @@ app-not-validated-distribution {
     width: 100%;
 }
 
-mat-dialog-content {
-    width: min-content;
-    p {
-        text-align: justify;
-        max-width: 40vw;
-    }
-}
-
 .lign-container {
     display: flex;
     align-items: center;
@@ -255,14 +247,6 @@ app-mobile-money, app-general-relief, app-qr-voucher {
         padding-bottom: 20px;
     }
 
-    mat-dialog-content {
-        width: 70vw;
-        * {
-            text-align: left !important;
-            max-width: 70vw !important;
-        }
-    }
-
     .mat-stepper-horizontal {
         margin-top: 20px;
         display: flex;
@@ -291,4 +275,18 @@ app-mobile-money, app-general-relief, app-qr-voucher {
         white-space: pre-wrap;
     }
 
+}
+
+.container-subtitle {
+    flex-direction: column;
+    .subtitle-main {
+        display: flex;
+    }
+    h3 {
+        margin-bottom:0;
+        margin-top: 0;
+    }
+    h4 {
+        margin-top: 5px;
+    }
 }

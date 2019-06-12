@@ -9,7 +9,7 @@
             </div>
         </div>
         <div *ngIf="currentDisplayType.type !== 'mobile'" class="boxes-summary">
-            <h1 class="dashboard-title">{{language.dashboard_summary | uppercaseFirst}}</h1>
+            <h1 class="dashboard-title">{{language.summary | uppercaseFirst}}</h1>
             <app-placeholder-summary *ngIf="loadingSummary" class="summary-content"></app-placeholder-summary>
             <div class="summary-content" *ngIf="!loadingSummary">
                 <div class="lign-container">

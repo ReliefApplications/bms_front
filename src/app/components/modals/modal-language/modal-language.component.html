@@ -1,9 +1,9 @@
+<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic': isArabic === true}">{{language.language}}</h4>
 <mat-dialog-content *ngIf="languageForm" class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': isArabic === true}">{{language.modal_language_title}}</h4>
   <form [formGroup]="languageForm" class="modal-table" [ngClass]="{'arabic': isArabic === true}" cdkFocusRegionstart>
     <div class="select-container">
       <span class="language-text">{{language.modal_language_actual}}</span>
-      <ng-select (change)="updateDefault()" formControlName="languageControl" [clearable]="false" class="single-select" [multiple]="false" placeholder="{{ language.header_language | uppercaseFirst }}" [closeOnSelect]="true" [searchable]="true" bindLabel="LANGUAGE_ISO">
+      <ng-select (change)="updateDefault()" formControlName="languageControl" [clearable]="false" class="single-select" [multiple]="false" placeholder="{{ language.language | uppercaseFirst }}" [closeOnSelect]="true" [searchable]="true" bindLabel="LANGUAGE_ISO">
         <ng-option *ngFor="let language of languageService.enabledLanguages" [value]="language">
           {{language.LANGUAGE_ISO | uppercaseFirst}}
         </ng-option>
@@ -16,8 +16,10 @@
       <span class="spacement">{{ language.modal_save_language_as_default }}</span>
     </div>
     </form>
-  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':isArabic === true}">
-    <button mat-button (click)="dialogRef.close()" class="button-text-accent">{{language.close}}</button>
-    <button mat-raised-button (click)="save()" class="button-background-accent">{{language.save}}</button>
-  </div>
 </mat-dialog-content>
+<mat-dialog-actions >
+    <div class="modal-button action-buttons"  [ngClass]="{'arabic':isArabic === true}">
+      <button mat-button (click)="dialogRef.close()" class="button-text-accent">{{language.close}}</button>
+      <button mat-raised-button (click)="save()" class="button-background-accent">{{language.save}}</button>
+    </div>
+</mat-dialog-actions>

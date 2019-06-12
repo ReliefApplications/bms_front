@@ -2,6 +2,7 @@ import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { Location } from 'src/app/models/location';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 
 @Component({
     selector: 'app-box-properties',
@@ -24,8 +25,13 @@ export class BoxPropertiesComponent implements OnInit {
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
+    public countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
+        this.countryService.selectedCountry.getValue().get<string>('id') :
+        this.countryService.khm.get<string>('id');
+
     constructor (
         public languageService: LanguageService,
+        public countryService: CountriesService
     ) {}
 
     @HostListener('window:resize', ['$event'])
@@ -75,7 +81,7 @@ export class BoxPropertiesComponent implements OnInit {
 
     getLocationTitle(location: Location) {
         const adm = this.getMorePreciseAdm(location);
-        return this.language[adm];
+        return this.language[adm][this.countryId];
     }
 
     getLocationValue(location: Location) {

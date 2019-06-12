@@ -36,7 +36,7 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         vulnerabilities: new MultipleSelectModelField({
-            title: this.language.model_vulnerabilities,
+            title: this.language.beneficiary_vulnerabilities,
             filterName: 'vulnerabilities',
             bindField: 'name',
             apiLabel: 'id',
@@ -50,14 +50,14 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         residency: new MultipleSelectModelField({
-            title: this.language.model_residencystatus,
+            title: this.language.beneficiary_residency_status,
             filterName: 'residency',
             isDisplayedInTable: true,
             bindField: 'name',
             apiLabel: 'id',
         }),
         livelihood: new MultipleSelectModelField({
-            title: this.language.add_beneficiary_getOccupation,
+            title: this.language.household_livelihood,
             filterName: 'livelihood',
             isDisplayedInTable: true,
             bindField: 'name',
@@ -79,7 +79,13 @@ export class HouseholdFilters extends CustomModel {
                 householdFilters.set('adm2', null);
                 householdFilters.set('adm3', null);
                 householdFilters.set('adm4', null);
-                appInjector.get(LocationService).fillAdm2Options(householdFilters, parseInt(value, 10)).subscribe();
+                form.controls.adm2.setValue(null);
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
+                const location = householdFilters.get<Location>('location');
+                appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {
+                    householdFilters.set('location', location);
+                });
                 return householdFilters;
             },
             isDisplayedInTable: true,
@@ -93,9 +99,14 @@ export class HouseholdFilters extends CustomModel {
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
                 householdFilters.set('adm3', null);
                 householdFilters.set('adm4', null);
-                appInjector.get(LocationService).fillAdm3Options(householdFilters, parseInt(value, 10)).subscribe();
+                const location = householdFilters.get<Location>('location');
+                appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {
+                    householdFilters.set('location', location);
+                });
                 return householdFilters;
             },
             isDisplayedInTable: true,
@@ -109,8 +120,12 @@ export class HouseholdFilters extends CustomModel {
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
+                form.controls.adm4.setValue(null);
                 householdFilters.set('adm4', null);
-                appInjector.get(LocationService).fillAdm4Options(householdFilters, parseInt(value, 10)).subscribe();
+                const location = householdFilters.get<Location>('location');
+                appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {
+                    householdFilters.set('location', location);
+                });
                 return householdFilters;
             },
             isDisplayedInTable: true,
@@ -124,17 +139,17 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         referralType: new MultipleSelectModelField({
-            title: this.language.beneficiaries_referral_type,
+            title: this.language.beneficiary_referral_type,
             filterName: 'referral',
             isDisplayedInTable: true,
             bindField: 'name',
             apiLabel: 'id',
             options: [
-                new BeneficiaryReferralType('1', this.language.beneficiaries_referral_types['1']),
-                new BeneficiaryReferralType('2', this.language.beneficiaries_referral_types['2']),
-                new BeneficiaryReferralType('3', this.language.beneficiaries_referral_types['3']),
-                new BeneficiaryReferralType('4', this.language.beneficiaries_referral_types['4']),
-                new BeneficiaryReferralType('5', this.language.beneficiaries_referral_types['5']),
+                new BeneficiaryReferralType('1', this.language.beneficiary_referral_types['1']),
+                new BeneficiaryReferralType('2', this.language.beneficiary_referral_types['2']),
+                new BeneficiaryReferralType('3', this.language.beneficiary_referral_types['3']),
+                new BeneficiaryReferralType('4', this.language.beneficiary_referral_types['4']),
+                new BeneficiaryReferralType('5', this.language.beneficiary_referral_types['5']),
             ],
         })
     };

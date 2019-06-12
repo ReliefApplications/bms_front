@@ -1,68 +1,67 @@
-import { Beneficiary } from './beneficiary';
 import { Booklet } from './booklet';
 import { NestedFieldModelField } from './custom-models/nested-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { DistributionBeneficiary } from './distribution-beneficiary';
+import { MultipleObjectsModelField } from './custom-models/multiple-object-model-field';
+import { Product } from './product';
+import { UppercaseFirstPipe } from '../shared/pipes/uppercase-first.pipe';
 
 export class TransactionQRVoucher extends DistributionBeneficiary {
 
     title = this.language.beneficiary;
     matSortActive = 'localFamilyName';
 
-    public fields = {
+    public fields = {...this.fields, ...{
         // id: new NumberModelField({
 
         // }),
-        beneficiary: new ObjectModelField<Beneficiary>({
-            value: []
-        }),
         booklet: new ObjectModelField<Booklet>({
 
         }),
         localGivenName: new NestedFieldModelField({
-            title: this.language.model_firstName,
+            title: this.language.beneficiary_given_name,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localGivenName'
         }),
         localFamilyName: new NestedFieldModelField({
-            title: this.language.model_familyName,
+            title: this.language.beneficiary_family_name,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localFamilyName'
         }),
         enGivenName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishGivenName,
+            title: this.language.beneficiary_en_given_name,
             isDisplayedInTable: false,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'enGivenName'
         }),
         enFamilyName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishFamilyName,
+            title: this.language.beneficiary_en_family_name,
             isDisplayedInTable: false,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'enFamilyName'
         }),
         bookletCode: new NestedFieldModelField({
-            title: this.language.model_booklet,
+            title: this.language.booklet,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'code',
         }),
         status: new NestedFieldModelField({
-            title: this.language.model_state,
+            title: this.language.status,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'status',
         }),
         usedAt: new NestedFieldModelField({
-            title: this.language.model_used,
+            title: this.language.booklet_used,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',
@@ -70,38 +69,47 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             nullValue: this.language.null_not_yet
         }),
         value: new NestedFieldModelField({
-            title: this.language.model_value,
+            title: this.language.value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'booklet',
             childrenFieldName: 'value',
         }),
         addReferral: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_question,
+            title: this.language.beneficiary_referral_question,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'addReferral',
             isEditable: true,
         }),
         referralType: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_type,
+            title: this.language.beneficiary_referral_type,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'referralType',
             isEditable: true,
         }),
         referralComment: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_comment,
+            title: this.language.beneficiary_referral_comment,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'referralComment',
             isEditable: true,
         }),
-    };
+        products: new MultipleObjectsModelField<Product>(
+            {
+                title: this.language.voucher_purchased,
+                isDisplayedInModal: true,
+                isDisplayedInTable: true,
+                displayTableFunction: null,
+                displayModalFunction: null,
+                value: []
+            }
+        )
+    }};
 
-    public static apiToModel(distributionBeneficiaryFromApi: any): TransactionQRVoucher {
+    public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionQRVoucher {
         const newQRVoucher = new TransactionQRVoucher();
-        newQRVoucher.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
 
         if (distributionBeneficiaryFromApi.beneficiary.referral) {
             newQRVoucher.fields.addReferral.isDisplayedInModal = false;
@@ -115,6 +123,23 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             booklet = booklet ? booklet : distributionBeneficiaryFromApi.booklets[0];
         }
         newQRVoucher.set('booklet', booklet ? Booklet.apiToModel(booklet) : null);
+        this.addCommonFields(newQRVoucher, distributionBeneficiaryFromApi, distributionId);
+
+        const products: Product[] = [];
+        if (booklet) {
+            booklet.vouchers.forEach((voucher: any) => {
+                voucher.products.forEach((product: any) => {
+                    products.push(Product.apiToModel(product));
+                });
+            });
+        }
+        newQRVoucher.set('products', products);
+
+        const pipe = new UppercaseFirstPipe();
+        newQRVoucher.fields.products.displayTableFunction = value => value
+            .map((product: Product) => pipe.transform(product.get('name'))).join(', ');
+        newQRVoucher.fields.products.displayModalFunction = value => value
+            .map((product: Product) => pipe.transform(product.get('name'))).join(', ');
         return newQRVoucher;
     }
 

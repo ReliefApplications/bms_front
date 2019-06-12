@@ -124,13 +124,6 @@
     width:100%;
 }
 
-@media only screen and (min-width: 750px) {
-    mat-dialog-content {
-        width: 60vw !important;
-    }
-}
-
-
 // for mobile screen
 @media only screen and (max-width: 750px) {
     .mat-form-field {

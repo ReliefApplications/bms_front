@@ -3,6 +3,7 @@ import { CustomModel } from './custom-models/custom-model';
 import { NestedFieldModelField } from './custom-models/nested-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { DateModelField } from './custom-models/date-model-field';
+import { TextModelField } from './custom-models/text-model-field';
 
 export class ImportedBeneficiary extends CustomModel {
 
@@ -15,25 +16,25 @@ export class ImportedBeneficiary extends CustomModel {
             }
         ),
         localGivenName: new NestedFieldModelField({
-            title: this.language.model_firstName,
+            title: this.language.beneficiary_given_name,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localGivenName',
         }),
         localFamilyName: new NestedFieldModelField({
-            title: this.language.model_familyName,
+            title: this.language.beneficiary_family_name,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localFamilyName',
         }),
         enGivenName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishGivenName,
+            title: this.language.beneficiary_en_given_name,
             isDisplayedInTable: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'enGivenName',
         }),
         enFamilyName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishFamilyName,
+            title: this.language.beneficiary_en_family_name,
             isDisplayedInTable: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'enFamilyName',
@@ -45,11 +46,15 @@ export class ImportedBeneficiary extends CustomModel {
             childrenFieldName: 'gender',
         }),
         dateOfBirth: new NestedFieldModelField({
-            title: this.language.model_dateofbirth,
+            title: this.language.beneficiary_date_of_birth,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'dateOfBirth',
         }),
+        justification: new TextModelField({
+            title: this.language.modal_delete_justification,
+            isDisplayedInTable: true,
+        })
 
     };
 

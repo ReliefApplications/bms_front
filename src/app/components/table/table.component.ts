@@ -52,6 +52,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Input() updatable = false;
     @Input() printable = false;
     @Input() assignable = false;
+    @Input() justifiable = false;
     @Input() duplicable = false;
 
     @Input() searchable = false;
@@ -85,6 +86,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Output() openModal = new EventEmitter<object>();
     @Output() printOne = new EventEmitter<any>();
     @Output() assignOne = new EventEmitter<any>();
+    @Output() justifyOne = new EventEmitter<any>();
     @Output() duplicateOne = new EventEmitter<any>();
 
     sortedData: any;
@@ -171,7 +173,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
 
     setDataTableProperties() {
-        if (this.searchable) {
+        if (this.searchable && this.tableData) {
             this.tableData.filterPredicate = (element: CustomModel, filter: string) => {
                 if (!filter) {
                     return true;
@@ -202,16 +204,18 @@ export class TableComponent implements OnInit,  AfterViewInit {
             };
         }
 
-        this.tableData.sortingDataAccessor = (item, property) => {
-            let field = item.fields[property];
+        if (this.tableData) {
+                    this.tableData.sortingDataAccessor = (item, property) => {
+                        let field = item.fields[property];
 
-            if (field.kindOfField === 'Children') {
-                field = item.get(field.childrenObject) ?
-                    item.get(field.childrenObject).fields[field.childrenFieldName] :
-                    new TextModelField({});
-            }
-            return this.getFieldStringValues(field);
-        };
+                        if (field.kindOfField === 'Children') {
+                            field = item.get(field.childrenObject) ?
+                                item.get(field.childrenObject).fields[field.childrenFieldName] :
+                                new TextModelField({});
+                        }
+                        return this.getFieldStringValues(field);
+                    };
+        }
 
         if ((this.tableData && this.tableData.data)) {
             this.tableData.sort = this.sort;
@@ -240,7 +244,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     public getDisplayedColumns(): string[] {
         const actionable = this.validatable || this.updatable || this.loggable ||
-            this.editable || this.deletable || this.printable || this.assignable || this.duplicable;
+            this.editable || this.deletable || this.printable || this.assignable || this.justifiable || this.duplicable;
         if (this.selectable && actionable) {
             return this.displayProperties ? ['check', ...this.displayProperties, 'actions'] : [];
         } else if (this.selectable && !actionable) {
@@ -315,6 +319,10 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     assign(element) {
         this.assignOne.emit(element);
+    }
+
+    justify(element) {
+        this.justifyOne.emit(element);
     }
 
     duplicate(element) {

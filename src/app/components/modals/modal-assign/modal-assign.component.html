@@ -117,7 +117,7 @@
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
+        <mat-spinner [diameter]="35" *ngIf="loadingAssignation"></mat-spinner>
         <button mat-raised-button class="button-background-accent" (click)="assignBooklet()"
             *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>
     </div>

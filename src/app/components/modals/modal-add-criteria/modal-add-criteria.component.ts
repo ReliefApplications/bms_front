@@ -61,6 +61,9 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
         this.subscribers.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
+    /**
+     * Fill the dropdown for the potential criteria values
+     */
     fillOptions() {
         this.livelihoods = LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, this.language[livelihood.language_key]));
         const beneficiary = new Beneficiary();
@@ -120,6 +123,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
         this.form.controls.value.setValue(null);
     }
 
+    // To know if the value input/select is gonna be displayed
     needsValue(field) {
         return ['gender', 'dateOfBirth', 'equityCardNo', 'IDPoor', 'headOfHouseholdDateOfBirth', 'headOfHouseholdGender', 'livelihood',
             'foodConsumptionScore', 'copingStrategiesIndex', 'numberDependents', 'incomeLevel',

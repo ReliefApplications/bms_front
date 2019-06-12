@@ -39,14 +39,16 @@ export class CriteriaService extends CustomModelService {
             const conditions = new Array<CriteriaCondition>();
             let conditionNames = [];
 
-            if ((fieldName === 'dateOfBirth') || (fieldName === 'headOfHouseholdDateOfBirth') || fieldName === 'numberDependents') {
+            const compared = ['dateOfBirth', 'headOfHouseholdDateOfBirth', 'numberDependents'];
+            const nonEqual = ['gender', 'equityCardNo', 'locationType', 'headOfHouseholdGender', 'residencyStatus'];
+            const equal = ['IDPoor', 'livelihood', 'foodConsumptionScore', 'campName', 'copingStrategiesIndex',
+                'incomeLevel', 'hasNotBeenInDistributionsSince'];
+
+            if (compared.includes(fieldName)) {
                 conditionNames = ['>', '<', '>=', '<=', '=', '!='];
-            }  else if (fieldName === 'gender' || fieldName === 'equityCardNo' || fieldName === 'locationType' ||
-                fieldName === 'headOfHouseholdGender' || fieldName === 'residencyStatus') {
+            }  else if (nonEqual.includes(fieldName)) {
                 conditionNames = ['=', '!='];
-            } else if (fieldName === 'IDPoor' || fieldName === 'livelihood' || fieldName === 'foodConsumptionScore' ||
-                fieldName === 'campName' || fieldName === 'copingStrategiesIndex' ||
-                fieldName === 'incomeLevel' || fieldName === 'hasNotBeenInDistributionsSince') {
+            } else if (equal.includes(fieldName)) {
                 conditionNames = ['='];
             } else {
                 conditionNames = ['true', 'false'];

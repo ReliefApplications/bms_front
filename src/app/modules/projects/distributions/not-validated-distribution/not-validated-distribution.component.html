@@ -6,7 +6,7 @@
                 <div class="content-button">
                     <div class="action-buttons">
                         <div class="button-with-extension"
-                            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                            [ngClass]="{'rtl':language.direction === 'rtl'}">
                             <button mat-raised-button class="button-background-primary"
                                 [disabled]="!(initialBeneficiaryData && initialBeneficiaryData.data.length >0)"
                                 (click)="export()" *ngIf="!loadingExport">
@@ -45,7 +45,7 @@
                         *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})"
                         class="add-button"
-                        [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
+                        [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
                         <mat-icon>add</mat-icon>
                     </button>
                 </div>
@@ -102,7 +102,7 @@
                 <div class="content-button">
                     <div class="action-buttons">
                         <div class="button-with-extension"
-                            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                            [ngClass]="{'rtl':language.direction === 'rtl'}">
                             <button mat-raised-button
                                 [disabled]="!(randomSampleData && randomSampleData.data.length >0)"
                                 class="button-background-primary" (click)="exportSample()" *ngIf="!loadingExport">
@@ -227,7 +227,7 @@
 </mat-horizontal-stepper>
 
 <ng-template #validation>
-    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.transaction_validation | titlecase}}</h4>
+    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.transaction_validation | titlecase}}</h4>
     <mat-dialog-content class="modal-container">
         <div class="modal-body">
             <p> {{language.transaction_validate_distribution}} </p>
@@ -235,7 +235,7 @@
     </mat-dialog-content>
     <mat-dialog-actions >
         <div class="modal-button action-buttons"
-            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-button class="button-text-accent"
                 (click)="exit('Validation canceled')">{{language.cancel}}</button>
             <button mat-raised-button class="button-background-accent"

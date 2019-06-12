@@ -2,6 +2,7 @@
 export interface Language {
     // GENERAL VARIABLES
     readonly LANGUAGE_ISO: string;
+    direction: string // rtl or ltr
     // Utils
     administrative_settings: string
     back: string

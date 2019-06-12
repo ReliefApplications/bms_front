@@ -42,14 +42,21 @@
     <ng-template #isArrayField>
         <ng-container *ngIf="field.kindOfField === 'MultipleSelect' || field.kindOfField === 'ArrayInputField'; else isSingleSelect">
             <div class="multiple-items">
-                <span *ngFor="let value of field.value">
-                    <ng-container *ngIf="field.isImageInTable; else notImage">
+                <ng-container *ngIf="field.isImageInTable; else notImage">
+                    <span *ngFor="let value of field.value">
                         <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
-                    </ng-container>
-                    <ng-template #notImage>
-                            {{value.get(field.bindField) | uppercaseFirst }}
-                    </ng-template>
-                </span>
+                    </span>
+                </ng-container>
+                <ng-template #notImage>
+                        <span *ngIf="makeList(field.value, field).length <= MAX_PROP_LENGTH; else arrayIsTooLong">
+                                {{makeList(field.value, field) | uppercaseFirst }}
+                            </span>
+                        <ng-template #arrayIsTooLong>
+                            <span [matTooltip]="makeList(field.value, field) | uppercaseFirst ">
+                                {{makeList(field.value, field).substring(0,MAX_PROP_LENGTH-1) | uppercaseFirst}} ...
+                            </span>
+                        </ng-template>
+                </ng-template>
             </div>
         </ng-container>
     </ng-template>

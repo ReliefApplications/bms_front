@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="button-with-extension"
-                        [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                        [ngClass]="{'rtl':language.direction === 'rtl'}">
                         <button mat-raised-button [disabled]="!(dataSource.length$ | async)"
                             *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport"
                             class="button-background-primary" (click)="export()" [matBadge]="getNumberToExport()">
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="add-buttons"
-                    [ngClass]="{'add-buttons-arabic': languageService.languageToString(language)==='ar', 'add-buttons-mobile': currentDisplayType.type === 'mobile'}"
+                    [ngClass]="{'add-buttons-rtl': language.direction === 'rtl', 'add-buttons-mobile': currentDisplayType.type === 'mobile'}"
                     (mouseenter)="currentDisplayType.type !== 'mobile' && this.addToggled = true"
                     (mouseleave)="currentDisplayType.type !== 'mobile' && this.addToggled = false">
                     <div class="toggled-buttons" [ngClass]="{'toggled': addToggled}">
@@ -78,7 +78,7 @@
                 <button mat-fab
                     *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')"
                     class="add-button"
-                    [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}"
+                    [ngClass]="{'add-button-rtl': language.direction === 'rtl'}"
                     (click)="toggleAddButtons()">
                     <mat-icon>add</mat-icon>
                 </button>
@@ -98,7 +98,7 @@
 </div>
 
 <ng-template #addBeneficiaries>
-    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.beneficiary_add_distribution}}</h4>
+    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.beneficiary_add_distribution}}</h4>
     <mat-dialog-content class="modal-container">
         <div class="modal-body">
             <p> {{language.beneficiary_add_project}} {{ checkedElements.length }}
@@ -115,7 +115,7 @@
     </mat-dialog-content>
     <mat-dialog-actions >
         <div class="modal-button action-buttons"
-            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-button class="button-text-accent" (click)="dialog.closeAll()">{{language.cancel}}</button>
             <button mat-raised-button class="button-background-accent" [disabled]="!projectAddControl.valid"
                 (click)="confirmAdding()">{{language.transaction_confirm_button}}</button>

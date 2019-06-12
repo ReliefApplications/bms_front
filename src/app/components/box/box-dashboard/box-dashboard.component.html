@@ -5,8 +5,8 @@
                 <mat-icon>{{ info.icon }}</mat-icon>
             </div>
             <div class="content-info">
-                <h5 class="info-title" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" >{{info.title | uppercaseFirst}}</h5>
-                <h4 *ngIf="info.subtitle || info.subtitle == 0" class="info-subtitle" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{info.subtitle | thousands }}</h4>
+                <h5 class="info-title" [ngClass]="{'rtl':language.direction === 'rtl'}" >{{info.title | uppercaseFirst}}</h5>
+                <h4 *ngIf="info.subtitle || info.subtitle == 0" class="info-subtitle" [ngClass]="{'rtl':language.direction === 'rtl'}">{{info.subtitle | thousands }}</h4>
                 <h4 *ngIf="!info.subtitle && info.subtitle !== 0" class="info-subtitle no-data">
                     <mat-icon>cloud_off</mat-icon>
                     <span> {{language.no_data}} </span>

@@ -6,6 +6,7 @@ import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 export class English implements Language {
     // GENERAL VARIABLES
     LANGUAGE_ISO = 'english'
+    direction = 'ltr'
     // Utils
     administrative_settings = 'Administrative Settings'
     back = 'Back'

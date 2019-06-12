@@ -159,7 +159,7 @@
 
 
 <ng-template #justificationDialog>
-    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.distribution_add_justification}}</h4>
+    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.distribution_add_justification}}</h4>
     <mat-dialog-content class="modal-container">
         <div class="modal-body">
             <mat-form-field>
@@ -170,7 +170,7 @@
     </mat-dialog-content>
     <mat-dialog-actions >
         <div class="modal-button action-buttons"
-            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
             <button mat-raised-button [disabled]="!justification.valid" (click)="onAdd()"
                 class="button-background-accent">{{language.add}}</button>

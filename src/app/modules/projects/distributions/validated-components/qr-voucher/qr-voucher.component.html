@@ -28,7 +28,7 @@
                         <span>{{language.voucher_assign | uppercaseFirst }}</span>
                 </button>
                 <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
-                <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
                     <button mat-flat-button class="button-background-primary" (click)="exportTransaction(extensionType, 'voucherDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{language.export | uppercaseFirst}}</span>
@@ -53,7 +53,7 @@
                 <mat-icon>add</mat-icon>
                 {{language.add | titlecase}}
             </button>
-            <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
+            <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button" [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
                 <mat-icon>add</mat-icon>
             </button>
         </div>

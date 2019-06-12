@@ -3,7 +3,7 @@
     <div class="content-button">
       <div class="action-buttons">
         <div class="button-with-extension" *ngIf="exportable"
-          [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+          [ngClass]="{'rtl':language.direction === 'rtl'}">
           <button mat-flat-button [disabled]="!(data.data && data.data.length>0)" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
             <mat-icon>get_app</mat-icon>
             <span>{{language.export | titlecase}}</span>
@@ -28,7 +28,7 @@
         <mat-icon>add</mat-icon>
         {{language.add | titlecase}}
       </button>
-      <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && checkRights() && deletable" (click)="openDialog({action: 'add'})" class="add-button" [ngClass]="{'add-button-arabic':languageService.languageToString(language)==='ar'}">
+      <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && checkRights() && deletable" (click)="openDialog({action: 'add'})" class="add-button" [ngClass]="{'add-button-rtl':language.direction === 'rtl'}">
         <mat-icon>add</mat-icon>
       </button>
     </div>

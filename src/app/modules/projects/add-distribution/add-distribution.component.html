@@ -2,7 +2,7 @@
   <div class="container-fields">
     <div class="field-distribution">
       <h2 class="distribution-title">{{language.add_project_new_distribution | uppercaseFirst}}</h2>
-      <div [ngClass]="{'distribution-accordion': languageService.languageToString(language)!=='ar', 'distribution-accordion-ar': languageService.languageToString(language)==='ar'}">
+      <div [ngClass]="{'distribution-accordion': language.direction !== 'rtl', 'distribution-accordion-rtl': language.direction === 'rtl'}">
         <mat-card class="accordion-card">
           <form [formGroup]="form">
             <ng-container>

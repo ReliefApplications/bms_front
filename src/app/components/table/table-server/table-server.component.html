@@ -111,7 +111,7 @@
         <!-- Just to have the loader in a blank space between the title and the paginator -->
     </div>
     <mat-table class="server-table" [dataSource]="tableServerData" matSort
-        [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        [ngClass]="{'rtl':language.direction === 'rtl'}">
         <ng-container *ngIf="selectable" matColumnDef="check">
             <mat-header-cell class="header-cell" *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null"

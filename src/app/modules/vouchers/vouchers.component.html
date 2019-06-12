@@ -14,7 +14,7 @@
               <span>{{language.voucher_assign | uppercaseFirst }}</span>
           </button>
           <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
-          <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+          <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-flat-button [disabled]="!bookletData" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
               <mat-icon>get_app</mat-icon>
               <span>{{language.export | uppercaseFirst}}</span>
@@ -35,7 +35,7 @@
             </div>
           </div>
 
-          <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+          <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
               <button mat-flat-button [disabled]="!bookletData" class="button-background-primary" (click)="exportCodes()" *ngIf="!loadingExportCodes">
                 <mat-icon>get_app</mat-icon>
                 <span>{{language.booklet_export_codes | uppercaseFirst}}</span>
@@ -64,7 +64,7 @@
           {{language.add | uppercaseFirst}}
         </button>
         <button mat-fab *ngIf="currentDisplayType.type === 'mobile'" (click)="openDialog({action: 'add'})" class="add-button"
-          [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
+          [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
           <mat-icon>add</mat-icon>
         </button>
       </div>

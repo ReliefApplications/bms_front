@@ -1,5 +1,5 @@
 <h4 mat-dialog-title class="modal-title underline-accent"
-    [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">
+    [ngClass]="{'rtl':language.direction === 'rtl'}">
     {{language.modal_pending_requests}}
 </h4>
 <mat-dialog-content class="modal-container">
@@ -95,7 +95,7 @@
 </mat-dialog-content>
 <mat-dialog-actions >
     <div class="modal-button action-buttons"
-        [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button (click)="closeDialog()" class="button-text-accent">{{language.modal_leave}}</button>
         <button mat-flat-button class="send-all button-background-accent" (click)="sendAllRequests()"
             *ngIf="!inProgress">Send All</button>

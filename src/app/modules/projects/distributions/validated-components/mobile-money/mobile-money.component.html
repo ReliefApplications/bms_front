@@ -46,7 +46,7 @@
                     </mat-menu>
                 </div>
                 <div class="button-with-extension"
-                    [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                    [ngClass]="{'rtl':language.direction === 'rtl'}">
                     <button mat-flat-button class="button-background-primary"
                         (click)="exportTransaction(extensionType, 'transactionDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
@@ -82,7 +82,7 @@
             <button mat-fab
                 *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
                 (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button"
-                [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
+                [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
@@ -128,9 +128,9 @@
 </div>
 
 <ng-template #transaction>
-    <h4 mat-dialog-title *ngIf="!codeSent" class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.transaction_confirm}}
+    <h4 mat-dialog-title *ngIf="!codeSent" class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.transaction_confirm}}
     </h4>
-    <h4 mat-dialog-title *ngIf="codeSent" class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.transaction_inProgress}}
+    <h4 mat-dialog-title *ngIf="codeSent" class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.transaction_inProgress}}
     </h4>
     <mat-dialog-content class="modal-container">
         <ng-container *ngIf="!codeSent; else codeIsCorrect">
@@ -159,7 +159,7 @@
     </mat-dialog-content>
     <mat-dialog-actions *ngIf="!codeSent" >
         <div class="modal-button action-buttons"
-            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-button class="button-text-accent"
                 (click)="exit('Transaction canceled')">{{language.cancel}}</button>
             <button mat-flat-button class="button-background-accent" *ngIf="!transacting"

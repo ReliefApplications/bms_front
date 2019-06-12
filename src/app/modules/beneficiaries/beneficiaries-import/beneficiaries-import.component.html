@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="button-with-extension"
-                        [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                        [ngClass]="{'rtl':language.direction === 'rtl'}">
                         <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()"
                             *ngIf="!loadingExport">
                             {{language.beneficiary_import_csv | uppercaseFirst }}
@@ -177,11 +177,11 @@
 </div>
 
 <ng-template #mapFile>
-    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.beneficiary_import_convert | uppercaseFirst}}
+    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.beneficiary_import_convert | uppercaseFirst}}
     </h4>
     <mat-dialog-content class="modal-container">
         <form [formGroup]="conversionForm">
-            <table class="modal-table" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            <table class="modal-table" [ngClass]="{'rtl':language.direction === 'rtl'}">
                 <tr class="modal-row">
                     <th class="table-title">{{ language.adm1[countryId] }}</th>
                     <th class="table-value">
@@ -255,7 +255,7 @@
     </mat-dialog-content>
     <mat-dialog-actions >
         <div class="modal-button action-buttons"
-            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-button class="button-text-accent"
                 (click)="closeConversionDialog('canceled')">{{language.cancel}}</button>
             <mat-spinner [diameter]="25" *ngIf="loadingConversion"></mat-spinner>

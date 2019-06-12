@@ -39,7 +39,7 @@ $box-content: 80px;
         padding:15px;
 
         .info-title{
-            &.arabic{
+            &.rtl{
                 text-align:right;
             }
             font-size : 16px;
@@ -48,7 +48,7 @@ $box-content: 80px;
         }
 
         .info-subtitle{
-            &.arabic{
+            &.rtl{
                 text-align:right;
             }
             font-weight: bold;

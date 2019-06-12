@@ -49,7 +49,7 @@
             <ng-template #distribution>
                 <div class="content-button" *ngIf="selectedProject.get('numberOfHouseholds') !== 0 ">
                     <div class="action-buttons">
-                    <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                    <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
                         <button mat-flat-button [disabled]="!(distributionData && distributionData.data.length > 0)" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{language.export | uppercaseFirst}}</span>
@@ -77,7 +77,7 @@
                     <mat-icon>add</mat-icon>
                     {{language.add | uppercaseFirst}}
                     </button>
-                    <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
+                    <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
                     <mat-icon>add</mat-icon>
                     </button>
                 </div>

@@ -199,7 +199,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     }
 }
 
-.add-buttons-arabic {
+.add-buttons-rtl {
     top: 65px;
     right: 40px;
 }
@@ -340,7 +340,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
             }
         }
 
-        &.arabic {
+        &.rtl {
             .extension {
                 .dropdown {
                     margin-right: 1px;
@@ -350,13 +350,13 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         }
     }
 
-    &:not(.arabic):last-child {
+    &:not(.rtl):last-child {
         button {
             margin-right: 0 !important;
         }
     }
 
-    &.arabic:last-child {
+    &.rtl:last-child {
         button {
             margin-left: 0 !important;
         }
@@ -380,7 +380,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         border-bottom: solid 1px $bms_red;
     }
 
-    &.arabic {
+    &.rtl {
         direction: rtl;
     }
 }
@@ -421,7 +421,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
             }
         }
 
-        &.arabic {
+        &.rtl {
             direction: rtl;
             .table-title, .table-value {
                 text-align: right;
@@ -446,7 +446,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
     justify-content: flex-end;
     direction: ltr;
 
-    &.arabic {
+    &.rtl {
         direction: rtl;
     }
 }
@@ -580,7 +580,7 @@ snack-bar-container {
             }
         }
 
-        .add-button-arabic {
+        .add-button-rtl {
             right: unset;
             left: 2em;
         }

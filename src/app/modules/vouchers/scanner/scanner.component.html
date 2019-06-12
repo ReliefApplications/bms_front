@@ -23,7 +23,7 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions >
-    <div class="modal-button action-buttons" *ngIf="!hasDevices || !hasPermission" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+    <div class="modal-button action-buttons" *ngIf="!hasDevices || !hasPermission" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-flat-button class="button-background-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
     </div>

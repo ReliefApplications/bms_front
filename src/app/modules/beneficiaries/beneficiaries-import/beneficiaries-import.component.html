@@ -97,7 +97,7 @@
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-                <button *ngIf="!load" mat-raised-button class="button-background-primary"
+                <button *ngIf="!load" mat-flat-button class="button-background-primary"
                     (click)="importHouseholdsFile()">
                     <mat-icon>publish</mat-icon>
                     <span>{{language.import | uppercaseFirst }}</span>
@@ -166,7 +166,7 @@
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-                <button *ngIf="!load" mat-raised-button class="button-background-primary"
+                <button *ngIf="!load" mat-flat-button class="button-background-primary"
                     (click)="importHousholdsApi()">
                     <mat-icon>publish</mat-icon>
                     <span>{{language.import | uppercaseFirst }}</span>
@@ -259,7 +259,7 @@
             <button mat-button class="button-text-accent"
                 (click)="closeConversionDialog('canceled')">{{language.cancel}}</button>
             <mat-spinner [diameter]="25" *ngIf="loadingConversion"></mat-spinner>
-            <button mat-raised-button class="button-background-accent" (click)="confirmConversion()"
+            <button mat-flat-button class="button-background-accent" (click)="confirmConversion()"
                 *ngIf="!loadingConversion">
                 {{language.transaction_confirm_button}}
             </button>

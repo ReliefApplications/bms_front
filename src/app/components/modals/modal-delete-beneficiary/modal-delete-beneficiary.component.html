@@ -14,6 +14,6 @@
 <mat-dialog-actions >
     <div class="modal-button action-buttons"  [ngClass]="{'rtl':language.direction === 'rtl'}">
       <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
-      <button mat-raised-button  [disabled]="!justification.valid"  (click)="onDelete()" class="button-background-accent">{{language.remove}}</button>
+      <button mat-flat-button  [disabled]="!justification.valid"  (click)="onDelete()" class="button-background-accent">{{language.remove}}</button>
     </div>
 </mat-dialog-actions>

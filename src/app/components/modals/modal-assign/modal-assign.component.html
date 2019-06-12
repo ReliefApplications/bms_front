@@ -47,7 +47,7 @@
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <button mat-raised-button class="button-background-accent" (click)="nextStep()"
+        <button mat-flat-button class="button-background-accent" (click)="nextStep()"
             [disabled]="!form.valid && !data.beneficiary">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
@@ -75,7 +75,7 @@
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <button mat-raised-button class="button-background-accent" (click)="nextStep()">{{language.next}}</button>
+        <button mat-flat-button class="button-background-accent" (click)="nextStep()">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
 
@@ -101,7 +101,7 @@
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
-        <button mat-raised-button class="button-background-accent" (click)="nextStep()"
+        <button mat-flat-button class="button-background-accent" (click)="nextStep()"
             *ngIf="!loadingPassword">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
@@ -118,7 +118,7 @@
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
-        <button mat-raised-button class="button-background-accent" (click)="assignBooklet()"
+        <button mat-flat-button class="button-background-accent" (click)="assignBooklet()"
             *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>
     </div>
 </mat-dialog-actions>

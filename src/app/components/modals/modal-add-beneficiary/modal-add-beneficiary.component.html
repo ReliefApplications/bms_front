@@ -21,7 +21,7 @@
 <mat-dialog-actions >
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-accent" (click)="onCancel()">{{language.cancel}}</button>
-        <button mat-raised-button [disabled]="!selectedBeneficiariesControl.valid || !justification.valid"
+        <button mat-flat-button [disabled]="!selectedBeneficiariesControl.valid || !justification.valid"
             class="button-background-accent" (click)="onAdd()">{{language.transaction_confirm_button}}</button>
     </div>
 </mat-dialog-actions>

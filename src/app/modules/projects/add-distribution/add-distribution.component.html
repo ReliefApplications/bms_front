@@ -123,7 +123,7 @@
     </div>
   </div>
   <div class="action-buttons content-button content-button-footer">
-    <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{language.create}}</button>
+    <button mat-flat-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{language.create}}</button>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
     <button mat-button (click)="cancel()" class="button-text-primary">{{language.cancel}}</button>
   </div>

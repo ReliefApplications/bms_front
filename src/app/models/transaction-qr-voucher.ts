@@ -96,14 +96,16 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             childrenFieldName: 'referralComment',
             isEditable: true,
         }),
-        products: new MultipleObjectsModelField<Product>({
-            title: this.language.voucher_purchased,
-            isDisplayedInModal: true,
-            isDisplayedInTable: true,
-            displayTableFunction: null,
-            displayModalFunction: null,
-            value: []
-        })
+        products: new MultipleObjectsModelField<Product>(
+            {
+                title: this.language.voucher_purchased,
+                isDisplayedInModal: true,
+                isDisplayedInTable: true,
+                displayTableFunction: null,
+                displayModalFunction: null,
+                value: []
+            }
+        )
     }};
 
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionQRVoucher {

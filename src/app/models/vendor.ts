@@ -90,7 +90,7 @@ export class Vendor extends CustomModel {
             isDisplayedInTable: true,
             displayTableFunction: null,
             title: this.language.location,
-
+            tooltip: null
         }),
         adm1: new NestedFieldModelField({
             title: this.language.adm1[this.country],
@@ -179,7 +179,9 @@ export class Vendor extends CustomModel {
         newVendor.set('addressNumber', vendorFromApi.address_number);
         newVendor.set('addressPostcode', vendorFromApi.address_postcode);
         newVendor.set('location', vendorFromApi.location ? Location.apiToModel(vendorFromApi.location) : null);
-        newVendor.fields.location.displayTableFunction = (value: Location) => value ? value.getLocationName() : null;
+
+        newVendor.fields.location.tooltip = (value: Location) => value.getLocationName();
+        newVendor.fields.location.displayTableFunction = (value: Location) => value ? value.getPreciseLocationName() : null;
         newVendor.fields.password.isRequired = false; // No need to enter the password on update
 
         return newVendor;

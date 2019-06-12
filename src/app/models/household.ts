@@ -118,7 +118,7 @@ export class Household extends CustomModel {
                 isRequired: true,
                 bindField: 'name',
                 value: [],
-                apiLabel: 'id'
+                apiLabel: 'id',
             }
         ),
         beneficiaries: new MultipleObjectsModelField<Beneficiary>(
@@ -162,6 +162,7 @@ export class Household extends CustomModel {
                 isDisplayedInModal: true,
                 displayTableFunction: null,
                 displayModalFunction: null,
+                tooltip: null
             }
         ),
         residentHouseholdLocation: new ObjectModelField<HouseholdLocation>(
@@ -234,8 +235,11 @@ export class Household extends CustomModel {
         newHousehold.set('currentHouseholdLocation', currentHouseholdLocation.length > 0 ? currentHouseholdLocation[0] : null);
         newHousehold.set('residentHouseholdLocation', residentHouseholdLocation.length > 0 ? residentHouseholdLocation[0] : null);
 
-        newHousehold.fields.currentHouseholdLocation.displayTableFunction = (value: HouseholdLocation) => value.getHouseholdLocationName();
+        newHousehold.fields.currentHouseholdLocation.displayTableFunction = (value: HouseholdLocation) => {
+            return value.getHouseholdPreciseLocationName();
+        };
         newHousehold.fields.currentHouseholdLocation.displayModalFunction = (value: HouseholdLocation) => value.getHouseholdLocationName();
+        newHousehold.fields.currentHouseholdLocation.tooltip = (value: HouseholdLocation) => value.getHouseholdLocationName();
         newHousehold.fields.residentHouseholdLocation.displayModalFunction = (value: HouseholdLocation) =>
             value ? value.getHouseholdLocationName() : null;
 

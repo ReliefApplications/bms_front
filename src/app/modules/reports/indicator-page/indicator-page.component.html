@@ -23,13 +23,13 @@
 
                 <div class="frequency action-buttons">
                     <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" *ngIf='!isDownloading'>
-                        <button mat-raised-button class="button-background-primary" (click)="export()">
+                        <button mat-flat-button class="button-background-primary" (click)="export()">
                             <mat-icon>get_app</mat-icon>
                             <span>{{language.export | titlecase}}</span>
                         </button>
                         <mat-spinner [diameter]='25' *ngIf="isDownloading"></mat-spinner>
                         <div class="extension" *ngIf='!isDownloading'>
-                            <button mat-raised-button class="dropdown button-background-primary" [matMenuTriggerFor]="exportType">
+                            <button mat-flat-button class="dropdown button-background-primary" [matMenuTriggerFor]="exportType">
                                 <mat-icon>keyboard_arrow_down</mat-icon>
                             </button>
                             <mat-menu #exportType>
@@ -62,7 +62,7 @@
                         <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
                         <mat-datepicker #pickerTo></mat-datepicker>
                     </mat-form-field>
-                    <button mat-raised-button *ngIf="!from.hasError('required') && !to.hasError('required')" class="apply-period"
+                    <button mat-flat-button *ngIf="!from.hasError('required') && !to.hasError('required')" class="apply-period"
                         (click)="applyPeriod(inputFrom.value, inputTo.value)">{{language.report_apply | titlecase}}</button>
                 </mat-card>
             </div>
@@ -121,7 +121,7 @@
                                         <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
                                         <mat-datepicker touchUi #pickerTo></mat-datepicker>
                                     </mat-form-field>
-                                    <button mat-raised-button class="apply-period-mobile">{{language.report_apply |
+                                    <button mat-flat-button class="apply-period-mobile">{{language.report_apply |
                                         titlecase}}</button>
                                 </div>
                             </div>

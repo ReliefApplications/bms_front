@@ -203,14 +203,14 @@
         *ngIf="modalType !== 'Details'">
         <button mat-button (click)="onCancel()"
             [ngClass]="{'button-text-accent': modalType === 'Add', 'button-text-primary': modalType !== 'Add'}">{{language.cancel}}</button>
-        <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Add'" (click)="onSubmit()"
+        <button mat-flat-button [disabled]="!form.valid" *ngIf="modalType === 'Add'" (click)="onSubmit()"
             class="button-background-accent">{{language.create}}</button>
-        <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Edit'" (click)="onSubmit()"
+        <button mat-flat-button [disabled]="!form.valid" *ngIf="modalType === 'Edit'" (click)="onSubmit()"
             class="button-background-primary">{{language.save}}</button>
     </div>
     <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}"
         *ngIf="modalType === 'Details'">
-        <button mat-raised-button (click)="onCancel()" class="button-background-primary">{{language.close}}</button>
+        <button mat-flat-button (click)="onCancel()" class="button-background-primary">{{language.close}}</button>
     </div>
 </mat-dialog-actions>
 

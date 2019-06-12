@@ -27,7 +27,7 @@
 
         <div class="content-button" *ngIf="transactionData">
             <div class="action-buttons">
-                <button [disabled]="actualDistribution.get('finished')" mat-raised-button
+                <button [disabled]="actualDistribution.get('finished')" mat-flat-button
                     class="button-background-primary" [matMenuTriggerFor]="menu">
                     <mat-icon>more_vert</mat-icon>
                     <span>{{language.table_actions | uppercaseFirst}}</span>
@@ -47,14 +47,14 @@
                 </div>
                 <div class="button-with-extension"
                     [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                    <button mat-raised-button class="button-background-primary"
+                    <button mat-flat-button class="button-background-primary"
                         (click)="exportTransaction(extensionType, 'transactionDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{language.export | uppercaseFirst}}</span>
                     </button>
                     <mat-spinner [diameter]='35' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">
-                        <button mat-raised-button class="dropdown button-background-primary"
+                        <button mat-flat-button class="dropdown button-background-primary"
                             [matMenuTriggerFor]="exportTypeTransaction">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <button mat-raised-button
+            <button mat-flat-button
                 *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
                 (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})"
                 class="add-button-create">
@@ -116,7 +116,7 @@
                     </ng-template>
                 </button>
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
-                <button [disabled]="actualDistribution.get('finished')" mat-raised-button
+                <button [disabled]="actualDistribution.get('finished')" mat-flat-button
                     *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !transacting && transactionData"
                     (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getPeopleCount()"
                     matBadgePosition="before" matBadgeColor="primary">
@@ -162,7 +162,7 @@
             [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-button class="button-text-accent"
                 (click)="exit('Transaction canceled')">{{language.cancel}}</button>
-            <button mat-raised-button class="button-background-accent" *ngIf="!transacting"
+            <button mat-flat-button class="button-background-accent" *ngIf="!transacting"
                 [disabled]="!enteredCodeControl.valid"
                 (click)="confirmTransaction()">{{language.transaction_confirm_button}}</button>
             <mat-spinner [diameter]="30" *ngIf="transacting"></mat-spinner>

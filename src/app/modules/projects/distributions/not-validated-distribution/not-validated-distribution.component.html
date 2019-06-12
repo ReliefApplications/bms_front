@@ -7,7 +7,7 @@
                     <div class="action-buttons">
                         <div class="button-with-extension"
                             [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                            <button mat-raised-button class="button-background-primary"
+                            <button mat-flat-button class="button-background-primary"
                                 [disabled]="!(initialBeneficiaryData && initialBeneficiaryData.data.length >0)"
                                 (click)="export()" *ngIf="!loadingExport">
                                 <mat-icon>get_app</mat-icon>
@@ -15,7 +15,7 @@
                             </button>
                             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                             <div class="extension" *ngIf="!loadingExport">
-                                <button mat-raised-button class="dropdown button-background-primary"
+                                <button mat-flat-button class="dropdown button-background-primary"
                                     [matMenuTriggerFor]="exportType1"
                                     [disabled]="!(initialBeneficiaryData && initialBeneficiaryData.data.length >0)">
                                     <mat-icon>keyboard_arrow_down</mat-icon>
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                     </div>
-                    <button mat-raised-button
+                    <button mat-flat-button
                         *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})"
                         class="add-button-create">
@@ -65,7 +65,7 @@
                     </app-table-mobile>
                 </div>
                 <div class="content-button content-button-footer">
-                    <button mat-raised-button class="button-background-primary" matStepperNext
+                    <button mat-flat-button class="button-background-primary" matStepperNext
                         (click)="this.getDistributionBeneficiaries('both')">{{language.next}}</button>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                     </p>
                 </div>
                 <div class="content-button content-button-footer" *ngIf="!selected">
-                    <button mat-raised-button class="button-background-primary"
+                    <button mat-flat-button class="button-background-primary"
                         matStepperNext>{{language.next}}</button>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                     <div class="action-buttons">
                         <div class="button-with-extension"
                             [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                            <button mat-raised-button
+                            <button mat-flat-button
                                 [disabled]="!(randomSampleData && randomSampleData.data.length >0)"
                                 class="button-background-primary" (click)="exportSample()" *ngIf="!loadingExport">
                                 <mat-icon>get_app</mat-icon>
@@ -111,7 +111,7 @@
                             </button>
                             <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                             <div class="extension">
-                                <button mat-raised-button class="dropdown button-background-primary"
+                                <button mat-flat-button class="dropdown button-background-primary"
                                     *ngIf="!loadingExport"
                                     [disabled]="!(randomSampleData && randomSampleData.data.length >0)"
                                     [matMenuTriggerFor]="exportType3">
@@ -164,7 +164,7 @@
                     </app-table-mobile>
                 </div>
                 <div class="content-button content-button-footer">
-                    <button mat-raised-button class="button-background-primary"
+                    <button mat-flat-button class="button-background-primary"
                         matStepperNext>{{language.next}}</button>
                 </div>
             </div>
@@ -181,7 +181,7 @@
                         <mat-icon>edit</mat-icon>
                         {{language.distribution_not_modified}}
                     </p>
-                    <button mat-raised-button class="button-background-primary"
+                    <button mat-flat-button class="button-background-primary"
                         (click)="getDistributionBeneficiaries('final')">
                         {{language.distribution_show_data}} </button>
                 </div>
@@ -214,7 +214,7 @@
                             </ng-template>
                         </button>
                         <mat-spinner [diameter]="35" *ngIf="loaderValidation"></mat-spinner>
-                        <button mat-raised-button *ngIf="!loaderValidation" class="button-background-accent"
+                        <button mat-flat-button *ngIf="!loaderValidation" class="button-background-accent"
                             (click)="openDialog(validation)" [disabled]="actualDistribution.get('validated')">
                             <mat-icon>lock</mat-icon>
                             {{language.distribution_validate}}
@@ -238,7 +238,7 @@
             [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-button class="button-text-accent"
                 (click)="exit('Validation canceled')">{{language.cancel}}</button>
-            <button mat-raised-button class="button-background-accent"
+            <button mat-flat-button class="button-background-accent"
                 (click)="confirmValidation()">{{language.transaction_confirm_button}}</button>
         </div>
     </mat-dialog-actions>

@@ -6,7 +6,7 @@
         <div class="container-content box-primary">
             <div class="content-button">
                 <div class="action-buttons">
-                    <button mat-raised-button class="button-background-primary" *ngIf="checkedElements.length > 0"
+                    <button mat-flat-button class="button-background-primary" *ngIf="checkedElements.length > 0"
                         [matMenuTriggerFor]="menu" [matBadge]="checkedElements.length">
                         <mat-icon>more_vert</mat-icon>
                         <span>{{language.table_actions | titlecase}}</span>
@@ -26,7 +26,7 @@
 
                     <div class="button-with-extension"
                         [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                        <button mat-raised-button [disabled]="!(dataSource.length$ | async)"
+                        <button mat-flat-button [disabled]="!(dataSource.length$ | async)"
                             *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport"
                             class="button-background-primary" (click)="export()" [matBadge]="getNumberToExport()">
                             <mat-icon>get_app</mat-icon>
@@ -35,7 +35,7 @@
                         <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                         <div class="extension"
                             *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport">
-                            <button mat-raised-button class="dropdown button-background-primary"
+                            <button mat-flat-button class="dropdown button-background-primary"
                                 [matMenuTriggerFor]="exportType" [disabled]="!(dataSource.length$ | async)">
                                 <mat-icon>keyboard_arrow_down</mat-icon>
                             </button>
@@ -59,11 +59,11 @@
                     (mouseenter)="currentDisplayType.type !== 'mobile' && this.addToggled = true"
                     (mouseleave)="currentDisplayType.type !== 'mobile' && this.addToggled = false">
                     <div class="toggled-buttons" [ngClass]="{'toggled': addToggled}">
-                        <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
+                        <button mat-flat-button class="button-background-accent" routerLink="/beneficiaries/import">
                             <mat-icon>publish</mat-icon>
                             <span>{{language.import | uppercaseFirst}}</span>
                         </button>
-                        <button mat-raised-button class="button-background-accent" (click)="addOneHousehold()">
+                        <button mat-flat-button class="button-background-accent" (click)="addOneHousehold()">
                             <mat-icon>group_add</mat-icon>
                             <span>{{language.add_beneficiary_title | uppercaseFirst}}</span>
                         </button>
@@ -71,7 +71,7 @@
                 </div>
                 <button
                     *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')"
-                    mat-raised-button class="add-button-create" (click)="toggleAddButtons()">
+                    mat-flat-button class="add-button-create" (click)="toggleAddButtons()">
                     <mat-icon>add</mat-icon>
                     {{language.create | uppercaseFirst}}
                 </button>
@@ -117,7 +117,7 @@
         <div class="modal-button action-buttons"
             [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
             <button mat-button class="button-text-accent" (click)="dialog.closeAll()">{{language.cancel}}</button>
-            <button mat-raised-button class="button-background-accent" [disabled]="!projectAddControl.valid"
+            <button mat-flat-button class="button-background-accent" [disabled]="!projectAddControl.valid"
                 (click)="confirmAdding()">{{language.transaction_confirm_button}}</button>
         </div>
     </mat-dialog-actions>

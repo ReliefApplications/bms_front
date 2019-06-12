@@ -20,6 +20,6 @@
 <mat-dialog-actions >
     <div class="modal-button action-buttons"  [ngClass]="{'arabic':isArabic === true}">
       <button mat-button (click)="dialogRef.close()" class="button-text-accent">{{language.close}}</button>
-      <button mat-raised-button (click)="save()" class="button-background-accent">{{language.save}}</button>
+      <button mat-flat-button (click)="save()" class="button-background-accent">{{language.save}}</button>
     </div>
 </mat-dialog-actions>

@@ -126,7 +126,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
     // To know if the value input/select is gonna be displayed
     needsValue(field) {
         return ['gender', 'dateOfBirth', 'equityCardNo', 'IDPoor', 'headOfHouseholdDateOfBirth', 'headOfHouseholdGender', 'livelihood',
-            'foodConsumptionScore', 'copingStrategiesIndex', 'numberDependents', 'incomeLevel',
+            'foodConsumptionScore', 'copingStrategiesIndex', 'householdSize', 'incomeLevel',
             'residencyStatus', 'hasNotBeenInDistributionsSince', 'locationType', 'campName'].includes(field);
     }
 

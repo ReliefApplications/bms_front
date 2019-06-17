@@ -377,10 +377,10 @@ export class Beneficiary extends CustomModel {
             case 'lactating':
                 name = 'assets/images/households/lactating.png';
                 break;
-            case 'solo parent':
+            case 'soloParent':
                 name = 'assets/images/households/solo-parent.png';
                 break;
-            case 'nutritional issues':
+            case 'nutritionalIssues':
                 name = 'assets/images/households/nutritional-issues.png';
                 break;
             default: return name;

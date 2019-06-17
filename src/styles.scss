@@ -91,3 +91,18 @@ body {
 app-display-field.ng-star-inserted {
   text-align: center;
 }
+
+// Leaflet styling below
+.cluster {
+    background-color: $bms_red;
+    height: 50px!important;
+    width: 50px!important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.marker {
+    z-index: 2;
+}

@@ -2,12 +2,19 @@ import { Injectable } from '@angular/core';
 import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
 // Plugins
 import * as Leaflet from 'leaflet';
-import { LocationService } from '../api/location.service';
+import 'leaflet.markercluster';
+import { Distribution } from 'src/app/models/distribution';
+import { DistributionService } from '../api/distribution.service';
 import { CountriesService } from '../countries/countries.service';
-import { AsyncacheService } from '../storage/asyncache.service';
-import { MapCodeDistribution } from './map-distribution';
 
-
+const distributionIcon = Leaflet.icon({
+    iconUrl: '/assets/images/settings/country_specific.png',
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
 @Injectable({
     providedIn: 'root'
 })
@@ -19,8 +26,7 @@ export class LeafletService {
     private tiles: any;
 
     constructor(
-        private _locationService: LocationService,
-        private _cacheService: AsyncacheService,
+        private distributionService: DistributionService,
         private countriesService: CountriesService,
     ) { }
 
@@ -29,7 +35,7 @@ export class LeafletService {
     // ------------------------------------------------------------------------ //
 
     createMap(mapId: string) {
-
+        console.log('create');
         // Create map
         this.map = Leaflet.map(mapId, {
             zoom: 8,
@@ -69,149 +75,166 @@ export class LeafletService {
 
     // add all layers to show the upcoming distribution in the map dashoard
     addKML() {
+        const icon = this.generateIcon();
         const country = this.countriesService.selectedCountry.value;
+        let markers = this.initializeFeatureGroup();
         const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.fields.id.value.toLowerCase() + '.kml').on('ready', () => {
             // Center view on country
             this.map.fitBounds(admLayers.getBounds());
 
             // Get all upcoming distributions
-            this._locationService.getUpcomingDistributionCode().subscribe((mapDistributions: Array<MapCodeDistribution>) => {
-                const admGroup = new Leaflet.FeatureGroup();
-                mapDistributions.forEach((mapDistribution: MapCodeDistribution) => {
-                admLayers.eachLayer((layer: any) => {
-                    const adm = [
-                        layer.feature.properties.ADM0_PCODE,
-                        layer.feature.properties.ADM1_PCODE,
-                        layer.feature.properties.ADM2_PCODE,
-                        layer.feature.properties.ADM3_PCODE,
-                    ];
-                    if (this.compareAdmToMapDistribution(adm, mapDistribution)) {
-                        admGroup.addLayer(layer);
-                    }
-                });
-            });
-            const circle = Leaflet.circle(
-                admGroup.getBounds().getCenter(),
-                {
-                    color: 'red',
-                    fillColor: '#f03',
-                    fillOpacity: 0.5,
-                    radius: 500,
-                }
-            ).addTo(this.map)
+            this.distributionService.get().subscribe((apiDistributions: Array<any>) => {
 
-            // admGroup.setStyle({
-            //     color: '#4AA896', // $bms_green
-            //     fillColor: '#4AA896', // $bms_green
-            //     weight: 2,
-            //     fillOpacity: .8,
-            //     opacity: .8
-            // }).addTo(this.map);
+                // Remove previous markers
+                this.map.removeLayer(markers);
+                // Empty markers
+                markers = this.initializeFeatureGroup();
+                // Format distributions
+                const distributions = apiDistributions.map((apiDistribution: any) => {
+                    return Distribution.apiToModel(apiDistribution);
+                });
+
+                // Find regions corresponding to distribution
+                distributions.forEach((distribution: Distribution) => {
+                    const admGroup = new Leaflet.FeatureGroup();
+
+                    admLayers.eachLayer((layer: any) => {
+                        const kmlAdm = [
+                            layer.feature.properties.ADM0_PCODE,
+                            layer.feature.properties.ADM1_PCODE,
+                            layer.feature.properties.ADM2_PCODE,
+                            layer.feature.properties.ADM3_PCODE,
+                        ];
+                        // Group all the matching adm4 layers
+                        if (this.compareAdmToMapDistribution(kmlAdm, distribution)) {
+                            admGroup.addLayer(layer);
+                        }
+                    });
+                    const distributionMarker = new DistributionMarker(admGroup, this.map);
+                    distributionMarker.addToMap();
+
+
+            });
+            console.log(markers);
+            // Add them to the map
+            markers.addTo(this.map);
+
+        });
+
+        });
+    }
+
+    compareAdmToMapDistribution(adm: Array<string>, distribution: Distribution): boolean {
+        const admLevel = this.getAdmLevel(distribution.get('location').get<string>('code'));
+
+        return adm[admLevel] === distribution.get('location').get<string>('code');
+    }
+
+    getAdmLevel(admCode: string) {
+        // Remove 2-character identifier and calculate adm based on length
+        const admLevel = admCode.slice(2).length / 2;
+        if (!Number.isInteger(admLevel)) {
+            throw new Error(`${admCode} is not an integer`);
+        }
+        return admLevel;
+    }
+
+    initializeFeatureGroup() {
+        return Leaflet.markerClusterGroup({
+            iconCreateFunction: (cluster: Leaflet.MarkerCluster) => {
+                return Leaflet.divIcon({
+                    html: `${cluster.getChildCount()}`,
+                    className: 'cluster',
+                });
+            }
+        });
+    }
+
+    generateIcon() {
+        return Leaflet.icon({
+            iconUrl: 'assets/maps/marker.png',
+            iconSize:     [95, 95], // size of the icon
+        });
+    }
+}
+
+
+class DistributionMarker {
+
+    zone: Leaflet.FeatureGroup;
+    map: Leaflet.Map;
+    marker: Leaflet.Layer;
+
+    popupIsOpen = false;
+
+    constructor (zone: Leaflet.FeatureGroup, map: Leaflet.Map) {
+        this.zone = zone;
+        this.map = map;
+         // Calculate their center
+         this.marker = Leaflet.circle(zone.getBounds().getCenter(), {radius: 10000, className: 'marker'})
+
+        this.addPopup();
+        this.addEventListeners();
+    }
+
+    private addEventListeners() {
+        // Display zone on marker hover
+        this.marker.on('mouseover', () => {
+            this.map.addLayer(this.zone);
         });
 
 
+        let zoneTimeout: NodeJS.Timer;
+        let popupTimeout: NodeJS.Timer;
 
-    })
+        this.zone.on('mouseover', () => {
+            // Cancel zone deletion if mouse enters zone again (because of borders)
+            clearTimeout(zoneTimeout);
 
-        //     current_country => {
-        //         const country = current_country ? current_country : 'KHM';
-        //         this.loading = true;
-        //         // Check if the map is already created
-        //         if (this.map) {
-        //             this._locationService.getUpcomingDistributionCode().subscribe
-        //         }
-                        // (apiDistributions: Array<any>) => {
-                        //     const upcomingDistributions = apiDistributions.map(
-                        //         (apiDistribution: any) => Distribution.apiToModel(apiDistribution)
-                        //         );
-                        //     // call the KML file to get the layer
-                        //     const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.toLowerCase() + '.kml').on('ready', () => {
-                        //         // center the map on the appropriate country
-                        //         const admGroup = Leaflet.featureGroup(admLayers.getLayers());
-                        //         this.map.fitBounds(admGroup.getBounds());
+            // Open popup after hovering for some time
+            popupTimeout = setTimeout(() => {
+                this.openPopup()
+            }, 500);
+        })
 
-                        //         // delete the displaying layer
-                        //         admLayers.eachLayer((adm: any) => {
-                        //             adm.setStyle({
-                        //                 opacity: 0,
-                        //                 weight: 0,
-                        //                 fillOpacity: 0
-                        //             });
-                        //         });
+        this.zone.on('mouseout', () => {
+            // Cancel popup if mouse leaves zone
+            clearTimeout(popupTimeout)
 
-                                // search in all layer which layer has a code begining with the location code of a upcoming distribution
-                                // and set a color and a weigth of them
-                                // admLayers.eachLayer((adm, index) => {
-                                //     console.log(adm)
-                                    // if (upcomingDistributions) {
-                                    //     upcomingDistributions.forEach((upcomingDistribution: Distribution) => {
+            // Remove zone and popup on zone exit, after some time
+            zoneTimeout = setTimeout(() => {
+                console.log('bye')
+                this.map.removeLayer(this.zone);
+                this.closePopup();
+            }, 100);
+        })
 
-                                    //         // // console.log(adm, upcomingDistribution)
-
-                                    //         // /**
-                                    //         //  * @TODO Change this !!! This is a temporary fix in order for the map to work.
-                                    //         //  * The link between the adm1 in database and the adm1 in `map_khm.kml` should totally
-                                    //         //  * be remade.
-                                    //         //  */
-                                    //         // // let code = upcomingDistribution.get('location').get<string>('code');
-                                    //         // // code = code.length % 2 === 1 &&
-                                    //         // //                         code[2] === '0'
-                                    //         // //                         ? code.slice(0, 2) + code.slice(3)
-                                    //         // //                         : code;
-
-                                    //         // // if ((adm.feature.properties.ADM3_PCODE === code.slice(0, 8)
-                                    //         // //       && upcomingDistribution.adm_level === 'adm4') ||
-                                    //         // //     (adm.feature.properties.ADM3_PCODE === code
-                                    //         // //       && upcomingDistribution.adm_level === 'adm3') ||
-                                    //         // //     (adm.feature.properties.ADM2_PCODE === code
-                                    //         // //       && upcomingDistribution.adm_level === 'adm2') ||
-                                    //         // //     (adm.feature.properties.ADM1_PCODE === code
-                                    //         // //       && upcomingDistribution.adm_level === 'adm1')) {
-
-                                    //         // //     adm.setStyle({
-                                    //         // //         color: '#4AA896', // $bms_green
-                                    //         // //         fillColor: '#4AA896', // $bms_green
-                                    //         // //         weight: 2,
-                                    //         // //         fillOpacity: .8,
-                                    //         // //         opacity: .8
-                                    //         // //     });
-
-                                    //         // //     let tooltipInformation = '';
-                                    //         // //     upcomingDistribution.distribution.forEach(function (data, i, el) {
-                                    //         // //         tooltipInformation += '<p> Distribution : ' + data.name + '</p>';
-                                    //         // //         tooltipInformation += '<p> Location : ' + data.location_name + '</p>';
-
-                                    //         // //         // to display a divider between distribution in a same tooltip
-                                    //         // //         // but don't put divider after thie last element
-                                    //         // //         if (!Object.is(el.length - 1, i)) {
-                                    //         // //             tooltipInformation += '<hr>';
-                                    //         // //         }
-
-                                    //         // //     });
-
-                                    //         // //     const tooltip = Leaflet.tooltip({
-                                    //         // //         permanent: false,
-                                    //         // //         interactive: true
-                                    //         // //     }, adm).setContent(tooltipInformation);
-                                    //         // //     adm.bindTooltip(tooltip);
-                                    //         // // }
-                                    //     });
-                                    // }
-        //                         });
-        //                         this.loading = false;
-        //                     });
-        //                     admLayers.addTo(this.map);
-        //                 }
-        //             );
-
-        //         }
-        //     }
-        // );
     }
 
-    compareAdmToMapDistribution(adm: Array<string>, mapDistribution: MapCodeDistribution): boolean {
-        const admLevel = parseInt(mapDistribution.adm_level.split('adm')[1], 10);
-        return adm[admLevel] === mapDistribution.code_location;
+    private addPopup() {
+        const popuptext = 'blaaa';
+        this.marker.bindPopup(popuptext);
     }
 
+    private openPopup() {
+        if (this.popupIsOpen) {
+            return;
+        }
+        this.marker.openPopup();
+        this.popupIsOpen = true;
+    }
+
+    private closePopup() {
+        if (!this.popupIsOpen) {
+            return;
+        }
+        this.marker.closePopup();
+        this.popupIsOpen = false;
+    }
+
+
+
+    addToMap() {
+        this.map.addLayer(this.marker);
+    }
 }

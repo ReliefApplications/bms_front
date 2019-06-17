@@ -1,0 +1,13 @@
+[1mdiff --git a/src/app/components/settings/settings.component.scss b/src/app/components/settings/settings.component.scss[m
+[1mindex 2dbf46e..bbe7ec2 100644[m
+[1m--- a/src/app/components/settings/settings.component.scss[m
+[1m+++ b/src/app/components/settings/settings.component.scss[m
+[36m@@ -14,3 +14,7 @@[m [mapp-table-mobile {[m
+ .container-table {[m
+     width: auto;[m
+ }[m
+[32m+[m
+[32m+[m[32m.container-content {[m
+[32m+[m[32m    margin-bottom: 20px;[m
+[32m+[m[32m}[m
+\ No newline at end of file[m

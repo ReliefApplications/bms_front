@@ -288,7 +288,9 @@ export class Distribution extends CustomModel {
             project: project,
             selection_criteria: selectionCriteria,
             threshold: this.get('threshold'),
-            type: this.get('type').get('id')
+            type: this.get('type').get('id'),
+            distribution_beneficiaries: this.get<Array<DistributionBeneficiary>>('distributionBeneficiaries')
+                .map((distributionBeneficiary: DistributionBeneficiary) => distributionBeneficiary.modelToApi())
         };
 
     }

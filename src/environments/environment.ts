@@ -6,7 +6,7 @@ export const environment = {
     production: false
 };
 
-export const URL_BMS_API = 'https://apitest.bmstaging.info/api/wsse';
+export const URL_BMS_API = 'http://0.0.0.0:8087/api/wsse';
 
 /*
  * In development mode, to ignore zone related error stack frames such as

@@ -25,6 +25,7 @@ export class DistributionBeneficiary extends CustomModel {
         return newDistributionBeneficiary;
     }
 
+
     public static addCommonFields(
         newDistributionBeneficiary: DistributionBeneficiary,
         distributionBeneficiaryFromApi: any,
@@ -36,5 +37,16 @@ export class DistributionBeneficiary extends CustomModel {
         beneficiary.set('distributionId', distributionId);
         beneficiary.set('removed', distributionBeneficiaryFromApi.removed);
         newDistributionBeneficiary.set('beneficiary', beneficiary);
+    }
+
+    public modelToApi(): Object {
+
+        return {
+            id: this.get('id'),
+            beneficiary: this.get('beneficiary').modelToApi(),
+            removed: this.get('removed'),
+            justification: this.get('justification')
+        };
+
     }
 }

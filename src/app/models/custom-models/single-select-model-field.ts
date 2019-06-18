@@ -12,7 +12,7 @@ export class SingleSelectModelField<CustomModel> extends SelectModelField<Custom
     kindOfField = 'SingleSelect';
 
     formatForApi(): any {
-        return this.value.get(this.apiLabel);
+        return this.value ? this.value.get(this.apiLabel) : null;
     }
 }
 

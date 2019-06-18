@@ -25,13 +25,15 @@
           <tr class="modal-row">
               <th class="table-title">{{ criteria.fields.field.title | uppercaseFirst }}</th>
               <td class="form-item">
-                  <ng-select formControlName="field" [placeholder]="criteria.fields.field.title | uppercaseFirst">
-                      <ng-option *ngFor="let option of criteriaSubList" [value]="option.get('field')">
-                          {{option.get('field') | formatCamelCase }}
-                      </ng-option>
-                  </ng-select>
+                  <mat-form-field class="full-width">
+                    <mat-select formControlName="field" [placeholder]="criteria.fields.field.title | uppercaseFirst">
+                        <mat-option *ngFor="let option of criteriaSubList" [value]="option.get('field')">
+                            {{option.get('field') | formatCamelCase }}
+                        </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                   <app-hint-error [form]="form" fieldName="field" [field]="criteria.fields.field"
-                      [isMatField]="false"></app-hint-error>
+                      [isMatField]="true"></app-hint-error>
               </td>
           </tr>
 

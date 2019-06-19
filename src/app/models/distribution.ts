@@ -180,7 +180,7 @@ export class Distribution extends CustomModel {
 
         if (distributionFromApi.distribution_beneficiaries) {
             distributionFromApi.distribution_beneficiaries.forEach(benef => {
-                if (benef.transactions.length === 0) {
+                if (benef.transactions && benef.transactions.length === 0) {
                     newDistribution.set('finished', false);
                 } else if (benef.transactions && benef.transactions[0].transaction_status !== 1) {
                     newDistribution.set('finished', false);
@@ -217,7 +217,10 @@ export class Distribution extends CustomModel {
             project: project,
             selection_criteria: selectionCriteria,
             threshold: this.get('threshold'),
-            type: this.get('type').get('id')
+            type: this.get('type').get('id'),
+            distribution_beneficiaries: this.get<Array<DistributionBeneficiary>>('distributionBeneficiaries')
+                .map((distributionBeneficiary: DistributionBeneficiary) => distributionBeneficiary.modelToApi()),
+            validated: this.get('validated') ? this.get('validated') : false
         };
 
     }

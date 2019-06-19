@@ -94,19 +94,14 @@ export class HttpService {
         let itemKey = this.resolveItemKey(url);
         const connected = this.networkService.getStatus();
         let cacheData: any;
-
+        const regexBenef = new RegExp(/\/distributions\/\d+\/beneficiaries/);
+        const regexRandom = new RegExp(/\/distributions\/\d+\/random/);
         const urlSplitted = url.split('/')[5] + '/' + url.split('/')[6];
         const regex = new RegExp(/distributions\/\d+/);
 
         if (urlSplitted.match(regex)) {
             this.exist = true;
-            this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + urlSplitted.split('/')[1] + '_beneficiaries').subscribe(
-                result => {
-                    if (result) {
-                        itemKey = AsyncacheService.DISTRIBUTIONS + '_' + urlSplitted.split('/')[1] + '_beneficiaries';
-                    }
-                }
-            );
+            itemKey = AsyncacheService.DISTRIBUTIONS + '_' + urlSplitted.split('/')[1] + '_beneficiaries';
         }
         // If this item is cachable & user is connected
         if (itemKey && connected) {
@@ -114,8 +109,16 @@ export class HttpService {
                 this.cacheService.get(itemKey).pipe(
                     map(
                         result => {
-                            cacheData = result;
-                            return (result);
+                            if (url.match(regexBenef)) {
+                                cacheData = result ? result.distribution_beneficiaries : null;
+                                return result ? result.distribution_beneficiaries : null;
+                            } else if (url.match(regexRandom)) {
+                                cacheData = null;
+                                return null;
+                            } else {
+                                cacheData = result;
+                                return (result);
+                            }
                         }
                     )
                 ),
@@ -126,10 +129,14 @@ export class HttpService {
                             if (result !== undefined) {
                                 if (Array.isArray(result) && Array.isArray(cacheData)) {
                                     if (JSON.stringify(result) !== JSON.stringify(cacheData) && this.save) {
-                                        this.cacheService.set(itemKey, result).subscribe();
+                                        if (!url.match(regexBenef) && !url.match(regexRandom)) {
+                                            this.cacheService.set(itemKey, result).subscribe();
+                                        }
                                     }
                                 } else if (result !== cacheData && this.save) {
-                                    this.cacheService.set(itemKey, result).subscribe();
+                                    if (!url.match(regexBenef) && !url.match(regexRandom)) {
+                                        this.cacheService.set(itemKey, result).subscribe();
+                                    }
                                 }
                             }
                             return (result);
@@ -140,7 +147,19 @@ export class HttpService {
         } else if (connected) {
             return this.http.get(url, options);
         } else if (itemKey) {
-            return this.cacheService.get(itemKey);
+            return this.cacheService.get(itemKey).pipe(
+                map(
+                    result => {
+                        if (url.match(regexBenef)) {
+                            return result ? result.distribution_beneficiaries : null;
+                        }  else if (url.match(regexRandom)) {
+                            return null;
+                        } else {
+                            return (result);
+                        }
+                    }
+                )
+            );
         } else if (this.exist) {
             this.exist = false;
             return of([]);

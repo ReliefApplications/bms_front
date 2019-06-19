@@ -19,4 +19,13 @@ export class DistributionBeneficiary extends CustomModel {
 
         return newDistributionBeneficiary;
     }
+
+    public modelToApi(): Object {
+
+        return {
+           id: this.get('id'),
+           beneficiary: this.get('beneficiary').modelToApi(),
+       };
+
+    }
 }

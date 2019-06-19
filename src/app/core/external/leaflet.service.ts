@@ -35,7 +35,6 @@ export class LeafletService {
     // ------------------------------------------------------------------------ //
 
     createMap(mapId: string) {
-        console.log('create');
         // Create map
         this.map = Leaflet.map(mapId, {
             zoom: 8,
@@ -75,7 +74,6 @@ export class LeafletService {
 
     // add all layers to show the upcoming distribution in the map dashoard
     addKML() {
-        const icon = this.generateIcon();
         const country = this.countriesService.selectedCountry.value;
         let markers = this.initializeFeatureGroup();
         const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.fields.id.value.toLowerCase() + '.kml').on('ready', () => {
@@ -112,11 +110,13 @@ export class LeafletService {
                         }
                     });
                     const distributionMarker = new DistributionMarker(admGroup, this.map, distribution);
-                    distributionMarker.addToMap();
+                    markers.addLayer(distributionMarker.marker);
 
 
                 });
-                // Add them to the map
+                // Add the marker to the cluster
+
+                // Add it to the map
                 markers.addTo(this.map);
 
             });
@@ -146,88 +146,132 @@ export class LeafletService {
 
     initializeFeatureGroup() {
         return Leaflet.markerClusterGroup({
-            iconCreateFunction: (cluster: Leaflet.MarkerCluster) => {
-                return Leaflet.divIcon({
-                    html: `${cluster.getChildCount()}`,
-                    className: 'cluster',
-                });
-            }
+            // spiderfyOnMaxZoom: true,
+            // showCoverageOnHover: true,
+            // iconCreateFunction: (cluster: Leaflet.MarkerCluster) => {
+            //     return Leaflet.divIcon({
+            //         html: `${cluster.getChildCount()}`,
+            //         className: 'cluster',
+            //     });
+            // }
         });
     }
 
-    generateIcon() {
-        return Leaflet.icon({
-            iconUrl: 'assets/maps/marker.png',
-            iconSize:     [95, 95], // size of the icon
-        });
-    }
+
 }
 
 
 class DistributionMarker {
 
-    zone: Leaflet.FeatureGroup;
+    area: Leaflet.FeatureGroup;
     map: Leaflet.Map;
     marker: Leaflet.Layer;
+    popup: HTMLElement;
 
     popupIsOpen = false;
 
-    constructor (zone: Leaflet.FeatureGroup, map: Leaflet.Map, distribution: Distribution) {
-        this.zone = zone;
+    constructor (area: Leaflet.FeatureGroup, map: Leaflet.Map, distribution: Distribution) {
+        this.area = area;
         this.map = map;
          // Calculate their center
-         this.marker = Leaflet.circle(zone.getBounds().getCenter(), {radius: 10000, className: 'marker'});
+         this.marker = Leaflet.marker(this.area.getBounds().getCenter(), {icon: this.generateIcon() });
 
         this.addPopup(distribution);
         this.addEventListeners();
     }
 
     private addEventListeners() {
-
-        let zoneTimeout: NodeJS.Timer;
+        let hideTimeout: NodeJS.Timer;
         let popupTimeout: NodeJS.Timer;
 
-        // Display zone on marker hover
-        this.marker.on('mouseover', () => {
-            this.map.addLayer(this.zone);
 
+//
+// ─── MARKERS RELATED EVENTS LISTENERS ───────────────────────────────────────────
+//
+
+        // When the marker is hovered
+        this.marker
+        .on('mouseover', () => {
+            // Display the area on the map
+            this.map.addLayer(this.area);
+
+            // Cancel the delayed hiding of the area and popup
+            clearTimeout(hideTimeout);
+
+            // Open the popup after a delay
             popupTimeout = setTimeout(() => {
                 this.openPopup();
             }, 500);
+        })
+        // When the marker is not hovered anymore
+        .on('mouseout', () => {
+            // Hide the area and close the popup after a delay
+            hideTimeout = setTimeout(() => {
+                this.map.removeLayer(this.area);
+                this.closePopup();
+            }, 100);
+        })
+        // When the marker's popup is opened
+        .on('popupopen', () => {
+            this.popupIsOpen = true;
+        })
+        // When the marker's popup is closed
+        .on('popupclose', () => {
+            this.popupIsOpen = false;
         });
 
-        this.marker.on('mouseout', () => {
-            zoneTimeout = setTimeout(() => {
-                this.map.removeLayer(this.zone);
+
+//
+// ─── AREA RELATED EVENTS LISTENERS ──────────────────────────────────────────────
+//
+
+        this.area
+        // When the area is hovered
+        .on('mouseover', () => {
+            // Cancel the delayed hiding of the area and popup
+            clearTimeout(hideTimeout);
+
+            // Open popup after a delay
+            popupTimeout = setTimeout(() => {
+                this.openPopup();
+            }, 500);
+        })
+        // When the area is not hovered anymore
+        .on('mouseout', () => {
+            // Cancel popup if mouse leaves area
+            clearTimeout(popupTimeout);
+
+            // Remove area and popup on area exit, after a delay
+            hideTimeout = setTimeout(() => {
+                this.map.removeLayer(this.area);
                 this.closePopup();
             }, 100);
         });
 
-        this.zone.on('mouseover', () => {
-            // Cancel zone deletion if mouse enters zone again (because of borders)
-            clearTimeout(zoneTimeout);
 
-            // Open popup after hovering for some time
-            popupTimeout = setTimeout(() => {
-                this.openPopup();
-            }, 500);
+//
+// ─── POPUP RELATED EVENTS LISTENERS ─────────────────────────────────────────────
+//
+        // When the popup is hovered
+        this.popup.addEventListener('mouseover', () => {
+            // Cancel the delayed hiding of the area and popup
+            clearTimeout(hideTimeout);
         });
 
-        this.zone.on('mouseout', () => {
-            // Cancel popup if mouse leaves zone
-            clearTimeout(popupTimeout);
-
-            // Remove zone and popup on zone exit, after some time
-            zoneTimeout = setTimeout(() => {
-                this.map.removeLayer(this.zone);
+        // When the popup is not hovered anymore
+        this.popup.addEventListener('mouseleave', () => {
+            // Remove area and popup on area exit, after a delay
+            hideTimeout = setTimeout(() => {
+                this.map.removeLayer(this.area);
                 this.closePopup();
             }, 100);
         });
     }
 
     private addPopup(distribution: Distribution) {
-        const popupText = distribution.get<string>('name');
-        this.marker.bindPopup(popupText);
+        this.popup = Leaflet.DomUtil.create('div', 'infoWindow');
+        this.popup.innerHTML = `<p id="bms-popup">${distribution.get<string>('name')}</p>`;
+        this.marker.bindPopup(this.popup);
     }
 
     private openPopup() {
@@ -235,7 +279,6 @@ class DistributionMarker {
             return;
         }
         this.marker.openPopup();
-        this.popupIsOpen = true;
     }
 
     private closePopup() {
@@ -243,10 +286,18 @@ class DistributionMarker {
             return;
         }
         this.marker.closePopup();
-        this.popupIsOpen = false;
     }
 
     public addToMap() {
         this.map.addLayer(this.marker);
+    }
+
+    private generateIcon() {
+        return Leaflet.icon({
+            iconUrl: 'assets/maps/marker.png',
+            iconSize:       [74, 74], // size of the icon
+            iconAnchor:     [37, 74], // position of the icon
+            popupAnchor:    [0 , -30],
+        });
     }
 }

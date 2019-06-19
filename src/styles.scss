@@ -101,6 +101,19 @@ app-display-field.ng-star-inserted {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: $bms_white;
+    font-weight: bold;
+    font-size: x-large;
+    box-shadow: 0 0 20px 3px $bms_red;
+}
+
+.leaflet-popup-content {
+    margin: 0;
+}
+
+#bms-popup {
+    margin:0;
+    padding: 20px;
 }
 
 .marker {

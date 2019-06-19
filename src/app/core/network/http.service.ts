@@ -106,16 +106,21 @@ export class HttpService {
                         itemKey = AsyncacheService.DISTRIBUTIONS + '_' + urlSplitted.split('/')[1] + '_beneficiaries';
                     }
                 }
-            );
-        }
-        // If this item is cachable & user is connected
+                );
+            }
+            // If this item is cachable & user is connected
         if (itemKey && connected) {
             return concat(
                 this.cacheService.get(itemKey).pipe(
                     map(
                         result => {
                             cacheData = result;
-                            return (result);
+                            const regexBenef = new RegExp(/\/distributions\/\d+\/beneficiaries/);
+                            if (url.match(regexBenef)) {
+                                return result ? result.distribution_beneficiaries : null;
+                            } else {
+                                return (result);
+                            }
                         }
                     )
                 ),
@@ -140,7 +145,18 @@ export class HttpService {
         } else if (connected) {
             return this.http.get(url, options);
         } else if (itemKey) {
-            return this.cacheService.get(itemKey);
+            return this.cacheService.get(itemKey).pipe(
+                map(
+                    result => {
+                        const regexBenef = new RegExp(/\/distributions\/\d+\/beneficiaries/);
+                        if (url.match(regexBenef)) {
+                            return result ? result.distribution_beneficiaries : null;
+                        } else {
+                            return (result);
+                        }
+                    }
+                )
+            );
         } else if (this.exist) {
             this.exist = false;
             return of([]);

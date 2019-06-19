@@ -335,13 +335,15 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.fields.nationalIds.displayModalFunction = value => value
             .map((nationalId: NationalId) => nationalId.get('number')).join(', ');
 
-        if (beneficiaryFromApi.referral) {
+        if (beneficiaryFromApi.referral || beneficiaryFromApi.referral_type) {
             newBeneficiary.fields.addReferral.isDisplayedInModal = false;
-            newBeneficiary.set('referralType', newBeneficiary.getOptions('referralType')
-                .filter((option: BeneficiaryReferralType) => option.get('id') === beneficiaryFromApi.referral.type)[0]);
-            newBeneficiary.set('referralComment', beneficiaryFromApi.referral.comment);
             newBeneficiary.fields.referralType.isDisplayedInModal = true;
             newBeneficiary.fields.referralComment.isDisplayedInModal = true;
+            const referralType =  beneficiaryFromApi.referral_type ?  beneficiaryFromApi.referral_type : beneficiaryFromApi.referral.type;
+            newBeneficiary.set('referralType', newBeneficiary.getOptions('referralType')
+                .filter((option: BeneficiaryReferralType) => option.get('id') === referralType)[0]);
+            newBeneficiary.set('referralComment',
+                beneficiaryFromApi.referral_comment ? beneficiaryFromApi.referral_comment : beneficiaryFromApi.referral.comment);
         }
 
         return newBeneficiary;

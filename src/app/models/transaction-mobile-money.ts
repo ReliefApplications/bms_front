@@ -136,7 +136,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
 
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionMobileMoney {
         const newDistributionBeneficiary = new TransactionMobileMoney();
-        if (distributionBeneficiaryFromApi.beneficiary.referral) {
+        if (distributionBeneficiaryFromApi.beneficiary.referral || distributionBeneficiaryFromApi.beneficiary.referral_type) {
             newDistributionBeneficiary.fields.addReferral.isDisplayedInModal = false;
             newDistributionBeneficiary.fields.referralType.isDisplayedInModal = true;
             newDistributionBeneficiary.fields.referralComment.isDisplayedInModal = true;

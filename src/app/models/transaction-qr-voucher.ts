@@ -111,7 +111,7 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionQRVoucher {
         const newQRVoucher = new TransactionQRVoucher();
 
-        if (distributionBeneficiaryFromApi.beneficiary.referral) {
+        if (distributionBeneficiaryFromApi.beneficiary.referral || distributionBeneficiaryFromApi.beneficiary.referral_type) {
             newQRVoucher.fields.addReferral.isDisplayedInModal = false;
             newQRVoucher.fields.referralType.isDisplayedInModal = true;
             newQRVoucher.fields.referralComment.isDisplayedInModal = true;

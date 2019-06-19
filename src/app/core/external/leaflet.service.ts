@@ -99,39 +99,44 @@ export class LeafletService {
                     const admGroup = new Leaflet.FeatureGroup();
 
                     admLayers.eachLayer((layer: any) => {
+                        // Fill an array containing all the adm of the current layer
                         const kmlAdm = [
                             layer.feature.properties.ADM0_PCODE,
                             layer.feature.properties.ADM1_PCODE,
                             layer.feature.properties.ADM2_PCODE,
-                            layer.feature.properties.ADM3_PCODE,
+                            layer.feature.properties.ADM3_PCODE ,
                         ];
                         // Group all the matching adm4 layers
-                        if (this.compareAdmToMapDistribution(kmlAdm, distribution)) {
+                        if (this.compareAdmToMapDistribution(kmlAdm, distribution.get('location').get<string>('code'))) {
                             admGroup.addLayer(layer);
                         }
                     });
-                    const distributionMarker = new DistributionMarker(admGroup, this.map);
+                    const distributionMarker = new DistributionMarker(admGroup, this.map, distribution);
                     distributionMarker.addToMap();
 
 
+                });
+                // Add them to the map
+                markers.addTo(this.map);
+
             });
-            console.log(markers);
-            // Add them to the map
-            markers.addTo(this.map);
-
-        });
 
         });
     }
 
-    compareAdmToMapDistribution(adm: Array<string>, distribution: Distribution): boolean {
-        const admLevel = this.getAdmLevel(distribution.get('location').get<string>('code'));
-
-        return adm[admLevel] === distribution.get('location').get<string>('code');
+    // Compare the kml layer's location to the distribution's code recursively
+    compareAdmToMapDistribution(adm: Array<string>, distribution_adm: string): boolean {
+        const admLevel = this.getAdmLevel(distribution_adm);
+        // If an adm is missing in the location layer, retry with a broader region
+        if (! adm[admLevel]) {
+            return this.compareAdmToMapDistribution(adm, distribution_adm.substr(0, distribution_adm.length - 2));
+        }
+        return adm[admLevel] === distribution_adm;
     }
+
 
     getAdmLevel(admCode: string) {
-        // Remove 2-character identifier and calculate adm based on length
+        // Remove 2-character identifier and calculate adm based on the code's length
         const admLevel = admCode.slice(2).length / 2;
         if (!Number.isInteger(admLevel)) {
             throw new Error(`${admCode} is not an integer`);
@@ -167,25 +172,36 @@ class DistributionMarker {
 
     popupIsOpen = false;
 
-    constructor (zone: Leaflet.FeatureGroup, map: Leaflet.Map) {
+    constructor (zone: Leaflet.FeatureGroup, map: Leaflet.Map, distribution: Distribution) {
         this.zone = zone;
         this.map = map;
          // Calculate their center
-         this.marker = Leaflet.circle(zone.getBounds().getCenter(), {radius: 10000, className: 'marker'})
+         this.marker = Leaflet.circle(zone.getBounds().getCenter(), {radius: 10000, className: 'marker'});
 
-        this.addPopup();
+        this.addPopup(distribution);
         this.addEventListeners();
     }
 
     private addEventListeners() {
-        // Display zone on marker hover
-        this.marker.on('mouseover', () => {
-            this.map.addLayer(this.zone);
-        });
-
 
         let zoneTimeout: NodeJS.Timer;
         let popupTimeout: NodeJS.Timer;
+
+        // Display zone on marker hover
+        this.marker.on('mouseover', () => {
+            this.map.addLayer(this.zone);
+
+            popupTimeout = setTimeout(() => {
+                this.openPopup();
+            }, 500);
+        });
+
+        this.marker.on('mouseout', () => {
+            zoneTimeout = setTimeout(() => {
+                this.map.removeLayer(this.zone);
+                this.closePopup();
+            }, 100);
+        });
 
         this.zone.on('mouseover', () => {
             // Cancel zone deletion if mouse enters zone again (because of borders)
@@ -193,27 +209,25 @@ class DistributionMarker {
 
             // Open popup after hovering for some time
             popupTimeout = setTimeout(() => {
-                this.openPopup()
+                this.openPopup();
             }, 500);
-        })
+        });
 
         this.zone.on('mouseout', () => {
             // Cancel popup if mouse leaves zone
-            clearTimeout(popupTimeout)
+            clearTimeout(popupTimeout);
 
             // Remove zone and popup on zone exit, after some time
             zoneTimeout = setTimeout(() => {
-                console.log('bye')
                 this.map.removeLayer(this.zone);
                 this.closePopup();
             }, 100);
-        })
-
+        });
     }
 
-    private addPopup() {
-        const popuptext = 'blaaa';
-        this.marker.bindPopup(popuptext);
+    private addPopup(distribution: Distribution) {
+        const popupText = distribution.get<string>('name');
+        this.marker.bindPopup(popupText);
     }
 
     private openPopup() {
@@ -232,9 +246,7 @@ class DistributionMarker {
         this.popupIsOpen = false;
     }
 
-
-
-    addToMap() {
+    public addToMap() {
         this.map.addLayer(this.marker);
     }
 }

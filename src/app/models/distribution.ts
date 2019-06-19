@@ -290,7 +290,9 @@ export class Distribution extends CustomModel {
             threshold: this.get('threshold'),
             type: this.get('type').get('id'),
             distribution_beneficiaries: this.get<Array<DistributionBeneficiary>>('distributionBeneficiaries')
-                .map((distributionBeneficiary: DistributionBeneficiary) => distributionBeneficiary.modelToApi())
+                .map((distributionBeneficiary: DistributionBeneficiary) => distributionBeneficiary.modelToApi()),
+            validated: this.get('validated'),
+            updated_on: this.fields.updatedOn.formatDateTimeForApi()
         };
 
     }

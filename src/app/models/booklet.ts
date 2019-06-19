@@ -239,6 +239,9 @@ export class Booklet extends CustomModel {
             // inidividual_to_all: this.get('individualToAll'),
             number_booklets: this.get('numberOfBooklets'),
             number_vouchers: this.get('numberOfVouchers'),
+            code: this.get('code'),
+            status: this.get('status') ? this.get('status').get('id') : null,
+            vouchers: this.get('vouchers') ? this.get<Array<Voucher>>('vouchers').map((voucher: Voucher) => voucher.modelToApi()) : null
         };
     }
 

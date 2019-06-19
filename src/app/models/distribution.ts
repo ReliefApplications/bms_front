@@ -291,7 +291,7 @@ export class Distribution extends CustomModel {
             type: this.get('type').get('id'),
             distribution_beneficiaries: this.get<Array<DistributionBeneficiary>>('distributionBeneficiaries')
                 .map((distributionBeneficiary: DistributionBeneficiary) => distributionBeneficiary.modelToApi()),
-            validated: this.get('validated'),
+            validated: this.get('validated') ? this.get('validated') : false,
             updated_on: this.fields.updatedOn.formatDateTimeForApi()
         };
 

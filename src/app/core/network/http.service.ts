@@ -92,44 +92,31 @@ export class HttpService {
     get(url, options = {}): Observable<any> {
 
         let itemKey = this.resolveItemKey(url);
-
+        const connected = this.networkService.getStatus();
+        let cacheData: any;
+        const regexBenef = new RegExp(/\/distributions\/\d+\/beneficiaries/);
+        const regexRandom = new RegExp(/\/distributions\/\d+\/random/);
         const urlSplitted = url.split('/')[5] + '/' + url.split('/')[6];
         const regex = new RegExp(/distributions\/\d+/);
 
         if (urlSplitted.match(regex)) {
             this.exist = true;
-            return new Observable<any>((observer) => {
-                this.cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + urlSplitted.split('/')[1] + '_beneficiaries').subscribe(
-                result => {
-                    if (result) {
-                        itemKey = AsyncacheService.DISTRIBUTIONS + '_' + urlSplitted.split('/')[1] + '_beneficiaries';
-                    }
-                    this.getItem(itemKey, url, options).subscribe(item => {
-                        observer.next(item);
-                        observer.complete();
-                    });
-                });
-            });
-        } else {
-            return this.getItem(itemKey, url, options);
+            itemKey = AsyncacheService.DISTRIBUTIONS + '_' + urlSplitted.split('/')[1] + '_beneficiaries';
         }
-
-    }
-
-    getItem(itemKey: string, url: string, options = {}): Observable<any> {
-        const connected = this.networkService.getStatus();
-        let cacheData: any;
-         // If this item is cachable & user is connected
-         if (itemKey && connected) {
+        // If this item is cachable & user is connected
+        if (itemKey && connected) {
             return concat(
                 this.cacheService.get(itemKey).pipe(
                     map(
                         result => {
-                            cacheData = result;
-                            const regexBenef = new RegExp(/\/distributions\/\d+\/beneficiaries/);
                             if (url.match(regexBenef)) {
+                                cacheData = result ? result.distribution_beneficiaries : null;
                                 return result ? result.distribution_beneficiaries : null;
+                            } else if (url.match(regexRandom)) {
+                                cacheData = null;
+                                return null;
                             } else {
+                                cacheData = result;
                                 return (result);
                             }
                         }
@@ -142,10 +129,14 @@ export class HttpService {
                             if (result !== undefined) {
                                 if (Array.isArray(result) && Array.isArray(cacheData)) {
                                     if (JSON.stringify(result) !== JSON.stringify(cacheData) && this.save) {
-                                        this.cacheService.set(itemKey, result).subscribe();
+                                        if (!url.match(regexBenef) && !url.match(regexRandom)) {
+                                            this.cacheService.set(itemKey, result).subscribe();
+                                        }
                                     }
                                 } else if (result !== cacheData && this.save) {
-                                    this.cacheService.set(itemKey, result).subscribe();
+                                    if (!url.match(regexBenef) && !url.match(regexRandom)) {
+                                        this.cacheService.set(itemKey, result).subscribe();
+                                    }
                                 }
                             }
                             return result;
@@ -159,9 +150,10 @@ export class HttpService {
             return this.cacheService.get(itemKey).pipe(
                 map(
                     result => {
-                        const regexBenef = new RegExp(/\/distributions\/\d+\/beneficiaries/);
                         if (url.match(regexBenef)) {
                             return result ? result.distribution_beneficiaries : null;
+                        }  else if (url.match(regexRandom)) {
+                            return null;
                         } else {
                             return (result);
                         }

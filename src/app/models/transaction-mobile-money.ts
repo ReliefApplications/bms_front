@@ -172,9 +172,14 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
 
         return {
             id: this.get('id'),
-            localGivenName: this.get('beneficiary').get('localGivenName'),
-            localFamilyName: this.get('beneficiary').get('localFamilyName'),
-            phone: this.get('beneficiary').get<Phone[]>('phones').map(phone => phone.modelToApi())
+            beneficiary: this.get('beneficiary').modelToApi(),
+            removed: this.get('removed'),
+            justification: this.get('justification'),
+
+            // Not removing it cause still not sure why it has ever been there
+            // localGivenName: this.get('beneficiary').get('localGivenName'),
+            // localFamilyName: this.get('beneficiary').get('localFamilyName'),
+            // phone: this.get('beneficiary').get<Phone[]>('phones').map(phone => phone.modelToApi())
         };
 
     }

@@ -156,6 +156,7 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             // Not removing it cause still not sure why it has ever been there
             // local_given_name: this.get('beneficiary').get('localGivenName'),
             // local_family_name: this.get('beneficiary').get('localFamilyName'),
+            // booklet: this.get('booklet').modelToApi(),
         };
     }
 

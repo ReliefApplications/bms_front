@@ -129,12 +129,14 @@ export class HttpService {
                             if (result !== undefined) {
                                 if (Array.isArray(result) && Array.isArray(cacheData)) {
                                     if (JSON.stringify(result) !== JSON.stringify(cacheData) && this.save) {
-                                        if (!url.match(regexBenef) && !url.match(regexRandom)) {
+                                        // The distribution will only be cached when clicked on "offline mode"
+                                        if (!urlSplitted.match(regex)) {
                                             this.cacheService.set(itemKey, result).subscribe();
                                         }
                                     }
                                 } else if (result !== cacheData && this.save) {
-                                    if (!url.match(regexBenef) && !url.match(regexRandom)) {
+                                    // The distribution will only be cached when clicked on "offline mode"
+                                    if (!urlSplitted.match(regex)) {
                                         this.cacheService.set(itemKey, result).subscribe();
                                     }
                                 }

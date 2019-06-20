@@ -49,12 +49,12 @@ export class DateModelField extends CustomModelField<Date> {
         return formattedDate;
     }
 
-    formatForApi(): any {
+    public formatForApi(): any {
         const datePipe = new DatePipe('en-US');
         return datePipe.transform(this.value, 'dd-MM-yyyy');
     }
 
-    formatDateTimeForApi(): any {
+    public formatDateTimeForApi(): any {
         const datePipe = new DatePipe('en-US');
         return datePipe.transform(this.value, 'dd-MM-yyyy HH:mm:ss');
     }

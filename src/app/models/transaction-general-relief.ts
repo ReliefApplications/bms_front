@@ -160,11 +160,6 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
         }
         newGeneralRelief.fields.notes.numberOfInputs = newGeneralRelief.get<GeneralRelief[]>('generalReliefs').length;
         this.addCommonFields(newGeneralRelief, distributionBeneficiaryFromApi, distributionId);
-        if (distributionBeneficiaryFromApi.beneficiary.referral) {
-            newGeneralRelief.fields.addReferral.isDisplayedInModal = false;
-            newGeneralRelief.fields.referralType.isDisplayedInModal = true;
-            newGeneralRelief.fields.referralComment.isDisplayedInModal = true;
-        }
         return newGeneralRelief;
     }
 
@@ -178,7 +173,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             justification: this.get('justification'),
             general_reliefs: this.get('generalReliefs') ?
                 this.get<Array<GeneralRelief>>('generalReliefs').map((generalRelief: GeneralRelief) => generalRelief.modelToApi()) : [],
-            // id: this.get('id'),
+
             // local_given_name: this.get('localGivenName'),
             // local_family_name: this.get('localFamilyName'),
             // en_given_name: this.get('enGivenName'),

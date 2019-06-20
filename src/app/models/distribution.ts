@@ -278,6 +278,7 @@ export class Distribution extends CustomModel {
             this.get<Criteria[]>('selectionCriteria').map(criteria => criteria.modelToApi()) :
             [];
 
+
         return {
             id: this.get('id'),
             commodities: commodities,
@@ -292,7 +293,7 @@ export class Distribution extends CustomModel {
             distribution_beneficiaries: this.get<Array<DistributionBeneficiary>>('distributionBeneficiaries')
                 .map((distributionBeneficiary: DistributionBeneficiary) => distributionBeneficiary.modelToApi()),
             validated: this.get('validated') ? this.get('validated') : false,
-            updated_on: this.fields.updatedOn.formatDateTimeForApi()
+            updated_on: this.get('updatedOn') ? this.fields.updatedOn.formatDateTimeForApi() : null
         };
 
     }

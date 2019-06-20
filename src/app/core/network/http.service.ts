@@ -81,7 +81,9 @@ export class HttpService {
         if (url.includes(URL_BMS_API, 0)) {
             url = url.split(URL_BMS_API)[1];
 
-            if (url.substring(0, 11) === '/indicators' || url === '/households/get/all') {
+            const regex =  new RegExp(/\/location\/adm/);
+
+            if (url.substring(0, 11) === '/indicators' || url === '/households/get/all' || url.match(regex)) {
                 filtered = true;
             }
         }
@@ -322,6 +324,7 @@ export class HttpService {
             regex.push(new RegExp(/distributions\/beneficiaries\/project\/\d+/));
             regex.push(new RegExp(/distributions\/\d+\/beneficiary/));
             regex.push(new RegExp(/distributions\/generalrelief.*/));
+            regex.push(new RegExp(/beneficiaries\/\d+/));
 
             regex.forEach(re => {
                 if (formattedUrl.match(re)) {

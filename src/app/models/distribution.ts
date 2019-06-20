@@ -165,7 +165,7 @@ export class Distribution extends CustomModel {
         newDistribution.set('location', distributionFromApi.location ? Location.apiToModel(distributionFromApi.location) : null);
         newDistribution.set('project', distributionFromApi.project ? Project.apiToModel(distributionFromApi.project) : null);
 
-        newDistribution.fields.location.displayTableFunction = value => value.getLocationName();
+        newDistribution.fields.location.displayTableFunction = value => value.getPreciseLocationName();
         newDistribution.fields.location.displayModalFunction = value => value.getLocationName();
         newDistribution.fields.distributionBeneficiaries.displayTableFunction = value => value.length;
         newDistribution.fields.commodities.displayTableFunction = value => value;

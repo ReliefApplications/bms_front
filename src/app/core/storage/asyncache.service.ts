@@ -322,7 +322,7 @@ export class AsyncacheService {
                     storedRequests = result;
                 }
                 storedRequests.push(request);
-                this.set(AsyncacheService.PENDING_REQUESTS, storedRequests);
+                this.set(AsyncacheService.PENDING_REQUESTS, storedRequests).subscribe();
             }
         );
     }

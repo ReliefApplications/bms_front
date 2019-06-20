@@ -82,7 +82,7 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
                 response => {
                     this.snackbar.success(element.method + ' ' + element.url.split('wsse/')[1] + ' have been sent');
                     this.requests.splice(this.requests.indexOf(element), 1);
-                    this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests);
+                    this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests).subscribe();
                     this.loading = false;
                 },
                 error => {

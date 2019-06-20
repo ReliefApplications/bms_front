@@ -90,10 +90,13 @@ export class ModalService {
                 // TODO: add enum for modal methods
                 if (closeMethod === 'Add') {
                     this.isLoading.next();
-                    this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe(() => {
-                        this.snackbar.success(
-                            this.referedClassInstance.title + ' ' + this.language.update_beneficiary_created_successfully
-                        );
+                    this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe((response) => {
+                       // If the response is null, it means we are offline and the request was stored, not really made
+                        if (response) {
+                           this.snackbar.success(
+                               this.referedClassInstance.title + ' ' + this.language.update_beneficiary_created_successfully
+                           );
+                       }
                         this.isCompleted.next();
                     });
 

@@ -48,4 +48,13 @@ export class Voucher extends CustomModel {
 
         return newVoucher;
     }
+
+    public modelToApi(): Object {
+        return {
+            id: this.get('id'),
+            used_at: this.fields.usedAt.formatForApi(),
+            code: this.get('code'),
+            value: this.get('value')
+        };
+    }
 }

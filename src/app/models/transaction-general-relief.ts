@@ -21,8 +21,9 @@ export class GeneralRelief extends CustomModel {
         const newGeneralRelief = new GeneralRelief();
         newGeneralRelief.set('id', generalReliefFromApi.id);
         newGeneralRelief.set('notes', generalReliefFromApi.notes);
-        newGeneralRelief.set('distributedAt', generalReliefFromApi.distributed_at);
-
+        newGeneralRelief.set('distributedAt', generalReliefFromApi.distributed_at ?
+            DateModelField.formatDateTimeFromApi(generalReliefFromApi.distributed_at) :
+            null);
         return newGeneralRelief;
     }
 
@@ -30,7 +31,7 @@ export class GeneralRelief extends CustomModel {
         return {
             id: this.get('id'),
             notes: this.get('notes'),
-            distributed_at: this.fields.distributedAt.formatForApi(),
+            distributed_at: this.fields.distributedAt.formatDateTimeForApi(),
 
         };
     }
@@ -98,7 +99,8 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
     public static apiToModel(distributionBeneficiaryFromApi): TransactionGeneralRelief {
         const newGeneralRelief = new TransactionGeneralRelief();
         newGeneralRelief.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
-        newGeneralRelief.set('distributedAt', distributionBeneficiaryFromApi.general_reliefs[0] ?
+        newGeneralRelief.set('distributedAt',
+            distributionBeneficiaryFromApi.general_reliefs[0] && distributionBeneficiaryFromApi.general_reliefs[0].distributed_at ?
             DateModelField.formatDateTimeFromApi(distributionBeneficiaryFromApi.general_reliefs[0].distributed_at) :
             null);
         newGeneralRelief.set('notes', distributionBeneficiaryFromApi.general_reliefs.map((generalRelief: any) => generalRelief.notes));
@@ -116,11 +118,14 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
 
         return {
             id: this.get('id'),
-            given_name: this.get('givenName'),
-            family_name: this.get('familyName'),
-            used: this.fields.distributedAt.formatForApi(),
-            values: this.get('values'),
-            notes: this.get('notes'),
+            beneficiary: this.get('beneficiary').modelToApi(),
+            general_reliefs: this.get('generalReliefs') ?
+                this.get<Array<GeneralRelief>>('generalReliefs').map((generalRelief: GeneralRelief) => generalRelief.modelToApi()) : [],
+            // given_name: this.get('givenName'),
+            // family_name: this.get('familyName'),
+            // used: this.fields.distributedAt.formatForApi(),
+            // values: this.get('values'),
+            // notes: this.get('notes'),
         };
 
     }

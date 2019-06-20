@@ -151,7 +151,7 @@ getDistributionBeneficiaries(type: string) {
 }
 
 setDistributionBenefAndGetBenef(distributionBeneficiaries: any): Beneficiary[] {
-    if (distributionBeneficiaries) {
+    if (distributionBeneficiaries && distributionBeneficiaries.length > 0) {
         this.actualDistribution.set(
             'distributionBeneficiaries',
             distributionBeneficiaries

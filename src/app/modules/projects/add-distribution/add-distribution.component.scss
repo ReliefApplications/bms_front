@@ -67,6 +67,10 @@
         flex-grow: 2;
         flex-direction: column;
 
+        mat-card.table {
+            padding: 0;
+        }
+
         .forms-commodity,
         .forms-criteria {
             display: flex;

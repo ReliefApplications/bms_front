@@ -65,13 +65,12 @@
             <span>{{ language.add | uppercaseFirst }}</span>
           </button>
         </div>
-
+        <mat-card class="table" *ngIf="currentDisplayType.type !== 'mobile'">
+          <app-table (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaData" deletable="true" rights="true" #criteriaTable></app-table>
+        </mat-card>
+      </div>
+      <div class="forms-criteria">
         <form [formGroup]="form">
-
-          <div class="form" *ngIf="currentDisplayType.type !== 'mobile'">
-            <app-table class="mat-elevation-z8" (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaData" deletable="true" rights="true" #criteriaTable></app-table>
-          </div>
-
           <div class="summary-container">
             <mat-form-field class="accordion-field" id="threshold">
               <mat-label>{{ language.add_distribution_threshold }}</mat-label>
@@ -98,27 +97,26 @@
             <app-table-mobile (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaData" deletable="true" rights="true"></app-table-mobile>
           </div>
         </form>
+      </div>
 
-        <div class="forms-commodity">
-          <div class="distribution-title">
-            <h2>{{language.add_distribution_distributed_commodity | uppercaseFirst}}</h2>
-            <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog('addCommodity')">
-              <span>{{ language.add | uppercaseFirst }}</span>
-            </button>
-          </div>
-          <div class="form" *ngIf="currentDisplayType.type !== 'mobile'">
-            <app-table class="mat-elevation-z8" (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData" deletable="true" rights="true" #commodityTable></app-table>
-          </div>
-          <div class="summary-container" *ngIf="commodityData.data.length != 0">
-            <h3 class="summary-text" *ngFor="let commodity of commodityData.data; let i = index;">
-              <span>{{commodityNb[i]}}</span>{{commodity.get('unit')}}
-              {{language.add_distribution_commodities_delivered | uppercaseFirst}}</h3>
-          </div>
-          <div class="form" *ngIf="currentDisplayType.type === 'mobile'">
-            <app-table-mobile (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData" deletable="true" rights="true"></app-table-mobile>
-          </div>
+      <div class="forms-commodity">
+        <div class="distribution-title">
+          <h2>{{language.add_distribution_distributed_commodity | uppercaseFirst}}</h2>
+          <button mat-stroked-button class="button-text-accent distribution-add-button" (click)="openDialog('addCommodity')">
+            <span>{{ language.add | uppercaseFirst }}</span>
+          </button>
         </div>
-
+        <mat-card class="table" *ngIf="currentDisplayType.type !== 'mobile'">
+          <app-table (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData" deletable="true" rights="true" #commodityTable></app-table>
+        </mat-card>
+        <div class="summary-container" *ngIf="commodityData.data.length != 0">
+          <h3 class="summary-text" *ngFor="let commodity of commodityData.data; let i = index;">
+            <span>{{commodityNb[i]}}</span>{{commodity.get('unit')}}
+            {{language.add_distribution_commodities_delivered | uppercaseFirst}}</h3>
+        </div>
+        <div class="form" *ngIf="currentDisplayType.type === 'mobile'">
+          <app-table-mobile (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData" deletable="true" rights="true"></app-table-mobile>
+        </div>
       </div>
     </div>
   </div>

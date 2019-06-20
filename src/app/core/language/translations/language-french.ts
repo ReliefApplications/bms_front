@@ -119,6 +119,7 @@ export class French implements Language {
     add_distribution_commodities_delivered = 'a être délivrées'
     add_distribution_created = ' a été créée'
     add_distribution_date_inside_project = 'Erreur lors de la création d\'une nouvelle distribution, la date de la distribution doit être comprise entre les dates du projet'
+    add_distribution_date_before_today = 'Erreur lors de la création d\'une nouvelle distribution, la date de la distribution doit être avant aujourd\'hui'
     add_distribution_distributed_commodity = 'ressource distribuée'
     add_distribution_error_creating = 'Erreur lors de la création de la nouvelle distribution'
     add_distribution_female = 'Femme'

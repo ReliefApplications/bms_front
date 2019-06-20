@@ -123,24 +123,28 @@ getDistributionBeneficiaries(type: string) {
 
             const beneficiaries = this.setDistributionBenefAndGetBenef(distributionBeneficiaries);
 
-            if (type === 'initial') {
-                // Step 1 table
-                this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
-            } else if (type === 'final') {
-                // Step 4 table
-                this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
-            } else if (type === 'both') {
-                this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
-                this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
+            // The distribution from the back has null beneficiaries at first and they are filled after
+            if (! (beneficiaries.length > 0 && beneficiaries[0] === null)) {
+                if (type === 'initial') {
+                    // Step 1 table
+                    this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
+                } else if (type === 'final') {
+                    // Step 4 table
+                    this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
+                } else if (type === 'both') {
+                    this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
+                    this.finalBeneficiaryData = new MatTableDataSource(beneficiaries);
+                }
+
+                this.loadingFirstStep = false;
+                this.loadingFinalStep = false;
+                this.generateRandom();
+
+                if (this.loadingDatas === true) {
+                    this.loadingDatas = false;
+                }
             }
 
-            this.loadingFirstStep = false;
-            this.loadingFinalStep = false;
-            this.generateRandom();
-
-            if (this.loadingDatas === true) {
-                this.loadingDatas = false;
-            }
         });
 
     if (type === 'edit') {

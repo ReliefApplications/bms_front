@@ -118,15 +118,17 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
         }
 
         let booklet = null;
-        if (distributionBeneficiaryFromApi.booklets.length) {
+        if (distributionBeneficiaryFromApi.booklets.length && Object.keys(distributionBeneficiaryFromApi.booklets[0]).length > 0) {
             booklet = distributionBeneficiaryFromApi.booklets.filter((bookletFromApi: any) => bookletFromApi.status !== 3)[0];
             booklet = booklet ? booklet : distributionBeneficiaryFromApi.booklets[0];
         }
         newQRVoucher.set('booklet', booklet ? Booklet.apiToModel(booklet) : null);
         this.addCommonFields(newQRVoucher, distributionBeneficiaryFromApi, distributionId);
 
-        const products: Product[] = [];
-        if (booklet) {
+        let products: Product[] = [];
+        if (distributionBeneficiaryFromApi.products) {
+            products = distributionBeneficiaryFromApi.products.map((product: any) =>  Product.apiToModel(product));
+        } else if (booklet) {
             booklet.vouchers.forEach((voucher: any) => {
                 voucher.products.forEach((product: any) => {
                     products.push(Product.apiToModel(product));
@@ -145,9 +147,13 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
 
     public modelToApi(): Object {
         return {
-            local_given_name: this.get('beneficiary').get('localGivenName'),
-            local_family_name: this.get('beneficiary').get('localFamilyName'),
-            booklet: this.get('booklet').modelToApi(),
+            id: this.get('id'),
+            beneficiary: this.get('beneficiary').modelToApi(),
+            booklets: this.get('booklet') ? [this.get('booklet').modelToApi()] : [],
+            products: this.get<Array<Product>>('products').map((product: Product) => product.modelToApi())
+            // local_given_name: this.get('beneficiary').get('localGivenName'),
+            // local_family_name: this.get('beneficiary').get('localFamilyName'),
+            // booklet: this.get('booklet').modelToApi(),
         };
     }
 

@@ -37,4 +37,13 @@ export class DistributionBeneficiary extends CustomModel {
         beneficiary.set('removed', distributionBeneficiaryFromApi.removed);
         newDistributionBeneficiary.set('beneficiary', beneficiary);
     }
+
+    public modelToApi(): Object {
+
+        return {
+           id: this.get('id'),
+           beneficiary: this.get('beneficiary').modelToApi(),
+       };
+
+    }
 }

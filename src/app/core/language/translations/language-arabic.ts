@@ -302,6 +302,8 @@ export class Arabic implements Language {
     'header_update-beneficiary' = 'تحديث المستفيد'
     header_vouchers = 'قسائم'
 
+    household_id = 'معرف الأسرة'
+
     // Import
     import_added = 'تم إضافتها'
     import_back_to_beneficiaries = 'العودة إلى المستفيدين'

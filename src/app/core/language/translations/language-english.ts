@@ -301,6 +301,8 @@ export class English implements Language {
     'header_update-beneficiary' = 'Update Beneficiaries'
     header_vouchers = 'Vouchers'
 
+    household_id = 'Household ID'
+
     // Import
     import_added = 'Added from existing beneficiaries'
     import_back_to_beneficiaries = 'Back to Beneficiaries'

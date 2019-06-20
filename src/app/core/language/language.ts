@@ -287,6 +287,8 @@ export interface Language {
     'header_update-beneficiary': string
     header_vouchers: string
 
+    household_id: string
+
     // Import
     import_added: string
     import_back_to_beneficiaries: string

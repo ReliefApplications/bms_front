@@ -34,7 +34,7 @@ export class Household extends CustomModel {
     public fields = {
         id: new NumberModelField(
             {
-                title: this.language.id,
+                title: this.language.household_id,
                 isDisplayedInTable: true,
             }
         ),

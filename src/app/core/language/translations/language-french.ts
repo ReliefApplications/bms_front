@@ -301,6 +301,8 @@ export class French implements Language {
     'header_update-beneficiary' = 'Modifier'
     header_vouchers = 'Brochures'
 
+    household_id = 'ID du foyer'
+
     // Import
     import_added = 'Ajout'
     import_back_to_beneficiaries = 'Back to Beneficiaries'

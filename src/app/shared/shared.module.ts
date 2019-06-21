@@ -33,19 +33,20 @@ import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
 import { ModalAddCommodityComponent } from '../components/modals/modal-add-commodity/modal-add-commodity.component';
 import { ModalAddCriteriaComponent } from '../components/modals/modal-add-criteria/modal-add-criteria.component';
 import { ModalAddComponent } from '../components/modals/modal-add/modal-add.component';
+import { ModalAddBeneficiaryComponent } from '../components/modals/modal-add-beneficiary/modal-add-beneficiary.component';
 import { ModalAssignComponent } from '../components/modals/modal-assign/modal-assign.component';
 import { ModalDeleteComponent } from '../components/modals/modal-delete/modal-delete.component';
+import { ModalDeleteBeneficiaryComponent } from '../components/modals/modal-delete-beneficiary/modal-delete-beneficiary.component';
 import { ModalDetailsComponent } from '../components/modals/modal-details/modal-details.component';
 import { ModalEditComponent } from '../components/modals/modal-edit/modal-edit.component';
 import { ModalFieldsComponent } from '../components/modals/modal-fields/modal-fields.component';
 import { ModalLanguageComponent } from '../components/modals/modal-language/modal-language.component';
-import { ModalLeaveComponent } from '../components/modals/modal-leave/modal-leave.component';
+import { ModalConfirmationComponent } from '../components/modals/modal-confirmation/modal-confirmation.component';
 import { ModalRequestsComponent } from '../components/modals/modal-requests/modal-requests.component';
 import { PlaceholderBoxlineComponent } from '../components/placeholders/placeholder-boxline/placeholder-boxline.component';
 import { PlaceholderPanelComponent } from '../components/placeholders/placeholder-panel/placeholder-panel.component';
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
 import { PlaceholderSummaryComponent } from '../components/placeholders/placeholder-summary/placeholder-summary.component';
-import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
 import { TableMobileServerComponent } from '../components/table/table-mobile-server/table-mobile-server.component';
 import { TableMobileComponent } from '../components/table/table-mobile/table-mobile.component';
 import { TableServerComponent } from '../components/table/table-server/table-server.component';
@@ -55,6 +56,7 @@ import { ImportedDataComponent } from '../modules/beneficiaries/beneficiaries-im
 import { BeneficiariesComponent } from '../modules/beneficiaries/beneficiaries.component';
 import { DataValidationComponent } from '../modules/beneficiaries/data-validation/data-validation.component';
 import { BeneficiaryFormComponent } from '../modules/beneficiaries/update-beneficiary/beneficiary-form/beneficiary-form.component';
+import { LocationFormComponent } from '../modules/beneficiaries/update-beneficiary/location-form/location-form.component';
 import { UpdateBeneficiaryComponent } from '../modules/beneficiaries/update-beneficiary/update-beneficiary.component';
 import { DashboardComponent } from '../modules/dashboard/dashboard.component';
 import { AddDistributionComponent } from '../modules/projects/add-distribution/add-distribution.component';
@@ -68,9 +70,11 @@ import { QrVoucherComponent } from '../modules/projects/distributions/validated-
 import { ValidatedDistributionComponent } from '../modules/projects/distributions/validated-components/validated-distribution.component';
 import { ProjectComponent } from '../modules/projects/project.component';
 import { LoginComponent } from '../modules/public/login.component';
-import { SettingsComponent } from '../modules/settings/settings.component';
+import { GeneralSettingsComponent } from '../modules/general-settings/general-settings.component';
+import { AdministrationComponent } from '../modules/administration/administration.component';
 import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
 import { VouchersComponent } from '../modules/vouchers/vouchers.component';
+import { SettingsComponent } from '../components/settings/settings.component';
 
 
 
@@ -133,7 +137,7 @@ imports: [
         BeneficiariesImportComponent,
         ProjectComponent,
         AddDistributionComponent,
-        SettingsComponent,
+        GeneralSettingsComponent,
         IconSvgComponent,
         BoxDashboardComponent,
         TableComponent,
@@ -144,7 +148,9 @@ imports: [
         ModalAddCommodityComponent,
         ModalFieldsComponent,
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalEditComponent,
         ModalAssignComponent,
         ModalDetailsComponent,
@@ -163,9 +169,9 @@ imports: [
         PlaceholderBoxlineComponent,
         PlaceholderPanelComponent,
         PlaceholderStepperComponent,
-        PlaceholderTitleComponent,
         UpdateBeneficiaryComponent,
         BeneficiaryFormComponent,
+        LocationFormComponent,
         ImportedDataComponent,
         ThousandsPipe,
         FormatCamelCasePipe,
@@ -177,17 +183,21 @@ imports: [
         QrVoucherComponent,
         VouchersComponent,
         ScannerComponent,
+        SettingsComponent,
+        AdministrationComponent,
     ],
     entryComponents: [
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalEditComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalAssignComponent,
-        ModalLeaveComponent,
+        ModalConfirmationComponent,
         ModalRequestsComponent,
     ],
     exports: [
@@ -198,7 +208,7 @@ imports: [
         BeneficiariesImportComponent,
         ProjectComponent,
         AddDistributionComponent,
-        SettingsComponent,
+        GeneralSettingsComponent,
         IconSvgComponent,
         BoxDashboardComponent,
         BoxPropertiesComponent,
@@ -211,9 +221,11 @@ imports: [
         ModalAddCriteriaComponent,
         ModalAddCommodityComponent,
         ModalDeleteComponent,
+        ModalDeleteBeneficiaryComponent,
         ModalDetailsComponent,
         ModalLanguageComponent,
         ModalAddComponent,
+        ModalAddBeneficiaryComponent,
         ModalAssignComponent,
         BoxSettingComponent,
         MatCheckboxModule,
@@ -256,7 +268,8 @@ imports: [
         PlaceholderBoxlineComponent,
         PlaceholderPanelComponent,
         PlaceholderStepperComponent,
-        PlaceholderTitleComponent,
+        SettingsComponent,
+        AdministrationComponent,
     ],
     providers: [
         { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },

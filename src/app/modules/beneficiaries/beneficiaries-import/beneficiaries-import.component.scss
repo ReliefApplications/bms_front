@@ -1,4 +1,5 @@
 @import '../../../../assets/css/variable.scss';
+@import '../../../../assets/css/global.scss';
 
 .content-button {
     .action-buttons {
@@ -118,35 +119,10 @@
     margin-right: auto;
 }
 
-.ng-select-focused ::ng-deep {
-    .ng-select-container::after {
-        border-color: #424242;
-        border-width: 2px;
-    }
-}
-
-.ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
-    color: #424242;
-}
-
-.ng-select-focused ::ng-deep .ng-arrow {
-    color: #424242 !important;
-}
-
-.ng-select-opened ::ng-deep .ng-option-selected {
-    color: #424242 !important;
-}
 
 .single-select {
     width:100%;
 }
-
-@media only screen and (min-width: 750px) {
-    mat-dialog-content {
-        width: 60vw !important;
-    }
-}
-
 
 // for mobile screen
 @media only screen and (max-width: 750px) {

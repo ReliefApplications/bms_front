@@ -141,7 +141,7 @@ export class HttpService {
                                     }
                                 }
                             }
-                            return (result);
+                            return result;
                         }
                     )
                 )

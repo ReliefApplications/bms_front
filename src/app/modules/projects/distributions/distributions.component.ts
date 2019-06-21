@@ -7,6 +7,9 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Distribution } from 'src/app/models/distribution';
+import { MatDialog } from '@angular/material';
+import { ModalConfirmationComponent } from 'src/app/components/modals/modal-confirmation/modal-confirmation.component';
+import { UserService } from 'src/app/core/api/user.service';
 
 
 @Component({
@@ -18,9 +21,9 @@ export class DistributionsComponent implements OnInit {
     public nameComponent = 'distributions';
     // distributionId: number;
     actualDistribution: Distribution;
-    distributionFinished = false;
     loadingDatas = true;
     loadingDistribution = true;
+    loadingComplete = false;
 
     // Screen display variables.
     loaderCache = false;
@@ -38,6 +41,8 @@ export class DistributionsComponent implements OnInit {
         private beneficiariesService: BeneficiariesService,
         public snackbar: SnackbarService,
         public languageService: LanguageService,
+        public dialog: MatDialog,
+        public userService: UserService,
     ) {
     }
 
@@ -123,7 +128,7 @@ export class DistributionsComponent implements OnInit {
     }
 
     finishDistribution() {
-        this.distributionFinished = true;
+        this.actualDistribution.set('finished', true);
     }
 
 
@@ -140,5 +145,28 @@ export class DistributionsComponent implements OnInit {
         } else {
             return 'general-relief';
         }
+    }
+
+    complete() {
+        const dialogRef = this.dialog.open(ModalConfirmationComponent, {
+            data: {
+                title: this.language.complete,
+                sentence: this.language.modal_complete_distribution,
+                ok: this.language.complete
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((answer: boolean) => {
+            if (answer) {
+                this.loadingComplete = true;
+                this.distributionService.complete(this.actualDistribution.get('id')).subscribe((_res: any) => {
+                    this.loadingComplete = false;
+                    this.actualDistribution.set('finished', true);
+                    this.snackbar.success(this.language.distribution_succes_completed);
+                }, err => {
+                    this.loadingComplete = false;
+                });
+            }
+        });
     }
 }

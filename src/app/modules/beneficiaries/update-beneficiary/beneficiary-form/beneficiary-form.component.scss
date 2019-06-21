@@ -15,6 +15,14 @@ form {
     flex-grow: 1;
     margin: 0 10px;
 
+    .referral-question {
+      display: flex;
+      span {
+        margin-top: 2px;
+        margin-left: 10px;
+      }
+    }
+
     mat-form-field {
         margin-top: 6px;
     }
@@ -58,7 +66,7 @@ form {
       display: flex;
 
       mat-form-field.phone-number {
-        width: 150px;
+        width: 50%;
       }
 
       .single-select.phone-type, .single-select.country-code {

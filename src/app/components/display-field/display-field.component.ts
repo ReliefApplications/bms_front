@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FieldService } from 'src/app/core/utils/field.service';
+import { FormService } from 'src/app/core/utils/form.service';
 import { TextModelField } from 'src/app/models/custom-models/text-model-field';
+import { CustomModelField } from 'src/app/models/custom-models/custom-model-field';
 
 @Component({
   selector: 'app-display-field',
@@ -14,7 +15,7 @@ export class DisplayFieldComponent implements OnInit {
 
   readonly MAX_PROP_LENGTH = 20;
 
-  constructor(public fieldService: FieldService) { }
+  constructor(public formService: FormService) { }
 
   ngOnInit() {
 
@@ -31,6 +32,10 @@ export class DisplayFieldComponent implements OnInit {
 
   // To see if a value is null, undefined, empty....
   isEmpty(field) {
-    return this.fieldService.isEmpty(field, 'table');
+    return this.formService.isEmpty(field, 'table');
+  }
+
+  makeList(array: Array<any>, field) {
+    return array && array.length > 0 ? array.map(value => value.get(field.bindField)).join(', ') : '';
   }
 }

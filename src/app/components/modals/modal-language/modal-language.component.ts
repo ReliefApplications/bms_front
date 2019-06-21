@@ -15,7 +15,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 export class ModalLanguageComponent implements OnInit {
     public isCheckedDefault = false;
     public default = false;
-    public isArabic = false;
+    public rtl = false;
     public languageForm: FormGroup;
 
     // Language
@@ -34,7 +34,7 @@ export class ModalLanguageComponent implements OnInit {
 
     ngOnInit() {
         this.makeControls();
-        this.isArabic = this.language instanceof Arabic;
+        this.rtl = this.language.direction === 'rtl';
     }
 
     makeControls() {

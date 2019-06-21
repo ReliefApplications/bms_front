@@ -64,8 +64,6 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
 
   // AddBeneficiary Dialog variables.
-  beneficiaryList = new Array<Beneficiary>();
-  selectedBeneficiariesControl = new FormControl([], [Validators.minLength(1)]);
   selected = false;
 
   actualUser = new User();
@@ -176,34 +174,6 @@ storeBeneficiaries() {
 }
 
 /**
- * Gets all the beneficiaries of the project to be able to add some to this distribution
- */
-getProjectBeneficiaries() {
-    this.loadingAdd = true;
-    const target = this.actualDistribution.get('type').get<string>('name');
-
-    this.beneficiariesService.getAllFromProject(this.actualDistribution.get('project').get('id'), target)
-        .subscribe(
-            allBeneficiaries => {
-                this.loadingAdd = false;
-                if (allBeneficiaries) {
-                    this.beneficiaryList = allBeneficiaries.map((beneficiary: any) => Beneficiary.apiToModel(beneficiary));
-                } else {
-                    this.cacheService.get(
-                        AsyncacheService.PROJECTS + '_' + this.actualDistribution.get('project').get('id') + '_beneficiaries')
-                        .subscribe(
-                            beneficiaries => {
-                                if (beneficiaries) {
-                                    this.beneficiaryList = beneficiaries.map((beneficiary: any) => Beneficiary.apiToModel(beneficiary));
-                                }
-                            }
-                        );
-                }
-            }
-        );
-}
-
-/**
  * Opens a dialog corresponding to the ng-template passed as a parameter
  * @param template
  */
@@ -229,34 +199,6 @@ openDialog(template) {
 exit(message: string) {
     this.snackbar.info(message);
     this.dialog.closeAll();
-}
-
-/**
- * To confirm on AddBeneficiary dialog
- */
-confirmAdding() {
-    this.dialog.closeAll();
-    const beneficiariesArray = this.selectedBeneficiariesControl.value.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
-    this.beneficiariesService.add(this.actualDistribution.get('id'), beneficiariesArray)
-        .subscribe(
-            success => {
-                if (this.networkService.getStatus()) {
-                    this.distributionService.getBeneficiaries(this.actualDistribution.get('id'))
-                        .subscribe(
-                            distributionBeneficiaries => {
-                                if (distributionBeneficiaries) {
-                                    const beneficiaries = this.setDistributionBenefAndGetBenef(distributionBeneficiaries);
-                                    this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
-                                }
-                            }
-                        );
-                    this.snackbar.success(this.language.distribution_beneficiary_added);
-                    this.getDistributionBeneficiaries('final');
-                }
-            },
-            error => {
-                this.snackbar.error(error.error ? error.error : this.language.distribution_beneficiary_not_added);
-            });
 }
 
 /**
@@ -290,9 +232,11 @@ confirmValidation() {
                     }
                 );
         } else {
+            this.loaderValidation = false;
             this.snackbar.error(this.language.distribution_error_validate);
         }
     } else {
+        this.loaderValidation = false;
         this.snackbar.error(this.language.distribution_no_right_validate);
     }
 
@@ -394,18 +338,31 @@ setType(step, choice) {
     }
 }
 
-/**
+    /**
 	* open each modal dialog
 	*/
     openModal(dialogDetails: any): void {
-        // Can only be a modalDetails
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
         this.modalService.isLoading.subscribe(() => {
             this.loadingFirstStep = true;
             this.loadingFinalStep = true;
         });
         this.modalService.isCompleted.subscribe(() => {
-            this.getDistributionBeneficiaries('both');
+            if (this.networkService.getStatus() && dialogDetails.action === 'addBeneficiary') {
+                this.distributionService.getBeneficiaries(this.actualDistribution.get('id'))
+                    .subscribe(
+                        distributionBeneficiaries => {
+                            if (distributionBeneficiaries) {
+                                const beneficiaries = this.setDistributionBenefAndGetBenef(distributionBeneficiaries);
+                                this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
+                            }
+                        }
+                    );
+                this.snackbar.success(this.language.distribution_beneficiary_added);
+                this.getDistributionBeneficiaries('final');
+            } else {
+                this.getDistributionBeneficiaries('both');
+            }
         });
     }
 

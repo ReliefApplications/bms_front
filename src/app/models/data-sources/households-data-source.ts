@@ -2,6 +2,7 @@ import { CollectionViewer } from '@angular/cdk/collections';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
+import { CountriesService } from '../../core/countries/countries.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { AppInjector } from '../../app-injector';
 import { HouseholdsService } from '../../core/api/households.service';
@@ -13,8 +14,19 @@ import { SingleSelectModelField } from '../custom-models/single-select-model-fie
 import { Household } from '../household';
 import { Location } from '../location';
 import { CustomDataSource } from './custom-data-source.interface';
+import { BeneficiaryReferralType } from '../beneficiary';
 
 export class HouseholdFilters extends CustomModel {
+
+    protected countryService = AppInjector.get(CountriesService);
+
+    // TO DO: stop duplicating that (in location.ts and vendor.ts too) once the location structure is stable
+    // (cannot put it in customModel because of circular dependency with country.ts)
+    // Maybe create an intermediary customModel->customModelWithLocation->householdFilters
+    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
+    this.countryService.selectedCountry.getValue().get<string>('id') :
+    this.countryService.khm.get<string>('id');
+
     public fields = {
         projects: new MultipleSelectModelField({
             title: this.language.project,
@@ -24,7 +36,7 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         vulnerabilities: new MultipleSelectModelField({
-            title: this.language.model_vulnerabilities,
+            title: this.language.beneficiary_vulnerabilities,
             filterName: 'vulnerabilities',
             bindField: 'name',
             apiLabel: 'id',
@@ -38,14 +50,14 @@ export class HouseholdFilters extends CustomModel {
             isDisplayedInTable: true,
         }),
         residency: new MultipleSelectModelField({
-            title: this.language.model_residencystatus,
+            title: this.language.beneficiary_residency_status,
             filterName: 'residency',
             isDisplayedInTable: true,
             bindField: 'name',
             apiLabel: 'id',
         }),
         livelihood: new MultipleSelectModelField({
-            title: this.language.add_beneficiary_getOccupation,
+            title: this.language.household_livelihood,
             filterName: 'livelihood',
             isDisplayedInTable: true,
             bindField: 'name',
@@ -56,7 +68,7 @@ export class HouseholdFilters extends CustomModel {
             filterName: 'locations'
         }),
         adm1: new NestedFieldModelField({
-            title: this.language.adm1,
+            title: this.language.adm1[this.country],
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm1',
@@ -67,13 +79,19 @@ export class HouseholdFilters extends CustomModel {
                 householdFilters.set('adm2', null);
                 householdFilters.set('adm3', null);
                 householdFilters.set('adm4', null);
-                appInjector.get(LocationService).fillAdm2Options(householdFilters, parseInt(value, 10)).subscribe();
+                form.controls.adm2.setValue(null);
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
+                const location = householdFilters.get<Location>('location');
+                appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {
+                    householdFilters.set('location', location);
+                });
                 return householdFilters;
             },
             isDisplayedInTable: true,
         }),
         adm2: new NestedFieldModelField({
-            title: this.language.adm2,
+            title: this.language.adm2[this.country],
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm2',
@@ -81,15 +99,20 @@ export class HouseholdFilters extends CustomModel {
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
                 householdFilters.set('adm3', null);
                 householdFilters.set('adm4', null);
-                appInjector.get(LocationService).fillAdm3Options(householdFilters, parseInt(value, 10)).subscribe();
+                const location = householdFilters.get<Location>('location');
+                appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {
+                    householdFilters.set('location', location);
+                });
                 return householdFilters;
             },
             isDisplayedInTable: true,
         }),
         adm3: new NestedFieldModelField({
-            title: this.language.adm3,
+            title: this.language.adm3[this.country],
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm3',
@@ -97,19 +120,37 @@ export class HouseholdFilters extends CustomModel {
             isTrigger: true,
             triggerFunction: (householdFilters: HouseholdFilters, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
+                form.controls.adm4.setValue(null);
                 householdFilters.set('adm4', null);
-                appInjector.get(LocationService).fillAdm4Options(householdFilters, parseInt(value, 10)).subscribe();
+                const location = householdFilters.get<Location>('location');
+                appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10)).subscribe((filledLocation: Location) => {
+                    householdFilters.set('location', location);
+                });
                 return householdFilters;
             },
             isDisplayedInTable: true,
         }),
         adm4: new NestedFieldModelField({
-            title: this.language.adm4,
+            title: this.language.adm4[this.country],
             filterName: 'locations',
             childrenObject: 'location',
             childrenFieldName: 'adm4',
             apiLabel: 'id',
             isDisplayedInTable: true,
+        }),
+        referralType: new MultipleSelectModelField({
+            title: this.language.beneficiary_referral_type,
+            filterName: 'referral',
+            isDisplayedInTable: true,
+            bindField: 'name',
+            apiLabel: 'id',
+            options: [
+                new BeneficiaryReferralType('1', this.language.beneficiary_referral_types['1']),
+                new BeneficiaryReferralType('2', this.language.beneficiary_referral_types['2']),
+                new BeneficiaryReferralType('3', this.language.beneficiary_referral_types['3']),
+                new BeneficiaryReferralType('4', this.language.beneficiary_referral_types['4']),
+                new BeneficiaryReferralType('5', this.language.beneficiary_referral_types['5']),
+            ],
         })
     };
 }

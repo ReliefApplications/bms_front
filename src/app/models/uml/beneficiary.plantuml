@@ -2,8 +2,10 @@
 
 class Beneficiary {
     - id
-    - givenName
-    - familyName
+    - localGivenName
+    - localFamilyName
+    - enGivenName
+    - enFamilyName
     - gender
     - dateOfBirth
     - residencyStatus

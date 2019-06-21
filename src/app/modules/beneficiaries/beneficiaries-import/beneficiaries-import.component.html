@@ -1,229 +1,268 @@
 <div class="page-container">
-  <div class="container-title">
-    <h2>{{language.beneficiaries_import_title | uppercaseFirst}}</h2>
-  </div>
+    <div class="container-title">
+        <h2>{{language.beneficiary_import_title | uppercaseFirst}}</h2>
+    </div>
 
-  <div class="container-boxes">
-    <app-box-setting (click)="selectTitle('file import')" [isSelected]="selectedTitle === 'file import'" [info]='{icon: "folder", color: "green", title:language.beneficiaries_import_file, subtitle:"", ref:"file import"}'></app-box-setting>
-    <app-box-setting *ngIf="apiList.length" class="isLast" (click)="selectTitle('api import')" [isSelected]="selectedTitle === 'api import'" [info]='{icon: "settings/api", color: "red", title:language.beneficiaries_import_api, subtitle:"", ref:"api import"}'></app-box-setting>
-  </div>
+    <div class="container-boxes">
+        <app-box-setting (click)="selectTitle('file import')" [isSelected]="selectedTitle === 'file import'"
+            [info]='{icon: "folder", color: "green", title:language.beneficiary_import_file, subtitle:"", ref:"file import"}'>
+        </app-box-setting>
+        <app-box-setting *ngIf="apiList.length" class="isLast" (click)="selectTitle('api import')"
+            [isSelected]="selectedTitle === 'api import'"
+            [info]='{icon: "settings/api", color: "red", title:language.beneficiary_import_api, subtitle:"", ref:"api import"}'>
+        </app-box-setting>
+    </div>
 
-  <form [formGroup]="fileForm" class="container-table" *ngIf="selectedTitle == 'file import'">
-    <div class="container-content box-primary">
+    <form [formGroup]="fileForm" class="container-table" *ngIf="selectedTitle == 'file import'">
+        <div class="container-content box-primary">
 
-      <div class="content-button">
-        <div class="action-buttons">
-          <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'"></mat-spinner>
-          <div class="convert-button">
-            <button mat-stroked-button color="primary" class="template" *ngIf="!loadLocations && country === 'SYR'" (click)="openConversionDialog(mapFile)">
-              <mat-icon>publish</mat-icon>
-              <span>{{language.beneficiaries_import_convert | uppercaseFirst }}</span>
-            </button>
-          </div>
+            <div class="content-button">
+                <div class="action-buttons">
+                    <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'">
+                    </mat-spinner>
+                    <div class="convert-button">
+                        <button mat-stroked-button color="primary" class="template"
+                            *ngIf="!loadLocations && country === 'SYR'" (click)="openConversionDialog(mapFile)">
+                            <mat-icon>publish</mat-icon>
+                            <span>{{language.beneficiary_import_convert | uppercaseFirst }}</span>
+                        </button>
+                    </div>
 
-          <div class="button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-            <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()" *ngIf="!loadingExport">
-              {{language.beneficiaries_import_csv | uppercaseFirst }}
-            </button>
-            <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-            <div class="extension" *ngIf="!loadingExport">
-              <button mat-stroked-button color="primary" class="dropdown template" [matMenuTriggerFor]="exportType">
-                <mat-icon>keyboard_arrow_down</mat-icon>
-              </button>
-              <mat-menu #exportType>
-                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
-                </button>
-                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
-                </button>
-                <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
-                </button>
-              </mat-menu>
+                    <div class="button-with-extension"
+                        [ngClass]="{'rtl':language.direction === 'rtl'}">
+                        <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()"
+                            *ngIf="!loadingExport">
+                            {{language.beneficiary_import_csv | uppercaseFirst }}
+                        </button>
+                        <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
+                        <div class="extension" *ngIf="!loadingExport">
+                            <button mat-stroked-button color="primary" class="dropdown template"
+                                [matMenuTriggerFor]="exportType">
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                            <mat-menu #exportType>
+                                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon
+                                        *ngIf="extensionType=='xls'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon
+                                        *ngIf="extensionType=='csv'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon
+                                        *ngIf="extensionType=='ods'">done</mat-icon>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="content-table">
-        <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-          <mat-card class="card-drag-and-drop">
-            <div>
-              <img class='img-folder' src="assets/images/folder.png">
-            </div>
-            <div class="select-file">
-              <a href="javascript:void(0)" (click)="file.click()">
-                <button mat-stroked-button color="primary">{{language.beneficiaries_import_addFile
+            <div class="content-table">
+                <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+                    <mat-card class="card-drag-and-drop">
+                        <div>
+                            <img class='img-folder' src="assets/images/folder.png">
+                        </div>
+                        <div class="select-file">
+                            <a href="javascript:void(0)" (click)="file.click()">
+                                <button mat-stroked-button color="primary">{{language.beneficiary_import_addFile
                   | uppercaseFirst}}</button>
-              </a>
-              <input type="file" #file (change)="fileChange($event, 'target')" style="display:none" />
+                            </a>
+                            <input type="file" #file (change)="fileChange($event, 'target')" style="display:none" />
+                        </div>
+                        <mat-list class="importedFile" *ngIf="csv != null">
+                            <mat-list-item>
+                                <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
+                                <h4 mat-line class="text">{{ csv.name }}</h4>
+                                <p mat-line class="text">{{ csv.size }} bytes,
+                                    {{ csv.lastModifiedDate | date: ddMMyyyy}}
+                                </p>
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-card>
+                </div>
+                <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
+                    <mat-card class="card-drag-and-drop"
+                        [ngClass]="(fileForm.controls['projects'].disabled) ? 'greyed-out' : ''">
+                        <div>
+                            <img class='img-folder' src="assets/images/projects.png">
+                        </div>
+                        <div class="select-file project-input">
+                            <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                                formControlName="projects" placeholder="{{language.projects | uppercaseFirst}}">
+                                <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+                    </mat-card>
+                </div>
             </div>
-            <mat-list class="importedFile" *ngIf="csv != null">
-              <mat-list-item>
-                <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
-                <h4 mat-line class="text">{{ csv.name }}</h4>
-                <p mat-line class="text">{{ csv.size }} bytes, {{ csv.lastModifiedDate | date: ddMMyyyy}}
-                </p>
-              </mat-list-item>
-            </mat-list>
-          </mat-card>
+            <div class="content-button content-button-footer">
+                <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
+                <button *ngIf="!load" mat-flat-button class="button-background-primary"
+                    (click)="importHouseholdsFile()">
+                    <mat-icon>publish</mat-icon>
+                    <span>{{language.import | uppercaseFirst }}</span>
+                </button>
+            </div>
         </div>
-        <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
-          <mat-card class="card-drag-and-drop" [ngClass]="(fileForm.controls['projects'].disabled) ? 'greyed-out' : ''">
-            <div>
-              <img class='img-folder' src="assets/images/projects.png">
-            </div>
-            <div class="select-file project-input">
-              <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="projects" placeholder="{{language.projects | uppercaseFirst}}">
-                <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}</ng-option>
-              </ng-select>
-            </div>
-          </mat-card>
-        </div>
-      </div>
-      <div class="content-button content-button-footer">
-        <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-        <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="importHouseholdsFile()">
-          <mat-icon>publish</mat-icon>
-          <span>{{language.import | uppercaseFirst }}</span>
-        </button>
-      </div>
-    </div>
-</form>
+    </form>
 
-  <form [formGroup]="apiForm" class="container-table" *ngIf="selectedTitle == 'api import' && apiList && apiList.length">
-    <div class="container-content box-primary">
-      <div class="content-table">
+    <form [formGroup]="apiForm" class="container-table"
+        *ngIf="selectedTitle == 'api import' && apiList && apiList.length">
+        <div class="container-content box-primary">
+            <div class="content-table">
 
-        <div class="content-drag-and-drop" [ngClass]="dragAreaClass">
-          <mat-card class="card-drag-and-drop">
-            <div>
-              <img class='img-folder' src="assets/images/settings/api.png">
-            </div>
-            <h3>{{language.beneficiaries_select_api | uppercaseFirst}}</h3>
-            <div class="content-select">
-              <mat-radio-group formControlName="apiSelector" class="content-select" >
-                <mat-radio-button *ngFor="let api of apiList;" value="{{ api.name }}" color="primary">{{api.name}}</mat-radio-button>
-              </mat-radio-group>
-            </div>
-          </mat-card>
-        </div>
+                <div class="content-drag-and-drop" [ngClass]="dragAreaClass">
+                    <mat-card class="card-drag-and-drop">
+                        <div>
+                            <img class='img-folder' src="assets/images/settings/api.png">
+                        </div>
+                        <h3>{{language.beneficiary_select_api | uppercaseFirst}}</h3>
+                        <div class="content-select">
+                            <mat-radio-group formControlName="apiSelector" class="content-select">
+                                <mat-radio-button *ngFor="let api of apiList;" value="{{ api.name }}" color="primary">
+                                    {{api.name}}</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </mat-card>
+                </div>
 
-        <div class="content-drag-and-drop" [ngClass]="dragAreaClass">
-          <mat-card class="card-drag-and-drop" [ngClass]="{'greyed-out': apiForm.controls['parameters'].disabled }">
-            <div>
-              <img class='img-folder' src="assets/images/locationCode.png">
-            </div>
-            <div>
-              <div class="content-select" *ngIf="apiForm.value['apiSelector']" formGroupName='parameters'>
-                <mat-form-field *ngFor="let parameter of selectedApi.parameters">
-                  <input matInput *ngIf="parameter.paramType == 'string'" type="text" formControlName="{{parameter.paramName}}" placeholder="{{ parameter.paramName | uppercaseFirst }} *">
-                  <input matInput *ngIf="parameter.paramType == 'int'" type="number" formControlName="{{parameter.paramName}}" placeholder="{{ parameter.paramName | uppercaseFirst }} *">
-                </mat-form-field>
-              </div>
-            </div>
-          </mat-card>
-        </div>
+                <div class="content-drag-and-drop" [ngClass]="dragAreaClass">
+                    <mat-card class="card-drag-and-drop"
+                        [ngClass]="{'greyed-out': apiForm.controls['parameters'].disabled }">
+                        <div>
+                            <img class='img-folder' src="assets/images/locationCode.png">
+                        </div>
+                        <div>
+                            <div class="content-select" *ngIf="apiForm.value['apiSelector']" formGroupName='parameters'>
+                                <mat-form-field *ngFor="let parameter of selectedApi.parameters">
+                                    <input matInput *ngIf="parameter.paramType == 'string'" type="text"
+                                        formControlName="{{parameter.paramName}}"
+                                        placeholder="{{ parameter.paramName | uppercaseFirst }} *">
+                                    <input matInput *ngIf="parameter.paramType == 'int'" type="number"
+                                        formControlName="{{parameter.paramName}}"
+                                        placeholder="{{ parameter.paramName | uppercaseFirst }} *">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </mat-card>
+                </div>
 
-        <div class="content-drag-and-drop" [ngClass]="dragAreaClass">
-          <mat-card class="card-drag-and-drop" [ngClass]="{'greyed-out': apiForm.controls['projects'].disabled}">
-            <div>
-              <img class='img-folder' src="assets/images/projects.png">
+                <div class="content-drag-and-drop" [ngClass]="dragAreaClass">
+                    <mat-card class="card-drag-and-drop"
+                        [ngClass]="{'greyed-out': apiForm.controls['projects'].disabled}">
+                        <div>
+                            <img class='img-folder' src="assets/images/projects.png">
+                        </div>
+                        <div class="select-file project-input">
+                            <ng-select formControlName="projects" class="single-select" [multiple]="false"
+                                [searchable]=true [closeOnSelect]="true"
+                                placeholder="{{language.projects | uppercaseFirst}}">
+                                <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}
+                                </ng-option>
+                            </ng-select>
+                        </div>
+                    </mat-card>
+                </div>
             </div>
-            <div class="select-file project-input">
-              <ng-select formControlName="projects" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.projects | uppercaseFirst}}">
-                <ng-option *ngFor="let project of projectList" [value]="project">{{project.get('name')}}</ng-option>
-              </ng-select>
+            <div class="content-button content-button-footer">
+                <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
+                <button *ngIf="!load" mat-flat-button class="button-background-primary"
+                    (click)="importHousholdsApi()">
+                    <mat-icon>publish</mat-icon>
+                    <span>{{language.import | uppercaseFirst }}</span>
+                </button>
             </div>
-          </mat-card>
         </div>
-      </div>
-      <div class="content-button content-button-footer">
-        <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-        <button *ngIf="!load" mat-raised-button class="button-background-primary" (click)="importHousholdsApi()">
-          <mat-icon>publish</mat-icon>
-          <span>{{language.import | uppercaseFirst }}</span>
-        </button>
-      </div>
-    </div>
     </form>
 </div>
 
 <ng-template #mapFile>
-    <form [formGroup]="conversionForm">
-        <mat-dialog-content class="modal-container">
-            <h4 class="modal-title underline-accent stickyHeader">{{language.beneficiaries_import_convert | uppercaseFirst}}</h4>
-            <div class="dialog-template">
-            <div class="modal-body">
-                <table class="modal-table">
+    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.beneficiary_import_convert | uppercaseFirst}}
+    </h4>
+    <mat-dialog-content class="modal-container">
+        <form [formGroup]="conversionForm">
+            <table class="modal-table" [ngClass]="{'rtl':language.direction === 'rtl'}">
                 <tr class="modal-row">
-                    <th class="table-title">{{ language.adm1 }}</th>
+                    <th class="table-title">{{ language.adm1[countryId] }}</th>
                     <th class="table-value">
-                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="adm1">
-                            <ng-option *ngFor="let adm1 of conversionLocation.getOptions('adm1')" [value]="adm1">{{adm1.get('name')}}</ng-option>
+                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                            formControlName="adm1">
+                            <ng-option *ngFor="let adm1 of conversionLocation.getOptions('adm1')" [value]="adm1">
+                                {{adm1.get('name')}}</ng-option>
                         </ng-select>
                     </th>
                 </tr>
 
                 <tr class="modal-row">
-                    <th class="table-title">{{ language.adm2 }}</th>
+                    <th class="table-title">{{ language.adm2[countryId] }}</th>
                     <th class="table-value">
-                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="adm2">
-                            <ng-option *ngFor="let adm2 of conversionLocation.getOptions('adm2')" [value]="adm2">{{adm2.get('name')}}</ng-option>
+                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                            formControlName="adm2">
+                            <ng-option *ngFor="let adm2 of conversionLocation.getOptions('adm2')" [value]="adm2">
+                                {{adm2.get('name')}}</ng-option>
                         </ng-select>
                     </th>
                 </tr>
 
                 <tr class="modal-row">
-                    <th class="table-title">{{ language.adm3 }}</th>
+                    <th class="table-title">{{ language.adm3[countryId] }}</th>
                     <th class="table-value">
-                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="adm3">
-                            <ng-option *ngFor="let adm3 of conversionLocation.getOptions('adm3')" [value]="adm3">{{adm3.get('name')}}</ng-option>
+                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                            formControlName="adm3">
+                            <ng-option *ngFor="let adm3 of conversionLocation.getOptions('adm3')" [value]="adm3">
+                                {{adm3.get('name')}}</ng-option>
                         </ng-select>
                     </th>
                 </tr>
 
                 <tr class="modal-row">
-                    <th class="table-title">{{ language.adm4 }}</th>
+                    <th class="table-title">{{ language.adm4[countryId] }}</th>
                     <th class="table-value">
-                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" formControlName="adm4">
-                            <ng-option *ngFor="let adm4 of conversionLocation.getOptions('adm4')" [value]="adm4">{{adm4.get('name')}}</ng-option>
+                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                            formControlName="adm4">
+                            <ng-option *ngFor="let adm4 of conversionLocation.getOptions('adm4')" [value]="adm4">
+                                {{adm4.get('name')}}</ng-option>
                         </ng-select>
                     </th>
                 </tr>
-                </table>
+            </table>
 
-                <div class="drag-and-drop-file">
+            <div class="drag-and-drop-file">
                 <div>
                     <img class='img-folder' src="assets/images/folder.png">
                 </div>
                 <div class="select-file">
                     <a href="javascript:void(0)" (click)="file.click()">
-                    <button mat-stroked-button color="primary">{{language.beneficiaries_import_addModal
+                        <button mat-stroked-button color="primary">{{language.beneficiary_import_addModal
                         | uppercaseFirst}}</button>
                     </a>
-                    <input type="file" #file [multiple] (change)="fileChange($event, 'target', 'csv2')" style="display:none" />
+                    <input type="file" #file [multiple] (change)="fileChange($event, 'target', 'csv2')"
+                        style="display:none" />
                 </div>
                 <mat-list class="importedFile" *ngIf="csv2 != null">
                     <mat-list-item>
-                    <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
-                    <h4 mat-line class="text">{{ csv2.name }}</h4>
-                    <p mat-line class="text">{{ csv2.size }} bytes, {{ csv2.lastModifiedDate | date: ddMMyyyy}}
-                    </p>
+                        <mat-icon mat-list-icon class="text">insert_drive_file</mat-icon>
+                        <h4 mat-line class="text">{{ csv2.name }}</h4>
+                        <p mat-line class="text">{{ csv2.size }} bytes, {{ csv2.lastModifiedDate | date: ddMMyyyy}}
+                        </p>
                     </mat-list-item>
                 </mat-list>
-                </div>
-                <div class="warning">
-                {{language.beneficiaries_import_warning}}
-                </div>
             </div>
-
-            <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                <button mat-button class="button-text-accent" (click)="closeConversionDialog('canceled')">{{language.cancel}}</button>
-                <mat-spinner [diameter]="25" *ngIf="loadingConversion"></mat-spinner>
-                <button mat-raised-button class="button-background-accent" (click)="confirmConversion()" *ngIf="!loadingConversion">
-                  {{language.transaction_confirm_button}}
-                </button>
+            <div class="warning">
+                {{language.beneficiary_import_warning}}
             </div>
-            </div>
-        </mat-dialog-content>
-    </form>
-
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions >
+        <div class="modal-button action-buttons"
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
+            <button mat-button class="button-text-accent"
+                (click)="closeConversionDialog('canceled')">{{language.cancel}}</button>
+            <mat-spinner [diameter]="25" *ngIf="loadingConversion"></mat-spinner>
+            <button mat-flat-button class="button-background-accent" (click)="confirmConversion()"
+                *ngIf="!loadingConversion">
+                {{language.transaction_confirm_button}}
+            </button>
+        </div>
+    </mat-dialog-actions>
 </ng-template>

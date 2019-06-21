@@ -13,6 +13,7 @@ import { Adm, Location } from 'src/app/models/location';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 import { ImportService } from '../../../core/api/beneficiaries-import.service';
 import { Project } from '../../../models/project';
 import { User } from 'src/app/models/user';
@@ -108,6 +109,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
+        this.countryService.selectedCountry.getValue().get<string>('id') :
+        this.countryService.khm.get<string>('id');
 
     constructor(
         public _householdsService: HouseholdsService,
@@ -121,6 +125,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         private locationService: LocationService,
         private userService: UserService,
         private languageService: LanguageService,
+        private countryService: CountriesService,
     ) { }
 
     ngOnInit() {
@@ -256,11 +261,11 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this.conversionDialog.close();
         switch (method) {
             case 'cancel':
-                this.snackbar.info(this.language.beneficiaries_import_canceled);
+                this.snackbar.info(this.language.beneficiary_import_canceled);
                 return;
             case 'success':
                 // Todo: translate
-                this.snackbar.success(this.language.beneficiaries_import_conversion_success);
+                this.snackbar.success(this.language.beneficiary_import_conversion_success);
                 return;
             case 'error':
                 this.snackbar.error(error);
@@ -306,12 +311,12 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     confirmConversion() {
         this.loadingConversion = true;
         if (!this.conversionForm.valid) {
-            this.snackbar.error(this.language.beneficiaries_import_select_location);
+            this.snackbar.error(this.language.beneficiary_import_select_location);
             return;
         }
 
         if (!this.csv2 ) {
-            this.snackbar.error(this.language.beneficiaries_import_error_file);
+            this.snackbar.error(this.language.beneficiary_import_error_file);
             return;
         }
 
@@ -439,7 +444,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
      */
     importHouseholdsFile() {
         if (!this.csv || !this.fileForm.controls['projects'].valid || this.load) {
-            this.snackbar.error(this.language.beneficiaries_import_select_project);
+            this.snackbar.error(this.language.beneficiary_import_select_project);
         } else {
             this.load = true;
             this._importService.sendCsv(this.csv, this.email, this.fileForm.controls['projects'].value).subscribe((response: any) => {
@@ -460,7 +465,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     importHousholdsApi() {
         this.load = true;
         if (!this.apiForm.valid) {
-            this.snackbar.error(this.language.beneficiaries_import_check_fields);
+            this.snackbar.error(this.language.beneficiary_import_check_fields);
             return;
         }
         const params = {};
@@ -495,7 +500,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
                 response => {
                     if (response) {
                         this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
-                        this.snackbar.success(response.message + this.language.beneficiaries_import_beneficiaries_imported);
+                        this.snackbar.success(response.length + this.language.beneficiary_import_beneficiaries_imported);
                     }
                     this._importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);

@@ -42,7 +42,7 @@
     <mat-icon>person_outline</mat-icon>
     <span>{{language.header_profile | titlecase}}</span>
   </button>
-  <button *ngIf="language" mat-menu-item routerLink="/login">
+  <button *ngIf="language" mat-menu-item (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>
     <span>{{language.header_disconnect | titlecase}}</span>
   </button>

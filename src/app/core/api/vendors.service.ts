@@ -38,7 +38,7 @@ export class VendorsService extends CustomModelService {
 
     public update(id: number, body: any) {
         const url = this.api + '/vendors/' + id;
-        return this.http.post(url, body);
+        return this.authenticationService.updateUser(body, url);
     }
 
     public delete(id: number) {

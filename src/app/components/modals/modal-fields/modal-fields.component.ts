@@ -215,10 +215,19 @@ export class ModalFieldsComponent implements OnInit {
         let subscription: Observable<string> = of(null);
         for (const fieldName of this.objectFields) {
             const field = this.objectInstance.fields[fieldName];
-            if (field.kindOfField === 'Children') {
-                if (this.form.controls[fieldName].value) {
+
+            // To prevent the update of encoding a null password
+            if (field.isPassword && !this.form.controls[fieldName].value) {
+                this.objectInstance.set(fieldName, null);
+                if (field.kindOfField === 'Children') {
                     const childrenField = this.objectInstance.get(field.childrenObject);
                     const childrenFieldName = field.childrenFieldName;
+                    childrenField.set(childrenFieldName, null);
+                }
+            } else if (field.kindOfField === 'Children') {
+                const childrenField = this.objectInstance.get(field.childrenObject);
+                const childrenFieldName = field.childrenFieldName;
+                if (this.form.controls[fieldName].value) {
                     if (childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
                         childrenField.set(childrenFieldName, childrenField.getOptions(childrenFieldName).filter(option => {
                             return option.get('id') === this.form.controls[fieldName].value;

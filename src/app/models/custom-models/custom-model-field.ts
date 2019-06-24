@@ -91,7 +91,11 @@ export class CustomModelField<T> {
      * @type {string}
      */
     filterName: string;
-
+    /**
+     * The tooltip to apply
+     * @type {Function}
+     */
+    tooltip: Function;
 
     /**
      * @param  {Props} properties
@@ -120,6 +124,7 @@ export class CustomModelField<T> {
         this.isTrigger              = properties['isTrigger'];
         this.triggerFunction        = properties['triggerFunction'];
         this.filterName             = properties['filterName'];
+        this.tooltip                = properties['tooltip'];
     }
 
     // Field specific value should never be omitted
@@ -144,7 +149,7 @@ export class CustomModelField<T> {
             pattern:                null,
             isTrigger:              false,
             filterName:             '',
-
+            tooltip:                null,
             ...properties,
         };
     }

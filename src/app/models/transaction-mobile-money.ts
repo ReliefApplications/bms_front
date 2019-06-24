@@ -160,6 +160,12 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
                     newDistributionBeneficiary.updateState('-2');
                 }
             }
+        }
+        // It means it comes from the cache, already "formatted"
+        else if (distributionBeneficiaryFromApi.transaction_id) {
+            newDistributionBeneficiary.set('idTransaction', distributionBeneficiaryFromApi.transaction_id);
+            newDistributionBeneficiary.set('message', distributionBeneficiaryFromApi.message);
+            newDistributionBeneficiary.updateState(distributionBeneficiaryFromApi.state);
         } else {
             newDistributionBeneficiary.updateState('-2');
         }
@@ -172,9 +178,14 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
 
         return {
             id: this.get('id'),
-            localGivenName: this.get('beneficiary').get('localGivenName'),
-            localFamilyName: this.get('beneficiary').get('localFamilyName'),
-            phone: this.get('beneficiary').get<Phone[]>('phones').map(phone => phone.modelToApi())
+            beneficiary: this.get('beneficiary').modelToApi(),
+            transaction_id: this.get('idTransaction'),
+            message: this.get('message'),
+            state: this.get('state').get('id')
+
+            // localGivenName: this.get('beneficiary').get('localGivenName'),
+            // localFamilyName: this.get('beneficiary').get('localFamilyName'),
+            // phone: this.get('beneficiary').get<Phone[]>('phones').map(phone => phone.modelToApi())
         };
 
     }

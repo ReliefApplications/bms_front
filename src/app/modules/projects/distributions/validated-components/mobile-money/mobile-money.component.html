@@ -27,7 +27,7 @@
 
         <div class="content-button" *ngIf="transactionData">
             <div class="action-buttons">
-                <button [disabled]="actualDistribution.get('finished')" mat-raised-button
+                <button [disabled]="actualDistribution.get('finished')" mat-flat-button
                     class="button-background-primary" [matMenuTriggerFor]="menu">
                     <mat-icon>more_vert</mat-icon>
                     <span>{{language.table_actions | uppercaseFirst}}</span>
@@ -46,15 +46,15 @@
                     </mat-menu>
                 </div>
                 <div class="button-with-extension"
-                    [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                    <button mat-raised-button class="button-background-primary"
+                    [ngClass]="{'rtl':language.direction === 'rtl'}">
+                    <button mat-flat-button class="button-background-primary"
                         (click)="exportTransaction(extensionType, 'transactionDistribution')" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{language.export | uppercaseFirst}}</span>
                     </button>
                     <mat-spinner [diameter]='35' *ngIf="loadingExport"></mat-spinner>
                     <div class="extension" *ngIf="!loadingExport">
-                        <button mat-raised-button class="dropdown button-background-primary"
+                        <button mat-flat-button class="dropdown button-background-primary"
                             [matMenuTriggerFor]="exportTypeTransaction">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <button mat-raised-button
+            <button mat-flat-button
                 *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
                 (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})"
                 class="add-button-create">
@@ -82,7 +82,7 @@
             <button mat-fab
                 *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
                 (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button"
-                [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}">
+                [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
@@ -116,7 +116,7 @@
                     </ng-template>
                 </button>
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
-                <button [disabled]="actualDistribution.get('finished')" mat-raised-button
+                <button [disabled]="actualDistribution.get('finished')" mat-flat-button
                     *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !transacting && transactionData"
                     (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getPeopleCount()"
                     matBadgePosition="before" matBadgeColor="primary">
@@ -128,9 +128,9 @@
 </div>
 
 <ng-template #transaction>
-    <h4 mat-dialog-title *ngIf="!codeSent" class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.transaction_confirm}}
+    <h4 mat-dialog-title *ngIf="!codeSent" class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.transaction_confirm}}
     </h4>
-    <h4 mat-dialog-title *ngIf="codeSent" class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.transaction_inProgress}}
+    <h4 mat-dialog-title *ngIf="codeSent" class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.transaction_inProgress}}
     </h4>
     <mat-dialog-content class="modal-container">
         <ng-container *ngIf="!codeSent; else codeIsCorrect">
@@ -159,10 +159,10 @@
     </mat-dialog-content>
     <mat-dialog-actions *ngIf="!codeSent" >
         <div class="modal-button action-buttons"
-            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-button class="button-text-accent"
                 (click)="exit('Transaction canceled')">{{language.cancel}}</button>
-            <button mat-raised-button class="button-background-accent" *ngIf="!transacting"
+            <button mat-flat-button class="button-background-accent" *ngIf="!transacting"
                 [disabled]="!enteredCodeControl.valid"
                 (click)="confirmTransaction()">{{language.transaction_confirm_button}}</button>
             <mat-spinner [diameter]="30" *ngIf="transacting"></mat-spinner>

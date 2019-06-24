@@ -2,6 +2,7 @@
 export interface Language {
     // GENERAL VARIABLES
     readonly LANGUAGE_ISO: string;
+    direction: string // rtl or ltr
     // Utils
     administrative_settings: string
     back: string
@@ -669,6 +670,7 @@ export interface Language {
     voucher_print_error: string
     voucher_print_selection: string
     voucher_print_starting: string
+    voucher_purchased: string
     voucher_scan_text: string
     voucher_select_beneficiary: string
     voucher_select_distribution: string

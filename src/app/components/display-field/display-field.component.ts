@@ -12,6 +12,8 @@ export class DisplayFieldComponent implements OnInit {
   @Input() field;
   @Input() element;
 
+  readonly MAX_PROP_LENGTH = 20;
+
   constructor(public formService: FormService) { }
 
   ngOnInit() {
@@ -30,5 +32,9 @@ export class DisplayFieldComponent implements OnInit {
   // To see if a value is null, undefined, empty....
   isEmpty(field) {
     return this.formService.isEmpty(field, 'table');
+  }
+
+  makeList(array: Array<any>, field) {
+    return array && array.length > 0 ? array.map(value => value.get(field.bindField)).join(', ') : '';
   }
 }

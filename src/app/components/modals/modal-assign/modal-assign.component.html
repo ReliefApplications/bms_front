@@ -1,9 +1,9 @@
-<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.voucher_assign_title | uppercaseFirst}}</h4>
+<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.voucher_assign_title | uppercaseFirst}}</h4>
 
 <!-- Step 1 -->
 <mat-dialog-content class="modal-container" *ngIf="step === 1">
     <form class="form" [formGroup]="form">
-        <table class="modal-table" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
+        <table class="modal-table" [ngClass]="{'rtl':language.direction === 'rtl'}" cdkFocusRegionstart>
             <tr class="modal-row">
                 <th class="table-title">{{ language.project }}</th>
                 <th class="table-value">
@@ -44,10 +44,10 @@
     </form>
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="step === 1">
-    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+    <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <button mat-raised-button class="button-background-accent" (click)="nextStep()"
+        <button mat-flat-button class="button-background-accent" (click)="nextStep()"
             [disabled]="!form.valid && !data.beneficiary">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
@@ -72,10 +72,10 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="step === 3">
-    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+    <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <button mat-raised-button class="button-background-accent" (click)="nextStep()">{{language.next}}</button>
+        <button mat-flat-button class="button-background-accent" (click)="nextStep()">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
 
@@ -97,11 +97,11 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="step === 4">
-    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+    <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
-        <button mat-raised-button class="button-background-accent" (click)="nextStep()"
+        <button mat-flat-button class="button-background-accent" (click)="nextStep()"
             *ngIf="!loadingPassword">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
@@ -114,11 +114,11 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="step === 5">
-    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+    <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
-        <button mat-raised-button class="button-background-accent" (click)="assignBooklet()"
+        <button mat-flat-button class="button-background-accent" (click)="assignBooklet()"
             *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>
     </div>
 </mat-dialog-actions>

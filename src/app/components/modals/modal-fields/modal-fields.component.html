@@ -1,15 +1,15 @@
 <h4 mat-dialog-title *ngIf="!objectInstance.createMultiple || modalType !== 'Add'" class="modal-title underline-accent"
-    [ngClass]="{'underline-accent': modalType === 'Add', 'underline-primary': modalType !== 'Add', 'arabic':languageService.languageToString(language)==='ar'}">
+    [ngClass]="{'underline-accent': modalType === 'Add', 'underline-primary': modalType !== 'Add', 'rtl':language.direction === 'rtl'}">
     {{modalTitle | uppercaseFirst}} {{objectInstance.title | uppercaseFirst}}
 </h4>
 <h4 mat-dialog-title *ngIf="objectInstance.createMultiple && modalType === 'Add'" class="modal-title underline-accent"
-    [ngClass]="{'underline-accent': modalType === 'Add', 'underline-primary': modalType !== 'Add', 'arabic':languageService.languageToString(language)==='ar'}">
+    [ngClass]="{'underline-accent': modalType === 'Add', 'underline-primary': modalType !== 'Add', 'rtl':language.direction === 'rtl'}">
     {{modalTitleMultiple | uppercaseFirst}} {{objectInstance.title | uppercaseFirst}}
 </h4>
 
 <mat-dialog-content class="modal-container">
     <form [formGroup]="form" *ngIf="form">
-        <table class="modal-table" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
+        <table class="modal-table" [ngClass]="{'rtl':language.direction === 'rtl'}" cdkFocusRegionstart>
             <ng-container *ngFor="let fieldName of objectFields">
                 <ng-container *ngIf="objectInstance.fields[fieldName].isDisplayedInModal">
                     <tr class="modal-row" *ngIf="display(objectInstance.fields[fieldName]); let field">
@@ -199,23 +199,23 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}"
+    <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}"
         *ngIf="modalType !== 'Details'">
         <button mat-button (click)="onCancel()"
             [ngClass]="{'button-text-accent': modalType === 'Add', 'button-text-primary': modalType !== 'Add'}">{{language.cancel}}</button>
-        <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Add'" (click)="onSubmit()"
+        <button mat-flat-button [disabled]="!form.valid" *ngIf="modalType === 'Add'" (click)="onSubmit()"
             class="button-background-accent">{{language.create}}</button>
-        <button mat-raised-button [disabled]="!form.valid" *ngIf="modalType === 'Edit'" (click)="onSubmit()"
+        <button mat-flat-button [disabled]="!form.valid" *ngIf="modalType === 'Edit'" (click)="onSubmit()"
             class="button-background-primary">{{language.save}}</button>
     </div>
-    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}"
+    <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}"
         *ngIf="modalType === 'Details'">
-        <button mat-raised-button (click)="onCancel()" class="button-background-primary">{{language.close}}</button>
+        <button mat-flat-button (click)="onCancel()" class="button-background-primary">{{language.close}}</button>
     </div>
 </mat-dialog-actions>
 
 <ng-template #colorPicker>
-    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.modal_pick_color | titlecase}}</h4>
+    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.modal_pick_color | titlecase}}</h4>
     <mat-dialog-content class="modal-container">
         <div class="modal-body">
             <div class="color-grid">

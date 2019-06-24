@@ -6,6 +6,7 @@ import { Language } from '../language';
 export class English implements Language {
     // GENERAL VARIABLES
     LANGUAGE_ISO = 'english'
+    direction = 'ltr'
     // Utils
     administrative_settings = 'Administrative Settings'
     back = 'Back'
@@ -690,6 +691,7 @@ export class English implements Language {
     voucher_print_error = 'You can\'t print a booklet if it has no beneficiary'
     voucher_print_selection = 'Print selection'
     voucher_print_starting = 'Your voucher download is starting'
+    voucher_purchased = 'purchased items'
     voucher_scan_text = 'Scan booklet QR code'
     voucher_select_beneficiary = 'You have to select a beneficiary'
     voucher_select_distribution = 'You have to select a distribution'

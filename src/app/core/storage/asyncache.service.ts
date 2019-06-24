@@ -322,7 +322,7 @@ export class AsyncacheService {
                     storedRequests = result;
                 }
                 storedRequests.push(request);
-                this.set(AsyncacheService.PENDING_REQUESTS, storedRequests);
+                this.set(AsyncacheService.PENDING_REQUESTS, storedRequests).subscribe();
             }
         );
     }
@@ -487,8 +487,8 @@ export class AsyncacheService {
 
                             projectBenef = beneficiaries;
 
-                            this.set(AsyncacheService.DISTRIBUTIONS + '_' + distribution.id + '_beneficiaries', distribution);
-                            this.set(AsyncacheService.PROJECTS + '_' + project.id + '_beneficiaries', projectBenef);
+                            this.set(AsyncacheService.DISTRIBUTIONS + '_' + distribution.id + '_beneficiaries', distribution).subscribe();
+                            this.set(AsyncacheService.PROJECTS + '_' + project.id + '_beneficiaries', projectBenef).subscribe();
 
                             observer.next(true);
                             observer.complete();

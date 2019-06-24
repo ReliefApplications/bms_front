@@ -1,7 +1,10 @@
+import { UppercaseFirstPipe } from '../shared/pipes/uppercase-first.pipe';
 import { Booklet } from './booklet';
+import { MultipleObjectsModelField } from './custom-models/multiple-object-model-field';
 import { NestedFieldModelField } from './custom-models/nested-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { DistributionBeneficiary } from './distribution-beneficiary';
+import { Product } from './product';
 
 export class TransactionQRVoucher extends DistributionBeneficiary {
 
@@ -93,6 +96,16 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
             childrenFieldName: 'referralComment',
             isEditable: true,
         }),
+        products: new MultipleObjectsModelField<Product>(
+            {
+                title: this.language.voucher_purchased,
+                isDisplayedInModal: true,
+                isDisplayedInTable: true,
+                displayTableFunction: null,
+                displayModalFunction: null,
+                value: []
+            }
+        )
     }};
 
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionQRVoucher {
@@ -105,20 +118,42 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
         }
 
         let booklet = null;
-        if (distributionBeneficiaryFromApi.booklets.length) {
+        if (distributionBeneficiaryFromApi.booklets.length && Object.keys(distributionBeneficiaryFromApi.booklets[0]).length > 0) {
             booklet = distributionBeneficiaryFromApi.booklets.filter((bookletFromApi: any) => bookletFromApi.status !== 3)[0];
             booklet = booklet ? booklet : distributionBeneficiaryFromApi.booklets[0];
         }
         newQRVoucher.set('booklet', booklet ? Booklet.apiToModel(booklet) : null);
         this.addCommonFields(newQRVoucher, distributionBeneficiaryFromApi, distributionId);
+
+        let products: Product[] = [];
+        if (distributionBeneficiaryFromApi.products) {
+            products = distributionBeneficiaryFromApi.products.map((product: any) =>  Product.apiToModel(product));
+        } else if (booklet) {
+            booklet.vouchers.forEach((voucher: any) => {
+                voucher.products.forEach((product: any) => {
+                    products.push(Product.apiToModel(product));
+                });
+            });
+        }
+        newQRVoucher.set('products', products);
+
+        const pipe = new UppercaseFirstPipe();
+        newQRVoucher.fields.products.displayTableFunction = value => value
+            .map((product: Product) => pipe.transform(product.get('name'))).join(', ');
+        newQRVoucher.fields.products.displayModalFunction = value => value
+            .map((product: Product) => pipe.transform(product.get('name'))).join(', ');
         return newQRVoucher;
     }
 
     public modelToApi(): Object {
         return {
-            local_given_name: this.get('beneficiary').get('localGivenName'),
-            local_family_name: this.get('beneficiary').get('localFamilyName'),
-            booklet: this.get('booklet').modelToApi(),
+            id: this.get('id'),
+            beneficiary: this.get('beneficiary').modelToApi(),
+            booklets: this.get('booklet') ? [this.get('booklet').modelToApi()] : [],
+            products: this.get<Array<Product>>('products').map((product: Product) => product.modelToApi())
+            // local_given_name: this.get('beneficiary').get('localGivenName'),
+            // local_family_name: this.get('beneficiary').get('localFamilyName'),
+            // booklet: this.get('booklet').modelToApi(),
         };
     }
 

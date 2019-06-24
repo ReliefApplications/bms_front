@@ -12,7 +12,6 @@ import { NationalId } from './national-id';
 import { Phone } from './phone';
 import { Profile } from './profile';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
-
 export class Gender extends CustomModel {
 
     public fields = {

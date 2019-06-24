@@ -1,9 +1,9 @@
 <h4 mat-dialog-title class="modal-title underline-accent"
-    [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">
+    [ngClass]="{'rtl':language.direction === 'rtl'}">
     {{language.modal_add_title |uppercaseFirst }} {{criteria.title | uppercaseFirst}}</h4>
 <mat-dialog-content class="modal-container" *ngIf="criteria">
     <form [formGroup]="form">
-        <table class="modal-table" cdkFocusRegionStart [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        <table class="modal-table" cdkFocusRegionStart [ngClass]="{'rtl':language.direction === 'rtl'}">
             <tr class="modal-row">
                 <th class="table-title">{{ criteria.fields.field.title | uppercaseFirst }}</th>
                 <td class="form-item">
@@ -89,9 +89,9 @@
     </form>
 </mat-dialog-content>
 <mat-dialog-actions >
-    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+    <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
-        <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()"
+        <button mat-flat-button [disabled]="!form.valid" (click)="onSubmit()"
             class="button-background-accent">{{language.save}}</button>
     </div>
 </mat-dialog-actions>

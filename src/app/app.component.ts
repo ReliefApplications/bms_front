@@ -24,7 +24,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Screen size
     public currentDisplayType: DisplayType;
-    private screenSizeSubscription: Subscription;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;

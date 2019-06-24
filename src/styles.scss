@@ -91,3 +91,63 @@ body {
 app-display-field.ng-star-inserted {
   text-align: center;
 }
+
+// Leaflet styling below
+.cluster {
+    background-color: $bms_red;
+    height: 50px!important;
+    width: 50px!important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $bms_white;
+    font-weight: bold;
+    font-size: x-large;
+    box-shadow: 0 0 20px 3px $bms_red;
+}
+
+.leaflet-popup-content {
+    margin: 0;
+}
+
+#bms-popup {
+    margin:0;
+    padding: 20px;
+
+    * {
+      margin: unset; 
+    }
+}
+
+// .marker {
+//     z-index: 2;
+// }
+.marker-container {
+  
+  &.not-validated {
+    fill: $bms_red;
+  }
+  &.validated {
+    fill: $bms_dark_blue;
+  }
+  &.completed {
+    fill: $bms_green;
+  }
+
+  
+  .marker-pointer {
+    width: 8px;
+    height: 40px;
+    z-index: 500;
+  }
+
+  .marker-icon {
+    width: 25px;
+    position: absolute;
+    top: 10px;
+    left: 7px;
+    filter: invert(1);
+    z-index: 501;
+  }
+}

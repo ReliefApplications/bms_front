@@ -1,7 +1,7 @@
+import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
+import { INCOMELEVELS } from '../../../models/constants/income-levels';
 import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
-import { INCOMELEVELS } from '../../../models/constants/income-levels';
-import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 /* tslint:disable */
 export class English implements Language {
     // GENERAL VARIABLES

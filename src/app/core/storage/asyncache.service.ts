@@ -206,7 +206,7 @@ export class AsyncacheService {
                         return country;
                     }
                 }
-                return undefined;
+                return;
             }),
         );
     }

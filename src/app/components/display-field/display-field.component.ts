@@ -1,7 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormService } from 'src/app/core/utils/form.service';
 import { TextModelField } from 'src/app/models/custom-models/text-model-field';
-import { CustomModelField } from 'src/app/models/custom-models/custom-model-field';
 
 @Component({
   selector: 'app-display-field',

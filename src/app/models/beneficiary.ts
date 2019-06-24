@@ -1,3 +1,6 @@
+import { FormGroup } from '@angular/forms';
+import { UppercaseFirstPipe } from '../shared/pipes/uppercase-first.pipe';
+import { BooleanModelField } from './custom-models/boolan-model-field';
 import { CustomModel } from './custom-models/custom-model';
 import { DateModelField } from './custom-models/date-model-field';
 import { MultipleObjectsModelField } from './custom-models/multiple-object-model-field';
@@ -9,10 +12,6 @@ import { NationalId } from './national-id';
 import { Phone } from './phone';
 import { Profile } from './profile';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
-import { BooleanModelField } from './custom-models/boolan-model-field';
-import { FormGroup } from '@angular/forms';
-import { UppercaseFirstPipe } from 'src/app/shared/pipes/uppercase-first.pipe';
-
 export class Gender extends CustomModel {
 
     public fields = {

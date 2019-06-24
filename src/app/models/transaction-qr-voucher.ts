@@ -1,10 +1,10 @@
+import { UppercaseFirstPipe } from '../shared/pipes/uppercase-first.pipe';
 import { Booklet } from './booklet';
+import { MultipleObjectsModelField } from './custom-models/multiple-object-model-field';
 import { NestedFieldModelField } from './custom-models/nested-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { DistributionBeneficiary } from './distribution-beneficiary';
-import { MultipleObjectsModelField } from './custom-models/multiple-object-model-field';
 import { Product } from './product';
-import { UppercaseFirstPipe } from '../shared/pipes/uppercase-first.pipe';
 
 export class TransactionQRVoucher extends DistributionBeneficiary {
 

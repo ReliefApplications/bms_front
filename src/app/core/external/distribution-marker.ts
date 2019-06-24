@@ -147,7 +147,8 @@ export class DistributionMarker {
     private generateAreaStyle(): Leaflet.PathOptions {
         return {
             stroke: false,
-            fillOpacity: 0.8,
+            // Hide the area from the map, change this to display it
+            fillOpacity: 0,
         };
     }
 

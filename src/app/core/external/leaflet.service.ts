@@ -8,14 +8,7 @@ import { DistributionService } from '../api/distribution.service';
 import { CountriesService } from '../countries/countries.service';
 import { DistributionMarker } from './distribution-marker';
 
-const distributionIcon = Leaflet.icon({
-    iconUrl: '/assets/images/settings/country_specific.png',
-    iconSize:     [38, 95], // size of the icon
-    shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-});
+
 @Injectable({
     providedIn: 'root'
 })
@@ -30,10 +23,6 @@ export class LeafletService {
         private distributionService: DistributionService,
         private countriesService: CountriesService,
     ) { }
-
-    // ------------------------------------------------------------------------ //
-    // ---------------------------------- MAP --------------------------------- //
-    // ------------------------------------------------------------------------ //
 
     createMap(mapId: string) {
         // Create map
@@ -114,8 +103,6 @@ export class LeafletService {
                     const distributionMarker = new DistributionMarker(admGroup, this.map, distribution);
                     // Add the marker to the cluster
                     markers.addLayer(distributionMarker.marker);
-
-
                 });
 
                 // Add it to the map

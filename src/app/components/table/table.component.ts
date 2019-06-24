@@ -1,18 +1,18 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DateAdapter, MatDialog, MatPaginator, MatSort, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { Router } from '@angular/router';
-import { CustomModelService } from 'src/app/core/utils/custom-model.service';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { LocationService } from 'src/app/core/api/location.service';
-import { NetworkService } from 'src/app/core/network/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
+import { CustomModelService } from 'src/app/core/utils/custom-model.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { TextModelField } from 'src/app/models/custom-models/text-model-field';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ExportService } from '../../core/api/export.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
@@ -330,6 +330,9 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
     requestLogs(element: any) {
+        if (!element) {
+            return;
+        }
         this.service.requestLogs(element.get('id')).toPromise()
             .then(
                 () => { this.snackbar.success('Logs have been sent'); }

@@ -114,8 +114,40 @@ app-display-field.ng-star-inserted {
 #bms-popup {
     margin:0;
     padding: 20px;
+
+    * {
+      margin: unset; 
+    }
 }
 
-.marker {
-    z-index: 2;
+// .marker {
+//     z-index: 2;
+// }
+.marker-container {
+  
+  &.not-validated {
+    fill: $bms_red;
+  }
+  &.validated {
+    fill: $bms_dark_blue;
+  }
+  &.completed {
+    fill: $bms_green;
+  }
+
+  
+  .marker-pointer {
+    width: 8px;
+    height: 40px;
+    z-index: 500;
+  }
+
+  .marker-icon {
+    width: 25px;
+    position: absolute;
+    top: 10px;
+    left: 7px;
+    filter: invert(1);
+    z-index: 501;
+  }
 }

@@ -64,6 +64,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this._cacheService.getUser().subscribe(result => {
             if (result) {
                 this.serviceMap.createMap('map');
+                this.loadingMap = false;
                 this.getSummary();
                 this.checkDistributions();
             }

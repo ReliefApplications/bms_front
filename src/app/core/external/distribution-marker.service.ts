@@ -18,7 +18,7 @@ export class DistributionMarkerService {
         if (!distribution.get<boolean>('validated')) {
             return 'not-validated';
         }
-        if (distribution.get<boolean>('completed')) {
+        if (distribution.get<boolean>('finished')) {
             return 'completed';
         }
         return 'validated';

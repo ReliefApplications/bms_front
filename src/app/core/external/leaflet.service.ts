@@ -35,14 +35,11 @@ export class LeafletService {
             trackResize: true,        // Keep the center of the map if the window is resized
             doubleClickZoom: true,        // To zoom on the pointer position and not on the center of the map
             dragging: true,         // Enable the dragging of the map
-            scrollWheelZoom: false,
-            layers: []
+            scrollWheelZoom: true,
+            layers: [],
         });
-
-        this.map.once('click', () => { this.map.scrollWheelZoom.enable(); });
-        this.addTileLayer();
         this.addKML();
-        this.map.setView([51.505, -0.09], 13);
+        this.addTileLayer();
     }
 
     removeMap() {

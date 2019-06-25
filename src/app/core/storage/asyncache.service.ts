@@ -172,7 +172,7 @@ export class AsyncacheService {
     clear(force: boolean = true, excludedFields?: string[]) {
         // If force is true, clear all the storage
         if (force) {
-            return this.storage.clearSubscribe();
+            return this.storage.clear();
         } else {
             /** Object that will contain the fields that should remain in the storage and their value */
             const keptFields = {};

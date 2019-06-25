@@ -107,8 +107,9 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
             // Store the modified distribution in the cache
             this.cacheService.set(
                 `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}_beneficiaries`,
-                this.actualDistribution.modelToApi());
-                this.verifiyIsFinished();
+                this.actualDistribution.modelToApi()
+            ).subscribe();
+            this.verifiyIsFinished();
         }, err => {
             console.error(err);
         }, () => {
@@ -180,6 +181,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 
         // Then we store the updated distribution in the cache
         this._cacheService.set(
-            `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}_beneficiaries`, this.actualDistribution.modelToApi());
+            `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}_beneficiaries`, this.actualDistribution.modelToApi()
+        ).subscribe();
     }
 }

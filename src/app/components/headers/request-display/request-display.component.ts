@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { NetworkService } from 'src/app/core/network/network.service';
-import { ModalRequestsComponent } from 'src/app/components/modals/modal-requests/modal-requests.component';
 import { MatDialog } from '@angular/material';
-import { StoredRequestInterface } from 'src/app/models/interfaces/stored-request';
+import { ModalRequestsComponent } from 'src/app/components/modals/modal-requests/modal-requests.component';
+import { NetworkService } from 'src/app/core/network/network.service';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { StoredRequest } from 'src/app/models/interfaces/stored-request';
 
 @Component({
     selector: 'app-request-display',
@@ -13,7 +13,7 @@ import { StoredRequestInterface } from 'src/app/models/interfaces/stored-request
 export class RequestDisplayComponent implements OnInit {
 
     public networkOn = true;
-    public storedRequests: StoredRequestInterface[];
+    public storedRequests: StoredRequest[];
 
     constructor(
         private cacheService: AsyncacheService,
@@ -22,25 +22,24 @@ export class RequestDisplayComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.storedRequests = new Array();
-        this.loadStoredRequests();
-
         this.networkService.getOnlineObs().subscribe(
             status => {
-                if (status !== this.networkOn) {
-                    this.networkOn = status;
-                    if (status === true) {
-                        this.loadStoredRequests();
-                    }
+                this.networkOn = status;
+                if (status) {
+                    this.loadStoredRequests();
                 }
             }
         );
     }
 
     openDialog() {
-        const ref = this.dialog.open(ModalRequestsComponent, {
-            data : {requests: this.storedRequests} });
-        ref.afterClosed().subscribe( () => {
+        const ref = this.dialog.open(
+            ModalRequestsComponent,
+            {
+                data: { requests: this.storedRequests }
+            }
+        );
+        ref.afterClosed().subscribe(() => {
             this.loadStoredRequests();
         });
     }
@@ -53,11 +52,7 @@ export class RequestDisplayComponent implements OnInit {
         );
     }
 
-    requestsArePending(): boolean {
-        if (this.storedRequests && this.storedRequests.length > 0) {
-            return true;
-        } else {
-            return false;
-        }
+    requestsPending(): boolean {
+        return (this.storedRequests && this.storedRequests.length > 0);
     }
 }

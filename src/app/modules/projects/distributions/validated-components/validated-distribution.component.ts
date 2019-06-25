@@ -77,11 +77,6 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
         });
         this.distributionId = this.actualDistribution.get<number>('id');
         this.getDistributionBeneficiaries();
-
-
-        // this.cacheService.checkForBeneficiaries(this.actualDistribution).subscribe(
-        //     (distributionIsStored: boolean) => this.distributionIsStored = distributionIsStored
-        // );
     }
 
     ngOnDestroy() {

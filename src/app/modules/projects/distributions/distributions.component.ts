@@ -98,7 +98,7 @@ export class DistributionsComponent implements OnInit {
             .subscribe(
                 allBeneficiaries => {
                     if (allBeneficiaries) {
-                        this.cacheService.storeBeneficiaries(project.modelToApi(), this.actualDistribution.modelToApi(), allBeneficiaries)
+                        this.cacheService.storeBeneficiaries(project, this.actualDistribution, allBeneficiaries)
                             .pipe(
                                 finalize(
                                     () => {

@@ -86,7 +86,7 @@ export class AuthenticationService {
             this.countryService.setCountry(countries[0]);
             this._cacheService.setCountry(countries[0]).subscribe();
         }
-        this._cacheService.set(AsyncacheService.USER, user.modelToApi());
+        this._cacheService.setUser(user).subscribe();
     }
 
     setSaltedPassword(user: User, saltedPassword: string) {

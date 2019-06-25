@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         return this.asyncacheService.get(AsyncacheService.COUNTRY).pipe(
             map((result: any) => {
                 if (!result || !getFromCache) {
-                    this.asyncacheService.set(AsyncacheService.COUNTRY, country);
+                    this.asyncacheService.set(AsyncacheService.COUNTRY, country).subscribe();
                 }
             })
         );

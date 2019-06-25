@@ -1,7 +1,6 @@
 <div class="notification-container">
-    <div class="notif pending" *ngIf="requestsArePending() && networkOn" (click)="openDialog(); $event.stopPropagation();">
-        <mat-icon *ngIf="storedRequests.length<100" [matBadge]="storedRequests.length" matBadgePosition="before">call_merge</mat-icon>
-        <mat-icon *ngIf="storedRequests.length>=100" matBadge="99+" matBadgePosition="before">call_merge</mat-icon>
+    <div class="notif pending" *ngIf="requestsPending() && networkOn" (click)="openDialog(); $event.stopPropagation();">
+        <mat-icon [matBadge]="storedRequests.length" matBadgePosition="before">call_merge</mat-icon>
     </div>
     <div class="notif off" *ngIf="!networkOn">
         <mat-icon>portable_wifi_off</mat-icon>

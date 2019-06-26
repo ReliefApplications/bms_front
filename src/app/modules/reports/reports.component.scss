@@ -39,7 +39,7 @@
                 justify-content: space-around;
                 width: auto;
 
-                * {
+                ng-select {
                     flex-basis: 0;
                     flex-grow: 1;
                     margin: 0 10px;
@@ -54,6 +54,7 @@
             flex-direction: row;
             align-items: baseline;
             justify-content: space-around;
+            padding: 20px;
             
             .graph {
                 align-self: stretch;

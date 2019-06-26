@@ -109,7 +109,7 @@
                         [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
-                        [duplicable]="true" (duplicateOne)="duplicate($event)"
+                        [duplicable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (duplicateOne)="duplicate($event)"
                         (openModal)="openDialog($event)"
                     ></app-table>
                     <app-table-mobile
@@ -119,7 +119,7 @@
                         [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
                         [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
-                        [duplicable]="true" (duplicateOne)="duplicate($event)"
+                        [duplicable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (duplicateOne)="duplicate($event)"
                         (openModal)="openDialog($event)"
                     ></app-table-mobile>
                 </div>

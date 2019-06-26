@@ -11,6 +11,7 @@ export const rightsHierarchy = {
     [Role.fieldOfficer]: [
         'ROLE_BENEFICIARY_MANAGEMENT_READ',
         'ROLE_PROJECT_MANAGEMENT_READ',
+        'ROLE_DISTRIBUTIONS_MANAGEMENT',
         'ROLE_REPORTING_READ',
     ],
     [Role.projectOfficer]: [

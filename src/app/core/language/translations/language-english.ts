@@ -137,6 +137,7 @@ export class English implements Language {
     add_distribution_commodities_delivered = 'to be delivered'
     add_distribution_created = ' was created'
     add_distribution_date_inside_project = 'Error while creating new distribution, your distribution date have to be inside the project dates'
+    add_distribution_date_before_today = 'Error while creating new distribution, your distribution date have to be after today'
     add_distribution_distributed_commodity = 'distributed commodity'
     add_distribution_error_creating = 'Error while creating new distribution'
     add_distribution_households_reached = 'Households reached'

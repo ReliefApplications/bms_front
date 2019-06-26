@@ -120,6 +120,7 @@ export interface Language {
     add_distribution_commodities_delivered: string
     add_distribution_created: string
     add_distribution_date_inside_project: string
+    add_distribution_date_before_today: string
     add_distribution_distributed_commodity: string
     add_distribution_error_creating: string
     add_distribution_households_reached: string

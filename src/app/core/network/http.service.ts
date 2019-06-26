@@ -4,19 +4,16 @@ import { Injectable } from '@angular/core';
 import { concat, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
-import { StoredRequestInterface } from 'src/app/models/interfaces/stored-request';
+import { StoredRequest } from 'src/app/models/interfaces/stored-request';
 import { URL_BMS_API } from '../../../environments/environment';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { NetworkService } from './network.service';
-
 
 @Injectable({
     providedIn: 'root'
 })
 export class HttpService {
-
     save = true;
-    exist = false;
 
     constructor(
         private http: HttpClient,
@@ -32,113 +29,95 @@ export class HttpService {
         if (url.includes(URL_BMS_API, 0)) {
             url = url.split(URL_BMS_API)[1];
 
-            switch (url) {
-                case '/login': return (AsyncacheService.USER);
-                case '/projects': return (AsyncacheService.PROJECTS);
-                case '/distributions': return (AsyncacheService.DISTRIBUTIONS);
-                case '/location/upcoming_distribution': return (AsyncacheService.UPCOMING);
-                case '/country_specifics': return (AsyncacheService.SPECIFICS);
-                case '/web-users': return (AsyncacheService.USERS);
-                case '/sectors': return (AsyncacheService.SECTORS);
-                case '/donors': return (AsyncacheService.DONORS);
-                case '/location/adm1': return (AsyncacheService.ADM1);
-                case '/location/adm2': return (AsyncacheService.ADM2);
-                case '/location/adm3': return (AsyncacheService.ADM3);
-                case '/location/adm4': return (AsyncacheService.ADM4);
-                case '/distributions/criteria': return (AsyncacheService.CRITERIAS);
-                case '/modalities': return (AsyncacheService.MODALITIES);
-                case '/vulnerability_criteria': return (AsyncacheService.VULNERABILITIES);
-                case '/summary': return (AsyncacheService.SUMMARY);
-                case '/households': return (AsyncacheService.HOUSEHOLDS);
-
+            switch (true) {
+                case url === '/login':
+                    return AsyncacheService.USER;
+                case url === '/projects':
+                    return AsyncacheService.PROJECTS;
+                case url === '/distributions':
+                    return AsyncacheService.DISTRIBUTIONS;
+                case url === '/location/upcoming_distribution':
+                    return AsyncacheService.UPCOMING;
+                case url === '/country_specifics':
+                    return AsyncacheService.SPECIFICS;
+                case url === '/web-users':
+                    return AsyncacheService.USERS;
+                case url === '/sectors':
+                    return AsyncacheService.SECTORS;
+                case url === '/donors':
+                    return AsyncacheService.DONORS;
+                case url === '/location/adm1':
+                    return AsyncacheService.ADM1;
+                case url === '/location/adm2':
+                    return AsyncacheService.ADM2;
+                case url === '/location/adm3':
+                    return AsyncacheService.ADM3;
+                case url === '/location/adm4':
+                    return AsyncacheService.ADM4;
+                case url === '/distributions/criteria':
+                    return AsyncacheService.CRITERIAS;
+                case url === '/modalities':
+                    return AsyncacheService.MODALITIES;
+                case url === '/vulnerability_criteria':
+                    return AsyncacheService.VULNERABILITIES;
+                case url === '/summary':
+                    return AsyncacheService.SUMMARY;
+                case url === '/households':
+                    return AsyncacheService.HOUSEHOLDS;
+                case url.substring(0, 24) === '/distributions/projects/':
+                    return AsyncacheService.DISTRIBUTION_PROJECT + '_' + url.split('/distributions/projects/')[1];
+                case /\/distributions\/\d+\/beneficiaries/.test(url):
+                    this.save = false;
+                    return AsyncacheService.DISTRIBUTIONS + '_' + url.split('/')[2] + '_beneficiaries';
+                case /\/distributions\/\d+$/.test(url):
+                    return AsyncacheService.DISTRIBUTIONS + '_' + url.split('/')[2];
                 default:
-                    if (url.substring(0, 24) === '/distributions/projects/') {
-                        return (AsyncacheService.DISTRIBUTIONS + '_' + url.split('/distributions/projects/')[1]);
-                    } else {
-                        const regex = new RegExp(/\/distributions\/\d+\/beneficiaries/);
-                        const regex2 = new RegExp(/\/transaction\/distribution\/\d+\/pickup/);
-
-                        if (url.match(regex) && !this.networkService.getStatus()) {
-                            this.save = false;
-                            return (AsyncacheService.DISTRIBUTIONS + '_' + url.split('/')[2] + '_beneficiaries');
-                        } else if (url.match(regex2) && !this.networkService.getStatus()) {
-                            this.save = false;
-                            this.exist = true;
-                        } else {
-                            return (null);
-                        }
-                    }
+                    return null;
             }
         } else {
-            return (null);
+            return null;
         }
 
     }
 
-    filteredPendingRequests(url: string) {
-        let filtered = false;
-
+    canBeOfflineRequest(url: string) {
+        let filtered = true;
         if (url.includes(URL_BMS_API, 0)) {
             url = url.split(URL_BMS_API)[1];
-
-            const regex =  new RegExp(/\/location\/adm/);
-
+            const regex = new RegExp(/\/location\/adm/);
             if (url.substring(0, 11) === '/indicators' || url === '/households/get/all' || url.match(regex)) {
-                filtered = true;
+                filtered = false;
             }
         }
-
-        return (filtered);
+        return filtered;
     }
 
     get(url, options = {}): Observable<any> {
-
-        let itemKey = this.resolveItemKey(url);
-        const connected = this.networkService.getStatus();
+        const itemKey = this.resolveItemKey(url);
         let cacheData: any;
-        const regexBenef = new RegExp(/\/distributions\/\d+\/beneficiaries/);
-        const regexRandom = new RegExp(/\/distributions\/\d+\/random/);
-        const urlSplitted = url.split('/')[5] + '/' + url.split('/')[6];
-        const regex = new RegExp(/distributions\/\d+/);
+        const connected = this.networkService.getStatus();
 
-        if (urlSplitted.match(regex)) {
-            this.exist = true;
-            itemKey = AsyncacheService.DISTRIBUTIONS + '_' + urlSplitted.split('/')[1] + '_beneficiaries';
-        }
         // If this item is cachable & user is connected
         if (itemKey && connected) {
             return concat(
                 this.cacheService.get(itemKey).pipe(
                     map(
                         result => {
-                            if (url.match(regexBenef)) {
-                                cacheData = result ? result.distribution_beneficiaries : null;
-                                return result ? result.distribution_beneficiaries : null;
-                            } else if (url.match(regexRandom)) {
-                                cacheData = null;
-                                return null;
-                            } else {
-                                cacheData = result;
-                                return (result);
-                            }
+                            cacheData = result;
+                            return result;
                         }
                     )
                 ),
                 this.http.get(url, options).pipe(
                     map(
                         result => {
-
                             if (result !== undefined) {
                                 if (Array.isArray(result) && Array.isArray(cacheData)) {
                                     if (JSON.stringify(result) !== JSON.stringify(cacheData) && this.save) {
-                                        if (!url.match(regexBenef) && !url.match(regexRandom)) {
-                                            this.cacheService.set(itemKey, result).subscribe();
-                                        }
-                                    }
-                                } else if (result !== cacheData && this.save) {
-                                    if (!url.match(regexBenef) && !url.match(regexRandom)) {
                                         this.cacheService.set(itemKey, result).subscribe();
                                     }
+                                } else if (result !== cacheData && this.save) {
+                                    this.cacheService.set(itemKey, result).subscribe();
                                 }
                             }
                             return result;
@@ -152,21 +131,12 @@ export class HttpService {
             return this.cacheService.get(itemKey).pipe(
                 map(
                     result => {
-                        if (url.match(regexBenef)) {
-                            return result ? result.distribution_beneficiaries : null;
-                        }  else if (url.match(regexRandom)) {
-                            return null;
-                        } else {
-                            return (result);
-                        }
+                        return result;
                     }
                 )
             );
-        } else if (this.exist) {
-            this.exist = false;
-            return of([]);
         } else {
-            this.snackbar.warning('This data can\'t be accessed offline');
+            this.snackbar.warning('This data can\'t be accessed offline: ' + url);
             return of([]);
         }
     }
@@ -175,16 +145,16 @@ export class HttpService {
         const connected = this.networkService.getStatus();
 
         if (!connected) {
-            if (!this.filteredPendingRequests(url)) {
+            if (this.canBeOfflineRequest(url)) {
                 const date = new Date();
                 const method = 'PUT';
-                const request: StoredRequestInterface = { method, url, body, options, date };
+                const request: StoredRequest = { method, url, body, options, date };
                 this.cacheService.storeRequest(request);
-                this.snackbar.warning('No network - This data creation will be sent to DB on next connection');
+                this.snackbar.warning('No network connection, this data will be sent once you are reconnected');
 
                 this.forceDataInCache(method, url, body);
             } else {
-                this.snackbar.warning('No network connection to join DB');
+                this.snackbar.warning('No network connection');
             }
 
             return (of(null));
@@ -199,18 +169,18 @@ export class HttpService {
         const regex = new RegExp(/distributions\/beneficiaries\/project\/\d+/);
 
         if (!connected) {
-            if (!this.filteredPendingRequests(url)) {
+            if (this.canBeOfflineRequest(url)) {
                 const date = new Date();
                 const method = 'POST';
                 if (!urlSplitted.match(regex)) {
-                    const request: StoredRequestInterface = { method, url, body, options, date };
+                    const request: StoredRequest = { method, url, body, options, date };
                     this.cacheService.storeRequest(request);
-                    this.snackbar.warning('No network - This data update will be sent to DB on next connection');
+                    this.snackbar.warning('No network connection, this data will be sent once you are reconnected');
                 }
 
                 this.forceDataInCache(method, url, body);
             } else {
-                this.snackbar.warning('No network connection to join DB');
+                this.snackbar.warning('No network connection');
             }
 
             return (of(null));
@@ -223,16 +193,16 @@ export class HttpService {
         const connected = this.networkService.getStatus();
 
         if (!connected) {
-            if (!this.filteredPendingRequests(url)) {
+            if (this.canBeOfflineRequest(url)) {
                 const date = new Date();
                 const method = 'DELETE';
-                const request: StoredRequestInterface = { method, url, options, date };
+                const request: StoredRequest = { method, url, options, date };
                 this.cacheService.storeRequest(request);
-                this.snackbar.warning('No network - This data deletion will be sent to DB on next connection');
+                this.snackbar.warning('No network connection, this data will be sent once you are reconnected');
 
                 this.forceDataInCache(method, url, {});
             } else {
-                this.snackbar.warning('No network connection to join DB');
+                this.snackbar.warning('No network connection');
             }
 
             return (of(null));
@@ -248,8 +218,8 @@ export class HttpService {
 
         switch (method) {
             case 'PUT':
-                object = body;
                 itemKey = this.resolveItemKey(url);
+                object = body;
                 id = -1;
                 break;
             case 'POST':
@@ -331,7 +301,7 @@ export class HttpService {
             });
 
             if (!match) {
-                this.snackbar.warning('This item can\'t be manipulated offline');
+                this.snackbar.warning('This data can\'t be manipulated offline: ' + url);
             }
         }
     }

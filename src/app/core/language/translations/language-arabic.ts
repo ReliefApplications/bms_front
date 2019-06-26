@@ -137,6 +137,7 @@ export class Arabic implements Language {
     add_distribution_commodities_delivered = 'تم اعطاء'
     add_distribution_created = 'تم انشائه'
     add_distribution_date_inside_project = 'خطأ أثناء إنشاء توزيع جديد ، يجب أن يكون تاريخ التوزيع الخاص بك داخل تواريخ المشروع'
+    add_distribution_date_before_today = 'خطأ أثناء إنشاء توزيع جديد ، يجب أن يكون تاريخ التوزيع بعد اليوم'
     add_distribution_distributed_commodity = 'السلع الموزعة'
     add_distribution_error_creating = 'خطأ أثناء إنشاء توزيع جديد'
     add_distribution_households_reached = 'الأسر التي تم الوصول إليها'

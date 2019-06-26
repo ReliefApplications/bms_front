@@ -38,6 +38,12 @@
                 flex-direction: row;
                 justify-content: space-around;
                 width: auto;
+
+                * {
+                    flex-basis: 0;
+                    flex-grow: 1;
+                    margin: 0 10px;
+                }
             }
         }
 
@@ -48,6 +54,14 @@
             flex-direction: row;
             align-items: baseline;
             justify-content: space-around;
+            
+            .graph {
+                align-self: stretch;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+            }
 
             .graph-title {
                 text-align: center;

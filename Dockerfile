@@ -44,7 +44,6 @@ RUN chown -R $USER:$USER $WORKSPACE
 USER $USER
 
 RUN npm -g config set user $USER
-RUN ls -la
 COPY ./package*.json ./
 RUN bash Docker/check-project.sh $PROJECT_NAME
 

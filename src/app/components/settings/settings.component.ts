@@ -186,6 +186,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.editable   = this.userService.hasRights('ROLE_ADMIN');
         this.deletable  = this.userService.hasRights('ROLE_ADMIN');
         this.printable  = false;
+        this.exportable = true;
         break;
       case 'donors':
         this.referedClassToken = Donor;
@@ -194,6 +195,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
         this.loggable = false;
+        this.exportable = true;
         break;
       case 'projects':
         this.referedClassToken = Project;
@@ -202,6 +204,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.deletable  = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
         this.printable = false;
         this.loggable = false;
+        this.exportable = true;
         break;
       case 'country specific options':
         this.referedClassToken = CountrySpecific;
@@ -210,6 +213,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.deletable  = this.userService.hasRights('ROLE_ADMIN');
         this.printable = false;
         this.loggable = false;
+        this.exportable = true;
         break;
       case 'financialProvider':
         this.referedClassToken = FinancialProvider;
@@ -218,6 +222,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.deletable = false;
         this.printable = false;
         this.loggable = false;
+        this.exportable = true;
         break;
       case 'organization':
         this.referedClassToken = Organization;
@@ -235,6 +240,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = false;
         this.loggable = false;
+        this.exportable = true;
         break;
       case 'vendors':
         this.referedClassToken = Vendor;
@@ -243,6 +249,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
         this.printable = true;
         this.loggable = false;
+        this.exportable = true;
         break;
       default: break;
     }

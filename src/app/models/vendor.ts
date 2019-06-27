@@ -13,7 +13,7 @@ import { CountriesService } from '../core/countries/countries.service';
 export class Vendor extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
-    title = this.language.settings_vendors;
+    title = this.language.vendors;
     matSortActive = 'username';
 
     protected countryService = AppInjector.get(CountriesService);
@@ -31,7 +31,7 @@ export class Vendor extends CustomModel {
 
         }),
         username: new NestedFieldModelField({
-            title: this.language.login_username,
+            title: this.language.username,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isSettable: true,
@@ -41,7 +41,7 @@ export class Vendor extends CustomModel {
             childrenFieldName: 'username',
         }),
         password: new NestedFieldModelField({
-            title: this.language.model_password,
+            title: this.language.password,
             isPassword: true,
             isDisplayedInModal: true,
             isSettable: true,
@@ -51,14 +51,14 @@ export class Vendor extends CustomModel {
             childrenFieldName: 'password',
         }),
         shopName: new TextModelField({
-            title: this.language.model_distribution_name,
+            title: this.language.name,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isRequired: true,
             isSettable: true,
         }),
         shopType: new TextModelField({
-            title: this.language.model_type_shop,
+            title: this.language.description,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isRequired: true,
@@ -67,21 +67,21 @@ export class Vendor extends CustomModel {
         }),
         addressStreet: new TextModelField({
             isDisplayedInTable: true,
-            title: this.language.add_beneficiary_getAddressStreet,
+            title: this.language.address_street,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
         }),
         addressNumber: new TextModelField({
             isDisplayedInTable: true,
-            title:  this.language.add_beneficiary_getAddressNumber,
+            title:  this.language.address_number,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
         }),
         addressPostcode: new TextModelField({
             isDisplayedInTable: true,
-            title: this.language.add_beneficiary_getAddressPostcode,
+            title: this.language.address_postcode,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
@@ -90,7 +90,7 @@ export class Vendor extends CustomModel {
             isDisplayedInTable: true,
             displayTableFunction: null,
             title: this.language.location,
-
+            tooltip: null
         }),
         adm1: new NestedFieldModelField({
             title: this.language.adm1[this.country],
@@ -110,7 +110,9 @@ export class Vendor extends CustomModel {
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm2Options(vendor, parseInt(value, 10)).subscribe();
+                    const location = vendor.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => vendor.set('location', location));
                 }
                 return vendor;
             },
@@ -130,7 +132,9 @@ export class Vendor extends CustomModel {
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm3Options(vendor, parseInt(value, 10)).subscribe();
+                    const location = vendor.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => vendor.set('location', location));
                 }
                 return vendor;
             },
@@ -148,7 +152,9 @@ export class Vendor extends CustomModel {
                 // vendor.set('adm4', null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm4Options(vendor, parseInt(value, 10)).subscribe();
+                    const location = vendor.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => vendor.set('location', location));
                 }
                 return vendor;
             },
@@ -173,7 +179,9 @@ export class Vendor extends CustomModel {
         newVendor.set('addressNumber', vendorFromApi.address_number);
         newVendor.set('addressPostcode', vendorFromApi.address_postcode);
         newVendor.set('location', vendorFromApi.location ? Location.apiToModel(vendorFromApi.location) : null);
-        newVendor.fields.location.displayTableFunction = (value: Location) => value ? value.getLocationName() : null;
+
+        newVendor.fields.location.tooltip = (value: Location) => value.getLocationName();
+        newVendor.fields.location.displayTableFunction = (value: Location) => value ? value.getPreciseLocationName() : null;
         newVendor.fields.password.isRequired = false; // No need to enter the password on update
 
         return newVendor;

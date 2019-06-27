@@ -1,28 +1,28 @@
 <form [formGroup]="form">
   <div class="column-container">
-    <h4 class="location">{{ language.beneficiaries_local_name | uppercaseFirst }}</h4>
+    <h4 class="location">{{ language.beneficiary_local_name | uppercaseFirst }}</h4>
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getFamilyName | uppercaseFirst}}" formControlName="localFamilyName" required>
+      <input matInput type="text" placeholder="{{language.beneficiary_local_family_name | uppercaseFirst}}" formControlName="localFamilyName" required>
       <app-hint-error [form]="form" fieldName="localFamilyName" [field]="beneficiaryFields.localFamilyName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getGivenName | uppercaseFirst}}" formControlName="localGivenName" required>
+      <input matInput type="text" placeholder="{{language.beneficiary_local_given_name | uppercaseFirst}}" formControlName="localGivenName" required>
       <app-hint-error [form]="form" fieldName="localGivenName" [field]="beneficiaryFields.localGivenName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
   </div>
   <div class="column-container">
-    <h4 class="location">{{ language.beneficiaries_english_name | uppercaseFirst }}</h4>
+    <h4 class="location">{{ language.beneficiary_en_name | uppercaseFirst }}</h4>
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishFamilyName | uppercaseFirst}}" formControlName="enFamilyName">
+      <input matInput type="text" placeholder="{{language.beneficiary_en_family_name | uppercaseFirst}}" formControlName="enFamilyName">
       <app-hint-error [form]="form" fieldName="enFamilyName" [field]="beneficiaryFields.enFamilyName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getEnglishGivenName | uppercaseFirst}}" formControlName="enGivenName">
+      <input matInput type="text" placeholder="{{language.beneficiary_en_given_name | uppercaseFirst}}" formControlName="enGivenName">
       <app-hint-error [form]="form" fieldName="enGivenName" [field]="beneficiaryFields.enGivenName" [isMatField]="true"></app-hint-error>
     </mat-form-field>
   </div>
   <div class="column-container">
-      <h4 class="location">{{ language.beneficiaries_personnal | uppercaseFirst }}</h4>
+      <h4 class="location">{{ language.beneficiary_personnal | uppercaseFirst }}</h4>
     <ng-select class="single-select gender" [multiple]="false" [searchable]=true [closeOnSelect]="true"
       placeholder="{{language.gender | uppercaseFirst }}" formControlName="gender" required>
       <ng-option *ngFor="let option of options.genderList" [value]="option.get('id')">
@@ -31,14 +31,14 @@
     </ng-select>
     <app-hint-error [form]="form" fieldName="gender" [field]="beneficiaryFields.gender" [isMatField]="false"></app-hint-error>
     <mat-form-field class="datepicker-computer" required>
-      <input #DateOfBirthHead matInput [matDatepicker]="birthHeadComputer" placeholder="{{language.add_beneficiary_getDateOfBirth | uppercaseFirst }}"
+      <input #DateOfBirthHead matInput [matDatepicker]="birthHeadComputer" placeholder="{{language.beneficiary_date_of_birth | uppercaseFirst }}"
         formControlName="dateOfBirth" required>
       <mat-datepicker-toggle matSuffix [for]="birthHeadComputer"></mat-datepicker-toggle>
       <mat-datepicker #birthHeadComputer></mat-datepicker>
       <app-hint-error [form]="form" fieldName="dateOfBirth" [field]="beneficiaryFields.dateOfBirth" [isMatField]="true"></app-hint-error>
     </mat-form-field>
     <mat-form-field class="datepicker-mobile" required>
-      <input #DateOfBirthHead matInput [matDatepicker]="birthHeadMobile" placeholder="{{language.add_beneficiary_getDateOfBirth | uppercaseFirst }}"
+      <input #DateOfBirthHead matInput [matDatepicker]="birthHeadMobile" placeholder="{{language.beneficiary_date_of_birth | uppercaseFirst }}"
       formControlName="dateOfBirth">
       <mat-datepicker-toggle matSuffix [for]="birthHeadMobile"></mat-datepicker-toggle>
       <mat-datepicker touchUi #birthHeadMobile></mat-datepicker>
@@ -48,21 +48,21 @@
   <div class="column-container">
     <h4 class="location">{{ language.id | uppercaseFirst }}</h4>
     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-      placeholder="{{language.add_beneficiary_getTypeNationalId | uppercaseFirst }}" formControlName="IDType">
+      placeholder="{{language.national_id_type | uppercaseFirst }}" formControlName="IDType">
       <ng-option *ngFor="let option of options.nationalIdList" [value]="option.get('id')">
         {{option.get('name')}}
       </ng-option>
     </ng-select>
     <app-hint-error [form]="form" fieldName="IDType" [field]="nationalIdFields.type" [isMatField]="true"></app-hint-error>
     <mat-form-field>
-      <input matInput type="text" placeholder="{{language.add_beneficiary_getNationalID | uppercaseFirst }}" formControlName="IDNumber">
+      <input matInput type="text" placeholder="{{language.national_id_number | uppercaseFirst }}" formControlName="IDNumber">
       <app-hint-error [form]="form" fieldName="IDNumber" [field]="nationalIdFields.number" [isMatField]="true"></app-hint-error>
     </mat-form-field>
   </div>
   <div class="column-container">
-    <h4 class="location">{{ language.beneficiaries_residency | uppercaseFirst }}</h4>
+    <h4 class="location">{{ language.beneficiary_residency | uppercaseFirst }}</h4>
     <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-      placeholder="{{language.model_residencystatus | uppercaseFirst }}" formControlName="residencyStatus">
+      placeholder="{{language.beneficiary_residency_status | uppercaseFirst }}" formControlName="residencyStatus">
       <ng-option *ngFor="let option of options.residencyStatusList" [value]="option.get('id')">
         {{ option.get('name') | uppercaseFirst  }}
       </ng-option>
@@ -70,15 +70,15 @@
     <app-hint-error [form]="form" fieldName="residencyStatus" [field]="beneficiaryFields.residencyStatus" [isMatField]="false"></app-hint-error>
   </div>
   <div class="column-container">
-    <h4 class="location">{{ language.beneficiaries_referral | uppercaseFirst }}</h4>
+    <h4 class="location">{{ language.beneficiary_referral | uppercaseFirst }}</h4>
     <div class="referral-question" *ngIf="!form.controls.referralType.value && !form.controls.referralComment.value && !form.controls.addReferral.value">
       <mat-checkbox formControlName="addReferral" type="checkbox" color="primary" [checked]="default">
       </mat-checkbox>
-      <span>{{ language.beneficiaries_referral_question | uppercaseFirst }}</span>
+      <span>{{ language.beneficiary_referral_question | uppercaseFirst }}</span>
     </div>
     <ng-container *ngIf="form.controls.addReferral.value || (form.controls.referralType.value && form.controls.referralComment.value)">
       <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-        placeholder="{{language.beneficiaries_referral_type | uppercaseFirst }}" formControlName="referralType">
+        placeholder="{{language.beneficiary_referral_type | uppercaseFirst }}" formControlName="referralType">
         <ng-option *ngFor="let option of options.referralTypeList" [value]="option.get('id')">
           {{option.get('name') | uppercaseFirst  }}
         </ng-option>
@@ -86,7 +86,7 @@
       <app-hint-error [form]="form" fieldName="referralType" [field]="beneficiaryFields.referralType" [isMatField]="false"></app-hint-error>
       <mat-form-field class="area-size">
         <textarea matInput matTextareaAutosize="true" matAutosizeMinRows="2" matAutosizeMaxRows="5"
-          placeholder="{{language.beneficiaries_referral_comment | uppercaseFirst}}" formControlName="referralComment"></textarea>
+          placeholder="{{language.beneficiary_referral_comment | uppercaseFirst}}" formControlName="referralComment"></textarea>
         <app-hint-error [form]="form" fieldName="referralComment" [field]="beneficiaryFields.referralComment" [isMatField]="true"></app-hint-error>
       </mat-form-field>
     </ng-container>
@@ -95,23 +95,23 @@
     <h4 class="location">{{ language.phone | uppercaseFirst }} {{ index + 1 }}</h4>
     <div class="items-line">
       <ng-select class="single-select phone-type" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-        placeholder="{{language.add_beneficiary_getTypePhone | uppercaseFirst }}" [formControlName]="'phoneType'+index">
+        placeholder="{{language.type | uppercaseFirst }}" [formControlName]="'phoneType'+index">
         <ng-option *ngFor="let option of options.phoneList" [value]="option.get('id')">
           {{ option.get('name') }}
         </ng-option>
       </ng-select>
       <app-hint-error [form]="form" [fieldName]="'phoneType'+index" [field]="phoneFields.type" [isMatField]="false"></app-hint-error>
-      <mat-checkbox color="primary" [formControlName]="'phoneProxy'+index">{{language.beneficiaries_proxy}}</mat-checkbox>
+      <mat-checkbox color="primary" [formControlName]="'phoneProxy'+index">{{language.phone_proxy}}</mat-checkbox>
     </div>
 
     <div class="items-line">
       <ng-select class="single-select country-code" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-      [formControlName]="'phonePrefix'+index" placeholder="{{language.add_beneficiary_code | uppercaseFirst }}">
+      [formControlName]="'phonePrefix'+index" placeholder="{{language.phone_prefix | uppercaseFirst }}">
         <ng-option *ngFor="let country of options.countryCodesList" [value]="country">{{country}}</ng-option>
       </ng-select>
       <app-hint-error [form]="form" [fieldName]="'phonePrefix'+index" [field]="phoneFields.prefix" [isMatField]="false"></app-hint-error>
       <mat-form-field class="phone-number">
-        <input matInput type="tel" placeholder="{{language.model_beneficiaries_phone_no+(index+1)|uppercaseFirst }}" [formControlName]="'phoneNumber'+index">
+        <input matInput type="tel" placeholder="{{language.phone_no+(index+1)|uppercaseFirst }}" [formControlName]="'phoneNumber'+index">
         <app-hint-error [form]="form" [fieldName]="'phoneNumber'+index" [field]="phoneFields.number" [isMatField]="false"></app-hint-error>
       </mat-form-field>
     </div>

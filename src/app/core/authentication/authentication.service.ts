@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpService } from '../network/http.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Country } from 'src/app/models/country';
 import { URL_BMS_API } from '../../../environments/environment';
@@ -24,7 +24,7 @@ export class AuthenticationService {
         public _wsseService: WsseService,
         public _cacheService: AsyncacheService,
         public countryService: CountriesService,
-        public http: HttpClient,
+        protected http: HttpService,
         public router: Router,
     ) { }
 
@@ -36,7 +36,7 @@ export class AuthenticationService {
 
     initializeUser(username: string) {
       this._wsseService.setUsername(username);
-      return this.http.get<string>(URL_BMS_API + '/initialize/' + username);
+      return this.http.get(URL_BMS_API + '/initialize/' + username);
     }
 
     logUser(user) {
@@ -45,7 +45,7 @@ export class AuthenticationService {
 
 
     checkCredentials() {
-        return this.http.get<any>(URL_BMS_API + '/check');
+        return this.http.get(URL_BMS_API + '/check');
     }
 
     login(username: string, password: string) {
@@ -86,7 +86,7 @@ export class AuthenticationService {
             this.countryService.setCountry(countries[0]);
             this._cacheService.setCountry(countries[0]).subscribe();
         }
-        this._cacheService.set(AsyncacheService.USER, user.modelToApi());
+        this._cacheService.setUser(user).subscribe();
     }
 
     setSaltedPassword(user: User, saltedPassword: string) {
@@ -110,8 +110,12 @@ export class AuthenticationService {
         return this.initializeUser(body.username)
             .pipe(
                 switchMap((salt: string) => {
-                    body = this.createSaltedPassword(body, salt);
-                    return this.http.put(URL_BMS_API + '/users', body);
+                    if (salt.length !== 0) {
+                        body = this.createSaltedPassword(body, salt);
+                        return this.http.put(URL_BMS_API + '/users', body);
+                    } else {
+                        return of(null);
+                    }
                 })
             );
     }
@@ -127,7 +131,7 @@ export class AuthenticationService {
     }
 
     public createSaltedPassword(body: any, salt: any) {
-        const saltedPassword = this._wsseService.saltPassword(salt.salt, body.password);
+        const saltedPassword = body.password ? this._wsseService.saltPassword(salt.salt, body.password) : null;
         this._wsseService.setSalted(saltedPassword);
         body.password = saltedPassword;
         body.salt = salt.salt;

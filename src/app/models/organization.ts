@@ -19,26 +19,26 @@ export class Organization extends CustomModel {
 
         }),
         name: new TextModelField({
-            title: this.language.model_organization_name,
+            title: this.language.organization_name,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isEditable: true,
             isRequired: true,
         }),
         logo: new TextModelField({
-            title: this.language.model_organization_logo,
+            title: this.language.organization_logo,
             isDisplayedInTable: true,
             isImageInTable: true,
         }),
         logoData: new FileModelField({
-            title: this.language.model_organization_logo,
+            title: this.language.organization_logo,
             isDisplayedInModal: true,
             isEditable: true,
             uploadPath: '/organization/upload/logo',
             fileUrlField: 'logo',
         }),
         font: new TextModelField({
-            title: this.language.model_organization_font,
+            title: this.language.organization_font,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isEditable: true,
@@ -46,7 +46,7 @@ export class Organization extends CustomModel {
             isFont: true,
         }),
         primaryColor: new TextModelField({
-            title: this.language.model_organization_primary,
+            title: this.language.organization_primary,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isEditable: true,
@@ -54,7 +54,7 @@ export class Organization extends CustomModel {
             isColor: true,
         }),
         secondaryColor: new TextModelField({
-            title: this.language.model_organization_secondary,
+            title: this.language.organization_secondary,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isEditable: true,
@@ -62,7 +62,7 @@ export class Organization extends CustomModel {
             isColor: true,
         }),
         footerContent: new TextModelField({
-            title: this.language.model_organization_footer,
+            title: this.language.organization_footer,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isEditable: true,

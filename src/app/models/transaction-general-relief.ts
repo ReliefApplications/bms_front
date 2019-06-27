@@ -22,8 +22,9 @@ export class GeneralRelief extends CustomModel {
         const newGeneralRelief = new GeneralRelief();
         newGeneralRelief.set('id', generalReliefFromApi.id);
         newGeneralRelief.set('notes', generalReliefFromApi.notes);
-        newGeneralRelief.set('distributedAt', generalReliefFromApi.distributed_at);
-
+        newGeneralRelief.set('distributedAt', generalReliefFromApi.distributed_at ?
+            DateModelField.formatDateTimeFromApi(generalReliefFromApi.distributed_at) :
+            null);
         return newGeneralRelief;
     }
 
@@ -31,7 +32,7 @@ export class GeneralRelief extends CustomModel {
         return {
             id: this.get('id'),
             notes: this.get('notes'),
-            distributed_at: this.fields.distributedAt.formatForApi(),
+            distributed_at: this.fields.distributedAt.formatDateTimeForApi(),
 
         };
     }
@@ -41,7 +42,7 @@ export class GeneralRelief extends CustomModel {
 export class TransactionGeneralRelief extends DistributionBeneficiary {
 
     matSortActive = 'localFamilyName';
-    title = this.language.model_item;
+    title = this.language.general_relief;
 
     public fields = {...this.fields, ...{
         id: new NumberModelField({
@@ -57,28 +58,28 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
                 value: []
         }),
         localGivenName: new NestedFieldModelField({
-            title: this.language.model_firstName,
+            title: this.language.beneficiary_given_name,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localGivenName'
         }),
         localFamilyName: new NestedFieldModelField({
-            title: this.language.model_familyName,
+            title: this.language.beneficiary_family_name,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localFamilyName'
         }),
         enGivenName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishGivenName,
+            title: this.language.beneficiary_en_given_name,
             isDisplayedInTable: false,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'enGivenName'
         }),
         enFamilyName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishFamilyName,
+            title: this.language.beneficiary_en_family_name,
             isDisplayedInTable: false,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
@@ -88,7 +89,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
 
         }),
         distributedAt: new DateModelField({
-            title: this.language.model_distributed,
+            title: this.language.distributed,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             nullValue: this.language.null_not_distributed,
@@ -96,20 +97,20 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
         }),
         // Can only be filled by the distribution, in Distribution.apiToModel()
         values: new TextModelField({
-            title: this.language.model_value,
+            title: this.language.value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
 
         }),
         // Will be displayed in modal as an array of input field, but filled with a particular modal
         notes: new ArrayInputField<string>({
-            title: this.language.model_notes,
+            title: this.language.notes,
             numberOfInputs: null,
             isDisplayedInModal: true,
             isEditable: true,
         }),
         addReferral: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_question,
+            title: this.language.beneficiary_referral_question,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'addReferral',
@@ -122,14 +123,14 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             },
         }),
         referralType: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_type,
+            title: this.language.beneficiary_referral_type,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'referralType',
             isEditable: true,
         }),
         referralComment: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_comment,
+            title: this.language.beneficiary_referral_comment,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'referralComment',
@@ -141,12 +142,8 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionGeneralRelief {
         const newGeneralRelief = new TransactionGeneralRelief();
         newGeneralRelief.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
-        if (distributionBeneficiaryFromApi.beneficiary.referral) {
-            newGeneralRelief.fields.addReferral.isDisplayedInModal = false;
-            newGeneralRelief.fields.referralType.isDisplayedInModal = true;
-            newGeneralRelief.fields.referralComment.isDisplayedInModal = true;
-        }
-        newGeneralRelief.set('distributedAt', distributionBeneficiaryFromApi.general_reliefs[0] ?
+        newGeneralRelief.set('distributedAt',
+            distributionBeneficiaryFromApi.general_reliefs[0] && distributionBeneficiaryFromApi.general_reliefs[0].distributed_at ?
             DateModelField.formatDateTimeFromApi(distributionBeneficiaryFromApi.general_reliefs[0].distributed_at) :
             null);
         newGeneralRelief.set('notes', distributionBeneficiaryFromApi.general_reliefs.map((generalRelief: any) => generalRelief.notes));
@@ -170,13 +167,17 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
 
         return {
             id: this.get('id'),
-            local_given_name: this.get('localGivenName'),
-            local_family_name: this.get('localFamilyName'),
-            en_given_name: this.get('enGivenName'),
-            en_family_name: this.get('enFamilyName'),
-            used: this.fields.distributedAt.formatForApi(),
-            values: this.get('values'),
-            notes: this.get('notes'),
+            beneficiary: this.get('beneficiary').modelToApi(),
+            general_reliefs: this.get('generalReliefs') ?
+            this.get<Array<GeneralRelief>>('generalReliefs').map((generalRelief: GeneralRelief) => generalRelief.modelToApi()) : [],
+
+            // local_given_name: this.get('localGivenName'),
+            // local_family_name: this.get('localFamilyName'),
+            // en_given_name: this.get('enGivenName'),
+            // en_family_name: this.get('enFamilyName'),
+            // used: this.fields.distributedAt.formatForApi(),
+            // values: this.get('values'),
+            // notes: this.get('notes'),
         };
 
     }

@@ -20,7 +20,6 @@ export class ModalAddBeneficiaryComponent implements OnInit {
     public justification = new FormControl('', [Validators.required]);
     beneficiaryList = new Array<Beneficiary>();
     selectedBeneficiariesControl = new FormControl([], [Validators.minLength(1), Validators.required]);
-    loading: boolean;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -51,13 +50,11 @@ export class ModalAddBeneficiaryComponent implements OnInit {
      * Gets all the beneficiaries of the project to be able to add some to this distribution
      */
     getProjectBeneficiaries() {
-        this.loading = true;
         const target = this.data.distribution.get('type').get('name');
 
         this.beneficiariesService.getAllFromProject(this.data.distribution.get('project').get('id'), target)
             .subscribe(
                 allBeneficiaries => {
-                    this.loading = false;
                     if (allBeneficiaries) {
                         this.beneficiaryList = allBeneficiaries.map((beneficiary: any) => Beneficiary.apiToModel(beneficiary));
                     } else {

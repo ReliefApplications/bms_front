@@ -1,0 +1,18 @@
+.location-form {
+    .column-container {
+        width: 48%;
+        .create-camp {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            span {
+              margin-left: 10px;
+              width: 50%;
+            }
+        }
+        .address-fields {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

@@ -24,7 +24,7 @@ export class Project extends CustomModel {
         ),
         name : new TextModelField(
             {
-                title: this.language.model_project_name,
+                title: this.language.project_name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -39,7 +39,7 @@ export class Project extends CustomModel {
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
                 isDisplayedInTable: true,
-                title: this.language.model_sectors_name,
+                title: this.language.project_sectors_name,
                 isSettable: true,
                 options: undefined,
                 bindField: 'name',
@@ -51,7 +51,7 @@ export class Project extends CustomModel {
         ),
         startDate : new DateModelField(
             {
-                title: this.language.model_project_start_date,
+                title: this.language.project_start_date,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
@@ -65,7 +65,7 @@ export class Project extends CustomModel {
         ),
         endDate : new DateModelField(
             {
-                title: this.language.model_project_end_date,
+                title: this.language.project_end_date,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
@@ -80,7 +80,7 @@ export class Project extends CustomModel {
         // Todo: check if this is necessary ?
         numberOfHouseholds : new NumberModelField(
             {
-                title: this.language.model_project_number_of_households,
+                title: this.language.project_number_of_households,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInSummary: true,
@@ -89,7 +89,7 @@ export class Project extends CustomModel {
         ),
         donors : new MultipleSelectModelField (
             {
-                title: this.language.model_project_donors_name,
+                title: this.language.donors,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
@@ -112,7 +112,7 @@ export class Project extends CustomModel {
         ),
         target : new NumberModelField(
             {
-                title: this.language.model_project_value,
+                title: this.language.project_value,
                 placeholder: null,
                 isRequired: true,
                 isSettable: true,
@@ -133,7 +133,7 @@ export class Project extends CustomModel {
         ),
         notes : new TextModelField(
             {
-                title: this.language.model_notes,
+                title: this.language.notes,
                 placeholder: null,
                 isSettable: true,
                 isDisplayedInModal: true,

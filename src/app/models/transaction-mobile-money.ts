@@ -43,28 +43,28 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
             }
         ),
         localGivenName: new NestedFieldModelField({
-            title: this.language.model_firstName,
+            title: this.language.beneficiary_given_name,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localGivenName',
             isDisplayedInModal: true,
         }),
         localFamilyName: new NestedFieldModelField({
-            title: this.language.model_familyName,
+            title: this.language.beneficiary_family_name,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'localFamilyName',
             isDisplayedInModal: true,
         }),
         enGivenName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishGivenName,
+            title: this.language.beneficiary_en_given_name,
             isDisplayedInTable: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'enGivenName',
             isDisplayedInModal: false,
         }),
         enFamilyName: new NestedFieldModelField({
-            title: this.language.add_beneficiary_getEnglishFamilyName,
+            title: this.language.beneficiary_en_family_name,
             isDisplayedInTable: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'enFamilyName',
@@ -79,7 +79,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
         }),
         // Status : -2. not sent / -1. no phone / 0. fail to send / 1.Successfully sent / 2. already sent / 3. picked up
         state: new SingleSelectModelField({
-            title: this.language.model_state,
+            title: this.language.status,
             options: [
                 new State('-2', this.language.transaction_state_not_sent),
                 new State('-1', this.language.transaction_state_no_phone),
@@ -97,36 +97,36 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
 
         // Can only be filled by the distribution, in Distribution.apiToModel()
         values: new TextModelField({
-            title: this.language.model_value,
+            title: this.language.value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
         }),
 
         // Can only be filled by the updateForPickup function
         pickupDate: new DateModelField({
-            title: this.language.model_transaction_pickupDate,
+            title: this.language.transaction_pickupDate,
 
         }),
         message: new TextModelField({
-            title: this.language.model_transaction_message,
+            title: this.language.transaction_message,
             isDisplayedInModal: true,
         }),
         addReferral: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_question,
+            title: this.language.beneficiary_referral_question,
             isDisplayedInModal: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'addReferral',
             isEditable: true,
         }),
         referralType: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_type,
+            title: this.language.beneficiary_referral_type,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'referralType',
             isEditable: true,
         }),
         referralComment: new NestedFieldModelField({
-            title: this.language.beneficiaries_referral_comment,
+            title: this.language.beneficiary_referral_comment,
             isDisplayedInModal: false,
             childrenObject: 'beneficiary',
             childrenFieldName: 'referralComment',
@@ -160,6 +160,12 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
                     newDistributionBeneficiary.updateState('-2');
                 }
             }
+        }
+        // It means it comes from the cache, already "formatted"
+        else if (distributionBeneficiaryFromApi.transaction_id) {
+            newDistributionBeneficiary.set('idTransaction', distributionBeneficiaryFromApi.transaction_id);
+            newDistributionBeneficiary.set('message', distributionBeneficiaryFromApi.message);
+            newDistributionBeneficiary.updateState(distributionBeneficiaryFromApi.state);
         } else {
             newDistributionBeneficiary.updateState('-2');
         }
@@ -172,9 +178,14 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
 
         return {
             id: this.get('id'),
-            localGivenName: this.get('beneficiary').get('localGivenName'),
-            localFamilyName: this.get('beneficiary').get('localFamilyName'),
-            phone: this.get('beneficiary').get<Phone[]>('phones').map(phone => phone.modelToApi())
+            beneficiary: this.get('beneficiary').modelToApi(),
+            transaction_id: this.get('idTransaction'),
+            message: this.get('message'),
+            state: this.get('state').get('id')
+
+            // localGivenName: this.get('beneficiary').get('localGivenName'),
+            // localFamilyName: this.get('beneficiary').get('localFamilyName'),
+            // phone: this.get('beneficiary').get<Phone[]>('phones').map(phone => phone.modelToApi())
         };
 
     }

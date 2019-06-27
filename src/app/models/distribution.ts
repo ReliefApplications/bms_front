@@ -51,7 +51,7 @@ export class Distribution extends CustomModel {
         ),
         name: new TextModelField(
             {
-                title: this.language.model_distribution_name,
+                title: this.language.name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -67,6 +67,7 @@ export class Distribution extends CustomModel {
                 isDisplayedInSummary: true,
                 displayTableFunction: null,
                 displayModalFunction: null,
+                tooltip: null,
             }
         ),
         distributionBeneficiaries: new MultipleObjectsModelField<DistributionBeneficiary>(
@@ -80,7 +81,7 @@ export class Distribution extends CustomModel {
         ),
         date: new DateModelField(
             {
-                title: this.language.model_distribution_date,
+                title: this.language.distribution_date,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -112,7 +113,7 @@ export class Distribution extends CustomModel {
         ),
         type: new SingleSelectModelField(
             {
-                title: this.language.model_distribution_type,
+                title: this.language.distribution_type,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -127,7 +128,7 @@ export class Distribution extends CustomModel {
         ),
         commodities: new MultipleObjectsModelField<Commodity> (
             {
-                title: this.language.model_commodity,
+                title: this.language.commodity,
                 isDisplayedInTable: true,
                 isImageInTable: true,
                 isDisplayedInSummary: true,
@@ -166,7 +167,9 @@ export class Distribution extends CustomModel {
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm2Options(distribution, parseInt(value, 10)).subscribe();
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
                 }
                 return distribution;
             },
@@ -183,7 +186,9 @@ export class Distribution extends CustomModel {
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm3Options(distribution, parseInt(value, 10)).subscribe();
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
                 }
                 return distribution;
             },
@@ -199,7 +204,9 @@ export class Distribution extends CustomModel {
                 const appInjector = AppInjector;
                 form.controls.adm4.setValue(null);
                 if (value) {
-                    appInjector.get(LocationService).fillAdm4Options(distribution, parseInt(value, 10)).subscribe();
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
                 }
                 return distribution;
             },
@@ -230,7 +237,8 @@ export class Distribution extends CustomModel {
         newDistribution.set('location', distributionFromApi.location ? Location.apiToModel(distributionFromApi.location) : null);
         newDistribution.set('project', distributionFromApi.project ? Project.apiToModel(distributionFromApi.project) : null);
 
-        newDistribution.fields.location.displayTableFunction = value => value.getLocationName();
+        newDistribution.fields.location.tooltip = (value: Location) => value.getLocationName();
+        newDistribution.fields.location.displayTableFunction = (value: Location) => value.getPreciseLocationName();
         newDistribution.fields.location.displayModalFunction = value => value.getLocationName();
         newDistribution.fields.distributionBeneficiaries.displayTableFunction = value => value.length;
         newDistribution.fields.commodities.displayTableFunction = value => value;
@@ -280,7 +288,10 @@ export class Distribution extends CustomModel {
             project: project,
             selection_criteria: selectionCriteria,
             threshold: this.get('threshold'),
-            type: this.get('type').get('id')
+            type: this.get('type').get('id'),
+            distribution_beneficiaries: this.get<Array<DistributionBeneficiary>>('distributionBeneficiaries')
+                .map((distributionBeneficiary: DistributionBeneficiary) => distributionBeneficiary.modelToApi()),
+            validated: this.get('validated') ? this.get('validated') : false
         };
 
     }

@@ -1,18 +1,18 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DateAdapter, MatDialog, MatPaginator, MatSort, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { Router } from '@angular/router';
-import { CustomModelService } from 'src/app/core/utils/custom-model.service';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { LocationService } from 'src/app/core/api/location.service';
-import { NetworkService } from 'src/app/core/network/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
+import { CustomModelService } from 'src/app/core/utils/custom-model.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { TextModelField } from 'src/app/models/custom-models/text-model-field';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ExportService } from '../../core/api/export.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
@@ -173,7 +173,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
 
     setDataTableProperties() {
-        if (this.searchable) {
+        if (this.searchable && this.tableData) {
             this.tableData.filterPredicate = (element: CustomModel, filter: string) => {
                 if (!filter) {
                     return true;
@@ -204,16 +204,18 @@ export class TableComponent implements OnInit,  AfterViewInit {
             };
         }
 
-        this.tableData.sortingDataAccessor = (item, property) => {
-            let field = item.fields[property];
+        if (this.tableData) {
+                    this.tableData.sortingDataAccessor = (item, property) => {
+                        let field = item.fields[property];
 
-            if (field.kindOfField === 'Children') {
-                field = item.get(field.childrenObject) ?
-                    item.get(field.childrenObject).fields[field.childrenFieldName] :
-                    new TextModelField({});
-            }
-            return this.getFieldStringValues(field);
-        };
+                        if (field.kindOfField === 'Children') {
+                            field = item.get(field.childrenObject) ?
+                                item.get(field.childrenObject).fields[field.childrenFieldName] :
+                                new TextModelField({});
+                        }
+                        return this.getFieldStringValues(field);
+                    };
+        }
 
         if ((this.tableData && this.tableData.data)) {
             this.tableData.sort = this.sort;
@@ -328,6 +330,9 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
     requestLogs(element: any) {
+        if (!element) {
+            return;
+        }
         this.service.requestLogs(element.get('id')).toPromise()
             .then(
                 () => { this.snackbar.success('Logs have been sent'); }

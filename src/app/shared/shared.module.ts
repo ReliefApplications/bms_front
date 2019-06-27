@@ -50,7 +50,6 @@ import { PlaceholderBoxlineComponent } from '../components/placeholders/placehol
 import { PlaceholderPanelComponent } from '../components/placeholders/placeholder-panel/placeholder-panel.component';
 import { PlaceholderStepperComponent } from '../components/placeholders/placeholder-stepper/placeholder-stepper.component';
 import { PlaceholderSummaryComponent } from '../components/placeholders/placeholder-summary/placeholder-summary.component';
-import { PlaceholderTitleComponent } from '../components/placeholders/placeholder-title/placeholder-title.component';
 import { SettingsComponent } from '../components/settings/settings.component';
 import { TableMobileServerComponent } from '../components/table/table-mobile-server/table-mobile-server.component';
 import { TableMobileComponent } from '../components/table/table-mobile/table-mobile.component';
@@ -62,6 +61,7 @@ import { ImportedDataComponent } from '../modules/beneficiaries/beneficiaries-im
 import { BeneficiariesComponent } from '../modules/beneficiaries/beneficiaries.component';
 import { DataValidationComponent } from '../modules/beneficiaries/data-validation/data-validation.component';
 import { BeneficiaryFormComponent } from '../modules/beneficiaries/update-beneficiary/beneficiary-form/beneficiary-form.component';
+import { LocationFormComponent } from '../modules/beneficiaries/update-beneficiary/location-form/location-form.component';
 import { UpdateBeneficiaryComponent } from '../modules/beneficiaries/update-beneficiary/update-beneficiary.component';
 import { DashboardComponent } from '../modules/dashboard/dashboard.component';
 import { GeneralSettingsComponent } from '../modules/general-settings/general-settings.component';
@@ -175,9 +175,9 @@ imports: [
         PlaceholderBoxlineComponent,
         PlaceholderPanelComponent,
         PlaceholderStepperComponent,
-        PlaceholderTitleComponent,
         UpdateBeneficiaryComponent,
         BeneficiaryFormComponent,
+        LocationFormComponent,
         ImportedDataComponent,
         ThousandsPipe,
         FormatCamelCasePipe,
@@ -277,7 +277,6 @@ imports: [
         PlaceholderBoxlineComponent,
         PlaceholderPanelComponent,
         PlaceholderStepperComponent,
-        PlaceholderTitleComponent,
         SettingsComponent,
         AdministrationComponent,
     ],

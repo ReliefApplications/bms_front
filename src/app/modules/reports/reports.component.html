@@ -1,1 +1,157 @@
-<app-indicator-page></app-indicator-page>
+<div class="page-container">
+    <div class="container-title">
+        <h2>{{language.reports | titlecase}}</h2>
+    </div>
+
+    <div class="container-boxes">
+        <app-box-setting *ngFor="let report of enabledReports"
+            (click)="selectReport(report)"
+            [isSelected]="report === selectedReport"
+            [info]='report'>
+        </app-box-setting>
+    </div>
+
+    <div class="container-table">
+        <div class="container-content">
+            <div class="content-button">
+
+                <!-- button to filter data by frequency -->
+                <div class="frequency">
+                    <button
+                        *ngFor="let frequency of enabledFrequencies"
+                        (click)="selectFrequency(frequency)"
+                        mat-raised-button
+                        [ngClass]="{'selected-frequency': frequency === selectedFrequency}">
+                        {{frequency.label | titlecase}}
+                    </button>
+
+                    <button
+                        (click)="togglePeriod()"
+                        mat-raised-button
+                        [ngClass]="{'period-mode-enabled': periodMode}">
+                        {{language.report_filter_chose_periode | titlecase}}
+                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <mat-spinner [diameter]='25' *ngIf="isDownloading"></mat-spinner>
+                    <div class="extension button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" *ngIf='!isDownloading'>
+                        <button mat-raised-button class="button-background-primary" (click)="export(exportFileType)">
+                            <mat-icon>get_app</mat-icon>
+                            <span>{{language.export | titlecase}}</span>
+                        </button>
+                        <div class="extension">
+
+                            <button mat-raised-button class="dropdown button-background-primary" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType">
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                            <mat-menu #exportType>
+                                <button mat-menu-item (click)="exportFileType = 'xls'">.xls <mat-icon *ngIf="exportFileType=='xls'">done</mat-icon></button>
+                                <button mat-menu-item (click)="exportFileType = 'csv'">.csv <mat-icon *ngIf="exportFileType=='csv'">done</mat-icon></button>
+                                <button mat-menu-item (click)="exportFileType = 'ods'">.ods <mat-icon *ngIf="exportFileType=='ods'">done</mat-icon></button>
+                                <button mat-menu-item (click)="exportFileType = 'pdf'">.pdf <mat-icon *ngIf="exportFileType=='pdf'">done</mat-icon></button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-body">
+                <form [formGroup]="periodControl" >
+                    <mat-card class="content-card" *ngIf="periodMode">
+                        <ng-container *ngIf="selectedFrequency.value === 'year'; else month">
+                            <app-year-picker [control]="periodControl.controls['startDate']"
+                                [placeholder]="language.report_from"></app-year-picker>
+                            <app-year-picker [control]="periodControl.controls['endDate']"
+                                [placeholder]="language.report_to"></app-year-picker>
+                        </ng-container>
+                        <ng-template #month>
+                            <app-month-picker [control]="periodControl.controls['startDate']"
+                                [placeholder]="language.report_from"></app-month-picker>
+                            <app-month-picker [control]="periodControl.controls['endDate']"
+                                [placeholder]="language.report_to"></app-month-picker>
+                        </ng-template>
+                    </mat-card>
+                </form>
+
+                <div *ngIf="selectedReport.value !== 'countries' && projects">
+
+                    <form [formGroup]="projectsControl">
+                        <mat-card class="content-card" *ngIf="selectedReport.value === 'projects';else distributionType">
+                            <ng-select class="multiple-select" formControlName="projectsSelect" [clearable]="false"
+                                [multiple]="true" [placeholder]="language.projects | titlecase" [closeOnSelect]="false" [searchable]="true">
+                                <ng-template ng-header-tmp>
+                                    <ng-container
+                                        *ngTemplateOutlet="ngSelectHeader;context:{formControl: projectsControl.controls.projectsSelect, entities: projects}">
+                                    </ng-container>
+                                </ng-template>
+                                <ng-option *ngFor="let project of projects" [value]="project">
+                                    {{project.get('name') | titlecase}}
+                                </ng-option>
+                            </ng-select>
+                        </mat-card>
+                    </form>
+
+                    <ng-template #distributionType>
+                        <form [formGroup]="distributionsControl">
+                            <mat-card class="content-card">
+                                <ng-select class="single-select" formControlName="projectSelect" [clearable]="false"
+                                    [multiple]="false" [placeholder]="language.projects | titlecase" [closeOnSelect]="false" [searchable]="true">
+                                    <ng-option *ngFor="let project of projects" [value]="project">
+                                        {{project.get('name') | titlecase}}
+                                    </ng-option>
+                                </ng-select>
+
+                                <ng-select class="multiple-select" formControlName="distributionsSelect" [clearable]="false"
+                                    [multiple]="true" [placeholder]="language.distributions | titlecase" [closeOnSelect]="false" [searchable]="true">
+                                    <ng-template ng-header-tmp>
+                                        <ng-container
+                                            *ngTemplateOutlet="ngSelectHeader;context:{formControl: distributionsControl.controls.distributionsSelect, entities: distributions}">
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-option *ngFor="let distribution of distributions" [value]="distribution">
+                                        {{distribution.get('name') | titlecase}}
+                                    </ng-option>
+                                </ng-select>
+                            </mat-card>
+                        </form>
+                    </ng-template>
+                </div>
+            </div>
+            <div id="graphs">
+                <div *ngFor="let graph of graphs" class="graph" style="page-break-after: always;">
+                    <h2 class="graph-title">{{graph.name}}</h2>
+                    <ng-container *ngIf="!graphValuesAreEmpty(graph); else noData">
+                        <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'"></app-line-chart>
+                        <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie' || graph.type === 'grid'"></app-pie-chart>
+                        <app-bar-chart [graphInfo]="graph" *ngIf="graph.type === 'number'"></app-bar-chart>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #ngSelectHeader let-control="formControl" let-entities="entities">
+    <div class="ng-select-header select"
+        *ngIf="!control.value || control.value.length !== entities.length; else deselectAll"
+        (click)="control.setValue(entities)" >
+        Select all
+    </div>
+    <ng-template #deselectAll>
+        <div class="ng-select-header deselect"
+        (click)="control.reset()" >
+            Deselect all
+        </div>
+    </ng-template>
+
+</ng-template>
+
+
+<ng-template #noData>
+    <div class="placeholder">
+        <p>No Data</p>
+    </div>
+</ng-template>
+

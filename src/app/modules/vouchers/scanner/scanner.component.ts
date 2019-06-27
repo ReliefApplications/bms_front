@@ -57,7 +57,7 @@ export class ScannerComponent extends VouchersComponent implements OnInit {
     }
 
     // DO NOT REMOVE
-    log(event) {
+    log(event: any) {
         // tslint:disable-next-line
         console.log(event);
     }

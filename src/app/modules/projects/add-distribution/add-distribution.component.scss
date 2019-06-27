@@ -42,6 +42,7 @@
         }
 
         .accordion-card {
+            box-shadow: $bms_shadow !important;
             width: 100%;
 
             .accordion-field {

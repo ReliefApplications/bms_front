@@ -92,17 +92,19 @@ export class HttpService {
         return filtered;
     }
 
-    get(url, options = {}): Observable<any> {
+    get(url: string, options = {}): Observable<any> {
+
         const itemKey = this.resolveItemKey(url);
-        let cacheData: any;
         const connected = this.networkService.getStatus();
+        let cacheData: any;
 
         // If this item is cachable & user is connected
         if (itemKey && connected) {
             return concat(
                 this.cacheService.get(itemKey).pipe(
                     map(
-                        result => {
+                        (result: any) => {
+
                             cacheData = result;
                             return result;
                         }
@@ -110,7 +112,7 @@ export class HttpService {
                 ),
                 this.http.get(url, options).pipe(
                     map(
-                        result => {
+                        (result: any) => {
                             if (result !== undefined) {
                                 if (Array.isArray(result) && Array.isArray(cacheData)) {
                                     if (JSON.stringify(result) !== JSON.stringify(cacheData) && this.save) {

@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MatDateFormats } from '@angular/material';
+import { NativeDateAdapter } from '@angular/material';
 
 @Injectable({
     providedIn: 'root'
@@ -25,10 +25,12 @@ export class CustomDateAdapter extends NativeDateAdapter {
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
             return this._to2digit(day) + '-' + this._to2digit(month) + '-' + year;
-        } else if (displayFormat === 'inputMonth') {
+        } else if (displayFormat === 'month') {
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
             return this._to2digit(month) + '-' + year;
+        } else if (displayFormat === 'year') {
+            return date.getFullYear().toString();
         } else {
             return date.toDateString();
         }
@@ -47,7 +49,7 @@ export const APP_DATE_FORMATS = {
         // dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
         dateInput: 'input',
         // monthYearLabel: { month: 'short', year: 'numeric', day: 'numeric' },
-        monthYearLabel: 'inputMonth',
+        monthYearLabel: 'month',
         dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
         monthYearA11yLabel: { year: 'numeric', month: 'long' },
     }

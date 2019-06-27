@@ -1,32 +1,5 @@
-<app-chart-header
-[title]           = "title"
-[loader]          = "loader"
-[noData]          = "noData"
-></app-chart-header>
-
-
-<!-- it is posible to add a legend title with the property legendTitle -->
-<div *ngIf="!loader && (!noData)" class="chart-box">
-    <ngx-charts-line-chart
-     [view]               = "view"
-     [scheme]             = "scheme"
-     [results]            = "data"
-     [legend]             = "false"
-     [xAxis]              = "axis.showXAxis"
-     [yAxis]              = "axis.showYAxis"
-     [showXAxisLabel]     = "axis.showXAxisLabel"
-     [showYAxisLabel]     = "axis.showYAxisLabel"
-     [xAxisLabel]         = "axis.xAxisLabel"
-     [yAxisLabel]         = "axis.yAxisLabel | titlecase"
-     [autoScale]          = "autoScale"
-     [animations]     = "false"
-     [yAxisTickFormatting] = "yAxisTickFormattingFn">
-    </ngx-charts-line-chart>
-</div>
-<div *ngIf="!loader && noData" class="no-data">
-  <h1>NO DATA</h1>
-</div>
-
-<div *ngIf="loader" class="boxLoader">
-  <!-- <mat-spinner></mat-spinner> -->
+<div style="display: block">
+    <canvas baseChart width="400px" height="400px"  [options]="options"
+    [colors]="lineChartColors" [datasets]="[dataSet]"
+    [legend]="'true'" [labels]="xAxisLabels" [chartType]="'line'"></canvas>
 </div>

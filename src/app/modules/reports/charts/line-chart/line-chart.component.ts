@@ -1,44 +1,71 @@
-import { Component, KeyValueDiffers } from '@angular/core';
-import { LanguageService } from 'src/app/core/language/language.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { ChartDataLoaderService } from '../../services/chart-data-loader.service';
-import { ChartRegistration } from '../../services/chart-registration.service';
-import { ChartComponent } from '../chart/chart.component';
-
+import { Component, OnInit } from '@angular/core';
+import { ChartDataSets, ChartOptions, ChartPoint } from 'chart.js';
+import { Color as ChartColor, Label } from 'ng2-charts';
+import { BaseChartComponent } from '../base-chart/base-chart.component';
 
 @Component({
     selector: 'app-line-chart',
     templateUrl: './line-chart.component.html',
-    styleUrls: ['./line-chart.component.scss']
+    styleUrls: [ './line-chart.component.scss' ]
 })
-export class LineChartComponent extends ChartComponent {
 
-    public autoScale = false;
-    public yAxisTickFormattingFn = this.yAxisTickFormatting.bind(this);
+export class LineChartComponent extends BaseChartComponent implements OnInit {
 
-    constructor(
-        protected differs: KeyValueDiffers,
-        public _cacheService: AsyncacheService,
-        protected chartRegistrationService: ChartRegistration,
-        protected _chartDataLoaderService: ChartDataLoaderService,
-        protected languageService: LanguageService,
-    ) {
-        super(differs, _cacheService, chartRegistrationService, languageService, _chartDataLoaderService);
-        this.legend.show = true;
-        this.scheme.gradient = false;
-        this.scheme.domain = ['#92CB53', '#20C8C0', '#FC4F1E'];
-        this.axis.showXAxis = true;
-        this.axis.showYAxis = true;
-        this.axis.showXAxisLabel = true;
-        this.axis.showYAxisLabel = true;
-        this.axis.xAxisLabel = 'X Axis';
-        this.axis.yAxisLabel = 'Y Axis';
-        this.title.main = '';
-        this.title.sub = '';
-        this.autoScale = false;
+    dataSet: ChartDataSets;
+    xAxisLabels: Label[];
+
+    public options: ChartOptions = {
+        responsive: true,
+        scales: {
+            // We use this empty structure as a placeholder for dynamic theming.
+            xAxes: [ {
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Time'
+                }
+            } ],
+            yAxes: [
+                {
+                    id: 'y-axis-0',
+                    position: 'left'
+                },
+            ]
+        },
+    };
+
+    public lineChartColors: ChartColor[];
+
+    ngOnInit() {
+        this.dataSet = {
+            label: this.graphInfo.name,
+            data: []
+        };
+        this.xAxisLabels = [];
+
+        this.generateDataSet();
+        this.generateColors();
+        this.generateLabels();
     }
 
-    yAxisTickFormatting(value) {
-        return typeof(value) === 'number' && value % 1 !== 0 ? '' : value;
+    private generateDataSet(): void {
+        // Object.values does not type correctly. Using Object.keys is the safe option here
+        Object.keys(this.graphInfo.values).forEach((period: string) => {
+            // Casting is necessary due to a type error otherwise
+            (this.dataSet.data as (number | ChartPoint)[]).push(this.graphInfo.values[period][0].value);
+            this.xAxisLabels.push(this.graphInfo.values[period][0].date);
+        });
+    }
+
+    private generateColors() {
+        const mainColor = this.colorsService.chooseRandomColor();
+        this.lineChartColors = [
+            {
+                borderColor: mainColor.string(),
+                backgroundColor: mainColor.lighten(0.1).alpha(0.5).string(),
+                pointHoverBackgroundColor: mainColor.darken(0.5).string(),
+                hoverBackgroundColor: mainColor.darken(0.3).string(),
+                pointBorderColor: mainColor.darken(0.1).string(),
+            }
+        ];
     }
 }

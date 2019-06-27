@@ -20,6 +20,7 @@ import { httpInterceptorProviders } from './core/interceptors/index-interceptors
 import { UpdateService } from './core/service-worker/update.service';
 import { ProfileComponent } from './modules/profile/profile.component';
 import { ReportsModule } from './modules/reports/reports.module';
+import { CustomDateAdapter } from './shared/adapters/date.adapter';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
@@ -55,6 +56,7 @@ import { SharedModule } from './shared/shared.module';
         UpdateService,
         httpInterceptorProviders,
         TitleCasePipe,
+        CustomDateAdapter,
     ],
     bootstrap: [AppComponent]
 })

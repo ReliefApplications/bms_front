@@ -12,8 +12,6 @@ import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { ErrorInterface, User } from '../../models/user';
 
-
-
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -25,9 +23,9 @@ export class LoginComponent implements OnInit {
     public loader = false;
     public loginCaptcha = false;
     public form: FormGroup;
-    // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     constructor(
         public _authService: AuthenticationService,
@@ -36,7 +34,7 @@ export class LoginComponent implements OnInit {
         public router: Router,
         public snackbar: SnackbarService,
         public languageService: LanguageService,
-        ) { }
+    ) { }
 
     ngOnInit() {
         // TODO: enable this
@@ -57,10 +55,9 @@ export class LoginComponent implements OnInit {
     }
 
     makeForm() {
-
-        this.form = new FormGroup( {
-            username  : new FormControl('', [Validators.required]),
-            password : new FormControl('', [Validators.required]),
+        this.form = new FormGroup({
+            username: new FormControl('', [Validators.required]),
+            password: new FormControl('', [Validators.required]),
         });
 
         if (this.prod()) {
@@ -112,11 +109,11 @@ export class LoginComponent implements OnInit {
                     } else {
                         this.router.navigate(['/']);
                     }
-                if (user.get<string>('language')) {
-                    this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
-                } else {
-                    this.languageService.selectedLanguage = this.languageService.stringToLanguage('en');
-                }
+                    if (user.get<string>('language')) {
+                        this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
+                    } else {
+                        this.languageService.selectedLanguage = this.languageService.stringToLanguage('en');
+                    }
                 }
 
                 this.loader = false;
@@ -134,7 +131,7 @@ export class LoginComponent implements OnInit {
         }
         else {
             if (user.get<string>('language')) {
-            this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
+                this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
             } else {
                 // TODO: load default language
                 this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];

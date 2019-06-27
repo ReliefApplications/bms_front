@@ -7,6 +7,7 @@ export class English implements Language {
     // GENERAL VARIABLES
     LANGUAGE_ISO = 'english'
     direction = 'ltr'
+
     // Utils
     administrative_settings = 'Administrative Settings'
     back = 'Back'
@@ -66,10 +67,11 @@ export class English implements Language {
     complete = 'Complete'
     create = 'Create'
     delete = 'Delete'
-    duplicate = 'duplicate'
+    duplicate = 'Duplicate'
     remove = 'Remove'
     save = 'Save'
     update = 'Update'
+    view = 'View'
 
     // Common Fields
     address = 'Address'
@@ -619,8 +621,8 @@ export class English implements Language {
     table_next_page = 'Next page'
     table_of_page = 'of'
     table_previous_page = 'Previous page'
-    table_print = 'print'
-    table_assign = 'assign'
+    table_print = 'Print'
+    table_assign = 'Assign'
 
     // Transaction
     transaction_accept_prevention = 'I agree to these terms.'
@@ -670,11 +672,11 @@ export class English implements Language {
     tooltip_update_beneficiary = 'This page is the update beneficiaries\' page. This is a form to update the selected household with required fields.'
 
     // Update beneficiary
-    update_beneficiary_created_successfully = 'Created successfuly !'
+    update_beneficiary_created_successfully = 'Created successfuly'
     update_beneficiary_error_creating = 'Error while creating = '
     update_beneficiary_error_updated = 'Error while updating = '
     update_beneficiary_title = 'Update Beneficiary'
-    update_beneficiary_updated_successfully = 'Updated successfuly !'
+    update_beneficiary_updated_successfully = 'Updated successfuly'
 
     //Vouchers
     voucher_ask_code = 'Please ask beneficiary to enter his 4 digits code here'

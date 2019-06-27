@@ -66,6 +66,7 @@ export interface Language {
     remove: string
     save: string
     update: string
+    view: string
 
     // Common fields
     address: string

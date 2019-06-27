@@ -5,7 +5,7 @@
     <form [formGroup]="form">
         <table class="modal-table" cdkFocusRegionstart [ngClass]="{'rtl':language.direction === 'rtl'}">
             <tr class="modal-row">
-                <th class="table-title">{{ commodity.fields.modality.title }}</th>
+                <th class="table-title">{{ commodity.fields.modality.title | uppercaseFirst}}</th>
                 <td class="form-item">
                     <ng-select formControlName="modality"
                         [placeholder]="commodity.fields.modality.title | uppercaseFirst" (change)="loadTypes($event)">
@@ -19,7 +19,7 @@
             </tr>
 
             <tr class="modal-row">
-                <th class="table-title">{{ commodity.fields.modalityType.title }}</th>
+                <th class="table-title">{{ commodity.fields.modalityType.title | uppercaseFirst}}</th>
                 <td class="form-item">
                     <ng-select formControlName="modalityType"
                         [placeholder]="commodity.fields.modalityType.title | uppercaseFirst" (change)="setUnit()">
@@ -34,7 +34,7 @@
             </tr>
 
             <tr class="modal-row">
-                <th class="table-title">{{ getUnit() }}</th>
+                <th class="table-title">{{ getUnit() | uppercaseFirst}}</th>
                 <td class="form-item">
                     <mat-form-field *ngIf="!isCurrency">
                         <input matInput type="text" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
@@ -52,7 +52,7 @@
             </tr>
 
             <tr class="modal-row">
-                <th class="table-title">{{ commodity.fields.value.title }}</th>
+                <th class="table-title">{{ commodity.fields.value.title | uppercaseFirst}}</th>
                 <td class="form-item">
                     <mat-form-field>
                         <input matInput type="text" formControlName="value"
@@ -64,7 +64,7 @@
             </tr>
 
             <tr *ngIf="form.controls.modality.value === 3" class="modal-row">
-                <th class="table-title">{{ commodity.fields.description.title }}</th>
+                <th class="table-title">{{ commodity.fields.description.title | uppercaseFirst}}</th>
                 <td class="form-item">
                     <mat-form-field>
                         <textarea matInput type="text" formControlName="description"

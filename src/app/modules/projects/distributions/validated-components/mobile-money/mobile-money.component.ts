@@ -42,7 +42,6 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
     }
 
     formatTransactionTable() {
-
         let values = '';
         this.actualDistribution.get<Commodity[]>('commodities').forEach((commodity, index) => {
             if (index > 0) {

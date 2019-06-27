@@ -52,13 +52,13 @@
 
                     <ng-container *ngIf="validatable">
                         <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
-                            <mat-icon *ngIf="element.get('validated') && element.get('finished')" class="green">done</mat-icon>
-                            <mat-icon *ngIf="element.get('validated') && !element.get('finished')" class="red">lock</mat-icon>
-                            <mat-icon *ngIf="!element.get('validated') && updatable" class="light-red">edit</mat-icon>
+                            <mat-icon *ngIf="element.get('validated') && element.get('finished')" class="green" [matTooltip]="language.update | uppercaseFirst">done</mat-icon>
+                            <mat-icon *ngIf="element.get('validated') && !element.get('finished')" class="red" [matTooltip]="language.update | uppercaseFirst">lock</mat-icon>
+                            <mat-icon *ngIf="!element.get('validated') && updatable" class="dark-blue" [matTooltip]="language.update | uppercaseFirst">edit</mat-icon>
                         </button>
                     </ng-container>
                     <button mat-icon-button *ngIf="!validatable && updatable" (click)="openDialog('visit', element); $event.stopPropagation();">
-                            <mat-icon class="light-red">edit</mat-icon>
+                            <mat-icon class="dark-blue">edit</mat-icon>
                     </button>
 
                     <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
@@ -67,7 +67,7 @@
                     </button>
 
                     <button *ngIf="editable && (!validatable || !element.get('validated')) && !element.get('removed')" mat-icon-button (click)="openDialog('edit', element); $event.stopPropagation()"
-                        [matTooltip]="language.update | uppercaseFirst" class="light-blue">
+                        [matTooltip]="language.view | uppercaseFirst" class="light-blue">
                         <mat-icon>search</mat-icon>
                     </button>
                     <button *ngIf="deletable && (!validatable || !element.get('validated')) && !element.get('removed')" mat-icon-button (click)="openDialog('delete', element); $event.stopPropagation()"

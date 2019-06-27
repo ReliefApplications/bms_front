@@ -281,6 +281,12 @@ app-mobile-money, app-general-relief, app-qr-voucher {
     flex-direction: column;
     .subtitle-main {
         display: flex;
+        align-items: center;
+
+        *:first-child, *:last-child {
+            margin: 0 5px;
+        }
+
     }
     h3 {
         margin-bottom:0;

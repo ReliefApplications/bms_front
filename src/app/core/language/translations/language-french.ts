@@ -70,6 +70,7 @@ export class French implements Language {
     remove = 'retirer'
     save = 'Enregistrer'
     update = 'Modifier'
+    view = 'Voir'
 
     // Common Fields
     address = 'Adresse'

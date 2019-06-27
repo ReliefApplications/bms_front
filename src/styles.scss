@@ -64,6 +64,10 @@ body {
   justify-content: center;
 }
 
+.mat-fab {
+    box-shadow: none !important;
+}
+
 @media only screen and (max-width: 750px) {
   .mat-stepper-horizontal {
     width: 100%;
@@ -116,7 +120,7 @@ app-display-field.ng-star-inserted {
     padding: 20px;
 
     * {
-      margin: unset; 
+      margin: unset;
     }
 }
 
@@ -124,7 +128,7 @@ app-display-field.ng-star-inserted {
 //     z-index: 2;
 // }
 .marker-container {
-  
+
   &.not-validated {
     fill: $bms_red;
   }
@@ -135,7 +139,7 @@ app-display-field.ng-star-inserted {
     fill: $bms_green;
   }
 
-  
+
   .marker-pointer {
     width: 8px;
     height: 40px;

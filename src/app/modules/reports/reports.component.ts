@@ -295,7 +295,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
     private updateReports() {
         // Cancel previous api call
         if (this.getAllSubscription) {
-        this.getAllSubscription.unsubscribe();
+            this.getAllSubscription.unsubscribe();
         }
         // Renew it
         this.getAllSubscription = this.indicatorService.getAllGraphs(this.generateFilters())

@@ -104,10 +104,10 @@
                     <div class="content-button-footer">
                       <div class="action-buttons">
                         <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
-                        <button mat-raised-button class="button-background-primary" (click)="nextValidation(1)">
+                        <button mat-flat-button class="button-background-primary" (click)="nextValidation(1)">
                           {{language.next}}
                         </button>
-                        <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="submit(); nextValidation(1, true)">{{language.update}}</button>
+                        <button mat-flat-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading" (click)="submit(); nextValidation(1, true)">{{language.update}}</button>
                       </div>
                     </div>
                   </form>
@@ -136,10 +136,10 @@
                   <button mat-button class="button-text-primary" (click)="stepper.previous()">
                     {{language.back}}
                   </button>
-                  <button mat-raised-button class="button-background-primary" (click)='nextValidation(2)'>
+                  <button mat-flat-button class="button-background-primary" (click)='nextValidation(2)'>
                     {{language.next}}
                   </button>
-                  <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
+                  <button mat-flat-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
                     (click)="submit(); nextValidation(2, true)">{{language.update}}</button>
                 </div>
               </div>
@@ -181,10 +181,10 @@
                   <button mat-button class="button-text-primary" (click)="stepper.previous()">
                     {{language.back}}
                   </button>
-                  <button mat-raised-button class="button-background-primary" (click)="passHousehold(); nextValidation(3)">
+                  <button mat-flat-button class="button-background-primary" (click)="passHousehold(); nextValidation(3)">
                     {{language.next}}
                   </button>
-                  <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
+                  <button mat-flat-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
                     (click)="submit(); nextValidation(3, true)">
                     {{language.update}}
                   </button>
@@ -220,7 +220,7 @@
                     <p class="summary-title-value">{{getLivelihood().get('name')}}</p>
                   </div>
                   <ng-container *ngFor="let locationGroup of ['current', 'resident']">
-                    <div class="info-container" *ngIf="mainForm.controls[locationGroup + 'Type'].value !== 'camp'">
+                    <div class="info-container" *ngIf="mainForm.controls[locationGroup + 'Type'].value && mainForm.controls[locationGroup + 'Type'].value !== 'camp'">
                       <h4 class='summary-title'> {{language['household_location_' + locationGroup + '_address']}} </h4>
                       <p class="summary-title-value">
                         {{mainForm.controls[locationGroup + 'AddressNumber'].value}}
@@ -290,9 +290,9 @@
                   <button mat-button class="button-text-primary" (click)="leave()">{{language.cancel}}</button>
 
                   <mat-spinner [diameter]="25" *ngIf="validationLoading"></mat-spinner>
-                  <button mat-raised-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading"
+                  <button mat-flat-button class="button-background-primary" *ngIf="mode=='create' && !validationLoading"
                     (click)="submit()">{{language.create}}</button>
-                  <button mat-raised-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
+                  <button mat-flat-button class="button-background-primary" *ngIf="mode=='update' && !validationLoading"
                     (click)="submit()">{{language.update}}</button>
                 </div>
               </div>

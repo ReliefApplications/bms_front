@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
 // Plugins
 import * as Leaflet from 'leaflet';
-import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
+import 'leaflet.markercluster';
+import { Distribution } from 'src/app/models/distribution';
+import { DistributionService } from '../api/distribution.service';
+import { CountriesService } from '../countries/countries.service';
+import { DistributionMarker } from './distribution-marker';
 
-import * as $ from 'jquery';
-import { LocationService } from '../api/location.service';
-import { AsyncacheService } from '../storage/asyncache.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,21 +15,16 @@ import { AsyncacheService } from '../storage/asyncache.service';
 
 export class LeafletService {
 
-    public static loading = false;
+    public loading = false;
     private map: any;
     private tiles: any;
 
     constructor(
-        private _locationService: LocationService,
-        private _cacheService: AsyncacheService,
+        private distributionService: DistributionService,
+        private countriesService: CountriesService,
     ) { }
 
-    // ------------------------------------------------------------------------ //
-    // ---------------------------------- MAP --------------------------------- //
-    // ------------------------------------------------------------------------ //
-
     createMap(mapId: string) {
-
         // Create map
         this.map = Leaflet.map(mapId, {
             zoom: 8,
@@ -38,13 +35,11 @@ export class LeafletService {
             trackResize: true,        // Keep the center of the map if the window is resized
             doubleClickZoom: true,        // To zoom on the pointer position and not on the center of the map
             dragging: true,         // Enable the dragging of the map
-            scrollWheelZoom: false,
-            layers: []
+            scrollWheelZoom: true,
+            layers: [],
         });
-
-        this.map.once('click', () => { this.map.scrollWheelZoom.enable(); });
-        this.addTileLayer();
         this.addKML();
+        this.addTileLayer();
     }
 
     removeMap() {
@@ -54,11 +49,8 @@ export class LeafletService {
     addTileLayer() {
         // Add title layer to the map
 
-        this.tiles = Leaflet.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/256/{z}/{x}/{y}@2x?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,' +
-            ' <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            id: 'raphaelreliefapplications/cjnpsw0g203rn2rt73ichorq1',
-            accessToken: 'pk.eyJ1IjoicmFwaGFlbHJlbGllZmFwcGxpY2F0aW9ucyIsImEiOiJjam5wc3Y5ZjAwMDNtM3Zud203aGdmcXVrIn0.dMsWwv-hy5OpYSXJpJM7vA'
+        this.tiles = Leaflet.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
     }
 
@@ -67,98 +59,80 @@ export class LeafletService {
         this.addTileLayer();
     }
 
-    // add all layers to show the upcoming distribution in the map dashoard
+    // add all layers to show the upcoming distribution in the map dashboard
     addKML() {
-        this._cacheService.get(AsyncacheService.COUNTRY).subscribe(
-            current_country => {
-                const country = current_country ? current_country : 'KHM';
-                LeafletService.loading = true;
-                // Check if the map is already created
-                if (this.map) {
+        const country = this.countriesService.selectedCountry.value;
+        let markers = this.initializeFeatureGroup();
+        const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.fields.id.value.toLowerCase() + '.kml').on('ready', () => {
+            // Center view on country
+            this.map.fitBounds(admLayers.getBounds());
 
-                    // get in the cache the list of upcoming distribution
-                    let upcomingDistribution;
+            // Get all upcoming distributions
+            this.distributionService.get().subscribe((apiDistributions: Array<any>) => {
 
-                    this._locationService.getUpcomingDistributionCode().subscribe(
-                        result => {
-                            upcomingDistribution = result;
-                            // call the KML file to get the layer
-                            const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.toLowerCase() + '.kml').on('ready', () => {
-                                // center the map on the appropriate country
-                                const admGroup = Leaflet.featureGroup(admLayers.getLayers());
-                                this.map.fitBounds(admGroup.getBounds());
+                // Remove previous markers
+                this.map.removeLayer(markers);
+                // Empty markers
+                markers = this.initializeFeatureGroup();
+                // Format distributions
+                const distributions = apiDistributions.map((apiDistribution: any) => {
+                    return Distribution.apiToModel(apiDistribution);
+                });
 
-                                // delete the displaying layer
-                                admLayers.eachLayer(adm => {
-                                    adm.setStyle({
-                                        opacity: 0,
-                                        weight: 0,
-                                        fillOpacity: 0
-                                    });
-                                });
+                // Find regions corresponding to distribution
+                distributions.forEach((distribution: Distribution) => {
+                    const admGroup = new Leaflet.FeatureGroup();
 
-                                // search in all layer which layer has a code begining with the location code of a upcoming distribution
-                                // and set a color and a weigth of them
-                                admLayers.eachLayer(function (adm, index) {
-                                    if (upcomingDistribution) {
-                                        upcomingDistribution.forEach(element => {
-                                            /**
-                                             * @TODO Change this !!! This is a temporary fix in order for the map to work.
-                                             * The link between the adm1 in database and the adm1 in `map_khm.kml` should totally
-                                             * be remade.
-                                             */
-                                            element.code_location = element.code_location.length % 2 === 1 &&
-                                                                    element.code_location[2] === '0'
-                                                                    ? element.code_location.slice(0, 2) + element.code_location.slice(3)
-                                                                    : element.code_location;
-
-                                            if ((adm.feature.properties.ADM3_PCODE === element.code_location.slice(0, 8)
-                                                  && element.adm_level === 'adm4') ||
-                                                (adm.feature.properties.ADM3_PCODE === element.code_location
-                                                  && element.adm_level === 'adm3') ||
-                                                (adm.feature.properties.ADM2_PCODE === element.code_location
-                                                  && element.adm_level === 'adm2') ||
-                                                (adm.feature.properties.ADM1_PCODE === element.code_location
-                                                  && element.adm_level === 'adm1')) {
-
-                                                adm.setStyle({
-                                                    color: '#4AA896', // $bms_green
-                                                    fillColor: '#4AA896', // $bms_green
-                                                    weight: 2,
-                                                    fillOpacity: .8,
-                                                    opacity: .8
-                                                });
-
-                                                let tooltipInformation = '';
-                                                element.distribution.forEach(function (data, i, el) {
-                                                    tooltipInformation += '<p> Distribution : ' + data.name + '</p>';
-                                                    tooltipInformation += '<p> Location : ' + data.location_name + '</p>';
-
-                                                    // to display a divider between distribution in a same tooltip
-                                                    // but don't put divider after thie last element
-                                                    if (!Object.is(el.length - 1, i)) {
-                                                        tooltipInformation += '<hr>';
-                                                    }
-
-                                                });
-
-                                                const tooltip = Leaflet.tooltip({
-                                                    permanent: false,
-                                                    interactive: true
-                                                }, adm).setContent(tooltipInformation);
-                                                adm.bindTooltip(tooltip);
-                                            }
-                                        });
-                                    }
-                                });
-                                LeafletService.loading = false;
-                            });
-                            admLayers.addTo(this.map);
+                    admLayers.eachLayer((layer: any) => {
+                        // Fill an array containing all the adm of the current layer
+                        const kmlAdm = [
+                            layer.feature.properties.ADM0_PCODE,
+                            layer.feature.properties.ADM1_PCODE,
+                            layer.feature.properties.ADM2_PCODE,
+                            layer.feature.properties.ADM3_PCODE ,
+                        ];
+                        // Group all the matching adm4 layers
+                        if (this.compareAdmToMapDistribution(kmlAdm, distribution.get('location').get<string>('code'))) {
+                            admGroup.addLayer(layer);
                         }
-                    );
+                    });
 
-                }
-            }
-        );
+                    const distributionMarker = new DistributionMarker(admGroup, this.map, distribution);
+                    // Add the marker to the cluster
+                    markers.addLayer(distributionMarker.marker);
+                });
+
+                // Add it to the map
+                markers.addTo(this.map);
+
+            });
+
+        });
+    }
+
+    // Compare the kml layer's location to the distribution's code recursively
+    compareAdmToMapDistribution(adm: Array<string>, distribution_adm: string): boolean {
+        const admLevel = this.getAdmLevel(distribution_adm);
+        // If an adm is missing in the location layer, retry with a broader region
+        if (! adm[admLevel]) {
+            return this.compareAdmToMapDistribution(adm, distribution_adm.substr(0, distribution_adm.length - 2));
+        }
+        return adm[admLevel] === distribution_adm;
+    }
+
+
+    getAdmLevel(admCode: string) {
+        // Remove 2-character identifier and calculate adm based on the code's length
+        const admLevel = admCode.slice(2).length / 2;
+        if (!Number.isInteger(admLevel)) {
+            throw new Error(`${admCode} is not an integer`);
+        }
+        return admLevel;
+    }
+
+    initializeFeatureGroup() {
+        return Leaflet.markerClusterGroup({
+
+        });
     }
 }

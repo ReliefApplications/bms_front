@@ -1,4 +1,4 @@
-export interface StoredRequestInterface {
+export class StoredRequest {
     method: string;
     url: string;
     body?: any;
@@ -6,8 +6,7 @@ export interface StoredRequestInterface {
     date: Date;
 }
 
-export interface FailedRequestInterface {
-    fail: boolean;
-    request: StoredRequestInterface;
+export class FailedRequest {
+    request: StoredRequest;
     error: any;
 }

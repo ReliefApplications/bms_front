@@ -1,5 +1,5 @@
 <h4 mat-dialog-title class="modal-title underline-accent"
-    [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">
+    [ngClass]="{'rtl':language.direction === 'rtl'}">
     {{language.modal_pending_requests}}
 </h4>
 <mat-dialog-content class="modal-container">
@@ -42,9 +42,7 @@
                 <div *ngIf="column == 'actions'">
                     <button mat-icon-button class="button-text-primary"
                         (click)="sendRequest(element); $event.stopPropagation()">
-                        <mat-icon *ngIf="element.method == 'PUT'" matTooltip="Create it">send</mat-icon>
-                        <mat-icon *ngIf="element.method == 'POST'" matTooltip="Update it">send</mat-icon>
-                        <mat-icon *ngIf="element.method == 'DELETE'" matTooltip="Delete it">send</mat-icon>
+                        <mat-icon matTooltip="Send request">send</mat-icon>
                     </button>
                     <button mat-icon-button class="button-text-accent"
                         (click)="removeRequest(element); $event.stopPropagation()">
@@ -73,11 +71,13 @@
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="req-detail-row"></tr>
     </table>
+
     <div class="loading-container" *ngIf="loading">
         <mat-spinner [diameter]="40"></mat-spinner>
     </div>
+
     <div class="progress" *ngIf="inProgress">
-        <h3>Sending {{progressLength}} requests:</h3>
+        <h3>Sending {{requests.length}} requests:</h3>
         <mat-progress-bar mode="determinate" [value]="getProgressValue()"></mat-progress-bar>
         <div class="progress-info">
             <span>{{language.modal_success}}: {{progressCountSuccess}}</span>
@@ -85,9 +85,9 @@
         </div>
         <div class="progress-errors" *ngIf="errors && errors.length > 0">
             <div class="error-row" *ngFor="let error of errors, i as index">
-                <p *ngIf="error.status && error.statusText && error.error"> <strong>{{i}}</strong> Error:
-                    {{error.status}} ({{error.statusText}}) : {{error.error}} </p>
-                <p *ngIf="!error.error && error.message"> <strong>{{i}}</strong> Error: {{error.message}} </p>
+                <p *ngIf="error.error.status && error.error.statusText && error.error.error"> <strong>{{i}}</strong> Error:
+                    {{error.error.status}} ({{error.error.statusText}}) : {{error.error.error}} </p>
+                <p *ngIf="!error.error.error && error.error.message"> <strong>{{i}}</strong> Error: {{error.error.message}} </p>
             </div>
         </div>
     </div>
@@ -95,9 +95,9 @@
 </mat-dialog-content>
 <mat-dialog-actions >
     <div class="modal-button action-buttons"
-        [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button (click)="closeDialog()" class="button-text-accent">{{language.modal_leave}}</button>
-        <button mat-raised-button class="send-all button-background-accent" (click)="sendAllRequests()"
-            *ngIf="!inProgress">Send All</button>
+        <button mat-flat-button class="send-all button-background-accent" (click)="sendAllRequests()"
+            *ngIf="!inProgress">{{language.update}}</button>
     </div>
 </mat-dialog-actions>

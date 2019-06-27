@@ -12,9 +12,9 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Distribution } from 'src/app/models/distribution';
 import { Project } from 'src/app/models/project';
-import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { UserService } from '../../../core/api/user.service';
@@ -478,7 +478,7 @@ export class IndicatorPageComponent implements OnInit, AfterViewInit, DoCheck, O
             }
             // SAVING CHARTS TO IMAGES
             for (let i = 0; i < charts.length; i++) {
-                const canvasImg = html2canvas(charts[i], { width: 800, height: 800, scale: 2 });
+                const canvasImg = html2canvas(<HTMLElement>charts[i], { width: 800, height: 800, scale: 2 });
                 collection.push(canvasImg);
             }
             // ADDING IMAGES TO DOCUMENT

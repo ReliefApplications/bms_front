@@ -103,9 +103,7 @@ export class DistributionsComponent implements OnInit {
             .subscribe(
                 allBeneficiaries => {
                     if (allBeneficiaries) {
-                        // this.beneficiaryList = allBeneficiaries.map((beneficiary: any) => Beneficiary.apiToModel(beneficiary));
-                        // this.beneficiaryList = Beneficiaries.formatArray(allBeneficiaries);
-                        this.cacheService.storeBeneficiaries(project.modelToApi(), this.actualDistribution.modelToApi(), allBeneficiaries)
+                        this.cacheService.storeBeneficiaries(project, this.actualDistribution, allBeneficiaries)
                             .pipe(
                                 finalize(
                                     () => {

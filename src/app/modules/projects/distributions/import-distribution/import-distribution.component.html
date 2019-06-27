@@ -18,7 +18,7 @@
     </div>
 
     <div class="content-button content-button-footer">
-        <button mat-raised-button class="upload-button" (click)="updateDistribution(1)" *ngIf="csv && !loadFile">
+        <button mat-flat-button class="upload-button" (click)="updateDistribution(1)" *ngIf="csv && !loadFile">
             <mat-icon>publish</mat-icon>
             <span>{{language.import | uppercaseFirst }}</span>
         </button>
@@ -47,7 +47,7 @@
                 </div>
             </ng-template>
             <div class="table-content">
-                <button mat-raised-button class="button-background-primary"
+                <button mat-flat-button class="button-background-primary"
                     (click)="justifyAll('added', justificationDialog)">
                     <mat-icon>add_circle</mat-icon>
                     <span>{{language.distribution_add_justification}}</span>
@@ -74,7 +74,7 @@
                 </div>
             </ng-template>
             <div class="table-content">
-                <button mat-raised-button class="button-background-primary"
+                <button mat-flat-button class="button-background-primary"
                     (click)="justifyAll('deleted', justificationDialog)">
                     <mat-icon>add_circle</mat-icon>
                     <span>{{language.distribution_add_justification}}</span>
@@ -101,7 +101,7 @@
                 </div>
             </ng-template>
             <div class="table-content">
-                <button mat-raised-button class="button-background-primary"
+                <button mat-flat-button class="button-background-primary"
                     (click)="justifyAll('created', justificationDialog)">
                     <mat-icon>add_circle</mat-icon>
                     <span>{{language.distribution_add_justification}}</span>
@@ -150,7 +150,7 @@
             <mat-icon>arrow_back</mat-icon>
             <span>{{language.back}}</span>
         </button>
-        <button mat-raised-button class="button-background-accent" (click)="updateDistribution(2)">
+        <button mat-flat-button class="button-background-accent" (click)="updateDistribution(2)">
             <mat-icon>check_circle</mat-icon>
             <span>{{language.distribution_accept_changed}}</span>
         </button>
@@ -159,7 +159,7 @@
 
 
 <ng-template #justificationDialog>
-    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.distribution_add_justification}}</h4>
+    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.distribution_add_justification}}</h4>
     <mat-dialog-content class="modal-container">
         <div class="modal-body">
             <mat-form-field>
@@ -170,9 +170,9 @@
     </mat-dialog-content>
     <mat-dialog-actions >
         <div class="modal-button action-buttons"
-            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
-            <button mat-raised-button [disabled]="!justification.valid" (click)="onAdd()"
+            <button mat-flat-button [disabled]="!justification.valid" (click)="onAdd()"
                 class="button-background-accent">{{language.add}}</button>
         </div>
     </mat-dialog-actions>

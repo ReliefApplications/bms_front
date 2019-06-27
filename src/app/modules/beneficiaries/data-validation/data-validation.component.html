@@ -298,7 +298,7 @@
                     <div class="content-table centered" *ngIf="currentStep === step.Update">
                         <div class="centered">
                             <h3 class="step-title">{{language.data_verification_done | uppercaseFirst}}</h3>
-                            <button *ngIf="!loading" class="button-background-primary" mat-raised-button (click)="finishImport()">{{language.done | uppercaseFirst}}</button>
+                            <button *ngIf="!loading" class="button-background-primary" mat-flat-button (click)="finishImport()">{{language.done | uppercaseFirst}}</button>
                             <mat-spinner [diameter]="35" *ngIf="loading"></mat-spinner>
                         </div>
                     </div>
@@ -311,7 +311,7 @@
 
 <ng-template #validateButton>
     <div class="action-buttons">
-        <button *ngIf="!loadingStep" [disabled]="!form.valid" class="button-background-primary" mat-raised-button (click)="validateStep()">{{language.next | uppercaseFirst}}</button>
+        <button *ngIf="!loadingStep" [disabled]="!form.valid" class="button-background-primary" mat-flat-button (click)="validateStep()">{{language.next | uppercaseFirst}}</button>
         <mat-spinner [diameter]="35" *ngIf="loadingStep"></mat-spinner>
     </div>
 </ng-template>

@@ -6,6 +6,7 @@ import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 export class Arabic implements Language {
     // GENERAL VARIABLES
     LANGUAGE_ISO = 'arabic'
+    direction = 'rtl'
     // Utils
     administrative_settings = 'الإعدادات الإدارية'
     back = 'إلى الوراء'
@@ -136,6 +137,7 @@ export class Arabic implements Language {
     add_distribution_commodities_delivered = 'تم اعطاء'
     add_distribution_created = 'تم انشائه'
     add_distribution_date_inside_project = 'خطأ أثناء إنشاء توزيع جديد ، يجب أن يكون تاريخ التوزيع الخاص بك داخل تواريخ المشروع'
+    add_distribution_date_before_today = 'خطأ أثناء إنشاء توزيع جديد ، يجب أن يكون تاريخ التوزيع بعد اليوم'
     add_distribution_distributed_commodity = 'السلع الموزعة'
     add_distribution_error_creating = 'خطأ أثناء إنشاء توزيع جديد'
     add_distribution_households_reached = 'الأسر التي تم الوصول إليها'
@@ -368,6 +370,11 @@ export class Arabic implements Language {
     header_home = 'الصفحة الرئيسية'
     header_import =  'تحميل بيانات المستفيد'
     header_imported = 'إستيراد بيانات المستفيدين'
+    header_language = this.language	
+    header_profile = this.profile	
+    header_projects = this.projects	
+    header_reports = this.reports	
+    header_vouchers = this.voucher
 
     // Household
     household_coping_strategies_index = 'مؤشر استراتيجيات المواجهة'
@@ -651,8 +658,20 @@ export class Arabic implements Language {
     transaction_validation = 'تأكيد التحقق من الصحة'
     
     // Tooltip
+    tooltip_add_beneficiaries = 'هذه الصفحة مخصصة لإضافة المستفيدين. هذا هو نموذج لإضافة أسرة جديدة مع الحقول المطلوبة.'	
+    tooltip_add_distribution = 'هذه الصفحة مخصصة  لإضافة التوزيع. هذا نموذج لإضافة توزيع جديد مع الحقول المطلوبة. ستقوم باختيار الأسر أو المستفيدين من خلال فرزها حسب معايير الاختيار وإضافة كمية محددة من السلع إلى التوزيع.'	
+    tooltip_beneficiaries = 'هذه الصفحة مخصصة للمستفيدين.يمكنك  أن ترى جميع الأسر في البلاد.  و إذا كان لديك الحق ، يمكنك إضافة أسر جديدة بفضل  الزر "+" ، وكما  يمكنك أن تقوم  بإدارة الأسر والبحث في القائمة.'	
     tooltip_dashboard = 'هذه  لوحة القيادة. لديك نظرة موسعة على بعض الأرقام تخص البلد ومشاريعه. كما لديك حق الدخول إلى خريطة توزيعات البلد و ملخص آخر التوزيعات أيضا .'
-        
+    tooltip_data = 'هذه الصفحة هي صفحة ما بعد استيراد المستفيدين. هذا هو ملخص عن الأسر التي استوردتها.'	
+    tooltip_data_validation = 'هذه الصفحة مخصصة للمستفيدين الذين تم إستيرادهم عن طريق  الملف. يجب عليك التحقق من ملفك باتباع الخطوات.'	
+    tooltip_distributions = 'هذه الصفحة مخصصة لتوزيع. يمكنك رؤية جميع منازل التوزيع. إذا كان لديك الحق ، يمكنك إضافة أسر جديدة عن طريق  ملف أو عن باختيار في القائمة ، كما  يمكنك إدارة الأسر والتحقق من صحة التوزيع إلى الصفقة.'	
+    tooltip_import = 'هذه الصفحة مخصصة للمستفيدين من الاستيراد. يمكنك اختيار استيراد أسر جديدة باستخدام ملف أو واجهة برمجة التطبيقات (مصدر البيانات الخارجي) لاستيراد جميع المنازل الخاصة ببلدية معينة.'	
+    tooltip_profile = 'هذه الصفحة هي صفحة الملف الشخصي. يمكنك تغيير كلمة المرور الخاصة بك.'	
+    tooltip_projects = 'هذه الصفحة مخصصة للمشاريع. تستطيع أن ترى جميع مشاريع البلاد (فقط من بين الذين لديك الحق في رؤيتهم ). فإذا كان لديك الحق ، يمكنك إضافة توزيع جديد مع الأسر الموجودة في المشروع ، وإدارة التوزيعات والمعاملات.'	
+    tooltip_reports = 'هذه الصفحة هي صفحة التقارير. يتم استخدام هذه الصفحة لمشاهدة إحصاءات البلد ، مثل متوسط عدد المعاملات الخاصة بالمشاريع وعدد التوزيعات ...'	
+    tooltip_settings = 'هذه الصفحة هي صفحة الإعدادات. في هذه الصفحة ، ستتمكن من إضافة مستخدم جديد ، وخصائص بلد جديدة ، ومانحين جدد ، ومشروع جديد ، وتغيير بيانات الاعتماد الخاصة بالمعاملات.'	
+    tooltip_update_beneficiary = 'هذه الصفحة هي صفحة المستفيدين من التحديث. هذا نموذج لتحديث الأسرة المعينة بالحقول المطلوبة.'
+
     // Update beneficiary
     update_beneficiary_created_successfully = 'تم الإنشاء بنجاح!'
     update_beneficiary_error_creating = ': حدث خطأ أثناء الإنشاء '
@@ -681,6 +700,7 @@ export class Arabic implements Language {
     voucher_print_selection = 'اختيار الطباعة'
     voucher_print_error = 'لا يمكنك طباعة كتيب إذا لم يكن لديه مستفيد'
     voucher_print_starting = 'بدأ تنزيل القسيمة'
+    voucher_purchased = 'البنود التي تم شراؤها'
 
     // Vulnerability
     vulnerability_pregnant = 'حامل'

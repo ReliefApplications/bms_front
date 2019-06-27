@@ -1,11 +1,12 @@
+import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
+import { INCOMELEVELS } from '../../../models/constants/income-levels';
 import { ADMINLEVELS } from '../adm-constants';
 import { Language } from '../language';
-import { INCOMELEVELS } from '../../../models/constants/income-levels';
-import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 /* tslint:disable */
 export class French implements Language {
     // GENERAL VARIABLES
     LANGUAGE_ISO = 'french'
+    direction = 'ltr'
     // Utils
     administrative_settings = 'Paramètres administratifs'
     back = 'Retour'
@@ -69,7 +70,7 @@ export class French implements Language {
     remove = 'retirer'
     save = 'Enregistrer'
     update = 'Modifier'
-    
+
     // Common Fields
     address = 'Adresse'
     currency = 'Devise'
@@ -136,6 +137,7 @@ export class French implements Language {
     add_distribution_commodities_delivered = 'a être délivrées'
     add_distribution_created = ' a été créée'
     add_distribution_date_inside_project = 'Erreur lors de la création d\'une nouvelle distribution, la date de la distribution doit être comprise entre les dates du projet'
+    add_distribution_date_before_today = 'Erreur lors de la création d\'une nouvelle distribution, la date de la distribution doit être avant aujourd\'hui'
     add_distribution_distributed_commodity = 'ressource distribuée'
     add_distribution_error_creating = 'Erreur lors de la création de la nouvelle distribution'
     add_distribution_households_reached = 'Ménages atteints'
@@ -150,11 +152,11 @@ export class French implements Language {
     add_distribution_text_explanation = 'Le système va seulement sélectionner les bénéficiaires/ménages avec un score supérieur que le score minimum de sélection'
     add_distribution_threshold = 'Score minimum de sélection'
     add_distribution_zero = 'Le nombre de ménage atteint ou le montant à distribuer est 0'
-    
+
     // Add project
     add_project_new_distribution = 'nouvelle distribution'
     add_project_title = 'nouveau projet'
-    
+
     // Benficiary form errors
     beneficiary_error_location = 'Vous devez choisir une localisation'
     beneficiairy_error_address_number = 'Vous devez entrer un numéro de voie'
@@ -208,7 +210,7 @@ export class French implements Language {
     beneficiary_select_api = 'Sélectionner une API'
     beneficiary_selected_project = 'bénéficiaires sélectionnés:'
     beneficiary_vulnerabilities = 'Vulnérabilités'
-    
+
     // Benficiaries Imports
     beneficiary_import_addFile = 'ajouter un fichier ou glisser-déposer'
     beneficiary_import_addModal = 'ajouter un fichier'
@@ -228,7 +230,7 @@ export class French implements Language {
     beneficiary_import_select_project = 'Vous devez selectionner un projet et ajouter un fichier avant l\'importation'
     beneficiary_import_title = 'import de bénéficiaires'
     beneficiary_import_warning = 'Attention : si le fichier importé est incomplet, le fichier résultant pourra nécessiter d\'être complété pour que l\'import fonctionne'
-    
+
     // Booklets
     booklet_code = 'Code'
     booklet_deactivated = 'Désactivé'
@@ -241,13 +243,13 @@ export class French implements Language {
     booklet_unassigned = 'Non assigné'
     booklet_update_password = 'Modifier le mot de passe'
     booklet_used = 'Utilisé'
-    
+
     // Cache
     cache_distribution_added = 'Distribution et bénéficiaires du projet ont été ajoutés dans le cache'
     cache_no_distribution = 'Cette distribution n\'est pas enregistrée dans le cache, vous ne pouvez pas y accéder hors-ligne'
     cache_store_beneficiaries = 'Mode Offline'
     cache_stored_beneficiaries = 'Sauvegardée Pour Le Mode Offline'
-    
+
     // Commodities tooltips
     commodity_cash = 'Cash'
     commodity_qr_voucher = 'Coupon QR Code'
@@ -265,13 +267,13 @@ export class French implements Language {
     commodity_kit = 'Kit'
     commodity_modality = 'Modalité'
     commodity_value = 'Quantité'
-    
+
     // Countries
     country_khm = 'Cambodge'
     country_syr = 'Syrie'
     country_specific = 'Option par pays'
     country_specific_field = 'Champ'
-    
+
     // Criteria
     criteria_operator = 'Condition'
     criteria_weight = 'Score du poids'
@@ -286,7 +288,7 @@ export class French implements Language {
     dashboard_summary_4 = 'montant total des transactions'
     dashboard_summary_5 = 'bénéficiaires servis'
     dashboard_summary_6 = 'distributions terminées'
-    
+
     // Data verification
     data_verification_chip_actual = 'Ménage ciblé'
     data_verification_chip_add = 'A ajouter'
@@ -354,7 +356,7 @@ export class French implements Language {
     // Donor
     donor_fullname = 'Nom du donneur'
     donor_shortname = 'Surnom'
-    
+
     // Header
     'header_add-beneficiaries' = 'Ajouter un ménage'
     'header_add-distribution' = 'Ajouter une distribution'
@@ -368,12 +370,12 @@ export class French implements Language {
     header_home = 'Accueil'
     header_import = 'Import de bénéficiaires'
     header_imported = 'Données des bénéficiaires importés'
-    header_language = 'langue'
-    header_profile = 'Profil'
-    header_projects = 'Projets'
-    header_reports = 'Rapports'
-    header_vouchers = 'Brochures'
-    
+    header_language = this.language
+    header_profile = this.profile
+    header_projects = this.projects
+    header_reports = this.reports
+    header_vouchers = this.voucher
+
     // Household
     household_coping_strategies_index = 'Indice de stratégies d\'adaptation'
     household_food_consumption_score = 'Score de consommation alimentaire'
@@ -411,7 +413,7 @@ export class French implements Language {
     import_select_new = 'Sélectionner tous les nouveaux'
     import_select_old = 'Sélectionner tous les anciens'
     import_updated = 'Mis à jour'
-    
+
     // Livelihoods
     livelihood_livestock = 'Agriculture - Bétail'
     livelihood_crops = 'Agriculture - Champs'
@@ -437,7 +439,7 @@ export class French implements Language {
     livelihood_garment = 'Industrie textile'
     livelihood_security = 'Sécurité'
     livelihood_service = 'Service et autres professionnels'
-    
+
     // Login
     login_bms = 'Beneficiary management system'
     login_forgot_password = 'Mot de passe oublié ?'
@@ -445,7 +447,7 @@ export class French implements Language {
     login_password = '*********'
     login_prompt = 'Veuillez vous connecter'
     login_title = 'Connexion'
-    
+
     // Modal
     modal_add_multiple_title = 'Ajouter plusieurs nouveaux'
     modal_add_no_value = 'Vous devez entrer une valeur'
@@ -477,7 +479,7 @@ export class French implements Language {
     modal_values_format_error = 'Si vous souhaitez déterminer les valeurs individuellement, vous devez taper des nombres séparés par des virgules (maximum 5)'
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
-    
+
     // National ID
     national_id_card = 'Carte d\'identité'
     national_id_family_registry = 'Livret de famille'
@@ -485,13 +487,13 @@ export class French implements Language {
     national_id_number = 'Identifiant national'
     national_id_passport = 'Passeport'
     national_id_type = 'Type d\'identifiant national'
-    
+
     // Null values
     null_none = 'aucun'
     null_not_yet = 'pas encore'
     null_not_distributed = 'pas distribué'
     null_not_yet_defined = 'pas encore défini'
-    
+
     // Number suffixes
     number_suffixes = {
       1: 'er',
@@ -499,7 +501,7 @@ export class French implements Language {
       3: 'ème'
     }
     number_suffix_other = 'ème'
-  
+
     // Organization
     organization_font = 'police à appliquer au pdf'
     organization_footer = 'contenu du pied de page du pdf'
@@ -507,14 +509,14 @@ export class French implements Language {
     organization_name = 'nom de l\'organisation'
     organization_primary = 'couleur principale de l\'organisation'
     organization_secondary = 'couleur secondaire de l\'organisation'
-    
+
     // Phone
     phone_no = 'Téléphone No. '
     phone_prefix = 'Ext'
     phone_proxy = 'Proxy'
     phone_type_landline = 'Fixe'
     phone_type_mobile = 'Portable'
-    
+
     // Placeholder
     placeholder_one_many = 'Select one or many'
 
@@ -546,7 +548,7 @@ export class French implements Language {
     project_sectors_name = 'Secteurs'
     project_start_date = 'Date de début de projet'
     project_value = 'Nombre de bénéficiaires ciblés'
-    
+
     // Report
     report_apply = 'appliquer'
     report_country = 'par pays'
@@ -567,7 +569,7 @@ export class French implements Language {
     report_select_frequency = 'Choisir fréquence'
     report_to = 'à'
     report_upcoming_reporting = 'Graphiques à venir'
-    
+
     // Role
     role_user_admin = 'Administrateur'
     role_user_country_manager = 'Responsable de pays'
@@ -575,7 +577,7 @@ export class French implements Language {
     role_user_project_manager = 'Responsable de projet'
     role_user_project_officer = 'Agent de projet'
     role_user_regional_manager = 'Responsable de région'
-    
+
     // Sectors tooltips
     sector_cccm = 'Management et organisation de camp'
     sector_recovery = 'Relèvement précoce'
@@ -601,14 +603,14 @@ export class French implements Language {
     settings_organization = 'Mon organisation'
     settings_print_starting = 'Le téléchargement va démarrer'
     settings_project_exists = 'Un projet avec le même nom existe déjà'
-    
+
     // Snackbar
     snackbar_change_password_done = 'Mot de passe modifié !'
     snackbar_change_password_fail = 'Le mot de passe n\'a pas pu être changé...'
     snackbar_change_password_not_possible = 'Mot de passe pas assez long ou différent de la vérification'
     snackbar_invalid_transaction_date = 'La date valide de transaction est dépassée.'
     snackbar_pickup_error = 'Il est impossile de vérifier le statut de la récupération pour le moment'
-    
+
     // Table
     table_actions = 'Actions'
     table_element_deleted = ' supprimé(e)'
@@ -622,7 +624,7 @@ export class French implements Language {
     table_previous_page = 'Page précédente'
     table_print = 'imprimer'
     table_assign = 'assigner'
-  
+
     // Transaction
     transaction_accept_prevention = 'J\'accepte ces conditions.'
     transaction_again = 'Renvoyer'
@@ -656,7 +658,19 @@ export class French implements Language {
     transaction_validation = 'Confirmer la validation'
 
     // Tooltip
+    tooltip_add_beneficiaries = 'Cette page est la page d\'ajout des bénéficiaires. C\'est un formulaire pour ajouter un nouveau ménage avec des champs obligatoires.'
+    tooltip_add_distribution = 'Cette page est la page d\'ajout d\'une distribution. C\'est un formulaire pour ajouter une nouvelle distribution avec des champs obligatoires. Vous allez sélectionner des ménages ou des bénéficiaires en les triant selon un critère de sélection et ajouter un montant spécifique de commodités pour la distribution.'
+    tooltip_beneficiaries = 'Cette page est la page des bénéficiaires. Vous pouvez voir tous les ménages du pays. Si vous avez le droit, vous pouvez ajouter de nouveaux ménages avec le bouton "+", gérer des ménages et rechercher dans la liste.'
     tooltip_dashboard = 'Cette page est le tableau de bord. Vous avez une vue générale de chiffres clés à propos du pays et de ses projets. Vous avez accès à une carte avec les distribution du pays ainsi qu\'un résumé des dernières distributions.'
+    tooltip_data = 'Cette page est la page d\'après importation des bénéficiaires. C\'est un résumé des ménages que vous avez importé.'
+    tooltip_data_validation = 'Cette page est la page d\'import des bénéficiaires en utilisant un fichier. Vous devez vérifier votre fichier en suivant les étapes.'
+    tooltip_distributions = 'Cette page est la page de distribution. Vous pouvez voir tous les ménages de la distribution. Si vous avez le droit, vous pouvez ajouter de nouveaux ménages en important un fichier ou en les sélectionnant dans la liste, gérer des ménages et valider la disitrbution pour devenir une transaction.'
+    tooltip_import = 'Cette page est la page d\'import des bénéficiaires. Vous pouvez choisir entre importer un nouveau ménage en utilisant un fichier ou l\'API (la source de données externe) pour importer tous les ménages d\'une commune spécifique.'
+    tooltip_profile = 'Cette page est la page de profil. Vous pouvez changer votre mot de passe.'
+    tooltip_projects = 'Cette page est la page des projets. Vous pouvez voir les projets du pays (seulement ceux dont vous avez le droit de voir). Si vous avez le droit, vous pouvez ajouter une nouvelle distribution avec des ménages qui sont dans le projet, gérer des distributions et des transactions.'
+    tooltip_reports = 'Cette page est la page des rapports. Cette page est utilisée pour voir les statistiques du pays, comme la moyenne des transactions d\'un projet, le nombre de distributions d\'un projet...'
+    tooltip_settings = 'Cette page est la page des paramètres. Dans cette page, vous pourrez ajouter un nouvel utilisateur, de nouvelle options pour le pays, de nouveaux donneurs, de nouveaux projets et changer les informations de connexion pour les transactions.'
+    tooltip_update_beneficiary = 'Cette page est la page de modification des bénéficiaires. C\'est un formulaire pour modifier le ménage selectionné avec des champs obligatoires.'
 
     // Update beneficiary
     update_beneficiary_created_successfully = 'Créé avec succès !'
@@ -681,6 +695,7 @@ export class French implements Language {
     voucher_print_error = 'Vous ne pouvez pas imprimer un booklet sans bénéficiaire'
     voucher_print_selection = 'Imprimer la sélection'
     voucher_print_starting = 'Le téléchargement du coupon va démarrer'
+    voucher_purchased = 'produits achetés'
     voucher_scan_text = 'Scanner le QR code de la brochure'
     voucher_select_beneficiary = 'Vous devez sélectionner un bénéficiaire'
     voucher_select_distribution = 'Vous devez sélectionner une distribution'
@@ -693,7 +708,7 @@ export class French implements Language {
     vulnerability_nutrional = 'malnutrition'
     vulnerability_pregnant = 'grossesse'
     vulnerability_solo_parent = 'parent célibataire'
-    
+
     // User
     user_only_one_country = 'Vous ne pouvez sélectionner qu\'un pays'
     user_password_question = 'Modifier le mot de passe à la prochaine connexion'

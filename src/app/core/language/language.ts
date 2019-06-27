@@ -2,6 +2,7 @@
 export interface Language {
     // GENERAL VARIABLES
     readonly LANGUAGE_ISO: string;
+    direction: string // rtl or ltr
     // Utils
     administrative_settings: string
     back: string
@@ -65,7 +66,7 @@ export interface Language {
     remove: string
     save: string
     update: string
-    
+
     // Common fields
     address: string
     currency: string
@@ -84,7 +85,7 @@ export interface Language {
     unit: string
     username: string
     value: string
-    
+
     // Error
     back_to_homepage: string
     error_interceptor_msg: string
@@ -119,6 +120,7 @@ export interface Language {
     add_distribution_commodities_delivered: string
     add_distribution_created: string
     add_distribution_date_inside_project: string
+    add_distribution_date_before_today: string
     add_distribution_distributed_commodity: string
     add_distribution_error_creating: string
     add_distribution_households_reached: string
@@ -269,7 +271,7 @@ export interface Language {
     dashboard_summary_4: string
     dashboard_summary_5: string
     dashboard_summary_6: string
-    
+
     // Data verification
     data_verification_chip_actual: string
     data_verification_chip_add: string
@@ -296,7 +298,7 @@ export interface Language {
     data_verification_step_more: string
     data_verification_step_typos: string
     data_verification_title: string
-    
+
     // Distribution
     distribution_accept_changed: string
     distribution_add_beneficiaries: string
@@ -333,11 +335,11 @@ export interface Language {
     distribution_validated_title: string
     distribution_validated: string
     distribution_want_add: string
-    
+
     // Donor
     donor_fullname: string
     donor_shortname: string
-    
+
     // Header
     'header_add-beneficiaries': string
     'header_add-distribution': string
@@ -351,7 +353,12 @@ export interface Language {
     header_home: string
     header_import: string
     header_imported: string
-    
+    header_language: string
+    header_profile: string
+    header_projects: string
+    header_reports: string
+    header_vouchers: string
+
     // Household
     household_coping_strategies_index: string
     household_food_consumption_score: string
@@ -389,7 +396,7 @@ export interface Language {
     import_select_new: string
     import_select_old: string
     import_updated: string
-    
+
     // Livelihoods
     livelihood_livestock: string
     livelihood_crops: string
@@ -415,7 +422,7 @@ export interface Language {
     livelihood_garment: string
     livelihood_security: string
     livelihood_service: string
-    
+
     // Login
     login_bms: string
     login_captcha_invalid: string
@@ -423,7 +430,7 @@ export interface Language {
     login_password: string
     login_prompt: string
     login_title: string
-    
+
     // Modal
     modal_add_multiple_title: string
     modal_add_no_value: string
@@ -455,7 +462,7 @@ export interface Language {
     modal_values_format_error: string
     modal_warning_pending_requests_1: string
     modal_warning_pending_requests_2: string
-    
+
     // National ID
     national_id_card: string
     national_id_family_registry: string
@@ -488,7 +495,7 @@ export interface Language {
     phone_proxy: string
     phone_type_landline: string
     phone_type_mobile: string
-    
+
     // Placeholder
     placeholder_one_many: string
 
@@ -503,7 +510,7 @@ export interface Language {
     profile_user_hint_new_password: string
     profile_user_hint_old_password: string
     profile_user_information: string
-        
+
     // Project
     project_add_household: string
     project_add: string
@@ -520,7 +527,7 @@ export interface Language {
     project_sectors_name: string
     project_start_date: string
     project_value: string
-    
+
     // Report
     report_apply: string
     report_country_report: string
@@ -541,7 +548,7 @@ export interface Language {
     report_select_frequency: string
     report_to: string
     report_upcoming_reporting: string
-    
+
     // Role
     role_user_admin: string
     role_user_country_manager: string
@@ -549,7 +556,7 @@ export interface Language {
     role_user_project_manager: string
     role_user_project_officer: string
     role_user_regional_manager: string
-    
+
     // Sectors tooltips
     sector_cccm: string
     sector_recovery: string
@@ -566,7 +573,7 @@ export interface Language {
     sector_tvet: string
     sector_food_kits: string
     sector_nfi: string
-    
+
     // Settings
     settings_country_specific_options: string
     settings_created: string
@@ -582,7 +589,7 @@ export interface Language {
     snackbar_change_password_not_possible: string
     snackbar_invalid_transaction_date: string
     snackbar_pickup_error: string
-    
+
     // Table
     table_actions: string
     table_element_deleted: string
@@ -630,8 +637,20 @@ export interface Language {
     transaction_validation: string
 
     // Tooltip
+    tooltip_add_beneficiaries: string
+    tooltip_add_distribution: string
+    tooltip_beneficiaries: string
     tooltip_dashboard: string
-    
+    tooltip_data_validation: string
+    tooltip_data: string
+    tooltip_distributions: string
+    tooltip_import: string
+    tooltip_profile: string
+    tooltip_projects: string
+    tooltip_reports: string
+    tooltip_settings: string
+    tooltip_update_beneficiary: string
+
     // Update beneficiary
     update_beneficiary_created_successfully: string
     update_beneficiary_error_creating: string
@@ -655,21 +674,22 @@ export interface Language {
     voucher_print_error: string
     voucher_print_selection: string
     voucher_print_starting: string
+    voucher_purchased: string
     voucher_scan_text: string
     voucher_select_beneficiary: string
     voucher_select_distribution: string
     voucher_select_project: string
     voucher_step5: string
-    
+
     // Vulnerability
     vulnerability_disabled: string
     vulnerability_lactating: string
     vulnerability_nutrional: string
     vulnerability_pregnant: string
     vulnerability_solo_parent: string
-    
+
     // User
     user_only_one_country: string
     user_password_question: string
-}    
+}
 

@@ -67,6 +67,7 @@ export class Distribution extends CustomModel {
                 isDisplayedInSummary: true,
                 displayTableFunction: null,
                 displayModalFunction: null,
+                tooltip: null,
             }
         ),
         distributionBeneficiaries: new MultipleObjectsModelField<DistributionBeneficiary>(
@@ -236,7 +237,8 @@ export class Distribution extends CustomModel {
         newDistribution.set('location', distributionFromApi.location ? Location.apiToModel(distributionFromApi.location) : null);
         newDistribution.set('project', distributionFromApi.project ? Project.apiToModel(distributionFromApi.project) : null);
 
-        newDistribution.fields.location.displayTableFunction = value => value.getLocationName();
+        newDistribution.fields.location.tooltip = (value: Location) => value.getLocationName();
+        newDistribution.fields.location.displayTableFunction = (value: Location) => value.getPreciseLocationName();
         newDistribution.fields.location.displayModalFunction = value => value.getLocationName();
         newDistribution.fields.distributionBeneficiaries.displayTableFunction = value => value.length;
         newDistribution.fields.commodities.displayTableFunction = value => value;
@@ -286,7 +288,10 @@ export class Distribution extends CustomModel {
             project: project,
             selection_criteria: selectionCriteria,
             threshold: this.get('threshold'),
-            type: this.get('type').get('id')
+            type: this.get('type').get('id'),
+            distribution_beneficiaries: this.get<Array<DistributionBeneficiary>>('distributionBeneficiaries')
+                .map((distributionBeneficiary: DistributionBeneficiary) => distributionBeneficiary.modelToApi()),
+            validated: this.get('validated') ? this.get('validated') : false
         };
 
     }

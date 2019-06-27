@@ -85,6 +85,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     // Export
     exportFileType = 'csv';
+    isDownloading = false;
 
 //
 // ─── INITIALIZATION ─────────────────────────────────────────────────────────────
@@ -391,6 +392,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
 //
 
     public export(exportFileType: string) {
+        this.isDownloading = true;
         switch (exportFileType) {
             case 'xls':
             case 'csv':
@@ -400,6 +402,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
                     exportFileType
                 ).subscribe((file: File) => {
                         saveAs(file, `reporting.${exportFileType}`);
+                        this.isDownloading = false;
+
                     });
             break;
             case 'pdf':
@@ -441,6 +445,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
                     })
                 );
             })
-        ).subscribe(() => {pdf.save('Reports'); });
+        ).subscribe(() => {
+            pdf.save('Reports');
+            this.isDownloading = false;
+        });
     }
 }

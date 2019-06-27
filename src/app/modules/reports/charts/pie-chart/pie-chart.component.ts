@@ -43,6 +43,10 @@ export class PieChartComponent extends BaseChartComponent implements OnInit {
     }
 
     generateColors() {
-        this.colors = [this.colorsService.generateColorsSet(this.pieChartDataSets.length)];
+        let maxDataSetLength = 0;
+        this.pieChartDataSets.forEach((dataSet: PieChartDataSet) => {
+            maxDataSetLength = Math.max(maxDataSetLength, dataSet.labels.length);
+        });
+        this.colors = [this.colorsService.generateColorsSet(maxDataSetLength)];
     }
 }

@@ -1,4 +1,3 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -32,27 +31,6 @@ const PDFConfig = {
     selector: 'app-reports',
     templateUrl: './reports.component.html',
     styleUrls: ['./reports.component.scss'],
-//
-// ─── PERIOD ANIMATIONS ──────────────────────────────────────────────────────────
-//
-    animations: [
-        trigger('periodDisplay', [
-            state('hidden', style({
-                height: '0px',
-                padding: '0px',
-                opacity: '0',
-            })),
-            state('showing', style({
-                height: 'auto',
-                padding: '24px',
-                opacity: '1',
-            })),
-            transition('hidden => showing', animate('0.5s')),
-            transition('showing => hidden', animate('0.5s')),
-        ])
-    ],
-// ────────────────────────────────────────────────────────────────────────────────
-
     providers: [
         { provide: DateAdapter, useClass: CustomDateAdapter },
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
@@ -100,6 +78,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
     distributions: Array<Distribution>;
 
     subscriptions: Array<Subscription>;
+    getAllSubscription: Subscription;
 
     // Graphs
     graphs: Array<Graph>;
@@ -197,7 +176,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
         this.selectFrequency(this.enabledFrequencies[0]);
     }
 //
-// ─── FORM CHANGES SUBSRIPTIONS ──────────────────────────────────────────────────
+// ─── FORM CHANGES SUBSCRIPTIONS ─────────────────────────────────────────────────
 //
     private generateFormsEvents() {
         this.subscriptions = [
@@ -306,7 +285,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
             }
         }
 
-        // Update only if every field is correclty filled
+        // Update only if every field is correctly filled
         this.updateReports();
     }
 
@@ -314,8 +293,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
 // ─── PREPARE DATA FOR API ───────────────────────────────────────────────────────
 //
     private updateReports() {
-
-        this.indicatorService.getAllGraphs(this.generateFilters())
+        // Cancel previous api call
+        if (this.getAllSubscription) {
+        this.getAllSubscription.unsubscribe();
+        }
+        // Renew it
+        this.getAllSubscription = this.indicatorService.getAllGraphs(this.generateFilters())
             .subscribe((graphsDTO: Array<GraphDTO>) => {
             this.graphs = graphsDTO.map((graphDTO: GraphDTO) => {
                 return new Graph(graphDTO);

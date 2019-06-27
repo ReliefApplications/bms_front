@@ -58,7 +58,7 @@
 
             <div class="content-body">
                 <form [formGroup]="periodControl" >
-                    <mat-card class="content-card" [@periodDisplay]="periodMode? 'showing': 'hidden'">
+                    <mat-card class="content-card" *ngIf="periodMode">
                         <ng-container *ngIf="selectedFrequency.value === 'year'; else month">
                             <app-year-picker [control]="periodControl.controls['startDate']"
                                 [placeholder]="language.report_from"></app-year-picker>

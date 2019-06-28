@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
@@ -7,17 +7,19 @@ import { TableMobileComponent } from 'src/app/components/table/table-mobile/tabl
 import { TableComponent } from 'src/app/components/table/table.component';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { LocationService } from 'src/app/core/api/location.service';
+import { OrganizationService } from 'src/app/core/api/organization.service';
 import { ProductService } from 'src/app/core/api/product-service';
 import { VendorsService } from 'src/app/core/api/vendors.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { FinancialProvider } from 'src/app/models/financial-provider';
+import { Organization } from 'src/app/models/organization';
 import { Product } from 'src/app/models/product';
 import { Vendor } from 'src/app/models/vendor';
-import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { CountrySpecificService } from '../../core/api/country-specific.service';
 import { DistributionService } from '../../core/api/distribution.service';
 import { DonorService } from '../../core/api/donor.service';
@@ -29,8 +31,6 @@ import { CountrySpecific } from '../../models/country-specific';
 import { Donor } from '../../models/donor';
 import { Project } from '../../models/project';
 import { User } from '../../models/user';
-import { Organization } from 'src/app/models/organization';
-import { OrganizationService } from 'src/app/core/api/organization.service';
 
 
 @Component({
@@ -183,8 +183,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.referedClassToken = User;
         this.referedClassService = this.userService;
         this.loggable = true;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN');
-        this.deletable  = this.userService.hasRights('ROLE_ADMIN');
+        this.editable   = true;
+        this.deletable  = true;
         this.printable  = false;
         this.exportable = true;
         break;

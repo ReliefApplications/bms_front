@@ -61,7 +61,7 @@
 
                             <ng-template #isMultipleSelect>
                                 <ng-container *ngIf="field.kindOfField === 'MultipleSelect'; else isSingleSelect">
-                                    <ng-select [formControlName]="fieldName"
+                                    <ng-select appendTo="body" [formControlName]="fieldName"
                                         [placeholder]="field.title | uppercaseFirst" [multiple]="true"
                                         [closeOnSelect]="false">
                                         <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
@@ -73,7 +73,7 @@
 
                             <ng-template #isSingleSelect>
                                 <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isColor">
-                                    <ng-select [formControlName]="fieldName"
+                                    <ng-select appendTo="body" [formControlName]="fieldName"
                                         [placeholder]="field.title | uppercaseFirst">
                                         <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
                                             {{option.get(field.bindField) | uppercaseFirst}}

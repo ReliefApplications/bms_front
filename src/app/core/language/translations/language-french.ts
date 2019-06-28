@@ -102,18 +102,18 @@ export class French implements Language {
 
     // Months
     months_short = [
-      'Jan',
-      'Fév',
-      'Mar',
-      'Avr',
-      'Mai',
-      'Juin',
-      'Jul',
-      'Aoû',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Déc',
+        'Jan',
+        'Fév',
+        'Mar',
+        'Avr',
+        'Mai',
+        'Juin',
+        'Jul',
+        'Aoû',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Déc',
     ]
 
     // Address and location
@@ -494,9 +494,9 @@ export class French implements Language {
 
     // Number suffixes
     number_suffixes = {
-      1: 'er',
-      2: 'ème',
-      3: 'ème'
+        1: 'er',
+        2: 'ème',
+        3: 'ème'
     }
     number_suffix_other = 'ème'
 
@@ -533,7 +533,7 @@ export class French implements Language {
     // Project
     project_add = 'Veuillez créer un projet pour commencer !'
     project_add_household = 'S\'il vous plait, ajoutez d\'abord des bénéficiaires ! Ensuite, vous pourrez gérer des distributions...'
-    project_click = 'Cliquer sur '  + this.add
+    project_click = 'Cliquer sur ' + this.add
     project_create = 'Créer un nouveau projet'
     project_description = 'Vous pourrez modifier le nom du projet jusqu\'à votre première distribution'
     project_end_date = 'Date de fin de projet'
@@ -710,4 +710,4 @@ export class French implements Language {
     // User
     user_only_one_country = 'Vous ne pouvez sélectionner qu\'un pays'
     user_password_question = 'Modifier le mot de passe à la prochaine connexion'
-  };
+};

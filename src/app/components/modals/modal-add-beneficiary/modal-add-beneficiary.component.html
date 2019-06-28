@@ -5,7 +5,7 @@
             </strong>
             {{language.distribution_want_add}} <strong> {{data.distribution.get('name')}} </strong>
             {{language.distribution | lowercase}}.</p>
-        <ng-select class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true"
+        <ng-select appendTo="body" class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true"
             placeholder="{{language.beneficiaries | uppercaseFirst}}" [closeOnSelect]="false" [searchable]="true"
             required>
             <ng-option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">

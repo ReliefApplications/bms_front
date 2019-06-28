@@ -159,24 +159,24 @@ export class Arabic implements Language {
     add_project_title = 'مشروع جديد'
 
     // Beneficiaries
-    beneficiary_add_distribution= 'إضافة المستفيدين لهذا التوزيع'
-    beneficiary_add_list= 'العالمي'
-    beneficiary_add_project= 'يرجى تحديد المشروع (المشاريع) الذي/الذين  ترغب في إضافته/هم '
-    beneficiary_added= 'تم إضافة المستفيدين الى المشروع'
-    beneficiary_advanced_research= 'بحث متقدم'
-    beneficiary_clear_all_research= 'امسح الكل'
+    beneficiary_add_distribution = 'إضافة المستفيدين لهذا التوزيع'
+    beneficiary_add_list = 'العالمي'
+    beneficiary_add_project = 'يرجى تحديد المشروع (المشاريع) الذي/الذين  ترغب في إضافته/هم '
+    beneficiary_added = 'تم إضافة المستفيدين الى المشروع'
+    beneficiary_advanced_research = 'بحث متقدم'
+    beneficiary_clear_all_research = 'امسح الكل'
     beneficiary_date_of_birth = 'تاريخ الميلاد'
     beneficiary_en_family_name = 'اسم العائلة الانجليزية'
     beneficiary_en_given_name = 'الاسم باللغة الإنجليزية'
     beneficiary_en_name = 'اسم الانجليزية'
     beneficiary_family_name = 'اللقب'
     beneficiary_given_name = 'الاسم '
-    beneficiary_head= 'رب الأسرة'
+    beneficiary_head = 'رب الأسرة'
     beneficiary_local_family_name = 'اسم العائلة المحلية'
     beneficiary_local_given_name = 'الاسم المحلي المعطى'
     beneficiary_local_name = 'الاسم المحلي'
-    beneficiary_member= 'فرد من العائلة'
-    beneficiary_missing_selected_project= 'يجب أن تختار مشروعاقبل التحميل'
+    beneficiary_member = 'فرد من العائلة'
+    beneficiary_missing_selected_project = 'يجب أن تختار مشروعاقبل التحميل'
     beneficiary_personnal = 'معلومات شخصية'
     beneficiary_referral = 'إحالة'
     beneficiary_referral_comment = 'تعليق'
@@ -186,10 +186,10 @@ export class Arabic implements Language {
     beneficiary_res_address = 'عنوان الإقامة'
     beneficiary_residency = 'الإقامة'
     beneficiary_residency_status = 'حالة الإقامة'
-    beneficiary_residency_status_idp= 'IDP'
-    beneficiary_residency_status_refugee= 'لاجئ'
-    beneficiary_residency_status_resident= 'مقيم'
-    beneficiary_select_api= 'API اختر'
+    beneficiary_residency_status_idp = 'IDP'
+    beneficiary_residency_status_refugee = 'لاجئ'
+    beneficiary_residency_status_resident = 'مقيم'
+    beneficiary_select_api = 'API اختر'
     beneficiary_selected_project = 'المستفيدين المختارين='
     beneficiary_vulnerabilities = 'نقاط الضعف'
 
@@ -213,24 +213,24 @@ export class Arabic implements Language {
     beneficiary_error_tent = 'يجب إدخال رقم خيمة'
 
     // Beneficiary imports
-    beneficiary_import_addFile= ' إضافة ملف أو وضع ملف '
-    beneficiary_import_addModal= 'add file'
-    beneficiary_import_api= 'تحميل من مصدر بيانات خارجي'
-    beneficiary_import_beneficiaries_imported= 'تم إضافة المستفيدين '
+    beneficiary_import_addFile = ' إضافة ملف أو وضع ملف '
+    beneficiary_import_addModal = 'add file'
+    beneficiary_import_api = 'تحميل من مصدر بيانات خارجي'
+    beneficiary_import_beneficiaries_imported = 'تم إضافة المستفيدين '
     beneficiary_import_canceled = 'تم إلغاء الاستيراد'
-    beneficiary_import_check_fields= ' محتوى فارغ  تثبت من أدخال جميع المعطيات و اختيار مشروع '
+    beneficiary_import_check_fields = ' محتوى فارغ  تثبت من أدخال جميع المعطيات و اختيار مشروع '
     beneficiary_import_conversion_success = 'التحويل بنجاح!'
-    beneficiary_import_convert= 'تحويل الملف'
-    beneficiary_import_csv= ' تنزيل ملف'
+    beneficiary_import_convert = 'تحويل الملف'
+    beneficiary_import_csv = ' تنزيل ملف'
     beneficiary_import_error_file = 'يجب عليك تحديد ملف'
-    beneficiary_import_error_importing= 'وقع خطأ عندالتحميل البيانات'
-    beneficiary_import_error_selection= 'You must select at least one choice'
-    beneficiary_import_file= 'تحميل من ملف'
-    beneficiary_import_response= 'استعد لاستعادة الملف'
-    beneficiary_import_select_location= 'يجب تحديد الموقع وإضافة ملف قبل التحميل'
-    beneficiary_import_select_project= 'يجب أن تختار مشروعا و ملفا قبل التحميل'
-    beneficiary_import_title= 'تحميل بيانات المستفيد'
-    beneficiary_import_warning= 'تحذير: إذا كان الملف المقدم غير كامل  ، عليك  إكمال العنصر الناتج حتى ينجح الاستيراد.'
+    beneficiary_import_error_importing = 'وقع خطأ عندالتحميل البيانات'
+    beneficiary_import_error_selection = 'You must select at least one choice'
+    beneficiary_import_file = 'تحميل من ملف'
+    beneficiary_import_response = 'استعد لاستعادة الملف'
+    beneficiary_import_select_location = 'يجب تحديد الموقع وإضافة ملف قبل التحميل'
+    beneficiary_import_select_project = 'يجب أن تختار مشروعا و ملفا قبل التحميل'
+    beneficiary_import_title = 'تحميل بيانات المستفيد'
+    beneficiary_import_warning = 'تحذير: إذا كان الملف المقدم غير كامل  ، عليك  إكمال العنصر الناتج حتى ينجح الاستيراد.'
 
     // Booklets
     booklet_code = 'الشفرة'
@@ -264,8 +264,8 @@ export class Arabic implements Language {
     commodity_shelter = 'مجموعة أدوات المأوى'
     commodity_hygiene = 'طقم النظافة'
     commodity_dignity = 'مجموعة الكرامة'
-    commodity_kgs= 'كلغ'
-    commodity_kit= 'عدة'
+    commodity_kgs = 'كلغ'
+    commodity_kit = 'عدة'
     commodity_modality = 'القيد'
     commodity_value = 'كمية'
 
@@ -366,9 +366,9 @@ export class Arabic implements Language {
     'header_settings' = 'ترتيب'
     'header_update-beneficiary' = 'تحديث المستفيد'
     header_beneficiaries = 'المستفيدون'
-    header_disconnect =  'تسجيل الخروج من الحساب'
+    header_disconnect = 'تسجيل الخروج من الحساب'
     header_home = 'الصفحة الرئيسية'
-    header_import =  'تحميل بيانات المستفيد'
+    header_import = 'تحميل بيانات المستفيد'
     header_imported = 'إستيراد بيانات المستفيدين'
     header_language = this.language
     header_profile = this.profile
@@ -377,10 +377,10 @@ export class Arabic implements Language {
     header_vouchers = this.voucher
 
     // Household
-    household_full_address= 'عنوان المنزل بالكامل:'
+    household_full_address = 'عنوان المنزل بالكامل:'
     household_income = 'مستوى الدخل'
     household_income_level = INCOMELEVELS.ar
-    household_info= 'ملخص المعلومات الخاصة بالمنزل  :'
+    household_info = 'ملخص المعلومات الخاصة بالمنزل  :'
     household_livelihood = 'الوظيفة'
     household_location_address = 'عنوان'
     household_location_camp = 'معسكر'
@@ -395,7 +395,7 @@ export class Arabic implements Language {
     household_location_settlement = 'تسوية مؤقتة'
     household_location_tent = 'خيمة رقم'
     household_location_type = 'نوع الموقع'
-    household_location= 'مكان الأسرة='
+    household_location = 'مكان الأسرة='
     household_members = 'أفراد العائلة'
     household_sentence = 'الأسرة من'
 
@@ -497,7 +497,7 @@ export class Arabic implements Language {
         1: '',
         2: '',
         3: ''
-      }
+    }
     number_suffix_other = ''
 
     // Organization
@@ -511,9 +511,9 @@ export class Arabic implements Language {
     // Phone
     phone_no = 'رقم الهاتف'
     phone_prefix = 'تحويلة'
-    phone_proxy= 'الوكيل'
-    phone_type_landline= 'ارضي'
-    phone_type_mobile= 'محمول'
+    phone_proxy = 'الوكيل'
+    phone_type_landline = 'ارضي'
+    phone_type_mobile = 'محمول'
 
     // Placeholder
     placeholder_one_many = 'اختر واحدة أو أكثر'
@@ -562,7 +562,7 @@ export class Arabic implements Language {
     report_from = 'من'
     report_loader = 'التحميل'
     report_period_selected = 'حسب الفترة المختارة'
-    report_project =  'المشروع'
+    report_project = 'المشروع'
     report_project_report = 'الرسوم البيانية حسب المشروع'
     report_select_frequency = 'اختر التكرار'
     report_to = 'إلى'

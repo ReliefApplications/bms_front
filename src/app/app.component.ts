@@ -1,4 +1,4 @@
-    import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -87,9 +87,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private handleChat(): void {
-        const chat =  document.getElementById('chat-widget-container');
+        const chat = document.getElementById('chat-widget-container');
         if (chat) {
-
             if (this.currentDisplayType.type === 'mobile') {
                 chat.style.display = 'none';
                 return;
@@ -101,8 +100,6 @@ export class AppComponent implements OnInit, OnDestroy {
             }
 
             chat.style.display = 'block';
-
-
         }
     }
 }

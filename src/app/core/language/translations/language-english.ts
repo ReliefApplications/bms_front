@@ -103,18 +103,18 @@ export class English implements Language {
 
     // Months
     months_short = [
-      'Jan' ,
-      'Feb' ,
-      'Mar' ,
-      'Apr' ,
-      'May' ,
-      'Jun' ,
-      'Jul' ,
-      'Aug' ,
-      'Sep' ,
-      'Oct' ,
-      'Nov' ,
-      'Dec'
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
     ]
 
     // Address and location
@@ -495,9 +495,9 @@ export class English implements Language {
 
     // Number suffixes
     number_suffixes = {
-      1: 'st',
-      2: 'nd',
-      3: 'rd'
+        1: 'st',
+        2: 'nd',
+        3: 'rd'
     }
     number_suffix_other = 'th'
 
@@ -534,7 +534,7 @@ export class English implements Language {
     // Project
     project_add = 'Please add a new project to begin!'
     project_add_household = 'Please add some beneficiaries first! Then you will be able to manage some distributions...'
-    project_click = 'Click on '  + this.add
+    project_click = 'Click on ' + this.add
     project_create = 'Create a new project'
     project_description = 'You will be able to modify project\'s name until your first distribution.'
     project_end_date = 'End Date'
@@ -711,4 +711,4 @@ export class English implements Language {
     // User
     user_only_one_country = 'You can select only one country'
     user_password_question = 'Update password on next login'
-  };
+};

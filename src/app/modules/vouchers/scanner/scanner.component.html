@@ -2,7 +2,7 @@
     <p [hidden]="!hasDevices || !hasPermission" cdkFocusRegionstart>{{ language.voucher_scan_text }}</p>
 
     <div [hidden]="!hasDevices || !hasPermission">
-        <ng-select [clearable]="false" [formControl]="selectedDeviceControl" *ngIf="selectedDeviceControl.value">
+        <ng-select appendTo="body" [clearable]="false" [formControl]="selectedDeviceControl" *ngIf="selectedDeviceControl.value">
             <ng-option *ngFor="let device of availableDevices" [value]="device.deviceId">
                 {{device.label }}
             </ng-option>

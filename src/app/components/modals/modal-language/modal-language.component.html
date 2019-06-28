@@ -3,7 +3,7 @@
   <form [formGroup]="languageForm" class="modal-table" [ngClass]="{'rtl': rtl === true}" cdkFocusRegionstart>
     <div class="select-container">
       <span class="language-text">{{language.modal_language_actual}}</span>
-      <ng-select (change)="updateDefault()" formControlName="languageControl" [clearable]="false" class="single-select" [multiple]="false" placeholder="{{ language.language | uppercaseFirst }}" [closeOnSelect]="true" [searchable]="true" bindLabel="LANGUAGE_ISO">
+      <ng-select appendTo="body" (change)="updateDefault()" formControlName="languageControl" [clearable]="false" class="single-select" [multiple]="false" placeholder="{{ language.language | uppercaseFirst }}" [closeOnSelect]="true" [searchable]="true" bindLabel="LANGUAGE_ISO">
         <ng-option *ngFor="let language of languageService.enabledLanguages" [value]="language">
           {{language.LANGUAGE_ISO | uppercaseFirst}}
         </ng-option>

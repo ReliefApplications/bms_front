@@ -153,5 +153,6 @@ app-display-field.ng-star-inserted {
     left: 7px;
     filter: invert(1);
     z-index: 501;
+    pointer-events: none;
   }
 }

@@ -12,6 +12,7 @@ import { ProjectService } from 'src/app/core/api/project.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { Distribution } from 'src/app/models/distribution';
 import { Project } from 'src/app/models/project';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
@@ -73,6 +74,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
         ]),
     });
 
+    // Variable set to false while changing the distributions for a project to prevent multiple api calls
+    projectDistributionsMismatch = false;
+
     // User select
     projects: Array<Project>;
     distributions: Array<Distribution>;
@@ -101,13 +105,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
         private countriesService: CountriesService,
     ) {}
 
-
-
     ngOnInit(): void {
-        this.resetForms();
         this.generateFrequencies();
         this.generateEnabledReports();
-        this.getProjects();
+        this.getProjects().subscribe(() => {
+            this.setFormsValues();
+        });
 
         this.generateFormsEvents();
 
@@ -122,13 +125,15 @@ export class ReportsComponent implements OnInit, OnDestroy {
     }
 
     private getProjects() {
-        this.projectService.get().subscribe((apiProjects: Array<any>) => {
-            if (apiProjects) {
-                this.projects = apiProjects.map((apiProject: any) => {
-                    return Project.apiToModel(apiProject);
-                });
-            }
-        });
+        return this.projectService.get().pipe(
+            tap((apiProjects: Array<any>) => {
+                if (apiProjects) {
+                    this.projects = apiProjects.map((apiProject: any) => {
+                        return Project.apiToModel(apiProject);
+                    });
+                }
+            })
+        );
     }
 
     // Generate the reports types
@@ -189,27 +194,20 @@ export class ReportsComponent implements OnInit, OnDestroy {
             }),
 
             // Update distributions on project change in distribution report
-            this.distributionsControl.controls.projectSelect.valueChanges.subscribe((project: Project) => {
-                if (!project) {
+            this.distributionsControl.controls.projectSelect.valueChanges.subscribe((projectId: number) => {
+                this.projectDistributionsMismatch = true;
+                if (!projectId) {
                     return;
                 }
                 // Remove any selected distributions on project select
                 this.distributionsControl.controls.distributionsSelect.reset();
-                // Get project's distributions
-
-                this.distributionService.getByProject(project.get<number>('id'))
-                    .subscribe((apiDistributions: Array<any>) => {
-                        if (apiDistributions || apiDistributions === []) {
-                            this.distributions = apiDistributions.map((apiDistribution: any) => {
-                                return Distribution.apiToModel(apiDistribution);
-                            });
-                        }
-                });
+                // Get project's distributions, emit an event when filling the distribs
+                this.fillDistributionFromProject(projectId, true);
             }),
 
             // Send request when distribution report form is valid
             this.distributionsControl.statusChanges.pipe(
-                filter((event) => event === 'VALID' )
+                filter((event) => event === 'VALID' ),
             ).subscribe((_: any) => {
                 this.onFilterChange();
             }),
@@ -222,14 +220,33 @@ export class ReportsComponent implements OnInit, OnDestroy {
         ];
     }
 
-    // Helper function: reset all forms
-    private resetForms() {
-        this.projectsControl.reset();
-        this.distributionsControl.reset();
+    // Helper function: set all forms' values
+    private setFormsValues() {
+        this.projectsControl.get('projectsSelect').setValue(this.projects.map((project: Project) => project.get('id')), {emitEvent: false});
+        const firstProjectId = this.projects[0].get<number>('id');
+        this.distributionsControl.get('projectSelect').setValue(firstProjectId, {emitEvent: false});
+        this.fillDistributionFromProject(firstProjectId, false);
+    }
+
+    fillDistributionFromProject(projectId: number, emitEvent?: boolean) {
+
+        this.distributionService.getByProject(projectId)
+            .subscribe((apiDistributions: Array<any>) => {
+                if (apiDistributions || apiDistributions === []) {
+                    this.distributions = apiDistributions.map((apiDistribution: any) => {
+                        return Distribution.apiToModel(apiDistribution);
+                    });
+                    this.distributionsControl.get('distributionsSelect')
+                        .setValue(this.distributions.map((distribution: Distribution) => {
+                            return distribution.get<number>('id');
+                        }), {emitEvent: emitEvent}
+                    );
+                    this.projectDistributionsMismatch = false;
+                }
+        });
     }
 
     selectReport(clickedReport: object) {
-        this.resetForms();
         const selectedReports = this.enabledReports.filter((report: object) => {
             if (report === clickedReport) {
                 return report;
@@ -276,6 +293,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
         // If distributions is selected, check for distributions form validity
         if (this.selectedReport.value === 'distributions') {
             if (! this.distributionsControl.valid) {
+                return;
+            }
+            if (this.projectDistributionsMismatch) {
                 return;
             }
         }
@@ -325,15 +345,13 @@ export class ReportsComponent implements OnInit, OnDestroy {
         switch (this.selectedReport.value) {
             case('projects'):
                 report = 'projects';
-                projects = this.projectsControl.value.projectsSelect.map((selectedProject: Project) => {
-                    return selectedProject.get<string>('id');
-                });
+                projects = this.projectsControl.value.projectsSelect;
                 break;
             case('distributions'):
                 report = 'distributions';
-                projects = [(this.distributionsControl.value.projectSelect as Project).get<string>('id')];
+                projects = [this.distributionsControl.value.projectSelect];
                 distributions = this.distributionsControl.value.distributionsSelect.map((selectedDistribution: Distribution) => {
-                    return selectedDistribution.get<string>('id');
+                    return selectedDistribution;
                 });
                 break;
             case('countries'):
@@ -449,5 +467,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
             pdf.save('Reports');
             this.isDownloading = false;
         });
+    }
+
+//
+// ─── NG SELECT HEADERS ──────────────────────────────────────────────────────────
+//
+    public selectAll(control: FormControl, entities: Array<CustomModel>) {
+        control.setValue(entities.map((entity: CustomModel) => entity.get('id')));
     }
 }

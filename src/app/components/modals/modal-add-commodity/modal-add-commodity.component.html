@@ -7,7 +7,7 @@
             <tr class="modal-row">
                 <th class="table-title">{{ commodity.fields.modality.title | uppercaseFirst}}</th>
                 <td class="form-item">
-                    <ng-select formControlName="modality"
+                    <ng-select appendTo="body" formControlName="modality"
                         [placeholder]="commodity.fields.modality.title | uppercaseFirst" (change)="loadTypes($event)">
                         <ng-option *ngFor="let option of commodity.getOptions('modality')" [value]="option.get('id')">
                             {{option.get('name') | uppercaseFirst}}
@@ -21,7 +21,7 @@
             <tr class="modal-row">
                 <th class="table-title">{{ commodity.fields.modalityType.title | uppercaseFirst}}</th>
                 <td class="form-item">
-                    <ng-select formControlName="modalityType"
+                    <ng-select appendTo="body" formControlName="modalityType"
                         [placeholder]="commodity.fields.modalityType.title | uppercaseFirst" (change)="setUnit()">
                         <ng-option *ngFor="let option of commodity.getOptions('modalityType')"
                             [value]="option.get('id')">
@@ -41,7 +41,7 @@
                         <app-hint-error [form]="form" fieldName="unit" [field]="commodity.fields.unit"
                             [isMatField]="true"></app-hint-error>
                     </mat-form-field>
-                    <ng-select *ngIf="isCurrency" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
+                    <ng-select appendTo="body" *ngIf="isCurrency" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
                         <ng-option *ngFor="let currency of currencies" [value]="currency.name">
                             {{currency.name | uppercaseFirst}}
                         </ng-option>

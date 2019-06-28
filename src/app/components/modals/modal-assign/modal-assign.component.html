@@ -7,7 +7,7 @@
             <tr class="modal-row">
                 <th class="table-title">{{ language.project }}</th>
                 <th class="table-value">
-                    <ng-select *ngIf="!data.project" class="full-width single-select" [clearable]=false
+                    <ng-select appendTo="body" *ngIf="!data.project" class="full-width single-select" [clearable]=false
                         formControlName="projectControl" (change)="getDistributions()">
                         <ng-option *ngFor="let project of projects" [value]="project.get('id')">
                             {{project.get('name')}}</ng-option>
@@ -19,7 +19,7 @@
             <tr class="modal-row">
                 <th class="table-title">{{ language.distribution }}</th>
                 <th class="table-value">
-                    <ng-select *ngIf="!data.distribution" class="full-width single-select" [clearable]=false
+                    <ng-select appendTo="body" *ngIf="!data.distribution" class="full-width single-select" [clearable]=false
                         formControlName="distributionControl" (change)="getBeneficiaries()">
                         <ng-option *ngFor="let distribution of distributions" [value]="distribution.get('id')">
                             {{distribution.get('name')}}</ng-option>
@@ -31,7 +31,7 @@
             <tr class="modal-row">
                 <th class="table-title">{{ language.beneficiary }}</th>
                 <th class="table-value">
-                    <ng-select class="full-width single-select" [clearable]=false formControlName="beneficiaryControl"
+                    <ng-select appendTo="body" appendTo="body" class="full-width single-select" [clearable]=false formControlName="beneficiaryControl"
                         *ngIf="!data.beneficiary">
                         <ng-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.get('id')">
                             {{beneficiary.get('localFullName')}}</ng-option>

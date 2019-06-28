@@ -7,7 +7,7 @@
             <tr class="modal-row">
                 <th class="table-title">{{ criteria.fields.field.title | uppercaseFirst }}</th>
                 <td class="form-item">
-                    <ng-select formControlName="field" [placeholder]="criteria.fields.field.title | uppercaseFirst"
+                    <ng-select appendTo="body" formControlName="field" [placeholder]="criteria.fields.field.title | uppercaseFirst"
                         (change)="loadConditions($event)">
                         <ng-option *ngFor="let option of criteria.getOptions('field')" [value]="option.get('field')">
                             {{option.get('field') | formatCamelCase }}
@@ -40,7 +40,7 @@
                 *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
                 <th class="table-title">{{ criteria.fields.value.title  | uppercaseFirst }}</th>
                 <td class="form-item">
-                    <ng-select *ngIf="form.controls.field.value === 'gender'" class="single-select"
+                    <ng-select appendTo="body" *ngIf="form.controls.field.value === 'gender'" class="single-select"
                         formControlName="value" [closeOnSelect]="true" [searchable]="true">
                         <ng-option *ngFor="let gender of criteria.genders" [value]="gender.get('id')">
                             {{gender.get('name')}}</ng-option>

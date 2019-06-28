@@ -104,7 +104,7 @@
             <p> {{language.beneficiary_add_project}} {{ checkedElements.length }}
                 {{language.beneficiary_selected_project}}</p>
             <div class="selectBeneficiaries">
-                <ng-select [formControl]="projectAddControl" class="single-select" [multiple]="false" [searchable]=true
+                <ng-select appendTo="body" [formControl]="projectAddControl" class="single-select" [multiple]="false" [searchable]=true
                     [closeOnSelect]="true" placeholder="{{language.projects | uppercaseFirst}}">
                     <ng-option class="options" *ngFor="let project of projectsList" [value]="project.id">
                         {{project.name}}

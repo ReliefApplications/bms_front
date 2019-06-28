@@ -83,13 +83,13 @@ export class Location extends CustomModel {
 
         // Cascade down the value of the most accurate element to the broader adm
         if (adm4) {
-            adm3 = adm4;
+            adm3 = adm4.adm3;
         }
         if (adm3) {
-            adm2 = adm3;
+            adm2 = adm3.adm2;
         }
         if (adm2) {
-            adm1 = adm2;
+            adm1 = adm2.adm1;
         }
         // Exit if no adm were defined
         if (!adm1) {

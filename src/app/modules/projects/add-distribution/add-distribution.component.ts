@@ -332,7 +332,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 return;
             }
             else {
-                const distributionModality = this.commodityData.data[0].get('modality').get('name');
+                const distributionModality = this.commodityData.data[0].get(['modality', 'name']);
                 for (const commodity of this.commodityData.data) {
                     if (commodity.get<number>('value') <= 0) {
                         this.snackbar.error(this.language.add_distribution_zero);

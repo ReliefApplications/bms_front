@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import * as Leaflet from 'leaflet';
 import { Commodity } from 'src/app/models/commodity';
 import { Distribution } from 'src/app/models/distribution';
+import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
 
 
 @Injectable({
@@ -38,14 +39,26 @@ export class DistributionMarkerService {
 
     public getPopup(distribution: Distribution) {
         const popup = Leaflet.DomUtil.create('div', 'infoWindow');
-
         popup.innerHTML = `
             <div id="bms-popup">
-                <p>Name: ${distribution.get<string>('name')}</p>
-                <p>Status: ${this.getDistributionStatus(distribution)}</p>
-                <p>Date: ${ this.datePipe.transform(distribution.get<Date>('date'), 'dd-MM-yyyy')}</p>
+                ${this.formatPropertyIfExists('Adm1', distribution.get(['location', 'adm1', 'name']))}
+                ${this.formatPropertyIfExists('Adm2', distribution.get(['location', 'adm2', 'name']))}
+                ${this.formatPropertyIfExists('Adm3', distribution.get(['location', 'adm3', 'name']))}
+                ${this.formatPropertyIfExists('Adm4', distribution.get(['location', 'adm4', 'name']))}
+                ${this.formatPropertyIfExists('Name', distribution.get(['location', 'adm4', 'name']))}
+                ${this.formatPropertyIfExists('Beneficiaries count',
+                    distribution.get<Array<DistributionBeneficiary>>('distributionBeneficiaries').length.toString())}
+                ${this.formatPropertyIfExists('Name', distribution.get('name'))}
+                ${this.formatPropertyIfExists('Modality', distribution.get<Array<Commodity>>('commodities')
+                    .map((commodity: Commodity) => commodity.get<string>(['modalityType', 'name']))
+                    .reduce((previousValue: string, currentValue: string) => `${previousValue}, ${currentValue}`))}
+                ${this.formatPropertyIfExists('Date', this.datePipe.transform(distribution.get<Date>('date'), 'dd-MM-yyyy'))}
             </div>
         `;
         return popup;
+    }
+
+    private formatPropertyIfExists(name: string, property: string) {
+        return property ? `<p>${name}: ${property}</p>` : '';
     }
 }

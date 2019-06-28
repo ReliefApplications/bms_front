@@ -325,10 +325,7 @@ export class AsyncacheService {
         return httpMethod.pipe(
             catchError(
                 error => {
-                    const failedRequest: FailedRequest = {
-                        request: request,
-                        error: error,
-                    };
+                    const failedRequest = new FailedRequest(request, error);
                     return of(failedRequest);
                 }
             )

@@ -150,7 +150,7 @@ export class HttpService {
             if (this.canBeOfflineRequest(url)) {
                 const date = new Date();
                 const method = 'PUT';
-                const request: StoredRequest = { method, url, body, options, date };
+                const request = new StoredRequest(method, url, options, date, body);
                 this.cacheService.storeRequest(request);
                 this.snackbar.warning('No network connection, this data will be sent once you are reconnected');
 
@@ -175,7 +175,7 @@ export class HttpService {
                 const date = new Date();
                 const method = 'POST';
                 if (!urlSplitted.match(regex)) {
-                    const request: StoredRequest = { method, url, body, options, date };
+                    const request = new StoredRequest(method, url, options, date, body);
                     this.cacheService.storeRequest(request);
                     this.snackbar.warning('No network connection, this data will be sent once you are reconnected');
                 }
@@ -198,7 +198,7 @@ export class HttpService {
             if (this.canBeOfflineRequest(url)) {
                 const date = new Date();
                 const method = 'DELETE';
-                const request: StoredRequest = { method, url, options, date };
+                const request = new StoredRequest(method, url, options, date);
                 this.cacheService.storeRequest(request);
                 this.snackbar.warning('No network connection, this data will be sent once you are reconnected');
 

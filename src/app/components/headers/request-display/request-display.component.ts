@@ -22,7 +22,12 @@ export class RequestDisplayComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.networkService.getOnlineObs().subscribe(
+        this.networkOn = this.networkService.getStatus();
+        if (this.networkOn) {
+            this.loadStoredRequests();
+        }
+
+        this.networkService.online$.subscribe(
             status => {
                 this.networkOn = status;
                 if (status) {
@@ -50,9 +55,5 @@ export class RequestDisplayComponent implements OnInit {
                 this.storedRequests = result;
             }
         );
-    }
-
-    requestsPending(): boolean {
-        return (this.storedRequests && this.storedRequests.length > 0);
     }
 }

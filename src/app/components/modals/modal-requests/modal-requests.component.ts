@@ -1,12 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Observable, of } from 'rxjs';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { FailedRequest, StoredRequest } from 'src/app/models/interfaces/stored-request';
-import { catchError } from 'rxjs/operators';
 
 @Component({
     selector: 'app-modal-requests',
@@ -88,8 +86,12 @@ export class ModalRequestsComponent implements OnInit {
 
     sendAllRequests() {
         this.errors = [];
+        this.progressCountFail = 0;
+        this.progressCountSuccess = 0;
         this.inProgress = true;
-        const stillToBeSent = this.requests;
+
+        // Clone array
+        const stillToBeSent = this.requests.slice(0);
 
         this.requests.forEach((request) => {
             const method = this.cacheService.useMethod(request);
@@ -108,8 +110,8 @@ export class ModalRequestsComponent implements OnInit {
                         this.requests = stillToBeSent;
                         this.cacheService.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent).subscribe(
                             () => {
-                                this.inProgress = false;
-                                if (! this.requests || this.requests === []) {
+                                setTimeout(() => this.inProgress = false, 3000);
+                                if (!this.requests || this.requests === []) {
                                     this.closeDialog();
                                 }
                             }

@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="container-title">
-    <h2> {{language.header_profile | titlecase}} </h2>
+    <h2> {{language.profile | titlecase}} </h2>
   </div>
 
   <div class="container-table">
@@ -25,7 +25,8 @@
         </mat-form-field>
 
         <div class="action-buttons">
-          <button mat-raised-button type="submit" [disabled]="!profileForm.valid" class="button-background-primary">
+          <mat-spinner [diameter]="25" *ngIf="loading"></mat-spinner>
+          <button *ngIf="!loading" mat-flat-button type="submit" [disabled]="!profileForm.valid" class="button-background-primary">
             {{ language.save | titlecase }}
           </button>
         </div>

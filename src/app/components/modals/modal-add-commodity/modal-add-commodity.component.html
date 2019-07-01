@@ -1,56 +1,89 @@
-<div class="modal-container" *ngIf="commodity">
-    <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">{{language.modal_add_title |uppercaseFirst }} {{commodity.title | uppercaseFirst}}</h4>
+<h4 mat-dialog-title class="modal-title underline-accent"
+    [ngClass]="{'rtl':language.direction === 'rtl'}">
+    {{language.modal_add_title |uppercaseFirst }} {{commodity.title | uppercaseFirst}}</h4>
+<mat-dialog-content class="modal-container" *ngIf="commodity">
     <form [formGroup]="form">
-      <table class="modal-table">
-        <tr class="modal-row">
-          <th class="table-title">{{ commodity.fields.modality.title }}</th>
-          <td class="form-item">
-            <ng-select formControlName="modality" [placeholder]="commodity.fields.modality.title | uppercaseFirst" (change)="loadTypes($event)">
-                <ng-option *ngFor="let option of commodity.getOptions('modality')" [value]="option.get('id')">
-                    {{option.get('name') | uppercaseFirst}}
-                </ng-option>
-            </ng-select>
-            <app-hint-error [form]="form" fieldName="modality" [field]="commodity.fields.modality" [isMatField]="false"></app-hint-error>
-          </td>
-        </tr>
+        <table class="modal-table" cdkFocusRegionstart [ngClass]="{'rtl':language.direction === 'rtl'}">
+            <tr class="modal-row">
+                <th class="table-title">{{ commodity.fields.modality.title | uppercaseFirst}}</th>
+                <td class="form-item">
+                    <ng-select appendTo="body" formControlName="modality"
+                        [placeholder]="commodity.fields.modality.title | uppercaseFirst" (change)="loadTypes($event)">
+                        <ng-option *ngFor="let option of commodity.getOptions('modality')" [value]="option.get('id')">
+                            {{option.get('name') | uppercaseFirst}}
+                        </ng-option>
+                    </ng-select>
+                    <app-hint-error [form]="form" fieldName="modality" [field]="commodity.fields.modality"
+                        [isMatField]="false"></app-hint-error>
+                </td>
+            </tr>
 
-        <tr class="modal-row">
-          <th class="table-title">{{ commodity.fields.modalityType.title }}</th>
-          <td class="form-item">
-            <ng-select formControlName="modalityType" [placeholder]="commodity.fields.modalityType.title | uppercaseFirst">
-                <ng-option *ngFor="let option of commodity.getOptions('modalityType')" [value]="option.get('id')">
-                    {{option.get('name') | uppercaseFirst}}
-                </ng-option>
-            </ng-select>
-            <app-hint-error [form]="form" fieldName="modalityType" [field]="commodity.fields.modalityType" [isMatField]="false"></app-hint-error>
-          </td>
-        </tr>
+            <tr class="modal-row">
+                <th class="table-title">{{ commodity.fields.modalityType.title | uppercaseFirst}}</th>
+                <td class="form-item">
+                    <ng-select appendTo="body" formControlName="modalityType"
+                        [placeholder]="commodity.fields.modalityType.title | uppercaseFirst" (change)="setUnit()">
+                        <ng-option *ngFor="let option of commodity.getOptions('modalityType')"
+                            [value]="option.get('id')">
+                            {{option.get('name') | uppercaseFirst}}
+                        </ng-option>
+                    </ng-select>
+                    <app-hint-error [form]="form" fieldName="modalityType" [field]="commodity.fields.modalityType"
+                        [isMatField]="false"></app-hint-error>
+                </td>
+            </tr>
 
-        <tr class="modal-row">
-          <th class="table-title">{{ getUnit() }}</th>
-          <td class="form-item">
-            <mat-form-field>
-              <input matInput type="text" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
-              <app-hint-error [form]="form" fieldName="unit" [field]="commodity.fields.unit" [isMatField]="true"></app-hint-error>
-            </mat-form-field>
-          </td>
-        </tr>
+            <tr class="modal-row">
+                <th class="table-title">{{ getUnit() | uppercaseFirst}}</th>
+                <td class="form-item">
+                    <mat-form-field *ngIf="!isCurrency">
+                        <input matInput type="text" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
+                        <app-hint-error [form]="form" fieldName="unit" [field]="commodity.fields.unit"
+                            [isMatField]="true"></app-hint-error>
+                    </mat-form-field>
+                    <ng-select appendTo="body" *ngIf="isCurrency" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
+                        <ng-option *ngFor="let currency of currencies" [value]="currency.name">
+                            {{currency.name | uppercaseFirst}}
+                        </ng-option>
+                    </ng-select>
+                    <app-hint-error *ngIf="isCurrency" [form]="form" fieldName="unit" [field]="commodity.fields.unit"
+                        [isMatField]="false"></app-hint-error>
+                </td>
+            </tr>
 
-        <tr class="modal-row">
-            <th class="table-title">{{ commodity.fields.value.title }}</th>
-            <td class="form-item">
-              <mat-form-field>
-                <input matInput type="text" formControlName="value" [placeholder]="commodity.fields.value.title | uppercaseFirst">
-                <app-hint-error [form]="form" fieldName="value" [field]="commodity.fields.value" [isMatField]="true"></app-hint-error>
-              </mat-form-field>
-            </td>
-          </tr>
+            <tr class="modal-row">
+                <th class="table-title">{{ commodity.fields.value.title | uppercaseFirst}}</th>
+                <td class="form-item">
+                    <mat-form-field>
+                        <input matInput type="text" formControlName="value"
+                            [placeholder]="commodity.fields.value.title | uppercaseFirst">
+                        <app-hint-error [form]="form" fieldName="value" [field]="commodity.fields.value"
+                            [isMatField]="true"></app-hint-error>
+                    </mat-form-field>
+                </td>
+            </tr>
+
+            <tr *ngIf="form.controls.modality.value === 3" class="modal-row">
+                <th class="table-title">{{ commodity.fields.description.title | uppercaseFirst}}</th>
+                <td class="form-item">
+                    <mat-form-field>
+                        <textarea matInput type="text" formControlName="description"
+                            [placeholder]="commodity.fields.description.title | titlecase"></textarea>
+                        <app-hint-error [form]="form" fieldName="description" [field]="commodity.fields.description"
+                            [isMatField]="true"></app-hint-error>
+                    </mat-form-field>
+                </td>
+            </tr>
 
 
-      </table>
-      <div class="modal-button action-buttons stickyFooter" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-          <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
-          <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()" class="button-background-accent">{{language.save}}</button>
-      </div>
+        </table>
     </form>
-  </div>
+</mat-dialog-content>
+<mat-dialog-actions >
+        <div class="modal-button action-buttons"
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
+            <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
+            <button mat-flat-button [disabled]="!form.valid" (click)="onSubmit()"
+                class="button-background-accent">{{language.save}}</button>
+        </div>
+</mat-dialog-actions>

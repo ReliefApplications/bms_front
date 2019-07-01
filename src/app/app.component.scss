@@ -21,15 +21,16 @@
     margin: 0 !important;
     align-items: stretch;
 
-    mat-sidenav{
+    mat-sidenav {
         overflow: hidden;
+        position: fixed;
+
         &.mobile-side-nav {
             margin-top: 56px;
         }
     }
 
     .page-content-wrapper {
-        overflow-y: scroll;
         width: 100%;
         height: 100%;
         margin-left: 64px;
@@ -99,4 +100,3 @@ mat-sidenav-content.no-margin {
         }
     }
 }
-

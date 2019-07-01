@@ -1,24 +1,26 @@
 import { DatePipe } from '@angular/common';
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ModalLeaveComponent } from 'src/app/components/modals/modal-leave/modal-leave.component';
+import { ModalConfirmationComponent } from 'src/app/components/modals/modal-confirmation/modal-confirmation.component';
 import { TableComponent } from 'src/app/components/table/table.component';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
+import { FormService } from 'src/app/core/utils/form.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Commodity } from 'src/app/models/commodity';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Criteria } from 'src/app/models/criteria';
+import { DateModelField } from 'src/app/models/custom-models/date-model-field';
 import { Distribution } from 'src/app/models/distribution';
 import { Location } from 'src/app/models/location';
-import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
@@ -74,6 +76,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         private locationService: LocationService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        public formService: FormService,
     ) { }
 
     ngOnInit() {
@@ -81,11 +84,21 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
             this.currentDisplayType = displayType;
         });
         this.loadingCreation = false;
-        this.objectInstance = new Distribution();
-        this.objectInstance.set('location', new Location());
         this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4', 'date', 'type', 'threshold'];
-        this.makeForm();
-        this.getQueryParameter();
+        this.getQueryParameter().subscribe(params => {
+            this.queryParams = params;
+            if (params.prefill === 'false') {
+                this.objectInstance = new Distribution();
+                this.objectInstance.set('location', new Location());
+                this.makeForm();
+            } else {
+                this.objectInstance = this._distributionService.distributionToDuplicate;
+                this.criteriaData.data = this.objectInstance.get<Criteria[]>('selectionCriteria');
+                this.commodityData.data = this.objectInstance.get<Commodity[]>('commodities');
+                this.makeForm();
+                this.updateNbBeneficiary();
+            }
+        });
         this.loadProvince();
         this.getProjectDates();
     }
@@ -95,19 +108,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     }
 
     makeForm() {
-        const formControls = {};
-        this.objectFields.forEach((fieldName: string) => {
-            if (fieldName === 'type') {
-                formControls[fieldName] = new FormControl(
-                    this.objectInstance.get('type') ? this.objectInstance.get('type').get('id') : null
-                );
-            } else {
-                formControls[fieldName] = new FormControl(
-                    this.objectInstance.fields[fieldName] ? this.objectInstance.get(fieldName) : null,
-                );
-            }
-        });
-        this.form = new FormGroup(formControls);
+        this.form = this.formService.makeForm(this.objectInstance, this.objectFields, null);
     }
 
 
@@ -117,7 +118,13 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     @HostListener('window:beforeunload')
     canDeactivate(): Observable<boolean> | boolean {
         if (this.form.touched && this.objectInstance && !this.loadingCreation) {
-            const dialogRef = this.dialog.open(ModalLeaveComponent, {});
+            const dialogRef = this.dialog.open(ModalConfirmationComponent, {
+                data: {
+                    title: this.language.modal_leave,
+                    sentence: this.language.modal_leave_sentence,
+                    ok: this.language.modal_leave
+                }
+            });
 
             return dialogRef.afterClosed();
         } else {
@@ -125,13 +132,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         }
     }
 
-
     /**
      * get the parameter in the route
      * use to get the active project
      */
     getQueryParameter() {
-        this.route.queryParams.subscribe(params => this.queryParams = params);
+        return this.route.queryParams;
     }
 
     getProjectDates() {
@@ -139,9 +145,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
             (projects) => {
                 if (projects) {
                     projects.forEach((project: any) => {
-                        if (project.id === this.queryParams.project) {
-                            this.projectInfo.startDate = project.start_date;
-                            this.projectInfo.endDate = project.end_date;
+                        if (project.id.toString() === this.queryParams.project) {
+                            this.projectInfo.startDate = DateModelField.formatFromApi(project.start_date);
+                            this.projectInfo.endDate = DateModelField.formatFromApi(project.end_date);
                             return;
                         }
                     });
@@ -172,7 +178,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
      * Get adm1 from the back or from the cache service with the key ADM1
      */
     loadProvince() {
-        this.locationService.fillAdm1Options(this.objectInstance).subscribe(() => {
+        const location = this.objectInstance.get<Location>('location');
+        this.locationService.fillAdm1Options(location).subscribe((filledLocation: Location) => {
+            this.objectInstance.set('location', filledLocation);
             this.form.controls.adm2.setValue(null);
             this.form.controls.adm3.setValue(null);
             this.form.controls.adm4.setValue(null);
@@ -185,7 +193,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
      */
     loadDistrict(adm1Id) {
         if (adm1Id) {
-            this.locationService.fillAdm2Options(this.objectInstance, adm1Id).subscribe(() => {
+            const location = this.objectInstance.get<Location>('location');
+            this.locationService.fillAdm2Options(location, adm1Id).subscribe((filledLocation: Location) => {
+                this.objectInstance.set('location', filledLocation);
                 this.form.controls.adm2.setValue(null);
                 this.form.controls.adm3.setValue(null);
                 this.form.controls.adm4.setValue(null);
@@ -198,8 +208,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
      * @param adm2Id
      */
     loadCommunity(adm2Id) {
+        const location = this.objectInstance.get<Location>('location');
         if (adm2Id) {
-            this.locationService.fillAdm3Options(this.objectInstance, adm2Id).subscribe(() => {
+            this.locationService.fillAdm3Options(location, adm2Id).subscribe((filledLocation: Location) => {
+                this.objectInstance.set('location', filledLocation);
                 this.form.controls.adm3.setValue(null);
                 this.form.controls.adm4.setValue(null);
             });
@@ -211,8 +223,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
      * @param adm3Id
      */
     loadVillage(adm3Id) {
+        const location = this.objectInstance.get<Location>('location');
         if (adm3Id) {
-            this.locationService.fillAdm4Options(this.objectInstance, adm3Id).subscribe(() => {
+            this.locationService.fillAdm4Options(location, adm3Id).subscribe((filledLocation: Location) => {
+                this.objectInstance.set('location', filledLocation);
                 this.form.controls.adm4.setValue(null);
             });
         }
@@ -310,12 +324,15 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
           this.commodityData.data && this.commodityData.data.length !== 0 && this.form.controls.date.value &&
           this.form.controls.threshold.value > 0 && this.form.controls.adm1.value && this.criteriaNbBeneficiaries > 0) {
 
-            if (new Date(this.form.controls.date.value) < new Date(this.projectInfo.startDate) ||
-            new Date(this.form.controls.date.value) > new Date(this.projectInfo.endDate)) {
+            if (this.form.controls.date.value < this.projectInfo.startDate || this.form.controls.date.value > this.projectInfo.endDate) {
                 this.snackbar.error(this.language.add_distribution_date_inside_project);
                 return;
-            } else {
-                const distributionModality = this.commodityData.data[0].get('modality').get('name');
+            } else if (this.form.controls.date.value < new Date()) {
+                this.snackbar.error(this.language.add_distribution_date_before_today);
+                return;
+            }
+            else {
+                const distributionModality = this.commodityData.data[0].get(['modality', 'name']);
                 for (const commodity of this.commodityData.data) {
                     if (commodity.get<number>('value') <= 0) {
                         this.snackbar.error(this.language.add_distribution_zero);

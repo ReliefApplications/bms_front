@@ -86,7 +86,7 @@ export class AuthenticationService {
             this.countryService.setCountry(countries[0]);
             this._cacheService.setCountry(countries[0]).subscribe();
         }
-        this._cacheService.set(AsyncacheService.USER, user.modelToApi());
+        this._cacheService.setUser(user).subscribe();
     }
 
     setSaltedPassword(user: User, saltedPassword: string) {
@@ -131,7 +131,7 @@ export class AuthenticationService {
     }
 
     public createSaltedPassword(body: any, salt: any) {
-        const saltedPassword = this._wsseService.saltPassword(salt.salt, body.password);
+        const saltedPassword = body.password ? this._wsseService.saltPassword(salt.salt, body.password) : null;
         this._wsseService.setSalted(saltedPassword);
         body.password = saltedPassword;
         body.salt = salt.salt;

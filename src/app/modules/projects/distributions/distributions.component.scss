@@ -1,4 +1,5 @@
 @import '../../../../assets/css/variable.scss';
+@import '../../../../assets/css/global.scss';
 
 app-table {
     width: 100%;
@@ -12,14 +13,6 @@ app-table-mobile{
 
 app-not-validated-distribution {
     width: 100%;
-}
-
-mat-dialog-content {
-    width: min-content;
-    p {
-        text-align: justify;
-        max-width: 40vw;
-    }
 }
 
 .lign-container {
@@ -229,29 +222,6 @@ app-import-distribution {
     padding: 0px !important;
 }
 
-.ng-select.multiple-select ::ng-deep .ng-select-container .ng-value-container .ng-value {
-    background-color: #424242;
-}
-
-.ng-select-focused ::ng-deep {
-    .ng-select-container::after {
-        border-color: #424242;
-        border-width: 2px;
-    }
-}
-
-.ng-select-focused ::ng-deep .ng-select-container .ng-value-container .ng-placeholder {
-    color: #424242;
-}
-
-.ng-select-focused ::ng-deep .ng-arrow {
-    color: #424242 !important;
-}
-
-.ng-select-opened ::ng-deep .ng-option-selected {
-    color: #424242 !important;
-}
-
 app-mobile-money, app-general-relief, app-qr-voucher {
     display: flex;
     width: 100%;
@@ -275,14 +245,6 @@ app-mobile-money, app-general-relief, app-qr-voucher {
     .action-buttons {
         width: 100%;
         padding-bottom: 20px;
-    }
-
-    mat-dialog-content {
-        width: 70vw;
-        * {
-            text-align: left !important;
-            max-width: 70vw !important;
-        }
     }
 
     .mat-stepper-horizontal {
@@ -313,4 +275,24 @@ app-mobile-money, app-general-relief, app-qr-voucher {
         white-space: pre-wrap;
     }
 
+}
+
+.container-subtitle {
+    flex-direction: column;
+    .subtitle-main {
+        display: flex;
+        align-items: center;
+
+        *:first-child, *:last-child {
+            margin: 0 5px;
+        }
+
+    }
+    h3 {
+        margin-bottom:0;
+        margin-top: 0;
+    }
+    h4 {
+        margin-top: 5px;
+    }
 }

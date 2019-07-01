@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
+import { Beneficiary } from 'src/app/models/beneficiary';
 import { Commodity } from 'src/app/models/commodity';
 import { State, TransactionMobileMoney } from 'src/app/models/transaction-mobile-money';
-import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { User } from 'src/app/models/user';
+import { ValidatedDistributionComponent } from '../validated-distribution.component';
 
 @Component({
     selector: 'app-mobile-money',
@@ -36,11 +37,11 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         this.actualDistribution.set(
             'distributionBeneficiaries',
             distributionBeneficiaries
-                .map((distributionBeneficiariy: any) => TransactionMobileMoney.apiToModel(distributionBeneficiariy)));
+                .map((distributionBeneficiariy: any) =>
+                    TransactionMobileMoney.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
     }
 
     formatTransactionTable() {
-
         let values = '';
         this.actualDistribution.get<Commodity[]>('commodities').forEach((commodity, index) => {
             if (index > 0) {
@@ -59,7 +60,9 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         this.transactionData = new MatTableDataSource(distributionBeneficiaries);
         this.verifiyIsFinished();
         this.loadingTransaction = false;
-        this.refreshStatuses();
+        if (this.userService.hasRights('ROLE_AUTHORISE_PAYMENT')) {
+            this.refreshStatuses();
+        }
     }
 
      /**
@@ -81,9 +84,10 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                 }
             );
         }
-         if (amount === 0) {
+        if (amount === 0) {
             this.finishedEmitter.emit();
-         }
+            this.distributionService.complete(this.actualDistribution.get('id')).subscribe();
+        }
     }
 
     refreshStatuses() {
@@ -301,9 +305,29 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 	* open each modal dialog
 	*/
     openModal(dialogDetails: any): void {
-        // Can only be a modalDetails
-        this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);
-        this.modalService.isCompleted.subscribe(() => {
-        });
+        if (dialogDetails.action === 'delete') {
+            dialogDetails.element = dialogDetails.element.get('beneficiary');
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+                this.getDistributionBeneficiaries();
+            });
+        }  else if (dialogDetails.action === 'addBeneficiary') {
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+                if (this.networkService.getStatus()) {
+                    this.getDistributionBeneficiaries();
+                }
+            });
+        } else if (dialogDetails.action === 'edit') {
+            dialogDetails.element = dialogDetails.element.get('beneficiary');
+            this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+                this.snackbar.success(this.language.transaction_update_success);
+            });
+        } else {
+            this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);
+            this.modalService.isCompleted.subscribe(() => {
+            });
+        }
     }
 }

@@ -12,6 +12,10 @@ import { TextModelField } from './custom-models/text-model-field';
 import { DistributionBeneficiary } from './distribution-beneficiary';
 import { Location } from './location';
 import { Project } from './project';
+import { NestedFieldModelField } from './custom-models/nested-field';
+import { FormGroup } from '@angular/forms';
+import { AppInjector } from '../app-injector';
+import { LocationService } from '../core/api/location.service';
 export class DistributionType extends CustomModel {
 
     public fields = {
@@ -47,7 +51,7 @@ export class Distribution extends CustomModel {
         ),
         name: new TextModelField(
             {
-                title: this.language.model_distribution_name,
+                title: this.language.name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -63,6 +67,7 @@ export class Distribution extends CustomModel {
                 isDisplayedInSummary: true,
                 displayTableFunction: null,
                 displayModalFunction: null,
+                tooltip: null,
             }
         ),
         distributionBeneficiaries: new MultipleObjectsModelField<DistributionBeneficiary>(
@@ -76,7 +81,7 @@ export class Distribution extends CustomModel {
         ),
         date: new DateModelField(
             {
-                title: this.language.model_distribution_date,
+                title: this.language.distribution_date,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -108,7 +113,7 @@ export class Distribution extends CustomModel {
         ),
         type: new SingleSelectModelField(
             {
-                title: this.language.model_distribution_type,
+                title: this.language.distribution_type,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -123,7 +128,7 @@ export class Distribution extends CustomModel {
         ),
         commodities: new MultipleObjectsModelField<Commodity> (
             {
-                title: this.language.model_commodity,
+                title: this.language.commodity,
                 isDisplayedInTable: true,
                 isImageInTable: true,
                 isDisplayedInSummary: true,
@@ -146,6 +151,73 @@ export class Distribution extends CustomModel {
                 // Not displayed anywhere but used as a condition
             }
         ),
+        updatedOn: new DateModelField({
+            // Only displayed in the distribution component title
+        }),
+        adm1: new NestedFieldModelField({
+            title: this.language.adm1,
+            isSettable: true,
+            isEditable: true,
+            childrenObject: 'location',
+            childrenFieldName: 'adm1',
+            isTrigger: true,
+            triggerFunction: (distribution: Distribution, value: string, form: FormGroup) => {
+                const appInjector = AppInjector;
+                form.controls.adm2.setValue(null);
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
+                if (value) {
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
+                }
+                return distribution;
+            },
+        }),
+        adm2: new NestedFieldModelField({
+            title: this.language.adm2,
+            isSettable: true,
+            isEditable: true,
+            childrenObject: 'location',
+            childrenFieldName: 'adm2',
+            isTrigger: true,
+            triggerFunction: (distribution: Distribution, value: string, form: FormGroup) => {
+                const appInjector = AppInjector;
+                form.controls.adm3.setValue(null);
+                form.controls.adm4.setValue(null);
+                if (value) {
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
+                }
+                return distribution;
+            },
+        }),
+        adm3: new NestedFieldModelField({
+            title: this.language.adm3,
+            isSettable: true,
+            isEditable: true,
+            childrenObject: 'location',
+            childrenFieldName: 'adm3',
+            isTrigger: true,
+            triggerFunction: (distribution: Distribution, value: string, form: FormGroup) => {
+                const appInjector = AppInjector;
+                form.controls.adm4.setValue(null);
+                if (value) {
+                    const location = distribution.get<Location>('location');
+                    appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10))
+                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
+                }
+                return distribution;
+            },
+        }),
+        adm4: new NestedFieldModelField({
+            title: this.language.adm4,
+            isSettable: true,
+            isEditable: true,
+            childrenObject: 'location',
+            childrenFieldName: 'adm4',
+        }),
     };
 
     public static apiToModel(distributionFromApi: any): Distribution {
@@ -165,7 +237,8 @@ export class Distribution extends CustomModel {
         newDistribution.set('location', distributionFromApi.location ? Location.apiToModel(distributionFromApi.location) : null);
         newDistribution.set('project', distributionFromApi.project ? Project.apiToModel(distributionFromApi.project) : null);
 
-        newDistribution.fields.location.displayTableFunction = value => value.getLocationName();
+        newDistribution.fields.location.tooltip = (value: Location) => value.getLocationName();
+        newDistribution.fields.location.displayTableFunction = (value: Location) => value.getPreciseLocationName();
         newDistribution.fields.location.displayModalFunction = value => value.getLocationName();
         newDistribution.fields.distributionBeneficiaries.displayTableFunction = value => value.length;
         newDistribution.fields.commodities.displayTableFunction = value => value;
@@ -176,22 +249,20 @@ export class Distribution extends CustomModel {
             distributionFromApi.commodities.map((commodity: any) => Commodity.apiToModel(commodity)) :
             null);
 
-        newDistribution.set('finished', true);
+        newDistribution.set('selectionCriteria', distributionFromApi.selection_criteria ?
+            distributionFromApi.selection_criteria.map((criteria: any) => Criteria.apiToModel(criteria)) :
+            []);
+
+        newDistribution.set('finished', distributionFromApi.completed);
 
         if (distributionFromApi.distribution_beneficiaries) {
-            distributionFromApi.distribution_beneficiaries.forEach(benef => {
-                if (benef.transactions && benef.transactions.length === 0) {
-                    newDistribution.set('finished', false);
-                } else if (benef.transactions && benef.transactions[0].transaction_status !== 1) {
-                    newDistribution.set('finished', false);
-                }
-            });
-
             newDistribution.set('distributionBeneficiaries',
                 distributionFromApi.distribution_beneficiaries
                     .map((distributionBeneficiary: any) =>
                         DistributionBeneficiary.apiToModel(distributionBeneficiary, distributionFromApi.id)));
         }
+
+        newDistribution.set('updatedOn', DateModelField.formatDateTimeFromApi(distributionFromApi.updated_on));
 
         return newDistribution;
     }

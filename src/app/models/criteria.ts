@@ -2,6 +2,7 @@ import { CustomModel } from './custom-models/custom-model';
 import { NumberModelField } from './custom-models/number-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
+import { Gender } from './beneficiary';
 
 export class CriteriaField extends CustomModel {
 
@@ -65,8 +66,13 @@ export class CriteriaValue extends CustomModel {
     }
 }
 export class Criteria extends CustomModel {
-    title =  this.language.model_criteria;
+    title =  this.language.criteria;
     matSortActive = 'field';
+
+    public genders = [
+        new Gender('0', this.language.female),
+        new Gender('1', this.language.male)
+    ];
 
     public fields = {
         // id: new NumberModelField(
@@ -74,7 +80,7 @@ export class Criteria extends CustomModel {
         //         // Not displayed anywhere
         //     }
         // ),
-        kindOfBeneficiary: new NumberModelField(
+        kindOfBeneficiary: new TextModelField(
             {
 
             }
@@ -84,7 +90,7 @@ export class Criteria extends CustomModel {
         }),
         field: new SingleSelectModelField(
             {
-                title: this.language.model_criteria,
+                title: this.language.criteria,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 isRequired: true,
@@ -93,7 +99,7 @@ export class Criteria extends CustomModel {
         ),
         condition: new SingleSelectModelField(
             {
-                title: this.language.model_criteria_operator,
+                title: this.language.criteria_operator,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 isRequired: true,
@@ -109,7 +115,7 @@ export class Criteria extends CustomModel {
         // Not really a single select, but can have an id and string, as gender for example
         value: new SingleSelectModelField(
             {
-                title: this.language.model_value,
+                title: this.language.value,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 bindField: 'name',
@@ -118,7 +124,7 @@ export class Criteria extends CustomModel {
         ),
         weight: new NumberModelField(
             {
-                title: this.language.model_criteria_weight,
+                title: this.language.criteria_weight,
                 value: 1,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
@@ -130,10 +136,31 @@ export class Criteria extends CustomModel {
     public static apiToModel(criteriaFromApi: any): Criteria {
         const newCriteria = new Criteria();
 
-        newCriteria.set('field', criteriaFromApi.field_string);
+        if (criteriaFromApi.field_string) {
+            const field = new CriteriaField();
+            field.set('field', criteriaFromApi.field_string);
+            newCriteria.set('field', field);
+
+        }
         newCriteria.set('type', criteriaFromApi.type);
-        newCriteria.set('kindOfBeneficiary', criteriaFromApi.distribution_type);
+        newCriteria.set('kindOfBeneficiary', criteriaFromApi.distribution_type ?
+            criteriaFromApi.distribution_type :
+            criteriaFromApi.kind_beneficiary);
+        newCriteria.set('condition', criteriaFromApi.condition_string ?
+            new CriteriaCondition(null, criteriaFromApi.condition_string) :
+            null);
         newCriteria.set('tableString', criteriaFromApi.table_string);
+
+
+        const value = criteriaFromApi.value_string;
+        if (criteriaFromApi.field_string === 'gender') {
+            const genderValue = newCriteria.genders.filter((gender: Gender) => gender.get('id') === value)[0];
+            newCriteria.set('value', new CriteriaValue(value, genderValue.get('name')));
+        }
+        else {
+            newCriteria.set('value', new CriteriaValue(value, value));
+        }
+
         return newCriteria;
     }
 

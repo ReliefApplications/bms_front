@@ -38,7 +38,7 @@ export class VendorsService extends CustomModelService {
 
     public update(id: number, body: any) {
         const url = this.api + '/vendors/' + id;
-        return this.http.post(url, body);
+        return this.authenticationService.updateUser(body, url);
     }
 
     public delete(id: number) {
@@ -56,7 +56,10 @@ export class VendorsService extends CustomModelService {
         if (!vendor.get('location')) {
             vendor.set('location', new Location());
         }
-        appInjector.get(LocationService).fillAdm1Options(vendor).subscribe();
+        const location = vendor.get<Location>('location');
+        appInjector.get(LocationService).fillAdm1Options(location).subscribe((filledLocation: Location) => {
+            vendor.set('location', filledLocation);
+        });
 
         if (!vendor.get('user')) {
             vendor.set('user', new User());

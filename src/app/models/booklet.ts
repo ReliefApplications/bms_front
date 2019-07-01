@@ -43,7 +43,7 @@ export class Currency extends CustomModel {
 
 export class Booklet extends CustomModel {
 
-    title = this.language.model_booklet;
+    title = this.language.booklet;
     matSortActive = 'code';
     createMultiple = true;
 
@@ -54,18 +54,18 @@ export class Booklet extends CustomModel {
             },
         ),
         code: new TextModelField({
-            title: this.language.model_code,
+            title: this.language.booklet_code,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
         }),
         numberOfBooklets: new NumberModelField({
-            title: this.language.model_number_booklets,
+            title: this.language.booklet_number_booklets,
             value: 1,
             isDisplayedInModal: true,
             isSettable: true,
         }),
         numberOfVouchers: new NumberModelField({
-            title: this.language.model_number_vouchers,
+            title: this.language.booklet_number_vouchers,
             value: 1,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
@@ -73,7 +73,7 @@ export class Booklet extends CustomModel {
             isSettable: true,
         }),
         individualValues: new TextModelField({
-            title: this.language.model_individual_value,
+            title: this.language.booklet_individual_value,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: true,
@@ -84,7 +84,7 @@ export class Booklet extends CustomModel {
             pattern: /^([\d]+,?\s?,?\s?)+$/,
         }),
         currency: new SingleSelectModelField({
-            title: this.language.model_currency,
+            title: this.language.currency,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             bindField: 'name',
@@ -94,12 +94,12 @@ export class Booklet extends CustomModel {
             isRequired: true,
         }),
         status: new SingleSelectModelField({
-            title: this.language.model_state,
+            title: this.language.status,
             options: [
-                new BookletStatus('0', this.language.model_unassigned),
-                new BookletStatus('1', this.language.model_distributed),
-                new BookletStatus('2', this.language.model_used),
-                new BookletStatus('3', this.language.model_deactivated),
+                new BookletStatus('0', this.language.booklet_unassigned),
+                new BookletStatus('1', this.language.distributed),
+                new BookletStatus('2', this.language.booklet_used),
+                new BookletStatus('3', this.language.booklet_deactivated),
             ],
             isDisplayedInTable: true,
             isDisplayedInModal: true,
@@ -107,7 +107,7 @@ export class Booklet extends CustomModel {
             value: new BookletStatus('0', 'Unassigned'),
         }),
         definePassword: new BooleanModelField({
-            title: this.language.model_define_password,
+            title: this.language.booklet_define_password,
             isTrigger: true,
             isDisplayedInModal: true,
             isSettable: true,
@@ -119,14 +119,14 @@ export class Booklet extends CustomModel {
             },
         }),
         password: new TextModelField({
-            title: this.language.model_password,
+            title: this.language.password,
             isDisplayedInModal: false,
             isEditable: true,
             isSettable: true,
             isPassword: true,
             pattern: /^(\d{4})$/,
-            patternError: this.language.model_booklet_password_pattern,
-            hint: this.language.model_booklet_password_pattern
+            patternError: this.language.booklet_password_pattern,
+            hint: this.language.booklet_password_pattern
         }),
         beneficiary: new ObjectModelField<Beneficiary>({
             title: this.language.beneficiary,
@@ -146,10 +146,10 @@ export class Booklet extends CustomModel {
 
         }),
         value: new NumberModelField({
-            title: this.language.model_value,
+            title: this.language.value,
         }),
         usedAt: new DateModelField({
-            title: this.language.model_used,
+            title: this.language.booklet_used,
             nullValue: this.language.null_not_yet
         }),
     };
@@ -201,13 +201,13 @@ export class Booklet extends CustomModel {
         // No need to format the date, it is a voucher's date so already formatted
         newBooklet.set('usedAt',  newBooklet.getUsedAt());
 
-        newBooklet.fields.beneficiary.displayTableFunction = (value: Beneficiary) => value ? value.get('fullName') : null;
-        newBooklet.fields.beneficiary.displayModalFunction = (value: Beneficiary) => value ? value.get('fullName') : null;
+        newBooklet.fields.beneficiary.displayTableFunction = (value: Beneficiary) => value ? value.get('localFullName') : null;
+        newBooklet.fields.beneficiary.displayModalFunction = (value: Beneficiary) => value ? value.get('localFullName') : null;
         newBooklet.fields.distribution.displayTableFunction = (value: Distribution) => value ? value.get('name') : null;
         newBooklet.fields.distribution.displayModalFunction = (value: Distribution) => value ? value.get('name') : null;
 
         if (bookletFromApi.password) {
-            newBooklet.fields.definePassword.title = newBooklet.language.model_update_password;
+            newBooklet.fields.definePassword.title = newBooklet.language.booklet_update_password;
         }
 
         return newBooklet;

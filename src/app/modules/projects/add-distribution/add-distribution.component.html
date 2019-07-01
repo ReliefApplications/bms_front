@@ -2,7 +2,7 @@
   <div class="container-fields">
     <div class="field-distribution">
       <h2 class="distribution-title">{{language.add_project_new_distribution | uppercaseFirst}}</h2>
-      <div [ngClass]="{'distribution-accordion': languageService.languageToString(language)!=='ar', 'distribution-accordion-ar': languageService.languageToString(language)==='ar'}">
+      <div [ngClass]="{'distribution-accordion': language.direction !== 'rtl', 'distribution-accordion-rtl': language.direction === 'rtl'}">
         <mat-card class="accordion-card">
           <form [formGroup]="form">
             <ng-container>
@@ -67,9 +67,8 @@
         </div>
 
         <form [formGroup]="form">
-
           <div class="form" *ngIf="currentDisplayType.type !== 'mobile'">
-            <app-table class="mat-elevation-z8" (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaData" deletable="true" rights="true" #criteriaTable></app-table>
+            <app-table (openModal)="removeElement($event, 'criteria')" [entity]="criteriaClass" [data]="criteriaData" deletable="true" rights="true" #criteriaTable></app-table>
           </div>
 
           <div class="summary-container">
@@ -107,7 +106,7 @@
             </button>
           </div>
           <div class="form" *ngIf="currentDisplayType.type !== 'mobile'">
-            <app-table class="mat-elevation-z8" (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData" deletable="true" rights="true" #commodityTable></app-table>
+            <app-table (openModal)="removeElement($event, 'commodity')" [entity]="commodityClass" [data]="commodityData" deletable="true" rights="true" #commodityTable></app-table>
           </div>
           <div class="summary-container" *ngIf="commodityData.data.length != 0">
             <h3 class="summary-text" *ngFor="let commodity of commodityData.data; let i = index;">
@@ -123,7 +122,7 @@
     </div>
   </div>
   <div class="action-buttons content-button content-button-footer">
-    <button mat-raised-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{language.create}}</button>
+    <button mat-flat-button *ngIf="!loadingCreation" (click)="add()" class="button-background-primary">{{language.create}}</button>
     <mat-spinner *ngIf="loadingCreation" [diameter]="30"></mat-spinner>
     <button mat-button (click)="cancel()" class="button-text-primary">{{language.cancel}}</button>
   </div>

@@ -12,11 +12,30 @@ export class TextModelField extends CustomModelField<string> {
      * @type {boolean}
      */
     isPassword: boolean;
+    /**
+     * Is it a color ?
+     * @type {boolean}
+     */
+    isColor: boolean;
+    /**
+     * Is it a font ?
+     * @type {boolean}
+     */
+    isFont: boolean;
+
+     /* The value to display (WARNING: can be set only from the api, not a modifiable field)
+     * @type {string}
+     */
+    displayValue: string;
 
     constructor(properties: any) {
         super(properties);
 
         this.isLongText             = properties['isLongText'];
         this.isPassword             = properties['isPassword'];
+        this.isColor                = properties['isColor'];
+        this.isFont                 = properties['isFont'];
+        this.displayValue             = properties['displayValue'];
+
     }
 }

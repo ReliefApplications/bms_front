@@ -1,4 +1,6 @@
 
+import { AppInjector } from '../app-injector';
+import { CountriesService } from '../core/countries/countries.service';
 import { CustomModel } from './custom-models/custom-model';
 import { NumberModelField } from './custom-models/number-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
@@ -23,6 +25,12 @@ export class Adm extends CustomModel {
 }
 export class Location extends CustomModel {
 
+    protected countryService = AppInjector.get(CountriesService);
+    // Country
+    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
+    this.countryService.selectedCountry.getValue().get<string>('id') :
+    this.countryService.khm.get<string>('id');
+
     title = 'Location';
     matSortActive = 'adm1';
 
@@ -34,29 +42,30 @@ export class Location extends CustomModel {
         ),
         adm1: new SingleSelectModelField(
             {
-                title: this.language.adm1,
+                title: this.language.adm1[this.country],
                 bindField: 'name',
                 isRequired: true,
             }
         ),
         adm2: new SingleSelectModelField(
             {
-                title: this.language.adm2,
+                title: this.language.adm2[this.country],
                 bindField: 'name'
             }
         ),
         adm3: new SingleSelectModelField(
             {
-                title: this.language.adm3,
+                title: this.language.adm3[this.country],
                 bindField: 'name'
             }
         ),
         adm4: new SingleSelectModelField(
             {
-                title: this.language.adm4,
+                title: this.language.adm4[this.country],
                 bindField: 'name'
             }
         ),
+        code: new TextModelField({}),
         countryIso3: new TextModelField(
             {
 
@@ -68,33 +77,25 @@ export class Location extends CustomModel {
         const newLocation = new Location();
         newLocation.set('id', locationFromApi.id);
 
-        let adm1;
-        let adm2;
-        let adm3;
-        let adm4;
+        // Destructure locationFromApi into new variables
+        let {adm1, adm2, adm3} = locationFromApi;
+        const {adm4} = locationFromApi;
 
-        if (locationFromApi.adm4) {
-            adm4 = locationFromApi.adm4;
+        // Cascade down the value of the most accurate element to the broader adm
+        if (adm4) {
             adm3 = adm4.adm3;
-            adm2 = adm3.adm2;
-            adm1 = adm2.adm1;
-        } else if (locationFromApi.adm3) {
-            adm4 = null;
-            adm3 = locationFromApi.adm3;
-            adm2 = adm3.adm2;
-            adm1 = adm2.adm1;
-        } else if (locationFromApi.adm2) {
-            adm4 = null;
-            adm3 = null;
-            adm2 = locationFromApi.adm2;
-            adm1 = adm2.adm1;
-        } else if (locationFromApi.adm1) {
-            adm4 = null;
-            adm3 = null;
-            adm2 = null;
-            adm1 = locationFromApi.adm1;
         }
-
+        if (adm3) {
+            adm2 = adm3.adm2;
+        }
+        if (adm2) {
+            adm1 = adm2.adm1;
+        }
+        // Exit if no adm were defined
+        if (!adm1) {
+            return newLocation;
+        }
+        newLocation.set('code', adm1.code);
         newLocation.set('adm1', adm1 ? new Adm(adm1.id, adm1.name) : new Adm(null, null));
         newLocation.set('adm2', adm2 ? new Adm(adm2.id, adm2.name) : new Adm(null, null));
         newLocation.set('adm3', adm3 ? new Adm(adm3.id, adm3.name) : new Adm(null, null));
@@ -110,7 +111,18 @@ export class Location extends CustomModel {
         name += this.get('adm3') && this.get('adm3').get('name') ? ' ' + this.get('adm3').get<string>('name') : '';
         name += this.get('adm4') && this.get('adm4').get('name') ? ' ' + this.get('adm4').get<string>('name') : '';
         return name;
+    }
 
+    getPreciseLocationName() {
+        if (this.get('adm4') && this.get('adm4').get('name')) {
+            return this.get('adm4').get<string>('name');
+        } else if (this.get('adm3') && this.get('adm3').get('name')) {
+            return this.get('adm3').get<string>('name');
+        } else if (this.get('adm2') && this.get('adm2').get('name')) {
+            return this.get('adm2').get<string>('name');
+        } else if (this.get('adm1') && this.get('adm1').get('name')) {
+            return this.get('adm1').get<string>('name');
+        }
     }
 
     public modelToApi(): Object {

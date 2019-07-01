@@ -22,7 +22,7 @@ export class Sector extends CustomModel {
     // TODO: change this to instance method and fix it
     public static getDisplayedName() {
         throw new Exception();
-        // return this.language.model_sector;
+        // return this.language.sector;
     }
 
     public static apiToModel(sectorFromApi): Sector {
@@ -49,8 +49,13 @@ export class Sector extends CustomModel {
             'nutrition': 'nutrition',
             'protection': 'protection',
             'shelter': 'shelter',
-            'water sanitation': 'water_sanitation',
+            'WASH': 'water_sanitation',
+            'cash for work': 'cash_for_work',
+            'TVET': 'tvet',
+            'food, RTE kits': 'kits',
+            'NFIs': 'nfi',
         };
+
         // Todo: Use global variable, fix typing in order to not do this if check
         if (typeof this.get('name') === 'string') {
             return `/assets/images/sectors/${sectorsImages[this.get<string>('name')]}.svg`;
@@ -73,7 +78,11 @@ export class Sector extends CustomModel {
             'nutrition': this.language.sector_nutrition,
             'protection': this.language.sector_protection,
             'shelter': this.language.sector_shelter,
-            'water sanitation': this.language.sector_water,
+            'WASH': this.language.sector_water,
+            'cash for work': this.language.sector_cash_for_work,
+            'TVET': this.language.sector_tvet,
+            'food, RTE kits': this.language.sector_food_kits,
+            'NFIs': this.language.sector_nfi,
         };
         // Todo: Use global variable, fix typing in order to not do this if check
         if (typeof this.get('name') === 'string') {

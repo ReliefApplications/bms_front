@@ -147,6 +147,18 @@ export class Household extends CustomModel {
                 isDisplayedInModal: true,
             }
         ),
+        foodConsumptionScore: new NumberModelField(
+            {
+                title: this.language.household_food_consumption_score,
+                isDisplayedInModal: true,
+            }
+        ),
+        copingStrategiesIndex: new NumberModelField(
+            {
+                title: this.language.household_coping_strategies_index,
+                isDisplayedInModal: true,
+            }
+        ),
 
         // For now they are never used, set, displayed, or equal to anything other than zero
         longitude: new TextModelField({
@@ -181,19 +193,15 @@ export class Household extends CustomModel {
         newHousehold.set('id', householdFromApi.id);
         newHousehold.set('notes', householdFromApi.notes);
         newHousehold.set('incomeLevel', householdFromApi.income_level);
+        newHousehold.set('foodConsumptionScore', householdFromApi.food_consumption_score);
+        newHousehold.set('copingStrategiesIndex', householdFromApi.coping_strategies_index);
         newHousehold.set('livelihood',
             householdFromApi.livelihood !== null && householdFromApi.livelihood !== undefined ?
             newHousehold.getOptions('livelihood')
                 .filter((livelihood: Livelihood) => livelihood.get('id') === householdFromApi.livelihood.toString())[0] :
             null);
 
-        let dependents: number;
-        if (!householdFromApi.number_dependents) {
-            dependents = householdFromApi.beneficiaries.length - 1;
-        } else {
-            dependents = householdFromApi.number_dependents;
-        }
-        newHousehold.set('dependents', dependents);
+        newHousehold.set('dependents', householdFromApi.beneficiaries.length - 1);
 
         newHousehold.fields.vulnerabilities.displayTableFunction = value => value;
         const pipe = new UppercaseFirstPipe();
@@ -267,6 +275,8 @@ export class Household extends CustomModel {
             beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi()),
             income_level: this.get('incomeLevel'),
             household_locations: householdLocations.map((householdLocation: HouseholdLocation) => householdLocation.modelToApi()),
+            food_consumption_score: this.get('foodConsumptionScore'),
+            coping_strategies_index: this.get('copingStrategiesIndex'),
         };
     }
 }

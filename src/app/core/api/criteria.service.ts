@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Criteria, CriteriaCondition, CriteriaField } from 'src/app/models/criteria';
+import { Criteria, CriteriaCondition } from 'src/app/models/criteria';
 import { CustomModelService } from '../utils/custom-model.service';
 import { HttpService } from '../network/http.service';
 
@@ -35,28 +35,20 @@ export class CriteriaService extends CustomModelService {
         return this.http.get(url);
     }
 
-    fillFieldOptions(criteria: Criteria) {
-        this.get()
-            .subscribe((options: any) => {
-                if (options) {
-                    const fields = options.map(criterion => {
-                        return CriteriaField.apiToModel(criterion);
-                    });
-                    criteria.setOptions('field', fields);
-                }
-                return;
-            });
-    }
-
     fillConditionOptions(criteria: Criteria, fieldName: string) {
             const conditions = new Array<CriteriaCondition>();
             let conditionNames = [];
 
-            if ((fieldName === 'dateOfBirth')) {
+            const compared = ['dateOfBirth', 'headOfHouseholdDateOfBirth', 'householdSize'];
+            const nonEqual = ['gender', 'equityCardNo', 'locationType', 'headOfHouseholdGender', 'residencyStatus'];
+            const equal = ['IDPoor', 'livelihood', 'foodConsumptionScore', 'campName', 'copingStrategiesIndex',
+                'incomeLevel', 'hasNotBeenInDistributionsSince'];
+
+            if (compared.includes(fieldName)) {
                 conditionNames = ['>', '<', '>=', '<=', '=', '!='];
-            }  else if ((fieldName === 'gender') || (fieldName === 'equityCardNo')) {
+            }  else if (nonEqual.includes(fieldName)) {
                 conditionNames = ['=', '!='];
-            } else if (fieldName === 'IDPoor') {
+            } else if (equal.includes(fieldName)) {
                 conditionNames = ['='];
             } else {
                 conditionNames = ['true', 'false'];
@@ -68,5 +60,14 @@ export class CriteriaService extends CustomModelService {
             });
             criteria.setOptions('condition', conditions);
     }
+
+    /**
+     * get the lit of camps
+     */
+    public getCamps() {
+        const url = this.apiBase + '/camps';
+        return this.http.get(url);
+    }
+
 }
 

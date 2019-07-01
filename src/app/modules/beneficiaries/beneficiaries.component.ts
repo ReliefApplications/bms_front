@@ -79,7 +79,6 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         });
         this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
-        // this.dataSource.vulnerabilities.next(['disabled', 'solo parent', 'lactating', 'pregnant', 'nutritional issues']);
         this.getProjects('updateSelection');
         this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
         this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');

@@ -273,11 +273,7 @@ export class Arabic implements Language {
     country_khm = 'كمبوديا'
     country_syr = 'سوريا'
     country_specific = 'خيار حسب بالبلد'
-    country_specific_field = 'الميدان'
-
-    // Criteria
-    criteria_operator = 'الشروط'
-    criteria_weight = 'وزن النتيجة'
+    country_specific_field = 'الميدان'    
 
     // Dashboard
     dashboard_distribution_map = 'خريطة التوزيع'
@@ -377,6 +373,8 @@ export class Arabic implements Language {
     header_vouchers = this.voucher
 
     // Household
+    household_coping_strategies_index = 'مؤشر استراتيجيات المواجهة'
+    household_food_consumption_score = 'درجة استهلاك الغذاء'
     household_full_address = 'عنوان المنزل بالكامل:'
     household_income = 'مستوى الدخل'
     household_income_level = INCOMELEVELS.ar
@@ -710,4 +708,27 @@ export class Arabic implements Language {
     // User
     user_only_one_country = 'يمكنك اختيار دولة واحدة فقط'
     user_password_question = 'تحديث كلمة المرور عند تسجيل الدخول المقبل'
+
+    // Criteria (must be the last thing declared because uses the previous variables)
+    criteria_operator = 'الشروط'
+    criteria_weight = 'وزن النتيجة'
+    criteria_target = 'معايير الهدف'
+    dateOfBirth = this.beneficiary_date_of_birth
+    residencyStatus = this.beneficiary_residency_status
+    hasNotBeenInDistributionsSince = 'لم يكن في التوزيع منذ'
+    disabledHeadOfHousehold = this.vulnerability_disabled
+    headOfHouseholdDateOfBirth = this.beneficiary_date_of_birth
+    headOfHouseholdGender = this.gender
+    livelihood = this.household_livelihood
+    foodConsumptionScore = this.household_food_consumption_score
+    copingStrategiesIndex = this.household_coping_strategies_index
+    incomeLevel = this.household_income
+    householdSize = 'حجم الأسرة'
+    locationType = 'نوع الموقع'
+    campName = this.household_location_camp_name
+    disabled = this.vulnerability_disabled
+    lactating = this.vulnerability_lactating
+    pregnant = this.vulnerability_pregnant
+    soloParent = this.vulnerability_solo_parent
+    nutritionalIssues = this.vulnerability_nutrional
 };

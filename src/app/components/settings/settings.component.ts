@@ -183,8 +183,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.referedClassToken = User;
         this.referedClassService = this.userService;
         this.loggable = true;
-        this.editable   = true;
-        this.deletable  = true;
+        this.editable   = this.userService.hasRights('ROLE_ADMIN');
+        this.deletable  = this.userService.hasRights('ROLE_ADMIN');
         this.printable  = false;
         this.exportable = true;
         break;

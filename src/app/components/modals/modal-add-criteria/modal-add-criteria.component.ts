@@ -201,7 +201,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
                 this.criteria.set('value', new CriteriaValue(value, locationTypeValue.get('name')));
             } else if (controls.field.value === 'incomeLevel') {
                 this.criteria.set('value',
-                    new CriteriaValue(value, this.language['household_income_level'][value.toString()][this.criteria.get('country')]));
+                    new CriteriaValue(value, this.language['household_income_level'][value.toString()][this.criteria.country]));
             }
             // In case the criteria is the dateOfBirth
             else if (value instanceof Date) {

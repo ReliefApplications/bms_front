@@ -101,11 +101,11 @@
             </ng-container>
         </ng-template>
         <ng-template #checkCamelCase>
-            <ng-container *ngIf="field.isCamelCase; else isString">
+            <ng-container *ngIf="field.isCamelCase; else isAString">
                 {{field.value | formatCamelCase }}
             </ng-container>
         </ng-template>
-        <ng-template #isString>
+        <ng-template #isAString>
             {{field.value | uppercaseFirst }}
         </ng-template>
     </ng-template>

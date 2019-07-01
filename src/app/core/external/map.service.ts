@@ -69,7 +69,9 @@ export class MapService {
 
             // Get all upcoming distributions
             this.distributionService.get().subscribe((apiDistributions: Array<any>) => {
-
+                if (!apiDistributions) {
+                    return;
+                }
                 // Remove previous markers
                 this.map.removeLayer(markers);
                 // Empty markers

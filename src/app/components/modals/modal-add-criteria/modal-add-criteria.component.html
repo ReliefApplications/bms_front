@@ -116,6 +116,11 @@
               <th class="table-title">{{language.household_location_camp_name | uppercaseFirst }}</th>
               <th class="table-value">
                   <mat-form-field class="full-width">
+                      <mat-select class="single-select" [multiple]="false" placeholder="{{language.household_location_camp_name | uppercaseFirst}}" formControlName="campName">
+                          <mat-option *ngFor="let camp of campList" [value]="camp.get('id')">
+                             {{ camp.get('name') }}
+                          </mat-option>
+                        </mat-select>
                       <input matInput formControlName="campName" type="text">
                   </mat-form-field>
               </th>

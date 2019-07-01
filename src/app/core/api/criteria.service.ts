@@ -60,5 +60,14 @@ export class CriteriaService extends CustomModelService {
             });
             criteria.setOptions('condition', conditions);
     }
+
+    /**
+     * get the lit of camps
+     */
+    public getCamps() {
+        const url = this.apiBase + '/camps';
+        return this.http.get(url);
+    }
+
 }
 

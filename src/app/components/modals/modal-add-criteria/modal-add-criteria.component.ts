@@ -13,6 +13,7 @@ import { LIVELIHOOD } from 'src/app/models/constants/livelihood';
 import { Livelihood } from 'src/app/models/household';
 import { HouseholdLocation, HouseholdLocationType } from 'src/app/models/household-location';
 import { Subscription } from 'rxjs';
+import { Camp } from 'src/app/models/camp';
 
 @Component({
     selector: 'app-modal-add-criteria',
@@ -35,6 +36,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
     residencyStatuses: Array<ResidencyStatus>;
     locationTypes: Array<HouseholdLocationType>;
     criteriaSubList: Array<Criteria>;
+    campList: Array<Camp>;
 
     subscribers: Array<Subscription> = [];
 
@@ -103,6 +105,16 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
         this.subscribers.push(this.form.get('field').valueChanges.subscribe(value => {
             this.loadConditions(value);
         }));
+
+        this.subscribers.push(this.form.get('value').valueChanges.subscribe(value => {
+            if (value === 'camp') {
+                this.criteriaService.getCamps().subscribe((response: any) => {
+                    if (response) {
+                        this.campList = response.map((camp: any) => Camp.apiToModel(camp));
+                    }
+                });
+            }
+        }));
     }
 
     loadFields() {
@@ -164,7 +176,8 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
 
         if (controls.field.value === 'locationType' && controls.value.value === 'camp' &&
             controls.condition.value === '=' && controls.campName.value) {
-            this.criteria.set('value',  new CriteriaValue(controls.campName.value, controls.campName.value))
+            const campValue = this.campList.filter((camp: Camp) => camp.get('id') === controls.campName.value)[0];
+            this.criteria.set('value', new CriteriaValue(controls.campName.value, campValue.get('name')))
                 .set('condition',
                     this.criteria.getOptions('condition').filter((option: CriteriaCondition) => option.get<string>('name') === '=')[0]);
         } else {

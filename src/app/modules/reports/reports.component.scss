@@ -1,0 +1,100 @@
+@import "../../../assets/css/global.scss";
+@import "../../../assets/css/variable.scss";
+
+.container-table {
+    width: 100%;
+
+    .container-content {
+        border-top: solid 12px $bms_dark_blue;
+
+        .content-button {
+            flex-direction: row;
+
+            .frequency {
+                display: flex;
+                flex-direction: row;
+
+                button {
+                    margin-right: 10px;
+                    background-color: $bms_dark_grey!important;
+                    color: $bms_grey!important;
+                    &.selected-frequency {
+                        background-color: $bms_green!important;
+                    }
+                    &.period-mode-enabled {
+                        background-color: $bms_dark_blue!important;
+                    }
+                }
+            }
+        }
+
+        .content-body {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+
+            .content-card {
+                margin: 10px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                width: auto;
+
+                ng-select {
+                    flex-basis: 0;
+                    flex-grow: 1;
+                    margin: 0 10px;
+                }
+            }
+        }
+
+        #graphs {
+            width: auto;
+            flex-wrap: wrap;
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            justify-content: space-around;
+            padding: 20px;
+            
+            .graph {
+                align-self: stretch;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+                margin: 10px;
+            }
+
+            .graph-title {
+                text-align: center;
+            }
+
+            .placeholder {
+                width: 400px;
+                height: 400px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                p {
+                    color: $bms_slate;
+                    font-size: 4em;
+                }
+            }
+        }
+
+    }
+}
+
+
+.ng-select-header {
+    cursor: pointer;
+
+    &.select {
+        color: $bms_green;
+    }
+    &.deselect {
+        color: $bms_red;
+    }
+}

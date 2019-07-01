@@ -3,16 +3,16 @@ import { MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
+import { MapService } from 'src/app/core/external/map.service';
 import { Language } from 'src/app/core/language/language';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Distribution } from 'src/app/models/distribution';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { Distribution } from 'src/app/models/distribution';
 import { DistributionService } from '../../core/api/distribution.service';
 import { GeneralService } from '../../core/api/general.service';
-import { LeafletService } from '../../core/external/leaflet.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
 
     constructor(
-        private serviceMap: LeafletService,
+        private mapService: MapService,
         private _cacheService: AsyncacheService,
         public _distributionService: DistributionService,
         public _generalService: GeneralService,
@@ -63,7 +63,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
         this._cacheService.getUser().subscribe(result => {
             if (result) {
-                this.serviceMap.createMap('map');
+                this.mapService.createMap('map');
+                this.loadingMap = false;
                 this.getSummary();
                 this.checkDistributions();
             }
@@ -74,7 +75,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.screenSizeSubscription.unsubscribe();
-        this.serviceMap.removeMap();
+        this.mapService.removeMap();
     }
 
     /**

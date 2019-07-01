@@ -24,7 +24,7 @@ export class Project extends CustomModel {
         ),
         name : new TextModelField(
             {
-                title: this.language.model_project_name,
+                title: this.language.project_name,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -39,7 +39,7 @@ export class Project extends CustomModel {
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
                 isDisplayedInTable: true,
-                title: this.language.model_sectors_name,
+                title: this.language.project_sectors_name,
                 isSettable: true,
                 options: undefined,
                 bindField: 'name',
@@ -51,7 +51,7 @@ export class Project extends CustomModel {
         ),
         startDate : new DateModelField(
             {
-                title: this.language.model_project_start_date,
+                title: this.language.project_start_date,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
@@ -65,7 +65,7 @@ export class Project extends CustomModel {
         ),
         endDate : new DateModelField(
             {
-                title: this.language.model_project_end_date,
+                title: this.language.project_end_date,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
@@ -80,7 +80,7 @@ export class Project extends CustomModel {
         // Todo: check if this is necessary ?
         numberOfHouseholds : new NumberModelField(
             {
-                title: this.language.model_project_number_of_households,
+                title: this.language.project_number_of_households,
                 placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInSummary: true,
@@ -89,7 +89,7 @@ export class Project extends CustomModel {
         ),
         donors : new MultipleSelectModelField (
             {
-                title: this.language.model_project_donors_name,
+                title: this.language.donors,
                 placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
@@ -110,9 +110,9 @@ export class Project extends CustomModel {
                 isLongText: false,
             }
         ),
-        value : new NumberModelField(
+        target : new NumberModelField(
             {
-                title: this.language.model_project_value,
+                title: this.language.project_value,
                 placeholder: null,
                 isRequired: true,
                 isSettable: true,
@@ -133,7 +133,7 @@ export class Project extends CustomModel {
         ),
         notes : new TextModelField(
             {
-                title: this.language.model_notes,
+                title: this.language.notes,
                 placeholder: null,
                 isSettable: true,
                 isDisplayedInModal: true,
@@ -154,7 +154,7 @@ export class Project extends CustomModel {
         newProject.set('endDate', DateModelField.formatFromApi(projectFromApi.end_date));
         newProject.set('numberOfHouseholds', projectFromApi.number_of_households);
         newProject.set('iso3', projectFromApi.iso3);
-        newProject.set('value', projectFromApi.value);
+        newProject.set('target', projectFromApi.target);
         newProject.set('notes', projectFromApi.notes);
 
         // Assign select fields
@@ -190,7 +190,7 @@ export class Project extends CustomModel {
             end_date: this.fields.endDate.formatForApi(),
             number_of_households: this.fields.numberOfHouseholds.formatForApi(),
             iso3: this.fields.iso3.formatForApi(),
-            value: this.fields.value.formatForApi(),
+            target: this.fields.target.formatForApi(),
             notes: this.fields.notes.formatForApi(),
             sectors: this.fields.sectors.formatForApi(),
             donors: this.fields.donors.formatForApi(),

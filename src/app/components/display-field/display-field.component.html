@@ -1,85 +1,110 @@
-<ng-container *ngIf="isEmpty(field); else isBoolean">
-    {{ field.nullValue | uppercaseFirst }}
-</ng-container>
-
-<ng-template #isBoolean>
-    <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isObject">
-
+<div [matTooltip]="field.value && field.tooltip ? field.tooltip(field.value) : null">
+    <ng-container *ngIf="isEmpty(field); else isBoolean">
+        {{ field.nullValue | uppercaseFirst }}
     </ng-container>
-</ng-template>
-
-<ng-template #isObject>
-    <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
-        {{ field.displayTableFunction(field.value) }}
-    </ng-container>
-</ng-template>
-
-<ng-template #isMultipleObject>
-    <ng-container *ngIf="field.kindOfField === 'MultipleObject'; else isArrayField">
-        <ng-container *ngIf="!field.isImageInTable; else isArrayOfImages">
-            <span *ngIf="!field.displayTableFunction(field.value).length || field.displayTableFunction(field.value).length <= MAX_PROP_LENGTH; else isTooLong">
-                    {{field.displayTableFunction(field.value)}}
-            </span>
-            <ng-template #isTooLong>
-                <span [matTooltip]="field.displayTableFunction(field.value)">
-                    {{field.displayTableFunction(field.value).substring(0,MAX_PROP_LENGTH-1)}} ...
+    
+    <ng-template #isBoolean>
+        <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isObject">
+    
+        </ng-container>
+    </ng-template>
+    
+    <ng-template #isObject>
+        <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
+            {{ field.displayTableFunction(field.value) }}
+        </ng-container>
+    </ng-template>
+    
+    <ng-template #isMultipleObject>
+        <ng-container *ngIf="field.kindOfField === 'MultipleObject'; else isArrayField">
+            <ng-container *ngIf="!field.isImageInTable; else isArrayOfImages">
+                <span *ngIf="!field.displayTableFunction(field.value).length || field.displayTableFunction(field.value).length <= MAX_PROP_LENGTH; else isTooLong">
+                        {{field.displayTableFunction(field.value)}}
                 </span>
+                <ng-template #isTooLong>
+                    <span [matTooltip]="field.displayTableFunction(field.value)">
+                        {{field.displayTableFunction(field.value).substring(0,MAX_PROP_LENGTH-1)}} ...
+                    </span>
+                </ng-template>
+            </ng-container>
+            <ng-template #isArrayOfImages>
+                    <div class="multiple-items">
+                        <span *ngFor="let value of field.displayTableFunction(field.value)">
+                                <ng-container *ngIf="field.isImageInTable">
+                                    <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
+                                </ng-container>
+                        </span>
+                    </div>
             </ng-template>
         </ng-container>
-        <ng-template #isArrayOfImages>
-                <div class="multiple-items">
-                    <span *ngFor="let value of field.displayTableFunction(field.value)">
-                            <ng-container *ngIf="field.isImageInTable">
-                                <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
-                            </ng-container>
-                    </span>
-                </div>
-        </ng-template>
-    </ng-container>
-</ng-template>
-
-<ng-template #isArrayField>
-    <ng-container *ngIf="field.kindOfField === 'MultipleSelect' || field.kindOfField === 'ArrayInputField'; else isSingleSelect">
-        <div class="multiple-items">
-            <span *ngFor="let value of field.value">
+    </ng-template>
+    
+    <ng-template #isArrayField>
+        <ng-container *ngIf="field.kindOfField === 'MultipleSelect' || field.kindOfField === 'ArrayInputField'; else isSingleSelect">
+            <div class="multiple-items">
                 <ng-container *ngIf="field.isImageInTable; else notImage">
-                    <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
+                    <span *ngFor="let value of field.value">
+                        <app-icon-svg [imagePath]="value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
+                    </span>
                 </ng-container>
                 <ng-template #notImage>
-                        {{value.get(field.bindField) | uppercaseFirst }}
+                        <span *ngIf="makeList(field.value, field).length <= MAX_PROP_LENGTH; else arrayIsTooLong">
+                                {{makeList(field.value, field) | uppercaseFirst }}
+                            </span>
+                        <ng-template #arrayIsTooLong>
+                            <span [matTooltip]="makeList(field.value, field) | uppercaseFirst ">
+                                {{makeList(field.value, field).substring(0,MAX_PROP_LENGTH-1) | uppercaseFirst}} ...
+                            </span>
+                        </ng-template>
                 </ng-template>
-            </span>
-        </div>
-    </ng-container>
-</ng-template>
-
-<ng-template #isSingleSelect>
-    <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isNotSelect">
-            <ng-container *ngIf="field.isImageInTable; else singleNotImage">
-                <app-icon-svg [imagePath]="field.value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
-            </ng-container>
-            <ng-template #singleNotImage>
-                <ng-container *ngIf="field.value">{{field.value.get(field.bindField) | uppercaseFirst }}</ng-container>
-            </ng-template>
-    </ng-container>
-</ng-template>
-
-<ng-template #isNotSelect>
-    <ng-container *ngIf="field.kindOfField === 'Date'; else isNotDate">
-        <ng-container *ngIf="field.value && !field.displayTime">{{ field.value | date: 'dd-MM-yyyy' }}</ng-container>
-        <ng-container *ngIf="field.value && field.displayTime">{{ field.value | date: 'dd-MM-yyyy HH:mm' }}</ng-container>
-    </ng-container>
-</ng-template>
-<ng-template #isNotDate>
-    <ng-container *ngIf="isString(field.value); else notAString">
-        <ng-container *ngIf="field.isImageInTable; else isString">
-            <app-icon-svg [imagePath]="field.value"></app-icon-svg>
+            </div>
         </ng-container>
-        <ng-template #isString>
-            {{field.value | uppercaseFirst }}
-        </ng-template>
-    </ng-container>
-    <ng-template #notAString>
-        {{field.value }}
     </ng-template>
-</ng-template>
+    
+    <ng-template #isSingleSelect>
+        <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isNotSelect">
+                <ng-container *ngIf="field.isImageInTable; else singleNotImage">
+                    <app-icon-svg [imagePath]="field.value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
+                </ng-container>
+                <ng-template #singleNotImage>
+                    <ng-container *ngIf="field.value">{{field.value.get(field.bindField) | uppercaseFirst }}</ng-container>
+                </ng-template>
+        </ng-container>
+    </ng-template>
+    
+    <ng-template #isNotSelect>
+        <ng-container *ngIf="field.kindOfField === 'Date'; else isNotDate">
+            <ng-container *ngIf="field.value && !field.displayTime">{{ field.value | date: 'dd-MM-yyyy' }}</ng-container>
+            <ng-container *ngIf="field.value && field.displayTime">{{ field.value | date: 'dd-MM-yyyy HH:mm' }}</ng-container>
+        </ng-container>
+    </ng-template>
+    <ng-template #isNotDate>
+        <ng-container *ngIf="field.displayValue; else isGeneralValue">
+            {{ field.displayValue | uppercaseFirst }}
+        </ng-container>
+    </ng-template>
+    
+    <ng-template #isGeneralValue>
+        <ng-container *ngIf="isString(field.value); else notAString">
+            <ng-container *ngIf="field.isImageInTable; else checkColor">
+                <app-icon-svg [imagePath]="field.value"></app-icon-svg>
+            </ng-container>
+            <ng-template #checkColor>
+                <ng-container *ngIf="field.isColor; else checkFont">
+                    <div class="color" [ngStyle]="{'background-color':field.value}"></div>
+                </ng-container>
+            </ng-template>
+            <ng-template #checkFont>
+                <ng-container *ngIf="field.isFont; else isString">
+                    <div [ngStyle]="{'font-family':field.value}">{{ field.value | uppercaseFirst }}</div>
+                </ng-container>
+            </ng-template>
+            <ng-template #isString>
+                {{field.value | uppercaseFirst }}
+            </ng-template>
+        </ng-container>
+        <ng-template #notAString>
+            {{field.value }}
+        </ng-template>
+    </ng-template>
+</div>

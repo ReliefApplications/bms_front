@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpService } from '../../../core/network/http.service';
-
+import { HttpService } from 'src/app/core/network/http.service';
 // Constants
 import { URL_BMS_API } from '../../../../environments/environment';
-import { forkJoin } from 'rxjs';
-import { Indicator } from 'src/app/models/indicator';
+
+
 
 @Injectable({
     providedIn: 'root'
@@ -31,14 +30,24 @@ export class IndicatorService {
         return this.http.post(url, body);
     }
 
-    public exportReportData(indicatorsId: number[], frequency: string, projectsId: number[], distributionsId: number[], fileType: string) {
-        const body = {
-            indicators: indicatorsId,
-            frequency: frequency,
-            projects: projectsId,
-            distributions: distributionsId
+    public getAllGraphs(filters: object) {
+        this.formatFilters(filters);
+        const url = `${this.api}/filtered`;
+        const options = {
+            params: filters
         };
+        return this.http.get(url, options);
+    }
+
+    public exportReportData(filters: object, fileType: string) {
+        this.formatFilters(filters);
         const url = `${URL_BMS_API}/export?reporting=true&type=${fileType}`;
-        return this.http.post(url, body, {responseType: 'blob'});
+        return this.http.post(url, filters, {responseType: 'blob'});
+    }
+
+    private formatFilters(filters: object) {
+        filters['projects'] = filters['projects'] ? filters['projects'].join(',') : '';
+        filters['distributions'] = filters['distributions'] ? filters['distributions'].join(',') : '';
+        filters['period'] = filters['period'] ? filters['period'].join(',') : '';
     }
 }

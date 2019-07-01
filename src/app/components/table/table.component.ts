@@ -1,18 +1,18 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DateAdapter, MatDialog, MatPaginator, MatSort, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { Router } from '@angular/router';
-import { CustomModelService } from 'src/app/core/utils/custom-model.service';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
 import { LocationService } from 'src/app/core/api/location.service';
-import { NetworkService } from 'src/app/core/network/network.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
+import { CustomModelService } from 'src/app/core/utils/custom-model.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { TextModelField } from 'src/app/models/custom-models/text-model-field';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ExportService } from '../../core/api/export.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
@@ -52,6 +52,8 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Input() updatable = false;
     @Input() printable = false;
     @Input() assignable = false;
+    @Input() justifiable = false;
+    @Input() duplicable = false;
 
     @Input() searchable = false;
     @Input() paginable = false;
@@ -84,6 +86,8 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Output() openModal = new EventEmitter<object>();
     @Output() printOne = new EventEmitter<any>();
     @Output() assignOne = new EventEmitter<any>();
+    @Output() justifyOne = new EventEmitter<any>();
+    @Output() duplicateOne = new EventEmitter<any>();
 
     sortedData: any;
     allData: any = undefined;
@@ -169,7 +173,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
 
     setDataTableProperties() {
-        if (this.searchable) {
+        if (this.searchable && this.tableData) {
             this.tableData.filterPredicate = (element: CustomModel, filter: string) => {
                 if (!filter) {
                     return true;
@@ -200,16 +204,18 @@ export class TableComponent implements OnInit,  AfterViewInit {
             };
         }
 
-        this.tableData.sortingDataAccessor = (item, property) => {
-            let field = item.fields[property];
+        if (this.tableData) {
+                    this.tableData.sortingDataAccessor = (item, property) => {
+                        let field = item.fields[property];
 
-            if (field.kindOfField === 'Children') {
-                field = item.get(field.childrenObject) ?
-                    item.get(field.childrenObject).fields[field.childrenFieldName] :
-                    new TextModelField({});
-            }
-            return this.getFieldStringValues(field);
-        };
+                        if (field.kindOfField === 'Children') {
+                            field = item.get(field.childrenObject) ?
+                                item.get(field.childrenObject).fields[field.childrenFieldName] :
+                                new TextModelField({});
+                        }
+                        return this.getFieldStringValues(field);
+                    };
+        }
 
         if ((this.tableData && this.tableData.data)) {
             this.tableData.sort = this.sort;
@@ -238,7 +244,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     public getDisplayedColumns(): string[] {
         const actionable = this.validatable || this.updatable || this.loggable ||
-            this.editable || this.deletable || this.printable || this.assignable;
+            this.editable || this.deletable || this.printable || this.assignable || this.justifiable || this.duplicable;
         if (this.selectable && actionable) {
             return this.displayProperties ? ['check', ...this.displayProperties, 'actions'] : [];
         } else if (this.selectable && !actionable) {
@@ -315,7 +321,18 @@ export class TableComponent implements OnInit,  AfterViewInit {
         this.assignOne.emit(element);
     }
 
+    justify(element) {
+        this.justifyOne.emit(element);
+    }
+
+    duplicate(element) {
+        this.duplicateOne.emit(element);
+    }
+
     requestLogs(element: any) {
+        if (!element) {
+            return;
+        }
         this.service.requestLogs(element.get('id')).toPromise()
             .then(
                 () => { this.snackbar.success('Logs have been sent'); }

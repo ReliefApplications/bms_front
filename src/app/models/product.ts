@@ -6,7 +6,7 @@ import { TextModelField } from './custom-models/text-model-field';
 export class Product extends CustomModel {
 
     public static rights = ['ROLE_ADMIN'];
-    title = this.language.settings_product;
+    title = this.language.products;
     matSortActive = 'name';
 
     public fields = {
@@ -14,14 +14,14 @@ export class Product extends CustomModel {
 
         }),
         name: new TextModelField({
-            title: this.language.model_product_name,
+            title: this.language.name,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isSettable: true,
             isRequired: true,
         }),
         unit: new TextModelField({
-            title: this.language.model_product_unit,
+            title: this.language.unit,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isSettable: true,
@@ -29,12 +29,12 @@ export class Product extends CustomModel {
             isRequired: true,
         }),
         image: new TextModelField({
-            title: this.language.model_product_image,
+            title: this.language.product_image,
             isDisplayedInTable: true,
             isImageInTable: true,
         }),
         imageData: new FileModelField({
-            title: this.language.model_product_image,
+            title: this.language.product_image,
             isDisplayedInModal: true,
             isSettable: true,
             uploadPath: '/products/upload/image',

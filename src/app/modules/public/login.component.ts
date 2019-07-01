@@ -12,8 +12,6 @@ import { environment } from 'src/environments/environment';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { ErrorInterface, User } from '../../models/user';
 
-
-
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -25,9 +23,9 @@ export class LoginComponent implements OnInit {
     public loader = false;
     public loginCaptcha = false;
     public form: FormGroup;
-    // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     constructor(
         public _authService: AuthenticationService,
@@ -36,7 +34,7 @@ export class LoginComponent implements OnInit {
         public router: Router,
         public snackbar: SnackbarService,
         public languageService: LanguageService,
-        ) { }
+    ) { }
 
     ngOnInit() {
         // TODO: enable this
@@ -50,17 +48,16 @@ export class LoginComponent implements OnInit {
         return this.asyncacheService.get(AsyncacheService.COUNTRY).pipe(
             map((result: any) => {
                 if (!result || !getFromCache) {
-                    this.asyncacheService.set(AsyncacheService.COUNTRY, country);
+                    this.asyncacheService.set(AsyncacheService.COUNTRY, country).subscribe();
                 }
             })
         );
     }
 
     makeForm() {
-
-        this.form = new FormGroup( {
-            username  : new FormControl('', [Validators.required]),
-            password : new FormControl('', [Validators.required]),
+        this.form = new FormGroup({
+            username: new FormControl('', [Validators.required]),
+            password: new FormControl('', [Validators.required]),
         });
 
         if (this.prod()) {
@@ -106,7 +103,12 @@ export class LoginComponent implements OnInit {
                             this.goToHomePage(user);
                         });
                     }
-                    this.router.navigate(['/']);
+                    if (user.get<boolean>('changePassword') === true) {
+                        this.router.navigate(['/profile']);
+                        this.snackbar.info(this.language.profile_change_password);
+                    } else {
+                        this.router.navigate(['/']);
+                    }
                     if (user.get<string>('language')) {
                         this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
                     } else {
@@ -123,14 +125,20 @@ export class LoginComponent implements OnInit {
     }
 
     goToHomePage(user: User) {
-        if (user.get<string>('language')) {
-            this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
-        } else {
-            // TODO: load default language
-            this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];
-
+        if (user.get<boolean>('changePassword') === true) {
+            this.router.navigate(['/profile']);
+            this.snackbar.info(this.language.profile_change_password);
         }
-        this.router.navigate(['/']);
+        else {
+            if (user.get<string>('language')) {
+                this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
+            } else {
+                // TODO: load default language
+                this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];
+
+            }
+            this.router.navigate(['/']);
+        }
     }
 
     onScriptError() {

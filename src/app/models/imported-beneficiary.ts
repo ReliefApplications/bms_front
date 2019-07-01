@@ -3,28 +3,41 @@ import { CustomModel } from './custom-models/custom-model';
 import { NestedFieldModelField } from './custom-models/nested-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { DateModelField } from './custom-models/date-model-field';
+import { TextModelField } from './custom-models/text-model-field';
 
 export class ImportedBeneficiary extends CustomModel {
 
     title = this.language.beneficiary;
-    matSortActive = 'familyName';
+    matSortActive = 'localFamilyName';
     public fields = {
         beneficiary: new ObjectModelField<Beneficiary>(
             {
                 value: []
             }
         ),
-        givenName: new NestedFieldModelField({
-            title: this.language.model_firstName,
+        localGivenName: new NestedFieldModelField({
+            title: this.language.beneficiary_given_name,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'givenName',
+            childrenFieldName: 'localGivenName',
         }),
-        familyName: new NestedFieldModelField({
-            title: this.language.model_familyName,
+        localFamilyName: new NestedFieldModelField({
+            title: this.language.beneficiary_family_name,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
-            childrenFieldName: 'familyName',
+            childrenFieldName: 'localFamilyName',
+        }),
+        enGivenName: new NestedFieldModelField({
+            title: this.language.beneficiary_en_given_name,
+            isDisplayedInTable: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enGivenName',
+        }),
+        enFamilyName: new NestedFieldModelField({
+            title: this.language.beneficiary_en_family_name,
+            isDisplayedInTable: false,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'enFamilyName',
         }),
         gender: new NestedFieldModelField({
             title: this.language.gender,
@@ -33,11 +46,15 @@ export class ImportedBeneficiary extends CustomModel {
             childrenFieldName: 'gender',
         }),
         dateOfBirth: new NestedFieldModelField({
-            title: this.language.model_dateofbirth,
+            title: this.language.beneficiary_date_of_birth,
             isDisplayedInTable: true,
             childrenObject: 'beneficiary',
             childrenFieldName: 'dateOfBirth',
         }),
+        justification: new TextModelField({
+            title: this.language.modal_delete_justification,
+            isDisplayedInTable: true,
+        })
 
     };
 
@@ -48,10 +65,22 @@ export class ImportedBeneficiary extends CustomModel {
         // TO DO : Use the line above when the api will be coherent in sending beneficiaries
         let beneficiary = new Beneficiary();
         beneficiary = Beneficiary.apiToModel(importedBeneficiaryFromApi);
-        beneficiary.set('givenName',
-            importedBeneficiaryFromApi.givenName ? importedBeneficiaryFromApi.givenName : importedBeneficiaryFromApi.given_name);
-        beneficiary.set('familyName',
-            importedBeneficiaryFromApi.familyName ? importedBeneficiaryFromApi.familyName : importedBeneficiaryFromApi.family_name);
+        beneficiary.set('localGivenName',
+            importedBeneficiaryFromApi.localGivenName ?
+            importedBeneficiaryFromApi.localGivenName :
+            importedBeneficiaryFromApi.local_given_name);
+        beneficiary.set('localFamilyName',
+            importedBeneficiaryFromApi.localFamilyName ?
+            importedBeneficiaryFromApi.localFamilyName :
+            importedBeneficiaryFromApi.local_family_name);
+        beneficiary.set('enGivenName',
+            importedBeneficiaryFromApi.enGivenName ?
+            importedBeneficiaryFromApi.enGivenName :
+            importedBeneficiaryFromApi.en_given_name);
+        beneficiary.set('enFamilyName',
+            importedBeneficiaryFromApi.enFamilyName ?
+            importedBeneficiaryFromApi.enFamilyName :
+            importedBeneficiaryFromApi.en_family_name);
         beneficiary.set('dateOfBirth',
             importedBeneficiaryFromApi.dateOfBirth ?
             DateModelField.formatFromApi(importedBeneficiaryFromApi.dateOfBirth) :

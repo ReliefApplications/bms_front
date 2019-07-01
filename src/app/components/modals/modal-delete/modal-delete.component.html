@@ -1,10 +1,12 @@
-<div class="modal-container">
-  <h4 class="modal-title underline-accent stickyHeader" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" >{{language.delete}}</h4>
-  <div class="modal-table" [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}" cdkFocusRegionstart>
+<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}" >{{language.delete}}</h4>
+<mat-dialog-content class="modal-container">
+  <div class="modal-body" cdkFocusRegionstart>
       {{language.modal_delete_sentence | uppercaseFirst}} {{ data.name | uppercaseFirst}} {{language.modal_delete_sentence_2 | uppercaseFirst}}
   </div>
-  <div class="modal-button action-buttons stickyFooter"  [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-    <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
-    <button mat-raised-button (click)="onDelete()" class="button-background-accent">{{language.delete}}</button>
-  </div>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions >
+    <div class="modal-button action-buttons"  [ngClass]="{'rtl':language.direction === 'rtl'}">
+      <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
+      <button mat-flat-button (click)="onDelete()" class="button-background-accent">{{language.delete}}</button>
+    </div>
+</mat-dialog-actions>

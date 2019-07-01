@@ -11,83 +11,166 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
 @include angular-material-theme($candy-app-theme);
 
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: $bms_grey !important;
+    font-family: 'Roboto', sans-serif;
+    background-color: $bms_grey !important;
+    margin: 0px;
+    position: relative;
 }
+
 @media (pointer: coarse) {
-  ::-webkit-scrollbar {
-    width: 0;
-  }
+    ::-webkit-scrollbar {
+        width: 0;
+    }
 }
+
+// Ng-select in modals are appended to body so they are visible
+body > ng-dropdown-panel {
+    margin-top: -12px;
+    margin-left: 8px;
+
+    .ng-option-selected {
+        color: #424242 !important;
+    }
+
+}
+
 // Override Leaflet theme
 .leaflet-control-attribution.leaflet-control {
-  display: none !important;
+    display: none !important;
 }
+
 // Override Material theme
 .mat-stepper-horizontal {
-  background-color: $bms_grey !important;
-  width: calc(100% - 40px);
+    background-color: $bms_grey !important;
+    width: calc(100% - 40px);
 }
 
 .mat-drawer-container {
-  background-color: $bms_grey !important;
+    background-color: $bms_grey !important;
 }
 
 .mat-step-icon {
-  color: $bms_grey !important;
+    color: $bms_grey !important;
 }
 
 .mat-step-icon-not-touched {
-  color: $bms_grey !important;
+    color: $bms_grey !important;
 }
 
 .mat-horizontal-content-container {
-  padding: 0 !important;
-  overflow: unset !important;
+    padding: 0 !important;
+    overflow: unset !important;
 }
 
 .mat-progress-bar {
-  display: none !important;
+    display: none !important;
 }
 
 .mat-sidenav-content {
-  width: 100vw !important;
-  box-sizing: border-box;
-  overflow-x: hidden !important;
+    width: 100vw !important;
+    box-sizing: border-box;
+    overflow-x: hidden !important;
 }
 
 .mat-dialog-container {
-  background-color: $bms_white;
+    background-color: $bms_white;
 }
 
 .mat-sort-header-container {
-  justify-content: center;
+    justify-content: center;
+}
+
+.mat-fab {
+    box-shadow: none !important;
 }
 
 @media only screen and (max-width: 750px) {
-  .mat-stepper-horizontal {
-    width: 100%;
-  }
+    .mat-stepper-horizontal {
+        width: 100%;
+    }
 
-  .mat-horizontal-stepper-header-container {
-    display: none !important;
-  }
+    .mat-horizontal-stepper-header-container {
+        display: none !important;
+    }
 
-  .mat-progress-bar {
-    display: block !important;
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
+    .mat-progress-bar {
+        display: block !important;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
 
-  .mat-dialog-container {
-    width: 80vw !important;
-  }
+    .mat-dialog-container {
+        width: 80vw !important;
+    }
 
-  .mat-checkbox-layout {
-    white-space: normal !important;
-  }
+    .mat-checkbox-layout {
+        white-space: normal !important;
+    }
 }
 
 app-display-field.ng-star-inserted {
-  text-align: center;
+    text-align: center;
+}
+
+// Leaflet styling below
+.cluster {
+    background-color: $bms_red;
+    height: 50px !important;
+    width: 50px !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $bms_white;
+    font-weight: bold;
+    font-size: x-large;
+    box-shadow: 0 0 20px 3px $bms_red;
+}
+
+.leaflet-popup-content {
+    margin: 0;
+}
+
+#bms-popup {
+    margin: 0;
+    padding: 20px;
+
+    * {
+        margin: unset;
+    }
+}
+
+// .marker {
+//     z-index: 2;
+// }
+.marker-container {
+
+  .marker-pointer {
+    width: 8px;
+    height: 40px;
+    z-index: 500;
+  }
+
+  .marker-icon {
+    width: 25px;
+    position: absolute;
+    top: 10px;
+    left: 7px;
+    filter: invert(1);
+    z-index: 501;
+    pointer-events: none;
+  }
+  &.not-validated {
+    fill: $bms_red;
+  }
+
+  &.validated {
+    fill: $bms_dark_blue;
+  }
+
+  &.completed {
+    fill: $bms_green;
+  }
+
+
 }

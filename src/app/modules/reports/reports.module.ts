@@ -1,61 +1,34 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../../shared/shared.module';
-
-// Components
-import { ReportsComponent } from './reports.component';
-import { IndicatorComponent } from './indicator/indicator.component';
-import { IndicatorPageComponent } from './indicator-page/indicator-page.component';
-import { HeaderComponent } from './charts/header/header.component';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-
-// Filter
-import { ButtonFilterComponent } from './filters/button-filter/button-filter.component';
-import { ButtonFilterDateComponent } from './filters/button-filter/button-filter-data/button-filter-date.component';
-import { ButtonFilterItemsComponent } from './filters/button-filter/button-filter-items/button-filter-items.component';
-
-// Charts
-import { ChartComponent } from './charts/chart/chart.component';
-import { AdvancedPieChartComponent } from './charts/advanced-pie-chart/advanced-pie-chart.component';
+import { ChartsModule } from 'ng2-charts';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { BarChartComponent } from './charts/bar-chart/bar-chart.component';
-import { BarChartVerticalComponent } from './charts/bar-chart/bar-chart-vertical/bar-chart-vertical.component';
+import { BaseChartComponent } from './charts/base-chart/base-chart.component';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
-import { NumberCardChartComponent } from './charts/number-card-chart/number-card-chart.component';
 import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
-import { PieGridComponent } from './charts/pie-grid/pie-grid.component';
-import { StackedVerticalBarChartComponent } from './charts/stacked-vertical-bar-chart/stacked-vertical-bar-chart.component';
+import { ReportsComponent } from './reports.component';
+
+
 
 @NgModule({
 
     imports: [
         // Angular Modules
-        CommonModule,
-        // Feature Modules
-        NgxChartsModule,
-        FormsModule,
-        ReactiveFormsModule,
         SharedModule,
+        ChartsModule,
+        CommonModule,
+        ReactiveFormsModule,
         NgSelectModule,
+        ChartsModule,
     ],
     declarations: [
         ReportsComponent,
-        IndicatorComponent,
-        IndicatorPageComponent,
-        ButtonFilterComponent,
-        ChartComponent,
-        AdvancedPieChartComponent,
-        BarChartComponent,
-        BarChartVerticalComponent,
         LineChartComponent,
-        NumberCardChartComponent,
+        BaseChartComponent,
         PieChartComponent,
-        PieGridComponent,
-        StackedVerticalBarChartComponent,
-        HeaderComponent,
-        ButtonFilterDateComponent,
-        ButtonFilterItemsComponent
+        BarChartComponent,
     ]
 })
 export class ReportsModule { }

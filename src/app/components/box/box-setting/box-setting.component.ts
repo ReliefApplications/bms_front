@@ -27,7 +27,8 @@ export class BoxSettingComponent implements OnInit, OnDestroy {
 
     constructor(
         private screenSizeService: ScreenSizeService,
-    ) { }
+    ) {
+     }
 
     ngOnInit() {
         this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {

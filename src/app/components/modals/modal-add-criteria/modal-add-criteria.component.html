@@ -4,20 +4,6 @@
 <mat-dialog-content class="modal-container" *ngIf="criteria">
     <form [formGroup]="form">
         <table class="modal-table" cdkFocusRegionStart [ngClass]="{'rtl':language.direction === 'rtl'}">
-            <tr class="modal-row">
-                <th class="table-title">{{ criteria.fields.field.title | uppercaseFirst }}</th>
-                <td class="form-item">
-                    <ng-select appendTo="body" formControlName="field" [placeholder]="criteria.fields.field.title | uppercaseFirst"
-                        (change)="loadConditions($event)">
-                        <ng-option *ngFor="let option of criteria.getOptions('field')" [value]="option.get('field')">
-                            {{option.get('field') | formatCamelCase }}
-                        </ng-option>
-                    </ng-select>
-                    <app-hint-error [form]="form" fieldName="field" [field]="criteria.fields.field"
-                        [isMatField]="false"></app-hint-error>
-                </td>
-            </tr>
-
           <tr class="modal-row">
               <th class="table-title">{{ language.criteria_target | uppercaseFirst }}</th>
               <td class="form-item">
@@ -34,7 +20,7 @@
                 </ng-select>
               </td>
             </tr>
-          
+
           <tr class="modal-row">
               <th class="table-title">{{ criteria.fields.field.title | uppercaseFirst }}</th>
               <td class="form-item">

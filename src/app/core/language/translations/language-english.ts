@@ -281,6 +281,7 @@ export class English implements Language {
     criteria_weight = 'Score weight'
     criteria_target = 'Criteria Target'
     
+
     // Dashboard
     dashboard_distribution_map = 'distribution map'
     dashboard_recent_distributions = 'upcoming distributions'

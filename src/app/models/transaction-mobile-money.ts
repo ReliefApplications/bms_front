@@ -91,6 +91,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
             value: new State('-2', this.language.transaction_state_not_sent),
             isDisplayedInTable: true,
             bindField: 'name',
+            apiLabel: 'id',
             isDisplayedInModal: true,
 
         }),

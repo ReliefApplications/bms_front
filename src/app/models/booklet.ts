@@ -88,6 +88,7 @@ export class Booklet extends CustomModel {
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             bindField: 'name',
+            apiLabel: 'id',
             options: CURRENCIES.map(currency => new Currency(currency.id, currency.name)),
             isEditable: true,
             isSettable: true,
@@ -104,6 +105,7 @@ export class Booklet extends CustomModel {
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             bindField: 'name',
+            apiLabel: 'id',
             value: new BookletStatus('0', 'Unassigned'),
         }),
         definePassword: new BooleanModelField({

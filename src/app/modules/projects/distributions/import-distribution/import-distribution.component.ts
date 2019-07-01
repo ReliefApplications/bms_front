@@ -231,17 +231,17 @@ export class ImportDistributionComponent implements OnInit, OnDestroy {
         this.modalReference.afterClosed().subscribe((message: string) => {
             if (message === 'add') {
                 importedBeneficiary.set('justification', this.justification.value);
-                const familyName = importedBeneficiary.get('beneficiary').get('familyName');
-                const givenName = importedBeneficiary.get('beneficiary').get('givenName');
+                const localFamilyName = importedBeneficiary.get('beneficiary').get('localFamilyName');
+                const localGivenName = importedBeneficiary.get('beneficiary').get('localGivenName');
 
                 const correspondingAdded = this.importedData.added.filter((added: any) => {
-                    return added.family_name === familyName && added.given_name === givenName;
+                    return added.localFamilyName === localFamilyName && added.localGivenName === localGivenName;
                 })[0];
                 const correspondingCreated = this.importedData.created.filter((created: any) => {
-                    return created.familyName === familyName && created.givenName === givenName;
+                    return created.localFamilyName === localFamilyName && created.localGivenName === localGivenName;
                 })[0];
                 const correspondingDeleted = this.importedData.deleted.filter((deleted: any) => {
-                    return deleted.familyName === familyName && deleted.givenName === givenName;
+                    return deleted.localFamilyName === localFamilyName && deleted.localGivenName === localGivenName;
                 })[0];
 
                 let index: number;

@@ -281,7 +281,7 @@ imports: [
         { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },
         {
             provide: RECAPTCHA_SETTINGS,
-            useValue: { siteKey: '6LdJjIAUAAAAAFHrAB20mjuVhwRsLhTgfq4ioeaO'} as RecaptchaSettings,
+            useValue: { siteKey: '6LeFcasUAAAAAAAoPCzr6-GPZP-K2xKtO4BXjMtE'} as RecaptchaSettings,
         }
     ]
 })

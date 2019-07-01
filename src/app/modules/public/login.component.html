@@ -16,7 +16,7 @@
                 </div>
                 <div class="login-button">
                     <ng-container *ngIf="prod(); else notProd">
-                        <re-captcha #captchaRef="reCaptcha" siteKey="6LeFcasUAAAAAAAoPCzr6-GPZP-K2xKtO4BXjMtE" size="invisible" (resolved)="onSubmit()"></re-captcha>
+                        <re-captcha #captchaRef="reCaptcha" size="invisible" (resolved)="onSubmit()"></re-captcha>
                         <button (click)="captchaRef.execute()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
                     </ng-container>
                     <ng-template #notProd>

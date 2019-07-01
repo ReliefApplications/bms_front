@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
 
     public forgotMessage = false;
     public loader = false;
-    public loginCaptcha = false;
     public form: FormGroup;
 
     // Language
@@ -59,28 +58,12 @@ export class LoginComponent implements OnInit {
             username: new FormControl('', [Validators.required]),
             password: new FormControl('', [Validators.required]),
         });
-
-        if (this.prod()) {
-            this.form.addControl(
-                'captcha', new FormControl(this.loginCaptcha, [Validators.required]),
-            );
-        }
     }
-
-    onSubmit() {
-        // Prevent captcha bypass by setting button to enabled in production mode
-        if (this.prod() && !this.form.controls['captcha'].value) {
-            this.snackbar.error(this.language.login_captcha_invalid);
-            return;
-        }
-        this.loginAction();
-    }
-
 
     /**
      * When the user hits login
      */
-    private loginAction(): void {
+    public onSubmit(): void {
         this.loader = true;
         const subscription = from(this._authService.login(
             this.form.controls['username'].value,
@@ -141,9 +124,6 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    onScriptError() {
-        this.snackbar.error(this.language.login_captcha_invalid);
-    }
 
     prod() {
         return environment.production;

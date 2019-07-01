@@ -14,6 +14,7 @@ import { AsyncacheService } from '../storage/asyncache.service';
 import { CustomModelService } from '../utils/custom-model.service';
 import { HttpService } from '../network/http.service';
 import { ProjectService } from './project.service';
+import { CountriesService } from '../countries/countries.service';
 
 
 @Injectable({
@@ -121,6 +122,14 @@ export class UserService extends CustomModelService {
             if (projects) {
                 const projectOptions = projects.map(project => {
                     return Project.apiToModel(project);
+                });
+                const country = appInjector.get(CountriesService).selectedCountry.getValue().get<string>('id') ?
+                    appInjector.get(CountriesService).selectedCountry.getValue().get<string>('id') :
+                    appInjector.get(CountriesService).khm.get<string>('id');
+                user.get<Array<Project>>('projects').forEach((project: Project) => {
+                    if (project.get<string>('iso3') !== country) {
+                        projectOptions.push(project);
+                    }
                 });
                 user.setOptions('projects', projectOptions);
             }

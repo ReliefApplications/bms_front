@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material';
 import { finalize } from 'rxjs/operators';
+import { Beneficiary } from 'src/app/models/beneficiary';
 import { Commodity } from 'src/app/models/commodity';
 import { State, TransactionMobileMoney } from 'src/app/models/transaction-mobile-money';
-import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { User } from 'src/app/models/user';
-import { Beneficiary } from 'src/app/models/beneficiary';
+import { ValidatedDistributionComponent } from '../validated-distribution.component';
 
 @Component({
     selector: 'app-mobile-money',
@@ -42,7 +42,6 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
     }
 
     formatTransactionTable() {
-
         let values = '';
         this.actualDistribution.get<Commodity[]>('commodities').forEach((commodity, index) => {
             if (index > 0) {
@@ -61,7 +60,9 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         this.transactionData = new MatTableDataSource(distributionBeneficiaries);
         this.verifiyIsFinished();
         this.loadingTransaction = false;
-        this.refreshStatuses();
+        if (this.userService.hasRights('ROLE_AUTHORISE_PAYMENT')) {
+            this.refreshStatuses();
+        }
     }
 
      /**

@@ -2,7 +2,7 @@
     <p [hidden]="!hasDevices || !hasPermission" cdkFocusRegionstart>{{ language.voucher_scan_text }}</p>
 
     <div [hidden]="!hasDevices || !hasPermission">
-        <ng-select [clearable]="false" [formControl]="selectedDeviceControl" *ngIf="selectedDeviceControl.value">
+        <ng-select appendTo="body" [clearable]="false" [formControl]="selectedDeviceControl" *ngIf="selectedDeviceControl.value">
             <ng-option *ngFor="let device of availableDevices" [value]="device.deviceId">
                 {{device.label }}
             </ng-option>
@@ -23,8 +23,8 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions >
-    <div class="modal-button action-buttons" *ngIf="!hasDevices || !hasPermission" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-        <button mat-raised-button class="button-background-accent"
+    <div class="modal-button action-buttons" *ngIf="!hasDevices || !hasPermission" [ngClass]="{'rtl':language.direction === 'rtl'}">
+        <button mat-flat-button class="button-background-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
     </div>
 </mat-dialog-actions>

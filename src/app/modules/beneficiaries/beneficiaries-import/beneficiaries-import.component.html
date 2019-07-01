@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="button-with-extension"
-                        [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+                        [ngClass]="{'rtl':language.direction === 'rtl'}">
                         <button mat-stroked-button color="primary" class="template" (click)="exportTemplate()"
                             *ngIf="!loadingExport">
                             {{language.beneficiary_import_csv | uppercaseFirst }}
@@ -97,7 +97,7 @@
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-                <button *ngIf="!load" mat-raised-button class="button-background-primary"
+                <button *ngIf="!load" mat-flat-button class="button-background-primary"
                     (click)="importHouseholdsFile()">
                     <mat-icon>publish</mat-icon>
                     <span>{{language.import | uppercaseFirst }}</span>
@@ -166,7 +166,7 @@
             </div>
             <div class="content-button content-button-footer">
                 <mat-spinner [diameter]="35" *ngIf="load"></mat-spinner>
-                <button *ngIf="!load" mat-raised-button class="button-background-primary"
+                <button *ngIf="!load" mat-flat-button class="button-background-primary"
                     (click)="importHousholdsApi()">
                     <mat-icon>publish</mat-icon>
                     <span>{{language.import | uppercaseFirst }}</span>
@@ -177,15 +177,15 @@
 </div>
 
 <ng-template #mapFile>
-    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.beneficiary_import_convert | uppercaseFirst}}
+    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.beneficiary_import_convert | uppercaseFirst}}
     </h4>
     <mat-dialog-content class="modal-container">
         <form [formGroup]="conversionForm">
-            <table class="modal-table" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            <table class="modal-table" [ngClass]="{'rtl':language.direction === 'rtl'}">
                 <tr class="modal-row">
                     <th class="table-title">{{ language.adm1[countryId] }}</th>
                     <th class="table-value">
-                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                        <ng-select appendTo="body" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                             formControlName="adm1">
                             <ng-option *ngFor="let adm1 of conversionLocation.getOptions('adm1')" [value]="adm1">
                                 {{adm1.get('name')}}</ng-option>
@@ -196,7 +196,7 @@
                 <tr class="modal-row">
                     <th class="table-title">{{ language.adm2[countryId] }}</th>
                     <th class="table-value">
-                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                        <ng-select appendTo="body" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                             formControlName="adm2">
                             <ng-option *ngFor="let adm2 of conversionLocation.getOptions('adm2')" [value]="adm2">
                                 {{adm2.get('name')}}</ng-option>
@@ -207,7 +207,7 @@
                 <tr class="modal-row">
                     <th class="table-title">{{ language.adm3[countryId] }}</th>
                     <th class="table-value">
-                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                        <ng-select appendTo="body" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                             formControlName="adm3">
                             <ng-option *ngFor="let adm3 of conversionLocation.getOptions('adm3')" [value]="adm3">
                                 {{adm3.get('name')}}</ng-option>
@@ -218,7 +218,7 @@
                 <tr class="modal-row">
                     <th class="table-title">{{ language.adm4[countryId] }}</th>
                     <th class="table-value">
-                        <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
+                        <ng-select appendTo="body" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
                             formControlName="adm4">
                             <ng-option *ngFor="let adm4 of conversionLocation.getOptions('adm4')" [value]="adm4">
                                 {{adm4.get('name')}}</ng-option>
@@ -255,11 +255,11 @@
     </mat-dialog-content>
     <mat-dialog-actions >
         <div class="modal-button action-buttons"
-            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-button class="button-text-accent"
                 (click)="closeConversionDialog('canceled')">{{language.cancel}}</button>
             <mat-spinner [diameter]="25" *ngIf="loadingConversion"></mat-spinner>
-            <button mat-raised-button class="button-background-accent" (click)="confirmConversion()"
+            <button mat-flat-button class="button-background-accent" (click)="confirmConversion()"
                 *ngIf="!loadingConversion">
                 {{language.transaction_confirm_button}}
             </button>

@@ -1,8 +1,0 @@
-<div *ngFor="let item of data" class="filter">
-    <div *ngIf="item.level == '1'">
-        <button mat-raised-button class="level1" style="text-decoration: none;" [class.clicked]="!item.active"
-            (click)="filter(item.value)">
-            {{ item.label }}
-        </button>
-    </div>
-</div>

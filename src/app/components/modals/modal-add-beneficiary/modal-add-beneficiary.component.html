@@ -1,11 +1,11 @@
-<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.distribution_add_beneficiaries}}</h4>
+<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.distribution_add_beneficiaries}}</h4>
 <mat-dialog-content class="modal-container">
     <div class="modal-body" cdkFocusRegionstart>
         <p> {{language.distribution_select_beneficiaries}} <strong> {{data.distribution.get('project').get('name')}}
             </strong>
             {{language.distribution_want_add}} <strong> {{data.distribution.get('name')}} </strong>
             {{language.distribution | lowercase}}.</p>
-        <ng-select class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true"
+        <ng-select appendTo="body" class="multiple-select" [formControl]="selectedBeneficiariesControl" [multiple]="true"
             placeholder="{{language.beneficiaries | uppercaseFirst}}" [closeOnSelect]="false" [searchable]="true"
             required>
             <ng-option *ngFor="let beneficiary of beneficiaryList" [value]="beneficiary">
@@ -19,9 +19,9 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions >
-    <div class="modal-button action-buttons" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+    <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-accent" (click)="onCancel()">{{language.cancel}}</button>
-        <button mat-raised-button [disabled]="!selectedBeneficiariesControl.valid || !justification.valid"
+        <button mat-flat-button [disabled]="!selectedBeneficiariesControl.valid || !justification.valid"
             class="button-background-accent" (click)="onAdd()">{{language.transaction_confirm_button}}</button>
     </div>
 </mat-dialog-actions>

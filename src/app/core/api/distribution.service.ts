@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { Distribution } from 'src/app/models/distribution';
 import { SnackbarService } from '../logging/snackbar.service';
+import { HttpService } from '../network/http.service';
+import { NetworkService } from '../network/network.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { CustomModelService } from '../utils/custom-model.service';
 import { ExportService } from './export.service';
-import { HttpService } from '../network/http.service';
-import { NetworkService } from '../network/network.service';
 
 @Injectable({
     providedIn: 'root'
@@ -44,7 +44,7 @@ export class DistributionService extends CustomModelService {
         return this.http.get(url);
     }
 
-    public getByProject(idProject) {
+    public getByProject(idProject: number) {
         const url = this.apiBase + '/distributions/projects/' + idProject;
         return this.http.get(url);
     }

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -12,18 +12,18 @@ import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
+import { FormService } from 'src/app/core/utils/form.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Commodity } from 'src/app/models/commodity';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Criteria } from 'src/app/models/criteria';
+import { DateModelField } from 'src/app/models/custom-models/date-model-field';
 import { Distribution } from 'src/app/models/distribution';
 import { Location } from 'src/app/models/location';
-import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { CriteriaService } from '../../../core/api/criteria.service';
 import { DistributionService } from '../../../core/api/distribution.service';
 import { LocationService } from '../../../core/api/location.service';
-import { FormService } from 'src/app/core/utils/form.service';
-import { CustomModel } from 'src/app/models/custom-models/custom-model';
 
 @Component({
     selector: 'app-add-distribution',
@@ -145,9 +145,9 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
             (projects) => {
                 if (projects) {
                     projects.forEach((project: any) => {
-                        if (project.id === this.queryParams.project) {
-                            this.projectInfo.startDate = project.start_date;
-                            this.projectInfo.endDate = project.end_date;
+                        if (project.id.toString() === this.queryParams.project) {
+                            this.projectInfo.startDate = DateModelField.formatFromApi(project.start_date);
+                            this.projectInfo.endDate = DateModelField.formatFromApi(project.end_date);
                             return;
                         }
                     });
@@ -324,12 +324,15 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
           this.commodityData.data && this.commodityData.data.length !== 0 && this.form.controls.date.value &&
           this.form.controls.threshold.value > 0 && this.form.controls.adm1.value && this.criteriaNbBeneficiaries > 0) {
 
-            if (new Date(this.form.controls.date.value) < new Date(this.projectInfo.startDate) ||
-            new Date(this.form.controls.date.value) > new Date(this.projectInfo.endDate)) {
+            if (this.form.controls.date.value < this.projectInfo.startDate || this.form.controls.date.value > this.projectInfo.endDate) {
                 this.snackbar.error(this.language.add_distribution_date_inside_project);
                 return;
-            } else {
-                const distributionModality = this.commodityData.data[0].get('modality').get('name');
+            } else if (this.form.controls.date.value < new Date()) {
+                this.snackbar.error(this.language.add_distribution_date_before_today);
+                return;
+            }
+            else {
+                const distributionModality = this.commodityData.data[0].get(['modality', 'name']);
                 for (const commodity of this.commodityData.data) {
                     if (commodity.get<number>('value') <= 0) {
                         this.snackbar.error(this.language.add_distribution_zero);

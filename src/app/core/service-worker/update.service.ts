@@ -17,8 +17,6 @@ export class UpdateService {
     public checkForUpdates(): Observable<any> {
         return this.updates.available.pipe(
             tap((event: any) => {
-                // tslint:disable-next-line
-                console.log(event);
                 const snack = this.snackbar.info('An update is available', 'Reload');
 
                 snack.onAction().subscribe(() => {

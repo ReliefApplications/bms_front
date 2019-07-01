@@ -1,25 +1,52 @@
-import { Component, KeyValueDiffers } from '@angular/core';
-import { LanguageService } from 'src/app/core/language/language.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { ChartDataLoaderService } from '../../services/chart-data-loader.service';
-import { ChartRegistration } from '../../services/chart-registration.service';
-import { ChartComponent } from '../chart/chart.component';
-
+import { Component, OnInit } from '@angular/core';
+import { ChartOptions } from 'chart.js';
+import { Color as ChartColor, Label } from 'ng2-charts';
+import { GraphValue } from '../../graph-value.model';
+import { BaseChartComponent } from '../base-chart/base-chart.component';
+import { PieChartDataSet } from './pie-chart-dataset';
 
 @Component({
     selector: 'app-pie-chart',
     templateUrl: './pie-chart.component.html',
-    styleUrls: ['./pie-chart.component.scss']
+    styleUrls: [ './pie-chart.component.scss' ]
 })
-export class PieChartComponent extends ChartComponent {
+export class PieChartComponent extends BaseChartComponent implements OnInit {
 
-    constructor(
-        protected differs: KeyValueDiffers,
-        public _cacheService: AsyncacheService,
-        protected chartRegistrationService: ChartRegistration,
-        protected _chartDataLoaderService: ChartDataLoaderService,
-        protected languageService: LanguageService,
-    ) {
-        super(differs, _cacheService, chartRegistrationService, languageService, _chartDataLoaderService);
+    pieChartDataSets: Array<PieChartDataSet>;
+
+    colors: Array<ChartColor>;
+
+    periods: Array<string>;
+
+    public pieChartOptions: ChartOptions = {
+        responsive: true,
+      };
+
+    ngOnInit() {
+        this.formatPieChartDataSet();
+        this.generateColors();
+    }
+
+    private formatPieChartDataSet() {
+        this.periods = [];
+        this.pieChartDataSets = [];
+
+        this.pieChartDataSets = Object.keys(this.graphInfo.values).map((period: string) => {
+            this.periods.push(period);
+            const labels: Array<Label> = [], values: Array<number> = [];
+            this.graphInfo.values[period].forEach((graphValue: GraphValue) => {
+                labels.push(graphValue.unit);
+                values.push(graphValue.value);
+            });
+            return new PieChartDataSet(labels, values);
+        });
+    }
+
+    generateColors() {
+        let maxDataSetLength = 0;
+        this.pieChartDataSets.forEach((dataSet: PieChartDataSet) => {
+            maxDataSetLength = Math.max(maxDataSetLength, dataSet.labels.length);
+        });
+        this.colors = [this.colorsService.generateColorsSet(maxDataSetLength)];
     }
 }

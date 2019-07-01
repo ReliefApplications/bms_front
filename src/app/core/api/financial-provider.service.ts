@@ -23,7 +23,9 @@ export class FinancialProviderService extends CustomModelService {
 
     // Not expecting an Id here, as there is only one financial provider.
     public update(_id: number, body: object) {
-        body['password'] = CryptoJS.SHA1(body['password']).toString(CryptoJS.enc.Base64);
+        if (body['password']) {
+            body['password'] = CryptoJS.SHA1(body['password']).toString(CryptoJS.enc.Base64);
+        }
         return this.http.post(this.makeUrl(), body);
     }
 

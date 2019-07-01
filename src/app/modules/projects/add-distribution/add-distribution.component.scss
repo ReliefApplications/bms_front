@@ -44,6 +44,7 @@
         }
 
         .accordion-card {
+            box-shadow: $bms_shadow !important;
             width: 100%;
 
             .accordion-field {
@@ -57,7 +58,7 @@
             }
         }
 
-        .distribution-accordion-ar {
+        .distribution-accordion-rtl {
             display: flex;
             padding-left: 20px;
             width: 100%;

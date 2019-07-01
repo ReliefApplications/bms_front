@@ -6,7 +6,7 @@
         <div class="container-content box-primary">
             <div class="content-button">
                 <div class="action-buttons">
-                    <button mat-raised-button class="button-background-primary" *ngIf="checkedElements.length > 0"
+                    <button mat-flat-button class="button-background-primary" *ngIf="checkedElements.length > 0"
                         [matMenuTriggerFor]="menu" [matBadge]="checkedElements.length">
                         <mat-icon>more_vert</mat-icon>
                         <span>{{language.table_actions | titlecase}}</span>
@@ -25,8 +25,8 @@
                     </div>
 
                     <div class="button-with-extension"
-                        [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
-                        <button mat-raised-button [disabled]="!(dataSource.length$ | async)"
+                        [ngClass]="{'rtl':language.direction === 'rtl'}">
+                        <button mat-flat-button [disabled]="!(dataSource.length$ | async)"
                             *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport"
                             class="button-background-primary" (click)="export()" [matBadge]="getNumberToExport()">
                             <mat-icon>get_app</mat-icon>
@@ -35,7 +35,7 @@
                         <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
                         <div class="extension"
                             *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport">
-                            <button mat-raised-button class="dropdown button-background-primary"
+                            <button mat-flat-button class="dropdown button-background-primary"
                                 [matMenuTriggerFor]="exportType" [disabled]="!(dataSource.length$ | async)">
                                 <mat-icon>keyboard_arrow_down</mat-icon>
                             </button>
@@ -55,15 +55,15 @@
                 </div>
 
                 <div class="add-buttons"
-                    [ngClass]="{'add-buttons-arabic': languageService.languageToString(language)==='ar', 'add-buttons-mobile': currentDisplayType.type === 'mobile'}"
+                    [ngClass]="{'add-buttons-rtl': language.direction === 'rtl', 'add-buttons-mobile': currentDisplayType.type === 'mobile'}"
                     (mouseenter)="currentDisplayType.type !== 'mobile' && this.addToggled = true"
                     (mouseleave)="currentDisplayType.type !== 'mobile' && this.addToggled = false">
                     <div class="toggled-buttons" [ngClass]="{'toggled': addToggled}">
-                        <button mat-raised-button class="button-background-accent" routerLink="/beneficiaries/import">
+                        <button mat-flat-button class="button-background-accent" routerLink="/beneficiaries/import">
                             <mat-icon>publish</mat-icon>
                             <span>{{language.import | uppercaseFirst}}</span>
                         </button>
-                        <button mat-raised-button class="button-background-accent" (click)="addOneHousehold()">
+                        <button mat-flat-button class="button-background-accent" (click)="addOneHousehold()">
                             <mat-icon>group_add</mat-icon>
                             <span>{{language.add_beneficiary_title | uppercaseFirst}}</span>
                         </button>
@@ -71,14 +71,14 @@
                 </div>
                 <button
                     *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')"
-                    mat-raised-button class="add-button-create" (click)="toggleAddButtons()">
+                    mat-flat-button class="add-button-create" (click)="toggleAddButtons()">
                     <mat-icon>add</mat-icon>
                     {{language.create | uppercaseFirst}}
                 </button>
                 <button mat-fab
                     *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')"
                     class="add-button"
-                    [ngClass]="{'add-button-arabic': languageService.languageToString(language)==='ar'}"
+                    [ngClass]="{'add-button-rtl': language.direction === 'rtl'}"
                     (click)="toggleAddButtons()">
                     <mat-icon>add</mat-icon>
                 </button>
@@ -98,13 +98,13 @@
 </div>
 
 <ng-template #addBeneficiaries>
-    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">{{language.beneficiary_add_distribution}}</h4>
+    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.beneficiary_add_distribution}}</h4>
     <mat-dialog-content class="modal-container">
         <div class="modal-body">
             <p> {{language.beneficiary_add_project}} {{ checkedElements.length }}
                 {{language.beneficiary_selected_project}}</p>
             <div class="selectBeneficiaries">
-                <ng-select [formControl]="projectAddControl" class="single-select" [multiple]="false" [searchable]=true
+                <ng-select appendTo="body" [formControl]="projectAddControl" class="single-select" [multiple]="false" [searchable]=true
                     [closeOnSelect]="true" placeholder="{{language.projects | uppercaseFirst}}">
                     <ng-option class="options" *ngFor="let project of projectsList" [value]="project.id">
                         {{project.name}}
@@ -115,9 +115,9 @@
     </mat-dialog-content>
     <mat-dialog-actions >
         <div class="modal-button action-buttons"
-            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-button class="button-text-accent" (click)="dialog.closeAll()">{{language.cancel}}</button>
-            <button mat-raised-button class="button-background-accent" [disabled]="!projectAddControl.valid"
+            <button mat-flat-button class="button-background-accent" [disabled]="!projectAddControl.valid"
                 (click)="confirmAdding()">{{language.transaction_confirm_button}}</button>
         </div>
     </mat-dialog-actions>

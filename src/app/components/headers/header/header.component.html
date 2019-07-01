@@ -9,7 +9,7 @@
             </a>
         </span>
     </div>
-    <div class="container-buttons">
+    <div class="container-buttons" *ngIf="language">
         <div *ngIf="selectedCountry" class="buttons">
             <app-request-display></app-request-display>
             <button mat-icon-button color=primary [matTooltip]="tooltip">

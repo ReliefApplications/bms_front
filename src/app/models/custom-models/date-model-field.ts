@@ -53,4 +53,9 @@ export class DateModelField extends CustomModelField<Date> {
         const datePipe = new DatePipe('en-US');
         return datePipe.transform(this.value, 'dd-MM-yyyy');
     }
+
+    formatDateTimeForApi(): any {
+        const datePipe = new DatePipe('en-US');
+        return datePipe.transform(this.value, 'dd-MM-yyyy HH:mm:ss');
+    }
 }

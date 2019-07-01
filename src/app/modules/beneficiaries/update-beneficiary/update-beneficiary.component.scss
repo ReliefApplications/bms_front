@@ -31,6 +31,7 @@ app-placeholder-panel {
   .main-information-content {
     display:flex;
     flex-direction: column;
+    width: 100%;
     .location-question {
       flex-direction: row;
       margin-top: 10px;
@@ -44,12 +45,17 @@ app-placeholder-panel {
       display: flex;
     }
   }
+  .step-one-footer {
+    width: 100%;
+  }
 }
 
 .all-information,
 .head,
 .member,
-.summary {
+.summary,
+.location-form,
+.not-location-form {
   width: 100%;
   height: auto;
   display: flex;
@@ -59,7 +65,6 @@ app-placeholder-panel {
   padding-bottom: 10px;
 
   .column-container {
-    min-width: 270px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;

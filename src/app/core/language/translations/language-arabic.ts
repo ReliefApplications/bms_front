@@ -6,6 +6,7 @@ import { REFERRALTYPES } from 'src/app/models/constants/referral-types';
 export class Arabic implements Language {
     // GENERAL VARIABLES
     LANGUAGE_ISO = 'arabic'
+    direction = 'rtl'
     // Utils
     administrative_settings = 'الإعدادات الإدارية'
     back = 'إلى الوراء'
@@ -28,7 +29,7 @@ export class Arabic implements Language {
     summary = 'ملخص'
     the = 'ال'
     this = 'هذه'
-    
+
     // Models
     beneficiaries = 'المستفيدون'
     beneficiary = 'المستفيد'
@@ -57,7 +58,7 @@ export class Arabic implements Language {
     vendor = 'بائع'
     vendors = 'الباعة'
     voucher = 'قسائم'
-    
+
     // Actions
     add = 'أضف'
     cancel = 'إلغاء'
@@ -69,7 +70,8 @@ export class Arabic implements Language {
     remove = 'إزالة'
     save = 'حفظ'
     update = 'تحديث'
-    
+    view = 'درس'
+
     // Common fields
     address = 'عنوان'
     currency = 'دقة'
@@ -88,7 +90,7 @@ export class Arabic implements Language {
     unit = 'وحدة'
     username = 'اسم المستخدم'
     value = 'القيمة'
-    
+
     // Error
     back_to_homepage = 'العودة إلى الصفحة الرئيسية'
     error_interceptor_msg = '(وقع خطأ: لا يمكن الاستجابة (محتوى فارغ'
@@ -97,7 +99,7 @@ export class Arabic implements Language {
     not_connected_error = 'Please log in'
     not_found = 'الصفحة غير موجودة'
     not_found_message = 'عذرا , لا يمكن العثور على هذه الصفحة'
-   
+
     // Months
     months_short = [
         'يناير',
@@ -112,8 +114,8 @@ export class Arabic implements Language {
         'أكتوبر',
         'نوفمبر',
         'ديسمبر',
-    ]   
-    
+    ]
+
     // Address and location
     adm1 = ADMINLEVELS.ar.adm1
     adm2 = ADMINLEVELS.ar.adm2
@@ -122,7 +124,7 @@ export class Arabic implements Language {
     address_number = 'رقم الشارع '
     address_postcode = 'عنوان البريدي'
     address_street = 'اسم الشارع '
-    
+
     // Add beneficiary
     add_beneficiary_done = 'ملخص معطيات المستفيد قبل اضافته'
     add_beneficiary_title = 'إضافة مستفيد'
@@ -136,6 +138,7 @@ export class Arabic implements Language {
     add_distribution_commodities_delivered = 'تم اعطاء'
     add_distribution_created = 'تم انشائه'
     add_distribution_date_inside_project = 'خطأ أثناء إنشاء توزيع جديد ، يجب أن يكون تاريخ التوزيع الخاص بك داخل تواريخ المشروع'
+    add_distribution_date_before_today = 'خطأ أثناء إنشاء توزيع جديد ، يجب أن يكون تاريخ التوزيع بعد اليوم'
     add_distribution_distributed_commodity = 'السلع الموزعة'
     add_distribution_error_creating = 'خطأ أثناء إنشاء توزيع جديد'
     add_distribution_households_reached = 'الأسر التي تم الوصول إليها'
@@ -150,30 +153,30 @@ export class Arabic implements Language {
     add_distribution_text_explanation = 'سيختار النظام فقط المستفيدين / الأسر التي لديها مجموع أعلى من المجموع الادنى '
     add_distribution_threshold = ' المجموع الادنى لاختيار '
     add_distribution_zero = 'عدد الأسر التي تم الوصول إليها أو المبلغ المطلوب توزيعه هو 0'
-    
+
     // Add project
     add_project_new_distribution = 'توزيعة جديدة'
     add_project_title = 'مشروع جديد'
-    
+
     // Beneficiaries
-    beneficiary_add_distribution= 'إضافة المستفيدين لهذا التوزيع'
-    beneficiary_add_list= 'العالمي'
-    beneficiary_add_project= 'يرجى تحديد المشروع (المشاريع) الذي/الذين  ترغب في إضافته/هم '
-    beneficiary_added= 'تم إضافة المستفيدين الى المشروع'
-    beneficiary_advanced_research= 'بحث متقدم'
-    beneficiary_clear_all_research= 'امسح الكل'
+    beneficiary_add_distribution = 'إضافة المستفيدين لهذا التوزيع'
+    beneficiary_add_list = 'العالمي'
+    beneficiary_add_project = 'يرجى تحديد المشروع (المشاريع) الذي/الذين  ترغب في إضافته/هم '
+    beneficiary_added = 'تم إضافة المستفيدين الى المشروع'
+    beneficiary_advanced_research = 'بحث متقدم'
+    beneficiary_clear_all_research = 'امسح الكل'
     beneficiary_date_of_birth = 'تاريخ الميلاد'
     beneficiary_en_family_name = 'اسم العائلة الانجليزية'
     beneficiary_en_given_name = 'الاسم باللغة الإنجليزية'
     beneficiary_en_name = 'اسم الانجليزية'
     beneficiary_family_name = 'اللقب'
     beneficiary_given_name = 'الاسم '
-    beneficiary_head= 'رب الأسرة'
+    beneficiary_head = 'رب الأسرة'
     beneficiary_local_family_name = 'اسم العائلة المحلية'
     beneficiary_local_given_name = 'الاسم المحلي المعطى'
     beneficiary_local_name = 'الاسم المحلي'
-    beneficiary_member= 'فرد من العائلة'
-    beneficiary_missing_selected_project= 'يجب أن تختار مشروعاقبل التحميل'
+    beneficiary_member = 'فرد من العائلة'
+    beneficiary_missing_selected_project = 'يجب أن تختار مشروعاقبل التحميل'
     beneficiary_personnal = 'معلومات شخصية'
     beneficiary_referral = 'إحالة'
     beneficiary_referral_comment = 'تعليق'
@@ -183,10 +186,10 @@ export class Arabic implements Language {
     beneficiary_res_address = 'عنوان الإقامة'
     beneficiary_residency = 'الإقامة'
     beneficiary_residency_status = 'حالة الإقامة'
-    beneficiary_residency_status_idp= 'IDP'
-    beneficiary_residency_status_refugee= 'لاجئ'
-    beneficiary_residency_status_resident= 'مقيم'
-    beneficiary_select_api= 'API اختر'
+    beneficiary_residency_status_idp = 'IDP'
+    beneficiary_residency_status_refugee = 'لاجئ'
+    beneficiary_residency_status_resident = 'مقيم'
+    beneficiary_select_api = 'API اختر'
     beneficiary_selected_project = 'المستفيدين المختارين='
     beneficiary_vulnerabilities = 'نقاط الضعف'
 
@@ -210,25 +213,25 @@ export class Arabic implements Language {
     beneficiary_error_tent = 'يجب إدخال رقم خيمة'
 
     // Beneficiary imports
-    beneficiary_import_addFile= ' إضافة ملف أو وضع ملف '
-    beneficiary_import_addModal= 'add file'
-    beneficiary_import_api= 'تحميل من مصدر بيانات خارجي'
-    beneficiary_import_beneficiaries_imported= 'تم إضافة المستفيدين '
+    beneficiary_import_addFile = ' إضافة ملف أو وضع ملف '
+    beneficiary_import_addModal = 'add file'
+    beneficiary_import_api = 'تحميل من مصدر بيانات خارجي'
+    beneficiary_import_beneficiaries_imported = 'تم إضافة المستفيدين '
     beneficiary_import_canceled = 'تم إلغاء الاستيراد'
-    beneficiary_import_check_fields= ' محتوى فارغ  تثبت من أدخال جميع المعطيات و اختيار مشروع '
+    beneficiary_import_check_fields = ' محتوى فارغ  تثبت من أدخال جميع المعطيات و اختيار مشروع '
     beneficiary_import_conversion_success = 'التحويل بنجاح!'
-    beneficiary_import_convert= 'تحويل الملف'
-    beneficiary_import_csv= ' تنزيل ملف'
+    beneficiary_import_convert = 'تحويل الملف'
+    beneficiary_import_csv = ' تنزيل ملف'
     beneficiary_import_error_file = 'يجب عليك تحديد ملف'
-    beneficiary_import_error_importing= 'وقع خطأ عندالتحميل البيانات'
-    beneficiary_import_error_selection= 'You must select at least one choice'
-    beneficiary_import_file= 'تحميل من ملف'
-    beneficiary_import_response= 'استعد لاستعادة الملف'
-    beneficiary_import_select_location= 'يجب تحديد الموقع وإضافة ملف قبل التحميل'
-    beneficiary_import_select_project= 'يجب أن تختار مشروعا و ملفا قبل التحميل'
-    beneficiary_import_title= 'تحميل بيانات المستفيد'
-    beneficiary_import_warning= 'تحذير: إذا كان الملف المقدم غير كامل  ، عليك  إكمال العنصر الناتج حتى ينجح الاستيراد.'
-    
+    beneficiary_import_error_importing = 'وقع خطأ عندالتحميل البيانات'
+    beneficiary_import_error_selection = 'You must select at least one choice'
+    beneficiary_import_file = 'تحميل من ملف'
+    beneficiary_import_response = 'استعد لاستعادة الملف'
+    beneficiary_import_select_location = 'يجب تحديد الموقع وإضافة ملف قبل التحميل'
+    beneficiary_import_select_project = 'يجب أن تختار مشروعا و ملفا قبل التحميل'
+    beneficiary_import_title = 'تحميل بيانات المستفيد'
+    beneficiary_import_warning = 'تحذير: إذا كان الملف المقدم غير كامل  ، عليك  إكمال العنصر الناتج حتى ينجح الاستيراد.'
+
     // Booklets
     booklet_code = 'الشفرة'
     booklet_deactivated = 'إبطال مفعولها'
@@ -247,7 +250,7 @@ export class Arabic implements Language {
     cache_store_beneficiaries = 'وضع غير متصل بالشبكة'
     cache_stored_beneficiaries = 'تم الحفظ في وضع عدم الاتصال'
     cache_no_distribution = 'لم يتم تخزين هذا التوزيع في ذاكرة التخزين المؤقت ، ولا يمكنك الحصول عليه خارج خدمة الانترنت. '
-    
+
     // Commodities tooltips
     commodity_cash = 'المال المحمول'
     commodity_qr_voucher = 'قسيمة كود qr'
@@ -261,8 +264,8 @@ export class Arabic implements Language {
     commodity_shelter = 'مجموعة أدوات المأوى'
     commodity_hygiene = 'طقم النظافة'
     commodity_dignity = 'مجموعة الكرامة'
-    commodity_kgs= 'كلغ'
-    commodity_kit= 'عدة'
+    commodity_kgs = 'كلغ'
+    commodity_kit = 'عدة'
     commodity_modality = 'القيد'
     commodity_value = 'كمية'
 
@@ -286,7 +289,7 @@ export class Arabic implements Language {
     dashboard_summary_4 = ' القيمة الإجمالية للمعملات'
     dashboard_summary_5 = 'المستفيدين خدم'
     dashboard_summary_6 = 'توزيعات كاملة'
-    
+
     // Data verification
     data_verification_chip_actual = 'المنزل المستهدف'
     data_verification_chip_add = 'للإضافة'
@@ -313,7 +316,7 @@ export class Arabic implements Language {
     data_verification_step_more = 'للإضافة'
     data_verification_step_less = 'للحذف'
     data_verification_title = 'التحقق من صحة البيانات و الموافقة'
-    
+
     // Distribution
     distribution_accept_changed = 'قبول التغييرات'
     distribution_add_beneficiaries = 'إضافة المستفيدين لهذا التوزيع'
@@ -354,7 +357,7 @@ export class Arabic implements Language {
     // Donor
     donor_fullname = 'اسم المانح'
     donor_shortname = 'الاسم المختصر'
-    
+
     // Header
     'header_add-beneficiaries' = 'إضافة المستفيد'
     'header_add-distribution' = 'إضافة توزيع'
@@ -364,18 +367,23 @@ export class Arabic implements Language {
     'header_settings' = 'ترتيب'
     'header_update-beneficiary' = 'تحديث المستفيد'
     header_beneficiaries = 'المستفيدون'
-    header_disconnect =  'تسجيل الخروج من الحساب'
+    header_disconnect = 'تسجيل الخروج من الحساب'
     header_home = 'الصفحة الرئيسية'
-    header_import =  'تحميل بيانات المستفيد'
+    header_import = 'تحميل بيانات المستفيد'
     header_imported = 'إستيراد بيانات المستفيدين'
+    header_language = this.language
+    header_profile = this.profile
+    header_projects = this.projects
+    header_reports = this.reports
+    header_vouchers = this.voucher
 
     // Household
     household_coping_strategies_index = 'مؤشر استراتيجيات المواجهة'
     household_food_consumption_score = 'درجة استهلاك الغذاء'
-    household_full_address= 'عنوان المنزل بالكامل:'
+    household_full_address = 'عنوان المنزل بالكامل:'
     household_income = 'مستوى الدخل'
     household_income_level = INCOMELEVELS.ar
-    household_info= 'ملخص المعلومات الخاصة بالمنزل  :'
+    household_info = 'ملخص المعلومات الخاصة بالمنزل  :'
     household_livelihood = 'الوظيفة'
     household_location_address = 'عنوان'
     household_location_camp = 'معسكر'
@@ -390,7 +398,7 @@ export class Arabic implements Language {
     household_location_settlement = 'تسوية مؤقتة'
     household_location_tent = 'خيمة رقم'
     household_location_type = 'نوع الموقع'
-    household_location= 'مكان الأسرة='
+    household_location = 'مكان الأسرة='
     household_members = 'أفراد العائلة'
     household_sentence = 'الأسرة من'
 
@@ -406,7 +414,7 @@ export class Arabic implements Language {
     import_select_new = 'اختر كل جديد'
     import_select_old = 'اختر كل القديم'
     import_updated = 'تم تحديثها'
-    
+
     // Livelihoods
     livelihood_livestock = 'الزراعة - الثروة الحيوانية'
     livelihood_crops = 'الزراعة - المحاصيل'
@@ -432,7 +440,7 @@ export class Arabic implements Language {
     livelihood_garment = 'صناعة الملابس'
     livelihood_security = 'صناعة الأمن'
     livelihood_service = 'صناعة الخدمات وغيرهم من المهنيين'
-    
+
     // Login
     login_bms = 'نظام إدارة المستفيدين'
     login_captcha_invalid = 'The captcha is invalid'
@@ -440,7 +448,7 @@ export class Arabic implements Language {
     login_password = 'كلمة المرور'
     login_prompt = 'Please log in'
     login_title = ' تسجيل الدخول الى الحساب'
-    
+
     // Modal
     modal_add_multiple_title = 'خلق جديد إبداع جديد'
     modal_add_no_value = 'عليك بادخال قيمة عددية'
@@ -472,7 +480,7 @@ export class Arabic implements Language {
     modal_values_format_error = 'If you want to set individual values, type numeric values separated by commas (max 5)'
     modal_warning_pending_requests_1 = 'ابحث عن الطلبات التي قمت بإنشائها خلال وقت عدم الاتصال الخاص بك أدناه ، يمكنك إرسال تلك التي تريد تطبيقها لتعديل قاعدة البيانات.'
     modal_warning_pending_requests_2 = 'تحذير: ستفشل الطلبات المرتبطة بعنصر أنشأته دون   اتصال بشبكة  الإنترنت !'
-    
+
     // National ID
     national_id_card = 'بطاقة التعريف'
     national_id_family_registry = 'سجل العائلة'
@@ -480,19 +488,19 @@ export class Arabic implements Language {
     national_id_number = 'رقم الهوية الوطنية'
     national_id_passport = 'جواز سفر'
     national_id_type = 'نوع الهوية الوطنية'
-    
+
     // Null values
     null_none = 'لا شيء'
     null_not_yet = 'ليس بعد'
     null_not_distributed = 'غير موزعة'
     null_not_yet_defined = 'لم يحدد بعد'
-    
+
     // Number suffixes
     number_suffixes = {
         1: '',
         2: '',
         3: ''
-      }
+    }
     number_suffix_other = ''
 
     // Organization
@@ -502,20 +510,20 @@ export class Arabic implements Language {
     organization_name = 'اسم المنظمة'
     organization_primary = 'اللون الأساسي للمنظمة'
     organization_secondary = 'تنظيم اللون الثانوي'
-    
+
     // Phone
     phone_no = 'رقم الهاتف'
     phone_prefix = 'تحويلة'
-    phone_proxy= 'الوكيل'
-    phone_type_landline= 'ارضي'
-    phone_type_mobile= 'محمول'
-    
+    phone_proxy = 'الوكيل'
+    phone_type_landline = 'ارضي'
+    phone_type_mobile = 'محمول'
+
     // Placeholder
     placeholder_one_many = 'اختر واحدة أو أكثر'
-    
+
     // Product
     product_image = 'صورة'
-    
+
     // Profile
     profile_change_password = 'تحتاج إلى تغيير كلمة المرور الخاصة بك'
     profile_user_change_password = 'تغيير كلمة المرور'
@@ -523,8 +531,8 @@ export class Arabic implements Language {
     profile_user_hint_new_password_again = 'أعد إدخال كلمة المرور الجديدة'
     profile_user_hint_old_password = 'كلمة المرور القديمة'
     profile_user_information = 'معلومات المستخدم'
-    profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'    
-    
+    profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'
+
     // Project
     project_add = 'الرجاء إضافة مشروع جديد للبدء!'
     project_add_household = 'الرجاء إضافة بعض المستفيدين أولاً! ثم ستتمكن من إدارة بعض التوزيعات ...'
@@ -541,7 +549,7 @@ export class Arabic implements Language {
     project_sectors_name = 'القطاعات'
     project_start_date = 'تاريخ البداية'
     project_value = 'المبلغ الموزع'
-    
+
     // Report
     report_apply = 'تطبيق'
     report_country = ' البلد'
@@ -557,7 +565,7 @@ export class Arabic implements Language {
     report_from = 'من'
     report_loader = 'التحميل'
     report_period_selected = 'حسب الفترة المختارة'
-    report_project =  'المشروع'
+    report_project = 'المشروع'
     report_project_report = 'الرسوم البيانية حسب المشروع'
     report_select_frequency = 'اختر التكرار'
     report_to = 'إلى'
@@ -587,7 +595,7 @@ export class Arabic implements Language {
     sector_tvet = 'التعليم التقني والمهني والتدريب'
     sector_food_kits = 'الغذاء ، ومجموعات التقييم في الوقت الحقيقي'
     sector_nfi = 'البنود غير الغذائية'
-    
+
     // Settings
     settings_country_specific_options = 'الخيارات حسب البلد'
     settings_created = 'تم انشاء '
@@ -596,7 +604,7 @@ export class Arabic implements Language {
     settings_organization = 'مؤسستي'
     settings_print_starting = 'التحميل بدأ'
     settings_project_exists = 'مشروع بهذا الاسم يوجود بالفعل'
-   
+
     // Snackbar
     snackbar_change_password_done = '!تم تغيير كلمة المرور'
     snackbar_change_password_fail = '...لا يمكن تغيير كلمة المرور'
@@ -649,10 +657,22 @@ export class Arabic implements Language {
     transaction_update_success = 'تم التحديث بنجاح'
     transaction_validate_distribution = 'هل تريد حقًا التحقق من صحة هذا التوزيع؟ لن تتمكن من تعديله بعد الآن.'
     transaction_validation = 'تأكيد التحقق من الصحة'
-    
+
     // Tooltip
+    tooltip_add_beneficiaries = 'هذه الصفحة مخصصة لإضافة المستفيدين. هذا هو نموذج لإضافة أسرة جديدة مع الحقول المطلوبة.'
+    tooltip_add_distribution = 'هذه الصفحة مخصصة  لإضافة التوزيع. هذا نموذج لإضافة توزيع جديد مع الحقول المطلوبة. ستقوم باختيار الأسر أو المستفيدين من خلال فرزها حسب معايير الاختيار وإضافة كمية محددة من السلع إلى التوزيع.'
+    tooltip_beneficiaries = 'هذه الصفحة مخصصة للمستفيدين.يمكنك  أن ترى جميع الأسر في البلاد.  و إذا كان لديك الحق ، يمكنك إضافة أسر جديدة بفضل  الزر "+" ، وكما  يمكنك أن تقوم  بإدارة الأسر والبحث في القائمة.'
     tooltip_dashboard = 'هذه  لوحة القيادة. لديك نظرة موسعة على بعض الأرقام تخص البلد ومشاريعه. كما لديك حق الدخول إلى خريطة توزيعات البلد و ملخص آخر التوزيعات أيضا .'
-        
+    tooltip_data = 'هذه الصفحة هي صفحة ما بعد استيراد المستفيدين. هذا هو ملخص عن الأسر التي استوردتها.'
+    tooltip_data_validation = 'هذه الصفحة مخصصة للمستفيدين الذين تم إستيرادهم عن طريق  الملف. يجب عليك التحقق من ملفك باتباع الخطوات.'
+    tooltip_distributions = 'هذه الصفحة مخصصة لتوزيع. يمكنك رؤية جميع منازل التوزيع. إذا كان لديك الحق ، يمكنك إضافة أسر جديدة عن طريق  ملف أو عن باختيار في القائمة ، كما  يمكنك إدارة الأسر والتحقق من صحة التوزيع إلى الصفقة.'
+    tooltip_import = 'هذه الصفحة مخصصة للمستفيدين من الاستيراد. يمكنك اختيار استيراد أسر جديدة باستخدام ملف أو واجهة برمجة التطبيقات (مصدر البيانات الخارجي) لاستيراد جميع المنازل الخاصة ببلدية معينة.'
+    tooltip_profile = 'هذه الصفحة هي صفحة الملف الشخصي. يمكنك تغيير كلمة المرور الخاصة بك.'
+    tooltip_projects = 'هذه الصفحة مخصصة للمشاريع. تستطيع أن ترى جميع مشاريع البلاد (فقط من بين الذين لديك الحق في رؤيتهم ). فإذا كان لديك الحق ، يمكنك إضافة توزيع جديد مع الأسر الموجودة في المشروع ، وإدارة التوزيعات والمعاملات.'
+    tooltip_reports = 'هذه الصفحة هي صفحة التقارير. يتم استخدام هذه الصفحة لمشاهدة إحصاءات البلد ، مثل متوسط عدد المعاملات الخاصة بالمشاريع وعدد التوزيعات ...'
+    tooltip_settings = 'هذه الصفحة هي صفحة الإعدادات. في هذه الصفحة ، ستتمكن من إضافة مستخدم جديد ، وخصائص بلد جديدة ، ومانحين جدد ، ومشروع جديد ، وتغيير بيانات الاعتماد الخاصة بالمعاملات.'
+    tooltip_update_beneficiary = 'هذه الصفحة هي صفحة المستفيدين من التحديث. هذا نموذج لتحديث الأسرة المعينة بالحقول المطلوبة.'
+
     // Update beneficiary
     update_beneficiary_created_successfully = 'تم الإنشاء بنجاح!'
     update_beneficiary_error_creating = ': حدث خطأ أثناء الإنشاء '
@@ -681,6 +701,7 @@ export class Arabic implements Language {
     voucher_print_selection = 'اختيار الطباعة'
     voucher_print_error = 'لا يمكنك طباعة كتيب إذا لم يكن لديه مستفيد'
     voucher_print_starting = 'بدأ تنزيل القسيمة'
+    voucher_purchased = 'البنود التي تم شراؤها'
 
     // Vulnerability
     vulnerability_pregnant = 'حامل'

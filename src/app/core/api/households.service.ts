@@ -17,6 +17,8 @@ import { LocationService } from './location.service';
 import { ProjectService } from './project.service';
 import { Gender, ResidencyStatus } from 'src/app/models/beneficiary';
 import { LIVELIHOOD } from 'src/app/models/constants/livelihood';
+import { NetworkService } from '../network/network.service';
+import { SnackbarService } from '../logging/snackbar.service';
 
 @Injectable({
     providedIn: 'root'
@@ -31,6 +33,8 @@ export class HouseholdsService extends CustomModelService {
         private exportService: ExportService,
         private router: Router,
         protected languageService: LanguageService,
+        private snackbar: SnackbarService,
+        public networkService: NetworkService,
     ) {
         super(http, languageService);
     }
@@ -227,6 +231,11 @@ export class HouseholdsService extends CustomModelService {
     }
 
     public visit(householdId) {
-        this.router.navigate(['/beneficiaries/update-beneficiary', householdId]);
+
+        if (!this.networkService.getStatus()) {
+            this.snackbar.warning('This data can\'t be accessed offline');
+        } else {
+            this.router.navigate(['/beneficiaries/update-beneficiary', householdId]);
+        }
     }
 }

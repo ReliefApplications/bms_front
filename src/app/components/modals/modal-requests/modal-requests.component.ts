@@ -1,11 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, DoCheck, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { timer } from 'rxjs';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { StoredRequestInterface } from 'src/app/models/interfaces/stored-request';
+import { FailedRequest, StoredRequest } from 'src/app/models/interfaces/stored-request';
 
 @Component({
     selector: 'app-modal-requests',
@@ -19,25 +18,25 @@ import { StoredRequestInterface } from 'src/app/models/interfaces/stored-request
         ]),
     ],
 })
-export class ModalRequestsComponent implements OnInit, DoCheck {
+export class ModalRequestsComponent implements OnInit {
+    // TODO: Translations
 
     // Table constants.
     public columnsToDisplay = ['icon', 'method', 'target', 'date', 'actions'];
     public expandedElement: any | null;
 
     // Data.
-    public requests: StoredRequestInterface[];
+    public requests: StoredRequest[];
     public loading = false;
 
     // When sending all.
     public inProgress = false;
-    public progressLength = 0;
     public progressCountSuccess = 0;
     public progressCountFail = 0;
-    public errors: Array<any>;
+    public errors: Array<FailedRequest>;
 
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     constructor(
         private dialogRef: MatDialogRef<ModalRequestsComponent>,
@@ -51,16 +50,6 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
         this.requests = this.data.requests;
     }
 
-    ngDoCheck() {
-        if (this.requests && this.requests.length === 0 && !this.loading && !this.inProgress) {
-            timer(1000).subscribe(
-                result => {
-                    this.closeDialog();
-                }
-            );
-        }
-    }
-
     closeDialog(): void {
         this.dialogRef.close(true);
     }
@@ -69,82 +58,81 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
         let formated: string;
         formated = '' + date.toLocaleString('en-us', { month: 'short' }) + ' ';
         formated += date.toLocaleString('en-us', { day: '2-digit' }) + ', ' + date.getFullYear();
-        formated += ' at ' + date.getHours() + ':' + date.toLocaleString('en-us', {minute: '2-digit' });
+        formated += ' at ' + date.getHours() + ':' + date.toLocaleString('en-us', { minute: '2-digit' });
 
         return formated;
     }
 
-    sendRequest(element: StoredRequestInterface) {
-        const method = this.cacheService.useMethod(element);
+    sendRequest(request: StoredRequest) {
+        const method = this.cacheService.useMethod(request);
         if (method) {
             this.loading = true;
             method.subscribe(
-                response => {
-                    this.snackbar.success(element.method + ' ' + element.url.split('wsse/')[1] + ' have been sent');
-                    this.requests.splice(this.requests.indexOf(element), 1);
-                    this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests);
-                    this.loading = false;
-                },
-                error => {
-                    this.snackbar.error('Error while sending request: ' + error);
-                    this.loading = false;
+                (requestResult) => {
+                    if (requestResult instanceof FailedRequest) {
+                        this.snackbar.error('Error while sending request: ' + requestResult.error);
+                        this.loading = false;
+                    } else {
+                        this.snackbar.success(request.method + ' ' + request.url.split('wsse/')[1] + ' was sent');
+                        this.requests.splice(this.requests.indexOf(request), 1);
+                        this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests).subscribe(
+                            () => this.loading = false
+                        );
+                    }
                 }
             );
         }
     }
 
     sendAllRequests() {
+        this.errors = [];
+        this.progressCountFail = 0;
+        this.progressCountSuccess = 0;
         this.inProgress = true;
-        const size = this.requests.length;
-        const stillToBeSent = [];
 
-        this.cacheService.sendAllStoredRequests()
-        .subscribe(
-            (result) => {
-                if (result) {
-                    this.progressLength = size;
-                    this.errors = [];
+        // Clone array
+        const stillToBeSent = this.requests.slice(0);
 
-                    result
-                    .subscribe(
-                        (value) => {
-                            // FailedRequestInterface format.
-                            if (value && value.fail && value.request && value.error) {
-                                stillToBeSent.push(value.request);
-                                this.errors.push(value.error);
-                                this.progressCountFail++;
-                            } else {
-                                this.progressCountSuccess++;
+        this.requests.forEach((request) => {
+            const method = this.cacheService.useMethod(request);
+            if (method) {
+                method.subscribe(requestResult => {
+                    if (requestResult instanceof FailedRequest) {
+                        this.errors.push(requestResult);
+                        this.progressCountFail++;
+                    } else {
+                        this.progressCountSuccess++;
+                        this.snackbar.success(request.method + ' ' + request.url.split('wsse/')[1] + ' was sent');
+                        stillToBeSent.splice(stillToBeSent.indexOf(request), 1);
+                    }
+
+                    if (this.getProgressValue() === 100) {
+                        this.requests = stillToBeSent;
+                        this.cacheService.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent).subscribe(
+                            () => {
+                                setTimeout(() => this.inProgress = false, 3000);
+                                if (!this.requests || this.requests === []) {
+                                    this.closeDialog();
+                                }
                             }
-                            // End.
-                            if (this.progressCountFail + this.progressCountSuccess === this.progressLength) {
-                                this.cacheService.set(AsyncacheService.PENDING_REQUESTS, stillToBeSent);
-                            }
+                        );
+                    }
 
-                        },
-                        error => {
-                            this.snackbar.error(error);
-                        }
-                    );
-                }
-            },
-            () => {
-                this.snackbar.error('An error occured when regrouping pending requests to be sent.');
+                });
             }
-        );
-
-        this.requests = stillToBeSent;
+        });
     }
 
     getProgressValue() {
-        return ((this.progressCountSuccess + this.progressCountFail) / this.progressLength) * 100;
+        return (this.progressCountSuccess + this.progressCountFail) / this.requests.length * 100;
     }
 
-    removeRequest(element: StoredRequestInterface) {
+    removeRequest(element: StoredRequest) {
         this.requests.splice(this.requests.indexOf(element), 1);
-        this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests);
         this.loading = true;
-        timer(200).subscribe( result => {this.loading = false; });
+        this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests).subscribe(
+            _ => this.loading = false
+        );
     }
 
     expandBody(body: Object): Array<string> {
@@ -163,13 +151,13 @@ export class ModalRequestsComponent implements OnInit, DoCheck {
                             property += '(';
                             Object.keys(body[key]).forEach(
                                 (subKey, i) => {
-                                    if (typeof(body[key][subKey]) !== 'object') {
+                                    if (typeof (body[key][subKey]) !== 'object') {
                                         property += body[key][subKey];
                                     } else {
                                         property += '{...}';
                                     }
 
-                                    if ( i < Object.keys(body[key]).length - 1) {
+                                    if (i < Object.keys(body[key]).length - 1) {
                                         property += ', ';
                                     }
                                 }

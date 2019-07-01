@@ -1,30 +1,19 @@
-<app-chart-header
-[title]           = "title"
-[loader]          = "loader"
-[noData]          = "noData"
-></app-chart-header>
-
-<!-- it is posible to add a legend title with the property legendTitle -->
-<div *ngIf="!loader && (!noData)">
-  <ngx-charts-bar-vertical
-  [view]             = "view"
-  [scheme]           = "scheme"
-  [results]          = "data"
-  [legend]           = "false"
-  [xAxis]            = "axis.showXAxis"
-  [yAxis]            = "axis.showYAxis"
-  [showXAxisLabel]   = "axis.showXAxisLabel"
-  [showYAxisLabel]   = "axis.showYAxisLabel"
-  [xAxisLabel]       = "axis.xAxisLabel"
-  [yAxisLabel]       = "axis.yAxisLabel"
-  [animations]     = "false">
-  </ngx-charts-bar-vertical>
+<div style="display: block">
+    <canvas *ngIf="barChartDataSet.length; else noData" baseChart
+    width="400px"
+    height="400px"
+    [datasets]="barChartDataSet"
+    [labels]="periods"
+    [options]="options"
+    [chartType]="'bar'"
+    [legend]="'true'"
+    [colors]="colors">
+    </canvas>
 </div>
 
-<div *ngIf="!loader && noData" class="no-data">
-  <h1>{{ language.no_data | titlecase }}</h1>
-</div>
+<ng-template #noData>
+    <div class="placeholder">
+        <p>No Data</p>
+    </div>
+</ng-template>
 
-<div *ngIf="loader" class="boxLoader">
-  <!-- <spinner-component ></spinner-component> -->
-</div>

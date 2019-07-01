@@ -1,13 +1,13 @@
 <h4 mat-dialog-title class="modal-title underline-accent"
-    [ngClass]="{'arabic': languageService.languageToString(language)==='ar'}">
+    [ngClass]="{'rtl':language.direction === 'rtl'}">
     {{language.modal_add_title |uppercaseFirst }} {{commodity.title | uppercaseFirst}}</h4>
 <mat-dialog-content class="modal-container" *ngIf="commodity">
     <form [formGroup]="form">
-        <table class="modal-table" cdkFocusRegionstart [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+        <table class="modal-table" cdkFocusRegionstart [ngClass]="{'rtl':language.direction === 'rtl'}">
             <tr class="modal-row">
-                <th class="table-title">{{ commodity.fields.modality.title }}</th>
+                <th class="table-title">{{ commodity.fields.modality.title | uppercaseFirst}}</th>
                 <td class="form-item">
-                    <ng-select formControlName="modality"
+                    <ng-select appendTo="body" formControlName="modality"
                         [placeholder]="commodity.fields.modality.title | uppercaseFirst" (change)="loadTypes($event)">
                         <ng-option *ngFor="let option of commodity.getOptions('modality')" [value]="option.get('id')">
                             {{option.get('name') | uppercaseFirst}}
@@ -19,9 +19,9 @@
             </tr>
 
             <tr class="modal-row">
-                <th class="table-title">{{ commodity.fields.modalityType.title }}</th>
+                <th class="table-title">{{ commodity.fields.modalityType.title | uppercaseFirst}}</th>
                 <td class="form-item">
-                    <ng-select formControlName="modalityType"
+                    <ng-select appendTo="body" formControlName="modalityType"
                         [placeholder]="commodity.fields.modalityType.title | uppercaseFirst" (change)="setUnit()">
                         <ng-option *ngFor="let option of commodity.getOptions('modalityType')"
                             [value]="option.get('id')">
@@ -34,14 +34,14 @@
             </tr>
 
             <tr class="modal-row">
-                <th class="table-title">{{ getUnit() }}</th>
+                <th class="table-title">{{ getUnit() | uppercaseFirst}}</th>
                 <td class="form-item">
                     <mat-form-field *ngIf="!isCurrency">
                         <input matInput type="text" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
                         <app-hint-error [form]="form" fieldName="unit" [field]="commodity.fields.unit"
                             [isMatField]="true"></app-hint-error>
                     </mat-form-field>
-                    <ng-select *ngIf="isCurrency" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
+                    <ng-select appendTo="body" *ngIf="isCurrency" formControlName="unit" [placeholder]="getUnit() | uppercaseFirst">
                         <ng-option *ngFor="let currency of currencies" [value]="currency.name">
                             {{currency.name | uppercaseFirst}}
                         </ng-option>
@@ -52,7 +52,7 @@
             </tr>
 
             <tr class="modal-row">
-                <th class="table-title">{{ commodity.fields.value.title }}</th>
+                <th class="table-title">{{ commodity.fields.value.title | uppercaseFirst}}</th>
                 <td class="form-item">
                     <mat-form-field>
                         <input matInput type="text" formControlName="value"
@@ -64,7 +64,7 @@
             </tr>
 
             <tr *ngIf="form.controls.modality.value === 3" class="modal-row">
-                <th class="table-title">{{ commodity.fields.description.title }}</th>
+                <th class="table-title">{{ commodity.fields.description.title | uppercaseFirst}}</th>
                 <td class="form-item">
                     <mat-form-field>
                         <textarea matInput type="text" formControlName="description"
@@ -81,9 +81,9 @@
 </mat-dialog-content>
 <mat-dialog-actions >
         <div class="modal-button action-buttons"
-            [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}">
+            [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-button (click)="onCancel()" class="button-text-accent">{{language.cancel}}</button>
-            <button mat-raised-button [disabled]="!form.valid" (click)="onSubmit()"
+            <button mat-flat-button [disabled]="!form.valid" (click)="onSubmit()"
                 class="button-background-accent">{{language.save}}</button>
         </div>
 </mat-dialog-actions>

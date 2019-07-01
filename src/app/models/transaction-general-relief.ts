@@ -22,8 +22,9 @@ export class GeneralRelief extends CustomModel {
         const newGeneralRelief = new GeneralRelief();
         newGeneralRelief.set('id', generalReliefFromApi.id);
         newGeneralRelief.set('notes', generalReliefFromApi.notes);
-        newGeneralRelief.set('distributedAt', generalReliefFromApi.distributed_at);
-
+        newGeneralRelief.set('distributedAt', generalReliefFromApi.distributed_at ?
+            DateModelField.formatDateTimeFromApi(generalReliefFromApi.distributed_at) :
+            null);
         return newGeneralRelief;
     }
 
@@ -31,7 +32,7 @@ export class GeneralRelief extends CustomModel {
         return {
             id: this.get('id'),
             notes: this.get('notes'),
-            distributed_at: this.fields.distributedAt.formatForApi(),
+            distributed_at: this.fields.distributedAt.formatDateTimeForApi(),
 
         };
     }
@@ -141,12 +142,8 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionGeneralRelief {
         const newGeneralRelief = new TransactionGeneralRelief();
         newGeneralRelief.set('beneficiary', Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary));
-        if (distributionBeneficiaryFromApi.beneficiary.referral) {
-            newGeneralRelief.fields.addReferral.isDisplayedInModal = false;
-            newGeneralRelief.fields.referralType.isDisplayedInModal = true;
-            newGeneralRelief.fields.referralComment.isDisplayedInModal = true;
-        }
-        newGeneralRelief.set('distributedAt', distributionBeneficiaryFromApi.general_reliefs[0] ?
+        newGeneralRelief.set('distributedAt',
+            distributionBeneficiaryFromApi.general_reliefs[0] && distributionBeneficiaryFromApi.general_reliefs[0].distributed_at ?
             DateModelField.formatDateTimeFromApi(distributionBeneficiaryFromApi.general_reliefs[0].distributed_at) :
             null);
         newGeneralRelief.set('notes', distributionBeneficiaryFromApi.general_reliefs.map((generalRelief: any) => generalRelief.notes));
@@ -170,13 +167,17 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
 
         return {
             id: this.get('id'),
-            local_given_name: this.get('localGivenName'),
-            local_family_name: this.get('localFamilyName'),
-            en_given_name: this.get('enGivenName'),
-            en_family_name: this.get('enFamilyName'),
-            used: this.fields.distributedAt.formatForApi(),
-            values: this.get('values'),
-            notes: this.get('notes'),
+            beneficiary: this.get('beneficiary').modelToApi(),
+            general_reliefs: this.get('generalReliefs') ?
+            this.get<Array<GeneralRelief>>('generalReliefs').map((generalRelief: GeneralRelief) => generalRelief.modelToApi()) : [],
+
+            // local_given_name: this.get('localGivenName'),
+            // local_family_name: this.get('localFamilyName'),
+            // en_given_name: this.get('enGivenName'),
+            // en_family_name: this.get('enFamilyName'),
+            // used: this.fields.distributedAt.formatForApi(),
+            // values: this.get('values'),
+            // notes: this.get('notes'),
         };
 
     }

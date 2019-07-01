@@ -110,4 +110,10 @@ export class HouseholdLocation extends CustomModel {
             this.get('campAddress').get('camp').get<Location>('location');
         return location.getLocationName();
     }
+
+    getHouseholdPreciseLocationName() {
+        const location = this.get('address') ? this.get('address').get<Location>('location') :
+            this.get('campAddress').get('camp').get<Location>('location');
+        return location.getPreciseLocationName();
+    }
 }

@@ -276,12 +276,6 @@ export class English implements Language {
     country_specific = 'Country specific option'
     country_specific_field = 'Field'
 
-    // Criteria
-    criteria_operator = 'Condition'
-    criteria_weight = 'Score weight'
-    criteria_target = 'Criteria Target'
-    
-
     // Dashboard
     dashboard_distribution_map = 'distribution map'
     dashboard_recent_distributions = 'upcoming distributions'
@@ -399,7 +393,7 @@ export class English implements Language {
     household_location_residence = 'Residence'
     household_location_settlement = 'Temporary settlement'
     household_location_address = 'Address'
-    household_location_camp_name = 'Camp\'s name'
+    household_location_camp_name = 'Camp name'
     household_location_tent = 'Tent number'
     household_location_create_camp = 'Create a camp'
     household_location_question = 'Is your current location different than your address?'
@@ -715,4 +709,27 @@ export class English implements Language {
     // User
     user_only_one_country = 'You can select only one country'
     user_password_question = 'Update password on next login'
+
+    // Criteria (must be the last thing declared because uses the previous variables)
+    criteria_operator = 'Condition'
+    criteria_weight = 'Score weight'
+    criteria_target = 'Criteria Target'
+    dateOfBirth = this.beneficiary_date_of_birth
+    residencyStatus = this.beneficiary_residency_status
+    hasNotBeenInDistributionsSince = 'has not been in a distribution since '
+    disabledHeadOfHousehold = this.vulnerability_disabled
+    headOfHouseholdDateOfBirth = this.beneficiary_date_of_birth
+    headOfHouseholdGender = this.gender
+    livelihood = this.household_livelihood
+    foodConsumptionScore = this.household_food_consumption_score
+    copingStrategiesIndex = this.household_coping_strategies_index
+    incomeLevel = this.household_income
+    householdSize = 'Household size'
+    locationType = 'Location type'
+    campName = this.household_location_camp_name
+    disabled = this.vulnerability_disabled
+    lactating = this.vulnerability_lactating
+    pregnant = this.vulnerability_pregnant
+    soloParent = this.vulnerability_solo_parent
+    nutritionalIssues = this.vulnerability_nutrional
 };

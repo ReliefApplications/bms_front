@@ -27,7 +27,8 @@
                   <mat-form-field class="full-width">
                     <mat-select formControlName="field" [placeholder]="criteria.fields.field.title | uppercaseFirst">
                         <mat-option *ngFor="let option of criteriaSubList" [value]="option.get('field')">
-                            {{option.get('field') | formatCamelCase }}
+                            <span *ngIf="option.get('tableString') !== 'countrySpecific'">{{ language[option.get('field')] | uppercaseFirst }}</span>
+                            <span *ngIf="option.get('tableString') === 'countrySpecific'">{{ option.get('field') | uppercaseFirst }}</span>
                         </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -58,25 +59,25 @@
             <th class="table-title">{{ criteria.fields.value.title  | uppercaseFirst }}</th>
             <td class="form-item">
               <ng-select *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'headOfHouseholdGender'; else livelihood" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
-                <ng-option *ngFor="let gender of criteria.genders" [value]="gender.get('id')">{{gender.get('name')}}</ng-option>
+                <ng-option *ngFor="let gender of criteria.genders" [value]="gender.get('id')">{{ gender.get('name')  | uppercaseFirst }}</ng-option>
               </ng-select>
               <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="false"></app-hint-error>
 
               <ng-template #livelihood>
                 <ng-select *ngIf="form.controls.field.value === 'livelihood'; else residency" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
-                  <ng-option *ngFor="let livelihood of livelihoods" [value]="livelihood.get('id')">{{livelihood.get('name')}}</ng-option>
+                  <ng-option *ngFor="let livelihood of livelihoods" [value]="livelihood.get('id')">{{ livelihood.get('name')  | uppercaseFirst }}</ng-option>
                 </ng-select>
               </ng-template>
 
               <ng-template #residency>
                 <ng-select *ngIf="form.controls.field.value === 'residencyStatus'; else locationType" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
-                  <ng-option *ngFor="let residencyStatus of residencyStatuses" [value]="residencyStatus.get('id')">{{residencyStatus.get('name')}}</ng-option>
+                  <ng-option *ngFor="let residencyStatus of residencyStatuses" [value]="residencyStatus.get('id')">{{ residencyStatus.get('name') | uppercaseFirst }}</ng-option>
                 </ng-select>
               </ng-template>
 
               <ng-template #locationType>
                 <ng-select *ngIf="form.controls.field.value === 'locationType'; else date" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
-                  <ng-option *ngFor="let locationType of locationTypes" [value]="locationType.get('id')">{{locationType.get('name')}}</ng-option>
+                  <ng-option *ngFor="let locationType of locationTypes" [value]="locationType.get('id')">{{ locationType.get('name')  | uppercaseFirst }}</ng-option>
                 </ng-select>
               </ng-template>
 

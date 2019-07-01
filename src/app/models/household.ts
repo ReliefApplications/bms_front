@@ -201,13 +201,7 @@ export class Household extends CustomModel {
                 .filter((livelihood: Livelihood) => livelihood.get('id') === householdFromApi.livelihood.toString())[0] :
             null);
 
-        let dependents: number;
-        if (!householdFromApi.number_dependents) {
-            dependents = householdFromApi.beneficiaries.length - 1;
-        } else {
-            dependents = householdFromApi.number_dependents;
-        }
-        newHousehold.set('dependents', dependents);
+        newHousehold.set('dependents', householdFromApi.beneficiaries.length - 1);
 
         newHousehold.fields.vulnerabilities.displayTableFunction = value => value;
         const pipe = new UppercaseFirstPipe();

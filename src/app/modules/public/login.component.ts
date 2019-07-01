@@ -36,10 +36,7 @@ export class LoginComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        // TODO: enable this
-        // GlobalText.resetMenuMargin();
         this.userService.resetCacheUser();
-        // this.asyncacheService.reset;
         this.makeForm();
     }
 
@@ -93,15 +90,17 @@ export class LoginComponent implements OnInit {
                         this.router.navigate(['/']);
                     }
                     if (user.get<string>('language')) {
-                        this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
+                        this.languageService.selectedLanguage = this.languageService.setLanguage(
+                            this.languageService.stringToLanguage(user.get<string>('language'))
+                            );
                     } else {
-                        this.languageService.selectedLanguage = this.languageService.stringToLanguage('en');
+                        this.languageService.selectedLanguage = this.languageService.setLanguage(this.languageService.english);
                     }
                 }
 
                 this.loader = false;
             },
-            (error: ErrorInterface) => {
+            (_error: ErrorInterface) => {
                 this.forgotMessage = true;
                 this.loader = false;
             });
@@ -111,16 +110,6 @@ export class LoginComponent implements OnInit {
         if (user.get<boolean>('changePassword') === true) {
             this.router.navigate(['/profile']);
             this.snackbar.info(this.language.profile_change_password);
-        }
-        else {
-            if (user.get<string>('language')) {
-                this.languageService.selectedLanguage = this.languageService.stringToLanguage(user.get<string>('language'));
-            } else {
-                // TODO: load default language
-                this.languageService.selectedLanguage = this.languageService.enabledLanguages[0];
-
-            }
-            this.router.navigate(['/']);
         }
     }
 

@@ -73,6 +73,7 @@ export class User extends CustomModel {
                 new Role('ROLE_REGIONAL_MANAGER', this.language.role_user_regional_manager),
             ],
             bindField: 'name',
+            apiLabel: 'id',
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
@@ -110,6 +111,7 @@ export class User extends CustomModel {
             title: this.language.project,
             isDisplayedInModal: true,
             bindField: 'name',
+            apiLabel: 'id',
             isRequired: true,
 
         }),
@@ -118,6 +120,7 @@ export class User extends CustomModel {
             options: [new Country('KHM', this.language.country_khm), new Country('SYR', this.language.country_syr)],
             isDisplayedInModal: true,
             bindField: 'name',
+            apiLabel: 'id',
             isRequired: true,
         }),
         language: new TextModelField({

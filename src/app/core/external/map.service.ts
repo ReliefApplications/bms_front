@@ -13,7 +13,7 @@ import { DistributionMarker } from './distribution-marker';
     providedIn: 'root'
 })
 
-export class LeafletService {
+export class MapService {
 
     public loading = false;
     private map: any;

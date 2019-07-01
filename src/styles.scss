@@ -145,31 +145,32 @@ app-display-field.ng-star-inserted {
 // }
 .marker-container {
 
-    &.not-validated {
-        fill: $bms_red;
-    }
+  .marker-pointer {
+    width: 8px;
+    height: 40px;
+    z-index: 500;
+  }
 
-    &.validated {
-        fill: $bms_dark_blue;
-    }
+  .marker-icon {
+    width: 25px;
+    position: absolute;
+    top: 10px;
+    left: 7px;
+    filter: invert(1);
+    z-index: 501;
+    pointer-events: none;
+  }
+  &.not-validated {
+    fill: $bms_red;
+  }
 
-    &.completed {
-        fill: $bms_green;
-    }
+  &.validated {
+    fill: $bms_dark_blue;
+  }
+
+  &.completed {
+    fill: $bms_green;
+  }
 
 
-    .marker-pointer {
-        width: 8px;
-        height: 40px;
-        z-index: 500;
-    }
-
-    .marker-icon {
-        width: 25px;
-        position: absolute;
-        top: 10px;
-        left: 7px;
-        filter: invert(1);
-        z-index: 501;
-    }
 }

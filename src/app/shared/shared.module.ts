@@ -19,8 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
-import { RecaptchaModule } from 'angular-google-recaptcha';
 import { CountoModule } from 'angular2-counto';
+import { RecaptchaModule, RecaptchaSettings, RECAPTCHA_SETTINGS } from 'ng-recaptcha';
 import { FormatCamelCasePipe } from 'src/app/shared/pipes/format-camel-case.pipe';
 import { ThousandsPipe } from 'src/app/shared/pipes/thousands.pipe';
 import { UppercaseFirstPipe } from 'src/app/shared/pipes/uppercase-first.pipe';
@@ -82,7 +82,6 @@ import { VouchersComponent } from '../modules/vouchers/vouchers.component';
 
 
 
-
 @NgModule({
 imports: [
     RouterModule,
@@ -126,10 +125,8 @@ imports: [
     MatGridListModule,
     CountoModule,
     NgSelectModule,
+    RecaptchaModule,
     ZXingScannerModule,
-    RecaptchaModule.forRoot({
-        siteKey: '6LdJjIAUAAAAAFHrAB20mjuVhwRsLhTgfq4ioeaO',
-    }),
     ReactiveFormsModule.withConfig({ warnOnNgModelWithFormControl: 'never' })
     ],
     declarations: [
@@ -282,6 +279,10 @@ imports: [
     ],
     providers: [
         { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },
+        {
+            provide: RECAPTCHA_SETTINGS,
+            useValue: { siteKey: '6LeFcasUAAAAAAAoPCzr6-GPZP-K2xKtO4BXjMtE'} as RecaptchaSettings,
+        }
     ]
 })
 export class SharedModule { }

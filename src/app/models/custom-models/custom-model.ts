@@ -43,8 +43,19 @@ export abstract class CustomModel {
         return `${this.language.this} ${this.title}`;
     }
 
-    public get<T = CustomModel>(field: string): T {
-        return this.fields[field] ? this.fields[field].value : null;
+    public get<T = CustomModel>(fields: string| Array<string>): T {
+        // If fields is a string then simply get the corresponding field
+        if (!Array.isArray(fields)) {
+            return this.fields[fields] ? this.fields[fields].value : null;
+        }
+
+        // If field is a 1-element array then simply return the corresponding field
+        if (fields.length === 1) {
+            return this.fields[fields[0]] ? this.fields[fields[0]].value : null;
+        }
+
+        const firstField = fields.shift();
+        return this.get(firstField).get(fields);
     }
 
     public set(field: string, value: any): CustomModel {

@@ -85,7 +85,7 @@
                                         *ngTemplateOutlet="ngSelectHeader;context:{formControl: projectsControl.controls.projectsSelect, entities: projects}">
                                     </ng-container>
                                 </ng-template>
-                                <ng-option *ngFor="let project of projects" [value]="project">
+                                <ng-option *ngFor="let project of projects" [value]="project.get('id')">
                                     {{project.get('name') | titlecase}}
                                 </ng-option>
                             </ng-select>
@@ -96,8 +96,8 @@
                         <form [formGroup]="distributionsControl">
                             <mat-card class="content-card">
                                 <ng-select class="single-select" formControlName="projectSelect" [clearable]="false"
-                                    [multiple]="false" [placeholder]="language.projects | titlecase" [closeOnSelect]="false" [searchable]="true">
-                                    <ng-option *ngFor="let project of projects" [value]="project">
+                                    [multiple]="false" [placeholder]="language.projects | titlecase" [closeOnSelect]="true" [searchable]="true">
+                                    <ng-option *ngFor="let project of projects" [value]="project.get('id')">
                                         {{project.get('name') | titlecase}}
                                     </ng-option>
                                 </ng-select>
@@ -109,7 +109,7 @@
                                             *ngTemplateOutlet="ngSelectHeader;context:{formControl: distributionsControl.controls.distributionsSelect, entities: distributions}">
                                         </ng-container>
                                     </ng-template>
-                                    <ng-option *ngFor="let distribution of distributions" [value]="distribution">
+                                    <ng-option *ngFor="let distribution of distributions" [value]="distribution.get('id')">
                                         {{distribution.get('name') | titlecase}}
                                     </ng-option>
                                 </ng-select>
@@ -136,7 +136,7 @@
 <ng-template #ngSelectHeader let-control="formControl" let-entities="entities">
     <div class="ng-select-header select"
         *ngIf="!control.value || control.value.length !== entities.length; else deselectAll"
-        (click)="control.setValue(entities)" >
+        (click)="selectAll(control, entities)" >
         Select all
     </div>
     <ng-template #deselectAll>

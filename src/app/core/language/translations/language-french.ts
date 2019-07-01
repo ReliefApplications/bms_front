@@ -378,6 +378,7 @@ export class French implements Language {
 
     // Household
     household_full_address = 'Adresse entière du ménage'
+    household_id = 'ID du foyer'
     household_income = 'Niveau de revenu'
     household_income_level = INCOMELEVELS.fr
     household_info = 'Résumé des informations du ménage'
@@ -399,7 +400,6 @@ export class French implements Language {
     household_location_create_camp = 'Créer un camp'
     household_location_question = 'Votre adresse actuelle est-elle différente de votre adresse habituelle ?'
 
-    household_id = 'ID du foyer'
 
     // Import
     import_added = 'Ajout'

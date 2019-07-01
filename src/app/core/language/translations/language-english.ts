@@ -379,6 +379,7 @@ export class English implements Language {
 
     // Household
     household_full_address = 'Full household address'
+    household_id = 'Household ID'
     household_income = 'Level of income'
     household_income_level = INCOMELEVELS.en
     household_info = 'Household information summary'
@@ -400,7 +401,6 @@ export class English implements Language {
     household_location_create_camp = 'Create a camp'
     household_location_question = 'Is your current location different than your address?'
 
-    household_id = 'Household ID'
 
     // Import
     import_added = 'Added from existing beneficiaries'

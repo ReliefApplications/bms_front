@@ -361,9 +361,9 @@ export interface Language {
 
     // Household
     household_full_address: string
+    household_id: string
     household_income_level: object
     household_income: string
-    household_id: string
     household_info: string
     household_livelihood: string
     household_location_address: string

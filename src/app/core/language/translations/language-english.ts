@@ -698,6 +698,7 @@ export class English implements Language {
     voucher_select_distribution = 'You have to select a distribution'
     voucher_select_project = 'You have to select a project'
     voucher_step5 = 'will be assigned to'
+    vouchers_booklet = 'Voucher Booklet(s)'
 
     // Vulnerability
     vulnerability_pregnant = 'pregnant'

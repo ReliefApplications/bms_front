@@ -697,6 +697,7 @@ export class Arabic implements Language {
     voucher_print_error = 'لا يمكنك طباعة كتيب إذا لم يكن لديه مستفيد'
     voucher_print_starting = 'بدأ تنزيل القسيمة'
     voucher_purchased = 'البنود التي تم شراؤها'
+    vouchers_booklet = 'قسيمة الكتيب'
 
     // Vulnerability
     vulnerability_pregnant = 'حامل'

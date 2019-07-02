@@ -26,11 +26,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     public actualCountry: string;
 
     distributionClass = Distribution;
-    public userData;
     // Loaders
     loadingTable = true;
     loadingSummary = true;
-    loadingMap = true;
 
     public deletable = false;
     public editable = false;
@@ -77,7 +75,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     ngAfterViewInit(): void {
         this.mapService.createMap('map');
-        this.loadingMap = false;
     }
 
     /**
@@ -89,15 +86,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loadingTable = true;
         this._distributionService.get()
             .subscribe(
-                response => {
+                (apiDistributions: Array<any>) => {
                     this.distributionData = new MatTableDataSource();
-
-                    const instances = [];
-                    if (response) {
-                        for (const item of response ) {
-                            instances.push(Distribution.apiToModel(item));
-                        }
-                        this.distributionData = new MatTableDataSource(instances);
+                    if (apiDistributions.length) {
+                        const distributions = apiDistributions.map((apiDistribution) => {
+                            return Distribution.apiToModel(apiDistribution);
+                        });
+                        this.mapService.addDistributions(distributions);
+                        this.distributionData = new MatTableDataSource(distributions);
                         this.loadingTable = false;
                     } else {
                         this.loadingTable = false;

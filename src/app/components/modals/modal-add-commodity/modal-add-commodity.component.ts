@@ -41,14 +41,8 @@ export class ModalAddCommodityComponent implements OnInit {
         this.fields = Object.keys(this.commodity.fields);
         this.makeForm();
         this.loadModalities();
-        const countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
-            this.countryService.selectedCountry.getValue().get<string>('id') :
-            null;
-        if (countryId === 'SYR') {
-            this.localCurrency = 'SYP';
-        } else if (countryId === 'KHM') {
-            this.localCurrency = 'KHR';
-        }
+        this.localCurrency = this.formService.getLocalCurrency();
+        this.currencies = this.formService.pushLocalCurrencyOnTop(this.currencies, this.localCurrency);
     }
 
     makeForm() {
@@ -97,7 +91,7 @@ export class ModalAddCommodityComponent implements OnInit {
             case 1: // Mobile Cash
             case 2: // QR Code Voucher
             case 3: // Paper Voucher
-            case 13: // Loan
+            case 12: // Loan
                 this.isCurrency = true;
                 this.form.controls.unit.setValue(this.localCurrency);
                 break;

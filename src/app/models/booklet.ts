@@ -12,6 +12,8 @@ import { TextModelField } from './custom-models/text-model-field';
 import { Distribution } from './distribution';
 import { Voucher } from './voucher';
 import { BooleanModelField } from './custom-models/boolan-model-field';
+import { AppInjector } from '../app-injector';
+import { FormService } from '../core/utils/form.service';
 
 export class BookletStatus extends CustomModel {
 
@@ -211,6 +213,11 @@ export class Booklet extends CustomModel {
         if (bookletFromApi.password) {
             newBooklet.fields.definePassword.title = newBooklet.language.booklet_update_password;
         }
+
+        const formService = AppInjector.get(FormService);
+        const localCurrency = formService.getLocalCurrency();
+        const currencies = formService.pushLocalCurrencyOnTop(CURRENCIES, localCurrency);
+        newBooklet.setOptions('currency', currencies.map(currency => new Currency(currency.id, currency.name)));
 
         return newBooklet;
     }

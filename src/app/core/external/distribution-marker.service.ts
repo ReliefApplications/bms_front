@@ -61,4 +61,15 @@ export class DistributionMarkerService {
     private formatPropertyIfExists(name: string, property: string) {
         return property ? `<p>${name}: ${property}</p>` : '';
     }
+
+    public generateMarker(blink: boolean) {
+        return `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" >
+            <circle class="marker-pointer" cx="100" cy="100" r="85" stroke="none"/>
+            <path class="marker-pointer" d="M 100 280 L 13 150 Q 100 249 186 150 Z" stroke="none"/>
+            ${blink ? '<animate attributeType="CSS" attributeName="opacity"\
+            values="1;0.5;1" dur="1s" repeatCount="indefinite" />' : ''}
+        </svg>
+        `;
+    }
 }

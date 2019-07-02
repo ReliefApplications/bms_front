@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import { GeneralService } from '../../core/api/general.service';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     distributionData: MatTableDataSource<Distribution>;
     public nameComponent = 'dashboard_title';
@@ -63,8 +63,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
         this._cacheService.getUser().subscribe(result => {
             if (result) {
-                this.mapService.createMap('map');
-                this.loadingMap = false;
                 this.getSummary();
                 this.checkDistributions();
             }
@@ -76,6 +74,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.screenSizeSubscription.unsubscribe();
         this.mapService.removeMap();
+    }
+    ngAfterViewInit(): void {
+        this.mapService.createMap('map');
+        this.loadingMap = false;
     }
 
     /**

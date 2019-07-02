@@ -14,24 +14,7 @@ export class LineChartComponent extends BaseChartComponent implements OnInit {
     dataSet: ChartDataSets;
     xAxisLabels: Label[];
 
-    public options: ChartOptions = {
-        responsive: true,
-        scales: {
-            // We use this empty structure as a placeholder for dynamic theming.
-            xAxes: [ {
-                scaleLabel: {
-                    display: true,
-                    labelString: 'Time'
-                }
-            } ],
-            yAxes: [
-                {
-                    id: 'y-axis-0',
-                    position: 'left'
-                },
-            ]
-        },
-    };
+    public options: ChartOptions;
 
     public lineChartColors: ChartColor[];
 

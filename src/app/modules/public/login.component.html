@@ -13,10 +13,15 @@
                     formControlName="username">
                     <input autocomplete="new-password" type="password" class="user-input" aria-describedby="basic-addon1" placeholder="{{language.login_password | uppercaseFirst}}" formControlName="password">
                     <h5 *ngIf="forgotMessage" class="user-forgot-password">{{language.login_forgot_password}}</h5>
-                    <recaptcha formControlName="captcha" *ngIf="prod()" (scriptError)="onScriptError()"> </recaptcha>
                 </div>
                 <div class="login-button">
-                    <button (click)="onSubmit()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
+                    <ng-container *ngIf="prod(); else notProd">
+                        <re-captcha #captchaRef="reCaptcha" size="invisible" (resolved)="onSubmit()"></re-captcha>
+                        <button (click)="captchaRef.execute()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
+                    </ng-container>
+                    <ng-template #notProd>
+                        <button (click)="onSubmit()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
+                    </ng-template>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
                 </div>
             </form>

@@ -2,19 +2,19 @@
     <ng-container *ngIf="isEmpty(field); else isBoolean">
         {{ field.nullValue | uppercaseFirst }}
     </ng-container>
-    
+
     <ng-template #isBoolean>
         <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isObject">
-    
+
         </ng-container>
     </ng-template>
-    
+
     <ng-template #isObject>
         <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
             {{ field.displayTableFunction(field.value) }}
         </ng-container>
     </ng-template>
-    
+
     <ng-template #isMultipleObject>
         <ng-container *ngIf="field.kindOfField === 'MultipleObject'; else isArrayField">
             <ng-container *ngIf="!field.isImageInTable; else isArrayOfImages">
@@ -38,7 +38,7 @@
             </ng-template>
         </ng-container>
     </ng-template>
-    
+
     <ng-template #isArrayField>
         <ng-container *ngIf="field.kindOfField === 'MultipleSelect' || field.kindOfField === 'ArrayInputField'; else isSingleSelect">
             <div class="multiple-items">
@@ -60,7 +60,7 @@
             </div>
         </ng-container>
     </ng-template>
-    
+
     <ng-template #isSingleSelect>
         <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isNotSelect">
                 <ng-container *ngIf="field.isImageInTable; else singleNotImage">
@@ -71,7 +71,7 @@
                 </ng-template>
         </ng-container>
     </ng-template>
-    
+
     <ng-template #isNotSelect>
         <ng-container *ngIf="field.kindOfField === 'Date'; else isNotDate">
             <ng-container *ngIf="field.value && !field.displayTime">{{ field.value | date: 'dd-MM-yyyy' }}</ng-container>
@@ -83,7 +83,7 @@
             {{ field.displayValue | uppercaseFirst }}
         </ng-container>
     </ng-template>
-    
+
     <ng-template #isGeneralValue>
         <ng-container *ngIf="isString(field.value); else notAString">
             <ng-container *ngIf="field.isImageInTable; else checkColor">
@@ -94,17 +94,22 @@
                     <div class="color" [ngStyle]="{'background-color':field.value}"></div>
                 </ng-container>
             </ng-template>
-            <ng-template #checkFont>
-                <ng-container *ngIf="field.isFont; else isString">
-                    <div [ngStyle]="{'font-family':field.value}">{{ field.value | uppercaseFirst }}</div>
-                </ng-container>
-            </ng-template>
-            <ng-template #isString>
-                {{field.value | uppercaseFirst }}
-            </ng-template>
         </ng-container>
-        <ng-template #notAString>
-            {{field.value }}
+        <ng-template #checkFont>
+            <ng-container *ngIf="field.isFont; else checkCamelCase">
+                <div [ngStyle]="{'font-family':field.value}">{{ field.value | uppercaseFirst }}</div>
+            </ng-container>
         </ng-template>
+        <ng-template #checkCamelCase>
+            <ng-container *ngIf="field.isCamelCase; else isAString">
+                {{field.value | formatCamelCase }}
+            </ng-container>
+        </ng-template>
+        <ng-template #isAString>
+            {{field.value | uppercaseFirst }}
+        </ng-template>
+    </ng-template>
+    <ng-template #notAString>
+        {{field.value }}
     </ng-template>
 </div>

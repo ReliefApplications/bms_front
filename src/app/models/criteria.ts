@@ -3,28 +3,9 @@ import { NumberModelField } from './custom-models/number-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
 import { Gender } from './beneficiary';
+import { AppInjector } from '../app-injector';
+import { CountriesService } from '../core/countries/countries.service';
 
-export class CriteriaField extends CustomModel {
-
-    public fields = {
-        name: new TextModelField({}),
-        id: new TextModelField({}),
-        kindOfBeneficiary: new NumberModelField({}),
-        tableString: new TextModelField({}),
-        type: new SingleSelectModelField({}),
-        field: new SingleSelectModelField({})
-    };
-
-    public static apiToModel(criteriaFromApi: any): CriteriaField {
-        const newCriteriaField = new CriteriaField();
-
-        newCriteriaField.set('field', criteriaFromApi.field_string);
-        newCriteriaField.set('type', criteriaFromApi.type);
-        newCriteriaField.set('kindOfBeneficiary', criteriaFromApi.distribution_type);
-        newCriteriaField.set('tableString', criteriaFromApi.table_string);
-        return newCriteriaField;
-    }
-}
 export class CriteriaCondition extends CustomModel {
 
     public fields = {
@@ -69,6 +50,11 @@ export class Criteria extends CustomModel {
     title =  this.language.criteria;
     matSortActive = 'field';
 
+    protected countryService = AppInjector.get(CountriesService);
+    public country = this.countryService.selectedCountry.getValue().get<string>('id') ?
+    this.countryService.selectedCountry.getValue().get<string>('id') :
+    this.countryService.khm.get<string>('id');
+
     public genders = [
         new Gender('0', this.language.female),
         new Gender('1', this.language.male)
@@ -80,7 +66,7 @@ export class Criteria extends CustomModel {
         //         // Not displayed anywhere
         //     }
         // ),
-        kindOfBeneficiary: new TextModelField(
+        target: new TextModelField(
             {
 
             }
@@ -88,13 +74,13 @@ export class Criteria extends CustomModel {
         tableString: new TextModelField({
 
         }),
-        field: new SingleSelectModelField(
+        field: new TextModelField(
             {
                 title: this.language.criteria,
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 isRequired: true,
-                bindField: 'field',
+                isCamelCase: true,
             }
         ),
         condition: new SingleSelectModelField(
@@ -136,30 +122,24 @@ export class Criteria extends CustomModel {
     public static apiToModel(criteriaFromApi: any): Criteria {
         const newCriteria = new Criteria();
 
-        if (criteriaFromApi.field_string) {
-            const field = new CriteriaField();
-            field.set('field', criteriaFromApi.field_string);
-            newCriteria.set('field', field);
-
-        }
+        newCriteria.set('field', criteriaFromApi.field_string);
         newCriteria.set('type', criteriaFromApi.type);
-        newCriteria.set('kindOfBeneficiary', criteriaFromApi.distribution_type ?
-            criteriaFromApi.distribution_type :
-            criteriaFromApi.kind_beneficiary);
-        newCriteria.set('condition', criteriaFromApi.condition_string ?
-            new CriteriaCondition(null, criteriaFromApi.condition_string) :
-            null);
+        newCriteria.set('target', criteriaFromApi.target);
         newCriteria.set('tableString', criteriaFromApi.table_string);
 
-
+        // If it is a criteria associated with a distribution, it already has a value and condition
+        const condition = criteriaFromApi.condition_string;
+        newCriteria.set('condition', condition ? new CriteriaCondition(null, condition) : null);
         const value = criteriaFromApi.value_string;
-        if (criteriaFromApi.field_string === 'gender') {
+        if (criteriaFromApi.field_string === 'gender' && value) {
             const genderValue = newCriteria.genders.filter((gender: Gender) => gender.get('id') === value)[0];
             newCriteria.set('value', new CriteriaValue(value, genderValue.get('name')));
         }
         else {
             newCriteria.set('value', new CriteriaValue(value, value));
         }
+        const weight = criteriaFromApi.weight;
+        newCriteria.set('weight', weight ? weight : 1);
 
         return newCriteria;
     }
@@ -167,8 +147,8 @@ export class Criteria extends CustomModel {
     public modelToApi(): Object {
         return {
             condition_string: this.get('condition').get('name'),
-            field_string: this.get('field').get('field'),
-            kind_beneficiary: this.get('kindOfBeneficiary'),
+            field_string: this.get('field'),
+            target: this.get('target'),
             table_string: this.get('tableString'),
             value_string: this.get('value').get('id'),
             weight: this.get('weight'),

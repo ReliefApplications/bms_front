@@ -261,6 +261,26 @@ export interface Language {
     // Criteria
     criteria_operator: string
     criteria_weight: string
+    criteria_target: string
+    dateOfBirth: string
+    residencyStatus: string
+    hasNotBeenInDistributionsSince: string
+    disabledHeadOfHousehold: string
+    headOfHouseholdDateOfBirth: string
+    headOfHouseholdGender: string
+    livelihood: string
+    foodConsumptionScore: string
+    copingStrategiesIndex: string
+    incomeLevel: string
+    householdSize: string
+    locationType: string
+    campName: string
+    disabled: string
+    lactating: string
+    pregnant: string
+    soloParent: string
+    nutritionalIssues: string
+
 
     // Dashboard
     dashboard_distribution_map: string
@@ -360,6 +380,8 @@ export interface Language {
     header_vouchers: string
 
     // Household
+    household_coping_strategies_index: string
+    household_food_consumption_score: string
     household_full_address: string
     household_income_level: object
     household_income: string

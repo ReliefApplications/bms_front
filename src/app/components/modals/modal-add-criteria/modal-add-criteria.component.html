@@ -4,87 +4,148 @@
 <mat-dialog-content class="modal-container" *ngIf="criteria">
     <form [formGroup]="form">
         <table class="modal-table" cdkFocusRegionStart [ngClass]="{'rtl':language.direction === 'rtl'}">
-            <tr class="modal-row">
-                <th class="table-title">{{ criteria.fields.field.title | uppercaseFirst }}</th>
-                <td class="form-item">
-                    <ng-select appendTo="body" formControlName="field" [placeholder]="criteria.fields.field.title | uppercaseFirst"
-                        (change)="loadConditions($event)">
-                        <ng-option *ngFor="let option of criteria.getOptions('field')" [value]="option.get('field')">
-                            {{option.get('field') | formatCamelCase }}
-                        </ng-option>
-                    </ng-select>
-                    <app-hint-error [form]="form" fieldName="field" [field]="criteria.fields.field"
-                        [isMatField]="false"></app-hint-error>
-                </td>
+          <tr class="modal-row">
+              <th class="table-title">{{ language.criteria_target | uppercaseFirst }}</th>
+              <td class="form-item">
+                <ng-select formControlName="criteriaType" [placeholder]="language.criteria_target | uppercaseFirst">
+                    <ng-option value="Beneficiary">
+                      {{ language.beneficiary | uppercaseFirst}}
+                    </ng-option>
+                    <ng-option value="Head">
+                      {{ language.beneficiary_head | uppercaseFirst}}
+                    </ng-option>
+                    <ng-option value="Household">
+                      {{ language.households | uppercaseFirst}}
+                    </ng-option>
+                </ng-select>
+              </td>
             </tr>
 
-            <tr class="modal-row"
-                *ngIf="form.controls.field.value !== 'IDPoor' || form.controls.field.value !== 'equityCardNo'">
-                <th class="table-title">{{ criteria.fields.condition.title  | uppercaseFirst }}</th>
-                <td class="form-item">
-                    <mat-form-field class="full-width">
-                        <mat-select formControlName="condition"
-                            [placeholder]="criteria.fields.condition.title | uppercaseFirst">
-                            <mat-option *ngFor="let option of criteria.getOptions('condition')"
-                                [value]="option.get('name')">
-                                {{option.get('name') | uppercaseFirst}}
-                            </mat-option>
+          <tr class="modal-row">
+              <th class="table-title">{{ criteria.fields.field.title | uppercaseFirst }}</th>
+              <td class="form-item">
+                  <mat-form-field class="full-width">
+                    <mat-select formControlName="field" [placeholder]="criteria.fields.field.title | uppercaseFirst">
+                        <mat-option *ngFor="let option of criteriaSubList" [value]="option.get('field')">
+                            <span *ngIf="option.get('tableString') !== 'countrySpecific'">{{ language[option.get('field')] | uppercaseFirst }}</span>
+                            <span *ngIf="option.get('tableString') === 'countrySpecific'">{{ option.get('field') | uppercaseFirst }}</span>
+                        </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <app-hint-error [form]="form" fieldName="field" [field]="criteria.fields.field"
+                      [isMatField]="true"></app-hint-error>
+              </td>
+          </tr>
+
+          <tr class="modal-row"
+              *ngIf="form.controls.field.value !== 'IDPoor' || form.controls.field.value !== 'equityCardNo'">
+              <th class="table-title">{{ criteria.fields.condition.title  | uppercaseFirst }}</th>
+              <td class="form-item">
+                  <mat-form-field class="full-width">
+                      <mat-select formControlName="condition"
+                          [placeholder]="criteria.fields.condition.title | uppercaseFirst">
+                          <mat-option *ngFor="let option of criteria.getOptions('condition')"
+                              [value]="option.get('name')">
+                              {{option.get('name') | uppercaseFirst}}
+                          </mat-option>
+                      </mat-select>
+                      <app-hint-error [form]="form" fieldName="condition" [field]="criteria.fields.condition"
+                          [isMatField]="true"></app-hint-error>
+                  </mat-form-field>
+              </td>
+          </tr>
+
+          <tr class="modal-row" *ngIf="needsValue(form.controls.field.value)">
+            <th class="table-title">{{ criteria.fields.value.title  | uppercaseFirst }}</th>
+            <td class="form-item">
+              <ng-select *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'headOfHouseholdGender'; else livelihood" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
+                <ng-option *ngFor="let gender of criteria.genders" [value]="gender.get('id')">{{ gender.get('name')  | uppercaseFirst }}</ng-option>
+              </ng-select>
+              <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="false"></app-hint-error>
+
+              <ng-template #livelihood>
+                <ng-select *ngIf="form.controls.field.value === 'livelihood'; else residency" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
+                  <ng-option *ngFor="let livelihood of livelihoods" [value]="livelihood.get('id')">{{ livelihood.get('name')  | uppercaseFirst }}</ng-option>
+                </ng-select>
+              </ng-template>
+
+              <ng-template #residency>
+                <ng-select *ngIf="form.controls.field.value === 'residencyStatus'; else locationType" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
+                  <ng-option *ngFor="let residencyStatus of residencyStatuses" [value]="residencyStatus.get('id')">{{ residencyStatus.get('name') | uppercaseFirst }}</ng-option>
+                </ng-select>
+              </ng-template>
+
+              <ng-template #locationType>
+                <ng-select *ngIf="form.controls.field.value === 'locationType'; else date" class="single-select" formControlName="value" [closeOnSelect]="true" [searchable]="true">
+                  <ng-option *ngFor="let locationType of locationTypes" [value]="locationType.get('id')">{{ locationType.get('name')  | uppercaseFirst }}</ng-option>
+                </ng-select>
+              </ng-template>
+
+              <ng-template #date>
+                <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'headOfHouseholdDateOfBirth' || form.controls.field.value === 'hasNotBeenInDistributionsSince'; else incomeLevel">
+                  <input formControlName="value" matInput [matDatepicker]="date">
+                  <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                  <mat-datepicker #date></mat-datepicker>
+                  <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="true"></app-hint-error>
+                </mat-form-field>
+              </ng-template>
+
+              <ng-template #incomeLevel>
+                <ng-container *ngIf="form.controls.field.value === 'incomeLevel'; else text">
+                  <mat-form-field>
+                    <mat-select class="single-select" [multiple]="false" placeholder="{{language.household_income | uppercaseFirst}}" formControlName="value">
+                      <mat-option *ngFor="let index of [1, 2, 3, 4, 5]" [value]="index">
+                          {{ index }} ({{ language['household_income_level'][index.toString()][criteria.country] }})
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </ng-container>
+              </ng-template>
+
+              <ng-template #text>
+                <mat-form-field class="full-width">
+                    <input formControlName="value" matInput type="text">
+                    <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value" [isMatField]="true"></app-hint-error>
+                </mat-form-field>
+              </ng-template>
+
+            </td>
+          </tr>
+
+          <tr *ngIf="form.controls.field.value === 'locationType' && form.controls.value.value === 'camp' && form.controls.condition.value === '='" class="modal-row">
+              <th class="table-title">{{language.household_location_camp_name | uppercaseFirst }}</th>
+              <th class="table-value">
+                  <mat-form-field class="full-width">
+                      <mat-select class="single-select" [multiple]="false" placeholder="{{language.household_location_camp_name | uppercaseFirst}}" formControlName="campName">
+                          <mat-option *ngFor="let camp of campList" [value]="camp.get('id')">
+                             {{ camp.get('name') }}
+                          </mat-option>
                         </mat-select>
-                        <app-hint-error [form]="form" fieldName="condition" [field]="criteria.fields.condition"
-                            [isMatField]="true"></app-hint-error>
-                    </mat-form-field>
-                </td>
-            </tr>
+                      <input matInput formControlName="campName" type="text">
+                  </mat-form-field>
+              </th>
+          </tr>
 
-            <tr class="modal-row"
-                *ngIf="form.controls.field.value === 'gender' || form.controls.field.value === 'dateOfBirth' || form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
-                <th class="table-title">{{ criteria.fields.value.title  | uppercaseFirst }}</th>
-                <td class="form-item">
-                    <ng-select appendTo="body" *ngIf="form.controls.field.value === 'gender'" class="single-select"
-                        formControlName="value" [closeOnSelect]="true" [searchable]="true">
-                        <ng-option *ngFor="let gender of criteria.genders" [value]="gender.get('id')">
-                            {{gender.get('name')}}</ng-option>
-                    </ng-select>
-                    <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value"
-                        [isMatField]="false"></app-hint-error>
+          <tr class="modal-row">
+              <th class="table-title"></th>
+              <th class="table-value advanced-icon-wrapper">
+                  <div class="advanced-icon">
+                      <button mat-button class="button-text-accent" (click)="changeDisplay()">
+                          <span>{{ language.add_distribution_advanced_option | uppercaseFirst}}</span>
+                          <mat-icon>{{ iconAdvanced }}</mat-icon>
+                      </button>
+                  </div>
+              </th>
+          </tr>
+          <tr *ngIf="displayWeight" class="modal-row">
+              <th class="table-title">{{criteria.fields.weight.title | uppercaseFirst }}</th>
 
-                    <mat-form-field class="full-width" *ngIf="form.controls.field.value === 'dateOfBirth'">
-                        <input formControlName="value" matInput [matDatepicker]="date">
-                        <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
-                        <mat-datepicker #date></mat-datepicker>
-                        <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value"
-                            [isMatField]="true"></app-hint-error>
-                    </mat-form-field>
-
-                    <mat-form-field class="full-width"
-                        *ngIf="form.controls.field.value === 'IDPoor' || form.controls.field.value === 'equityCardNo'">
-                        <input formControlName="value" matInput type="text">
-                        <app-hint-error [form]="form" fieldName="value" [field]="criteria.fields.value"
-                            [isMatField]="true"></app-hint-error>
-                    </mat-form-field>
-
-                </td>
-            </tr>
-            <tr class="modal-row">
-                <th class="table-title"></th>
-                <th class="table-value advanced-icon-wrapper">
-                    <div class="advanced-icon">
-                        <button mat-button class="button-text-accent" (click)="changeDisplay()">
-                            <span>{{ language.add_distribution_advanced_option | uppercaseFirst}}</span>
-                            <mat-icon>{{ iconAdvanced }}</mat-icon>
-                        </button>
-                    </div>
-                </th>
-            </tr>
-            <tr *ngIf="displayWeight" class="modal-row">
-                <th class="table-title">{{criteria.fields.weight.title | uppercaseFirst }}</th>
-
-                <th class="table-value">
-                    <mat-form-field class="full-width">
-                        <input matInput formControlName="weight" type="number" min="0">
-                    </mat-form-field>
-                </th>
-            </tr>
+              <th class="table-value">
+                  <mat-form-field class="full-width">
+                      <input matInput formControlName="weight" type="number" min="0">
+                  </mat-form-field>
+              </th>
+          </tr>
         </table>
     </form>
 </mat-dialog-content>

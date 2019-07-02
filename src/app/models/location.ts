@@ -44,25 +44,29 @@ export class Location extends CustomModel {
             {
                 title: this.language.adm1[this.country],
                 bindField: 'name',
+                apiLabel: 'id',
                 isRequired: true,
             }
         ),
         adm2: new SingleSelectModelField(
             {
                 title: this.language.adm2[this.country],
-                bindField: 'name'
+                bindField: 'name',
+                apiLabel: 'id',
             }
         ),
         adm3: new SingleSelectModelField(
             {
                 title: this.language.adm3[this.country],
-                bindField: 'name'
+                bindField: 'name',
+                apiLabel: 'id',
             }
         ),
         adm4: new SingleSelectModelField(
             {
                 title: this.language.adm4[this.country],
-                bindField: 'name'
+                bindField: 'name',
+                apiLabel: 'id',
             }
         ),
         code: new TextModelField({}),

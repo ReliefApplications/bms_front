@@ -16,7 +16,7 @@
 
 
     <mat-sidenav-content (scroll)="closeSideNav()" (click)="closeSideNav()" class="page-content-wrapper" [ngClass]="{'no-margin': router.url ==='/login'}">
-        <ng-container *ngIf="router.url !=='/login'">
+        <ng-container *ngIf="router.url !== '/login'">
             <mat-toolbar *ngIf="currentDisplayType.type !== 'mobile'; else mobileHeader">
                 <app-header *ngIf="userService.currentUser"></app-header>
             </mat-toolbar>
@@ -69,4 +69,4 @@
     </mat-nav-list>
 </ng-template>
 
-<livechat-widget *ngIf="environmentIsProduction " licenseId="10347002"></livechat-widget>
+<livechat-widget *ngIf="viewReady && chatShouldBeDisplayed()" licenseId="10347002"></livechat-widget>

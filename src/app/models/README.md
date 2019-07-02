@@ -98,7 +98,7 @@ The project is the biggest entity possible in the code. It contains distribution
 
 A Distribution is a way to share commodities (Food, cash, vouchers etc.) in a certain place at a certain time, according to some vulnerability criteria. A distribution contains beneficiaries, targetting them individually or as members of a household (precised by the "type" field, as a DistributionType). The threshold corresponds to the minimum selection score a beneficiary must reach to be a part of the distribution. This score is calculated with the weight of each selection criteria.
 
-A criteria contains a field (eg: "Date of Birth"), a condition (eg: ">") and a value (eg: 12-03-1996), and it applies to a kindOfBeneficiary (individual or household).
+A criteria contains a field (eg: "Date of Birth"), a condition (eg: ">") and a value (eg: 12-03-1996), and it applies to a target (individual or household).
 
 ![Distribution](./uml/distribution.svg)
 

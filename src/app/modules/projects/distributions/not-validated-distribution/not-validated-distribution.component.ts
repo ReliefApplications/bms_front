@@ -133,6 +133,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
                 this.loadingFirstStep = false;
                 this.loadingFinalStep = false;
+
                 this.generateRandom();
 
                 if (this.loadingDatas === true) {

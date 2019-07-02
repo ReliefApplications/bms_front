@@ -275,9 +275,6 @@ export class French implements Language {
     country_specific = 'Option par pays'
     country_specific_field = 'Champ'
 
-    // Criteria
-    criteria_operator = 'Condition'
-    criteria_weight = 'Score du poids'
 
     // Dashboard
     dashboard_distribution_map = 'répartition des distributions'
@@ -377,6 +374,8 @@ export class French implements Language {
     header_vouchers = this.voucher
 
     // Household
+    household_coping_strategies_index = 'Indice de stratégies d\'adaptation'
+    household_food_consumption_score = 'Score de consommation alimentaire'
     household_full_address = 'Adresse entière du ménage'
     household_income = 'Niveau de revenu'
     household_income_level = INCOMELEVELS.fr
@@ -710,4 +709,27 @@ export class French implements Language {
     // User
     user_only_one_country = 'Vous ne pouvez sélectionner qu\'un pays'
     user_password_question = 'Modifier le mot de passe à la prochaine connexion'
+
+    // Criteria (must be the last thing declared because uses the previous variables)
+    criteria_operator = 'Condition'
+    criteria_weight = 'Score du poids'
+    criteria_target = 'Cible du critère'
+    dateOfBirth = this.beneficiary_date_of_birth
+    residencyStatus = this.beneficiary_residency_status
+    hasNotBeenInDistributionsSince = 'n\'a pas été dans une distribution depuis '
+    disabledHeadOfHousehold = this.vulnerability_disabled
+    headOfHouseholdDateOfBirth = this.beneficiary_date_of_birth
+    headOfHouseholdGender = this.gender
+    livelihood = this.household_livelihood
+    foodConsumptionScore = this.household_food_consumption_score
+    copingStrategiesIndex = this.household_coping_strategies_index
+    incomeLevel = this.household_income
+    householdSize = 'taille du foyer'
+    locationType = 'type de résidence'
+    campName = this.household_location_camp_name
+    disabled = this.vulnerability_disabled
+    lactating = this.vulnerability_lactating
+    pregnant = this.vulnerability_pregnant
+    soloParent = this.vulnerability_solo_parent
+    nutritionalIssues = this.vulnerability_nutrional
 };

@@ -24,12 +24,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Screen size
     public currentDisplayType: DisplayType;
+    public viewReady = false;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
-
-    // Environment
-    public environmentIsProduction = environment.production;
 
     // Subscriptions
     subscriptions: Array<Subscription>;
@@ -50,7 +48,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-
         this.subscriptions = [
             this.languageService.languageSubject.subscribe((language: Language) => {
                 this.language = language;
@@ -62,6 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.router.events.subscribe((event: Event) => {
                 if (event instanceof NavigationEnd) {
                     this.handleChat();
+                    this.viewReady = true;
                 }
             }),
             this.updateService.checkForUpdates().subscribe()
@@ -86,19 +84,19 @@ export class AppComponent implements OnInit, OnDestroy {
         return match[0];
     }
 
+
+    // Chat should only be shown in prod, on the dashboard page and in desktop mode
+    public chatShouldBeDisplayed(): boolean {
+        return environment.production && this.router.url === '/' && this.currentDisplayType.type !== 'mobile';
+    }
+
     private handleChat(): void {
         const chat = document.getElementById('chat-widget-container');
         if (chat) {
-            if (this.currentDisplayType.type === 'mobile') {
+            if (!this.chatShouldBeDisplayed()) {
                 chat.style.display = 'none';
                 return;
             }
-
-            if (this.router.url !== '/') {
-                chat.style.display = 'none';
-                return;
-            }
-
             chat.style.display = 'block';
         }
     }

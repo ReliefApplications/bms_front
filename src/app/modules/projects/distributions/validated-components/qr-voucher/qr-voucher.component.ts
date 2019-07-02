@@ -120,10 +120,6 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
     }
   }
 
-  print(element: TransactionQRVoucher) {
-    return this._exportService.printVoucher(element.get('booklet').get('id'));
-  }
-
   assign(element: TransactionQRVoucher) {
     const dialogRef = this.dialog.open(ModalAssignComponent, {
         data: {

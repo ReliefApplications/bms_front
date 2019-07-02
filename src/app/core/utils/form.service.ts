@@ -4,6 +4,7 @@ import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { CustomModelField } from 'src/app/models/custom-models/custom-model-field';
 import { LocationService } from '../api/location.service';
 import { Location } from '../../models/location';
+import { CountriesService } from '../countries/countries.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +14,7 @@ export class FormService {
 
   constructor(
     public locationService: LocationService,
+    public countryService: CountriesService,
   ) { }
 
     // To see if a value is null, undefined, empty.... Warning, 0 and false must be real values
@@ -177,5 +179,37 @@ export class FormService {
                 });
             });
         });
+    }
+
+    getLocalCurrency(): string {
+        let localCurrency = 'USD';
+        const countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
+            this.countryService.selectedCountry.getValue().get<string>('id') :
+            null;
+        if (countryId === 'SYR') {
+            localCurrency = 'SYP';
+        } else if (countryId === 'KHM') {
+            localCurrency = 'KHR';
+        }
+        return localCurrency;
+    }
+
+    pushLocalCurrencyOnTop(currencies: any, localCurrency: string): any {
+        // There we pull the local currency from the list to put it on top of it
+        let currencyId: string;
+        const indexInFilter = currencies.findIndex((element: any) => {
+            if (element.name === localCurrency) {
+                currencyId = element.id;
+                return true;
+            } else {
+                return false;
+            }
+        });
+        if (indexInFilter >= 0) {
+            currencies.splice(indexInFilter, 1);
+            currencies.unshift({ id: currencyId, name: localCurrency });
+        }
+
+        return currencies;
     }
 }

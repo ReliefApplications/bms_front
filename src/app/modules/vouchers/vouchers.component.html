@@ -10,10 +10,6 @@
           <button mat-flat-button *ngIf="checkedElements.length > 0" class="button-background-primary action-button" (click)="printMany()" [matBadge]="checkedElements.length">
               <span>{{language.voucher_print_selection | uppercaseFirst}}</span>
           </button>
-          <button mat-flat-button [disabled]="!bookletData" *ngIf="!loadingAssign" class="button-background-primary action-button" (click)="openAssignDialog()">
-              <span>{{language.voucher_assign | uppercaseFirst }}</span>
-          </button>
-          <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
           <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
             <button mat-flat-button [disabled]="!bookletData" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
               <mat-icon>get_app</mat-icon>

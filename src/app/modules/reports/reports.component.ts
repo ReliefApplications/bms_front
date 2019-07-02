@@ -16,8 +16,8 @@ import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { Distribution } from 'src/app/models/distribution';
 import { Project } from 'src/app/models/project';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
-import { GraphDTO } from './dto/graph.dto';
-import { Graph } from './dto/graph.model';
+import { GraphDTO } from './models/graph.dto';
+import { Graph } from './models/graph.model';
 import { IndicatorService } from './services/indicator.service';
 
 const PDFConfig = {

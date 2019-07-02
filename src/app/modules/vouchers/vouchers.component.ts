@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
 import { TableComponent } from 'src/app/components/table/table.component';
 import { BookletService } from 'src/app/core/api/booklet.service';
 import { ProjectService } from 'src/app/core/api/project.service';
@@ -25,7 +24,6 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
     public nameComponent = 'vouchers';
 
-    public loadingAssign = false;
     public loadingBooklet = true;
     public loadingExport = false;
     public loadingExportCodes = false;
@@ -118,36 +116,6 @@ export class VouchersComponent implements OnInit, OnDestroy {
         this.modalService.isCompleted.subscribe(() => {
             this.getBooklets();
         });
-    }
-
-    openAssignDialog() {
-        this.loadingAssign = true;
-        this.projectService.get()
-            .subscribe(
-                response => {
-                    this.loadingAssign = false;
-                    if (response && response.length > 0) {
-                        this.projects = response.reverse().map((project: any) => Project.apiToModel(project));
-                    } else if (response === null) {
-                        this.projects = [];
-                    }
-
-                    let dialogRef = this.dialog.getDialogById('modal-vouchers');
-                    if (dialogRef) {
-                        dialogRef.componentInstance.projects = this.projects;
-                    } else {
-                        dialogRef = this.dialog.open(ModalAssignComponent, {
-                            id: 'modal-vouchers',
-                            data: {
-                                projects: this.projects
-                            }
-                        });
-                    }
-                    dialogRef.afterClosed().subscribe(() => {
-                        this.getBooklets();
-                    });
-                }
-            );
     }
 
     print(event: Booklet) {

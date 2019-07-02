@@ -1,7 +1,7 @@
 import { TitleCasePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ChartOptions } from 'chart.js';
-import { Graph } from '../../dto/graph.model';
+import { Graph } from '../../models/graph.model';
 import { ColorsService } from '../../services/colors.service';
 
 @Component({
@@ -35,6 +35,9 @@ export class BaseChartComponent {
                         scaleLabel: {
                             display: true,
                             labelString: this.titlecasePipe.transform(Object.values(this.graphInfo.values)[0][0].unit),
+                        },
+                        ticks: {
+                            beginAtZero: true,
                         }
                     },
                 ]

@@ -222,7 +222,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.deletable = false;
         this.printable = false;
         this.loggable = false;
-        this.exportable = true;
+        this.exportable = false;
         break;
       case 'organization':
         this.referedClassToken = Organization;

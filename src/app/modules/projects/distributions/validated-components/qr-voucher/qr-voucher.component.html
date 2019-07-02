@@ -59,11 +59,11 @@
         </div>
 
         <div class="content-table">
-            <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
-                [assignable]="!actualDistribution.get('finished')" (openModal)="openModal($event)" (printOne)="print($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
+            <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData"
+                [assignable]="!actualDistribution.get('finished')" (openModal)="openModal($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table>
-            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [printable]="true"
-                [assignable]="!actualDistribution.get('finished')" (printOne)="print($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
+            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData"
+                [assignable]="!actualDistribution.get('finished')" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table-mobile>
         </div>
 

@@ -700,6 +700,7 @@ export interface Language {
     voucher_select_distribution: string
     voucher_select_project: string
     voucher_step5: string
+    vouchers_booklet: string
 
     // Vulnerability
     vulnerability_disabled: string

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -19,18 +19,16 @@ import { GeneralService } from '../../core/api/general.service';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     distributionData: MatTableDataSource<Distribution>;
     public nameComponent = 'dashboard_title';
     public actualCountry: string;
 
     distributionClass = Distribution;
-    public userData;
     // Loaders
     loadingTable = true;
     loadingSummary = true;
-    loadingMap = true;
 
     public deletable = false;
     public editable = false;
@@ -63,8 +61,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
         this._cacheService.getUser().subscribe(result => {
             if (result) {
-                this.mapService.createMap('map');
-                this.loadingMap = false;
                 this.getSummary();
                 this.checkDistributions();
             }
@@ -77,6 +73,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.screenSizeSubscription.unsubscribe();
         this.mapService.removeMap();
     }
+    ngAfterViewInit(): void {
+        this.mapService.createMap('map');
+    }
 
     /**
     * get the distributions list to display on dashboard
@@ -87,19 +86,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.loadingTable = true;
         this._distributionService.get()
             .subscribe(
-                response => {
+                (apiDistributions: Array<any>) => {
                     this.distributionData = new MatTableDataSource();
-
-                    const instances = [];
-                    if (response) {
-                        for (const item of response ) {
-                            instances.push(Distribution.apiToModel(item));
-                        }
-                        this.distributionData = new MatTableDataSource(instances);
+                        const distributions = apiDistributions.map((apiDistribution) => {
+                            return Distribution.apiToModel(apiDistribution);
+                        });
+                        this.mapService.addDistributions(distributions);
+                        this.distributionData = new MatTableDataSource(distributions);
                         this.loadingTable = false;
-                    } else {
-                        this.loadingTable = false;
-                    }
                 },
                 error => {
                     this.distributionData = new MatTableDataSource();

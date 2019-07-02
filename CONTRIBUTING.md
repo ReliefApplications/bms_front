@@ -1,4 +1,4 @@
-BMS contributing guidelines
+Contributing guidelines
 ================================
 
 Thank you for your interest in contributing to a Relief Apps project! We believes

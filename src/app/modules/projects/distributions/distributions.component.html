@@ -25,7 +25,14 @@
                     </button>
                 </div>
                 <h4>
-                    ({{ language.distribution_last_modification | uppercaseFirst}} {{actualDistribution.get('updatedOn') | date: 'dd-MM-yyyy HH:mm' }})
+                    {{ language.distribution_last_modification | uppercaseFirst}} 
+                    <ng-container *ngIf="updated; else notUpdated">
+                        {{ language.time_just_now }}
+                    </ng-container>
+                    <ng-template #notUpdated>
+                        {{actualDistribution.get('updatedOn') | date: 'dd-MM-yyyy HH:mm' }}
+                    </ng-template>
+                    
                 </h4>
             </div>
             <app-box-properties *ngIf="actualDistribution" class="properties-displayed" [displayedInstance]="actualDistribution"></app-box-properties>
@@ -34,7 +41,10 @@
 
     <app-placeholder-stepper *ngIf="loadingDatas"></app-placeholder-stepper>
 
-    <app-not-validated-distribution *ngIf="!loadingDistribution && actualDistribution && !actualDistribution.get('validated')" [actualDistribution]="actualDistribution" [loaderCache]="loaderCache" (emitStore)="storeBeneficiaries($event)" [distributionIsStored]="distributionIsStored"></app-not-validated-distribution>
+    <app-not-validated-distribution *ngIf="!loadingDistribution && actualDistribution && !actualDistribution.get('validated')" 
+        [actualDistribution]="actualDistribution" [loaderCache]="loaderCache" (emitStore)="storeBeneficiaries($event)" 
+        [distributionIsStored]="distributionIsStored" (isUpdated)="updated = true">
+    </app-not-validated-distribution>
 
     <ng-container *ngIf="actualDistribution && actualDistribution.get('validated')">
         <app-mobile-money *ngIf="getDistributionType() === 'mobile-money' && !loadingDatas" [actualDistribution]="actualDistribution"

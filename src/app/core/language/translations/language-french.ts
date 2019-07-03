@@ -298,7 +298,7 @@ export class French implements Language {
     data_verification_description_typos = 'Ci-dessous seront affichées les typos suspectes des bénéficiaires listés dans le fichier : S\'il s\'avère qu\'un bénéficiaire est presque identique à un autre dans la base de données, il sera affiché ici. Vous pouvez choisir entre remplacer les valeurs par le bénéficiaire qui est importé, conserver celui déjà présent, ou les sauvegarder comme deux bénéficiaires distincts'
     data_verification_done = 'Toutes les données ont été vérifiées'
     data_verification_error = 'Erreur lors du parcours des données'
-    data_verification_just_now = 'à l\'instant'
+    time_just_now = 'à l\'instant'
     data_verification_last_updated = 'Dernière mise à jour'
     data_verification_snackbar_duplicate_corrected = 'Problèmes de doublons corrigées'
     data_verification_snackbar_duplicate_no_corrected = 'Toutes les erreurs de doublons ne sont pas corrigées'

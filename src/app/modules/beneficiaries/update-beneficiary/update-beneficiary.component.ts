@@ -1,37 +1,38 @@
-import { Component, HostListener, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialog, MatStepper, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription, SubscribableOrPromise } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ModalConfirmationComponent } from 'src/app/components/modals/modal-confirmation/modal-confirmation.component';
+import { CountrySpecificService } from 'src/app/core/api/country-specific.service';
+import { CriteriaService } from 'src/app/core/api/criteria.service';
+import { HouseholdsService } from 'src/app/core/api/households.service';
+import { LocationService } from 'src/app/core/api/location.service';
+import { PhoneService } from 'src/app/core/api/phone.service';
+import { ProjectService } from 'src/app/core/api/project.service';
+import { CountriesService } from 'src/app/core/countries/countries.service';
+import { DesactivationGuarded } from 'src/app/core/guards/deactivate.guard';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
-import { Beneficiary, BeneficiaryOptions, Gender, BeneficiaryReferralType } from 'src/app/models/beneficiary';
+import { Address } from 'src/app/models/address';
+import { Beneficiary, BeneficiaryOptions, BeneficiaryReferralType, Gender } from 'src/app/models/beneficiary';
+import { Camp } from 'src/app/models/camp';
+import { CampAddress } from 'src/app/models/camp-address';
+import { PHONECODES } from 'src/app/models/constants/phone-codes';
 import { CountrySpecific, CountrySpecificAnswer } from 'src/app/models/country-specific';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { Household, Livelihood } from 'src/app/models/household';
+import { HouseholdLocation, HouseholdLocationGroup, HouseholdLocationType } from 'src/app/models/household-location';
 import { Adm, Location } from 'src/app/models/location';
 import { NationalId, NationalIdType } from 'src/app/models/national-id';
 import { Phone, PhoneType } from 'src/app/models/phone';
 import { Profile } from 'src/app/models/profile';
 import { Project } from 'src/app/models/project';
 import { VulnerabilityCriteria } from 'src/app/models/vulnerability-criteria';
-import { ModalConfirmationComponent } from '../../../components/modals/modal-confirmation/modal-confirmation.component';
-import { CountrySpecificService } from '../../../core/api/country-specific.service';
-import { CriteriaService } from '../../../core/api/criteria.service';
-import { HouseholdsService } from '../../../core/api/households.service';
-import { LocationService } from '../../../core/api/location.service';
-import { ProjectService } from '../../../core/api/project.service';
-import { DesactivationGuarded } from '../../../core/guards/deactivate.guard';
-import { CountriesService } from 'src/app/core/countries/countries.service';
-import { PHONECODES } from 'src/app/models/constants/phone-codes';
-import { HouseholdLocation, HouseholdLocationGroup, HouseholdLocationType } from 'src/app/models/household-location';
-import { Camp } from 'src/app/models/camp';
-import { Address } from 'src/app/models/address';
-import { CampAddress } from 'src/app/models/camp-address';
-import { PhoneService } from '../../../core/api/phone.service';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
+
 
 @Component({
     selector: 'app-update-beneficiary',
@@ -81,7 +82,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
     private uneditedBeneficiariesSnapshot: any;
 
     // Language and country
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
     public countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
         this.countryService.selectedCountry.getValue().get<string>('id') :
         this.countryService.khm.get<string>('id');
@@ -111,7 +112,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
 
     ngOnInit() {
         // Set right mode (update or create)
-        this.mode =  this.router.url.split('/')[2] === 'update-beneficiary' ? 'update' : 'create';
+        this.mode = this.router.url.split('/')[2] === 'update-beneficiary' ? 'update' : 'create';
 
         this.initiateHousehold().then(() => {
             this.getVulnerabilityCriteria().subscribe((response) => {
@@ -202,9 +203,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         });
     }
 
-//
-// ─── MAKE FORMS ─────────────────────────────────────────────────────────────────
-//
+    //
+    // ─── MAKE FORMS ─────────────────────────────────────────────────────────────────
+    //
 
     makeMainForm() {
         let mainFormControls = {};
@@ -237,13 +238,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
             householdLocations.push(this.household.get<HouseholdLocation>('residentHouseholdLocation'));
         }
 
-        mainFormControls['locationDifferent'].setValue(householdLocations.length > 1 ? true : false, {emitEvent: false});
+        mainFormControls['locationDifferent'].setValue(householdLocations.length > 1 ? true : false, { emitEvent: false });
         mainFormControls['currentCreateCamp'].setValue(false);
         mainFormControls['residentCreateCamp'].setValue(false);
 
         householdLocations.forEach((householdLocation: HouseholdLocation) => {
             const prefix = householdLocation.get('locationGroup') &&
-            householdLocation.get('locationGroup').get<string>('id') === 'resident' ? 'resident' : 'current';
+                householdLocation.get('locationGroup').get<string>('id') === 'resident' ? 'resident' : 'current';
             mainFormControls[prefix + 'Type'].setValue(householdLocation.get('type') ? householdLocation.get('type').get('id') : null);
 
             if (householdLocation.get('address') && householdLocation.get('address').get('location')) {
@@ -266,28 +267,28 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                         return;
                     }
                     const adm1Id = this.locations[prefix].get('adm1').get<number>('id');
-                    mainFormControls[prefix + 'Adm1'].setValue(adm1Id, {emitEvent: false});
+                    mainFormControls[prefix + 'Adm1'].setValue(adm1Id, { emitEvent: false });
                     this._locationService.fillAdm2Options(this.locations[prefix], adm1Id).subscribe(() => {
                         if (!this.locations[prefix].get('adm2') || !this.locations[prefix].get('adm2').get('id')) {
                             this.initializeCamps(householdLocation, prefix, mainFormControls, 'adm1', adm1Id);
                             return;
                         }
                         const adm2Id = this.locations[prefix].get('adm2').get<number>('id');
-                        mainFormControls[prefix + 'Adm2'].setValue(adm2Id, {emitEvent: false});
+                        mainFormControls[prefix + 'Adm2'].setValue(adm2Id, { emitEvent: false });
                         this._locationService.fillAdm3Options(this.locations[prefix], adm2Id).subscribe(() => {
                             if (!this.locations[prefix].get('adm3') || !this.locations[prefix].get('adm3').get('id')) {
                                 this.initializeCamps(householdLocation, prefix, mainFormControls, 'adm2', adm2Id);
                                 return;
                             }
                             const adm3Id = this.locations[prefix].get('adm3').get<number>('id');
-                            mainFormControls[prefix + 'Adm3'].setValue(adm3Id, {emitEvent: false});
+                            mainFormControls[prefix + 'Adm3'].setValue(adm3Id, { emitEvent: false });
                             this._locationService.fillAdm4Options(this.locations[prefix], adm3Id).subscribe(() => {
                                 if (!this.locations[prefix].get('adm4') || !this.locations[prefix].get('adm4').get('id')) {
                                     this.initializeCamps(householdLocation, prefix, mainFormControls, 'adm3', adm3Id);
                                     return;
                                 }
                                 const adm4Id = this.locations[prefix].get('adm4').get('id');
-                                mainFormControls[prefix + 'Adm4'].setValue(adm4Id, {emitEvent: false});
+                                mainFormControls[prefix + 'Adm4'].setValue(adm4Id, { emitEvent: false });
                                 this.initializeCamps(householdLocation, prefix, mainFormControls, 'adm4', adm4Id);
                             });
                         });
@@ -389,9 +390,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         }));
     }
 
-//
-// ─── CREATE AND REMOVE FORMS WHEN CREATING AND REMOVING BENEFICIARIES ───────────
-//
+    //
+    // ─── CREATE AND REMOVE FORMS WHEN CREATING AND REMOVING BENEFICIARIES ───────────
+    //
 
     createNewBeneficiary() {
         const beneficiary = new Beneficiary();
@@ -411,10 +412,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         this.makeBeneficiaryForm(beneficiary, index);
     }
 
-     /**
-     * To delete a beneficiary form.
-     * @param index
-     */
+    /**
+    * To delete a beneficiary form.
+    * @param index
+    */
     removeBeneficiary(beneficiaryForm: FormGroup) {
         const index = this.beneficiariesForm.indexOf(beneficiaryForm);
         if (index < this.beneficiariesForm.length) {
@@ -439,9 +440,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         this.tableData = new MatTableDataSource(this.beneficiariesForm);
     }
 
-//
-// ─── SUMBIT FUNCTIONS ───────────────────────────────────────────────────────────
-//
+    //
+    // ─── SUMBIT FUNCTIONS ───────────────────────────────────────────────────────────
+    //
 
     /**
      * Call backend to create a new household with filled data.
@@ -608,9 +609,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         this.household.set('beneficiaries', beneficiaries);
     }
 
-//
-// ─── FORM VALIDATION FUNCTIONS ──────────────────────────────────────────────────
-//
+    //
+    // ─── FORM VALIDATION FUNCTIONS ──────────────────────────────────────────────────
+    //
 
     /**
      * Verify the needed forms before going next step : Blocks if any error (empty/bad type/format).
@@ -698,7 +699,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                     locationMessage = this.language.beneficiary_error_address_postcode;
                 } else if (controls[locationGroup + 'Type'].value === 'camp' &&
                     ((!controls[locationGroup + 'CreateCamp'].value && !controls[locationGroup + 'Camp'].value) ||
-                    (controls[locationGroup + 'CreateCamp'].value && !controls[locationGroup + 'NewCamp'].value))
+                        (controls[locationGroup + 'CreateCamp'].value && !controls[locationGroup + 'NewCamp'].value))
                 ) {
                     locationMessage = this.language.beneficiary_error_camp;
                 } else if (controls[locationGroup + 'Type'].value === 'camp' && !controls.currentTentNumber.value) {
@@ -746,9 +747,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         return message;
     }
 
-//
-// ─── FORMAT FIELDS TO DISPLAY IN SUMMARY ────────────────────────────────────────
-//
+    //
+    // ─── FORMAT FIELDS TO DISPLAY IN SUMMARY ────────────────────────────────────────
+    //
 
 
     getFullLocation(locationGroup) {
@@ -784,13 +785,13 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
     }
 
     getCampName(locationGroup) {
-        const campId =  this.mainForm.controls[locationGroup + 'Camp'].value;
+        const campId = this.mainForm.controls[locationGroup + 'Camp'].value;
         return campId ? this.campLists[locationGroup].filter((camp: Camp) => camp.get('id') === campId)[0].get('name') : null;
     }
 
-//
-// ─── GET OPTIONS FROM THE API ───────────────────────────────────────────────────
-//
+    //
+    // ─── GET OPTIONS FROM THE API ───────────────────────────────────────────────────
+    //
 
     /**
      * Get list of all project and put it in the project selector
@@ -809,11 +810,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
     loadProvince(prefix: string) {
         return this._locationService.fillAdm1Options(this.locations[prefix]).pipe(
             map((options) => {
-            this.mainForm.controls[prefix + 'Adm2'].setValue(null);
-            this.mainForm.controls[prefix + 'Adm3'].setValue(null);
-            this.mainForm.controls[prefix + 'Adm4'].setValue(null);
-            return options;
-        }));
+                this.mainForm.controls[prefix + 'Adm2'].setValue(null);
+                this.mainForm.controls[prefix + 'Adm3'].setValue(null);
+                this.mainForm.controls[prefix + 'Adm4'].setValue(null);
+                return options;
+            }));
     }
 
     /**
@@ -855,9 +856,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         }
     }
 
-     /**
-     * Get list of all Camps and put it in the camp selector
-     */
+    /**
+    * Get list of all Camps and put it in the camp selector
+    */
     loadCamps(prefix: string, admType: string, admId: number) {
         return this._locationService.getCamps(admType, admId).pipe(
             map((camps) => {
@@ -903,9 +904,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         );
     }
 
-//
-// ─── VERIFY IF THE USER CAN LEAVE WITHOUT SAVING ────────────────────────────────
-//
+    //
+    // ─── VERIFY IF THE USER CAN LEAVE WITHOUT SAVING ────────────────────────────────
+    //
 
     /**
      * Verify if modifications have been made to prevent the user from leaving and display dialog to confirm we wiwhes to delete them

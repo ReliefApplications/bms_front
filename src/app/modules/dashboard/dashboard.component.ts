@@ -87,6 +87,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this._distributionService.get()
             .subscribe(
                 (apiDistributions: Array<any>) => {
+                    if (!apiDistributions) {
+                        apiDistributions = [];
+                    }
                     this.distributionData = new MatTableDataSource();
                         const distributions = apiDistributions.map((apiDistribution) => {
                             return Distribution.apiToModel(apiDistribution);

@@ -298,7 +298,6 @@ export class English implements Language {
     data_verification_description_end = 'Modifications will NOT be added to the database until the end of the validation process'
     data_verification_done = 'Your data has been verified'
     data_verification_error = 'Error processing data'
-    time_just_now = 'Just now'
     data_verification_last_updated = 'Last updated'
     data_verification_snackbar_duplicate_corrected = 'Duplicate issues corrected'
     data_verification_snackbar_duplicate_no_corrected = 'Not all duplicated have been corrected'
@@ -621,6 +620,8 @@ export class English implements Language {
     table_previous_page = 'Previous page'
     table_print = 'Print'
     table_assign = 'Assign'
+
+    time_just_now = 'Just now'
 
     // Transaction
     transaction_accept_prevention = 'I agree to these terms.'

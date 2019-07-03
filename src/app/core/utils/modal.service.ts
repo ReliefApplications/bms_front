@@ -98,7 +98,7 @@ export class ModalService {
                                 this.referedClassInstance.title;
                            this.snackbar.success(title + ' ' + this.language.update_beneficiary_created_successfully);
                        }
-                        this.isCompleted.next();
+                        this.isCompleted.next(true);
                     });
 
                 } else if (closeMethod === 'Edit') {
@@ -229,7 +229,9 @@ export class ModalService {
     updateElement(updateElement) {
         const apiUpdateElement = updateElement.modelToApi(updateElement);
         this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((_response: any) => {
-        this.isCompleted.next();
+        this.isCompleted.next(true);
+        }, (_error: any) => {
+            this.isCompleted.next(false);
         });
     }
 
@@ -237,11 +239,15 @@ export class ModalService {
 
         if (deleteElement instanceof Beneficiary) {
             this.referedClassService.delete(deleteElement.get('id'), deleteElement.get('distributionId')).subscribe((_response: any) => {
-                this.isCompleted.next();
-                });
+                this.isCompleted.next(true);
+            }, (_error: any) => {
+                this.isCompleted.next(false);
+            });
         } else {
             this.referedClassService.delete(deleteElement.get('id')).subscribe((_response: any) => {
-                this.isCompleted.next();
+                this.isCompleted.next(true);
+            }, (_error: any) => {
+                this.isCompleted.next(false);
             });
         }
     }
@@ -251,10 +257,10 @@ export class ModalService {
         this.referedClassService.add(distribution.get('id'), beneficiariesArray, justification)
         .subscribe(
             success => {
-               this.isCompleted.next();
+               this.isCompleted.next(true);
             },
             error => {
-                this.isCompleted.next();
+                this.isCompleted.next(false);
                 this.snackbar.error(error.error ? error.error : this.language.distribution_beneficiary_not_added);
             });
 
@@ -263,13 +269,17 @@ export class ModalService {
     deleteBeneficiary(beneficiary: Beneficiary, justification) {
         this.referedClassService.delete(beneficiary.get('id'), beneficiary.get('distributionId'), justification)
             .subscribe((_response: any) => {
-                this.isCompleted.next();
+                this.isCompleted.next(true);
+            }, (_error: any) => {
+                this.isCompleted.next(false);
             });
     }
 
     deleteMany(ids: Array<number>) {
         this.referedClassService.deleteMany(ids).subscribe((_response: any) => {
-            this.isCompleted.next();
+            this.isCompleted.next(true);
+        }, (_error: any) => {
+            this.isCompleted.next(false);
         });
     }
 
@@ -278,7 +288,7 @@ export class ModalService {
     //     if (this.referedClassToken.__classname__ !== 'User' && this.referedClassToken.__classname__ !== 'Vendors') {
     //         this.referedClassService.create(createElement['id'], createElement).subscribe(
     //             response => {
-    //             this.isCompleted.next();
+    //             this.isCompleted.next(true);
     //             });
     //     } else {
     //         // for users, there are two step (one to get the salt and one to create the user)
@@ -304,7 +314,7 @@ export class ModalService {
 
     //                 this.authenticationService.createUser(createElement, response).subscribe(
     //                     () => {
-    //                     this.isCompleted.next();
+    //                     this.isCompleted.next(true);
     //                     });
     //               }
     //             }

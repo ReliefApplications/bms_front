@@ -138,7 +138,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 
         if (dialogDetails.action === 'details') {
             this.modalService.openDialog(TransactionGeneralRelief, this.beneficiariesService, dialogDetails);
-            this.modalService.isCompleted.subscribe(() => {
+            this.modalService.isCompleted.subscribe((_response: boolean) => {
             });
         } else if (dialogDetails.action === 'edit') {
             const dialogRef = this.dialog.open(ModalEditComponent, {
@@ -153,14 +153,24 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         } else if (dialogDetails.action === 'delete') {
             dialogDetails.element = dialogDetails.element.get('beneficiary');
             this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-            this.modalService.isCompleted.subscribe(() => {
-                this.getDistributionBeneficiaries();
+            this.modalService.isCompleted.subscribe((response: boolean) => {
+                if (response) {
+                    this.getDistributionBeneficiaries();
+                } else {
+                    this.loadingTransaction = false;
+                }
             });
         }  else if (dialogDetails.action === 'addBeneficiary') {
             this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-            this.modalService.isCompleted.subscribe(() => {
+            this.modalService.isCompleted.subscribe((response: boolean) => {
                 if (this.networkService.getStatus()) {
-                    this.getDistributionBeneficiaries();
+                    if (response) {
+                        this.getDistributionBeneficiaries();
+                    } else {
+                        this.loadingTransaction = false;
+                    }
+                } else {
+                    this.loadingTransaction = false;
                 }
             });
         }

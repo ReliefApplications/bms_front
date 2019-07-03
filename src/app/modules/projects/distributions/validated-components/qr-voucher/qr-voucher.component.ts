@@ -97,25 +97,39 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
     if (dialogDetails.action === 'delete') {
         dialogDetails.element = dialogDetails.element.get('beneficiary');
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-        this.modalService.isCompleted.subscribe(() => {
-            this.getDistributionBeneficiaries();
+        this.modalService.isCompleted.subscribe((response: boolean) => {
+            if (response) {
+                this.getDistributionBeneficiaries();
+            } else {
+                this.loadingTransaction = false;
+            }
         });
     }  else if (dialogDetails.action === 'addBeneficiary') {
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-        this.modalService.isCompleted.subscribe(() => {
+        this.modalService.isCompleted.subscribe((response: boolean) => {
             if (this.networkService.getStatus()) {
-                this.getDistributionBeneficiaries();
+                if (response) {
+                    this.getDistributionBeneficiaries();
+                } else {
+                    this.loadingTransaction = false;
+                }
+            } else {
+                this.loadingTransaction = false;
             }
         });
     } else if (dialogDetails.action === 'edit') {
         dialogDetails.element = dialogDetails.element.get('beneficiary');
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-        this.modalService.isCompleted.subscribe(() => {
-            this.snackbar.success(this.language.transaction_update_success);
+        this.modalService.isCompleted.subscribe((response: boolean) => {
+            if (response) {
+                this.snackbar.success(this.language.transaction_update_success);
+            } else {
+                this.loadingTransaction = false;
+            }
         });
     } else {
         this.modalService.openDialog(TransactionQRVoucher, this.beneficiariesService, dialogDetails);
-        this.modalService.isCompleted.subscribe(() => {
+        this.modalService.isCompleted.subscribe((_response: boolean) => {
         });
     }
   }

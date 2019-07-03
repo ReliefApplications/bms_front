@@ -343,22 +343,27 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
             this.loadingFirstStep = true;
             this.loadingFinalStep = true;
         });
-        this.modalService.isCompleted.subscribe(() => {
-            this.isUpdated.emit();
-            if (this.networkService.getStatus() && dialogDetails.action === 'addBeneficiary') {
-                this.distributionService.getBeneficiaries(this.actualDistribution.get('id'))
-                    .subscribe(
-                        distributionBeneficiaries => {
-                            if (distributionBeneficiaries) {
-                                const beneficiaries = this.setDistributionBenefAndGetBenef(distributionBeneficiaries);
-                                this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
+        this.modalService.isCompleted.subscribe((response: boolean) => {
+            if (response) {
+                this.isUpdated.emit();
+                if (this.networkService.getStatus() && dialogDetails.action === 'addBeneficiary') {
+                    this.distributionService.getBeneficiaries(this.actualDistribution.get('id'))
+                        .subscribe(
+                            distributionBeneficiaries => {
+                                if (distributionBeneficiaries) {
+                                    const beneficiaries = this.setDistributionBenefAndGetBenef(distributionBeneficiaries);
+                                    this.initialBeneficiaryData = new MatTableDataSource(beneficiaries);
+                                }
                             }
-                        }
-                    );
-                this.snackbar.success(this.language.distribution_beneficiary_added);
-                this.getDistributionBeneficiaries('final');
+                        );
+                    this.snackbar.success(this.language.distribution_beneficiary_added);
+                    this.getDistributionBeneficiaries('final');
+                } else {
+                    this.getDistributionBeneficiaries('both');
+                }
             } else {
-                this.getDistributionBeneficiaries('both');
+                this.loadingFirstStep = false;
+                this.loadingFinalStep = false;
             }
         });
     }

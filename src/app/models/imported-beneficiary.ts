@@ -52,7 +52,7 @@ export class ImportedBeneficiary extends CustomModel {
             childrenFieldName: 'dateOfBirth',
         }),
         justification: new TextModelField({
-            title: this.language.modal_delete_justification,
+            title: this.language.justification,
             isDisplayedInTable: true,
         })
 

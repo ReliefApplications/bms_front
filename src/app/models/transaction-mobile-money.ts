@@ -30,7 +30,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
     title = this.language.beneficiary;
     matSortActive = 'localFamilyName';
 
-    public fields = {...this.fields, ...{
+    public fields = {...{
         idTransaction: new NumberModelField({
             title: this.language.transaction_id_transaction,
             isDisplayedInTable: true,
@@ -133,7 +133,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
             childrenFieldName: 'referralComment',
             isEditable: true,
         }),
-    }};
+    }, ...this.fields};
 
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionMobileMoney {
         const newDistributionBeneficiary = new TransactionMobileMoney();

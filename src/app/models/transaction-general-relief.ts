@@ -44,7 +44,7 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
     matSortActive = 'localFamilyName';
     title = this.language.general_relief;
 
-    public fields = {...this.fields, ...{
+    public fields = {...{
         id: new NumberModelField({
 
         }),
@@ -136,8 +136,8 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             childrenFieldName: 'referralComment',
             isEditable: true,
         }),
-    }
-    };
+    },
+    ...this.fields};
 
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionGeneralRelief {
         const newGeneralRelief = new TransactionGeneralRelief();

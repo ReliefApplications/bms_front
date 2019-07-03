@@ -190,6 +190,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
                 }
             );
         }
+        this.projectAddControl.reset();
         this.dialog.closeAll();
     }
 

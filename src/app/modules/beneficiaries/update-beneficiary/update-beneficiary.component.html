@@ -205,7 +205,7 @@
           <div class="container-content box-primary">
             <div class="content-table">
               <form [formGroup]="mainForm">
-                <ng-select class="multiple-select" formControlName="projects" placeholder="{{language.projects | uppercaseFirst}}" [multiple]="true"  [closeOnSelect]="false" [searchable]="true" required>
+                <ng-select class="multiple-select" formControlName="projects" placeholder="{{language.projects | uppercaseFirst}} *" [multiple]="true"  [closeOnSelect]="false" [searchable]="true" required>
                     <ng-option *ngFor="let option of household.getOptions('projects')" [value]="option.get('id')">
                         {{option.get(household.fields.projects.bindField) | uppercaseFirst}}
                     </ng-option>
@@ -249,12 +249,18 @@
                 <table mat-table [dataSource]="tableData" class="mat-elevation-z8" *ngIf="validStep2">
                   <ng-container matColumnDef="localGivenName">
                     <th mat-header-cell *matHeaderCellDef> {{ language.beneficiary_local_given_name | uppercaseFirst }} </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.controls.localGivenName.value }} ({{ element.controls.enGivenName.value }})</td>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.controls.localGivenName.value }} 
+                      <span *ngIf="element.controls.enGivenName.value">({{ element.controls.enGivenName.value }})</span>
+                    </td>
                   </ng-container>
 
                   <ng-container matColumnDef=localFamilyName>
                     <th mat-header-cell *matHeaderCellDef> {{ language.beneficiary_local_family_name | uppercaseFirst }} </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.controls.localFamilyName.value }} ({{ element.controls.enFamilyName.value }}) </td>
+                    <td mat-cell *matCellDef="let element">
+                      {{ element.controls.localFamilyName.value }}
+                      <span *ngIf="element.controls.enFamilyName.value">({{ element.controls.enFamilyName.value }})</span>
+                    </td>
                   </ng-container>
 
                   <ng-container matColumnDef="gender">

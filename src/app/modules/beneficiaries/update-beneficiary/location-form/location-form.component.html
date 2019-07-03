@@ -1,7 +1,7 @@
 <form [formGroup]="form" class="location-form">
   <div class="column-container">
     <h4 class="location">{{ language['household_location_' + locationGroup + '_location'] | uppercaseFirst}}</h4>
-    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1[countryId] | uppercaseFirst}}" [formControlName]="locationGroup + 'Adm1'" required>
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]="true" [closeOnSelect]="true" placeholder="{{language.adm1[countryId] | uppercaseFirst}} *" [formControlName]="locationGroup + 'Adm1'" required>
       <ng-option *ngFor="let option of locations[locationGroup].getOptions('adm1')" [value]="option.get('id')">
         {{option.get('name') | uppercaseFirst}}
       </ng-option>
@@ -28,7 +28,7 @@
   </div>
   <div class="column-container">
     <h4>{{ language.household_location_type | uppercaseFirst }}</h4>
-    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_type | uppercaseFirst}}" [formControlName]="locationGroup + 'Type'">
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_type | uppercaseFirst}} *" [formControlName]="locationGroup + 'Type'">
       <ng-option *ngFor="let option of householdLocationTypes" [value]="option.get('id')">
         {{option.get('name') | uppercaseFirst}}
       </ng-option>
@@ -49,7 +49,7 @@
     </ng-container>
     <ng-container *ngIf="form.controls[locationGroup + 'Type'].value && form.controls[locationGroup + 'Type'].value === 'camp'">
       <h4>{{ language.household_location_address }}</h4>
-      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_camp | uppercaseFirst}}" [formControlName]="locationGroup + 'Camp'">
+      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_camp | uppercaseFirst}} *" [formControlName]="locationGroup + 'Camp'">
         <ng-option *ngFor="let option of campLists[locationGroup]" [value]="option.get('id')">
           {{option.get('name') | uppercaseFirst}}
         </ng-option>

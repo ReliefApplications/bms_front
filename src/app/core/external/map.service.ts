@@ -41,7 +41,6 @@ export class MapService {
             scrollWheelZoom: true,
             layers: [],
         });
-        this.addKML();
         this.addTileLayer();
         this.addLegend();
     }
@@ -63,56 +62,49 @@ export class MapService {
         this.addTileLayer();
     }
 
-    // add all layers to show the upcoming distribution in the map dashboard
-    addKML() {
+    // Add all layers to show the upcoming distribution in the map dashboard
+    addDistributions(distributions: Array<Distribution>) {
         const country = this.countriesService.selectedCountry.value;
         let markers = this.initializeFeatureGroup();
         const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.fields.id.value.toLowerCase() + '.kml').on('ready', () => {
             // Center view on country
             this.map.fitBounds(admLayers.getBounds());
 
-            // Get all upcoming distributions
-            this.distributionService.get().subscribe((apiDistributions: Array<any>) => {
-                if (!apiDistributions) {
-                    return;
-                }
-                // Remove previous markers
-                this.map.removeLayer(markers);
-                // Empty markers
-                markers = this.initializeFeatureGroup();
-                // Format distributions
-                const distributions = apiDistributions.map((apiDistribution: any) => {
-                    return Distribution.apiToModel(apiDistribution);
+            // Exit if there is nothing to display
+            if (!distributions) {
+                return;
+            }
+            // Remove previous markers
+            this.map.removeLayer(markers);
+            // Empty markers
+            markers = this.initializeFeatureGroup();
+
+
+            // Find regions corresponding to distribution
+            distributions.forEach((distribution: Distribution) => {
+                const admGroup = new Leaflet.FeatureGroup();
+
+                admLayers.eachLayer((layer: any) => {
+                    // Fill an array containing all the adm of the current layer
+                    const kmlAdm = [
+                        layer.feature.properties.ADM0_PCODE,
+                        layer.feature.properties.ADM1_PCODE,
+                        layer.feature.properties.ADM2_PCODE,
+                        layer.feature.properties.ADM3_PCODE ,
+                    ];
+                    // Group all the matching adm4 layers
+                    if (this.compareAdmToMapDistribution(kmlAdm, distribution.get('location').get<string>('code'))) {
+                        admGroup.addLayer(layer);
+                    }
                 });
 
-                // Find regions corresponding to distribution
-                distributions.forEach((distribution: Distribution) => {
-                    const admGroup = new Leaflet.FeatureGroup();
-
-                    admLayers.eachLayer((layer: any) => {
-                        // Fill an array containing all the adm of the current layer
-                        const kmlAdm = [
-                            layer.feature.properties.ADM0_PCODE,
-                            layer.feature.properties.ADM1_PCODE,
-                            layer.feature.properties.ADM2_PCODE,
-                            layer.feature.properties.ADM3_PCODE ,
-                        ];
-                        // Group all the matching adm4 layers
-                        if (this.compareAdmToMapDistribution(kmlAdm, distribution.get('location').get<string>('code'))) {
-                            admGroup.addLayer(layer);
-                        }
-                    });
-
-                    const distributionMarker = new DistributionMarker(admGroup, this.map, distribution);
-                    // Add the marker to the cluster
-                    markers.addLayer(distributionMarker.marker);
-                });
-
-                // Add it to the map
-                markers.addTo(this.map);
-
+                const distributionMarker = new DistributionMarker(admGroup, this.map, distribution);
+                // Add the marker to the cluster
+                markers.addLayer(distributionMarker.marker);
             });
 
+            // Add it to the map
+            markers.addTo(this.map);
         });
     }
 

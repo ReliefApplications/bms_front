@@ -156,7 +156,9 @@
                                             </ng-container>
                                             <ng-container *ngIf="!formService.isDisabled(field, modalType)">
                                                 <input matInput [matDatepicker]="picker" [formControlName]="fieldName"
-                                                    [placeholder]="field.title | uppercaseFirst">
+                                                    [placeholder]="field.title | uppercaseFirst"
+                                                    [min]="fieldName === 'endDate' ? form.controls.startDate.value : null"
+                                                    [max]="fieldName === 'startDate' ? form.controls.endDate.value : null">
                                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                                 <mat-datepicker #picker></mat-datepicker>
                                             </ng-container>

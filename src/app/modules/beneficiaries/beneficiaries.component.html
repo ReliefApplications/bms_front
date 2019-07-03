@@ -13,7 +13,6 @@
                     </button>
                     <div class="extension">
                         <mat-menu #menu class="extMenu">
-
                             <button mat-menu-item *ngIf="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT')"
                                 (click)="addToProject(addBeneficiaries)">
                                 {{language.beneficiary_add_list}}

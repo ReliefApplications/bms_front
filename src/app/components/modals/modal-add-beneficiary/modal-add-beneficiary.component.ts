@@ -15,7 +15,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 export class ModalAddBeneficiaryComponent implements OnInit {
 
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     public justification = new FormControl('', [Validators.required]);
     beneficiaryList = new Array<Beneficiary>();
@@ -27,7 +27,7 @@ export class ModalAddBeneficiaryComponent implements OnInit {
         public languageService: LanguageService,
         public beneficiariesService: BeneficiariesService,
         public cacheService: AsyncacheService,
-        ) {
+    ) {
     }
 
     ngOnInit() {
@@ -46,9 +46,9 @@ export class ModalAddBeneficiaryComponent implements OnInit {
         this.modalReference.close('Cancel');
     }
 
-        /**
-     * Gets all the beneficiaries of the project to be able to add some to this distribution
-     */
+    /**xs
+    * Gets all the beneficiaries of the project to be able to add some to this distribution
+    */
     getProjectBeneficiaries() {
         const target = this.data.distribution.get('type').get('name');
 

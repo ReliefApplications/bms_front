@@ -36,7 +36,7 @@
 <ng-template #sidenav>
     <mat-nav-list *ngIf="language">
         <mat-list-item *ngIf="currentDisplayType.type !== 'mobile'" routerLink="/">
-            <img src="assets/images/bms_logo.png" mat-list-icon>
+            <img class="bms-logo" src="assets/images/bms_logo.png" mat-list-icon>
         </mat-list-item>
         <mat-list-item [ngClass]="{selected: matchUrl() === ''}" routerLink="/">
             <span class="full-width" >{{language.home | titlecase}}</span>

@@ -351,8 +351,8 @@ export class English implements Language {
     distribution_want_add = 'that you want to add to the '
 
     // Donor
-    donor_fullname = 'Donor\'s name'
-    donor_shortname = 'Shortname'
+    donor_fullname = 'Donor name'
+    donor_shortname = 'Short name'
 
     // Header
     'header_add-beneficiaries' = 'Add Beneficiaries'
@@ -537,7 +537,7 @@ export class English implements Language {
     project_description = 'You will be able to modify project\'s name until your first distribution.'
     project_end_date = 'End Date'
     project_go_import_beneficiaries = 'Import Beneficiaries'
-    project_name = 'Project\'s name'
+    project_name = 'Project name'
     project_no_distribution = 'This project does not contain any distributions. Create your first one !'
     project_no_household = 'This project does not contain any households.'
     project_no_projects = 'This country currently does not contain any active projects.'
@@ -605,7 +605,7 @@ export class English implements Language {
     snackbar_change_password_done = 'Password has been changed!'
     snackbar_change_password_fail = 'Could not change password...'
     snackbar_change_password_not_possible = 'Password must be longer than 1 character and match with verification'
-    snackbar_invalid_transaction_date = 'The transaction\'s deadline is over.'
+    snackbar_invalid_transaction_date = 'The transaction deadline is over.'
     snackbar_pickup_error = 'It is currently impossible to check the pickup status'
 
     // Table
@@ -655,19 +655,19 @@ export class English implements Language {
     transaction_validation = 'Confirm the validation'
 
     // Tooltip
-    tooltip_add_beneficiaries = 'This page is the add beneficiaries\' page. This is a form to add a new household with required fields.'
-    tooltip_add_distribution = 'This page is the add distribution\'s page. This is a form to add a new distribution with required fields. You will select households or beneficiaries by sorting them by a selection criteria and add a specific amount of commodities to the distribution.'
-    tooltip_beneficiaries = 'This page is the beneficiaries\' page. You can see all households of the country. If you have the right, you can add new households with the "+" button, manage households and research in the list.'
-    tooltip_dashboard = 'This page is the dashboard. You have a global view on some numbers about the country and its projects. You have access to a map with distributions of the country and summary of last distributions.'
-    tooltip_data = 'This page is the post import beneficiaries\' page. This is a summary of households you have imported.'
-    tooltip_data_validation = 'This page is the import beneficiaries\' page using a file. You have to verify your file by following the steps.'
-    tooltip_distributions = 'This page is the distribution\'s page. You can see all households of the distribution. If you have the right, you can add new households with a file or by selecting in the list, manage households and validate the distribution to a transaction.'
-    tooltip_import = 'This page is the import beneficiaries\' page. You can choose to import new households using a file or the API (the external data source) to import all the household of a specific commune.'
-    tooltip_profile = 'This page is the profile\'s page. You can change your password.'
-    tooltip_projects = 'This page is the projects\' page. You can see all projects of the country (only thoses that you have the right to see). If you have the right, you can add a new distribution with households whose are in the project, manage distributions and transactions.'
-    tooltip_reports = 'This page is the reports\' page. This page is used to see statistics of the country, like the average transactions of a projects, number of distributions...'
-    tooltip_settings = 'This page is the settings\' page. In this page, you\'ll be able to add a new user, new country specifics, new donors, a new project and change the credential for the transaction.'
-    tooltip_update_beneficiary = 'This page is the update beneficiaries\' page. This is a form to update the selected household with required fields.'
+    tooltip_add_beneficiaries = 'This page is the \'add beneficiaries\' page. This is a form to add a new household with required fields.'
+    tooltip_add_distribution = 'This page is the \'add distribution\' page. This is a form to add a new distribution with required fields. You will select households or beneficiaries by sorting them by a selection criteria and add a specific amount of commodities to the distribution.'
+    tooltip_beneficiaries = 'This page is the \'beneficiaries\' page. You can see all households of the country. If you have the right, you can add new households with the "+" button, manage households and research in the list.'
+    tooltip_dashboard = 'This page is the \'dashboard\'. You have a global view on some numbers about the country and its projects. You have access to a map with distributions of the country and summary of last distributions.'
+    tooltip_data = 'This page is the post \'import beneficiaries\' page. This is a summary of households you have imported.'
+    tooltip_data_validation = 'This page is the \'import beneficiaries\' page using a file. You have to verify your file by following the steps.'
+    tooltip_distributions = 'This page is the \'distribution\' page. You can see all households of the distribution. If you have the right, you can add new households with a file or by selecting in the list, manage households and validate the distribution to a transaction.'
+    tooltip_import = 'This page is the import \'beneficiaries\' page. You can choose to import new households using a file or the API (the external data source) to import all the household of a specific commune.'
+    tooltip_profile = 'This page is the \'profile\' page. You can change your password.'
+    tooltip_projects = 'This page is the \'projects\' page. You can see all projects of the country (only thoses that you have the right to see). If you have the right, you can add a new distribution with households whose are in the project, manage distributions and transactions.'
+    tooltip_reports = 'This page is the \'reports\' page. This page is used to see statistics of the country, like the average transactions of a projects, number of distributions...'
+    tooltip_settings = 'This page is the \'settings\' page. In this page, you\'ll be able to add a new user, new country specifics, new donors, a new project and change the credential for the transaction.'
+    tooltip_update_beneficiary = 'This page is the \'update beneficiaries\' page. This is a form to update the selected household with required fields.'
 
     // Update beneficiary
     update_beneficiary_created_successfully = 'Created successfuly'
@@ -698,6 +698,7 @@ export class English implements Language {
     voucher_select_distribution = 'You have to select a distribution'
     voucher_select_project = 'You have to select a project'
     voucher_step5 = 'will be assigned to'
+    vouchers_booklet = 'Voucher Booklet(s)'
 
     // Vulnerability
     vulnerability_pregnant = 'pregnant'

@@ -113,7 +113,6 @@ export class User extends CustomModel {
             bindField: 'name',
             apiLabel: 'id',
             isRequired: true,
-
         }),
         countries: new MultipleSelectModelField({
             title: this.language.country,

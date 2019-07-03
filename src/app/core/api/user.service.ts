@@ -4,17 +4,17 @@ import { map } from 'rxjs/operators';
 import { AppInjector } from 'src/app/app-injector';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { Project } from 'src/app/models/project';
+import { rightsHierarchy, Role } from '../../models/constants/permissions';
 import { SaltInterface } from '../../models/salt';
 import { User } from '../../models/user';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { WsseService } from '../authentication/wsse.service';
+import { CountriesService } from '../countries/countries.service';
 import { Language } from '../language/language';
-import { rightsHierarchy, Role } from '../../models/constants/permissions';
+import { HttpService } from '../network/http.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { CustomModelService } from '../utils/custom-model.service';
-import { HttpService } from '../network/http.service';
 import { ProjectService } from './project.service';
-import { CountriesService } from '../countries/countries.service';
 
 
 @Injectable({
@@ -23,6 +23,7 @@ import { CountriesService } from '../countries/countries.service';
 export class UserService extends CustomModelService {
 
     public currentUser: User;
+    projectsService = AppInjector.get(ProjectService);
 
     constructor(
         protected http: HttpService,
@@ -30,6 +31,7 @@ export class UserService extends CustomModelService {
         private wsseService: WsseService,
         private authenticationService: AuthenticationService,
         private asyncCacheService: AsyncacheService,
+        private countriesService: CountriesService,
     ) {
         super(http, languageService);
     }
@@ -116,22 +118,22 @@ export class UserService extends CustomModelService {
     }
 
     public fillWithOptions(user: User) {
-        const appInjector = AppInjector;
-        appInjector.get(ProjectService).get().subscribe((projects: any) => {
-
+        this.projectsService.get().subscribe((projects: any) => {
             if (projects) {
                 const projectOptions = projects.map(project => {
                     return Project.apiToModel(project);
                 });
-                const country = appInjector.get(CountriesService).selectedCountry.getValue().get<string>('id') ?
-                    appInjector.get(CountriesService).selectedCountry.getValue().get<string>('id') :
-                    appInjector.get(CountriesService).khm.get<string>('id');
-                user.get<Array<Project>>('projects').forEach((project: Project) => {
-                    if (project.get<string>('iso3') !== country) {
-                        projectOptions.push(project);
+                const country = this.countriesService.selectedCountry.getValue().get<string>('id') ?
+                    this.countriesService.selectedCountry.getValue().get<string>('id') :
+                    this.countriesService.khm.get<string>('id');
+                    if (user.get<Array<Project>>('projects')) {
+                        user.get<Array<Project>>('projects').forEach((project: Project) => {
+                        if (project.get<string>('iso3') !== country) {
+                            projectOptions.push(project);
+                        }
+                        });
                     }
-                });
-                user.setOptions('projects', projectOptions);
+            user.setOptions('projects', projectOptions);
             }
         });
     }

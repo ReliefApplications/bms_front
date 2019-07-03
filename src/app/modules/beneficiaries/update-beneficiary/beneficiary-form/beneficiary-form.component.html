@@ -24,7 +24,7 @@
   <div class="column-container">
       <h4 class="location">{{ language.beneficiary_personnal | uppercaseFirst }}</h4>
     <ng-select class="single-select gender" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-      placeholder="{{language.gender | uppercaseFirst }}" formControlName="gender" required>
+      placeholder="{{language.gender | uppercaseFirst }} *" formControlName="gender" required>
       <ng-option *ngFor="let option of options.genderList" [value]="option.get('id')">
         {{option.get('name') | uppercaseFirst }}
       </ng-option>

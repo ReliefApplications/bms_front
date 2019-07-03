@@ -621,6 +621,7 @@ export class French implements Language {
     table_print = 'imprimer'
     table_assign = 'assigner'
 
+    // Time
     time_just_now = 'à l\'instant'
 
     // Transaction

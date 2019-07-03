@@ -621,6 +621,7 @@ export class English implements Language {
     table_print = 'Print'
     table_assign = 'Assign'
 
+    // Time
     time_just_now = 'Just now'
 
     // Transaction

@@ -29,6 +29,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
     @Input() distributionIsStored: boolean;
 
     @Output() emitStore = new EventEmitter<Distribution>();
+    @Output() isUpdated = new EventEmitter<void>();
     loadingExport = false;
 
     loadingDatas = true;
@@ -343,6 +344,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
             this.loadingFinalStep = true;
         });
         this.modalService.isCompleted.subscribe(() => {
+            this.isUpdated.emit();
             if (this.networkService.getStatus() && dialogDetails.action === 'addBeneficiary') {
                 this.distributionService.getBeneficiaries(this.actualDistribution.get('id'))
                     .subscribe(

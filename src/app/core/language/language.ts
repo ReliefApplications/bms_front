@@ -307,7 +307,6 @@ export interface Language {
     data_verification_description_typos: string
     data_verification_done: string
     data_verification_error: string
-    data_verification_just_now: string
     data_verification_last_updated: string
     data_verification_snackbar_duplicate_corrected: string
     data_verification_snackbar_duplicate_no_corrected: string
@@ -625,6 +624,9 @@ export interface Language {
     table_previous_page: string
     table_print: string
     table_assign: string
+
+    // Time
+    time_just_now: string
 
     // Transaction
     transaction_accept_prevention: string

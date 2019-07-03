@@ -96,6 +96,8 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     }
 
     applySpecificFilter(filterValue: any, category: string) {
+        this.selection.clear();
+        this.selectChecked.emit(this.selection.selected);
         if (typeof (filterValue) === 'string') {
             filterValue = filterValue.trim().toLowerCase();
         }

@@ -7,6 +7,8 @@ import { Distribution } from 'src/app/models/distribution';
 import { DistributionService } from '../api/distribution.service';
 import { CountriesService } from '../countries/countries.service';
 import { DistributionMarker } from './distribution-marker';
+import { DistributionMarkerService } from './distribution-marker.service';
+import { Legend } from './legend';
 
 
 @Injectable({
@@ -22,6 +24,7 @@ export class MapService {
     constructor(
         private distributionService: DistributionService,
         private countriesService: CountriesService,
+        private distributionMarkerService: DistributionMarkerService
     ) { }
 
     createMap(mapId: string) {
@@ -39,6 +42,7 @@ export class MapService {
             layers: [],
         });
         this.addTileLayer();
+        this.addLegend();
     }
 
     removeMap() {
@@ -128,5 +132,9 @@ export class MapService {
         return Leaflet.markerClusterGroup({
 
         });
+    }
+
+    private addLegend() {
+        new Legend(this.distributionMarkerService.generateMarker(false)).legend.addTo(this.map);
     }
 }

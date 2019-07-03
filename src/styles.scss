@@ -140,9 +140,7 @@ app-display-field.ng-star-inserted {
     }
 }
 
-// .marker {
-//     z-index: 2;
-// }
+// LEAFLET
 .marker-container {
 
   .marker-pointer {
@@ -171,6 +169,47 @@ app-display-field.ng-star-inserted {
   &.completed {
     fill: $bms_green;
   }
+}
 
+.legend {
+
+    background: rgba(255,255,255,0.75);
+    padding: 0 15px;
+    border-radius: 5px;
+    width: 100px;
+    pointer-events: none;
+
+    p {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        svg {
+            width: 20px;
+        }
+        span {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        &.not-validated {
+            svg {
+                fill: $bms_red;
+            }
+        }
+        &.validated {
+            svg {
+                fill: $bms_dark_blue;
+            }
+        }
+        &.completed {
+            svg {
+                fill: $bms_green;
+            }
+        }
+    }
+
+    h4 {
+        margin: 0;
+    } 
 
 }

@@ -60,17 +60,10 @@ export class DistributionMarker {
             html: `
                 <object class="marker-icon" width="20" height="20" fill="white"
                     data="${this.distributionMarkerService.getImage(distribution)}">
-
                 </object>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" >
-                    <circle class="marker-pointer" cx="100" cy="100" r="85" stroke="none"/>
-                    <path class="marker-pointer" d="M 100 280 L 13 150 Q 100 249 186 150 Z" stroke="none"/>
-                    ${this.distributionMarkerService.isToday(distribution) ? '<animate attributeType="CSS" attributeName="opacity"\
-                    values="1;0.5;1" dur="1s" repeatCount="indefinite" />' : ''}
-                </svg>
+                ${this.distributionMarkerService.generateMarker(this.distributionMarkerService.isToday(distribution))}
             `,
-            // iconUrl: 'assets/maps/marker.svg',
-            // // 0,0 is the top left corner of the icon
+            // 0,0 is the top left corner of the icon
             iconSize:       [width, height], // size of the icon
             iconAnchor:     [width / 2, height], // Position of the location relative to the icon
             popupAnchor:    [0, - height + 5], // Position of the popup relative to the iconAnchor

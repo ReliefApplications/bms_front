@@ -126,12 +126,21 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
         this.addCommonFields(newQRVoucher, distributionBeneficiaryFromApi, distributionId);
 
         let products: Product[] = [];
+        const productIds: number[] = [];
         if (distributionBeneficiaryFromApi.products) {
-            products = distributionBeneficiaryFromApi.products.map((product: any) =>  Product.apiToModel(product));
+            products = distributionBeneficiaryFromApi.products.map((product: any) => {
+                if (!productIds.includes(product.id)) {
+                    productIds.push(product.id);
+                    return Product.apiToModel(product);
+                }
+            });
         } else if (booklet) {
             booklet.vouchers.forEach((voucher: any) => {
                 voucher.products.forEach((product: any) => {
-                    products.push(Product.apiToModel(product));
+                    if (!productIds.includes(product.id)) {
+                        productIds.push(product.id);
+                        products.push(Product.apiToModel(product));
+                    }
                 });
             });
         }

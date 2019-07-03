@@ -15,7 +15,9 @@ export class DistributionBeneficiary extends CustomModel {
 
         }),
         justification: new TextModelField({
-            isLongText: true
+            title: this.language.justification,
+            isLongText: true,
+            isDisplayedInModal: false,
         }),
     };
 
@@ -33,10 +35,24 @@ export class DistributionBeneficiary extends CustomModel {
         newDistributionBeneficiary.set('removed', distributionBeneficiaryFromApi.removed);
         newDistributionBeneficiary.set('justification', distributionBeneficiaryFromApi.justification);
 
+        if (newDistributionBeneficiary.get('justification')) {
+            newDistributionBeneficiary.fields.justification.isDisplayedInModal = true;
+            newDistributionBeneficiary.fields.justification.title = newDistributionBeneficiary.get('removed') ?
+                newDistributionBeneficiary.language.beneficiary_justification_removed :
+                newDistributionBeneficiary.language.beneficiary_justification_added;
+        }
+
         if (Object.keys(distributionBeneficiaryFromApi.beneficiary ).length > 0) {
             const beneficiary = Beneficiary.apiToModel(distributionBeneficiaryFromApi.beneficiary);
             beneficiary.set('distributionId', distributionId);
             beneficiary.set('removed', distributionBeneficiaryFromApi.removed);
+            if (newDistributionBeneficiary.get('justification')) {
+                beneficiary.set('justification', distributionBeneficiaryFromApi.justification);
+                beneficiary.fields.justification.isDisplayedInModal = true;
+                beneficiary.fields.justification.title = beneficiary.get('removed') ?
+                    newDistributionBeneficiary.language.beneficiary_justification_removed :
+                    newDistributionBeneficiary.language.beneficiary_justification_added;
+            }
             newDistributionBeneficiary.set('beneficiary', beneficiary);
         }
 

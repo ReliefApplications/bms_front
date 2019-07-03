@@ -264,7 +264,12 @@ export class Beneficiary extends CustomModel {
                 isEditable: true,
                 isLongText: true,
             }
-        )
+        ),
+        justification: new TextModelField({
+            title: this.language.justification,
+            isLongText: true,
+            isDisplayedInModal: false,
+        }),
     };
 
 

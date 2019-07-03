@@ -5,10 +5,10 @@
       {{ language.modal_delete_beneficiary_sentence_2 | uppercaseFirst}} {{language.modal_delete_sentence_2 | uppercaseFirst}}
   </div>
   <div class="modal-body" [ngClass]="{'rtl':language.direction === 'rtl'}" cdkFocusRegionstart>
-    {{ language.modal_delete_justification | uppercaseFirst }}:
+    {{ language.justification | uppercaseFirst }}:
   </div>
   <mat-form-field>
-      <textarea matInput [formControl]="justification" type="text" [placeholder]="language.modal_delete_justification | uppercaseFirst" required></textarea>
+      <textarea matInput [formControl]="justification" type="text" [placeholder]="language.justification | uppercaseFirst" required></textarea>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions >

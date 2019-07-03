@@ -77,6 +77,7 @@ export interface Language {
     female: string
     gender: string
     id: string
+    justification: string
     male: string
     notes: string
     other: string
@@ -155,6 +156,8 @@ export interface Language {
     beneficiary_family_name: string
     beneficiary_given_name: string
     beneficiary_head: string
+    beneficiary_justification_added: string
+    beneficiary_justification_removed: string
     beneficiary_local_family_name: string
     beneficiary_local_given_name: string
     beneficiary_local_name: string
@@ -460,7 +463,6 @@ export interface Language {
     modal_delete_beneficiary: string
     modal_delete_beneficiary_sentence: string
     modal_delete_beneficiary_sentence_2: string
-    modal_delete_justification: string
     modal_complete_distribution: string
     modal_delete_many: string
     modal_delete_sentence_2: string

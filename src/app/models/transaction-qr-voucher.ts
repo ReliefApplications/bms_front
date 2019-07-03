@@ -11,7 +11,7 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
     title = this.language.beneficiary;
     matSortActive = 'localFamilyName';
 
-    public fields = {...this.fields, ...{
+    public fields = {...{
         // id: new NumberModelField({
 
         // }),
@@ -106,7 +106,9 @@ export class TransactionQRVoucher extends DistributionBeneficiary {
                 value: []
             }
         )
-    }};
+    },
+    ...this.fields
+    };
 
     public static apiToModel(distributionBeneficiaryFromApi: any, distributionId: number): TransactionQRVoucher {
         const newQRVoucher = new TransactionQRVoucher();

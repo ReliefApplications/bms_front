@@ -70,13 +70,14 @@ export class MapService {
             // Center view on country
             this.map.fitBounds(admLayers.getBounds());
 
+            // Remove previous markers on the map
+            this.map.removeLayer(markers);
+
             // Exit if there is nothing to display
             if (!distributions) {
                 return;
             }
-            // Remove previous markers
-            this.map.removeLayer(markers);
-            // Empty markers
+            // Create empty markers
             markers = this.initializeFeatureGroup();
 
 
@@ -97,7 +98,6 @@ export class MapService {
                         admGroup.addLayer(layer);
                     }
                 });
-
                 const distributionMarker = new DistributionMarker(admGroup, this.map, distribution);
                 // Add the marker to the cluster
                 markers.addLayer(distributionMarker.marker);

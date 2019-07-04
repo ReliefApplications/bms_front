@@ -75,6 +75,7 @@ export class Arabic implements Language {
     // Common fields
     address = 'عنوان'
     currency = 'دقة'
+    date = 'تاريخ'
     description = 'وصف'
     details = 'تفاصيل'
     distributed = 'وزعت'
@@ -166,6 +167,7 @@ export class Arabic implements Language {
     beneficiary_added = 'تم إضافة المستفيدين الى المشروع'
     beneficiary_advanced_research = 'بحث متقدم'
     beneficiary_clear_all_research = 'امسح الكل'
+    beneficiary_count = 'عدد المستفيدين'
     beneficiary_date_of_birth = 'تاريخ الميلاد'
     beneficiary_en_family_name = 'اسم العائلة الانجليزية'
     beneficiary_en_given_name = 'الاسم باللغة الإنجليزية'
@@ -447,6 +449,11 @@ export class Arabic implements Language {
     login_password = 'كلمة المرور'
     login_prompt = 'Please log in'
     login_title = ' تسجيل الدخول الى الحساب'
+
+    // Map legend
+    map_legend_completed = 'منجز'
+    map_legend_not_validated = 'ليس متاحا'
+    map_legend_validated = 'التحقق من صحة'
 
     // Modal
     modal_add_multiple_title = 'خلق جديد إبداع جديد'

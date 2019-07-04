@@ -5,7 +5,7 @@
                 <h1 >{{language.dashboard_distribution_map | uppercaseFirst}}</h1>
             </div>
             <div id="map-content">
-                <div id="map"></div>
+                <div id="map" [ngClass]="{'rtl':language.direction === 'rtl'}"></div>
             </div>
         </div>
         <div *ngIf="currentDisplayType.type !== 'mobile'" class="boxes-summary">

@@ -71,6 +71,7 @@ export interface Language {
     // Common fields
     address: string
     currency: string
+    date: string
     description: string
     details: string
     distributed: string
@@ -149,6 +150,7 @@ export interface Language {
     beneficiary_added: string
     beneficiary_advanced_research: string
     beneficiary_clear_all_research: string
+    beneficiary_count: string
     beneficiary_date_of_birth: string
     beneficiary_en_family_name: string
     beneficiary_en_given_name: string
@@ -454,6 +456,11 @@ export interface Language {
     login_password: string
     login_prompt: string
     login_title: string
+
+    // Map legend
+    map_legend_completed: string
+    map_legend_not_validated: string
+    map_legend_validated: string
 
     // Modal
     modal_add_multiple_title: string

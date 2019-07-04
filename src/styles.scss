@@ -214,6 +214,16 @@ app-display-field.ng-star-inserted {
 
 }
 
+// Map scss overwite
+.rtl {
+    .leaflet-marker-icon {
+        div {
+            margin-left: 0px;
+            margin-right: 5px;
+        }
+    }
+}
+
 // REPORTS
 
 @media screen and (min-width: 700px) {

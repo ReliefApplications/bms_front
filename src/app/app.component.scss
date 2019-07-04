@@ -63,6 +63,8 @@
 
         &.mobile {
             background-color: $bms_black;
+            position: fixed;
+            z-index: 1000;
         }
 
         app-header,

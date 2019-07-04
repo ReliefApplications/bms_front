@@ -425,7 +425,9 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
 
         &.rtl {
             direction: rtl;
-            .table-title, .table-value {
+
+            .table-title,
+            .table-value {
                 text-align: right;
             }
         }
@@ -440,6 +442,7 @@ button.mat-icon-button .mat-button-wrapper .mat-icon {
         }
     }
 }
+
 .modal-button {
     display: flex;
     flex-wrap: wrap;
@@ -550,6 +553,11 @@ snack-bar-container {
 
 //for mobile screen
 @media only screen and (max-width: 750px) {
+    // For top menu
+    .page-container {
+        margin-top: 56px;
+    }
+
     .mat-stepper-horizontal {
         .container-table {
             width: unset !important;

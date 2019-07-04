@@ -24,10 +24,6 @@ app-placeholder-panel {
   height: 300px;
 }
 
-app-table-dashboard {
-  width: 100%;
-}
-
 .dashboard-title {
   display: flex;
   font-family: $bms_font_header;
@@ -175,6 +171,7 @@ app-table-dashboard {
     app-table-mobile {
       width: 100%;
       height: 100%;
+      margin: 20px;
     }
   }
 

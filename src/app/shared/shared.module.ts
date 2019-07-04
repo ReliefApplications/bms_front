@@ -55,6 +55,7 @@ import { TableMobileServerComponent } from '../components/table/table-mobile-ser
 import { TableMobileComponent } from '../components/table/table-mobile/table-mobile.component';
 import { TableServerComponent } from '../components/table/table-server/table-server.component';
 import { TableComponent } from '../components/table/table.component';
+import { MobilePressDirective } from '../core/directives/mobile-press.directive';
 import { AdministrationComponent } from '../modules/administration/administration.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiaries/beneficiaries-import/beneficiaries-import.component';
 import { ImportedDataComponent } from '../modules/beneficiaries/beneficiaries-import/imported-data/imported-data.component';
@@ -131,6 +132,7 @@ imports: [
     ],
     declarations: [
         // Shared Components
+        MobilePressDirective,
         LoginComponent,
         DashboardComponent,
         BeneficiariesComponent,

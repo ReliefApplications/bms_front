@@ -15,6 +15,24 @@ export class Modality extends CustomModel {
         this.set('id', id);
         this.set('name', name);
     }
+
+    public getTooltip(): string {
+        const commoditiesTooltips: object = {
+            'Cash': this.language.commodity_cash,
+            'Voucher': this.language.voucher,
+            'In Kind': this.language.commodity_in_kind,
+            'Other': this.language.other,
+        };
+        // Todo: Use global variable, fix typing in order to not do this if check
+
+        const modalityName = this.get('name');
+
+        if (typeof modalityName === 'string') {
+            return commoditiesTooltips[modalityName];
+        } else {
+            return '';
+        }
+    }
 }
 
 export class ModalityType extends CustomModel {
@@ -28,6 +46,32 @@ export class ModalityType extends CustomModel {
         super();
         this.set('id', id);
         this.set('name', name);
+    }
+
+    public getTooltip(): string {
+        const commoditiesTooltips: object = {
+            'Mobile Money': this.language.commodity_modality_cash,
+            'QR Code Voucher': this.language.commodity_modality_qr_voucher,
+            'Paper Voucher': this.language.commodity_modality_paper_voucher,
+            'Bread': this.language.commodity_modality_bread,
+            'Loan': this.language.commodity_modality_loan,
+            'Food': this.language.commodity_modality_food,
+            'WASH Kit': this.language.commodity_modality_wash,
+            'Agricultural Kit': this.language.commodity_modality_agriculture,
+            'RTE Kit': this.language.commodity_modality_rte,
+            'Shelter tool kit': this.language.commodity_modality_shelter,
+            'Hygiene kit': this.language.commodity_modality_hygiene,
+            'Dignity kit': this.language.commodity_modality_dignity,
+        };
+        // Todo: Use global variable, fix typing in order to not do this if check
+
+        const modalityName = this.get('name');
+
+        if (typeof modalityName === 'string') {
+            return commoditiesTooltips[modalityName];
+        } else {
+            return '';
+        }
     }
 }
 
@@ -55,6 +99,7 @@ export class Commodity extends CustomModel {
                 isEditable: true,
                 bindField: 'name',
                 apiLabel: 'name',
+                isTranslatable: true,
                 // For options, same as sectors and donors
             }
         ),
@@ -69,6 +114,7 @@ export class Commodity extends CustomModel {
                 isEditable: true,
                 bindField: 'name',
                 apiLabel: 'name',
+                isTranslatable: true,
                 // For options, depends on modality
             }
         ),
@@ -166,29 +212,7 @@ export class Commodity extends CustomModel {
     }
 
     public getTooltip(): string {
-        const commoditiesTooltips: object = {
-            'Mobile Money': this.language.commodity_cash,
-            'QR Code Voucher': this.language.commodity_qr_voucher,
-            'Paper Voucher': this.language.commodity_paper_voucher,
-            'Bread': this.language.commodity_bread,
-            'Loan': this.language.commodity_loan,
-            'Food': this.language.commodity_food,
-            'WASH Kit': this.language.commodity_wash,
-            'Agricultural Kit': this.language.commodity_agriculture,
-            'RTE Kit': this.language.commodity_rte,
-            'Shelter tool kit': this.language.commodity_shelter,
-            'Hygiene kit': this.language.commodity_hygiene,
-            'Dignity kit': this.language.commodity_dignity,
-        };
-        // Todo: Use global variable, fix typing in order to not do this if check
-
-        const modalityName = this.get('modalityType').get('name');
-
-        if (typeof modalityName === 'string') {
-            return commoditiesTooltips[modalityName];
-        } else {
-            return '';
-        }
+        return this.get<ModalityType>('modalityType').getTooltip();
     }
 
     public getIdentifyingName() {

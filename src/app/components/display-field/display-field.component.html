@@ -67,7 +67,14 @@
                     <app-icon-svg [imagePath]="field.value.getImage()" [tooltip]="value.getTooltip()"></app-icon-svg>
                 </ng-container>
                 <ng-template #singleNotImage>
-                    <ng-container *ngIf="field.value">{{field.value.get(field.bindField) | uppercaseFirst }}</ng-container>
+                    <ng-container *ngIf="field.value">
+                            <ng-container *ngIf="field.isTranslatable; else notTranslatable">
+                                    {{field.value.getTooltip() | uppercaseFirst}}
+                            </ng-container>
+                            <ng-template #notTranslatable>
+                                    {{field.value.get(field.bindField) | uppercaseFirst}}
+                            </ng-template>
+                    </ng-container>
                 </ng-template>
         </ng-container>
     </ng-template>

@@ -64,9 +64,16 @@
                                     <ng-select appendTo="body" [formControlName]="fieldName"
                                         [placeholder]="field.title | uppercaseFirst" [multiple]="true"
                                         [closeOnSelect]="false">
-                                        <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
-                                            {{option.get(field.bindField) | uppercaseFirst}}
-                                        </ng-option>
+                                        <ng-container *ngIf="field.isTranslatable; else notTranslatable">
+                                            <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
+                                                {{option.getTooltip() | uppercaseFirst}}
+                                            </ng-option>
+                                        </ng-container>
+                                        <ng-template #notTranslatable>
+                                            <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
+                                                {{option.get(field.bindField) | uppercaseFirst}}
+                                            </ng-option>
+                                        </ng-template>
                                     </ng-select>
                                 </ng-container>
                             </ng-template>
@@ -75,9 +82,16 @@
                                 <ng-container *ngIf="field.kindOfField === 'SingleSelect'; else isColor">
                                     <ng-select appendTo="body" [formControlName]="fieldName"
                                         [placeholder]="field.title | uppercaseFirst">
-                                        <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
-                                            {{option.get(field.bindField) | uppercaseFirst}}
-                                        </ng-option>
+                                        <ng-container *ngIf="field.isTranslatable; else notTranslatable">
+                                            <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
+                                                {{option.getTooltip() | uppercaseFirst}}
+                                            </ng-option>
+                                        </ng-container>
+                                        <ng-template #notTranslatable>
+                                            <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
+                                                {{option.get(field.bindField) | uppercaseFirst}}
+                                            </ng-option>
+                                        </ng-template>
                                     </ng-select>
                                 </ng-container>
                             </ng-template>

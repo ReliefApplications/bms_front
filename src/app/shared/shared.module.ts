@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // tslint:disable-next-line
 import { MatBadgeModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDividerModule, MatExpansionModule, MatInputModule, MatListModule, MatNativeDateModule, MatOptionModule, MatPaginatorModule, MatProgressBarModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatStepperModule, MatTabsModule, MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -82,7 +83,6 @@ import { VouchersComponent } from '../modules/vouchers/vouchers.component';
 
 
 
-
 @NgModule({
 imports: [
     RouterModule,
@@ -106,6 +106,7 @@ imports: [
     MatNativeDateModule,
     MatCardModule,
     MatBadgeModule,
+    MatRippleModule,
     MatSelectModule,
     BrowserAnimationsModule,
     MatDividerModule,
@@ -242,6 +243,7 @@ imports: [
         MatTableModule,
         MatOptionModule,
         MatButtonModule,
+        MatRippleModule,
         MatSortModule,
         MatDialogModule,
         MatProgressSpinnerModule,
@@ -284,7 +286,7 @@ imports: [
         {
             provide: RECAPTCHA_SETTINGS,
             useValue: { siteKey: '6LeFcasUAAAAAAAoPCzr6-GPZP-K2xKtO4BXjMtE'} as RecaptchaSettings,
-        }
+        },
     ]
 })
 export class SharedModule { }

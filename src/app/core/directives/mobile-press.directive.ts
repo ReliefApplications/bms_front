@@ -1,7 +1,9 @@
 import { Directive, EventEmitter, HostBinding, HostListener, Output } from '@angular/core';
+import { MatRipple } from '@angular/material/core';
 
 @Directive({
-    selector: '[appMobilePress]'
+    selector: '[appMobilePress]',
+    providers: [MatRipple],
 })
 export class MobilePressDirective {
 
@@ -14,22 +16,31 @@ export class MobilePressDirective {
     @Output() longPressedAndReleased: EventEmitter<void> = new EventEmitter();
     @Output() shortPressedAndReleased: EventEmitter<void> = new EventEmitter();
 
-    constructor() { }
+    constructor(private ripple: MatRipple) { }
 
     @HostBinding('style.background-color')
     backgroundColor: string;
 
-    @HostListener('mousedown', ['$event']) onMouseDown(event: any) {
-        event.preventDefault();
-        event.stopPropagation();
+    @HostListener('mousedown', ['$event'])
+    @HostListener('touchstart', ['$event'])
+    onMouseDown(event: any) {
+        // event.preventDefault();
+        // event.stopPropagation();
+        const { clientX, clientY } = ('clientX' in event ? event : event.touches[0]);
         this.backgroundColor = 'grey';
         this.longPressTimeout = setTimeout(() => {
             this.longPressed = true;
+            this.backgroundColor = 'white';
+            setTimeout(() => {
+                this.backgroundColor = 'grey';
+            }, 250);
         }, this.PRESS_DURATION_MS);
     }
 
 
-    @HostListener('mouseup', ['$event']) onMouseUp(event: any) {
+    @HostListener('mouseup', ['$event'])
+    @HostListener('touchend', ['$event'])
+    onMouseUp(event: any) {
         event.preventDefault();
         event.stopPropagation();
         this.backgroundColor = '';

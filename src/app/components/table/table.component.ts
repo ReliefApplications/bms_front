@@ -67,6 +67,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
     @Input() entity;
 
     public tableData: MatTableDataSource<any>;
+
     @Input()
     set data(value: any) {
         if (value) {
@@ -304,7 +305,6 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
     toggleCheck(element) {
-
         if (this.selection.selected.includes(element)) {
             this.selection.deselect(element);
             return;

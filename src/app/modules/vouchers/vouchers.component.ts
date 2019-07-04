@@ -11,9 +11,8 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Booklet } from 'src/app/models/booklet';
-import { Project } from 'src/app/models/project';
-import { Voucher } from 'src/app/models/voucher';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { Project } from 'src/app/models/project';
 import { ExportService } from '../../core/api/export.service';
 @Component({
     selector: 'app-vouchers',
@@ -37,8 +36,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
     public projects = [];
 
-    public selection = new SelectionModel<Voucher>(true, []);
-    public checkedElements: Booklet[] = [];
+    public selection = new SelectionModel<Booklet>(true, []);
 
     // Screen size
     public currentDisplayType: DisplayType;
@@ -128,16 +126,10 @@ export class VouchersComponent implements OnInit, OnDestroy {
         return this._exportService.printVoucher(event.get('id'));
     }
 
-    getChecked(event) {
-        this.checkedElements = event;
-    }
-
-
     printMany() {
-        const bookletIds = [];
         const error = false;
-        this.checkedElements.forEach((booklet: Booklet) => {
-            bookletIds.push(booklet.get('id'));
+        const bookletIds = this.selection.selected.map((booklet: Booklet) => {
+            return booklet.get<number>('id');
         });
         return !error ? this._exportService.printManyVouchers(bookletIds) : null;
     }

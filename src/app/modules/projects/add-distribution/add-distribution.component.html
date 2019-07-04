@@ -57,7 +57,7 @@
     </div>
 
 
-    <div class="field-forms">
+    <div class="field-forms" [ngClass]="{'right-form-rtl': language.direction === 'rtl'}">
       <div class="forms-criteria">
         <div class="distribution-title">
           <h2>{{language.add_distribution_selection_criteria | uppercaseFirst}}</h2>

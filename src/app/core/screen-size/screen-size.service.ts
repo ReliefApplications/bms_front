@@ -52,6 +52,11 @@ export class ScreenSizeService {
 
 
     onScreenSizeChange() {
+        const newSize = this.getCurrentDisplay(window.innerWidth, window.innerHeight);
+        // Don't emit unless value changed
+        if (newSize === this.displayTypeSource.value) {
+            return;
+        }
         this.displayTypeSource.next(this.getCurrentDisplay(window.innerWidth, window.innerHeight));
     }
 }

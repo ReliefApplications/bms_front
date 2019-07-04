@@ -12,6 +12,8 @@ import { ProjectService } from 'src/app/core/api/project.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { Distribution } from 'src/app/models/distribution';
 import { Project } from 'src/app/models/project';
@@ -91,6 +93,10 @@ export class ReportsComponent implements OnInit, OnDestroy {
     exportFileType = 'csv';
     isDownloading = false;
 
+    // ScreenSize
+    displayType: DisplayType;
+    canvasAreReloading = false;
+
 //
 // ─── INITIALIZATION ─────────────────────────────────────────────────────────────
 //
@@ -103,6 +109,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
         public languageService: LanguageService,
         private datePipe: DatePipe,
         private countriesService: CountriesService,
+        private screenSizeService: ScreenSizeService,
     ) {}
 
     ngOnInit(): void {
@@ -115,6 +122,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
         this.generateFormsEvents();
 
         this.selectDefault();
+
+        this.screenSizeService.displayTypeSource.subscribe((_displayType: DisplayType) => {
+            this.canvasAreReloading = true;
+            // Recreate the canvas to resize them correctly
+            setTimeout(() => {this.canvasAreReloading = false; }, 0);
+        });
     }
 
     // Unsubscribe from all observable to prevent memory leaks on component destruction

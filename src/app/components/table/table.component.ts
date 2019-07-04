@@ -127,47 +127,50 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
 
     getFieldStringValues(field: any): any {
-                let value: any = '';
-                let values = [];
-                if (
-                    ['Object', 'MultipleObject'].includes(field.kindOfField) &&
-                    field.displayTableFunction &&
-                    field.displayTableFunction(field.value) &&
-                    !(field.displayTableFunction(field.value) instanceof Array)
-                ) {
-                    value = field.displayTableFunction(field.value);
-                } else if (field.kindOfField === 'MultipleObject') {
-                    values = field.value && field.displayTableFunction ? field.displayTableFunction(field.value) : [];
-                } else if (field.kindOfField === 'MultipleSelect') {
-                    values = field.value.map((selectValue: CustomModel) => {
-                        return selectValue ? selectValue.get<string>(field.bindField) : '';
-                    });
-                } else if (field.kindOfField === 'SingleSelect') {
-                    value = field.value ? field.value.get(field.bindField) : '';
-                } else if (field.kindOfField === 'Date') {
-                    value = field.formatForApi();
-                } else {
-                    value = field.value;
-                }
+        let value: any = '';
+        let values = [];
+        if (
+            ['Object', 'MultipleObject'].includes(field.kindOfField) &&
+            field.displayTableFunction &&
+            field.displayTableFunction(field.value) &&
+            !(field.displayTableFunction(field.value) instanceof Array)
+        ) {
+            value = field.displayTableFunction(field.value);
+        } else if (field.kindOfField === 'MultipleObject') {
+            values = field.value && field.displayTableFunction ? field.displayTableFunction(field.value) : [];
+        } else if (field.kindOfField === 'MultipleSelect') {
+            values = field.value.map((selectValue: CustomModel) => {
+                return selectValue ? selectValue.get<string>(field.bindField) : '';
+            });
+        } else if (field.kindOfField === 'SingleSelect') {
+            value = field.value ? field.value.get(field.bindField) : '';
+        } else {
+            value = field.value;
+        }
 
-                if (values.length > 0) {
-                    let stringValue = '';
-                    values.forEach(arrayValue => {
-                        if (typeof(arrayValue) === 'number') {
-                            stringValue += ' ' + arrayValue.toString();
-                        } else if (typeof(arrayValue) === 'string') {
-                            stringValue += ' ' + arrayValue;
-                        }
-                    });
-                    return stringValue.toLowerCase();
+        if (values.length > 0) {
+            let stringValue = '';
+            values.forEach(arrayValue => {
+                if (typeof(arrayValue) === 'number') {
+                    stringValue += ' ' + arrayValue.toString();
+                } else if (typeof(arrayValue) === 'string') {
+                    stringValue += ' ' + arrayValue;
                 }
+            });
+            return stringValue.toLowerCase();
+        }
 
-                if (typeof(value) === 'number') {
-                    return value;
-                }
-                if (typeof(value) === 'string') {
-                    return value.toLowerCase();
-                }
+        if (!isNaN(Number(value))) {
+            return Number(value);
+        }
+
+        // If it is a number or a date
+        if (typeof(value) === 'number' || typeof(value) === 'object') {
+            return value;
+        }
+        if (typeof(value) === 'string') {
+            return value.toLowerCase();
+        }
     }
 
 
@@ -188,7 +191,12 @@ export class TableComponent implements OnInit,  AfterViewInit {
                             element.get(field.childrenObject).fields[field.childrenFieldName] :
                             new TextModelField({});
                     }
-                    const stringValue = this.getFieldStringValues(field);
+                    let stringValue = this.getFieldStringValues(field);
+
+                    // For searching we need to have the date in format 12-03-1996 but for sorting it needs to stay a date
+                    if (field.kindOfField === 'Date') {
+                        stringValue = field.formatForApi();
+                    }
                     const value = typeof(stringValue) === 'string' || !stringValue ? stringValue : stringValue.toString();
                     fieldStringValues.push(value);
                 });

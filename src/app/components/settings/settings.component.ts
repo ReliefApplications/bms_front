@@ -311,8 +311,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.modalService.isLoading.subscribe(() => {
           this.loadingData = true;
       });
-        this.modalService.isCompleted.subscribe(() => {
+        this.modalService.isCompleted.subscribe((response: boolean) => {
+          if (response) {
             this.load();
+          } else {
+            this.loadingData = false;
+          }
         });
     }
 

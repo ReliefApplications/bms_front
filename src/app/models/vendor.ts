@@ -61,7 +61,6 @@ export class Vendor extends CustomModel {
             title: this.language.description,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
-            isRequired: true,
             isSettable: true,
             isEditable: true,
         }),

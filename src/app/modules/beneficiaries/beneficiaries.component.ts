@@ -53,7 +53,12 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
 
     // Screen size
     public currentDisplayType: DisplayType;
-    private screenSizeSubscription: Subscription;
+
+    // Add Beneficiaries To Project Dialog variables.
+    projectsList = new Array();
+    projectAddControl = new FormControl('', [Validators.required]);
+
+    subscriptions: Array<Subscription>;
 
     constructor(
         private router: Router,
@@ -68,26 +73,32 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         private screenSizeService: ScreenSizeService,
     ) { }
 
-    // Add Beneficiaries To Project Dialog variables.
-    projectsList = new Array();
-    projectAddControl = new FormControl('', [Validators.required]);
+
 
     ngOnInit() {
-        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
-            this.currentDisplayType = displayType;
-        });
-        this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
+
+        this.subscriptions = [
+            this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+                this.currentDisplayType = displayType;
+                this.selection = new SelectionModel<Household>(true, []);
+            }),
+            this.dataSource.length$.subscribe((length) => {
+                this.numberToExport = length;
+            }),
+        ];
+
+        this.extensionType = 'xls';
         this.getProjects('updateSelection');
         this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
         this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
-        this.dataSource.length$.subscribe((length) => {
-            this.numberToExport = length;
-        });
+
     }
 
     ngOnDestroy() {
-        this.screenSizeSubscription.unsubscribe();
+        this.subscriptions.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
     toggleAddButtons() {

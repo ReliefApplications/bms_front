@@ -46,7 +46,8 @@ export class Project extends CustomModel {
                 isImageInTable: true,
                 isEditable: true,
                 value: [],
-                apiLabel: 'id'
+                apiLabel: 'id',
+                isTranslatable: true
             }
         ),
         startDate : new DateModelField(

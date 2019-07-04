@@ -62,7 +62,13 @@ export class ModalFieldsComponent implements OnInit {
     ngOnInit() {
         this.objectInstance = this.data.objectInstance;
         // Get all the fields keys of the object passed in objectInterface as string[]
-        this.objectFields = Object.keys(this.objectInstance.fields);
+        if (this.modalType === 'Add') {
+            this.objectFields = Object.keys(this.objectInstance.fields)
+                .filter((fieldName: string) => this.objectInstance.fields[fieldName].isSettable);
+        } else {
+            this.objectFields = Object.keys(this.objectInstance.fields);
+        }
+
         // Create the form
         this.makeForm();
         this.onChanges();

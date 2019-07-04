@@ -45,8 +45,7 @@ export class Currency extends CustomModel {
 
 export class Booklet extends CustomModel {
 
-    title = this.language.booklet;
-    snackbarName = this.language.vouchers_booklet;
+    title = this.language.vouchers_booklet;
     matSortActive = 'code';
     createMultiple = true;
 

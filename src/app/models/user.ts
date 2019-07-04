@@ -113,6 +113,8 @@ export class User extends CustomModel {
             bindField: 'name',
             apiLabel: 'id',
             isRequired: true,
+            isSettable: true,
+            isDisabled: true,
         }),
         countries: new MultipleSelectModelField({
             title: this.language.country,
@@ -121,6 +123,8 @@ export class User extends CustomModel {
             bindField: 'name',
             apiLabel: 'id',
             isRequired: true,
+            isSettable: true,
+            isDisabled: true,
         }),
         language: new TextModelField({
 

@@ -93,10 +93,8 @@ export class ModalService {
                     this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe((response) => {
                        // If the response is null, it means we are offline and the request was stored, not really made
                         if (response) {
-                            const title = this.referedClassInstance.snackbarName ?
-                                this.referedClassInstance.snackbarName :
-                                this.referedClassInstance.title;
-                           this.snackbar.success(title + ' ' + this.language.update_beneficiary_created_successfully);
+                           this.snackbar.success(
+                               this.referedClassInstance.title + ' ' + this.language.update_beneficiary_created_successfully);
                        }
                         this.isCompleted.next(true);
                     });

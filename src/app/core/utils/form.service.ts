@@ -136,7 +136,7 @@ export class FormService {
 
     public isDisabled(field: CustomModelField<any>, modalType) {
         if (modalType === 'Add') {
-            return !field.isSettable;
+            return field.isDisabled;
         } else if (modalType === 'Edit') {
             return !field.isEditable;
         } else if (modalType === 'Details') {

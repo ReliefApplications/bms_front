@@ -239,17 +239,19 @@ export interface Language {
 
     // Commodities
     commodity_cash: string
-    commodity_qr_voucher: string
-    commodity_paper_voucher: string
-    commodity_bread: string
-    commodity_loan: string
-    commodity_food: string
-    commodity_wash: string
-    commodity_agriculture: string
-    commodity_rte: string
-    commodity_shelter: string
-    commodity_hygiene: string
-    commodity_dignity: string
+    commodity_in_kind: string
+    commodity_modality_cash: string
+    commodity_modality_qr_voucher: string
+    commodity_modality_paper_voucher: string
+    commodity_modality_bread: string
+    commodity_modality_loan: string
+    commodity_modality_food: string
+    commodity_modality_wash: string
+    commodity_modality_agriculture: string
+    commodity_modality_rte: string
+    commodity_modality_shelter: string
+    commodity_modality_hygiene: string
+    commodity_modality_dignity: string
     commodity_kgs: string
     commodity_kit: string
     commodity_modality: string

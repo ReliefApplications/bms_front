@@ -105,7 +105,7 @@ export class BoxPropertiesComponent implements OnInit {
         const length = Object.keys(this.displayedPropertyNames).length;
         if (window.innerWidth > 700) {
             this.numColumns = length;
-        } else if (window.innerWidth > 400 && window.innerWidth < 700) {
+        } else if (window.innerWidth > 500 && window.innerWidth < 700) {
             this.numColumns = length / 2;
         } else {
             this.numColumns = length / 3;

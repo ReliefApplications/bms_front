@@ -661,6 +661,7 @@ export interface Language {
     transaction_validation: string
 
     // Tooltip
+    tooltip_admin: string
     tooltip_add_beneficiaries: string
     tooltip_add_distribution: string
     tooltip_beneficiaries: string
@@ -674,6 +675,7 @@ export interface Language {
     tooltip_reports: string
     tooltip_settings: string
     tooltip_update_beneficiary: string
+    tooltip_vouchers: string
 
     // Update beneficiary
     update_beneficiary_created_successfully: string

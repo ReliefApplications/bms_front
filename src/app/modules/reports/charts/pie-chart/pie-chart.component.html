@@ -2,8 +2,7 @@
     <mat-tab  *ngFor="let period of periods; index as i" [label]="period">
         <div style="display: block">
             <canvas  baseChart
-            width="300px"
-            height="300px"
+            width="1" height="1" 
             [data]="pieChartDataSets[i].values"
             [labels]="pieChartDataSets[i].labels"
             [options]="pieChartOptions"

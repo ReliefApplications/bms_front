@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RecaptchaComponent } from 'ng-recaptcha';
 import { from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
@@ -22,6 +23,8 @@ export class LoginComponent implements OnInit {
     public forgotMessage = false;
     public loader = false;
     public form: FormGroup;
+
+    @ViewChild('captchaRef') recaptcha: RecaptchaComponent;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
@@ -101,6 +104,7 @@ export class LoginComponent implements OnInit {
                 this.loader = false;
             },
             (_error: ErrorInterface) => {
+                this.recaptcha.reset();
                 this.forgotMessage = true;
                 this.loader = false;
             });

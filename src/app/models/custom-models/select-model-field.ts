@@ -28,11 +28,18 @@ export class SelectModelField<T> extends CustomModelField<T> {
      */
     apiLabel: string;
 
+    /**
+     * If the string to be displayed in the dropdown is a translation
+     * @type {boolean}
+     */
+    isTranslatable: boolean;
+
     constructor(properties: any) {
         super(properties);
 
         this.bindField              = properties['bindField'];
         this.options                = properties['options'];
         this.apiLabel               = properties['apiLabel'];
+        this.isTranslatable               = properties['isTranslatable'];
     }
 }

@@ -136,10 +136,10 @@ export class English implements Language {
     // Add distribution
     add_distribution_advanced_option = 'Advanced options'
     add_distribution_beneficiaries_reached = 'Beneficiaries reached'
-    add_distribution_check_fields = 'Fill new distribution\'s information before, including the commodity and a minimum selection score\'s value greater than 0.'
+    add_distribution_check_fields = 'Fill the new distribution information before, including the commodity and a minimum selection score value greater than 0.'
     add_distribution_commodities_delivered = 'to be delivered'
     add_distribution_created = ' was created'
-    add_distribution_date_inside_project = 'Error while creating new distribution, your distribution date have to be inside the project dates'
+    add_distribution_date_inside_project = 'Error while creating new distribution, your distribution date has to be inside the project dates'
     add_distribution_date_before_today = 'Error while creating new distribution, your distribution date has to be after today'
     add_distribution_distributed_commodity = 'distributed commodity'
     add_distribution_error_creating = 'Error while creating new distribution'

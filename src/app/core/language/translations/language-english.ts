@@ -450,7 +450,7 @@ export class English implements Language {
     login_title = 'Login'
 
     // Modal
-    modal_add_multiple_title = 'Create multiple new'
+    modal_add_multiple_title = 'Create new'
     modal_add_no_value = 'You need to enter a value'
     modal_add_title = 'Create a new '
     modal_check_date = 'Invalid fields = Your start date cannot be older than the end date'

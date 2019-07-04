@@ -1,7 +1,6 @@
 <div style="display: block">
     <canvas *ngIf="barChartDataSet.length; else noData" baseChart
-    width="400px"
-    height="400px"
+    width="1" height="1" 
     [datasets]="barChartDataSet"
     [labels]="periods"
     [options]="options"

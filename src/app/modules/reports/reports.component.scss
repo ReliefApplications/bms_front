@@ -3,19 +3,22 @@
 
 .container-table {
     width: 100%;
+    overflow: hidden;
 
     .container-content {
         border-top: solid 12px $bms_dark_blue;
 
         .content-button {
-            flex-direction: row;
+            flex-direction: row; 
+            flex-wrap: wrap;
 
             .frequency {
                 display: flex;
                 flex-direction: row;
+                flex-wrap: wrap;
 
                 button {
-                    margin-right: 10px;
+                    margin: 10px;
                     background-color: $bms_dark_grey!important;
                     color: $bms_grey!important;
                     &.selected-frequency {
@@ -25,6 +28,10 @@
                         background-color: $bms_dark_blue!important;
                     }
                 }
+            }
+
+            .action-button {
+                
             }
         }
 
@@ -39,6 +46,7 @@
                 flex-direction: row;
                 justify-content: space-around;
                 width: auto;
+                flex-wrap: wrap;
 
                 ng-select {
                     flex-basis: 0;
@@ -86,7 +94,7 @@
 
     }
 }
-
+ 
 
 .ng-select-header {
     cursor: pointer;
@@ -98,3 +106,5 @@
         color: $bms_red;
     }
 }
+
+

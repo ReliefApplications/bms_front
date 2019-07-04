@@ -118,7 +118,7 @@
                     </ng-template>
                 </div>
             </div>
-            <div id="graphs">
+            <div id="graphs" *ngIf="!canvasAreReloading">
                 <div *ngFor="let graph of graphs" class="graph" style="page-break-after: always;">
                     <h2 class="graph-title">{{graph.name}}</h2>
                     <ng-container *ngIf="!graphValuesAreEmpty(graph); else noData">

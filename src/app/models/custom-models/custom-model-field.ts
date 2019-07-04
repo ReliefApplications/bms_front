@@ -96,6 +96,11 @@ export class CustomModelField<T> {
      * @type {Function}
      */
     tooltip: Function;
+    /**
+     * If the field is displayed but disabled
+     * @type {boolean}
+     */
+    isDisabled: boolean;
 
     /**
      * @param  {Props} properties
@@ -125,6 +130,7 @@ export class CustomModelField<T> {
         this.triggerFunction        = properties['triggerFunction'];
         this.filterName             = properties['filterName'];
         this.tooltip                = properties['tooltip'];
+        this.isDisabled             = properties['isDisabled'];
     }
 
     // Field specific value should never be omitted
@@ -150,6 +156,7 @@ export class CustomModelField<T> {
             isTrigger:              false,
             filterName:             '',
             tooltip:                null,
+            isDisabled:             false,
             ...properties,
         };
     }

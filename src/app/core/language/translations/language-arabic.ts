@@ -656,7 +656,7 @@ export class Arabic implements Language {
     transaction_state_sent = 'أرسلت'
     transaction_transaction = 'عملية تجارية'
     transaction_update_success = 'تم التحديث بنجاح'
-    transaction_validate_distribution = 'هل تريد حقًا التحقق من صحة هذا التوزيع؟ لن تتمكن من تعديله بعد الآن.'
+    transaction_validate_distribution = 'هل تريد حقًا التحقق من صحة هذا التوزيع؟'
     transaction_validation = 'تأكيد التحقق من الصحة'
 
     // Tooltip

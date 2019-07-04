@@ -657,7 +657,7 @@ export class English implements Language {
     transaction_state_sent = 'Sent' // Means sent during the current transaction (after loading the page)
     transaction_transaction = 'Start transaction'
     transaction_update_success = 'Update successful!'
-    transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'
+    transaction_validate_distribution = 'Do you really want to validate this distribution ?'
     transaction_validation = 'Confirm the validation'
 
     // Tooltip

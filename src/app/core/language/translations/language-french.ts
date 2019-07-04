@@ -657,7 +657,7 @@ export class French implements Language {
     transaction_state_sent = 'Envoyé'
     transaction_transaction = 'Démarrer la transaction'
     transaction_update_success = 'Modification réussie !'
-    transaction_validate_distribution = 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier'
+    transaction_validate_distribution = 'Voulez vous vraiment valider la distribution ?'
     transaction_validation = 'Confirmer la validation'
 
     // Tooltip

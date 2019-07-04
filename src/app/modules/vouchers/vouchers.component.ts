@@ -113,8 +113,12 @@ export class VouchersComponent implements OnInit, OnDestroy {
         this.modalService.isLoading.subscribe(() => {
             this.loadingBooklet = true;
         });
-        this.modalService.isCompleted.subscribe(() => {
-            this.getBooklets();
+        this.modalService.isCompleted.subscribe((response: boolean) => {
+            if (response) {
+                this.getBooklets();
+            } else {
+                this.loadingBooklet = false;
+            }
         });
     }
 

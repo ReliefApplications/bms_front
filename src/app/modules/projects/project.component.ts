@@ -185,8 +185,13 @@ export class ProjectComponent implements OnInit, OnDestroy {
     openNewProjectDialog() {
 
         this.modalService.openDialog(Project, this.projectService, {action: 'add'});
-        this.modalService.isCompleted.subscribe(() => {
-            this.getProjects();
+        this.modalService.isCompleted.subscribe((response: boolean) => {
+            if (response) {
+                this.getProjects();
+            } else {
+                this.loadingProjects = false;
+                this.loadingDistributions = false;
+            }
         });
     }
 
@@ -196,8 +201,12 @@ export class ProjectComponent implements OnInit, OnDestroy {
         this.modalService.isLoading.subscribe(() => {
             this.loadingDistributions = true;
         });
-        this.modalService.isCompleted.subscribe(() => {
-            this.getDistributionsByProject(this.selectedProject.get('id'));
+        this.modalService.isCompleted.subscribe((response: boolean) => {
+            if (response) {
+                this.getDistributionsByProject(this.selectedProject.get('id'));
+            } else {
+                this.loadingDistributions = false;
+            }
         });
     }
 

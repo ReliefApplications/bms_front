@@ -277,6 +277,7 @@ export class English implements Language {
     commodity_kit = 'Kit'
     commodity_modality = 'Modality'
     commodity_value = 'Quantity'
+    commodity_value_voucher = 'Total value of the booklet'
 
     // Countries
     country_khm = 'Cambodia'

@@ -69,6 +69,14 @@ export class ModalAddCommodityComponent implements OnInit {
         if (modalityId) {
             this.commodityService.fillTypeOptions(this.commodity, modalityId);
         }
+        // Set the value (Booklet value, value, quantity..)
+        switch (modalityId) {
+            case 2: // Vouchers
+                this.commodity.fields.value.title = this.language.commodity_value_voucher;
+                break;
+            default:
+                this.commodity.fields.value.title = this.language.commodity_value;
+        }
         this.form.controls.modalityType.setValue(null);
         this.form.controls.unit.setValue('');
     }

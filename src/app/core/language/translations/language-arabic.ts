@@ -276,6 +276,7 @@ export class Arabic implements Language {
     commodity_kit = 'عدة'
     commodity_modality = 'القيد'
     commodity_value = 'كمية'
+    commodity_value_voucher = 'القيمة الإجمالية للكتيب'
 
     // Countries
     country_khm = 'كمبوديا'

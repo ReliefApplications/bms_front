@@ -383,6 +383,7 @@ export class English implements Language {
     household_coping_strategies_index = 'Coping strategies index'
     household_food_consumption_score = 'Food consumption score'
     household_full_address = 'Full household address'
+    household_id = 'Household ID'
     household_income = 'Level of income'
     household_income_level = INCOMELEVELS.en
     household_info = 'Household information summary'
@@ -403,6 +404,7 @@ export class English implements Language {
     household_location_tent = 'Tent number'
     household_location_create_camp = 'Create a camp'
     household_location_question = 'Is your current location different than your address?'
+
 
     // Import
     import_added = 'Added from existing beneficiaries'

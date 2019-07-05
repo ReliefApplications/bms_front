@@ -11,8 +11,8 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
-import { Household } from 'src/app/models/household';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { Household } from 'src/app/models/household';
 import { HouseholdsService } from '../../core/api/households.service';
 import { ProjectService } from '../../core/api/project.service';
 import { HouseholdsDataSource } from '../../models/data-sources/households-data-source';
@@ -32,7 +32,6 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     referedClassToken = Household;
     households: MatTableDataSource<Household>;
     selection = new SelectionModel<Household>(true, []);
-    checkedElements: any = [];
 
     length: number;
     public extensionType: string;
@@ -54,7 +53,12 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
 
     // Screen size
     public currentDisplayType: DisplayType;
-    private screenSizeSubscription: Subscription;
+
+    // Add Beneficiaries To Project Dialog variables.
+    projectsList = new Array();
+    projectAddControl = new FormControl('', [Validators.required]);
+
+    subscriptions: Array<Subscription>;
 
     constructor(
         private router: Router,
@@ -69,26 +73,32 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         private screenSizeService: ScreenSizeService,
     ) { }
 
-    // Add Beneficiaries To Project Dialog variables.
-    projectsList = new Array();
-    projectAddControl = new FormControl('', [Validators.required]);
+
 
     ngOnInit() {
-        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
-            this.currentDisplayType = displayType;
-        });
-        this.extensionType = 'xls';
         this.dataSource = new HouseholdsDataSource(this.householdsService);
+
+        this.subscriptions = [
+            this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+                this.currentDisplayType = displayType;
+                this.selection = new SelectionModel<Household>(true, []);
+            }),
+            this.dataSource.length$.subscribe((length) => {
+                this.numberToExport = length;
+            }),
+        ];
+
+        this.extensionType = 'xls';
         this.getProjects('updateSelection');
         this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
         this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
-        this.dataSource.length$.subscribe((length) => {
-            this.numberToExport = length;
-        });
+
     }
 
     ngOnDestroy() {
-        this.screenSizeSubscription.unsubscribe();
+        this.subscriptions.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
     toggleAddButtons() {
@@ -116,8 +126,8 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         this.loadingExport = true;
         let filters = null;
         let ids = [];
-        if (this.checkedElements.length > 0) {
-            ids = this.checkedElements.map((household: Household) => household.get('id'));
+        if (this.selection.selected.length > 0) {
+            ids = this.selection.selected.map((household: Household) => household.get('id'));
         } else {
             filters = {
                 filter: this.table.filtersForAPI,
@@ -137,8 +147,8 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     }
 
     getNumberToExport() {
-        if (this.checkedElements.length > 0) {
-            return this.checkedElements.length;
+        if (this.selection.selected.length > 0) {
+            return this.selection.selected.length;
         }
         return this.numberToExport > 0 ? this.numberToExport : null;
     }
@@ -178,7 +188,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
 
     confirmAdding() {
         if (this.projectsList && this.dataSource) {
-            const benefForApi = this.checkedElements.map((household: Household) => {
+            const benefForApi = this.selection.selected.map((household: Household) => {
                 return {id: household.get('id')};
             });
             this.projectService.addBeneficiaries(this.projectAddControl.value, benefForApi).subscribe(
@@ -186,7 +196,6 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
                     this.snackbar.success(this.language.beneficiary_added);
                     this.table.loadDataPage();
                     this.selection = new SelectionModel<Household>(true, []);
-                    this.checkedElements = [];
                 }
             );
         }
@@ -194,9 +203,9 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         this.dialog.closeAll();
     }
 
-    getChecked(event)  {
-        this.checkedElements = event;
-    }
+    // getChecked(event)  {
+    //     this.checkedElements = event;
+    // }
 
     openDialog(event): void {
 
@@ -204,7 +213,6 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
                 this.table.loadDataPage();
-                this.checkedElements = [];
                 this.selection = new SelectionModel<Household>(true, []);
             }
         });
@@ -213,7 +221,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     deleteSelected() {
         this.openDialog({
             action: 'deleteMany',
-            ids: this.checkedElements.map((household: Household) => household.get('id'))
+            ids: this.selection.selected.map((household: Household) => household.get('id'))
         });
     }
 }

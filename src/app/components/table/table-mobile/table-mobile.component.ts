@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild                         } from '@angular/core';
+import { Component } from '@angular/core';
+import { TableComponent } from '../table.component';
 
-import { TableComponent                                       } from '../table.component';
 
 @Component({
   selector: 'app-table-mobile',

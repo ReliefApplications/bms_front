@@ -382,6 +382,7 @@ export class Arabic implements Language {
     household_coping_strategies_index = 'مؤشر استراتيجيات المواجهة'
     household_food_consumption_score = 'درجة استهلاك الغذاء'
     household_full_address = 'عنوان المنزل بالكامل:'
+    household_id = 'معرف الأسرة'
     household_income = 'مستوى الدخل'
     household_income_level = INCOMELEVELS.ar
     household_info = 'ملخص المعلومات الخاصة بالمنزل  :'
@@ -402,6 +403,7 @@ export class Arabic implements Language {
     household_location = 'مكان الأسرة='
     household_members = 'أفراد العائلة'
     household_sentence = 'الأسرة من'
+
 
     // Import
     import_added = 'تم إضافتها'

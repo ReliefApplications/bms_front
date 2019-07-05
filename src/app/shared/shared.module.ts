@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // tslint:disable-next-line
 import { MatBadgeModule, MatButtonModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDividerModule, MatExpansionModule, MatInputModule, MatListModule, MatNativeDateModule, MatOptionModule, MatPaginatorModule, MatProgressBarModule, MatRadioModule, MatSelectModule, MatSnackBarModule, MatStepperModule, MatTabsModule, MAT_CHECKBOX_CLICK_ACTION } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -55,6 +56,7 @@ import { TableMobileServerComponent } from '../components/table/table-mobile-ser
 import { TableMobileComponent } from '../components/table/table-mobile/table-mobile.component';
 import { TableServerComponent } from '../components/table/table-server/table-server.component';
 import { TableComponent } from '../components/table/table.component';
+import { MobilePressDirective } from '../core/directives/mobile-press.directive';
 import { AdministrationComponent } from '../modules/administration/administration.component';
 import { BeneficiariesImportComponent } from '../modules/beneficiaries/beneficiaries-import/beneficiaries-import.component';
 import { ImportedDataComponent } from '../modules/beneficiaries/beneficiaries-import/imported-data/imported-data.component';
@@ -81,7 +83,6 @@ import { VouchersComponent } from '../modules/vouchers/vouchers.component';
 
 
 
-
 @NgModule({
 imports: [
     RouterModule,
@@ -105,6 +106,7 @@ imports: [
     MatNativeDateModule,
     MatCardModule,
     MatBadgeModule,
+    MatRippleModule,
     MatSelectModule,
     BrowserAnimationsModule,
     MatDividerModule,
@@ -131,6 +133,7 @@ imports: [
     ],
     declarations: [
         // Shared Components
+        MobilePressDirective,
         LoginComponent,
         DashboardComponent,
         BeneficiariesComponent,
@@ -240,6 +243,7 @@ imports: [
         MatTableModule,
         MatOptionModule,
         MatButtonModule,
+        MatRippleModule,
         MatSortModule,
         MatDialogModule,
         MatProgressSpinnerModule,
@@ -282,7 +286,7 @@ imports: [
         {
             provide: RECAPTCHA_SETTINGS,
             useValue: { siteKey: '6LeFcasUAAAAAAAoPCzr6-GPZP-K2xKtO4BXjMtE'} as RecaptchaSettings,
-        }
+        },
     ]
 })
 export class SharedModule { }

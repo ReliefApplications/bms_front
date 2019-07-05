@@ -107,8 +107,10 @@
 
     <ng-template #dataInTable>
         <div *ngFor="let element of tableServerData.data$ | async" class="table-entry">
-            <div class="table-properties">
-                <div *ngFor="let property of displayProperties" (click)="openDialog('details', element)" class="table-property">
+            <div class="table-properties" appMobilePress (longPressedAndReleased)="toggleCheck(element)"
+                (shortPressedAndReleased)="openDialog('details', element)"
+                [ngClass]="{'checked': selection.selected.includes(element)}">
+                <div *ngFor="let property of displayProperties" class="table-property">
                     <div class="element-title">
                         <span> {{entityInstance.fields[property].title | uppercaseFirst}}</span>
                     </div>

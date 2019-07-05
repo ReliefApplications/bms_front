@@ -7,7 +7,7 @@
     <div class="container-content box-primary">
       <div class="content-button">
         <div class="action-buttons">
-          <button mat-flat-button *ngIf="checkedElements.length > 0" class="button-background-primary action-button" (click)="printMany()" [matBadge]="checkedElements.length">
+          <button mat-flat-button *ngIf="selection.selected.length > 0" class="button-background-primary action-button" (click)="printMany()" [matBadge]="selection.selected.length">
               <span>{{language.voucher_print_selection | uppercaseFirst}}</span>
           </button>
           <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
@@ -21,9 +21,9 @@
                 <mat-icon>keyboard_arrow_down</mat-icon>
               </button>
               <mat-menu #exportType>
-                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType=='xls'">done</mat-icon>
+                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType==='xls'">done</mat-icon>
                 </button>
-                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType=='csv'">done</mat-icon>
+                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType==='csv'">done</mat-icon>
                 </button>
                 <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
                 </button>
@@ -67,10 +67,10 @@
 
       <div class="content-table">
         <app-table [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
-          [data]="bookletData" [selection]="selection" (selectChecked)="getChecked($event)" [selectable]="true"
+          [data]="bookletData" [selection]="selection" [selectable]="true"
           [editable]="true" [deletable]="true" (openModal)="openDialog($event)" [printable]="true" (printOne)="print($event)"></app-table>
         <app-table-mobile [isLoading]="loadingBooklet" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService"
-          [data]="bookletData" [editable]="true" [deletable]="true" (openModal)="openDialog($event)" [printable]="true" (printOne)="print($event)"></app-table-mobile>
+          [data]="bookletData" [selection]="selection" [editable]="true" [deletable]="true" (openModal)="openDialog($event)" [printable]="true" (printOne)="print($event)"></app-table-mobile>
       </div>
     </div>
   </div>

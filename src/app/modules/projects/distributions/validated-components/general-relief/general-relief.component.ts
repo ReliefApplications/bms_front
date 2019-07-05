@@ -104,7 +104,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
             // Store the modified distribution in the cache
             this.cacheService.set(
-                `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}_beneficiaries`,
+                `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}`,
                 this.actualDistribution.modelToApi()
             ).subscribe();
             this.verifyIsFinished();

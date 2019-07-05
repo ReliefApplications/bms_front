@@ -132,6 +132,7 @@ export class French implements Language {
     add_beneficiary_title = 'Ajout d\'un bénéficiaire'
     add_beneficiary_code = 'Ext'
     add_beneficiary_occupation = 'Occupation'
+    add_beneficiary_project = 'Veuillez ajouter ce foyer a un ou plusieurs projets'
 
     // Add distribution
     add_distribution_advanced_option = 'Options avancées'

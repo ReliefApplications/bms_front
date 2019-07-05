@@ -115,6 +115,7 @@ export interface Language {
     add_beneficiary_title: string
     add_beneficiary_code: string
     add_beneficiary_occupation: string
+    add_beneficiary_project: string
 
     // Add distribution
     add_distribution_advanced_option: string

@@ -22,16 +22,14 @@ export class TextModelField extends CustomModelField<string> {
      * @type {boolean}
      */
     isFont: boolean;
-
-     /* The value to display (WARNING: can be set only from the api, not a modifiable field)
+    /* The value to display (WARNING: can be set only from the api, not a modifiable field)
      * @type {string}
      */
     displayValue: string;
-
     /* If the value is in camelCase and must be formatted
-    * @type {boolean}
-    */
-   isCamelCase: boolean;
+     * @type {boolean}
+     */
+    isCamelCase: boolean;
 
     constructor(properties: any) {
         super(properties);

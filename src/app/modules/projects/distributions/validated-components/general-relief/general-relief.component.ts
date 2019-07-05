@@ -83,33 +83,47 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         // Get the General Relief's ids
         const generalReliefsId: number[] = [];
         this.selection.selected.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
-            const storedDistributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');
-            storedDistributionBeneficiaries.forEach((storeDistributionBeneficiary: TransactionGeneralRelief) => {
-                if (storeDistributionBeneficiary.get('beneficiary').get('id') === distributionBeneficiary.get('beneficiary').get('id')) {
-                    const generalReliefs = storeDistributionBeneficiary.get<GeneralRelief[]>('generalReliefs')
-                        .map((generalRelief: GeneralRelief) => {
-                            generalReliefsId.push(generalRelief.get('id'));
-                            generalRelief.set('distributedAt', new Date());
-                            return generalRelief;
-                        });
-                    storeDistributionBeneficiary.set('generalReliefs', generalReliefs);
-                    storeDistributionBeneficiary.set('distributedAt', new Date());
-                }
-            });
-            this.actualDistribution.set('distributionBeneficiaries', storedDistributionBeneficiaries);
+            this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries')
+                .forEach((storeDistributionBeneficiary: TransactionGeneralRelief) => {
+                    if (
+                        storeDistributionBeneficiary.get('beneficiary').get('id') === distributionBeneficiary.get('beneficiary').get('id')
+                    ) {
+                        storeDistributionBeneficiary.get<GeneralRelief[]>('generalReliefs')
+                            .forEach((generalRelief: GeneralRelief) => generalReliefsId.push(generalRelief.get('id')));
+                    }
+                });
         });
 
         // Request to the API to set the General Reliefs as distributed
         this.distributionService.distributeGeneralReliefs(generalReliefsId).subscribe(() => {
-            this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
             // Store the modified distribution in the cache
             this.cacheService.set(
                 `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}`,
                 this.actualDistribution.modelToApi()
             ).subscribe();
             this.verifyIsFinished();
-        }, err => {
-            console.error(err);
+            this.selection.selected.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
+                const storedDistributionBeneficiaries = this.actualDistribution
+                    .get<TransactionGeneralRelief[]>('distributionBeneficiaries');
+                storedDistributionBeneficiaries.forEach((storeDistributionBeneficiary: TransactionGeneralRelief) => {
+                    if (
+                        storeDistributionBeneficiary.get('beneficiary').get('id') === distributionBeneficiary.get('beneficiary').get('id')
+                    ) {
+                        const generalReliefs = storeDistributionBeneficiary.get<GeneralRelief[]>('generalReliefs')
+                            .map((generalRelief: GeneralRelief) => {
+                                generalRelief.set('distributedAt', new Date());
+                                return generalRelief;
+                            });
+                        storeDistributionBeneficiary.set('generalReliefs', generalReliefs);
+                        storeDistributionBeneficiary.set('distributedAt', new Date());
+                    }
+                });
+                this.actualDistribution.set('distributionBeneficiaries', storedDistributionBeneficiaries);
+            });
+            this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
+        }, (_err: any) => {
+            this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
+            this.distributed = false;
         }, () => {
             this.distributed = false;
         });

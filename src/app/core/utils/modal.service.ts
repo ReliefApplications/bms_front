@@ -227,7 +227,7 @@ export class ModalService {
     updateElement(updateElement) {
         const apiUpdateElement = updateElement.modelToApi(updateElement);
         this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((_response: any) => {
-        this.isCompleted.next(true);
+            this.isCompleted.next(true);
         }, (_error: any) => {
             this.isCompleted.next(false);
         });

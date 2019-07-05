@@ -5,6 +5,7 @@ import { Beneficiary } from 'src/app/models/beneficiary';
 import { Booklet, BookletStatus } from 'src/app/models/booklet';
 import { TransactionQRVoucher } from 'src/app/models/transaction-qr-voucher';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-qr-voucher',
@@ -92,10 +93,13 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
 	* open each modal dialog
 	*/
   openModal(dialogDetails: any): void {
+    this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    let completeSubscription = null;
+
     if (dialogDetails.action === 'delete') {
         dialogDetails.element = dialogDetails.element.get('beneficiary');
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+        completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
                 this.getDistributionBeneficiaries();
             } else {
@@ -104,7 +108,7 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
         });
     }  else if (dialogDetails.action === 'addBeneficiary') {
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+        completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (this.networkService.getStatus()) {
                 if (response) {
                     this.getDistributionBeneficiaries();
@@ -118,7 +122,7 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
     } else if (dialogDetails.action === 'edit') {
         dialogDetails.element = dialogDetails.element.get('beneficiary');
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+        completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
                 this.snackbar.success(this.language.transaction_update_success);
             } else {
@@ -127,8 +131,11 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
         });
     } else {
         this.modalService.openDialog(TransactionQRVoucher, this.beneficiariesService, dialogDetails);
-        this.modalService.isCompleted.subscribe((_response: boolean) => {
+        completeSubscription = this.modalService.isCompleted.subscribe((_response: boolean) => {
         });
+    }
+    if (completeSubscription) {
+        this.modalSubscriptions = [completeSubscription];
     }
   }
 

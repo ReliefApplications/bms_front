@@ -27,6 +27,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public loadingBooklet = true;
     public loadingExport = false;
     public loadingExportCodes = false;
+    modalSubscriptions: Array<Subscription> = [];
 
     public bookletClass = Booklet;
     public booklets: Booklet[];
@@ -75,6 +76,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
         if (this.screenSizeSubscription) {
             this.screenSizeSubscription.unsubscribe();
         }
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
     setType(choice: string) {
@@ -108,17 +110,19 @@ export class VouchersComponent implements OnInit, OnDestroy {
 	* open each modal dialog
 	*/
     openDialog(dialogDetails: any): void {
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
         this.modalService.openDialog(this.bookletClass, this.bookletService, dialogDetails);
-        this.modalService.isLoading.subscribe(() => {
+        const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
             this.loadingBooklet = true;
         });
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
                 this.getBooklets();
             } else {
                 this.loadingBooklet = false;
             }
         });
+        this.modalSubscriptions = [isLoadingSubscription, completeSubscription];
     }
 
     print(event: Booklet) {

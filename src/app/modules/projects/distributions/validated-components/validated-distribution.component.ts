@@ -28,6 +28,7 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
     entity: any;
     loadingExport = false;
     loadingTransaction = false;
+    modalSubscriptions: Array<Subscription> = [];
     transacting = false;
     selection: SelectionModel<any>;
     extensionType = 'xls';
@@ -83,6 +84,7 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.screenSizeSubscription.unsubscribe();
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
     /**

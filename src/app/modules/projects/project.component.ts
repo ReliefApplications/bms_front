@@ -27,6 +27,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     public nameComponent = 'projects';
 
     loadingExport = false;
+    modalSubscriptions: Array<Subscription> = [];
 
     projects: Project[];
     distributionData: MatTableDataSource<Distribution>;
@@ -78,6 +79,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.screenSizeSubscription.unsubscribe();
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
     /**
@@ -183,9 +185,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
     }
 
     openNewProjectDialog() {
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
 
         this.modalService.openDialog(Project, this.projectService, {action: 'add'});
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
                 this.getProjects();
             } else {
@@ -193,21 +196,23 @@ export class ProjectComponent implements OnInit, OnDestroy {
                 this.loadingDistributions = false;
             }
         });
+        this.modalSubscriptions = [completeSubscription];
     }
 
     openDialog(dialogDetails: any): void {
-
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
         this.modalService.openDialog(Distribution, this.distributionService, dialogDetails);
-        this.modalService.isLoading.subscribe(() => {
+        const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
             this.loadingDistributions = true;
         });
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
                 this.getDistributionsByProject(this.selectedProject.get('id'));
             } else {
                 this.loadingDistributions = false;
             }
         });
+        this.modalSubscriptions = [isLoadingSubscription, completeSubscription];
     }
 
     duplicate(event) {

@@ -34,6 +34,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
     loadingDatas = true;
     loadingDistribution = true;
+    modalSubscriptions: Array<Subscription> = [];
 
     // Control variables.
 
@@ -103,6 +104,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.screenSizeSubscription.unsubscribe();
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
     /**
@@ -338,12 +340,15 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
     * open each modal dialog
     */
     openModal(dialogDetails: any): void {
+
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-        this.modalService.isLoading.subscribe(() => {
+        const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
             this.loadingFirstStep = true;
             this.loadingFinalStep = true;
         });
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
                 this.isUpdated.emit();
                 if (this.networkService.getStatus() && dialogDetails.action === 'addBeneficiary') {
@@ -366,6 +371,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
                 this.loadingFinalStep = false;
             }
         });
+        this.modalSubscriptions = [isLoadingSubscription, completeSubscription];
     }
 
 }

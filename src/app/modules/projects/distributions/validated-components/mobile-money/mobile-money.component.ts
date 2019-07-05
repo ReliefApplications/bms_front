@@ -7,6 +7,7 @@ import { Commodity } from 'src/app/models/commodity';
 import { State, TransactionMobileMoney } from 'src/app/models/transaction-mobile-money';
 import { User } from 'src/app/models/user';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-mobile-money',
@@ -305,10 +306,13 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 	* open each modal dialog
 	*/
     openModal(dialogDetails: any): void {
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+        let completeSubscription = null;
+
         if (dialogDetails.action === 'delete') {
             dialogDetails.element = dialogDetails.element.get('beneficiary');
             this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-            this.modalService.isCompleted.subscribe((response: boolean) => {
+            completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
                 if (response) {
                     this.getDistributionBeneficiaries();
                 } else {
@@ -317,7 +321,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
             });
         }  else if (dialogDetails.action === 'addBeneficiary') {
             this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-            this.modalService.isCompleted.subscribe((response: boolean) => {
+            completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
                 if (this.networkService.getStatus()) {
                     if (response) {
                         this.getDistributionBeneficiaries();
@@ -331,7 +335,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         } else if (dialogDetails.action === 'edit') {
             dialogDetails.element = dialogDetails.element.get('beneficiary');
             this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-            this.modalService.isCompleted.subscribe((response: boolean) => {
+            completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
                 if (response) {
                     this.snackbar.success(this.language.transaction_update_success);
                 } else {
@@ -340,8 +344,11 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
             });
         } else {
             this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);
-            this.modalService.isCompleted.subscribe((_response: boolean) => {
+            completeSubscription = this.modalService.isCompleted.subscribe((_response: boolean) => {
             });
+        }
+        if (completeSubscription) {
+            this.modalSubscriptions = [completeSubscription];
         }
     }
 }

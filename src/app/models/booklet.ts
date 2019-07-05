@@ -14,6 +14,7 @@ import { Voucher } from './voucher';
 import { BooleanModelField } from './custom-models/boolan-model-field';
 import { AppInjector } from '../app-injector';
 import { FormService } from '../core/utils/form.service';
+import { DatePipe } from '@angular/common';
 
 export class BookletStatus extends CustomModel {
 
@@ -152,7 +153,7 @@ export class Booklet extends CustomModel {
         value: new NumberModelField({
             title: this.language.value,
         }),
-        usedAt: new DateModelField({
+        usedAt: new TextModelField({
             title: this.language.booklet_used,
             nullValue: this.language.null_not_yet
         }),
@@ -259,7 +260,7 @@ export class Booklet extends CustomModel {
     }
 
     isCheckable() {
-        return this.get('usedAt') === null;
+        return parseInt(this.get('status').get<string>('id'), 10) < 2;
     }
 
     public getTotalValue(): number {
@@ -272,14 +273,29 @@ export class Booklet extends CustomModel {
 
     public getUsedAt(): Date {
         let date = null;
+        let text = null;
+        let numberUsed = 0;
+        let total = 0;
         if (this.get('status').get<string>('id') === '2' || this.get('status').get<string>('id') === '3') {
             this.get<Voucher[]>('vouchers').forEach((voucher: Voucher) => {
                 if (date === null || date < voucher.get('usedAt')) {
                     date = voucher.get('usedAt');
                 }
+                numberUsed += 1;
+                total += 1;
             });
+            const datePipe = new DatePipe('en-US');
+            text = numberUsed + '/' + total + ' (' + datePipe.transform(date, 'dd-MM-yyyy') + ')';
+        } else {
+            this.get<Voucher[]>('vouchers').forEach((voucher: Voucher) => {
+                total += 1;
+                if (voucher.get('usedAt')) {
+                    numberUsed += 1;
+                }
+            });
+            text = numberUsed + '/' + total;
         }
 
-        return date;
+        return text;
     }
 }

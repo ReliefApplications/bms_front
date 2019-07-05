@@ -259,6 +259,7 @@ export interface Language {
     commodity_kit: string
     commodity_modality: string
     commodity_value: string
+    commodity_value_voucher: string
 
     // Countries
     country_khm: string

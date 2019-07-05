@@ -127,17 +127,18 @@ export class VouchersComponent implements OnInit, OnDestroy {
         return this._exportService.printVoucher(event.get('id'));
     }
 
-    async printMany() {
+    printMany() {
         this.loadingPrint = true;
         const error = false;
         const bookletIds = this.selection.selected.map((booklet: Booklet) => {
             return booklet.get<number>('id');
         });
-        // TODO: switch to observables
 
-        const returnValue = !error ? await this._exportService.printManyVouchers(bookletIds) : null;
-        this.loadingPrint = false;
-        return returnValue;
+        // TODO: switch to observables
+        return !error ?
+        this._exportService.printManyVouchers(bookletIds).then(() => {
+            this.loadingPrint = false;
+        }) : null;
     }
 
     export() {

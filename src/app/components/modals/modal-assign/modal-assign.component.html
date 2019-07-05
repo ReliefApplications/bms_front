@@ -90,7 +90,15 @@
                 <mat-form-field class="full-width">
                     <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl"
                         [placeholder]="language.password | uppercaseFirst" />
-                    <mat-error *ngIf=""></mat-error>
+                    <mat-error *ngIf="voucherPasswordControl.hasError('required')">
+                       {{ language.password }} {{ language.is_required | uppercaseFirst }}
+                    </mat-error>
+                    <mat-error *ngIf="voucherPasswordControl.hasError('pattern')">
+                        {{ language.booklet_password_pattern }}
+                    </mat-error>
+                    <mat-hint align="start" *ngIf="!voucherPasswordControl.touched">
+                        <strong>{{ language.booklet_password_pattern }}</strong>
+                    </mat-hint>
                 </mat-form-field>
             </div>
         </div>
@@ -101,7 +109,8 @@
         <button mat-button class="button-text-accent"
             (click)="exit('Assignation canceled')">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
-        <button mat-flat-button class="button-background-accent" (click)="nextStep()"
+        <button [disabled]="displayPasswordControl.value && !voucherPasswordControl.valid"
+            mat-flat-button class="button-background-accent" (click)="nextStep()"
             *ngIf="!loadingPassword">{{language.next}}</button>
     </div>
 </mat-dialog-actions>

@@ -2,15 +2,15 @@ export const ADMINLEVELS = {
     en: {
         adm1: {
             KHM: 'Province',
-            SYR: 'Region',
+            SYR: 'Governorate',
         },
         adm2: {
             KHM: 'District',
-            SYR: 'Department',
+            SYR: 'District',
         },
         adm3: {
             KHM: 'Commune',
-            SYR: 'City',
+            SYR: 'Sub-District',
         },
         adm4: {
             KHM: 'Village',
@@ -21,15 +21,15 @@ export const ADMINLEVELS = {
     ar: {
         adm1: {
             KHM: 'المحافظة',
-            SYR: 'منطقة',
+            SYR: 'المحافظة',
         },
         adm2: {
             KHM: 'المنطقة',
-            SYR: ' قسم، أقسام',
+            SYR: 'المنطقة',
         },
         adm3: {
             KHM: 'البلدية',
-            SYR: 'مدينة',
+            SYR: 'الناحية',
         },
         adm4: {
             KHM: 'القرية',
@@ -40,19 +40,19 @@ export const ADMINLEVELS = {
     fr: {
         adm1: {
             KHM: 'Province',
-            SYR: 'Région',
+            SYR: 'Gouvernorat',
         },
         adm2: {
             KHM: 'District',
-            SYR: 'Département',
+            SYR: 'District',
         },
         adm3: {
             KHM: 'Commune',
-            SYR: 'Ville',
+            SYR: 'Sous-District',
         },
         adm4: {
             KHM: 'Village',
-            SYR: 'Pâté de maison',
+            SYR: 'Bloc',
         },
     }
 };

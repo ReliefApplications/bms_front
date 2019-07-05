@@ -82,14 +82,15 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         this.distributed = true;
         // Get the General Relief's ids
         const generalReliefsId: number[] = [];
-        this.selection.selected.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
+        this.selection.selected.forEach((selectedDistributionBeneficiary: TransactionGeneralRelief) => {
             this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries')
-                .forEach((storeDistributionBeneficiary: TransactionGeneralRelief) => {
-                    if (
-                        storeDistributionBeneficiary.get('beneficiary').get('id') === distributionBeneficiary.get('beneficiary').get('id')
-                    ) {
-                        storeDistributionBeneficiary.get<GeneralRelief[]>('generalReliefs')
-                            .forEach((generalRelief: GeneralRelief) => generalReliefsId.push(generalRelief.get('id')));
+                .forEach((distributionBeneficiary: TransactionGeneralRelief) => {
+                    if (distributionBeneficiary.get('beneficiary').get('id') ===
+                        selectedDistributionBeneficiary.get('beneficiary').get('id')) {
+
+                        distributionBeneficiary.get<GeneralRelief[]>('generalReliefs').forEach(
+                            (generalRelief: GeneralRelief) => generalReliefsId.push(generalRelief.get('id'))
+                        );
                     }
                 });
         });
@@ -101,24 +102,25 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                 `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}`,
                 this.actualDistribution.modelToApi()
             ).subscribe();
+
             this.verifyIsFinished();
-            this.selection.selected.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
-                const storedDistributionBeneficiaries = this.actualDistribution
-                    .get<TransactionGeneralRelief[]>('distributionBeneficiaries');
-                storedDistributionBeneficiaries.forEach((storeDistributionBeneficiary: TransactionGeneralRelief) => {
-                    if (
-                        storeDistributionBeneficiary.get('beneficiary').get('id') === distributionBeneficiary.get('beneficiary').get('id')
-                    ) {
-                        const generalReliefs = storeDistributionBeneficiary.get<GeneralRelief[]>('generalReliefs')
+
+            this.selection.selected.forEach((selectedDistributionBeneficiary: TransactionGeneralRelief) => {
+                const distributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');
+                distributionBeneficiaries.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
+                    if (distributionBeneficiary.get('beneficiary').get('id') ===
+                        selectedDistributionBeneficiary.get('beneficiary').get('id')) {
+
+                        const generalReliefs = distributionBeneficiary.get<GeneralRelief[]>('generalReliefs')
                             .map((generalRelief: GeneralRelief) => {
                                 generalRelief.set('distributedAt', new Date());
                                 return generalRelief;
                             });
-                        storeDistributionBeneficiary.set('generalReliefs', generalReliefs);
-                        storeDistributionBeneficiary.set('distributedAt', new Date());
+                        distributionBeneficiary.set('generalReliefs', generalReliefs);
+                        distributionBeneficiary.set('distributedAt', new Date());
                     }
                 });
-                this.actualDistribution.set('distributionBeneficiaries', storedDistributionBeneficiaries);
+                this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
             });
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
         }, (_err: any) => {

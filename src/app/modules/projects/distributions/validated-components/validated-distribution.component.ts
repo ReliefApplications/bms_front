@@ -138,7 +138,6 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
                 if (distribution) {
                     this.setDistributionBeneficiaries(distribution.distribution_beneficiaries);
                     this.formatTransactionTable();
-                    this.loadingTransaction = false;
                 }
             });
     }

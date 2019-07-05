@@ -283,6 +283,10 @@ app-mobile-money, app-general-relief, app-qr-voucher {
         display: flex;
         align-items: center;
 
+        .subtitle {
+            display: flex;
+        }
+
         *:first-child, *:last-child {
             margin: 0 5px;
         }
@@ -294,5 +298,17 @@ app-mobile-money, app-general-relief, app-qr-voucher {
     }
     h4 {
         margin-top: 5px;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .container-subtitle {
+        .subtitle-main {
+            flex-direction: column;
+            button {
+                margin-bottom: 5px !important;
+                margin-top: 5px !important;
+            }   
+        }
     }
 }

@@ -5,13 +5,13 @@ import { RecaptchaComponent } from 'ng-recaptcha';
 import { from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
+import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Country } from 'src/app/models/country';
+import { ErrorInterface, User } from 'src/app/models/user';
 import { environment } from 'src/environments/environment';
-import { AuthenticationService } from '../../core/authentication/authentication.service';
-import { ErrorInterface, User } from '../../models/user';
 
 @Component({
     selector: 'app-login',
@@ -104,9 +104,9 @@ export class LoginComponent implements OnInit {
                 this.loader = false;
             },
             (_error: ErrorInterface) => {
+                this.loader = false;
                 this.recaptcha.reset();
                 this.forgotMessage = true;
-                this.loader = false;
             });
     }
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { Distribution } from 'src/app/models/distribution';
 import { SnackbarService } from '../logging/snackbar.service';
@@ -102,8 +103,7 @@ export class DistributionService extends CustomModelService {
     }
 
     public exportSample(sample: any, extensionType: string) {
-        return this.exportService.export('distributionSample', true, extensionType, {sample: sample}).subscribe();
-
+        return this.exportService.export('distributionSample', true, extensionType, {sample: sample});
     }
 
     public checkProgression(id: number) {
@@ -129,17 +129,19 @@ export class DistributionService extends CustomModelService {
     }
 
 
-    visit(id) {
+    visit(id: string) {
         if (!this.networkService.getStatus()) {
             this._cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + id + '_beneficiaries')
-                .subscribe(
-                    result => {
-                        if (!result) {
-                            this.snackbar.error(this.language.cache_no_distribution);
-                        } else {
-                            this.router.navigate(['/projects/distributions/' + id]);
+                .pipe(
+                    tap(
+                        result => {
+                            if (!result) {
+                                this.snackbar.error(this.language.cache_no_distribution);
+                            } else {
+                                this.router.navigate(['/projects/distributions/' + id]);
+                            }
                         }
-                    }
+                    )
                 );
         } else {
             this.router.navigate(['/projects/distributions/' + id]);

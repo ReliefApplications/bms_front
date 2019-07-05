@@ -310,10 +310,9 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
      */
     export() {
         this.loadingExport = true;
-        this.distributionService.export('distribution', this.extensionTypeStep1, this.actualDistribution.get('id')).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
+        this.distributionService.export('distribution', this.extensionTypeStep1, this.actualDistribution.get('id')).subscribe(
+            () => { this.loadingExport = false; },
+            (_error: any) => { this.loadingExport = false; }
         );
     }
 

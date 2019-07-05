@@ -329,18 +329,12 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         body['adm2'] = this.conversionForm.controls.adm2.value ? this.conversionForm.controls.adm2.value.get('name') : '';
         body['adm1'] = this.conversionForm.controls.adm1.value ? this.conversionForm.controls.adm1.value.get('name') : '';
 
-        this._householdsService.testFileTemplate(data, body)
-            .then(() => {
-                this.closeConversionDialog('success');
-            }, (error) => {
+        this._householdsService.testFileTemplate(data, body).subscribe(
+            () => { this.closeConversionDialog('success'); },
+            (error: any) => {
                 this.closeConversionDialog('error', error);
                 this.csv2 = null;
-            })
-            .catch(
-                (error: any) => {
-                    this.closeConversionDialog('error', error);
-                    this.csv2 = null;
-                });
+            });
     }
 
     /**

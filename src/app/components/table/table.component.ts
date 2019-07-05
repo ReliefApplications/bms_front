@@ -349,14 +349,9 @@ export class TableComponent implements OnInit,  AfterViewInit {
         if (!element) {
             return;
         }
-        this.service.requestLogs(element.get('id')).toPromise()
-            .then(
-                () => { this.snackbar.success('Logs have been sent'); }
-            )
-            .catch(
-                (e) => {
-                    this.snackbar.error('Logs could not be sent');
-                }
-            );
+        this.service.requestLogs(element.get('id')).subscribe(
+            () => { this.snackbar.success('Logs have been sent'); },
+            (_error: any) => {this.snackbar.error('Logs could not be sent'); }
+        );
     }
 }

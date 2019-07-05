@@ -1,8 +1,8 @@
 <div class="page-container">
   <div class="container-fields">
-    <div class="field-distribution">
+    <div class="field-distribution" [ngClass]="{'rtl':language.direction === 'rtl'}">
       <h2 class="distribution-title">{{language.add_project_new_distribution | uppercaseFirst}}</h2>
-      <div [ngClass]="{'distribution-accordion': language.direction !== 'rtl', 'distribution-accordion-rtl': language.direction === 'rtl'}">
+      <div class="distribution-accordion">
         <mat-card class="accordion-card">
           <form [formGroup]="form">
             <ng-container>
@@ -57,7 +57,7 @@
     </div>
 
 
-    <div class="field-forms" [ngClass]="{'right-form-rtl': language.direction === 'rtl'}">
+    <div class="field-forms">
       <div class="forms-criteria">
         <div class="distribution-title">
           <h2>{{language.add_distribution_selection_criteria | uppercaseFirst}}</h2>

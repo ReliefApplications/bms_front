@@ -27,14 +27,14 @@
 }
 
 .color-grid {
-  width: 500px;
+  width: 100%;
   .color-row {
     display: flex;
     height: 25px;
     .color-column {
       display:flex;
       flex-direction: column;
-      width: 50px
+      width: 8%;
     }
     .selected {
       border: 1px solid black;

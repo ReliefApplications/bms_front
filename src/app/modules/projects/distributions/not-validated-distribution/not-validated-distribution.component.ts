@@ -227,6 +227,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
                             this.loaderValidation = false;
                         },
                         () => {
+                            this.loaderValidation = false;
                             this.actualDistribution.set('validated', false);
                             this.snackbar.error(this.language.distribution_not_validated);
                         }

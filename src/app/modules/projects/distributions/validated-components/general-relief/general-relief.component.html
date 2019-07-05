@@ -77,7 +77,7 @@
                     </ng-template>
                 </button>
                 <mat-spinner [diameter]="35" *ngIf="distributed && selection.selected.length > 0"></mat-spinner>
-                <button mat-flat-button *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !distributed && selection.selected.length > 0" class="button-background-accent" (click)="distributeRelief()">
+                <button mat-flat-button *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT') && !distributed && selection.selected.length > 0" class="button-background-accent" (click)="distributeRelief()">
                     <mat-icon>send</mat-icon> {{ language.distribution_distribute | uppercaseFirst }}
                 </button>
             </div>

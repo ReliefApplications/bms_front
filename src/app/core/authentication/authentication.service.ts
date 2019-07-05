@@ -100,9 +100,9 @@ export class AuthenticationService {
 
     public updateUser(body: any, url: string) {
         return this.requestSalt(body.username).pipe(
-            map((salt: string) => {
+            switchMap((salt: string) => {
                 body = this.createSaltedPassword(body, salt);
-                return this.http.post(url, body).subscribe();
+                return this.http.post(url, body);
             }));
     }
 

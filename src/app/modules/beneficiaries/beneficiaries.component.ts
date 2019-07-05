@@ -27,6 +27,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
 
     public nameComponent = 'beneficiaries';
     public loadingExport = false;
+    modalSubscriptions: Array<Subscription> = [];
 
     public referedClassService;
     referedClassToken = Household;
@@ -96,9 +97,8 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach((subscription: Subscription) => {
-            subscription.unsubscribe();
-        });
+        this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
     toggleAddButtons() {
@@ -208,14 +208,16 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     // }
 
     openDialog(event): void {
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
 
         this.modalService.openDialog(Household, this.householdsService, event);
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
                 this.table.loadDataPage();
                 this.selection = new SelectionModel<Household>(true, []);
             }
         });
+        this.modalSubscriptions = [completeSubscription];
     }
 
     deleteSelected() {

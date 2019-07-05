@@ -132,6 +132,7 @@ export class Arabic implements Language {
     add_beneficiary_title = 'إضافة مستفيد'
     add_beneficiary_code = 'تحويلة'
     add_beneficiary_occupation = 'الاحتلال'
+    add_beneficiary_project = 'يرجى إضافة هذه الأسرة إلى مشروع واحد أو أكثر'
 
     // Add distribution
     add_distribution_advanced_option = 'خيارات متقدمة'

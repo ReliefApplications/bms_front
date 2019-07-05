@@ -133,6 +133,7 @@ export class English implements Language {
     add_beneficiary_title = 'add beneficiary'
     add_beneficiary_code = 'Ext'
     add_beneficiary_occupation = 'Occupation'
+    add_beneficiary_project = 'Please add this household to one or more project'
 
     // Add distribution
     add_distribution_advanced_option = 'Advanced options'

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { ModalAddBeneficiaryComponent } from 'src/app/components/modals/modal-add-beneficiary/modal-add-beneficiary.component';
 import { ModalAddCommodityComponent } from 'src/app/components/modals/modal-add-commodity/modal-add-commodity.component';
 import { ModalAddCriteriaComponent } from 'src/app/components/modals/modal-add-criteria/modal-add-criteria.component';
 import { ModalAddComponent } from 'src/app/components/modals/modal-add/modal-add.component';
+import { ModalDeleteBeneficiaryComponent } from 'src/app/components/modals/modal-delete-beneficiary/modal-delete-beneficiary.component';
 import { ModalDeleteComponent } from 'src/app/components/modals/modal-delete/modal-delete.component';
 import { ModalDetailsComponent } from 'src/app/components/modals/modal-details/modal-details.component';
 import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
@@ -12,14 +14,12 @@ import { Beneficiary } from 'src/app/models/beneficiary';
 import { Commodity } from 'src/app/models/commodity';
 import { Criteria } from 'src/app/models/criteria';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
+import { Distribution } from 'src/app/models/distribution';
 import { CommodityService } from '../api/commodity.service';
 import { CriteriaService } from '../api/criteria.service';
-import { NetworkService } from '../network/network.service';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { SnackbarService } from '../logging/snackbar.service';
-import { ModalDeleteBeneficiaryComponent } from 'src/app/components/modals/modal-delete-beneficiary/modal-delete-beneficiary.component';
-import { ModalAddBeneficiaryComponent } from 'src/app/components/modals/modal-add-beneficiary/modal-add-beneficiary.component';
-import { Distribution } from 'src/app/models/distribution';
+import { NetworkService } from '../network/network.service';
 
 @Injectable({
     providedIn: 'root'
@@ -183,27 +183,19 @@ export class ModalService {
     }
 
 
-    openAddCriteriaDialog(): Promise<Criteria> {
-        return new Promise<Criteria>((resolve, reject) => {
-            this.referedClassToken = Criteria;
-            this.referedClassService = CriteriaService;
-            const dialogRef = this.dialog.open(ModalAddCriteriaComponent, {
-                data: {
-                    objectInstance: new Criteria(),
-                }
-            });
-            dialogRef.afterClosed().subscribe((criteria) => {
-                if (criteria) {
-                    resolve(criteria);
-                } else {
-                    reject();
-                }
-            });
+    openAddCriteriaDialog(): Observable<Criteria> {
+        this.referedClassToken = Criteria;
+        this.referedClassService = CriteriaService;
+        const dialogRef = this.dialog.open(ModalAddCriteriaComponent, {
+            data: {
+                objectInstance: new Criteria(),
+            }
         });
+        return dialogRef.afterClosed();
     }
 
-    openAddCommodityDialog(): Promise<Commodity> {
-        return new Promise<Commodity>((resolve, reject) => {
+    openAddCommodityDialog(): Observable<Commodity> {
+
             this.referedClassToken = Commodity;
             this.referedClassService = CommodityService;
             const dialogRef = this.dialog.open(ModalAddCommodityComponent, {
@@ -211,14 +203,7 @@ export class ModalService {
                     objectInstance: new Commodity(),
                 }
             });
-            dialogRef.afterClosed().subscribe((commodity) => {
-                if (commodity) {
-                    resolve(commodity);
-                } else {
-                    reject();
-                }
-            });
-        });
+            return dialogRef.afterClosed();
     }
 
 

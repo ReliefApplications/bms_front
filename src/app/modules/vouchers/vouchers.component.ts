@@ -23,6 +23,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
     public nameComponent = 'vouchers';
 
+    public loadingPrint = false;
     public loadingBooklet = true;
     public loadingExport = false;
     public loadingExportCodes = false;
@@ -127,11 +128,17 @@ export class VouchersComponent implements OnInit, OnDestroy {
     }
 
     printMany() {
+        this.loadingPrint = true;
         const error = false;
         const bookletIds = this.selection.selected.map((booklet: Booklet) => {
             return booklet.get<number>('id');
         });
-        return !error ? this._exportService.printManyVouchers(bookletIds) : null;
+
+        // TODO: switch to observables
+        return !error ?
+        this._exportService.printManyVouchers(bookletIds).then(() => {
+            this.loadingPrint = false;
+        }) : null;
     }
 
     export() {

@@ -116,7 +116,9 @@ export class ReportsComponent implements OnInit, OnDestroy {
         this.generateFrequencies();
         this.generateEnabledReports();
         this.getProjects().subscribe(() => {
-            this.setFormsValues();
+            if (this.projects) {
+                this.setFormsValues();
+            }
         });
 
         this.generateFormsEvents();

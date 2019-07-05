@@ -14,6 +14,8 @@ import { CustomDateAdapter } from '../../../shared/adapters/date.adapter';
 import { FONTS } from 'src/app/models/constants/fonts';
 import { COLORS } from 'src/app/models/constants/colors';
 import { CustomModelField } from 'src/app/models/custom-models/custom-model-field';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { FileModelField } from 'src/app/models/custom-models/file-model-field';
 
 @Component({
     selector: 'app-project',
@@ -37,6 +39,7 @@ export class ModalFieldsComponent implements OnInit {
     objectFields: string[];
 
     filename: string;
+    fileError: boolean;
 
     modalTitle = 'Default Modal Text';
 
@@ -55,6 +58,7 @@ export class ModalFieldsComponent implements OnInit {
         public locationService: LocationService,
         public languageService: LanguageService,
         private dialog: MatDialog,
+        private snackbar: SnackbarService,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) {}
 
@@ -200,10 +204,15 @@ export class ModalFieldsComponent implements OnInit {
         throw new Error('You must override this function in other components');
     }
 
-    onFileChange(property, event) {
+    onFileChange(field: FileModelField, event) {
         if (event.target.files.length > 0) {
             const file = event.target.files[0];
             this.filename = file.name;
+            if (!field.acceptedTypes.includes(this.filename.split('.').pop())) {
+                this.fileError = true;
+            } else {
+                this.fileError = false;
+            }
 
             const formData = new FormData();
             formData.append('file', file);

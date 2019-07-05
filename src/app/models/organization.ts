@@ -36,6 +36,7 @@ export class Organization extends CustomModel {
             isEditable: true,
             uploadPath: '/organization/upload/logo',
             fileUrlField: 'logo',
+            acceptedTypes: ['gif', 'jpg', 'jpeg', 'png'],
         }),
         font: new TextModelField({
             title: this.language.organization_font,

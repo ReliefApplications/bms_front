@@ -46,8 +46,10 @@ export class Donor extends CustomModel {
             title: this.language.organization_logo,
             isDisplayedInModal: true,
             isEditable: true,
+            isSettable: true,
             uploadPath: '/donor/upload/logo',
             fileUrlField: 'logo',
+            acceptedTypes: ['gif', 'jpg', 'jpeg', 'png'],
         }),
         notes: new TextModelField(
             {

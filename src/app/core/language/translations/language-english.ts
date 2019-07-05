@@ -76,6 +76,7 @@ export class English implements Language {
     // Common Fields
     address = 'Address'
     currency = 'Currency'
+    date = 'date'
     description = 'description'
     details = 'Details'
     distributed = 'Distributed'
@@ -167,6 +168,7 @@ export class English implements Language {
     beneficiary_added = 'Beneficiairies added to the selected project'
     beneficiary_advanced_research = 'Advanced search'
     beneficiary_clear_all_research = 'Clear all'
+    beneficiary_count = 'Beneficiaries count'
     beneficiary_date_of_birth = 'Date of Birth'
     beneficiary_en_family_name = 'English family name'
     beneficiary_en_given_name = 'English given name'
@@ -449,6 +451,11 @@ export class English implements Language {
     login_prompt = 'Please log in'
     login_title = 'Login'
 
+    // Map legend
+    map_legend_completed = 'completed'
+    map_legend_not_validated = 'not validated'
+    map_legend_validated = 'validated'
+
     // Modal
     modal_add_multiple_title = 'Create new'
     modal_add_no_value = 'You need to enter a value'
@@ -657,7 +664,7 @@ export class English implements Language {
     transaction_state_sent = 'Sent' // Means sent during the current transaction (after loading the page)
     transaction_transaction = 'Start transaction'
     transaction_update_success = 'Update successful!'
-    transaction_validate_distribution = 'Do you really want to validate this distribution ? You won\'t be able to modify it anymore.'
+    transaction_validate_distribution = 'Do you really want to validate this distribution ?'
     transaction_validation = 'Confirm the validation'
 
     // Tooltip

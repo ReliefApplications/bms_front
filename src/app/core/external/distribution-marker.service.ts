@@ -4,13 +4,21 @@ import * as Leaflet from 'leaflet';
 import { Commodity } from 'src/app/models/commodity';
 import { Distribution } from 'src/app/models/distribution';
 import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
-
+import { CountriesService } from '../countries/countries.service';
+import { LanguageService } from '../language/language.service';
+import { UppercaseFirstPipe } from 'src/app/shared/pipes/uppercase-first.pipe';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DistributionMarkerService {
     datePipe = new DatePipe('en-US');
+
+    constructor(
+        public countryService: CountriesService,
+        public languageService: LanguageService
+    ) {}
+
     public getClassesNames(distribution: Distribution) {
         return this.getDistributionStatus(distribution);
     }
@@ -39,20 +47,31 @@ export class DistributionMarkerService {
 
     public getPopup(distribution: Distribution) {
         const popup = Leaflet.DomUtil.create('div', 'infoWindow');
+        const countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
+            this.countryService.selectedCountry.getValue().get<string>('id') :
+            this.countryService.khm.get<string>('id');
+        const language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+        const titlePipe = new UppercaseFirstPipe();
         popup.innerHTML = `
             <div id="bms-popup">
-                ${this.formatPropertyIfExists('Adm1', distribution.get(['location', 'adm1', 'name']))}
-                ${this.formatPropertyIfExists('Adm2', distribution.get(['location', 'adm2', 'name']))}
-                ${this.formatPropertyIfExists('Adm3', distribution.get(['location', 'adm3', 'name']))}
-                ${this.formatPropertyIfExists('Adm4', distribution.get(['location', 'adm4', 'name']))}
-                ${this.formatPropertyIfExists('Name', distribution.get(['location', 'adm4', 'name']))}
-                ${this.formatPropertyIfExists('Beneficiaries count',
+                ${this.formatPropertyIfExists(
+                    titlePipe.transform(language.adm1[countryId]), distribution.get(['location', 'adm1', 'name']))}
+                ${this.formatPropertyIfExists(
+                    titlePipe.transform(language.adm2[countryId]), distribution.get(['location', 'adm2', 'name']))}
+                ${this.formatPropertyIfExists(
+                    titlePipe.transform(language.adm3[countryId]), distribution.get(['location', 'adm3', 'name']))}
+                ${this.formatPropertyIfExists(
+                    titlePipe.transform(language.adm4[countryId]), distribution.get(['location', 'adm4', 'name']))}
+                ${this.formatPropertyIfExists(titlePipe.transform(language.name), distribution.get(['location', 'adm4', 'name']))}
+                ${this.formatPropertyIfExists(titlePipe.transform(language.beneficiary_count),
                     distribution.get<Array<DistributionBeneficiary>>('distributionBeneficiaries').length.toString())}
-                ${this.formatPropertyIfExists('Name', distribution.get('name'))}
-                ${this.formatPropertyIfExists('Modality', distribution.get<Array<Commodity>>('commodities')
-                    .map((commodity: Commodity) => commodity.get<string>(['modalityType', 'name']))
-                    .reduce((previousValue: string, currentValue: string) => `${previousValue}, ${currentValue}`))}
-                ${this.formatPropertyIfExists('Date', this.datePipe.transform(distribution.get<Date>('date'), 'dd-MM-yyyy'))}
+                ${this.formatPropertyIfExists(titlePipe.transform(language.name), distribution.get('name'))}
+                ${this.formatPropertyIfExists(
+                    titlePipe.transform(language.commodity_modality), distribution.get<Array<Commodity>>('commodities')
+                        .map((commodity: Commodity) => commodity.get<string>(['modalityType', 'name']))
+                        .reduce((previousValue: string, currentValue: string) => `${previousValue}, ${currentValue}`))}
+                ${this.formatPropertyIfExists(
+                    titlePipe.transform(language.date), this.datePipe.transform(distribution.get<Date>('date'), 'dd-MM-yyyy'))}
             </div>
         `;
         return popup;

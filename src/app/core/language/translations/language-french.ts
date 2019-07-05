@@ -75,6 +75,7 @@ export class French implements Language {
     // Common Fields
     address = 'Adresse'
     currency = 'Devise'
+    date = 'date'
     description = 'description'
     details = 'Détails'
     distributed = 'Distribué'
@@ -185,6 +186,7 @@ export class French implements Language {
     beneficiary_added = 'Les bénéficiaires ont été ajouté au projet sélectionné'
     beneficiary_advanced_research = 'Recherche avancée'
     beneficiary_clear_all_research = 'Réinitialiser les filtres'
+    beneficiary_count = 'nombre de bénéficiaires'
     beneficiary_date_of_birth = 'Date de naissance'
     beneficiary_en_family_name = 'Nom de famille anglais'
     beneficiary_en_given_name = 'Prénom anglais'
@@ -449,6 +451,11 @@ export class French implements Language {
     login_prompt = 'Veuillez vous connecter'
     login_title = 'Connexion'
 
+    // Map legend
+    map_legend_completed = 'completée'
+    map_legend_not_validated = 'non validée'
+    map_legend_validated = 'validée'
+
     // Modal
     modal_add_multiple_title = 'Ajouter plusieurs nouveaux'
     modal_add_no_value = 'Vous devez entrer une valeur'
@@ -657,7 +664,7 @@ export class French implements Language {
     transaction_state_sent = 'Envoyé'
     transaction_transaction = 'Démarrer la transaction'
     transaction_update_success = 'Modification réussie !'
-    transaction_validate_distribution = 'Voulez vous vraiment valider la distribution ? Vous ne serez plus capable de la modifier'
+    transaction_validate_distribution = 'Voulez vous vraiment valider la distribution ?'
     transaction_validation = 'Confirmer la validation'
 
     // Tooltip

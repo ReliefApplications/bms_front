@@ -20,7 +20,7 @@ import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary
 import { User } from 'src/app/models/user';
 
 @Component({
-    template: './validated-distribution.component.html',
+    template: '',
     styleUrls: ['./validated-distribution.component.scss']
 })
 export class ValidatedDistributionComponent implements OnInit, OnDestroy {

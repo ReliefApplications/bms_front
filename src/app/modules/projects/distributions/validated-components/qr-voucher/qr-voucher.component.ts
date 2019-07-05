@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ValidatedDistributionComponent } from '../validated-distribution.component';
-import { SelectionModel } from '@angular/cdk/collections';
-import { TransactionQRVoucher } from 'src/app/models/transaction-qr-voucher';
-import { Beneficiary } from 'src/app/models/beneficiary';
 import { MatTableDataSource } from '@angular/material';
-import { BookletStatus } from 'src/app/models/booklet';
-import { Booklet } from 'src/app/models/booklet';
 import { ModalAssignComponent } from 'src/app/components/modals/modal-assign/modal-assign.component';
+import { Beneficiary } from 'src/app/models/beneficiary';
+import { Booklet, BookletStatus } from 'src/app/models/booklet';
+import { TransactionQRVoucher } from 'src/app/models/transaction-qr-voucher';
+import { ValidatedDistributionComponent } from '../validated-distribution.component';
 
 @Component({
   selector: 'app-qr-voucher',
@@ -38,14 +36,14 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
   formatTransactionTable() {
       const distributionBeneficiaries = this.actualDistribution.get<TransactionQRVoucher[]>('distributionBeneficiaries');
       this.transactionData = new MatTableDataSource(distributionBeneficiaries);
-      this.verifiyIsFinished();
+      this.verifyIsFinished();
       this.loadingTransaction = false;
   }
 
    /**
    * To be used everytime transactionData changes
    */
-  verifiyIsFinished() {
+  verifyIsFinished() {
       let amount: number;
 
       if (!this.transactionData) {

@@ -9,15 +9,15 @@ import { ExportService } from 'src/app/core/api/export.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Commodity } from 'src/app/models/commodity';
+import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Distribution } from 'src/app/models/distribution';
 import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
 import { User } from 'src/app/models/user';
-import { DisplayType } from 'src/app/models/constants/screen-sizes';
-import { NetworkService } from 'src/app/core/network/network.service';
 
 @Component({
     template: './validated-distribution.component.html',
@@ -143,7 +143,7 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
     /**
      * To be used everytime transactionData changes
      */
-    verifiyIsFinished() {
+    verifyIsFinished() {
         throw new Error('Abstract Method');
     }
 

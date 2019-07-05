@@ -3,9 +3,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter, MatPaginator, MatSort, MAT_DATE_FORMATS } from '@angular/material';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { CustomDataSource } from 'src/app/models/data-sources/custom-data-source.interface';
+import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { TableComponent } from '../table.component';
 
 export interface Filter {
@@ -61,8 +61,8 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
             return this.filters.fields[property].isDisplayedInTable === true;
         });
         this.createForm();
-        this.listenToChanges();
         this.service.fillFiltersWithOptions(this.filters);
+        this.listenToChanges();
         // get data
         this.tableServerData.loadData();
 
@@ -210,6 +210,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     }
 
     selectCheck(event, element) {
+
         if (event.checked) {
             this.selection.select(element);
         } else {

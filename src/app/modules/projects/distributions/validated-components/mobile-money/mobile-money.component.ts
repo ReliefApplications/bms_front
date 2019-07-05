@@ -58,7 +58,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 
         this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
         this.transactionData = new MatTableDataSource(distributionBeneficiaries);
-        this.verifiyIsFinished();
+        this.verifyIsFinished();
         this.loadingTransaction = false;
         if (this.userService.hasRights('ROLE_AUTHORISE_PAYMENT')) {
             this.refreshStatuses();
@@ -68,7 +68,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      /**
      * To be used everytime transactionData changes
      */
-    verifiyIsFinished() {
+    verifyIsFinished() {
         let amount: number;
 
         if (!this.transactionData) {
@@ -105,7 +105,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                             if (transaction.get('beneficiary').get('id') === distributionBeneficiary.beneficiary.id) {
                                 // Is moneyReceived really a field ???
                                 this.transactionData.data[index].updateForPickup(distributionBeneficiary.moneyReceived);
-                                this.verifiyIsFinished();
+                                this.verifyIsFinished();
                             }
                         });
                     }
@@ -271,7 +271,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                                 }
                             );
                         }
-                        this.verifiyIsFinished();
+                        this.verifyIsFinished();
                         this.dialog.closeAll();
 
                     }

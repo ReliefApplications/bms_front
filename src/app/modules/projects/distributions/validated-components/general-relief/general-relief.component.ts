@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ValidatedDistributionComponent } from '../validated-distribution.component';
-import { TransactionGeneralRelief, GeneralRelief } from 'src/app/models/transaction-general-relief';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
-import { MatTableDataSource } from '@angular/material';
-import { Commodity } from 'src/app/models/commodity';
-import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
-import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
 import { SelectionModel } from '@angular/cdk/collections';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
+import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Beneficiary } from 'src/app/models/beneficiary';
+import { Commodity } from 'src/app/models/commodity';
+import { GeneralRelief, TransactionGeneralRelief } from 'src/app/models/transaction-general-relief';
+import { ValidatedDistributionComponent } from '../validated-distribution.component';
 
 @Component({
     selector: 'app-general-relief',
@@ -16,7 +15,6 @@ import { Beneficiary } from 'src/app/models/beneficiary';
 })
 export class GeneralReliefComponent extends ValidatedDistributionComponent implements OnInit {
 
-    checkedLines: TransactionGeneralRelief[] = [];
     distributed = false;
     selection = new SelectionModel<TransactionGeneralRelief>(true, []);
 
@@ -51,14 +49,14 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 
         this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
         this.transactionData = new MatTableDataSource(distributionBeneficiaries);
-        this.verifiyIsFinished();
+        this.verifyIsFinished();
         this.loadingTransaction = false;
     }
 
      /**
      * To be used everytime transactionData changes
      */
-    verifiyIsFinished() {
+    verifyIsFinished() {
         let amount: number;
 
         if (!this.transactionData) {
@@ -79,15 +77,11 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
          }
     }
 
-    getChecked(event: any) {
-        this.checkedLines = event;
-    }
-
     distributeRelief() {
         this.distributed = true;
         // Get the General Relief's ids
         const generalReliefsId: number[] = [];
-        this.checkedLines.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
+        this.selection.selected.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
             const storedDistributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');
             storedDistributionBeneficiaries.forEach((storeDistributionBeneficiary: TransactionGeneralRelief) => {
                 if (storeDistributionBeneficiary.get('beneficiary').get('id') === distributionBeneficiary.get('beneficiary').get('id')) {
@@ -106,13 +100,13 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 
         // Request to the API to set the General Reliefs as distributed
         this.distributionService.distributeGeneralReliefs(generalReliefsId).subscribe(() => {
-            this.checkedLines = [];
+            this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
             // Store the modified distribution in the cache
             this.cacheService.set(
                 `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}_beneficiaries`,
                 this.actualDistribution.modelToApi()
             ).subscribe();
-            this.verifiyIsFinished();
+            this.verifyIsFinished();
         }, err => {
             console.error(err);
         }, () => {

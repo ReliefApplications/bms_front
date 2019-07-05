@@ -9,7 +9,7 @@
 
     <ng-template #dataInTable>
         <div *ngFor="let element of tableData?.data" class="table-entry">
-            <div class="table-properties" appMobilePress (longPressedAndReleased)="toggleCheck(element)"
+            <div class="table-properties" appMobilePress (longPressedAndReleased)="(selection ? toggleCheck(element) : '')"
             (shortPressedAndReleased)="openDialog('details', element)"
             [ngClass]="{'checked': selection?.selected.includes(element)}">
                 <div *ngFor="let property of displayProperties" class="table-property">

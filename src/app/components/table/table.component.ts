@@ -312,7 +312,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
         this.selectChecked.emit(this.selection.selected);
     }
 
-    toggleCheck(element) {
+    toggleCheck(element: any) {
         if (this.selection.selected.includes(element)) {
             this.selection.deselect(element);
             return;

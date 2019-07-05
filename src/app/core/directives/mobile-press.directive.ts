@@ -24,16 +24,11 @@ export class MobilePressDirective {
     @HostListener('mousedown', ['$event'])
     @HostListener('touchstart', ['$event'])
     onMouseDown(event: any) {
-        // event.preventDefault();
-        // event.stopPropagation();
-        const { clientX, clientY } = ('clientX' in event ? event : event.touches[0]);
-        this.backgroundColor = 'grey';
+        event.preventDefault();
+        event.stopPropagation();
         this.longPressTimeout = setTimeout(() => {
             this.longPressed = true;
-            this.backgroundColor = 'white';
-            setTimeout(() => {
-                this.backgroundColor = 'grey';
-            }, 250);
+            this.backgroundColor = '#979B9E'; // $bms_slate
         }, this.PRESS_DURATION_MS);
     }
 
@@ -55,5 +50,14 @@ export class MobilePressDirective {
 
         }
         this.longPressed = false;
+    }
+
+    @HostListener('mouseout', ['$event'])
+    onMouseOut(event: any) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Cancel long press monitoring
+        clearTimeout(this.longPressTimeout);
     }
 }

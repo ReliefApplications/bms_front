@@ -57,10 +57,10 @@
 
         <div class="content-table">
             <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" [selection]="selection"
-                rights="true" (selectChecked)="getChecked($event)" (openModal)="openDialog($event)" [selectable]="!actualDistribution.get('finished')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
+                rights="true" (openModal)="openDialog($event)" [selectable]="!actualDistribution.get('finished')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
             </app-table>
             <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="true" rights="true" (openModal)="openDialog($event)"
-                [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
+                [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [selection]="selection">
             </app-table-mobile>
         </div>
 
@@ -76,9 +76,8 @@
                         {{ language.cache_store_beneficiaries | uppercaseFirst }}
                     </ng-template>
                 </button>
-
-                <mat-spinner [diameter]="35" *ngIf="distributed && checkedLines.length > 0"></mat-spinner>
-                <button mat-flat-button *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !distributed && checkedLines.length > 0" class="button-background-accent" (click)="distributeRelief()">
+                <mat-spinner [diameter]="35" *ngIf="distributed && selection.selected.length > 0"></mat-spinner>
+                <button mat-flat-button *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !distributed && selection.selected.length > 0" class="button-background-accent" (click)="distributeRelief()">
                     <mat-icon>send</mat-icon> {{ language.distribution_distribute | uppercaseFirst }}
                 </button>
             </div>

@@ -91,8 +91,8 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
 
         this.extensionType = 'xls';
         this.getProjects('updateSelection');
-        this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
-        this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
+        this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE');
+        this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE');
 
     }
 

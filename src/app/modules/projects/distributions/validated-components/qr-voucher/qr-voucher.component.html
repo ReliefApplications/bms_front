@@ -2,7 +2,7 @@
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
             <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
-                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress | uppercaseFirst }} {{ getPercentageValue(commodity) }} % </h4>
+                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress | uppercaseFirst }} {{ getPercentageValue(commodity) | number: '1.0-0' }} % </h4>
                 <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">

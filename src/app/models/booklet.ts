@@ -152,6 +152,7 @@ export class Booklet extends CustomModel {
         }),
         value: new NumberModelField({
             title: this.language.value,
+            displayValue: ''
         }),
         usedAt: new TextModelField({
             title: this.language.booklet_used,
@@ -202,6 +203,7 @@ export class Booklet extends CustomModel {
             null);
 
         newBooklet.set('value', newBooklet.getTotalValue());
+        newBooklet.fields.value.displayValue = newBooklet.getTotalValue() + ' ' + newBooklet.get('currency').get('name');
 
         // No need to format the date, it is a voucher's date so already formatted
         newBooklet.set('usedAt',  newBooklet.getUsedAt());

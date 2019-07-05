@@ -58,7 +58,7 @@ export class ExportService {
         });
     }
 
-    public async printManyVouchers(bookletIds: number[]) {
+    public printManyVouchers(bookletIds: number[]) {
         const body = {
             bookletIds: bookletIds
         };

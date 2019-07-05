@@ -299,10 +299,9 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
     exportSample() {
         this.loadingExport = true;
         const randomSampleForApi = this.randomSampleData.data.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
-        this.distributionService.exportSample(randomSampleForApi, this.extensionTypeStep3).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
+        this.distributionService.exportSample(randomSampleForApi, this.extensionTypeStep3).subscribe(
+            () => { this.loadingExport = false; },
+            (_error: any) => { this.loadingExport = false; }
         );
     }
 

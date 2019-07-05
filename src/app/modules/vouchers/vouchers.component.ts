@@ -124,7 +124,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
     print(event: Booklet) {
         this.snackbar.info(this.language.voucher_print_starting);
 
-        return this._exportService.printVoucher(event.get('id'));
+        return this._exportService.printVoucher(event.get('id')).subscribe();
     }
 
     printMany() {
@@ -136,26 +136,25 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
         // TODO: switch to observables
         return !error ?
-        this._exportService.printManyVouchers(bookletIds).then(() => {
+        this._exportService.printManyVouchers(bookletIds).subscribe((_: any) => {
             this.loadingPrint = false;
         }) : null;
     }
 
     export() {
         this.loadingExport = true;
-        this._exportService.export('booklets', true, this.extensionType).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
+        this._exportService.export('booklets', true, this.extensionType).subscribe(
+            () => { this.loadingExport = false; },
+
+            (_error: any) => { this.loadingExport = false; }
         );
       }
 
     exportCodes() {
         this.loadingExportCodes = true;
-        this._exportService.export('bookletCodes', true, this.extensionTypeCode).then(
-            () => { this.loadingExportCodes = false; }
-        ).catch(
-            () => { this.loadingExportCodes = false; }
+        this._exportService.export('bookletCodes', true, this.extensionTypeCode).subscribe(
+            () => { this.loadingExportCodes = false; },
+            (_error: any) => { this.loadingExportCodes = false; }
         );
     }
 }

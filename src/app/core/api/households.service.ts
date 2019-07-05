@@ -3,22 +3,22 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver/FileSaver';
 import { AppInjector } from 'src/app/app-injector';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { Gender, ResidencyStatus } from 'src/app/models/beneficiary';
+import { LIVELIHOOD } from 'src/app/models/constants/livelihood';
 import { HouseholdFilters } from 'src/app/models/data-sources/households-data-source';
 import { VulnerabilityCriteria } from 'src/app/models/vulnerability-criteria';
 import { URL_BMS_API } from '../../../environments/environment';
 import { Household, Livelihood } from '../../models/household';
 import { Location } from '../../models/location';
 import { Project } from '../../models/project';
-import { CriteriaService } from './criteria.service';
-import { CustomModelService } from '../utils/custom-model.service';
-import { ExportService } from './export.service';
+import { SnackbarService } from '../logging/snackbar.service';
 import { HttpService } from '../network/http.service';
+import { NetworkService } from '../network/network.service';
+import { CustomModelService } from '../utils/custom-model.service';
+import { CriteriaService } from './criteria.service';
+import { ExportService } from './export.service';
 import { LocationService } from './location.service';
 import { ProjectService } from './project.service';
-import { Gender, ResidencyStatus } from 'src/app/models/beneficiary';
-import { LIVELIHOOD } from 'src/app/models/constants/livelihood';
-import { NetworkService } from '../network/network.service';
-import { SnackbarService } from '../logging/snackbar.service';
 
 @Injectable({
     providedIn: 'root'
@@ -51,17 +51,6 @@ export class HouseholdsService extends CustomModelService {
     public getOne(beneficiaryId) {
         const url = this.api + '/households/' + beneficiaryId;
         return this.http.get(url);
-    }
-
-    /**
-     * Get the csv template to import household
-     */
-    public getTemplate() {
-        const url = this.api + '/csv/households/export';
-        return this.http.get(url).toPromise()
-        .then(response => {
-            saveAs(response, 'households_template' + '.' + 'xls');
-        });
     }
 
     /**

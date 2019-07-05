@@ -5,7 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 import { ModalConfirmationComponent } from 'src/app/components/modals/modal-confirmation/modal-confirmation.component';
 import { BeneficiariesService } from 'src/app/core/api/beneficiaries.service';
 import { DistributionService } from 'src/app/core/api/distribution.service';
-import { ExportService } from 'src/app/core/api/export.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
@@ -66,7 +65,6 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
         protected modalService: ModalService,
         public beneficiariesService: BeneficiariesService,
         public _cacheService: AsyncacheService,
-        public _exportService: ExportService,
         public userService: UserService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
@@ -159,14 +157,9 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
 
         this.dialog.closeAll();
         this.loadingExport = true;
-        this.distributionService.export(distributionType, fileType, this.actualDistribution.get('id')).then(
-            () => {
-                this.loadingExport = false;
-            }
-        ).catch(
-            (err: any) => {
-                this.loadingExport = false;
-            }
+        this.distributionService.export(distributionType, fileType, this.actualDistribution.get('id')).subscribe(
+            () => {this.loadingExport = false; },
+            (_error: any) => {this.loadingExport = false; }
         );
     }
 

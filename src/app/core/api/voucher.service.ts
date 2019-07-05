@@ -1,7 +1,6 @@
-import { Injectable                                 } from '@angular/core';
-import { URL_BMS_API                                } from '../../../environments/environment';
-import { HttpService                                } from '../network/http.service';
-import { ExportService                              } from './export.service';
+import { Injectable } from '@angular/core';
+import { URL_BMS_API } from '../../../environments/environment';
+import { HttpService } from '../network/http.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +10,6 @@ export class VoucherService {
 
     constructor(
         private http: HttpService,
-        private exportService: ExportService,
     ) {
     }
 

@@ -102,7 +102,7 @@ export class DistributionService extends CustomModelService {
     }
 
     public exportSample(sample: any, extensionType: string) {
-        return this.exportService.export('distributionSample', true, extensionType, {sample: sample});
+        return this.exportService.export('distributionSample', true, extensionType, {sample: sample}).subscribe();
 
     }
 

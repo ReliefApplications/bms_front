@@ -14,7 +14,6 @@ import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { TextModelField } from 'src/app/models/custom-models/text-model-field';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { DistributionService } from '../../core/api/distribution.service';
-import { ExportService } from '../../core/api/export.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
 
@@ -113,7 +112,6 @@ export class TableComponent implements OnInit,  AfterViewInit {
         public householdsService: HouseholdsService,
         public networkService: NetworkService,
         public router: Router,
-        public _exportService: ExportService,
         public userService: UserService,
         public languageService: LanguageService,
     ) { }

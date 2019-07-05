@@ -20,6 +20,7 @@ export interface Language {
     new: string
     next: string
     no_data: string
+    or: string
     rights: string
     settings: string
     summary: string
@@ -480,6 +481,7 @@ export interface Language {
     modal_details_title: string
     modal_edit_title: string
     modal_failure: string
+    modal_file_extension_error: string
     modal_language_actual: string
     modal_leave_sentence: string
     modal_leave: string

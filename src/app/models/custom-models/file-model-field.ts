@@ -15,9 +15,16 @@ export class FileModelField extends CustomModelField<string> {
      */
     fileUrlField: string;
 
+    /**
+     * Accepted types
+     * @type string[]
+     */
+    acceptedTypes: string[];
+
     constructor(properties: any) {
         super(properties);
         this.uploadPath              = properties['uploadPath'];
         this.fileUrlField              = properties['fileUrlField'];
+        this.acceptedTypes              = properties['acceptedTypes'];
     }
 }

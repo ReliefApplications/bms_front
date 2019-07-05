@@ -1,24 +1,16 @@
 <div class="page-container">
-  <div class="container-title">
-    <h2>{{language.not_found | titlecase}}</h2>
-  </div>
-  <div class="container-table">
-      <div class="container-content box-red">
-          <div class="content-table">
-              <div>
-                <mat-card>
-                    <div>
-                        <h4>{{language.not_found_message}}</h4>
-                    </div>
-                </mat-card>
-              </div>
-          </div>
-          <div class="content-button-footer">
-              <button mat-flat-button routerLink="/">
-                  <mat-icon>backspace</mat-icon>
-                  <span> {{language.back_to_homepage | titlecase }}</span>
-              </button>
-          </div>
-      </div>
-  </div>
+    <div class="container-title">
+        <h2>{{language.not_found | titlecase}}</h2>
+    </div>
+    <div class="container-table">
+        <div class="container-content box-red">
+            <div class="content-table">
+                <h4>{{language.not_found_message}}</h4>
+                <button mat-flat-button routerLink="/">
+                    <mat-icon>arrow_back</mat-icon>
+                    <span> {{language.back_to_homepage | titlecase }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

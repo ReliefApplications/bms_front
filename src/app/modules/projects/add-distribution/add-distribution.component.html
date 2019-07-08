@@ -41,7 +41,8 @@
                 <app-hint-error [form]="form" fieldName="adm4" [field]="objectInstance.get('location').fields.adm4" [isMatField]="false"></app-hint-error>
             </ng-container>
             <mat-form-field class="accordion-field">
-              <input matInput [matDatepicker]="dateDistribution" [placeholder]="objectInstance.fields.date.title | uppercaseFirst" formControlName="date" [min]="projectInfo.startDate" [max]="projectInfo.endDate" required>
+              <input matInput [matDatepicker]="dateDistribution" [placeholder]="objectInstance.fields.date.title | uppercaseFirst"
+                formControlName="date" [min]="getMinDate()" [max]="projectInfo.endDate" required>
               <mat-datepicker-toggle matSuffix [for]="dateDistribution"></mat-datepicker-toggle>
               <mat-datepicker #dateDistribution></mat-datepicker>
               <app-hint-error [form]="form" fieldName="date" [field]="objectInstance.fields.date" [isMatField]="true"></app-hint-error>

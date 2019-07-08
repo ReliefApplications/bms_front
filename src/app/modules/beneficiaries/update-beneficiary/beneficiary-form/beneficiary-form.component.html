@@ -101,7 +101,7 @@
         </ng-option>
       </ng-select>
       <app-hint-error [form]="form" [fieldName]="'phoneType'+index" [field]="phoneFields.type" [isMatField]="false"></app-hint-error>
-      <mat-checkbox color="primary" [formControlName]="'phoneProxy'+index">{{language.phone_proxy}}</mat-checkbox>
+      <mat-checkbox color="primary" [formControlName]="'phoneProxy'+index">{{language.phone_proxy | uppercaseFirst}}</mat-checkbox>
     </div>
 
     <div class="items-line">

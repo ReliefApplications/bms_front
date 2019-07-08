@@ -13,11 +13,11 @@
             <mat-icon>done</mat-icon>
         </ng-template>
         <mat-step [completed]="validStep1">
-            <ng-template class="step" matStepLabel>{{language.information}} </ng-template>
+            <ng-template class="step" matStepLabel>{{language.information | uppercaseFirst}} </ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">1</span>
-                    <span>{{language.information}} </span>
+                    <span>{{language.information | uppercaseFirst}} </span>
                 </div>
                 <div class="container-content box-primary">
                     <div class="content-table content-table-step1">
@@ -29,7 +29,7 @@
                                 </app-location-form>
                                 <form [formGroup]="mainForm" class="location-question">
                                     <mat-checkbox color="primary" formControlName="locationDifferent"></mat-checkbox>
-                                    <span>{{ language.household_location_question }}</span>
+                                    <span>{{ language.household_location_question | uppercaseFirst }}</span>
                                 </form>
                                 <app-location-form *ngIf="mainForm.controls.locationDifferent.value"
                                     [locations]="locations" [form]="mainForm"
@@ -93,7 +93,7 @@
                                             <h4>{{ language.household_food_consumption_score | uppercaseFirst }}</h4>
                                             <mat-form-field>
                                                 <input matInput [type]="number"
-                                                    [placeholder]="language.household_food_consumption_score"
+                                                    [placeholder]="language.household_food_consumption_score | uppercaseFirst"
                                                     formControlName="foodConsumptionScore">
                                                 <app-hint-error [form]="mainForm" fieldName="foodConsumptionScore"
                                                     [field]="household.fields.foodConsumptionScore" [isMatField]="true">
@@ -106,7 +106,7 @@
                                             <h4>{{ language.household_coping_strategies_index | uppercaseFirst }}</h4>
                                             <mat-form-field>
                                                 <input matInput [type]="number"
-                                                    [placeholder]="language.household_coping_strategies_index"
+                                                    [placeholder]="language.household_coping_strategies_index | uppercaseFirst"
                                                     formControlName="copingStrategiesIndex">
                                                 <app-hint-error [form]="mainForm" fieldName="copingStrategiesIndex"
                                                     [field]="household.fields.copingStrategiesIndex"
@@ -132,11 +132,11 @@
                                             <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
                                             <button mat-flat-button class="button-background-primary"
                                                 (click)="nextValidation(1)">
-                                                {{language.next}}
+                                                {{language.next | uppercaseFirst }}
                                             </button>
                                             <button mat-flat-button class="button-background-primary"
                                                 *ngIf="mode=='update' && !validationLoading"
-                                                (click)="submit(); nextValidation(1, true)">{{language.update}}</button>
+                                                (click)="submit(); nextValidation(1, true)">{{language.update | uppercaseFirst }}</button>
                                         </div>
                                     </div>
                                 </form>
@@ -148,11 +148,11 @@
         </mat-step>
 
         <mat-step [completed]="validStep2">
-            <ng-template class="step" matStepLabel>{{language.beneficiary_head}}</ng-template>
+            <ng-template class="step" matStepLabel>{{language.beneficiary_head | uppercaseFirst }}</ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">2</span>
-                    <span>{{language.beneficiary_head}}</span>
+                    <span>{{language.beneficiary_head | uppercaseFirst }}</span>
                 </div>
                 <div class="container-content box-primary">
                     <div class="content-table">
@@ -164,14 +164,14 @@
                             <div class="action-buttons">
                                 <mat-progress-bar mode="determinate" value="35"></mat-progress-bar>
                                 <button mat-button class="button-text-primary" (click)="stepper.previous()">
-                                    {{language.back}}
+                                    {{language.back | uppercaseFirst}}
                                 </button>
                                 <button mat-flat-button class="button-background-primary" (click)='nextValidation(2)'>
-                                    {{language.next}}
+                                    {{language.next | uppercaseFirst}}
                                 </button>
                                 <button mat-flat-button class="button-background-primary"
                                     *ngIf="mode=='update' && !validationLoading"
-                                    (click)="submit(); nextValidation(2, true)">{{language.update}}</button>
+                                    (click)="submit(); nextValidation(2, true)">{{language.update | uppercaseFirst}}</button>
                             </div>
                         </div>
                     </div>
@@ -180,11 +180,11 @@
         </mat-step>
 
         <mat-step [completed]="validStep3">
-            <ng-template class="step" matStepLabel>{{language.household_members}}</ng-template>
+            <ng-template class="step" matStepLabel>{{language.household_members | uppercaseFirst }}</ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">3</span>
-                    <span>{{language.household_members}}</span>
+                    <span>{{language.household_members | uppercaseFirst }}</span>
                 </div>
                 <div class="container-content box-primary">
                     <div class="content-table">
@@ -210,19 +210,19 @@
                                 <mat-progress-bar mode="determinate" value="70"></mat-progress-bar>
                                 <button mat-stroked-button (click)="addBeneficiary()" class="button-text-accent">
                                     <mat-icon>add</mat-icon>
-                                    {{ language.add }}
+                                    {{ language.add | uppercaseFirst}}
                                 </button>
                                 <button mat-button class="button-text-primary" (click)="stepper.previous()">
-                                    {{language.back}}
+                                    {{language.back | uppercaseFirst}}
                                 </button>
                                 <button mat-flat-button class="button-background-primary"
                                     (click)="passHousehold(); nextValidation(3)">
-                                    {{language.next}}
+                                    {{language.next | uppercaseFirst}}
                                 </button>
                                 <button mat-flat-button class="button-background-primary"
                                     *ngIf="mode=='update' && !validationLoading"
                                     (click)="submit(); nextValidation(3, true)">
-                                    {{language.update}}
+                                    {{language.update | uppercaseFirst}}
                                 </button>
                             </div>
                         </div>
@@ -232,15 +232,15 @@
         </mat-step>
 
         <mat-step [completed]="step4Complete">
-            <ng-template matStepLabel>{{language.summary}}</ng-template>
+            <ng-template matStepLabel>{{language.summary | uppercaseFirst}}</ng-template>
             <div class="container-table">
                 <div class="stepInMobile">
                     <span class="dot">4</span>
-                    <span>{{language.summary}}</span>
+                    <span>{{language.summary | uppercaseFirst}}</span>
                 </div>
                 <div class="container-content box-primary">
                     <div class="content-table">
-                        <h3>{{ language.add_beneficiary_project }}</h3>
+                        <h3>{{ language.add_beneficiary_project | uppercaseFirst }}</h3>
                         <form [formGroup]="mainForm">
                             <ng-select class="multiple-select" formControlName="projects"
                                 placeholder="{{language.projects | uppercaseFirst}} *" [multiple]="true"
@@ -254,17 +254,17 @@
                                 [isMatField]="false"></app-hint-error>
                         </form>
                         <div class="summary">
-                            <h3>{{language.household_info}}</h3>
+                            <h3>{{language.household_info | uppercaseFirst}}</h3>
                             <div class="info-resume">
                                 <div class="info-container" *ngIf="mainForm.controls.livelihood.value">
-                                    <h4 class='summary-title'>{{language.household_livelihood}} </h4>
+                                    <h4 class='summary-title'>{{language.household_livelihood | uppercaseFirst }} </h4>
                                     <p class="summary-title-value">{{getLivelihood().get('name')}}</p>
                                 </div>
                                 <ng-container *ngFor="let locationGroup of ['current', 'resident']">
                                     <div class="info-container"
                                         *ngIf="mainForm.controls[locationGroup + 'Type'].value && mainForm.controls[locationGroup + 'Type'].value !== 'camp'">
                                         <h4 class='summary-title'>
-                                            {{language['household_location_' + locationGroup + '_address']}} </h4>
+                                            {{language['household_location_' + locationGroup + '_address'] | uppercaseFirst }} </h4>
                                         <p class="summary-title-value">
                                             {{mainForm.controls[locationGroup + 'AddressNumber'].value}}
                                             {{mainForm.controls[locationGroup + 'AddressStreet'].value}},
@@ -274,7 +274,7 @@
                                     <div class="info-container"
                                         *ngIf="mainForm.controls[locationGroup + 'Type'].value === 'camp'">
                                         <h4 class='summary-title'>
-                                            {{language['household_location_' + locationGroup + '_address']}} </h4>
+                                            {{language['household_location_' + locationGroup + '_address'] | uppercaseFirst }} </h4>
                                         <p class="summary-title-value">
                                             <span
                                                 *ngIf="!mainForm.controls[locationGroup + 'CreateCamp'].value">{{ getCampName(locationGroup) }}</span>
@@ -287,14 +287,14 @@
                                     </div>
                                     <div class="info-container" *ngIf="mainForm.controls[locationGroup + 'Adm1'].value">
                                         <h4 class='summary-title'>
-                                            {{ language['household_location_' + locationGroup + '_location'] }} </h4>
+                                            {{ language['household_location_' + locationGroup + '_location'] | uppercaseFirst }} </h4>
                                         <p class="summary-title-value">
                                             {{getFullLocation(locationGroup)}}
                                         </p>
                                     </div>
                                 </ng-container>
                             </div>
-                            <h3> {{ language.beneficiaries}}</h3>
+                            <h3> {{ language.beneficiaries | uppercaseFirst}}</h3>
                             <table mat-table [dataSource]="tableData" class="mat-elevation-z8" *ngIf="validStep2">
 
                                 <ng-container matColumnDef="localGivenName">
@@ -349,15 +349,15 @@
                             <div class="action-buttons">
                                 <mat-progress-bar mode="determinate" value="100"></mat-progress-bar>
                                 <button mat-button class="button-text-primary"
-                                    (click)="leave()">{{language.cancel}}</button>
+                                    (click)="leave()">{{language.cancel | uppercaseFirst }}</button>
 
                                 <mat-spinner [diameter]="25" *ngIf="validationLoading"></mat-spinner>
                                 <button mat-flat-button class="button-background-primary"
                                     *ngIf="mode=='create' && !validationLoading"
-                                    (click)="submit()">{{language.create}}</button>
+                                    (click)="submit()">{{language.create | uppercaseFirst }}</button>
                                 <button mat-flat-button class="button-background-primary"
                                     *ngIf="mode=='update' && !validationLoading"
-                                    (click)="submit()">{{language.update}}</button>
+                                    (click)="submit()">{{language.update | uppercaseFirst }}</button>
                             </div>
                         </div>
 

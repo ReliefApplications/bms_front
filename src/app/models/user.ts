@@ -217,7 +217,7 @@ export class User extends CustomModel {
         if (!this.get('rights')) {
             return userForApi;
         }
-      
+
         const rights = this.get('rights') ? this.get('rights').get<string>('id') : null;
 
         if (rights === 'ROLE_REGIONAL_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {

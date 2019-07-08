@@ -6,7 +6,7 @@ import { CountriesService } from 'src/app/core/countries/countries.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { FormService } from 'src/app/core/utils/form.service';
-import { Commodity } from 'src/app/models/commodity';
+import { Commodity, ModalityType, Modality } from 'src/app/models/commodity';
 import { CURRENCIES } from 'src/app/models/constants/currencies';
 
 @Component({
@@ -70,9 +70,13 @@ export class ModalAddCommodityComponent implements OnInit {
             this.commodityService.fillTypeOptions(this.commodity, modalityId);
         }
 
+        const name = this.commodity.getOptions('modality')
+            .filter((modality: Modality) => modality.get('id') === modalityId)[0]
+            .get<string>('name');
+
         // Set the value (Booklet value, value, quantity..)
-        switch (modalityId) {
-            case 2: // Vouchers
+        switch (name) {
+            case 'Voucher':
                 this.commodity.fields.value.title = this.language.commodity_value_voucher;
                 break;
             default:
@@ -83,11 +87,16 @@ export class ModalAddCommodityComponent implements OnInit {
     }
 
     getUnit(): string {
-        switch (this.form.controls.modalityType.value) {
-            case 1: // Mobile Cash
-            case 2: // QR Code Voucher
-            case 3: // Paper Voucher
-            case 12: // Loan
+        const name = this.commodity.getOptions('modalityType') && this.form.controls.modalityType.value ?
+            this.commodity.getOptions('modalityType')
+            .filter((modalityType: ModalityType) => modalityType.get('id') === this.form.controls.modalityType.value)[0]
+            .get<string>('name') :
+            null;
+        switch (name) {
+            case 'Mobile Money':
+            case 'QR Code Voucher':
+            case 'Paper Voucher':
+            case 'Loan':
                 return this.language.currency;
             default:
                 return this.language.unit;
@@ -95,25 +104,30 @@ export class ModalAddCommodityComponent implements OnInit {
     }
 
     setUnit() {
+        const name = this.commodity.getOptions('modalityType') && this.form.controls.modalityType.value ?
+            this.commodity.getOptions('modalityType')
+            .filter((modalityType: ModalityType) => modalityType.get('id') === this.form.controls.modalityType.value)[0]
+            .get<string>('name') :
+            null;
         this.isCurrency = false;
-        switch (this.form.controls.modalityType.value) {
-            case 1: // Mobile Cash
-            case 2: // QR Code Voucher
-            case 3: // Paper Voucher
-            case 12: // Loan
+        switch (name) {
+            case 'Mobile Money':
+            case 'QR Code Voucher':
+            case 'Paper Voucher':
+            case 'Loan':
                 this.isCurrency = true;
                 this.form.controls.unit.setValue(this.localCurrency);
                 break;
-            case 4: // Food
-            case 5: // RTE Kit
-            case 7: // Agricultural Kit
-            case 8: // Wash kit
-            case 9: // Shelter tool kit
-            case 10: // Hygiene kit
-            case 11: // Dignity kit
+            case 'Food':
+            case 'RTE Kit':
+            case 'Agricultural Kit':
+            case 'WASH Kit':
+            case 'Shelter tool kit':
+            case 'Hygiene kit':
+            case 'Dignity kit':
                 this.form.controls.unit.setValue(this.language.commodity_kit);
                 break;
-            case 6: // Bread
+            case 'Bread': // Bread
                 this.form.controls.unit.setValue(this.language.commodity_kgs);
                 break;
             default:

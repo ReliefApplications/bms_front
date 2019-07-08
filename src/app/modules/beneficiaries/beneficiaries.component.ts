@@ -223,7 +223,8 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     deleteSelected() {
         this.openDialog({
             action: 'deleteMany',
-            ids: this.selection.selected.map((household: Household) => household.get('id'))
+            ids: this.selection.selected.map((household: Household) => household.get('id')),
+            name: this.selection.selected[0].plural_name
         });
     }
 }

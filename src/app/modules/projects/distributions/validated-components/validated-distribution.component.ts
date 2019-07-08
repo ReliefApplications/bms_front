@@ -34,6 +34,7 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
     extensionType = 'xls';
     progression = 0;
     interval: NodeJS.Timer;
+    loadingComplete = false;
 
     // Transaction.
     readonly SENDING_CODE_FREQ = 10000; // ms
@@ -221,6 +222,29 @@ export class ValidatedDistributionComponent implements OnInit, OnDestroy {
     exit(message: string) {
         this.snackbar.info(message);
         this.dialog.closeAll();
+    }
+
+    complete() {
+        const dialogRef = this.dialog.open(ModalConfirmationComponent, {
+            data: {
+                title: this.language.close,
+                sentence: this.language.modal_complete_distribution,
+                ok: this.language.close
+            }
+        });
+
+        dialogRef.afterClosed().subscribe((answer: boolean) => {
+            if (answer) {
+                this.loadingComplete = true;
+                this.distributionService.complete(this.actualDistribution.get('id')).subscribe((_res: any) => {
+                    this.loadingComplete = false;
+                    this.actualDistribution.set('finished', true);
+                    this.snackbar.success(this.language.distribution_succes_completed);
+                }, err => {
+                    this.loadingComplete = false;
+                });
+            }
+        });
     }
 
 }

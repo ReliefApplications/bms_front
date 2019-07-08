@@ -23,7 +23,6 @@ export class DistributionsComponent implements OnInit {
     actualDistribution: Distribution;
     loadingDatas = true;
     loadingDistribution = true;
-    loadingComplete = false;
 
     // Screen display variables.
     loaderCache = false;
@@ -148,28 +147,5 @@ export class DistributionsComponent implements OnInit {
         } else {
             return 'general-relief';
         }
-    }
-
-    complete() {
-        const dialogRef = this.dialog.open(ModalConfirmationComponent, {
-            data: {
-                title: this.language.complete,
-                sentence: this.language.modal_complete_distribution,
-                ok: this.language.complete
-            }
-        });
-
-        dialogRef.afterClosed().subscribe((answer: boolean) => {
-            if (answer) {
-                this.loadingComplete = true;
-                this.distributionService.complete(this.actualDistribution.get('id')).subscribe((_res: any) => {
-                    this.loadingComplete = false;
-                    this.actualDistribution.set('finished', true);
-                    this.snackbar.success(this.language.distribution_succes_completed);
-                }, err => {
-                    this.loadingComplete = false;
-                });
-            }
-        });
     }
 }

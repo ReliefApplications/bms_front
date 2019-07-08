@@ -169,7 +169,8 @@ export class User extends CustomModel {
         if (userFromApi.countries && userFromApi.countries.length) {
             countries = userFromApi.countries;
         } else if (userFromApi.user_projects && userFromApi.user_projects.length) {
-            const allCountries = userFromApi.user_projects.map((project) => project.project.iso3);
+            const allCountries = userFromApi.user_projects.filter((project: any) => !project.project.archived)
+                .map((project) => project.project.iso3);
             countries = allCountries.filter((iso3, index) => allCountries.indexOf(iso3) === index);
         }
 
@@ -185,9 +186,8 @@ export class User extends CustomModel {
         );
 
         newUser.set('projects', userFromApi.user_projects ?
-            userFromApi.user_projects.map((project: any) => {
-                return Project.apiToModel(project.project);
-            }) :
+            userFromApi.user_projects.filter((project: any) => !project.project.archived)
+                .map((project: any) => Project.apiToModel(project.project)) :
             null
         );
 

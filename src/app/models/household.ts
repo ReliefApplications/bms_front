@@ -208,7 +208,8 @@ export class Household extends CustomModel {
         const pipe = new UppercaseFirstPipe();
         newHousehold.fields.vulnerabilities.displayModalFunction = value => value
             .map((vulnerability: VulnerabilityCriteria) => pipe.transform(vulnerability.get('name'))).join(', ');
-        newHousehold.set('projects', householdFromApi.projects.map(project => Project.apiToModel(project)));
+        newHousehold.set('projects', householdFromApi.projects.filter((project: any) => !project.archived)
+            .map(project => Project.apiToModel(project)));
 
         newHousehold.set('beneficiaries', householdFromApi.beneficiaries.map(beneficiary => Beneficiary.apiToModel(beneficiary)));
         newHousehold.get<Beneficiary[]>('beneficiaries').forEach((beneficiary: Beneficiary) => {

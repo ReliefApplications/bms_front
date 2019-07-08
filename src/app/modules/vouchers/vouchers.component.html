@@ -13,7 +13,9 @@
           <mat-spinner [diameter]='25' *ngIf="loadingPrint"></mat-spinner>
 
           <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
-              <button mat-flat-button [disabled]="!bookletData" class="button-background-primary" (click)="exportCodes()" *ngIf="!loadingExportCodes">
+              <button mat-flat-button
+                [disabled]="!bookletData" class="button-background-primary"
+                (click)="exportCodes()" *ngIf="!loadingExportCodes" [matBadge]="getNumberToExport()">
                 <mat-icon>get_app</mat-icon>
                 <span>{{language.export | uppercaseFirst}}</span>
               </button>

@@ -144,9 +144,20 @@ export class VouchersComponent implements OnInit, OnDestroy {
         }) : null;
     }
 
+    getNumberToExport() {
+        if (this.selection.selected.length > 0) {
+            return this.selection.selected.length;
+        }
+        return this.bookletData ? this.bookletData.data.length : null;
+    }
+
     exportCodes() {
         this.loadingExportCodes = true;
-        this._exportService.export('bookletCodes', true, this.extensionTypeCode).then(
+        let ids = [];
+        if (this.selection.selected.length > 0) {
+            ids = this.selection.selected.map((booklet: Booklet) => booklet.get('id'));
+        }
+        this._exportService.export('bookletCodes', true, this.extensionTypeCode, {}, null, ids).then(
             () => { this.loadingExportCodes = false; }
         ).catch(
             () => { this.loadingExportCodes = false; }

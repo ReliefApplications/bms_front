@@ -89,8 +89,8 @@ export class ModalAddCommodityComponent implements OnInit {
     getUnit(): string {
         const name = this.commodity.getOptions('modalityType') && this.form.controls.modalityType.value ?
             this.commodity.getOptions('modalityType')
-            .filter((modalityType: ModalityType) => modalityType.get('id') === this.form.controls.modalityType.value)[0]
-            .get<string>('name') :
+                .filter((modalityType: ModalityType) => modalityType.get('id') === this.form.controls.modalityType.value)[0]
+                .get<string>('name') :
             null;
         switch (name) {
             case 'Mobile Money':
@@ -106,8 +106,8 @@ export class ModalAddCommodityComponent implements OnInit {
     setUnit() {
         const name = this.commodity.getOptions('modalityType') && this.form.controls.modalityType.value ?
             this.commodity.getOptions('modalityType')
-            .filter((modalityType: ModalityType) => modalityType.get('id') === this.form.controls.modalityType.value)[0]
-            .get<string>('name') :
+                .filter((modalityType: ModalityType) => modalityType.get('id') === this.form.controls.modalityType.value)[0]
+                .get<string>('name') :
             null;
         this.isCurrency = false;
         switch (name) {

@@ -146,9 +146,9 @@ export interface Language {
     add_project_title: string
 
     // Beneficiaries
-    beneficiary_add_distribution: string
     beneficiary_add_list: string
     beneficiary_add_project: string
+    beneficiary_add_project_title: string
     beneficiary_added: string
     beneficiary_advanced_research: string
     beneficiary_clear_all_research: string
@@ -168,6 +168,7 @@ export interface Language {
     beneficiary_member: string
     beneficiary_missing_selected_project: string
     beneficiary_personnal: string
+    beneficiary_plural: string
     beneficiary_referral_comment: string
     beneficiary_referral_question: string
     beneficiary_referral_type: string

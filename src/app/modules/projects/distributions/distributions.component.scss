@@ -296,7 +296,9 @@ app-mobile-money, app-general-relief, app-qr-voucher {
         margin-bottom:0;
         margin-top: 0;
     }
-    h4 {
+    .last-modification {
+        font-size: 14px;
+        font-style: italic;
         margin-top: 5px;
     }
 }

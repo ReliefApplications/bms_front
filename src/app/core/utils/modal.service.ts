@@ -75,7 +75,7 @@ export class ModalService {
                 }
                 break;
             case 'deleteMany':
-                dialogRef = this.openDeleteManyDialog(dialogDetails.ids);
+                dialogRef = this.openDeleteManyDialog(dialogDetails.ids, dialogDetails.name);
                 break;
             case 'visit':
                 this.referedClassService.visit(dialogDetails.element.get('id'));
@@ -174,10 +174,10 @@ export class ModalService {
         });
     }
 
-    openDeleteManyDialog(ids: Array<string>) {
+    openDeleteManyDialog(ids: Array<string>, name: string) {
         return this.dialog.open(ModalDeleteComponent, {
             data: {
-                name: this.language.modal_delete_many,
+                name: name ? name : this.language.modal_delete_many,
             }
         });
     }

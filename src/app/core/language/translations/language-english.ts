@@ -342,6 +342,7 @@ export class English implements Language {
     distribution_distribute = 'set as distributed'
     distribution_edit = 'Edit distribution'
     distribution_error_validate = 'The distribution is empty, please fill it before to validate it'
+    distribution_id = 'distributionID'
     distribution_last_modification = 'last modified : '
     distribution_no_beneficiaries = 'No beneficiaries have been added or removed. Any changes made to the imported beneficiaries will be updated in the system.'
     distribution_no_random_sample = 'Random sample can\'t be generated...'

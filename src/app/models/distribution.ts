@@ -45,7 +45,7 @@ export class Distribution extends CustomModel {
     public fields = {
         id: new NumberModelField(
             {
-                title: this.language.id,
+                title: this.language.distribution_id,
                 isDisplayedInTable: true,
             }
         ),

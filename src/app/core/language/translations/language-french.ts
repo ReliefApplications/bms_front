@@ -342,6 +342,7 @@ export class French implements Language {
     distribution_distribute = 'définir comme distribué'
     distribution_edit = 'Modifier la distribution'
     distribution_error_validate = 'La distribution est vide, veuillez la remplir avant de la valider'
+    distribution_id = 'ID de la distribution'
     distribution_last_modification = 'dernière modification : '
     distribution_no_beneficiaries = 'Aucun bénéficiaire n\'a été ajouté ou supprimé. N\'importe quel changement fait aux bénéficiaires importés vont être mis à jour dans le système.'
     distribution_no_random_sample = 'L\'échantillon aléatoire ne peut pas être généré'

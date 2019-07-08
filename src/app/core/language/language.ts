@@ -348,6 +348,7 @@ export interface Language {
     distribution_distribute: string
     distribution_edit: string
     distribution_error_validate: string
+    distribution_id: string
     distribution_last_modification: string
     distribution_no_beneficiaries: string
     distribution_no_random_sample: string

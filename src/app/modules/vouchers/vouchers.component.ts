@@ -25,7 +25,6 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
     public loadingPrint = false;
     public loadingBooklet = true;
-    public loadingExport = false;
     public loadingExportCodes = false;
     modalSubscriptions: Array<Subscription> = [];
 
@@ -144,15 +143,6 @@ export class VouchersComponent implements OnInit, OnDestroy {
             this.loadingPrint = false;
         }) : null;
     }
-
-    export() {
-        this.loadingExport = true;
-        this._exportService.export('booklets', true, this.extensionType).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
-        );
-      }
 
     exportCodes() {
         this.loadingExportCodes = true;

@@ -11,31 +11,11 @@
               <span>{{language.voucher_print_selection | uppercaseFirst}}</span>
           </button>
           <mat-spinner [diameter]='25' *ngIf="loadingPrint"></mat-spinner>
-          <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
-            <button mat-flat-button [disabled]="!bookletData" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
-              <mat-icon>get_app</mat-icon>
-              <span>{{language.export | uppercaseFirst}}</span>
-            </button>
-            <mat-spinner [diameter]='25' *ngIf="loadingExport"></mat-spinner>
-            <div class="extension">
-              <button mat-flat-button class="dropdown button-background-primary" *ngIf="!loadingExport" [disabled]="!bookletData" [matMenuTriggerFor]="exportType">
-                <mat-icon>keyboard_arrow_down</mat-icon>
-              </button>
-              <mat-menu #exportType>
-                <button mat-menu-item (click)="setType('xls')"> .xls <mat-icon *ngIf="extensionType==='xls'">done</mat-icon>
-                </button>
-                <button mat-menu-item (click)="setType('csv')"> .csv <mat-icon *ngIf="extensionType==='csv'">done</mat-icon>
-                </button>
-                <button mat-menu-item (click)="setType('ods')"> .ods <mat-icon *ngIf="extensionType=='ods'">done</mat-icon>
-                </button>
-              </mat-menu>
-            </div>
-          </div>
 
           <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
               <button mat-flat-button [disabled]="!bookletData" class="button-background-primary" (click)="exportCodes()" *ngIf="!loadingExportCodes">
                 <mat-icon>get_app</mat-icon>
-                <span>{{language.booklet_export_codes | uppercaseFirst}}</span>
+                <span>{{language.export | uppercaseFirst}}</span>
               </button>
               <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
               <div class="extension" *ngIf="!loadingExportCodes">

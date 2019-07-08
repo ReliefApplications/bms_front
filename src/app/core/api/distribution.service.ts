@@ -132,16 +132,14 @@ export class DistributionService extends CustomModelService {
     visit(id: string) {
         if (!this.networkService.getStatus()) {
             this._cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + id + '_beneficiaries')
-                .pipe(
-                    tap(
-                        result => {
-                            if (!result) {
-                                this.snackbar.error(this.language.cache_no_distribution);
-                            } else {
-                                this.router.navigate(['/projects/distributions/' + id]);
-                            }
+                .subscribe(
+                    result => {
+                        if (!result) {
+                            this.snackbar.error(this.language.cache_no_distribution);
+                        } else {
+                            this.router.navigate(['/projects/distributions/' + id]);
                         }
-                    )
+                    }
                 );
         } else {
             this.router.navigate(['/projects/distributions/' + id]);

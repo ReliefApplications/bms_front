@@ -340,6 +340,7 @@ export class Arabic implements Language {
     distribution_distribute = 'تعيين كما وزعت'
     distribution_edit = 'تعديل التوزيع'
     distribution_error_validate = 'التوزيع فارغ ، يرجى ملءه قبل التحقق من صحته'
+    distribution_id = 'معرف التوزيع'
     distribution_last_modification = 'اخر تعديل :'
     distribution_no_beneficiaries = 'لم تتم إضافة أو إزالة أي مستفيدين. سيتم تحديث أي تغييرات يتم إجراؤها على المستفيدين المستوردين في النظام.'
     distribution_no_random_sample = 'لا يمكن إنشاء عينة عشوائية ...'

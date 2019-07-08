@@ -221,7 +221,7 @@ export class User extends CustomModel {
         const rights = this.get('rights') ? this.get('rights').get<string>('id') : null;
 
         if (rights === 'ROLE_REGIONAL_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
-            userForApi['country'] = this.fields.countries.value ?
+            userForApi['countries'] = this.fields.countries.value ?
                 this.fields.countries.value.map((country: Country) => country.get('id')) :
                 null;
         }

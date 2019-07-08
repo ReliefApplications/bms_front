@@ -54,7 +54,7 @@ export class User extends CustomModel {
             title: this.language.password,
             isPassword: true,
             isRequired: true,
-            pattern:  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
@@ -149,8 +149,10 @@ export class User extends CustomModel {
 
         newUser.set('rights', userFromApi.roles ?
             newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0] :
-            null);
+            null
+        );
         const rights = newUser.get('rights') ? newUser.get('rights').get<string>('id') : null;
+
         if (rights === 'ROLE_REGIONAL_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {
             newUser.fields.countries.isEditable = true;
 
@@ -163,39 +165,38 @@ export class User extends CustomModel {
             newUser.fields.projects.isEditable = true;
         }
 
-        // TO DO : make the cache and the back coherent by sending the same key that we receive
-        let countries = [];
-        if (userFromApi.countries && userFromApi.countries.length > 0) {
+        let countries = null;
+        if (userFromApi.countries && userFromApi.countries.length) {
             countries = userFromApi.countries;
-        } else if (userFromApi.country && userFromApi.country.length > 0) {
-            countries = userFromApi.country;
-        } else if (userFromApi.user_projects && userFromApi.roles[0] !== 'ROLE_ADMIN') {
-            countries = userFromApi.user_projects.map((project) => project.project.iso3);
+        } else if (userFromApi.user_projects && userFromApi.user_projects.length) {
+            const allCountries = userFromApi.user_projects.map((project) => project.project.iso3);
+            countries = allCountries.filter((iso3, index) => allCountries.indexOf(iso3) === index);
         }
-
 
         newUser.set('countries', countries ?
             countries.map((countryFromApi: any) => {
                 return newUser.getOptions('countries').filter((country: Country) => {
-                    // TO DO : same as above
+                    // TODO : clean up
                     const formattedCountryFromApi = countryFromApi.iso3 ? countryFromApi.iso3 : countryFromApi;
                     return country.get('id') === formattedCountryFromApi;
                 })[0];
             }) :
-            null);
+            null
+        );
 
         newUser.set('projects', userFromApi.user_projects ?
             userFromApi.user_projects.map((project: any) => {
                 return Project.apiToModel(project.project);
             }) :
-            null);
+            null
+        );
 
         newUser.set('password', userFromApi.password);
         newUser.fields.password.isRequired = false; // No need to enter the password on update
         newUser.set('email', userFromApi.email);
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
-        newUser.set('language', userFromApi.language ? userFromApi.language : 'en' );
+        newUser.set('language', userFromApi.language ? userFromApi.language : 'en');
         newUser.set('changePassword', userFromApi.change_password);
 
         return newUser;
@@ -216,6 +217,7 @@ export class User extends CustomModel {
         if (!this.get('rights')) {
             return userForApi;
         }
+      
         const rights = this.get('rights') ? this.get('rights').get<string>('id') : null;
 
         if (rights === 'ROLE_REGIONAL_MANAGER' || rights === 'ROLE_COUNTRY_MANAGER') {

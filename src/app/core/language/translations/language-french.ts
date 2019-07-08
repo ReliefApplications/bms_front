@@ -182,9 +182,9 @@ export class French implements Language {
     beneficiairy_error_location_type = 'Vous devez sélectionner un type de lieu'
 
     // Beneficiaries
-    beneficiary_add_distribution = 'Ajouter les bénéficiaires à cette distribution'
     beneficiary_add_list = 'Ajouter à un projet'
     beneficiary_add_project = 'S\'il vous plait, sélectionnez le(s) projet(s) dans le(s)quel(s) vous voudriez ajouter les'
+    beneficiary_add_project_title = 'Ajouter les bénéficiaires à un projet'
     beneficiary_added = 'Les bénéficiaires ont été ajouté au projet sélectionné'
     beneficiary_advanced_research = 'Recherche avancée'
     beneficiary_clear_all_research = 'Réinitialiser les filtres'

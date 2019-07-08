@@ -21,7 +21,7 @@
                         <mat-icon class="valid" *ngIf="actualDistribution.get('validated') && actualDistribution.get('finished')">done</mat-icon>
                     </div>
                 </div>
-                <h4>
+                <h4 class="last-modification">
                     {{ language.distribution_last_modification | uppercaseFirst}} 
                     <ng-container *ngIf="updated; else notUpdated">
                         {{ language.time_just_now }}

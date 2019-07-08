@@ -163,9 +163,9 @@ export class Arabic implements Language {
     add_project_title = 'مشروع جديد'
 
     // Beneficiaries
-    beneficiary_add_distribution = 'إضافة المستفيدين لهذا التوزيع'
     beneficiary_add_list = 'أضف إلى المشروع'
     beneficiary_add_project = 'يرجى تحديد المشروع (المشاريع) الذي/الذين  ترغب في إضافته/هم '
+    beneficiary_add_project_title = 'إضافة المستفيدين إلى المشروع'
     beneficiary_added = 'تم إضافة المستفيدين الى المشروع'
     beneficiary_advanced_research = 'بحث متقدم'
     beneficiary_clear_all_research = 'امسح الكل'
@@ -341,7 +341,7 @@ export class Arabic implements Language {
     distribution_distribute = 'تعيين كما وزعت'
     distribution_edit = 'تعديل التوزيع'
     distribution_error_validate = 'التوزيع فارغ ، يرجى ملءه قبل التحقق من صحته'
-    distribution_last_modification = 'اخر تعديل :'
+    distribution_last_modification = 'آخر تعديل :'
     distribution_no_beneficiaries = 'لم تتم إضافة أو إزالة أي مستفيدين. سيتم تحديث أي تغييرات يتم إجراؤها على المستفيدين المستوردين في النظام.'
     distribution_no_random_sample = 'لا يمكن إنشاء عينة عشوائية ...'
     distribution_no_right_transaction = 'لا يحق لك أن تقوم بالصفقة ، اسأل مدير المشروع الخاص بك أو مدير بلدك'

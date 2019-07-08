@@ -50,6 +50,7 @@ export class CountriesService {
 //
     public clearCountries(): void {
         this.selectedCountry.next(undefined);
+        this.selectableCountries.next([]);
     }
 
 //

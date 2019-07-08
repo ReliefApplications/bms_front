@@ -73,25 +73,19 @@ export class LoginComponent implements OnInit {
             (user: User) => {
                 if (user) {
                     this.userService.currentUser = user;
-                    this.asyncacheService.setUser(user).subscribe();
 
-                    if (user.get('countries') &&
-                        user.get<Array<Country>>('countries').length === 0 &&
+                    if ((! user.get<Array<Country>>('countries') ||
+                        user.get<Array<Country>>('countries').length === 0) &&
                         this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {
                         this.initCountry('KHM', true).subscribe((_success: any) => {
-                            this.goToHomePage(user);
+                            this.redirectAfterLogin(user);
                         });
                     } else {
                         this.initCountry(user.get<Array<Country>>('countries')[0].get<string>('id'), false).subscribe((_success: any) => {
-                            this.goToHomePage(user);
+                            this.redirectAfterLogin(user);
                         });
                     }
-                    if (user.get<boolean>('changePassword') === true) {
-                        this.router.navigate(['/profile']);
-                        this.snackbar.info(this.language.profile_change_password);
-                    } else {
-                        this.router.navigate(['/']);
-                    }
+
                     if (user.get<string>('language')) {
                         this.languageService.selectedLanguage = this.languageService.setLanguage(
                             this.languageService.stringToLanguage(user.get<string>('language'))
@@ -104,19 +98,22 @@ export class LoginComponent implements OnInit {
                 this.loader = false;
             },
             (_error: ErrorInterface) => {
+                if (this.recaptcha) {
+                    this.recaptcha.reset();
+                }
                 this.loader = false;
-                this.recaptcha.reset();
                 this.forgotMessage = true;
             });
     }
 
-    goToHomePage(user: User) {
+    redirectAfterLogin(user: User) {
         if (user.get<boolean>('changePassword') === true) {
             this.router.navigate(['/profile']);
             this.snackbar.info(this.language.profile_change_password);
+        } else {
+            this.router.navigate(['/']);
         }
     }
-
 
     prod() {
         return environment.production;

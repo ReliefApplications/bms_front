@@ -30,6 +30,7 @@ export class Livelihood extends CustomModel {
 }
 export class Household extends CustomModel {
 
+    plural_name = this.language.beneficiary_plural;
     title = this.language.households;
     matSortActive = 'localFamilyName';
 

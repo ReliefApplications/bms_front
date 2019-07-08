@@ -168,6 +168,7 @@ export interface Language {
     beneficiary_member: string
     beneficiary_missing_selected_project: string
     beneficiary_personnal: string
+    beneficiary_plural: string
     beneficiary_referral_comment: string
     beneficiary_referral_question: string
     beneficiary_referral_type: string

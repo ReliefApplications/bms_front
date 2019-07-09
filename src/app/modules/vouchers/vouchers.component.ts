@@ -25,7 +25,6 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
     public loadingPrint = false;
     public loadingBooklet = true;
-    public loadingExport = false;
     public loadingExportCodes = false;
     modalSubscriptions: Array<Subscription> = [];
 
@@ -145,18 +144,20 @@ export class VouchersComponent implements OnInit, OnDestroy {
         }) : null;
     }
 
-    export() {
-        this.loadingExport = true;
-        this._exportService.export('booklets', true, this.extensionType).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
-        );
-      }
+    getNumberToExport() {
+        if (this.selection.selected.length > 0) {
+            return this.selection.selected.length;
+        }
+        return this.bookletData ? this.bookletData.data.length : null;
+    }
 
     exportCodes() {
         this.loadingExportCodes = true;
-        this._exportService.export('bookletCodes', true, this.extensionTypeCode).then(
+        let ids = [];
+        if (this.selection.selected.length > 0) {
+            ids = this.selection.selected.map((booklet: Booklet) => booklet.get('id'));
+        }
+        this._exportService.export('bookletCodes', true, this.extensionTypeCode, {}, null, ids).then(
             () => { this.loadingExportCodes = false; }
         ).catch(
             () => { this.loadingExportCodes = false; }

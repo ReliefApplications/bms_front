@@ -15,6 +15,7 @@ import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Project } from 'src/app/models/project';
 import { ExportService } from '../../core/api/export.service';
 import { UserService } from 'src/app/core/api/user.service';
+
 @Component({
     selector: 'app-vouchers',
     templateUrl: './vouchers.component.html',

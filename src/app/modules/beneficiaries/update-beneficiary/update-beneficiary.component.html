@@ -4,11 +4,11 @@
         <h2 *ngIf='mode=="create"'>{{language.add_beneficiary_title | uppercaseFirst}}</h2>
     </div>
 
-    <app-placeholder-stepper *ngIf="!household"></app-placeholder-stepper>
-    <app-placeholder-panel *ngIf="!household"></app-placeholder-panel>
+    <app-placeholder-stepper *ngIf="!household || !mainForm"></app-placeholder-stepper>
+    <app-placeholder-panel *ngIf="!household || !mainForm"></app-placeholder-panel>
 
     <mat-horizontal-stepper (selectionChange)="passHousehold()" #stepper linear
-        *ngIf="!loader && (mode == 'create' || (mode == 'update' && beneficiariesForm[0]))">
+        *ngIf="!loader && (mode == 'create' || (mode == 'update' && beneficiariesForm[0])) && mainForm">
         <ng-template matStepperIcon="done">
             <mat-icon>done</mat-icon>
         </ng-template>
@@ -65,24 +65,24 @@
                                         </div>
                                     </div>
                                     <div class="column-container">
-                                        <div class="specifics" *ngIf="household.get('countrySpecificAnswers').length">
+                                        <div class="specifics" *ngIf="countrySpecificList.length">
                                             <h4>{{ language.settings_country_specific_options | uppercaseFirst }}</h4>
                                             <mat-form-field
-                                                *ngFor="let countrySpecificAnswer of household.get('countrySpecificAnswers')">
+                                                *ngFor="let countrySpecific of countrySpecificList">
                                                 <input
-                                                    *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') === 'IDPoor'"
+                                                    *ngIf="countrySpecific.get('field') === 'IDPoor'"
                                                     matInput
-                                                    [type]="countrySpecificAnswer.get('countrySpecific').get('type')"
+                                                    [type]="countrySpecific.get('type')"
                                                     placeholder="IDPoor No."
-                                                    [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
+                                                    [formControlName]="countrySpecific.get('field')">
                                                 <input
-                                                    *ngIf="countrySpecificAnswer.get('countrySpecific').get('field') !== 'IDPoor'"
+                                                    *ngIf="countrySpecific.get('field') !== 'IDPoor'"
                                                     matInput
-                                                    [type]="countrySpecificAnswer.get('countrySpecific').get('type')"
-                                                    [placeholder]="countrySpecificAnswer.get('countrySpecific').get('field') | uppercaseFirst"
-                                                    [formControlName]="countrySpecificAnswer.get('countrySpecific').get('field')">
+                                                    [type]="countrySpecific.get('type')"
+                                                    [placeholder]="countrySpecific.get('field') | uppercaseFirst"
+                                                    [formControlName]="countrySpecific.get('field')">
                                                 <app-hint-error [form]="mainForm"
-                                                    fieldName="countrySpecificAnswer.get('countrySpecific').get('field')"
+                                                    fieldName="countrySpecific.get('field')"
                                                     [field]="household.fields.countrySpecificAnswers"
                                                     [isMatField]="true"></app-hint-error>
                                             </mat-form-field>

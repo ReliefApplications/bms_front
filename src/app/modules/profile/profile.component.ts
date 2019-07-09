@@ -46,7 +46,6 @@ export class ProfileComponent implements OnInit {
         this.setActualUser();
     }
 
-
     setActualUser() {
         this.authenticationService.getUser().subscribe(
             result => {

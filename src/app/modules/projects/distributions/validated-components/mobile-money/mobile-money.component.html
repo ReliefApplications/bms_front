@@ -125,7 +125,7 @@
                 </button>
                 <mat-spinner [diameter]="35" *ngIf="transacting"></mat-spinner>
                 <button [disabled]="actualDistribution.get('finished')" mat-flat-button
-                    *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !transacting && transactionData"
+                    *ngIf="userService.hasRights('ROLE_AUTHORISE_PAYMENT') && !transacting && transactionData"
                     (click)="openDialog(transaction);" class="button-background-accent" [matBadge]="getPeopleCount()"
                     matBadgePosition="before" matBadgeColor="primary">
                     <mat-icon>send</mat-icon> {{language.transaction_transaction}}

@@ -14,6 +14,7 @@ import { Booklet } from 'src/app/models/booklet';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Project } from 'src/app/models/project';
 import { ExportService } from '../../core/api/export.service';
+import { UserService } from 'src/app/core/api/user.service';
 @Component({
     selector: 'app-vouchers',
     templateUrl: './vouchers.component.html',
@@ -58,6 +59,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
         private modalService: ModalService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        public userService: UserService,
     ) { }
 
 

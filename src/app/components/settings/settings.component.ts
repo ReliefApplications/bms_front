@@ -184,16 +184,16 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.referedClassToken = User;
         this.referedClassService = this.userService;
         this.loggable = true;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN');
-        this.deletable  = this.userService.hasRights('ROLE_ADMIN');
+        this.editable   = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
+        this.deletable  = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
         this.printable  = false;
         this.exportable = true;
         break;
       case 'donors':
         this.referedClassToken = Donor;
         this.referedClassService = this.donorService;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
-        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.editable   = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
+        this.deletable  = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
         this.printable = false;
         this.loggable = false;
         this.exportable = true;
@@ -202,7 +202,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.referedClassToken = Project;
         this.referedClassService = this.projectService;
         this.editable   = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
-        this.deletable  = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
+        this.deletable  = this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR');
         this.printable = false;
         this.loggable = false;
         this.exportable = true;
@@ -210,8 +210,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
       case 'country specific options':
         this.referedClassToken = CountrySpecific;
         this.referedClassService = this.countrySpecificService;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN');
-        this.deletable  = this.userService.hasRights('ROLE_ADMIN');
+        this.editable   = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
+        this.deletable  = this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
         this.printable = false;
         this.loggable = false;
         this.exportable = true;
@@ -237,8 +237,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
       case 'product':
         this.referedClassToken = Product;
         this.referedClassService = this.productService;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
-        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.editable   = this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR');
+        this.deletable  = this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR');
         this.printable = false;
         this.loggable = false;
         this.exportable = true;
@@ -246,8 +246,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
       case 'vendors':
         this.referedClassToken = Vendor;
         this.referedClassService = this.vendorsService;
-        this.editable   = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
-        this.deletable  = this.userService.hasRights('ROLE_ADMIN_SETTINGS');
+        this.editable   = this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR');
+        this.deletable  = this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR');
         this.printable = true;
         this.loggable = false;
         this.exportable = true;
@@ -284,19 +284,19 @@ export class SettingsComponent implements OnInit, OnDestroy {
     checkRights(): boolean {
         switch (this.referedClassToken) {
             case (User):
-                return this.userService.hasRights('ROLE_USER_MANAGEMENT');
+                return this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
             case (CountrySpecific):
                 return this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
             case (Donor):
-                return this.userService.hasRights('ROLE_DONOR_MANAGEMENT');
+                return this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
             case (Project):
                 return this.userService.hasRights('ROLE_PROJECT_MANAGEMENT');
             case (FinancialProvider):
                 return this.userService.hasRights('ROLE_FINANCIAL_PROVIDER_MANAGEMENT');
             case (Vendor):
-                return this.userService.hasRights('ROLE_VENDORS_MANAGEMENT');
+                return this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR');
             case (Product):
-                return this.userService.hasRights('ROLE_PRODUCT_MANAGEMENT');
+                return this.userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR');
             case (Organization):
                 return false; // We cannot add an organization because there is only one
             default:

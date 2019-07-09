@@ -1,24 +1,30 @@
 <div class="container-table">
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
-            <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
-                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress | uppercaseFirst }}
-                    {{ getPercentageValue(commodity) | number: '1.0-0' }} % </h4>
-                <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
+            <div class="commodities">
+                <h4>{{ language.transaction_progress | uppercaseFirst }}
+                    {{ getPercentageValue(actualDistribution.get('commodities')[0]) | number: '1.0-0' }} % </h4>
+                <mat-progress-bar mode="determinate" [value]="getPercentageValue(actualDistribution.get('commodities')[0])"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">
                         <h5>{{language.transaction_amount_total | uppercaseFirst}}</h5>
-                        {{ getTotalCommodityValue(commodity) }} {{commodity.get('unit')}}
+                        <span *ngFor="let commodity of actualDistribution.get('commodities')">
+                            {{ getTotalCommodityValue(commodity) }} {{commodity.get('unit')}} <br>
+                        </span>
                     </div>
 
                     <ng-container>
                         <div class="info_2">
                             <h5>{{language.transaction_amount_done | uppercaseFirst}}</h5>
-                            {{ getAmountSent(commodity) }} {{commodity.get('unit')}}
+                            <span *ngFor="let commodity of actualDistribution.get('commodities')">
+                                {{ getAmountSent(commodity) }} {{commodity.get('unit')}} <br>
+                            </span>
                         </div>
                         <div class="info_3">
                             <h5>{{language.transaction_amount_waiting | uppercaseFirst}}</h5>
-                            {{ getReceivedValue(commodity) }} {{commodity.get('unit')}}
+                            <span *ngFor="let commodity of actualDistribution.get('commodities')">
+                                {{ getReceivedValue(commodity) }} {{commodity.get('unit')}} <br>
+                            </span>
                         </div>
                     </ng-container>
                 </div>

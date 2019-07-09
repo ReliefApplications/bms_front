@@ -7,7 +7,7 @@
     <div class="container-content box-primary">
       <div class="content-button">
         <div class="action-buttons">
-          <button mat-flat-button *ngIf="selection.selected.length > 0 && !loadingPrint" class="button-background-primary action-button" (click)="printMany()" [matBadge]="selection.selected.length">
+          <button mat-flat-button *ngIf="selection.selected.length > 0 && !loadingPrint && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" class="button-background-primary action-button" (click)="printMany()" [matBadge]="selection.selected.length">
               <span>{{language.voucher_print_selection | uppercaseFirst}}</span>
           </button>
           <mat-spinner [diameter]='25' *ngIf="loadingPrint"></mat-spinner>
@@ -51,10 +51,10 @@
 
       <div class="content-table">
         <app-table [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
-          [data]="bookletData" [selection]="selection" [selectable]="true"
-          [editable]="true" [deletable]="true" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table>
-        <app-table-mobile [isLoading]="loadingBooklet" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService"
-          [data]="bookletData" [selection]="selection" [editable]="true" [deletable]="true" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table-mobile>
+          [data]="bookletData" [selection]="selection" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+          [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table>
+        <app-table-mobile [isLoading]="loadingBooklet" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+          [data]="bookletData" [selection]="selection" [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table-mobile>
       </div>
     </div>
   </div>

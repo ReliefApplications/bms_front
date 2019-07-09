@@ -63,15 +63,7 @@ export class PermissionsGuard implements CanActivate {
 
         // Deny access to distributions if the user is not authorized
         if (segmentedRoute.slice(0, 2).join('/') === 'projects/distributions') {
-            return (this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT'));
-        }
-
-        if (segmentedRoute[0] === 'settings') {
-            return this.userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS');
-        }
-
-        if (segmentedRoute[0] === 'admin') {
-            return this.userService.hasRights('ROLE_ADMIN');
+            return (this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE'));
         }
         return true;
 

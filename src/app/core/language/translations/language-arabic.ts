@@ -177,6 +177,7 @@ export class Arabic implements Language {
     beneficiary_family_name = 'اللقب'
     beneficiary_given_name = 'الاسم '
     beneficiary_head = 'رب الأسرة'
+    beneficiary_id = 'رقم المستفيد'
     beneficiary_justification_added = 'مبرر لإضافة'
     beneficiary_justification_removed = 'مبرر لإزالة'
     beneficiary_local_family_name = '(اسم العائلة (محلي'

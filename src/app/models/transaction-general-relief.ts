@@ -45,6 +45,13 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
     title = this.language.general_relief;
 
     public fields = {...{
+        // Duplicated because needs to be the first column
+        beneficiaryId: new NestedFieldModelField({
+            title: this.language.beneficiary_id,
+            isDisplayedInTable: true,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'id'
+        }),
         id: new NumberModelField({
 
         }),

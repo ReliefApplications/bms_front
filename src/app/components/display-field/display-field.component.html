@@ -103,13 +103,13 @@
             </ng-template>
         </ng-container>
         <ng-template #checkFont>
-            <ng-container *ngIf="field.isFont; else checkCamelCase">
+            <ng-container *ngIf="field.isFont; else checkTranslatable">
                 <div [ngStyle]="{'font-family':field.value}">{{ field.value | uppercaseFirst }}</div>
             </ng-container>
         </ng-template>
-        <ng-template #checkCamelCase>
-            <ng-container *ngIf="field.isCamelCase; else isAString">
-                {{field.value | formatCamelCase }}
+        <ng-template #checkTranslatable>
+            <ng-container *ngIf="field.isTranslatable; else isAString">
+                {{language[field.value] | uppercaseFirst }}
             </ng-container>
         </ng-template>
         <ng-template #isAString>

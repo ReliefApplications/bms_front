@@ -54,9 +54,6 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             isDisplayedInModal: true,
             nullValue: this.language.null_not_yet_defined,
         }),
-        beneficiary: new ObjectModelField<Beneficiary>({
-                value: []
-        }),
         localGivenName: new NestedFieldModelField({
             title: this.language.beneficiary_given_name,
             isDisplayedInTable: true,

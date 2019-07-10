@@ -6,7 +6,6 @@ import { UserService } from 'src/app/core/api/user.service';
 import { MapService } from 'src/app/core/external/map.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Distribution } from 'src/app/models/distribution';
@@ -42,7 +41,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(
         private mapService: MapService,
-        private _cacheService: AsyncacheService,
         public _distributionService: DistributionService,
         public _generalService: GeneralService,
         public modalService: ModalService,
@@ -50,19 +48,16 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
 
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
             this.currentDisplayType = displayType;
         });
-        this._cacheService.getUser().subscribe(result => {
-            decodeURIComponent(result);
-            if (result) {
-                this.getSummary();
-                this.checkDistributions();
-            }
-        });
+
+        this.getSummary();
+        this.checkDistributions();
+
         this.deletable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
         this.editable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
     }
@@ -89,12 +84,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                         apiDistributions = [];
                     }
                     this.distributionData = new MatTableDataSource();
-                        const distributions = apiDistributions.map((apiDistribution) => {
-                            return Distribution.apiToModel(apiDistribution);
-                        });
-                        this.mapService.addDistributions(distributions);
-                        this.distributionData = new MatTableDataSource(distributions);
-                        this.loadingTable = false;
+                    const distributions = apiDistributions.map((apiDistribution) => {
+                        return Distribution.apiToModel(apiDistribution);
+                    });
+                    this.mapService.addDistributions(distributions);
+                    this.distributionData = new MatTableDataSource(distributions);
+                    this.loadingTable = false;
                 },
                 error => {
                     this.distributionData = new MatTableDataSource();

@@ -30,30 +30,19 @@ export class AuthGuard implements CanActivate {
             .pipe(
                 switchMap((user: any) => {
                     if (user) {
-                        return this.loginService.reLogIn(User.apiToModel(user)).pipe(
-                            switchMap((_: any) => of(true))
+                        return this.loginService.reLogin(user).pipe(
+                            switchMap(
+                                (_: any) => of(true)
+                            )
                         );
                     }
-                    return of(this.checkLoginWrapper());
+                    this.router.navigateByUrl('/login');
+                    return of(false);
                 })
             );
         }
         else {
-            return this.checkLoginWrapper();
+            return true;
         }
-    }
-
-    private checkLoginWrapper(): boolean {
-        const accessGranted = this.checkLogin(this.userService.currentUser);
-
-        if (!accessGranted) {
-            this.router.navigateByUrl('/login');
-        }
-
-        return accessGranted;
-    }
-
-    private checkLogin(user: User): boolean {
-        return !(user === undefined || !user.get<number>('id'));
     }
 }

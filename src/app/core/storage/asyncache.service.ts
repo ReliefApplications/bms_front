@@ -105,7 +105,7 @@ export class AsyncacheService {
                             (result: CachedItemInterface) => {
                                 if (result && result.storageTime + result.limit < (new Date).getTime()) {
                                     if (result.canBeDeleted) {
-                                        this.remove(formattedKey);
+                                        this.removeItem(formattedKey);
                                     }
                                     return null;
                                 } else if (result) {
@@ -148,19 +148,6 @@ export class AsyncacheService {
                     canBeDeleted: options.canBeDeleted
                 };
                 return this.storage.setItem(formattedKey, object);
-            }),
-        );
-    }
-
-    /**
-     * Removes an item with its key.
-     * @todo : USE REMOVEITEM INSTEAD
-     * @param key
-     */
-    remove(key: string) {
-        this.getFormattedKey(key).pipe(
-            tap((formattedKey: string) => {
-                this.storage.removeItemSubscribe(formattedKey);
             }),
         );
     }
@@ -279,21 +266,20 @@ export class AsyncacheService {
     // ─── USER UTILS ──────────────────────────────────────────────────────────────────────
     //
 
-    setUser(user: User): Observable<boolean> {
-        return this.set(AsyncacheService.USER, user.modelToApi());
+    setUser(user: any): Observable<boolean> {
+        return this.set(AsyncacheService.USER, user);
     }
 
     /**
      * Waits for asynchronous user value to return it synchronously.
     */
-    getUser(): Observable<any> {
+    getUser(): Observable<User> {
         return this.get(AsyncacheService.USER).pipe(
             map((cachedUser: object) => {
                 if (!cachedUser) {
-                    // TODO: remove this case
                     return undefined;
                 } else {
-                    return cachedUser;
+                    return User.apiToModel(cachedUser);
                 }
             }
             ),

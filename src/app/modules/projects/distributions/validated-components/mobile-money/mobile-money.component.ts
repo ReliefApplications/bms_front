@@ -122,9 +122,9 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
      * @param template
      */
     openDialog(template: any) {
-        this.cacheService.getUser().subscribe(result => {
+        this.cacheService.getUser().subscribe((result: User) => {
             if (result) {
-                this.actualUser = User.apiToModel(result);
+                this.actualUser = result;
             }
             if (!this.actualUser.get('email') && this.actualUser.get('username')) {
                 this.actualUser.set('email', this.actualUser.get('username'));

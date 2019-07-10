@@ -168,7 +168,6 @@ export class User extends CustomModel {
         if (userFromApi.countries && userFromApi.countries.length) {
             countries = userFromApi.countries;
         } else if (userFromApi.projects && userFromApi.projects.length) {
-            console.log(userFromApi);
             const allCountries = userFromApi.projects.filter((project: any) => !project.project.archived)
                 .map((project) => project.project.iso3);
             countries = allCountries.filter((iso3, index) => allCountries.indexOf(iso3) === index);

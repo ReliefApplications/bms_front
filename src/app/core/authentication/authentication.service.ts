@@ -21,7 +21,7 @@ export class AuthenticationService {
 
     constructor(
         public _wsseService: WsseService,
-        public _cacheService: AsyncacheService,
+        public asyncCacheService: AsyncacheService,
         public countryService: CountriesService,
         protected http: HttpService,
         public router: Router,
@@ -58,11 +58,11 @@ export class AuthenticationService {
     }
 
     logout(): Observable<any> {
-        return this._cacheService.clear(false);
+        return this.asyncCacheService.clear(false);
     }
 
-    getUser(): Observable<any> {
-        return this._cacheService.getUser();
+    getUser(): Observable<User> {
+        return this.asyncCacheService.getUser();
     }
 
     setSaltedPassword(user: User, saltedPassword: string) {
@@ -71,7 +71,7 @@ export class AuthenticationService {
 
     resetUser() {
         this.user = new User();
-        this._cacheService.remove(AsyncacheService.USER);
+        this.asyncCacheService.removeItem(AsyncacheService.USER);
     }
 
     public updateUser(body: any, url: string) {

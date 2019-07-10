@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, of, concat } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Country } from 'src/app/models/country';
 import { Project } from 'src/app/models/project';
@@ -33,8 +33,6 @@ export class LoginService {
         ) {}
 
     public login(username: string, password: string) {
-        console.log('NORMAL');
-
         this.clearSessionCacheEntries();
 
         return this.authService.login(username, password).pipe(
@@ -42,13 +40,15 @@ export class LoginService {
                 const user = User.apiToModel(userFromApi);
                 this.userService.setCurrentUser(user);
                 this.redirect(user);
-                return this.loginRoutine(user);
+                return concat(
+                    this.asyncacheService.setUser(userFromApi),
+                    this.loginRoutine(user)
+                );
             })
         );
     }
 
-    public reLogIn(user: User) {
-        console.log('RE');
+    public reLogin(user: User) {
         return this.loginRoutine(user);
     }
 
@@ -75,9 +75,10 @@ export class LoginService {
         }
     }
 
+    // Country
+
     private setCountries(user: User) {
-        console.log(user);
-        const countries = user.get<Array<Country>>('country');
+        const countries = user.get<Array<Country>>('countries');
         if (! countries) {
             const projects = user.get<Array<Project>>('projects');
             if (projects && projects.length) {
@@ -85,47 +86,42 @@ export class LoginService {
                     return this.countriesService.stringToCountry(project.get<string>('iso3'));
                 }));
                 this.countriesService.fillWithCountries(Array.from(countriesSet));
-            }
-            else {
+            } else {
                 this.countriesService.fillWithAllExistingCountries();
             }
-        }
-        else {
+        } else {
             this.countriesService.fillWithCountries(countries);
         }
-        return this.setCountry(user.get<Array<Country>>('countries') ? user.get<Array<Country>>('countries')[0] : undefined);
+        return this.setServiceCountry(countries ? countries[0] : undefined);
     }
 
-    private setCountry(country: Country) {
+    private setServiceCountry(country: Country) {
         if (!country) {
             country = this.countriesService.selectableCountries.value[0];
         }
 
-        this.countriesService.setCountry(country);
-        return this.setCacheCountry();
-    }
-
-    private setCacheCountry() {
-        return this.asyncacheService.getCountry().pipe(tap((country: Country) => {
-            if (!country) {
-                return of(undefined);
+        return this.asyncacheService.getCountry().pipe(tap((cacheCountry: Country) => {
+            if (!cacheCountry) {
+                this.countriesService.setCountry(country);
             }
-            this.countriesService.setCountry(country);
+            this.countriesService.setCountry(cacheCountry);
         }));
     }
 
+    // User
+
     private setUser(user: User) {
-        this.userService.setCurrentUser(user);
-        return this.asyncacheService.setUser(user);
+        return of(this.userService.setCurrentUser(user));
     }
+
+    // Language
 
     private setLanguage(user: User) {
         return this.asyncacheService.getLanguage().pipe(
-            switchMap( language => {
+            switchMap(language => {
                 if (language) {
-
                     this.languageService.setLanguage(language);
-                    return this.asyncacheService.setLanguage(language);
+                    return of(undefined);
                 }
                 else {
                     return this.setDefaultLanguage(user);

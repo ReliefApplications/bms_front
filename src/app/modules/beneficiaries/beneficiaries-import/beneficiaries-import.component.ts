@@ -148,9 +148,8 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
         this._cacheService.getUser()
             .subscribe(
-                response => {
-                    if (response) {
-                        const user = User.apiToModel(response);
+                (user: User) => {
+                    if (user) {
                         this.email = user.get('username');
                         this.email = this.email.replace('@', '');
                     }

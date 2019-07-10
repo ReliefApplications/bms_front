@@ -35,7 +35,7 @@ export class PermissionsGuard implements CanActivate {
             .pipe(
                 map((user: User) => {
                     if (user) {
-                        this.userService.setCurrentUser(User.apiToModel(user));
+                        this.userService.setCurrentUser(user);
                     }
                 return this.checkPermissionsWrapper(route);
             }));

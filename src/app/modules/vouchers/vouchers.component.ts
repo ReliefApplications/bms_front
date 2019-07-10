@@ -161,6 +161,6 @@ export class VouchersComponent implements OnInit, OnDestroy {
             finalize(() => {
                 this.loadingExportCodes = false;
             })
-        );
+        ).subscribe();
     }
 }

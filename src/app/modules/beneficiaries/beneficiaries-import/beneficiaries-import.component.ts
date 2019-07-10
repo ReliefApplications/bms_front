@@ -5,18 +5,18 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LocationService } from 'src/app/core/api/location.service';
 import { UserService } from 'src/app/core/api/user.service';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Household } from 'src/app/models/household';
 import { Adm, Location } from 'src/app/models/location';
+import { User } from 'src/app/models/user';
+import { ImportService } from '../../../core/api/beneficiaries-import.service';
 import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
-import { CountriesService } from 'src/app/core/countries/countries.service';
-import { ImportService } from '../../../core/api/beneficiaries-import.service';
 import { Project } from '../../../models/project';
-import { User } from 'src/app/models/user';
 
 
 export interface Api {
@@ -226,10 +226,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
      */
     exportTemplate() {
         this.loadingExport = true;
-        this._householdsService.exportTemplate(this.extensionType).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
+        this._householdsService.exportTemplate(this.extensionType).subscribe(
+            () => { this.loadingExport = false; },
+            (_error: any) => { this.loadingExport = false; }
         );
     }
 
@@ -330,18 +329,12 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         body['adm2'] = this.conversionForm.controls.adm2.value ? this.conversionForm.controls.adm2.value.get('name') : '';
         body['adm1'] = this.conversionForm.controls.adm1.value ? this.conversionForm.controls.adm1.value.get('name') : '';
 
-        this._householdsService.testFileTemplate(data, body)
-            .then(() => {
-                this.closeConversionDialog('success');
-            }, (error) => {
+        this._householdsService.testFileTemplate(data, body).subscribe(
+            () => { this.closeConversionDialog('success'); },
+            (error: any) => {
                 this.closeConversionDialog('error', error);
                 this.csv2 = null;
-            })
-            .catch(
-                (error: any) => {
-                    this.closeConversionDialog('error', error);
-                    this.csv2 = null;
-                });
+            });
     }
 
     /**

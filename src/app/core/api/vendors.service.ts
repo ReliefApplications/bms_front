@@ -7,8 +7,8 @@ import { URL_BMS_API } from '../../../environments/environment';
 import { ExportService } from '../../core/api/export.service';
 import { Location } from '../../models/location';
 import { AuthenticationService } from '../authentication/authentication.service';
-import { CustomModelService } from '../utils/custom-model.service';
 import { HttpService } from '../network/http.service';
+import { CustomModelService } from '../utils/custom-model.service';
 import { LocationService } from './location.service';
 
 @Injectable({
@@ -47,7 +47,7 @@ export class VendorsService extends CustomModelService {
     }
 
     public print(vendor: Vendor) {
-        return this._exportService.printInvoice(vendor.get('id'));
+        return this._exportService.printInvoice(vendor.get('id')).subscribe();
     }
 
     // TO DO : make an empty method by default for every service

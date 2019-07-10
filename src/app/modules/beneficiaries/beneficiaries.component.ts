@@ -139,10 +139,9 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
                 pageSize: -1 // No limit
             };
         }
-        this.householdsService.export(this.extensionType, filters, ids).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
+        this.householdsService.export(this.extensionType, filters, ids).subscribe(
+            () => { this.loadingExport = false; },
+            (_error: any) => { this.loadingExport = false; }
         );
     }
 

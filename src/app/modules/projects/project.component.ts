@@ -3,19 +3,18 @@ import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { NetworkService } from 'src/app/core/network/network.service';
+import { ImportService } from 'src/app/core/api/beneficiaries-import.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
+import { NetworkService } from 'src/app/core/network/network.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
-import { ImportService } from 'src/app/core/api/beneficiaries-import.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { DistributionService } from '../../core/api/distribution.service';
 import { ProjectService } from '../../core/api/project.service';
 import { Distribution } from '../../models/distribution';
 import { Project } from '../../models/project';
-import { ModalConfirmationComponent } from 'src/app/components/modals/modal-confirmation/modal-confirmation.component';
 
 
 @Component({
@@ -177,10 +176,9 @@ export class ProjectComponent implements OnInit, OnDestroy {
      */
     export() {
         this.loadingExport = true;
-        this.distributionService.export('project', this.extensionType, this.selectedProject.get('id')).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
+        this.distributionService.export('project', this.extensionType, this.selectedProject.get('id')).subscribe(
+            () => { this.loadingExport = false; },
+            (_error: any) => { this.loadingExport = false; }
         );
     }
 

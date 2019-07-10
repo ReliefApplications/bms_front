@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public currentDisplayType: DisplayType;
 
     // Language
-    public language: Language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     // Countries
     public selectedCountry: Country;

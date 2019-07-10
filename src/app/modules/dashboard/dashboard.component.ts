@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     public currentDisplayType: DisplayType;
     private screenSizeSubscription: Subscription;
 
-    language = this.languageService.selectedLanguage;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     constructor(
         private mapService: MapService,

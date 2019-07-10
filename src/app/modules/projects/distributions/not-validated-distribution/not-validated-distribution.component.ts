@@ -28,8 +28,8 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
     @Output() emitStore = new EventEmitter<Distribution>();
     @Output() isUpdated = new EventEmitter<void>();
-    loadingExport = false;
 
+    loadingExport = false;
     loadingDatas = true;
     loadingDistribution = true;
     modalSubscriptions: Array<Subscription> = [];

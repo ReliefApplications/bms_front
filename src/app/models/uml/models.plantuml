@@ -4,12 +4,16 @@ abstract class CustomModel {
     + rights: string[]
     + title: string
     + matSortActive: string
+    + createMultiple: boolean
+    + pluralName: string
+    + language: Language
 
-    + {static} apiToModel(objectFromApi: any): CustomModel
+
+    + {static} apiToModel(objectFromApi: any, otherInfo?: any): CustomModel
     + modelToApi(): Object
     + getDateOffset(year: number, month: number, day: number): Date
     + getIdentifyingName(): string
-    + get<T = CustomModel>(field: string): T
+    + get<T = CustomModel>(fields: string| Array<string>): T
     + set(field: string, value: any): CustomModel
     + getOptions(field: string): CustomModel[]
     + setOptions(field: string, value: any[])
@@ -38,6 +42,8 @@ class CustomModelField<T> {
     + isTrigger: boolean
     + triggerFunction: Function
     + filterName: string
+    + tooltip: Function
+    + isDisabled: boolean
     
     + {static} fillWithDefault(properties: Object)
     + formatForApi()

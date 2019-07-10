@@ -27,7 +27,7 @@ export class TextModelField extends CustomModelField<string> {
      */
     displayValue: string;
      /**
-     * If the string to be displayed in the dropdown is a translation
+     * If the value is a key in the translation files
      * @type {boolean}
      */
     isTranslatable: boolean;

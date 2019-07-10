@@ -2,7 +2,7 @@
 
 ### General
 
-In this project, models are all extending the same class "CustomModel". A custom model contains functions to translate data from the Api to the Front and vice versa, and fields which can be displayed/edited in the tables, modals etc. A CustomModel also contains a title to be displayed in its tab, a matSortActive to pre-select the ordered column, rights, to know who will be able to modify it, and a the current language, to be able to translate the field titles. There is also a boolean createMultiple attribute to indicate if the creation of an instance is done by batch or not.
+In this project, models are all extending the same class "CustomModel". A custom model contains functions to translate data from the Api to the Front and vice versa, and fields which can be displayed/edited in the tables, modals etc. A CustomModel also contains a title to be displayed in its tab, a matSortActive to pre-select the ordered column, rights, to know who will be able to modify it, and a the current language, to be able to translate the field titles. There is also a boolean createMultiple attribute to indicate if the creation of an instance is done by batch or not and a pluralName string attribute to display when deleting many.
 
 The different information about the fields (the values, the dropdown options etc), can be fetched/set with the getters and setters defined in the Model.
 
@@ -99,6 +99,8 @@ __isColor__: The field is a color and must be selected through a color picker
 
 __isFont__: The field is a font and must be selected through a font picker
 
+__acceptedTypes__: For a file model field, the types of file accepted (png, gif, jpeg...)
+
 ## Relationships between models
 
 ### At the center of the structure: project
@@ -125,7 +127,7 @@ Note that a location contains until four different administrations, from the les
 
 ### Individual information: beneficiary
 
-A household member can have its own personnal information, different from the other members (the first name, date of birth, phone, ID etc.). The beneficiaryStatus defines whether or not the beneficiary is the head of the household. The residencyStatus precises whether the beneficiary is a refugee, a resident or an IDP. Note that the field NationalIds can contains many IDs but for the moment it always contains only one.
+A household member can have its own personnal information, different from the other members (the first name, date of birth, phone, ID etc.). The beneficiaryStatus defines whether or not the beneficiary is the head of the household. The residencyStatus precises whether the beneficiary is a refugee, a resident or an IDP. The addReferral attribute defines whether or not the beneficiary must be assgined a referral. Note that the field NationalIds can contains many IDs but for the moment it always contains only one.
 
 ![Beneficiary](./uml/beneficiary.svg)
 

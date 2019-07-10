@@ -19,12 +19,15 @@ class DateModelField {
     
     + {static} formatFromApi(date): Date
     + {static} formatDateTimeFromApi(date): Date
+    + formatForApi() : any
+    + formatDateTimeForApi(): any
 }
 
 class FileModelField {
     + value: string
     + uploadPath: string
     + fileUrlField: string
+    + acceptedTypes: string[]
 }
 
 class MultipleObjectsModelField<CustomModel> {
@@ -36,6 +39,7 @@ class MultipleObjectsModelField<CustomModel> {
 class MutlipleSelectModelField {
     + value: CustomModel[]
     + maxSelectionLength: number
+    + formatForApi() : any
 }
 
 class NestedFieldModelField {
@@ -48,6 +52,7 @@ class NestedFieldModelField {
 
 class NumberModelField {
     + value: number
+    + displayValue: string
 }
 
 class ObjectModelField<CustomModel> {
@@ -60,16 +65,22 @@ class SelectModelField {
     + bindField: string
     + options: CustomModel[]
     + apiLabel: string
+    + isTranslatable: boolean
 }
 
 class SingleSelectModelField<CustomModel> {
     + value: CustomModel
+    + formatForApi(): any
 }
 
 class TextModelField {
     + value: string
     + isLongText: boolean
     + isPassword: boolean
+    + isColor: boolean
+    + isFont: boolean
+    + displayValue: string
+    + isTranslatable: boolean
 }
 
 CustomModelField <|-left- ArrayInputField

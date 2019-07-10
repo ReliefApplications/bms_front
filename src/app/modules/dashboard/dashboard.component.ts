@@ -60,6 +60,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
             this.currentDisplayType = displayType;
         });
         this._cacheService.getUser().subscribe(result => {
+            decodeURIComponent(result);
             if (result) {
                 this.getSummary();
                 this.checkDistributions();

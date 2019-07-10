@@ -15,6 +15,7 @@ import { HttpService } from '../network/http.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { CustomModelService } from '../utils/custom-model.service';
 import { ProjectService } from './project.service';
+import { Country } from 'src/app/models/country';
 
 
 @Injectable({
@@ -34,6 +35,7 @@ export class UserService extends CustomModelService {
         private countriesService: CountriesService,
     ) {
         super(http, languageService);
+        this.getUserFromCache();
     }
 
     public create(body: any) {
@@ -45,17 +47,32 @@ export class UserService extends CustomModelService {
         return this.http.get(url);
     }
 
+    public setCurrentUser(user: User) {
+        console.log(user);
+        this.currentUser = user;
+        return this.currentUser;
+    }
+
+    public setUserCountry(user: User) {
+        const countries = user.get<Country[]>('countries');
+        if (countries && countries.length === 1) {
+            this.countriesService.setCountry(countries[0]);
+            this.asyncCacheService.setCountry(countries[0]).subscribe();
+        }
+    }
+
     public getUserFromCache(): Observable<User> {
-        return this.authenticationService.getUser().pipe(map((userObject: any) => {
+        console.log("getUserFromCache");
+        return this.asyncCacheService.getUser().pipe(map((userObject: any) => {
             if (userObject) {
-                this.currentUser = User.apiToModel(userObject);
+                this.setCurrentUser(User.apiToModel(userObject));
             }
             return this.currentUser;
         }));
     }
 
     public resetCacheUser() {
-        this.currentUser = undefined;
+        this.setCurrentUser(undefined);
         this.authenticationService.resetUser();
     }
 
@@ -89,12 +106,13 @@ export class UserService extends CustomModelService {
                 this.requestPasswordChange(parseInt(user.get('id'), 10), { oldPassword: saltedOldPassword, newPassword: saltedNewPassword })
                     .subscribe(data => {
                         this.authenticationService.setSaltedPassword(user, data.password);
-                        this.authenticationService.setUser(user);
+                        this.asyncCacheService.setUser(data).subscribe();
+                        this.setCurrentUser(user);
                         resolve();
-                    }, error => {
+                    }, _error => {
                         reject({ message: 'Wrong password' });
                     });
-            }, error => {
+            }, _error => {
                 reject({ message: 'User not found' });
             });
         });

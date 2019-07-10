@@ -56,8 +56,8 @@ export class AuthenticationService {
                 const user = new User().set('email', username).set('password', saltedPassword);
                 this.logUser(user.modelToApi()).subscribe((userFromApi: object) => {
                     if (userFromApi) {
+                        this._cacheService.setUser(user).subscribe();
                         this.user = User.apiToModel(userFromApi);
-                        this.setUser(this.user);
                         resolve(this.user);
                     } else {
                         reject({ message: 'Bad credentials' });
@@ -77,15 +77,6 @@ export class AuthenticationService {
 
     getUser(): Observable<any> {
         return this._cacheService.getUser();
-    }
-
-    setUser(user: User) {
-        const countries = user.get<Country[]>('countries');
-        if (countries && countries.length === 1) {
-            this.countryService.setCountry(countries[0]);
-            this._cacheService.setCountry(countries[0]).subscribe();
-        }
-        this._cacheService.setUser(user).subscribe();
     }
 
     setSaltedPassword(user: User, saltedPassword: string) {

@@ -72,8 +72,8 @@ export class LoginComponent implements OnInit {
         subscription.subscribe(
             (user: User) => {
                 if (user) {
-                    this.userService.currentUser = user;
-
+                    this.userService.setCurrentUser(user);
+                    this.userService.setUserCountry(user);
                     if ((! user.get<Array<Country>>('countries') ||
                         user.get<Array<Country>>('countries').length === 0) &&
                         this.userService.hasRights('ROLE_SWITCH_COUNTRY')) {

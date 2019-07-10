@@ -163,7 +163,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     logout() {
         this.authenticationService.logout().subscribe((_: any) => {
-            this.userService.currentUser = undefined;
+            this.userService.setCurrentUser(undefined);
             this.countriesService.clearCountries();
             this.router.navigate(['/login']);
         });

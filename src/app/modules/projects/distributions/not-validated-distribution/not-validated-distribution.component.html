@@ -205,17 +205,6 @@
                 </div>
                 <div class="content-button content-button-footer">
                     <div class="action-buttons">
-                        <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>
-                        <button mat-stroked-button [disabled]="distributionIsStored" *ngIf="!loaderCache"
-                            class="button-text-accent" (click)="storeBeneficiaries()">
-                            <mat-icon>save</mat-icon>
-                            <ng-container *ngIf="distributionIsStored; else distributionIsntStored">
-                                {{language.cache_stored_beneficiaries}}
-                            </ng-container>
-                            <ng-template #distributionIsntStored>
-                                {{language.cache_store_beneficiaries}}
-                            </ng-template>
-                        </button>
                         <mat-spinner [diameter]="35" *ngIf="loaderValidation"></mat-spinner>
                         <button mat-flat-button *ngIf="!loaderValidation && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" class="button-background-accent"
                             (click)="openDialog(validation)" [disabled]="actualDistribution.get('validated')">

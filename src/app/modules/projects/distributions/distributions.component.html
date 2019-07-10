@@ -39,8 +39,7 @@
     <app-placeholder-stepper *ngIf="loadingDatas"></app-placeholder-stepper>
 
     <app-not-validated-distribution *ngIf="!loadingDistribution && actualDistribution && !actualDistribution.get('validated')" 
-        [actualDistribution]="actualDistribution" [loaderCache]="loaderCache" (emitStore)="storeBeneficiaries($event)" 
-        [distributionIsStored]="distributionIsStored" (isUpdated)="updated = true">
+        [actualDistribution]="actualDistribution"  (emitStore)="storeBeneficiaries($event)" (isUpdated)="updated = true">
     </app-not-validated-distribution>
 
     <ng-container *ngIf="actualDistribution && actualDistribution.get('validated')">

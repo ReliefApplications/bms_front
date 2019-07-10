@@ -139,10 +139,9 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
                 pageSize: -1 // No limit
             };
         }
-        this.householdsService.export(this.extensionType, filters, ids).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
+        this.householdsService.export(this.extensionType, filters, ids).subscribe(
+            () => { this.loadingExport = false; },
+            (_error: any) => { this.loadingExport = false; }
         );
     }
 
@@ -224,7 +223,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         this.openDialog({
             action: 'deleteMany',
             ids: this.selection.selected.map((household: Household) => household.get('id')),
-            name: this.selection.selected[0].plural_name
+            name: this.selection.selected[0].pluralName
         });
     }
 }

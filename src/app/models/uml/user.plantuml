@@ -9,6 +9,7 @@ class User {
     - projects
     - countries
     - language
+    - changePassword
 }
 
 class Vendor {
@@ -22,10 +23,6 @@ class Vendor {
     - addressNumber
     - addressPostcode
     - location
-    - adm1
-    - adm2
-    - adm3
-    - adm4
 }
 
 class Role {

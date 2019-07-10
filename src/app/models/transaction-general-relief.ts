@@ -45,6 +45,13 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
     title = this.language.general_relief;
 
     public fields = {...{
+        // Duplicated because needs to be the first column
+        beneficiaryId: new NestedFieldModelField({
+            title: this.language.beneficiary_id,
+            isDisplayedInTable: true,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'id'
+        }),
         id: new NumberModelField({
 
         }),
@@ -53,9 +60,6 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             isDisplayedInTable: false,
             isDisplayedInModal: true,
             nullValue: this.language.null_not_yet_defined,
-        }),
-        beneficiary: new ObjectModelField<Beneficiary>({
-                value: []
         }),
         localGivenName: new NestedFieldModelField({
             title: this.language.beneficiary_given_name,

@@ -2,6 +2,7 @@
  Gender "1" *-- "1" Beneficiary
  ResidencyStatus "1" *-- "1" Beneficiary
  BeneficiaryStatus "1" *-- "1" Beneficiary
+  BeneficiaryReferralType "1" *-- "1" Beneficiary
  NationalId "1" *-- "1" Beneficiary
  Phone "2" *-- "1" Beneficiary
  VulnerabilityCriteria "0-*" *-- "1" Beneficiary

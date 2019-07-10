@@ -80,7 +80,7 @@ export class Criteria extends CustomModel {
                 isDisplayedInTable: true,
                 isDisplayedInModal: true,
                 isRequired: true,
-                isCamelCase: true,
+                isTranslatable: true
             }
         ),
         condition: new SingleSelectModelField(

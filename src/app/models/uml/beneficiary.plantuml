@@ -13,9 +13,14 @@ class Beneficiary {
     - nationalIds
     - phones
     - vulnerabilities
-    - fullName
+    - localFullName
     - profile
     - distributionId
+    - removed
+    - justification
+    - addReferral
+    - referralType
+    - referralComment
 }
 
 class Gender {
@@ -29,6 +34,11 @@ class ResidencyStatus {
 }
 
 class BeneficiaryStatus {
+    - id
+    - name
+}
+
+class BeneficiaryReferralType {
     - id
     - name
 }
@@ -70,6 +80,7 @@ class Profile {
  Gender "1" *-- "1" Beneficiary
  ResidencyStatus "1" *-- "1" Beneficiary
  BeneficiaryStatus "1" *-- "1" Beneficiary
+ BeneficiaryReferralType "1" *-- "1" Beneficiary
  NationalId "1" *-- "1" Beneficiary
  Phone "2" *-- "1" Beneficiary
  VulnerabilityCriteria "0-*" *-- "1" Beneficiary

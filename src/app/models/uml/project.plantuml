@@ -9,6 +9,7 @@ class Donor {
     - id
     - fullname
     - shortname
+    - logo
     - notes
 }
 
@@ -21,7 +22,7 @@ class Project {
     - numberOfHouseholds
     - donors
     - iso3
-    - value
+    - target
     - reachedBeneficiaries
     - notes
 }

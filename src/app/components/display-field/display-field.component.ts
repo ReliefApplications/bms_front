@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormService } from 'src/app/core/utils/form.service';
 import { TextModelField } from 'src/app/models/custom-models/text-model-field';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 @Component({
   selector: 'app-display-field',
@@ -11,13 +12,17 @@ export class DisplayFieldComponent implements OnInit {
 
   @Input() field;
   @Input() element;
+  public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
 
   readonly MAX_PROP_LENGTH = 20;
 
-  constructor(public formService: FormService) { }
+  constructor(
+    public formService: FormService,
+    public languageService: LanguageService,
+  ) { }
 
   ngOnInit() {
-
     if (this.field.kindOfField === 'Children') {
       this.field = this.element.get(this.field.childrenObject) ?
         this.element.get(this.field.childrenObject).fields[this.field.childrenFieldName] :

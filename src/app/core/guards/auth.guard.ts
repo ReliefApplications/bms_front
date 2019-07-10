@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { User } from 'src/app/models/user';
+import { LoginService } from '../api/login.service';
 import { UserService } from '../api/user.service';
 
 @Injectable({
@@ -17,6 +19,7 @@ export class AuthGuard implements CanActivate {
     constructor (
         private router: Router,
         private userService: UserService,
+        private loginService: LoginService,
         private authenticationService: AuthenticationService,
         public languageService: LanguageService,
     ) { }
@@ -25,12 +28,15 @@ export class AuthGuard implements CanActivate {
         if (this.userService.currentUser === undefined) {
             return this.authenticationService.getUser()
             .pipe(
-                map((user: any) => {
+                switchMap((user: any) => {
                     if (user) {
-                        this.userService.setCurrentUser(User.apiToModel(user));
+                        return this.loginService.reLogIn(User.apiToModel(user)).pipe(
+                            switchMap((_: any) => of(true))
+                        );
                     }
-                return this.checkLoginWrapper();
-            }));
+                    return of(this.checkLoginWrapper());
+                })
+            );
         }
         else {
             return this.checkLoginWrapper();

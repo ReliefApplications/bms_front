@@ -76,7 +76,7 @@ export class AsyncacheService {
         } else {
             return this.getCountry().pipe(
                 map((country: Country) => {
-                    this.countriesService.setCountry(country);
+                    // this.countriesService.setCountry(country);
                     return this.formatKeyCountry(key, country);
                 })
             );
@@ -154,10 +154,19 @@ export class AsyncacheService {
 
     /**
      * Removes an item with its key.
+     * @todo : USE REMOVEITEM INSTEAD
      * @param key
      */
     remove(key: string) {
         this.getFormattedKey(key).pipe(
+            tap((formattedKey: string) => {
+                this.storage.removeItemSubscribe(formattedKey);
+            }),
+        );
+    }
+
+    removeItem(key: string) {
+        return this.getFormattedKey(key).pipe(
             tap((formattedKey: string) => {
                 this.storage.removeItemSubscribe(formattedKey);
             }),
@@ -257,6 +266,13 @@ export class AsyncacheService {
                 return undefined;
             }),
         );
+    }
+
+    removeCountry() {
+        return this.removeItem(AsyncacheService.COUNTRY).subscribe();
+    }
+    removeLanguage() {
+        return this.removeItem(AsyncacheService.LANGUAGE).subscribe();
     }
 
     //

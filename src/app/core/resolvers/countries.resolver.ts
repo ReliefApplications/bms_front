@@ -52,7 +52,6 @@ export class CountryResolver implements Resolve<Observable<Country> | Country> {
     }
 
     private getCountries() {
-        console.log("user", this.userService.currentUser);
         if (this.userService.hasRights('ROLE_ACCESS_ALL_COUNTRIES')) {
             this.countriesService.fillWithAllExistingCountries();
         }

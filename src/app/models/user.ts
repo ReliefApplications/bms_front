@@ -140,7 +140,6 @@ export class User extends CustomModel {
     };
 
     public static apiToModel(userFromApi: any): User {
-        console.log("api", userFromApi);
         if (!userFromApi) {
             return null; // If it was retrieved from cache and was null
         }
@@ -169,12 +168,12 @@ export class User extends CustomModel {
         if (userFromApi.countries && userFromApi.countries.length) {
             countries = userFromApi.countries;
         } else if (userFromApi.projects && userFromApi.projects.length) {
+            console.log(userFromApi);
             const allCountries = userFromApi.projects.filter((project: any) => !project.project.archived)
                 .map((project) => project.project.iso3);
             countries = allCountries.filter((iso3, index) => allCountries.indexOf(iso3) === index);
         }
 
-        console.log(countries);
         newUser.set('countries', countries ?
             countries.map((countryFromApi: any) => {
                 return newUser.getOptions('countries').filter((country: Country) => {
@@ -199,7 +198,6 @@ export class User extends CustomModel {
         newUser.set('id', userFromApi.id);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en');
         newUser.set('changePassword', userFromApi.change_password);
-        console.log("model", newUser);
         return newUser;
     }
 

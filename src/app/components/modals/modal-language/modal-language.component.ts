@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
+import { switchMap, tap } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { Language } from 'src/app/core/language/language';
 import { LanguageService } from 'src/app/core/language/language.service';
@@ -69,13 +70,24 @@ export class ModalLanguageComponent implements OnInit {
             this.userService.setDefaultLanguage(
                 this.userService.currentUser.get<number>('id'),
                 newLanguage
-                ).subscribe((_response: any) => {
-                    this.snackbar.success('Default Language Saved');
-                }
-            );
+                ).pipe(
+                    switchMap((_response: any) => {
+                        this.snackbar.success('Default Language Saved');
+
+                        return this.changeLanguage(newLanguage);
+                })
+            ).subscribe();
         }
-        this.asyncacheService.setLanguage(newLanguage).subscribe((_: any) => {
-            window.location.reload();
-        });
+        else {
+            this.changeLanguage(newLanguage).subscribe();
+        }
+    }
+
+    private changeLanguage(newLanguage: Language) {
+        return this.asyncacheService.setLanguage(newLanguage).pipe(
+            tap((_: any) => {
+                window.location.reload();
+            })
+        );
     }
 }

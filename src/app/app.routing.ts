@@ -8,12 +8,14 @@ import { DeactivateGuard } from './core/guards/deactivate.guard';
 import { LogoutGuard } from './core/guards/logout.guard';
 import { PermissionsGuard } from './core/guards/permissions.guard';
 import { CountryResolver } from './core/resolvers/countries.resolver';
+import { AdministrationComponent } from './modules/administration/administration.component';
 import { BeneficiariesImportComponent } from './modules/beneficiaries/beneficiaries-import/beneficiaries-import.component';
 import { ImportedDataComponent } from './modules/beneficiaries/beneficiaries-import/imported-data/imported-data.component';
 import { BeneficiariesComponent } from './modules/beneficiaries/beneficiaries.component';
 import { DataValidationComponent } from './modules/beneficiaries/data-validation/data-validation.component';
 import { UpdateBeneficiaryComponent } from './modules/beneficiaries/update-beneficiary/update-beneficiary.component';
 import { DashboardComponent } from './modules/dashboard/dashboard.component';
+import { GeneralSettingsComponent } from './modules/general-settings/general-settings.component';
 import { ProfileComponent } from './modules/profile/profile.component';
 import { AddDistributionComponent } from './modules/projects/add-distribution/add-distribution.component';
 import { DistributionsComponent } from './modules/projects/distributions/distributions.component';
@@ -21,9 +23,7 @@ import { ProjectComponent } from './modules/projects/project.component';
 // Components
 import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
-import { GeneralSettingsComponent } from './modules/general-settings/general-settings.component';
 import { VouchersComponent } from './modules/vouchers/vouchers.component';
-import { AdministrationComponent } from './modules/administration/administration.component';
 
 
 // Do not change the order of the routes, it matters
@@ -129,7 +129,7 @@ export const routes: Routes = [
     {
         path: '', component: DashboardComponent,
         canActivate: [AuthGuard, PermissionsGuard],
-        resolve: {language: LanguageResolver, country: CountryResolver},
+        resolve: {language: LanguageResolver},
     },
 
     // otherwise redirect to home

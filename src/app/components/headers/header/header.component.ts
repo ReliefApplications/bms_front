@@ -11,7 +11,6 @@ import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service'
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Country } from 'src/app/models/country';
-import { User } from 'src/app/models/user';
 import { ModalLanguageComponent } from '../../modals/modal-language/modal-language.component';
 
 export interface Breadcrumb {
@@ -31,8 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public currentDisplayType: DisplayType;
 
     // Language
-    public language: Language = this.languageService.selectedLanguage ?
-        this.languageService.selectedLanguage : this.languageService.english;
+    public language: Language = this.languageService.selectedLanguage;
 
     // Countries
     public selectedCountry: Country;

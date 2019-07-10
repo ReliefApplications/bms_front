@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { MapService } from 'src/app/core/external/map.service';
-import { Language } from 'src/app/core/language/language';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
@@ -39,10 +38,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     public currentDisplayType: DisplayType;
     private screenSizeSubscription: Subscription;
 
-    // Language
-    public language: Language = this.languageService.selectedLanguage ?
-        this.languageService.selectedLanguage : this.languageService.english;
-
+    language = this.languageService.selectedLanguage;
 
     constructor(
         private mapService: MapService,
@@ -53,7 +49,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         private userService: UserService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
-    ) { }
+
+    ) {}
 
     ngOnInit() {
         this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {

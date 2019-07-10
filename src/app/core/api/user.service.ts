@@ -15,7 +15,6 @@ import { HttpService } from '../network/http.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { CustomModelService } from '../utils/custom-model.service';
 import { ProjectService } from './project.service';
-import { Country } from 'src/app/models/country';
 
 
 @Injectable({
@@ -48,21 +47,11 @@ export class UserService extends CustomModelService {
     }
 
     public setCurrentUser(user: User) {
-        console.log(user);
         this.currentUser = user;
         return this.currentUser;
     }
 
-    public setUserCountry(user: User) {
-        const countries = user.get<Country[]>('countries');
-        if (countries && countries.length === 1) {
-            this.countriesService.setCountry(countries[0]);
-            this.asyncCacheService.setCountry(countries[0]).subscribe();
-        }
-    }
-
     public getUserFromCache(): Observable<User> {
-        console.log("getUserFromCache");
         return this.asyncCacheService.getUser().pipe(map((userObject: any) => {
             if (userObject) {
                 this.setCurrentUser(User.apiToModel(userObject));
@@ -71,7 +60,7 @@ export class UserService extends CustomModelService {
         }));
     }
 
-    public resetCacheUser() {
+    public resetUser() {
         this.setCurrentUser(undefined);
         this.authenticationService.resetUser();
     }

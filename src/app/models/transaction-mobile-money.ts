@@ -31,6 +31,13 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
     matSortActive = 'localFamilyName';
 
     public fields = {...{
+        // Duplicated because needs to be the first column
+        beneficiaryId: new NestedFieldModelField({
+            title: this.language.beneficiary_id,
+            isDisplayedInTable: true,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'id'
+        }),
         idTransaction: new NumberModelField({
             title: this.language.transaction_id_transaction,
             isDisplayedInTable: true,

@@ -34,7 +34,7 @@
       </ng-option>
     </ng-select>
     <ng-container *ngIf="form.controls[locationGroup + 'Type'].value && form.controls[locationGroup + 'Type'].value !== 'camp'">
-      <h4>{{ language.household_location_address }}</h4>
+      <h4>{{ language.household_location_address | uppercaseFirst }}</h4>
       <div class="address-fields">
         <mat-form-field>
           <input matInput placeholder="{{language.address_number | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressNumber'" required>
@@ -56,7 +56,7 @@
       </ng-select>
       <div class="create-camp">
         <mat-checkbox color="primary" [formControlName]="locationGroup + 'CreateCamp'"></mat-checkbox>
-        <span>{{ language.household_location_create_camp }}</span>
+        <span>{{ language.household_location_create_camp | uppercaseFirst }}</span>
         <mat-form-field *ngIf="form.controls[locationGroup + 'CreateCamp'].value">
           <input matInput placeholder="{{language.household_location_camp_name | uppercaseFirst}}" [formControlName]="locationGroup + 'NewCamp'" required>
         </mat-form-field>

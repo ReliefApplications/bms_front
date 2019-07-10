@@ -20,6 +20,7 @@ export interface Language {
     new: string
     next: string
     no_data: string
+    or: string
     rights: string
     settings: string
     summary: string
@@ -145,9 +146,9 @@ export interface Language {
     add_project_title: string
 
     // Beneficiaries
-    beneficiary_add_distribution: string
     beneficiary_add_list: string
     beneficiary_add_project: string
+    beneficiary_add_project_title: string
     beneficiary_added: string
     beneficiary_advanced_research: string
     beneficiary_clear_all_research: string
@@ -167,6 +168,7 @@ export interface Language {
     beneficiary_member: string
     beneficiary_missing_selected_project: string
     beneficiary_personnal: string
+    beneficiary_plural: string
     beneficiary_referral_comment: string
     beneficiary_referral_question: string
     beneficiary_referral_type: string
@@ -346,6 +348,7 @@ export interface Language {
     distribution_distribute: string
     distribution_edit: string
     distribution_error_validate: string
+    distribution_id: string
     distribution_last_modification: string
     distribution_no_beneficiaries: string
     distribution_no_random_sample: string
@@ -481,6 +484,7 @@ export interface Language {
     modal_details_title: string
     modal_edit_title: string
     modal_failure: string
+    modal_file_extension_error: string
     modal_language_actual: string
     modal_leave_sentence: string
     modal_leave: string

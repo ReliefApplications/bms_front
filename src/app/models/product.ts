@@ -40,6 +40,7 @@ export class Product extends CustomModel {
             uploadPath: '/products/upload/image',
             fileUrlField: 'image',
             isRequired: true,
+            acceptedTypes: ['gif', 'jpg', 'jpeg', 'png'],
         })
 
     };

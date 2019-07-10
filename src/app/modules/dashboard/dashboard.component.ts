@@ -133,14 +133,6 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     openDialog(dialogDetails: any): void {
-
         this.modalService.openDialog(Distribution, this._distributionService, dialogDetails);
-        this.modalService.isCompleted.subscribe((response: boolean) => {
-            if (response) {
-                this.checkDistributions();
-            } else {
-                this.loadingTable = false;
-            }
-        });
     }
 }

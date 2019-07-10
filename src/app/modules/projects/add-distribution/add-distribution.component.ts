@@ -174,6 +174,10 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         );
     }
 
+    getMinDate() {
+        return this.projectInfo.startDate > new Date() ? this.projectInfo.startDate : new Date();
+    }
+
     /**
      * Get adm1 from the back or from the cache service with the key ADM1
      */
@@ -331,11 +335,13 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         if (this.form.controls.type.value && this.criteriaData.data && this.criteriaData.data.length !== 0 &&
           this.commodityData.data && this.commodityData.data.length !== 0 && this.form.controls.date.value &&
           this.form.controls.threshold.value > 0 && this.form.controls.adm1.value && this.criteriaNbBeneficiaries > 0) {
+              const now = new Date();
+              now.setHours(0, 0, 0, 0);
 
-            if (this.form.controls.date.value < this.projectInfo.startDate || this.form.controls.date.value > this.projectInfo.endDate) {
+            if (this.form.controls.date.value <= this.projectInfo.startDate || this.form.controls.date.value >= this.projectInfo.endDate) {
                 this.snackbar.error(this.language.add_distribution_date_inside_project);
                 return;
-            } else if (this.form.controls.date.value < new Date()) {
+            } else if (this.form.controls.date.value < now || this.form.controls.date.value === now) {
                 this.snackbar.error(this.language.add_distribution_date_before_today);
                 return;
             }

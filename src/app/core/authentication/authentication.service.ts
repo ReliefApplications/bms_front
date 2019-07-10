@@ -72,8 +72,7 @@ export class AuthenticationService {
     }
 
     logout(): Observable<any> {
-        this.resetUser();
-        return this._cacheService.clear(false, [AsyncacheService.COUNTRY]);
+        return this._cacheService.clear(false);
     }
 
     getUser(): Observable<any> {
@@ -82,7 +81,7 @@ export class AuthenticationService {
 
     setUser(user: User) {
         const countries = user.get<Country[]>('countries');
-        if (countries.length === 1) {
+        if (countries && countries.length === 1) {
             this.countryService.setCountry(countries[0]);
             this._cacheService.setCountry(countries[0]).subscribe();
         }
@@ -100,9 +99,9 @@ export class AuthenticationService {
 
     public updateUser(body: any, url: string) {
         return this.requestSalt(body.username).pipe(
-            map((salt: string) => {
+            switchMap((salt: string) => {
                 body = this.createSaltedPassword(body, salt);
-                return this.http.post(url, body).subscribe();
+                return this.http.post(url, body);
             }));
     }
 

@@ -5,7 +5,7 @@
 
     <div class="container-boxes">
         <app-box-setting (click)="selectTitle('file import')" [isSelected]="selectedTitle === 'file import'"
-            [info]='{icon: "folder", color: "green", title:language.beneficiary_import_file, subtitle:"", ref:"file import"}'>
+            [info]='{icon: "import_beneficiaries", color: "green", title:language.beneficiary_import_file, subtitle:"", ref:"file import"}'>
         </app-box-setting>
         <app-box-setting *ngIf="apiList.length" class="isLast" (click)="selectTitle('api import')"
             [isSelected]="selectedTitle === 'api import'"
@@ -59,7 +59,7 @@
                 <div class="content-drag-and-drop" draggable="true" [ngClass]="dragAreaClass">
                     <mat-card class="card-drag-and-drop">
                         <div>
-                            <img class='img-folder' src="assets/images/folder.png">
+                            <img class='img-folder' src="assets/images/folder.svg">
                         </div>
                         <div class="select-file">
                             <a href="javascript:void(0)" (click)="file.click()">
@@ -83,7 +83,7 @@
                     <mat-card class="card-drag-and-drop"
                         [ngClass]="(fileForm.controls['projects'].disabled) ? 'greyed-out' : ''">
                         <div>
-                            <img class='img-folder' src="assets/images/projects.png">
+                            <img class='img-folder' src="assets/images/settings/projects.svg">
                         </div>
                         <div class="select-file project-input">
                             <ng-select class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
@@ -114,7 +114,7 @@
                 <div class="content-drag-and-drop" [ngClass]="dragAreaClass">
                     <mat-card class="card-drag-and-drop">
                         <div>
-                            <img class='img-folder' src="assets/images/settings/api.png">
+                            <img class='img-folder' src="assets/images/settings/api.svg">
                         </div>
                         <h3>{{language.beneficiary_select_api | uppercaseFirst}}</h3>
                         <div class="content-select">
@@ -130,7 +130,7 @@
                     <mat-card class="card-drag-and-drop"
                         [ngClass]="{'greyed-out': apiForm.controls['parameters'].disabled }">
                         <div>
-                            <img class='img-folder' src="assets/images/locationCode.png">
+                            <img class='img-folder' src="assets/images/location_code.svg">
                         </div>
                         <div>
                             <div class="content-select" *ngIf="apiForm.value['apiSelector']" formGroupName='parameters'>
@@ -151,7 +151,7 @@
                     <mat-card class="card-drag-and-drop"
                         [ngClass]="{'greyed-out': apiForm.controls['projects'].disabled}">
                         <div>
-                            <img class='img-folder' src="assets/images/projects.png">
+                            <img class='img-folder' src="assets/images/settings/projects.svg">
                         </div>
                         <div class="select-file project-input">
                             <ng-select formControlName="projects" class="single-select" [multiple]="false"
@@ -229,7 +229,7 @@
 
             <div class="drag-and-drop-file">
                 <div>
-                    <img class='img-folder' src="assets/images/folder.png">
+                    <img class='img-folder' src="assets/images/folder.svg">
                 </div>
                 <div class="select-file">
                     <a href="javascript:void(0)" (click)="file.click()">

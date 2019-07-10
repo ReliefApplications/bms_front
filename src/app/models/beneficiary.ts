@@ -372,31 +372,6 @@ export class Beneficiary extends CustomModel {
         };
     }
 
-    public  mapVulnerability(name: string): string {
-        if (!name) {
-            return '';
-        }
-        switch (name) {
-            case 'pregnant':
-                name = 'assets/images/households/pregnant.png';
-                break;
-            case 'disabled':
-                name = 'assets/images/households/disabled.png';
-                break;
-            case 'lactating':
-                name = 'assets/images/households/lactating.png';
-                break;
-            case 'soloParent':
-                name = 'assets/images/households/solo-parent.png';
-                break;
-            case 'nutritionalIssues':
-                name = 'assets/images/households/nutritional-issues.png';
-                break;
-            default: return name;
-        }
-        return name;
-    }
-
     public getIdentifyingName() {
         return this.get('localGivenName') + ' ' + this.get('localFamilyName');
     }

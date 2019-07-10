@@ -27,6 +27,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
 
     public nameComponent = 'beneficiaries';
     public loadingExport = false;
+    modalSubscriptions: Array<Subscription> = [];
 
     public referedClassService;
     referedClassToken = Household;
@@ -90,15 +91,14 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
 
         this.extensionType = 'xls';
         this.getProjects('updateSelection');
-        this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
-        this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT');
+        this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE');
+        this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE');
 
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach((subscription: Subscription) => {
-            subscription.unsubscribe();
-        });
+        this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
     toggleAddButtons() {
@@ -207,20 +207,23 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
     // }
 
     openDialog(event): void {
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
 
         this.modalService.openDialog(Household, this.householdsService, event);
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
                 this.table.loadDataPage();
                 this.selection = new SelectionModel<Household>(true, []);
             }
         });
+        this.modalSubscriptions = [completeSubscription];
     }
 
     deleteSelected() {
         this.openDialog({
             action: 'deleteMany',
-            ids: this.selection.selected.map((household: Household) => household.get('id'))
+            ids: this.selection.selected.map((household: Household) => household.get('id')),
+            name: this.selection.selected[0].plural_name
         });
     }
 }

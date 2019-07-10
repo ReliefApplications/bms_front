@@ -67,6 +67,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
     public villageList = [];
     public vulnerabilityList: Array<VulnerabilityCriteria>;
     public campLists = { 'current': [], 'resident': [] };
+    public countrySpecificList = [];
 
     // Checkpoint
     validStep1 = false;
@@ -108,6 +109,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         public languageService: LanguageService,
         public countryService: CountriesService,
         public phoneService: PhoneService,
+        public countrySpecificService: CountrySpecificService
     ) { }
 
     ngOnInit() {
@@ -145,10 +147,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
             });
         });
         this.mainFields = this.mainFields.concat(locationFields);
-
-        const countrySpecificNames = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers')
-            .map(countrySpecificAnswer => countrySpecificAnswer.get('countrySpecific').get<string>('field'));
-        this.mainFields = this.mainFields.concat(countrySpecificNames);
 
         const vulnerabilityCriteriaNames = this.vulnerabilityList.map((vulnerability: VulnerabilityCriteria) => {
             return vulnerability.get<string>('name');
@@ -220,16 +218,24 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
             }
         });
 
-        this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers').forEach(countrySpecificAnswer => {
-            mainFormControls[countrySpecificAnswer.get('countrySpecific').get<string>('field')]
-                .setValue(countrySpecificAnswer.get('answer'));
+        this.countrySpecificService.get().subscribe((countrySpecifics: any) => {
+            this.countrySpecificList = countrySpecifics.map((countrySpecific: any) => CountrySpecific.apiToModel(countrySpecific));
+            this.countrySpecificList.forEach((countrySpecific: CountrySpecific) => {
+                this.mainFields.push(countrySpecific.get<string>('field'));
+                const answer = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers').filter(countrySpecificAnswer => {
+                    return countrySpecificAnswer.get('countrySpecific').get<string>('field') === countrySpecific.get<string>('field');
+                })[0];
+                mainFormControls[countrySpecific.get<string>('field')] = new FormControl(answer ? answer.get<string>('answer') : null);
+            });
+            mainFormControls['livelihood'].setValue(this.household.get('livelihood') ?
+                this.household.get('livelihood').get('id') : null);
+            mainFormControls = this.makeLocationForm(mainFormControls);
+            this.mainForm = new FormGroup(mainFormControls);
+            this.onChanges();
         });
 
-        mainFormControls['livelihood'].setValue(this.household.get('livelihood') ? this.household.get('livelihood').get('id') : null);
-        mainFormControls = this.makeLocationForm(mainFormControls);
 
-        this.mainForm = new FormGroup(mainFormControls);
-        this.onChanges();
+
     }
 
     makeLocationForm(mainFormControls) {
@@ -464,9 +470,15 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
             this.household.getOptions('projects').filter((project: Project) => controls.projects.value.includes(project.get('id')))
         );
 
-        this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers').forEach(countrySpecificAnswer => {
-            countrySpecificAnswer.set('answer', controls[countrySpecificAnswer.get('countrySpecific').get<string>('field')].value);
+        const countrySpecificAnswers = [];
+        // We push all the country specific answers, even null, so it's possible to delete one
+        this.countrySpecificList.forEach((countrySpecific: CountrySpecific) => {
+            const countrySpecificAnswer = new CountrySpecificAnswer();
+            countrySpecificAnswer.set('answer', controls[countrySpecific.get<string>('field')].value);
+            countrySpecificAnswer.set('countrySpecific', countrySpecific);
+            countrySpecificAnswers.push(countrySpecificAnswer);
         });
+        this.household.set('countrySpecificAnswers', countrySpecificAnswers);
 
         this.fillLocationFromForm();
         this.fillBeneficiaryFromForms();

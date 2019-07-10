@@ -130,7 +130,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
-        if (!this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT')) {
+        if (!this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')) {
             this.snackbar.error(this.language.forbidden_message);
             this.router.navigate(['']);
         } else {

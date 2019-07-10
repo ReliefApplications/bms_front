@@ -32,10 +32,13 @@
                                         <label for="file">
                                             <mat-icon>cloud_upload</mat-icon>
                                         </label>
-                                        <input type="file" id="file" (change)="onFileChange(p, $event)" #fileInput>
+                                        <input type="file" id="file" (change)="onFileChange(field, $event)" #fileInput>
                                         <p *ngIf="filename">{{ filename }}</p>
                                         <p *ngIf="!filename">{{ language.modal_no_file }}</p>
                                     </div>
+                                    <p class="file-error" *ngIf="fileError">
+                                        {{ language.modal_file_extension_error }} {{ field.acceptedTypes.join(' ' + language.or + ' ') }}
+                                    </p>
                                 </ng-container>
                             </ng-template>
 
@@ -219,9 +222,9 @@
         *ngIf="modalType !== 'Details'">
         <button mat-button (click)="onCancel()"
             [ngClass]="{'button-text-accent': modalType === 'Add', 'button-text-primary': modalType !== 'Add'}">{{language.cancel}}</button>
-        <button mat-flat-button [disabled]="!form.valid" *ngIf="modalType === 'Add'" (click)="onSubmit()"
+        <button mat-flat-button [disabled]="!form.valid || fileError" *ngIf="modalType === 'Add'" (click)="onSubmit()"
             class="button-background-accent">{{language.create}}</button>
-        <button mat-flat-button [disabled]="!form.valid" *ngIf="modalType === 'Edit'" (click)="onSubmit()"
+        <button mat-flat-button [disabled]="!form.valid || fileError" *ngIf="modalType === 'Edit'" (click)="onSubmit()"
             class="button-background-primary">{{language.save}}</button>
     </div>
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}"

@@ -7,6 +7,7 @@ import { Beneficiary } from 'src/app/models/beneficiary';
 import { Commodity } from 'src/app/models/commodity';
 import { GeneralRelief, TransactionGeneralRelief } from 'src/app/models/transaction-general-relief';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-general-relief',
@@ -81,34 +82,50 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         this.distributed = true;
         // Get the General Relief's ids
         const generalReliefsId: number[] = [];
-        this.selection.selected.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
-            const storedDistributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');
-            storedDistributionBeneficiaries.forEach((storeDistributionBeneficiary: TransactionGeneralRelief) => {
-                if (storeDistributionBeneficiary.get('beneficiary').get('id') === distributionBeneficiary.get('beneficiary').get('id')) {
-                    const generalReliefs = storeDistributionBeneficiary.get<GeneralRelief[]>('generalReliefs')
-                        .map((generalRelief: GeneralRelief) => {
-                            generalReliefsId.push(generalRelief.get('id'));
-                            generalRelief.set('distributedAt', new Date());
-                            return generalRelief;
-                        });
-                    storeDistributionBeneficiary.set('generalReliefs', generalReliefs);
-                    storeDistributionBeneficiary.set('distributedAt', new Date());
-                }
-            });
-            this.actualDistribution.set('distributionBeneficiaries', storedDistributionBeneficiaries);
+        this.selection.selected.forEach((selectedDistributionBeneficiary: TransactionGeneralRelief) => {
+            this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries')
+                .forEach((distributionBeneficiary: TransactionGeneralRelief) => {
+                    if (distributionBeneficiary.get('beneficiary').get('id') ===
+                        selectedDistributionBeneficiary.get('beneficiary').get('id')) {
+
+                        distributionBeneficiary.get<GeneralRelief[]>('generalReliefs').forEach(
+                            (generalRelief: GeneralRelief) => generalReliefsId.push(generalRelief.get('id'))
+                        );
+                    }
+                });
         });
 
         // Request to the API to set the General Reliefs as distributed
         this.distributionService.distributeGeneralReliefs(generalReliefsId).subscribe(() => {
-            this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
             // Store the modified distribution in the cache
             this.cacheService.set(
-                `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}_beneficiaries`,
+                `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}`,
                 this.actualDistribution.modelToApi()
             ).subscribe();
+
             this.verifyIsFinished();
-        }, err => {
-            console.error(err);
+
+            this.selection.selected.forEach((selectedDistributionBeneficiary: TransactionGeneralRelief) => {
+                const distributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');
+                distributionBeneficiaries.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
+                    if (distributionBeneficiary.get('beneficiary').get('id') ===
+                        selectedDistributionBeneficiary.get('beneficiary').get('id')) {
+
+                        const generalReliefs = distributionBeneficiary.get<GeneralRelief[]>('generalReliefs')
+                            .map((generalRelief: GeneralRelief) => {
+                                generalRelief.set('distributedAt', new Date());
+                                return generalRelief;
+                            });
+                        distributionBeneficiary.set('generalReliefs', generalReliefs);
+                        distributionBeneficiary.set('distributedAt', new Date());
+                    }
+                });
+                this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
+            });
+            this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
+        }, (_err: any) => {
+            this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
+            this.distributed = false;
         }, () => {
             this.distributed = false;
         });
@@ -130,9 +147,12 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 	*/
     openDialog(dialogDetails: any): void {
 
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+        let completeSubscription = null;
+
         if (dialogDetails.action === 'details') {
             this.modalService.openDialog(TransactionGeneralRelief, this.beneficiariesService, dialogDetails);
-            this.modalService.isCompleted.subscribe((_response: boolean) => {
+            completeSubscription = this.modalService.isCompleted.subscribe((_response: boolean) => {
             });
         } else if (dialogDetails.action === 'edit') {
             const dialogRef = this.dialog.open(ModalEditComponent, {
@@ -147,7 +167,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         } else if (dialogDetails.action === 'delete') {
             dialogDetails.element = dialogDetails.element.get('beneficiary');
             this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-            this.modalService.isCompleted.subscribe((response: boolean) => {
+            completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
                 if (response) {
                     this.getDistributionBeneficiaries();
                 } else {
@@ -156,7 +176,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
             });
         }  else if (dialogDetails.action === 'addBeneficiary') {
             this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
-            this.modalService.isCompleted.subscribe((response: boolean) => {
+            completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
                 if (this.networkService.getStatus()) {
                     if (response) {
                         this.getDistributionBeneficiaries();
@@ -167,6 +187,9 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                     this.loadingTransaction = false;
                 }
             });
+        }
+        if (completeSubscription) {
+            this.modalSubscriptions = [completeSubscription];
         }
     }
 

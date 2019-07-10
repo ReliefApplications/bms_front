@@ -25,8 +25,8 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
     public loadingPrint = false;
     public loadingBooklet = true;
-    public loadingExport = false;
     public loadingExportCodes = false;
+    modalSubscriptions: Array<Subscription> = [];
 
     public bookletClass = Booklet;
     public booklets: Booklet[];
@@ -75,6 +75,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
         if (this.screenSizeSubscription) {
             this.screenSizeSubscription.unsubscribe();
         }
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
     setType(choice: string) {
@@ -108,17 +109,19 @@ export class VouchersComponent implements OnInit, OnDestroy {
 	* open each modal dialog
 	*/
     openDialog(dialogDetails: any): void {
+        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
         this.modalService.openDialog(this.bookletClass, this.bookletService, dialogDetails);
-        this.modalService.isLoading.subscribe(() => {
+        const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
             this.loadingBooklet = true;
         });
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
                 this.getBooklets();
             } else {
                 this.loadingBooklet = false;
             }
         });
+        this.modalSubscriptions = [isLoadingSubscription, completeSubscription];
     }
 
     print(event: Booklet) {
@@ -141,20 +144,23 @@ export class VouchersComponent implements OnInit, OnDestroy {
         }) : null;
     }
 
-    export() {
-        this.loadingExport = true;
-        this._exportService.export('booklets', true, this.extensionType).subscribe(
-            () => { this.loadingExport = false; },
-
-            (_error: any) => { this.loadingExport = false; }
-        );
-      }
+    getNumberToExport() {
+        if (this.selection.selected.length > 0) {
+            return this.selection.selected.length;
+        }
+        return this.bookletData ? this.bookletData.data.length : null;
+    }
 
     exportCodes() {
         this.loadingExportCodes = true;
-        this._exportService.export('bookletCodes', true, this.extensionTypeCode).subscribe(
-            () => { this.loadingExportCodes = false; },
-            (_error: any) => { this.loadingExportCodes = false; }
+        let ids = [];
+        if (this.selection.selected.length > 0) {
+            ids = this.selection.selected.map((booklet: Booklet) => booklet.get('id'));
+        }
+        this._exportService.export('bookletCodes', true, this.extensionTypeCode, {}, null, ids).pipe(
+            finalize(() => {
+                this.loadingExportCodes = false;
+            })
         );
     }
 }

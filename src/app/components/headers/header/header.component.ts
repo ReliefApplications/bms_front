@@ -12,7 +12,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Country } from 'src/app/models/country';
 import { User } from 'src/app/models/user';
-import { ModalLanguageComponent } from './../../modals/modal-language/modal-language.component';
+import { ModalLanguageComponent } from '../../modals/modal-language/modal-language.component';
 
 export interface Breadcrumb {
     name: string;
@@ -22,7 +22,7 @@ export interface Breadcrumb {
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
-    styleUrls: [ './header.component.scss' ]
+    styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
@@ -162,8 +162,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //
 
     logout() {
-        this.authenticationService.logout().subscribe((_user: User) => {
+        this.authenticationService.logout().subscribe((_: any) => {
             this.userService.currentUser = undefined;
+            this.countriesService.clearCountries();
             this.router.navigate(['/login']);
         });
     }

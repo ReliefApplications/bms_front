@@ -43,75 +43,76 @@ export class SettingsComponent implements OnInit, OnDestroy {
   @Input() selectedTitle: string;
 
   loadingExport = false;
+  loadingData = true;
+  modalSubscriptions: Array<Subscription> = [];
 
-    loadingData = true;
+  public referedClassService;
+  referedClassToken;
+  referedClassInstance: any;
+  data: MatTableDataSource<CustomModel>;
+  public user_action = '';
+  public extensionType;
 
-    public referedClassService;
-    referedClassToken;
-    referedClassInstance: any;
-    data: MatTableDataSource<CustomModel>;
-    public user_action = '';
-    public extensionType;
+  // logs
+  userLogForm = new FormControl();
+  private selectedUserId: number = null;
 
-    // logs
-    userLogForm = new FormControl();
-    private selectedUserId: number = null;
+  public deletable = false;
+  public printable = false;
+  public loggable = false;
+  public editable  = false;
+  public exportable = true;
+  public httpSubscriber: Subscription;
 
-    public deletable = false;
-    public printable = false;
-    public loggable = false;
-    public editable  = false;
-    public exportable = true;
-    public httpSubscriber: Subscription;
+  @ViewChild(TableComponent) table: TableComponent;
+  @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
 
-    @ViewChild(TableComponent) table: TableComponent;
-    @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
+  public displayedTable = this.table;
 
-    public displayedTable = this.table;
+  // Screen size
+  public currentDisplayType: DisplayType;
+  private screenSizeSubscription: Subscription;
 
-    // Screen size
-    public currentDisplayType: DisplayType;
-    private screenSizeSubscription: Subscription;
+  // Language
+  public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
-    // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+  constructor(
+      public dialog: MatDialog,
+      public authenticationService: AuthenticationService,
+      public distributionService: DistributionService,
+      public donorService: DonorService,
+      public projectService: ProjectService,
+      public userService: UserService,
+      public countrySpecificService: CountrySpecificService,
+      public financialProviderService: FinancialProviderService,
+      private locationService: LocationService,
+      private _settingsService: SettingsService,
+      private snackbar: SnackbarService,
+      public productService: ProductService,
+      private vendorsService: VendorsService,
+      private modalService: ModalService,
+      public languageService: LanguageService,
+      private screenSizeService: ScreenSizeService,
+      private organizationService: OrganizationService,
+  ) { }
 
-    constructor(
-        public dialog: MatDialog,
-        public authenticationService: AuthenticationService,
-        public distributionService: DistributionService,
-        public donorService: DonorService,
-        public projectService: ProjectService,
-        public userService: UserService,
-        public countrySpecificService: CountrySpecificService,
-        public financialProviderService: FinancialProviderService,
-        private locationService: LocationService,
-        private _settingsService: SettingsService,
-        private snackbar: SnackbarService,
-        public productService: ProductService,
-        private vendorsService: VendorsService,
-        private modalService: ModalService,
-        public languageService: LanguageService,
-        private screenSizeService: ScreenSizeService,
-        private organizationService: OrganizationService,
-    ) { }
+  ngOnInit() {
+      this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+          this.currentDisplayType = displayType;
+          if (this.currentDisplayType.type === 'mobile') {
+              this.displayedTable = this.tableMobile;
+          }
+          else {
+              this.displayedTable = this.table;
+          }
+      });
+      this.extensionType = 'xls';
+  }
 
-    ngOnInit() {
-        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
-            this.currentDisplayType = displayType;
-            if (this.currentDisplayType.type === 'mobile') {
-                this.displayedTable = this.tableMobile;
-            }
-            else {
-                this.displayedTable = this.table;
-            }
-        });
-        this.extensionType = 'xls';
-    }
-
-    ngOnDestroy() {
-        this.screenSizeSubscription.unsubscribe();
-    }
+  ngOnDestroy() {
+      this.screenSizeSubscription.unsubscribe();
+      this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+  }
 
 
   setType(choice) {
@@ -305,17 +306,20 @@ export class SettingsComponent implements OnInit, OnDestroy {
 	* open each modal dialog
 	*/
     openDialog(dialogDetails: any): void {
+      this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+
         this.modalService.openDialog(this.referedClassToken, this.referedClassService, dialogDetails);
-        this.modalService.isLoading.subscribe(() => {
+      const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
           this.loadingData = true;
       });
-        this.modalService.isCompleted.subscribe((response: boolean) => {
+      const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
           if (response) {
             this.load();
           } else {
             this.loadingData = false;
           }
-        });
+      });
+      this.modalSubscriptions = [isLoadingSubscription, completeSubscription];
     }
 
     print(event: CustomModel) {

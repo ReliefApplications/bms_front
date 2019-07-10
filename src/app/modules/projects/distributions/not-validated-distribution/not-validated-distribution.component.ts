@@ -25,8 +25,6 @@ import { BeneficiariesService } from './../../../../core/api/beneficiaries.servi
 export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
     @Input() actualDistribution: Distribution;
-    @Input() loaderCache: boolean;
-    @Input() distributionIsStored: boolean;
 
     @Output() emitStore = new EventEmitter<Distribution>();
     @Output() isUpdated = new EventEmitter<void>();

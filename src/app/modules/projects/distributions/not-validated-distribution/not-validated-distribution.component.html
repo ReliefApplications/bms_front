@@ -38,14 +38,14 @@
                         </div>
                     </div>
                     <button mat-flat-button
-                        *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                         (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})"
                         class="add-button-create">
                         <mat-icon>add</mat-icon>
                         {{language.add | uppercaseFirst}}
                     </button>
                     <button mat-fab
-                        *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                         (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})"
                         class="add-button"
                         [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
@@ -56,14 +56,14 @@
                     <app-table [isLoading]="loadingFirstStep" [searchable]="true" [paginable]="true"
                         *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity"
                         [service]="beneficiariesService" [data]="initialBeneficiaryData"
-                        [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
-                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
+                        [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                         (openModal)="openModal($event)">
                     </app-table>
                     <app-table-mobile [isLoading]="loadingFirstStep" *ngIf="currentDisplayType.type === 'mobile'"
                         [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="initialBeneficiaryData"
-                        [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
-                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
+                        [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                         (openModal)="openModal($event)">
                     </app-table-mobile>
                 </div>
@@ -75,7 +75,7 @@
         </div>
     </mat-step>
 
-    <mat-step label="{{ language.distribution_details_import | uppercaseFirst }}">
+    <mat-step label="{{ language.distribution_details_import | uppercaseFirst }}" *ngIf="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
         <div class="container-table">
             <div class="container-content box-primary">
                 <div class="import-content">
@@ -156,17 +156,17 @@
                     <app-table [isLoading]="loadingThirdStep" [searchable]="true" [paginable]="true"
                         *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity"
                         [service]="beneficiariesService" [data]="randomSampleData" (openModal)="openModal($event)"
-                        [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
-                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
+                        [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
+                        [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
                     </app-table>
                     <app-table-mobile [isLoading]="loadingThirdStep" *ngIf="currentDisplayType.type === 'mobile'"
                         [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="randomSampleData"
                         (openModal)="openModal($event)"
-                        [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
-                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')">
+                        [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
+                        [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
                     </app-table-mobile>
                 </div>
-                <div class="content-button content-button-footer">
+                <div class="content-button content-button-footer" *ngIf="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
                     <button mat-flat-button class="button-background-primary"
                         matStepperNext>{{language.next}}</button>
                 </div>
@@ -174,7 +174,7 @@
         </div>
     </mat-step>
 
-    <mat-step label="{{ language.distribution_details_validate | uppercaseFirst }}">
+    <mat-step label="{{ language.distribution_details_validate | uppercaseFirst }}" *ngIf="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
         <div class="container-table">
             <div class="container-content box-primary">
                 <div class="content-button">
@@ -192,14 +192,14 @@
                     <app-table [isLoading]="loadingFinalStep" [searchable]="true" [paginable]="true"
                         *ngIf="currentDisplayType.type !== 'mobile'" [entity]="beneficiaryEntity"
                         [service]="beneficiariesService" [data]="finalBeneficiaryData"
-                        [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
-                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
+                        [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                         (openModal)="openModal($event)">
                     </app-table>
                     <app-table-mobile [isLoading]="loadingFinalStep" *ngIf="currentDisplayType.type === 'mobile'"
                         [entity]="beneficiaryEntity" [service]="beneficiariesService" [data]="finalBeneficiaryData"
-                        [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
-                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
+                        [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                         (openModal)="openModal($event)">
                     </app-table-mobile>
                 </div>

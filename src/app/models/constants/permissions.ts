@@ -5,9 +5,13 @@ export const enum Role {
     countryManager  = 'ROLE_COUNTRY_MANAGER',
     regionalManager = 'ROLE_REGIONAL_MANAGER',
     admin           = 'ROLE_ADMIN',
+    enumerator      = 'ROLE_ENUMERATOR'
 }
 
 export const rightsHierarchy = {
+    [Role.enumerator]: [
+        'ROLE_ENUMERATOR'
+    ],
     [Role.fieldOfficer]: [
         'ROLE_BENEFICIARY_MANAGEMENT_READ',
         'ROLE_PROJECT_MANAGEMENT_READ',

@@ -588,6 +588,7 @@ export class French implements Language {
     // Role
     role_user_admin = 'Administrateur'
     role_user_country_manager = 'Responsable de pays'
+    role_user_enumerator = 'Enumérateur'
     role_user_field_officer = 'Agent de terrain'
     role_user_project_manager = 'Responsable de projet'
     role_user_project_officer = 'Agent de projet'

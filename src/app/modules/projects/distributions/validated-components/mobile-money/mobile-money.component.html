@@ -76,14 +76,14 @@
                 </div>
             </div>
             <button mat-flat-button
-                *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                 (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})"
                 class="add-button-create">
                 <mat-icon>add</mat-icon>
                 {{language.add | titlecase}}
             </button>
             <button mat-fab
-                *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                 (click)="openModal({action:'addBeneficiary', distribution: actualDistribution})" class="add-button"
                 [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
                 <mat-icon>add</mat-icon>
@@ -94,14 +94,14 @@
             <!-- Add filters and checkboxes -->
             <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true"
                 *ngIf="currentDisplayType.type !== 'mobile'"
-                [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [parentObject]="actualDistribution"
+                [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [parentObject]="actualDistribution"
                 [entity]="entity" [service]="BeneficiariesService" [data]="transactionData"
-                (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
+                (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
             </app-table>
             <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'"
-                [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')" [parentObject]="actualDistribution"
+                [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [parentObject]="actualDistribution"
                 [entity]="entity" [service]="BeneficiariesService" [data]="transactionData"
-                (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
+                (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
             </app-table-mobile>
         </div>
 
@@ -109,7 +109,7 @@
             <div class="action-buttons">
                 <mat-spinner [diameter]="35" *ngIf="loadingComplete"></mat-spinner>
                 <button mat-stroked-button (click)="complete(); $event.stopPropagation()" color="primary"
-                    *ngIf="!actualDistribution.get('finished') && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT') && !loadingComplete">
+                    *ngIf="!actualDistribution.get('finished') && userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !loadingComplete">
                     <mat-icon>done</mat-icon> {{language.close}}
                 </button>
                 <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>

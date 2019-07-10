@@ -49,15 +49,15 @@
             <span class="full-width" >{{language.beneficiaries | titlecase}}</span>
             <mat-icon mat-list-icon>supervisor_account</mat-icon>
         </mat-list-item>
-        <mat-list-item [ngClass]="{selected: matchUrl() === 'reports'}" routerLink="/reports">
+        <mat-list-item *ngIf="!userService.hasRights('ROLE_ENUMERATOR')" [ngClass]="{selected: matchUrl() === 'reports'}" routerLink="/reports">
             <span class="full-width" >{{language.reports | titlecase}}</span>
             <mat-icon mat-list-icon>timeline</mat-icon>
         </mat-list-item>
-        <mat-list-item [ngClass]="{selected: matchUrl() === 'vouchers'}" routerLink="/vouchers">
+        <mat-list-item *ngIf="!userService.hasRights('ROLE_ENUMERATOR')" [ngClass]="{selected: matchUrl() === 'vouchers'}" routerLink="/vouchers">
             <span class="full-width">{{language.voucher | titlecase}}</span>
             <mat-icon mat-list-icon>local_activity</mat-icon>
         </mat-list-item>
-        <mat-list-item [ngClass]="{selected: matchUrl() === 'settings'}" routerLink="/settings">
+        <mat-list-item *ngIf="!userService.hasRights('ROLE_ENUMERATOR')" [ngClass]="{selected: matchUrl() === 'settings'}" routerLink="/settings">
             <span class="full-width">{{language.general_settings | titlecase}}</span>
             <mat-icon mat-list-icon>settings</mat-icon>
         </mat-list-item>

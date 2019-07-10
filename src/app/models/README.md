@@ -2,7 +2,7 @@
 
 ### General
 
-In this project, models are all extending the same class "CustomModel". A custom model contains functions to translate data from the Api to the Front and vice versa, and fields which can be displayed/edited in the tables, modals etc. A CustomModel also contains a title to be displayed in its tab, a matSortActive to pre-select the ordered column, and rights, to know who will be able to modify it.
+In this project, models are all extending the same class "CustomModel". A custom model contains functions to translate data from the Api to the Front and vice versa, and fields which can be displayed/edited in the tables, modals etc. A CustomModel also contains a title to be displayed in its tab, a matSortActive to pre-select the ordered column, rights, to know who will be able to modify it, and a the current language, to be able to translate the field titles. There is also a boolean createMultiple attribute to indicate if the creation of an instance is done by batch or not.
 
 The different information about the fields (the values, the dropdown options etc), can be fetched/set with the getters and setters defined in the Model.
 
@@ -55,6 +55,10 @@ __triggerFunction__: The function triggered on input change
 
 __filterName__: If used as a filter for the backend, the filterName is the key sent to the api
 
+__tooltip__ : The tooltip to apply to the table cell
+
+__isDisabled__ : The field is displayed in modal but disabled
+
 #### Specific properties
 
 __maxSelectionLength__: For a multipleSelect, specify the maximum number of items that can be selected
@@ -65,7 +69,7 @@ __apiLabel__: For a select or a nestedField, the field sent back to the api (usu
 
 __options__: For a select, the list of options in the dropdown
 
-__numberOfInput__: For an array of inputs, the number of inputs to display
+__numberOfInputs__: For an array of inputs, the number of inputs to display
 
 __displayTime__: For a date field, whether we display the date as _"dd-mm-yyyy hh:mm"_ or _"dd-mm-yyyy"_
 
@@ -85,12 +89,21 @@ __isPassword__: Whether or not it is a password and therefore must be hidden whe
 
 __isLongText__: Whether the input must be a textarea or a simple input type="text"
 
+__display***Function__: For an Object model field, how to display the object (by its name, id, etc) in modal/table
+
+__displayValue__: For a text or number model field, this attribute can permit to customize it for display
+
+__isTranslatable__: For Select model fields, if the the dropdown is composed of a list from the DB with keys to translate them, for a text model field, if the value is a key in translations files
+
+__isColor__: The field is a color and must be selected through a color picker
+
+__isFont__: The field is a font and must be selected through a font picker
 
 ## Relationships between models
 
 ### At the center of the structure: project
 
-The project is the biggest entity possible in the code. It contains distributions and can be assigned to users. The "value" field now is used to give the number of targeted beneficiaries by the project.
+The project is the biggest entity possible in the code. It contains distributions and can be assigned to users. The "target" field is used to give the number of beneficiaries targeted by the project.
 
 ![Project](./uml/project.svg)
 
@@ -98,7 +111,7 @@ The project is the biggest entity possible in the code. It contains distribution
 
 A Distribution is a way to share commodities (Food, cash, vouchers etc.) in a certain place at a certain time, according to some vulnerability criteria. A distribution contains beneficiaries, targetting them individually or as members of a household (precised by the "type" field, as a DistributionType). The threshold corresponds to the minimum selection score a beneficiary must reach to be a part of the distribution. This score is calculated with the weight of each selection criteria.
 
-A criteria contains a field (eg: "Date of Birth"), a condition (eg: ">") and a value (eg: 12-03-1996), and it applies to a target (individual or household).
+A criteria contains a field (eg: "Date of Birth"), a condition (eg: ">") and a value (eg: 12-03-1996), and it applies to a target (beneficiary, household or head of household).
 
 ![Distribution](./uml/distribution.svg)
 

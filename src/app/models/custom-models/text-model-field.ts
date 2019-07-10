@@ -26,10 +26,12 @@ export class TextModelField extends CustomModelField<string> {
      * @type {string}
      */
     displayValue: string;
-    /* If the value is in camelCase and must be formatted
+     /**
+     * If the string to be displayed in the dropdown is a translation
      * @type {boolean}
      */
-    isCamelCase: boolean;
+    isTranslatable: boolean;
+
 
     constructor(properties: any) {
         super(properties);
@@ -39,6 +41,6 @@ export class TextModelField extends CustomModelField<string> {
         this.isColor                = properties['isColor'];
         this.isFont                 = properties['isFont'];
         this.displayValue             = properties['displayValue'];
-        this.isCamelCase             = properties['isCamelCase'];
+        this.isTranslatable               = properties['isTranslatable'];
     }
 }

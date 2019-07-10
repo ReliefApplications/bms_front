@@ -69,7 +69,7 @@
                 <mat-spinner [diameter]="35" *ngIf="loadingComplete"></mat-spinner>
                 <button mat-stroked-button (click)="complete(); $event.stopPropagation()" color="primary"
                     *ngIf="!actualDistribution.get('finished') && userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT') && !loadingComplete">
-                    {{language.close}}
+                    {{ language.close }}
                 </button>
                 <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>
                 <button mat-stroked-button [disabled]="distributionIsStored" *ngIf="!loaderCache" class="button-text-accent" (click)="storeBeneficiaries()">

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ValidatorFn, Validators, FormGroup, FormControl } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { CustomModelField } from 'src/app/models/custom-models/custom-model-field';
-import { LocationService } from '../api/location.service';
 import { Location } from '../../models/location';
+import { LocationService } from '../api/location.service';
 import { CountriesService } from '../countries/countries.service';
 @Injectable({
   providedIn: 'root'
@@ -183,8 +183,8 @@ export class FormService {
 
     getLocalCurrency(): string {
         let localCurrency = 'USD';
-        const countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
-            this.countryService.selectedCountry.getValue().get<string>('id') :
+        const countryId = this.countryService.selectedCountry.get<string>('id') ?
+            this.countryService.selectedCountry.get<string>('id') :
             null;
         if (countryId === 'SYR') {
             localCurrency = 'SYP';

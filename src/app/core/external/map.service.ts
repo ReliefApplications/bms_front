@@ -64,7 +64,7 @@ export class MapService {
 
     // Add all layers to show the upcoming distribution in the map dashboard
     addDistributions(distributions: Array<Distribution>) {
-        const country = this.countriesService.selectedCountry.value;
+        const country = this.countriesService.selectedCountry;
         let markers = this.initializeFeatureGroup();
         const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.fields.id.value.toLowerCase() + '.kml').on('ready', () => {
             // Center view on country

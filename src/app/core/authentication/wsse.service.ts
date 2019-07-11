@@ -18,7 +18,7 @@ export class WsseService {
     private b64pad = '=';
 
     constructor(
-        public asyncCacheService: AsyncacheService
+        public asyncacheService: AsyncacheService
     ) { }
 
     setUsername(username) {
@@ -45,7 +45,7 @@ export class WsseService {
 
     // Get headers for HTTP request
     getHeaderValue(user?: object) {
-        return this.asyncCacheService.getUser().pipe(
+        return this.asyncacheService.getUser().pipe(
             map(
                 (cachedUser: User) => {
                     if (cachedUser) {

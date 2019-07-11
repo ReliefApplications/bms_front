@@ -4,7 +4,6 @@ import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { User } from 'src/app/models/user';
 import { LoginService } from '../api/login.service';
 import { UserService } from '../api/user.service';
 
@@ -32,7 +31,9 @@ export class AuthGuard implements CanActivate {
                     if (user) {
                         return this.loginService.reLogin(user).pipe(
                             switchMap(
-                                (_: any) => of(true)
+                                (_: any) => {
+                                    return of(true);
+                                }
                             )
                         );
                     }

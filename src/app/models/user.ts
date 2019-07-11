@@ -1,4 +1,6 @@
 import { FormGroup } from '@angular/forms';
+import { AppInjector } from '../app-injector';
+import { CountriesService } from '../core/countries/countries.service';
 import { Language } from '../core/language/language';
 import { Country } from './country';
 import { BooleanModelField } from './custom-models/boolan-model-field';
@@ -33,6 +35,7 @@ export class User extends CustomModel {
     public static rights = ['ROLE_ADMIN'];
     title = this.language.user;
     matSortActive = 'email';
+    private readonly countriesService = AppInjector.get(CountriesService);
 
     public fields = {
         id: new NumberModelField({
@@ -118,7 +121,7 @@ export class User extends CustomModel {
         }),
         countries: new MultipleSelectModelField({
             title: this.language.country,
-            options: [new Country('KHM', this.language.country_khm), new Country('SYR', this.language.country_syr)],
+            options: this.countriesService.enabledCountries,
             isDisplayedInModal: true,
             bindField: 'name',
             apiLabel: 'id',

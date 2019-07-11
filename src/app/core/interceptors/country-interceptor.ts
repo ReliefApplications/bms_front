@@ -12,10 +12,10 @@ export class CountryInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-        if (req.url.match(URL_BMS_API) && this.countriesService.selectedCountry.value) {
+        if (req.url.match(URL_BMS_API) && this.countriesService.selectedCountry) {
             return next.handle(
                 req.clone({
-                    headers: req.headers.append('country', this.countriesService.selectedCountry.value.get<string>('id')),
+                    headers: req.headers.append('country', this.countriesService.selectedCountry.get<string>('id')),
                 })
             );
         }

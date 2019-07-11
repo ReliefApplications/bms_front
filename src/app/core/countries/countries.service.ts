@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { Country } from 'src/app/models/country';
 
 
@@ -7,58 +6,76 @@ import { Country } from 'src/app/models/country';
     providedIn: 'root'
 })
 export class CountriesService {
-//
-// ─── VARIABLES ──────────────────────────────────────────────────────────────────
-//
+    //
+    // ─── VARIABLES ──────────────────────────────────────────────────────────────────
+    //
     public khm = new Country('KHM', 'Cambodia');
     public syr = new Country('SYR', 'Syria');
 
+    constructor() {
+    }
+
+    private _selectedCountry: Country;
+    get selectedCountry(): Country {
+        return this._selectedCountry;
+    }
+    set selectedCountry(country: Country) {
+        console.warn('SET SELECTED', country);
+        this._selectedCountry = country;
+    }
+
+    private _selectableCountries: Array<Country> = [];
+    get selectableCountries(): Array<Country> {
+        return this._selectableCountries;
+    }
+    set selectableCountries(countries: Array<Country>) {
+        console.warn('SET SELECTABLE', countries);
+        this._selectableCountries = countries;
+    }
+
     public readonly enabledCountries: Array<Country> = [this.khm, this.syr];
 
-    public selectableCountries: BehaviorSubject<Array<Country>> = new BehaviorSubject([]);
-
-    public selectedCountry:  BehaviorSubject<Country> = new BehaviorSubject(undefined);
-
+    //
+    // ─── SELECTABLE COUNTRIES ───────────────────────────────────────────────────────
+    //
     public fillWithAllExistingCountries() {
-        this.selectableCountries.next(this.enabledCountries);
+        this.selectableCountries = this.enabledCountries;
     }
 
     public fillWithCountries(countries: Array<Country>) {
-        if (! countries) {
-            return [];
-        }
-        this.selectableCountries.next(this.enabledCountries.filter((storedCountry: Country) => {
+        this.selectableCountries = this.enabledCountries.filter((enabledCountry: Country) => {
             return countries.filter((userCountry: Country) => {
-                if (storedCountry.get<string>('id') === userCountry.get<string>('id')) {
-                    return storedCountry;
+                if (enabledCountry.get<string>('id') === userCountry.get<string>('id')) {
+                    return enabledCountry;
                 }
             })[0];
-        }));
+        });
     }
-//
-// ─── SETTER ─────────────────────────────────────────────────────────────────────
-//
+
+    //
+    // ─── SETTER ─────────────────────────────────────────────────────────────────────
+    //
     public setCountry(country?: Country): Country {
         if (!country) {
             country = this.enabledCountries[0];
         }
-        if (this.selectedCountry.value !== country) {
-            this.selectedCountry.next(country);
+        if (this.selectedCountry !== country) {
+            this.selectedCountry = country;
         }
         return country;
     }
 
-//
-// ─── HELPER FUNCTIONS ───────────────────────────────────────────────────────────
-//
+    //
+    // ─── HELPER FUNCTIONS ───────────────────────────────────────────────────────────
+    //
     public clearCountries(): void {
-        this.selectedCountry.next(undefined);
-        this.selectableCountries.next([]);
+        this.selectedCountry = undefined;
+        this.selectableCountries = [];
     }
 
-//
-// ─── CONVERSION ─────────────────────────────────────────────────────────────────
-//
+    //
+    // ─── CONVERSION ─────────────────────────────────────────────────────────────────
+    //
     public stringToCountry(country: string): Country {
         switch (country) {
             case 'KHM':

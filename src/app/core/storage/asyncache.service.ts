@@ -71,17 +71,15 @@ export class AsyncacheService {
         if (key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS
             || key === AsyncacheService.PENDING_REQUESTS || key === AsyncacheService.LANGUAGE) {
             return of(this.PREFIX + '_' + key);
-        } else if (this.countriesService.selectedCountry.getValue()) {
-            return of(this.formatKeyCountry(key, this.countriesService.selectedCountry.getValue()));
+        } else if (this.countriesService.selectedCountry) {
+            return of(this.formatKeyCountry(key, this.countriesService.selectedCountry));
         } else {
             return this.getCountry().pipe(
                 map((country: Country) => {
-                    // this.countriesService.setCountry(country);
                     return this.formatKeyCountry(key, country);
                 })
             );
         }
-
     }
 
     private formatKeyCountry(key: string, country: Country) {
@@ -240,9 +238,11 @@ export class AsyncacheService {
     }
 
     getCountry(): Observable<Country> {
-        // countries are stored in user object TODO: don't
+        // countries are stored in user object
         const countries: Array<Country> = this.countriesService.enabledCountries;
-
+        if (this.countriesService.selectedCountry) {
+            return of(this.countriesService.selectedCountry);
+        }
         return this.get(AsyncacheService.COUNTRY).pipe(
             map((countryId: string) => {
                 for (const country of countries) {

@@ -109,8 +109,8 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
-    public countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
-        this.countryService.selectedCountry.getValue().get<string>('id') :
+    public countryId = this.countryService.selectedCountry.get<string>('id') ?
+        this.countryService.selectedCountry.get<string>('id') :
         this.countryService.khm.get<string>('id');
 
     constructor(

@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 import { MapService } from 'src/app/core/external/map.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
@@ -47,6 +47,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         private userService: UserService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        private countriesService: CountriesService,
 
     ) { }
 
@@ -105,22 +106,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     getSummary(): void {
         this.loadingSummary = true;
         this._generalService.getSummary()
-            .pipe(
-                finalize(
-                    () => {
-                        this.loadingSummary = false;
-                    },
-                )
-            ).subscribe(
+           .subscribe(
                 response => {
                     if (response) {
                         this.loadingSummary = false;
                         this.summary = response;
                     }
-                },
-                error => {
-                    this.loadingSummary = false;
-                    this.summary = null;
                 }
             );
     }

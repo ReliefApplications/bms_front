@@ -407,7 +407,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
     }
 
     private generateCountry(): object {
-        return {country: this.countriesService.selectedCountry.value.get<string>('id')};
+        return {country: this.countriesService.selectedCountry.get<string>('id')};
     }
 
 //

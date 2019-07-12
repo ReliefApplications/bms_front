@@ -20,7 +20,6 @@ export class CountriesService {
         return this._selectedCountry;
     }
     set selectedCountry(country: Country) {
-        console.warn('SET SELECTED', country);
         this._selectedCountry = country;
     }
 
@@ -29,7 +28,6 @@ export class CountriesService {
         return this._selectableCountries;
     }
     set selectableCountries(countries: Array<Country>) {
-        console.warn('SET SELECTABLE', countries);
         this._selectableCountries = countries;
     }
 

@@ -18,7 +18,7 @@ export class ModalLanguageComponent implements OnInit {
     public rtl = false;
     public languageForm: FormGroup;
 
-    // Language
+    // Languageen
     public language: Language = this.languageService.selectedLanguage ?
         this.languageService.selectedLanguage : this.languageService.english;
 
@@ -72,8 +72,7 @@ export class ModalLanguageComponent implements OnInit {
                 newLanguage
                 ).pipe(
                     switchMap((_response: any) => {
-                        this.snackbar.success('Default Language Saved');
-
+                        this.snackbar.success(this.language.snackbar_saved_language);
                         return this.changeLanguage(newLanguage);
                 })
             ).subscribe();

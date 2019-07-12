@@ -626,7 +626,8 @@ export class English implements Language {
     snackbar_change_password_not_possible = 'Password must be longer than 1 character and match with verification'
     snackbar_invalid_transaction_date = 'The transaction deadline is over.'
     snackbar_pickup_error = 'It is currently impossible to check the pickup status'
-
+    snackbar_saved_language = 'Default Language Saved'
+    
     // Table
     table_actions = 'Actions'
     table_element_deleted = ' deleted'

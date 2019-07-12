@@ -627,7 +627,8 @@ export interface Language {
     snackbar_change_password_not_possible: string
     snackbar_invalid_transaction_date: string
     snackbar_pickup_error: string
-
+    snackbar_saved_language: string
+    
     // Table
     table_actions: string
     table_element_deleted: string

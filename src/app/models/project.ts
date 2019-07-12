@@ -9,8 +9,6 @@ import { Sector } from './sector';
 
 export class Project extends CustomModel {
 
-    public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
-
     title = this.language.project;
     matSortActive = 'name';
 
@@ -25,7 +23,6 @@ export class Project extends CustomModel {
         name : new TextModelField(
             {
                 title: this.language.project_name,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
@@ -35,7 +32,6 @@ export class Project extends CustomModel {
         ),
         sectors : new MultipleSelectModelField (
             {
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
                 isDisplayedInTable: true,
@@ -53,7 +49,6 @@ export class Project extends CustomModel {
         startDate : new DateModelField(
             {
                 title: this.language.project_start_date,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
                 isDisplayedInTable: true,
@@ -67,7 +62,6 @@ export class Project extends CustomModel {
         endDate : new DateModelField(
             {
                 title: this.language.project_end_date,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
                 isDisplayedInTable: true,
@@ -82,7 +76,6 @@ export class Project extends CustomModel {
         numberOfHouseholds : new NumberModelField(
             {
                 title: this.language.project_number_of_households,
-                placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInSummary: true,
                 isDisplayedInTable: true,
@@ -91,7 +84,6 @@ export class Project extends CustomModel {
         donors : new MultipleSelectModelField (
             {
                 title: this.language.donors,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInSummary: true,
                 isDisplayedInTable: true,
@@ -106,7 +98,6 @@ export class Project extends CustomModel {
         iso3 : new TextModelField(
             {
                 title: null,
-                placeholder: null,
                 isDisplayedInModal: false,
                 isLongText: false,
             }
@@ -114,7 +105,6 @@ export class Project extends CustomModel {
         target : new NumberModelField(
             {
                 title: this.language.project_value,
-                placeholder: null,
                 isRequired: true,
                 isSettable: true,
                 isDisplayedInSummary: true,
@@ -124,7 +114,6 @@ export class Project extends CustomModel {
         ),
         reachedBeneficiaries: new NumberModelField ({
                 title: this.language.add_distribution_beneficiaries_reached,
-                placeholder: null,
                 isRequired: false,
                 isSettable: false,
                 isDisplayedInSummary: true,
@@ -135,7 +124,6 @@ export class Project extends CustomModel {
         notes : new TextModelField(
             {
                 title: this.language.notes,
-                placeholder: null,
                 isSettable: true,
                 isDisplayedInModal: true,
                 isLongText: true,

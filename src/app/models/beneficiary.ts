@@ -73,7 +73,7 @@ export class Beneficiary extends CustomModel {
     title = this.language.beneficiary;
     matSortActive = 'localFamilyName';
     public fields = {
-        id : new NumberModelField(
+        id: new NumberModelField(
             {
                 title: this.language.id,
                 isDisplayedInTable: true,
@@ -82,7 +82,6 @@ export class Beneficiary extends CustomModel {
         localGivenName: new TextModelField(
             {
                 title: this.language.beneficiary_given_name,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
@@ -93,7 +92,6 @@ export class Beneficiary extends CustomModel {
         localFamilyName: new TextModelField(
             {
                 title: this.language.beneficiary_family_name,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
@@ -104,7 +102,6 @@ export class Beneficiary extends CustomModel {
         enGivenName: new TextModelField(
             {
                 title: this.language.beneficiary_en_given_name,
-                placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
                 isRequired: true,
@@ -114,7 +111,6 @@ export class Beneficiary extends CustomModel {
         enFamilyName: new TextModelField(
             {
                 title: this.language.beneficiary_en_family_name,
-                placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
                 isRequired: true,
@@ -124,7 +120,6 @@ export class Beneficiary extends CustomModel {
         gender: new SingleSelectModelField(
             {
                 title: this.language.gender,
-                placeholder: null,
                 isRequired: true,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
@@ -139,7 +134,6 @@ export class Beneficiary extends CustomModel {
         ),
         dateOfBirth: new DateModelField({
             title: this.language.beneficiary_date_of_birth,
-            placeholder: null,
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isRequired: true,
@@ -147,7 +141,6 @@ export class Beneficiary extends CustomModel {
         residencyStatus: new SingleSelectModelField(
             {
                 title: this.language.beneficiary_residency_status,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
@@ -211,7 +204,6 @@ export class Beneficiary extends CustomModel {
         localFullName: new TextModelField(
             {
                 title: this.language.donor_fullname,
-                placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
                 isRequired: true,
@@ -290,32 +282,33 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.set('dateOfBirth', DateModelField.formatFromApi(beneficiaryFromApi.date_of_birth));
         const status = beneficiaryFromApi.status ? '1' : '0';
         newBeneficiary.set('beneficiaryStatus', newBeneficiary.getOptions('beneficiaryStatus')
-                .filter((option: BeneficiaryStatus) => option.get<string>('id') === status)[0]);
+            .filter((option: BeneficiaryStatus) => option.get<string>('id') === status)[0]);
         newBeneficiary.set('localFullName',
-        (beneficiaryFromApi.local_given_name ? beneficiaryFromApi.local_given_name : '') + ' ' +
-        (beneficiaryFromApi.local_family_name ? beneficiaryFromApi.local_family_name : ''));
+            (beneficiaryFromApi.local_given_name ? beneficiaryFromApi.local_given_name : '') + ' ' +
+            (beneficiaryFromApi.local_family_name ? beneficiaryFromApi.local_family_name : ''));
 
         newBeneficiary.set('residencyStatus',
             beneficiaryFromApi.residency_status ?
-            newBeneficiary.getOptions('residencyStatus')
-                .filter((option: ResidencyStatus) =>
-                    option.get<string>('id').toLowerCase() === beneficiaryFromApi.residency_status.toLowerCase())[0] :
-            newBeneficiary.get('residencyStatus'));
+                newBeneficiary.getOptions('residencyStatus')
+                    .filter((option: ResidencyStatus) =>
+                        option.get<string>('id').toLowerCase() === beneficiaryFromApi.residency_status.toLowerCase())[0] :
+                newBeneficiary.get('residencyStatus'));
 
         newBeneficiary.set('gender',
             beneficiaryFromApi.gender >= 0 ?
-            newBeneficiary.getOptions('gender').filter((option: Gender) => option.get('id') === beneficiaryFromApi.gender.toString())[0] :
-            null);
+                newBeneficiary.getOptions('gender')
+                    .filter((option: Gender) => option.get('id') === beneficiaryFromApi.gender.toString())[0] :
+                null);
 
         newBeneficiary.set('nationalIds',
             beneficiaryFromApi.national_ids && beneficiaryFromApi.national_ids.length !== 0 ?
-            beneficiaryFromApi.national_ids.map(nationalId => NationalId.apiToModel(nationalId)) :
-            [new NationalId()]);
+                beneficiaryFromApi.national_ids.map(nationalId => NationalId.apiToModel(nationalId)) :
+                [new NationalId()]);
 
         newBeneficiary.set('phones',
             beneficiaryFromApi.phones && beneficiaryFromApi.phones.length !== 0 ?
-            beneficiaryFromApi.phones.map(phone => Phone.apiToModel(phone)) :
-            [new Phone(), new Phone()]);
+                beneficiaryFromApi.phones.map(phone => Phone.apiToModel(phone)) :
+                [new Phone(), new Phone()]);
 
         if (newBeneficiary.get<Phone[]>('phones').length === 1) {
             newBeneficiary.get<Phone[]>('phones').push(new Phone());
@@ -323,8 +316,8 @@ export class Beneficiary extends CustomModel {
 
         newBeneficiary.set('vulnerabilities',
             beneficiaryFromApi.vulnerability_criteria ?
-            beneficiaryFromApi.vulnerability_criteria.map(criteria => VulnerabilityCriteria.apiToModel(criteria)) :
-            []);
+                beneficiaryFromApi.vulnerability_criteria.map(criteria => VulnerabilityCriteria.apiToModel(criteria)) :
+                []);
 
         newBeneficiary.set('profile', beneficiaryFromApi.profile ? Profile.apiToModel(beneficiaryFromApi.profile) : new Profile());
 

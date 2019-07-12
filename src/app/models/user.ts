@@ -32,7 +32,6 @@ export class Role extends CustomModel {
 }
 export class User extends CustomModel {
 
-    public static rights = ['ROLE_ADMIN'];
     title = this.language.user;
     matSortActive = 'email';
     private readonly countriesService = AppInjector.get(CountriesService);

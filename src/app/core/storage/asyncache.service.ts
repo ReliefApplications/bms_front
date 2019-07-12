@@ -242,8 +242,6 @@ export class AsyncacheService {
         );
     }
 
-
-
     getCountry(): Observable<CachedCountryReturnValue> {
         const countries: Array<Country> = this.countriesService.enabledCountries;
         if (this.countriesService.selectedCountry) {
@@ -252,7 +250,7 @@ export class AsyncacheService {
         return this.get(AsyncacheService.COUNTRY).pipe(
             switchMap((countryCacheObject: CachedCountryValue) => {
                 if (countryCacheObject) {
-                    // Remove cache entry
+                    // Reset updatedInLastSession
                     for (const country of countries) {
                         if (country.get<string>('id') === countryCacheObject.countryId) {
                             // Reset it and reset the updatedInLastSession to false

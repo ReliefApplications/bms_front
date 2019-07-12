@@ -46,12 +46,10 @@ export class LoginService {
             switchMap((userFromApi: any) => {
                 const user = User.apiToModel(userFromApi);
                 this.userService.setCurrentUser(user);
-                return concat(
-                    this.asyncacheService.setUser(userFromApi).pipe(
-                        switchMap((_: any) => {
-                            return this.loginRoutine(user);
-                        })
-                    ),
+                return this.asyncacheService.setUser(userFromApi).pipe(
+                    switchMap((_: any) => {
+                        return this.loginRoutine(user);
+                    })
                 );
             }),
             tap(() => { this.redirect(); })
@@ -118,11 +116,11 @@ export class LoginService {
         }
 
         return this.asyncacheService.getCountry().pipe(
-            tap((cachedCountryReturnValue: CachedCountryReturnValue) => {
-                if (cachedCountryReturnValue) {
-                    this.countriesService.selectedCountry = cachedCountryReturnValue.country;
+            tap((cachedCountry: CachedCountryReturnValue) => {
+                if (cachedCountry) {
+                    this.countriesService.selectedCountry = cachedCountry.country;
                     // If the country has just been changed, redirect to home page
-                    if (cachedCountryReturnValue.updatedInLastSession) {
+                    if (cachedCountry.updatedInLastSession) {
                         this.redirectUrl = '/';
                     }
                 } else {
@@ -134,7 +132,6 @@ export class LoginService {
 
     // Set the user in service
     private setUser(user: User) {
-
         if (user.get<boolean>('changePassword') === true) {
             this.redirectUrl = '/profile';
             this.snackbar.info(this.language.profile_change_password);
@@ -144,7 +141,6 @@ export class LoginService {
 
     // Set the language in cache
     private setLanguage(user: User): Observable<Language> {
-
         return this.asyncacheService.getLanguage().pipe(
             switchMap(language => {
                 if (language) {

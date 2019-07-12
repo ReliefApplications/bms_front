@@ -5,8 +5,8 @@ import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { saveAs } from 'file-saver/FileSaver';
 import * as html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
-import { forkJoin, from, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { forkJoin, from, of, Subscription } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { UserService } from 'src/app/core/api/user.service';
@@ -97,6 +97,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
     displayType: DisplayType;
     canvasAreReloading = false;
 
+
+    public initializing = true;
 //
 // ─── INITIALIZATION ─────────────────────────────────────────────────────────────
 //
@@ -113,23 +115,28 @@ export class ReportsComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+
         this.generateFrequencies();
         this.generateEnabledReports();
-        this.getProjects().subscribe(() => {
-            if (this.projects) {
-                this.setFormsValues();
-            }
+        this.getProjects().pipe(
+            switchMap(() => {
+                if (!this.projects) {
+                    return of(undefined);
+                }
+                return this.setFormsValues();
+        })).subscribe((_: any) => {
+            this.generateFormsEvents();
+            this.selectDefault();
+
+            this.screenSizeService.displayTypeSource.subscribe((_displayType: DisplayType) => {
+                this.canvasAreReloading = true;
+                // Recreate the canvas to resize them correctly
+                setTimeout(() => {this.canvasAreReloading = false; }, 0);
+            });
+            this.initializing = false;
         });
 
-        this.generateFormsEvents();
 
-        this.selectDefault();
-
-        this.screenSizeService.displayTypeSource.subscribe((_displayType: DisplayType) => {
-            this.canvasAreReloading = true;
-            // Recreate the canvas to resize them correctly
-            setTimeout(() => {this.canvasAreReloading = false; }, 0);
-        });
     }
 
     // Unsubscribe from all observable to prevent memory leaks on component destruction
@@ -141,12 +148,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     private getProjects() {
         return this.projectService.get().pipe(
-            tap((apiProjects: Array<any>) => {
+            map((apiProjects: Array<any>) => {
+
                 if (apiProjects) {
                     this.projects = apiProjects.map((apiProject: any) => {
                         return Project.apiToModel(apiProject);
                     });
                 }
+                return this.projects;
             })
         );
     }
@@ -209,16 +218,18 @@ export class ReportsComponent implements OnInit, OnDestroy {
             }),
 
             // Update distributions on project change in distribution report
-            this.distributionsControl.controls.projectSelect.valueChanges.subscribe((projectId: number) => {
-                this.projectDistributionsMismatch = true;
-                if (!projectId) {
-                    return;
+            this.distributionsControl.controls.projectSelect.valueChanges.pipe(
+                switchMap((projectId: number) => {
+                    this.projectDistributionsMismatch = true;
+                    if (!projectId) {
+                        return of(undefined);
+                    }
+                    // Remove any selected distributions on project select
+                    this.distributionsControl.controls.distributionsSelect.reset();
+                    // Get project's distributions, emit an event when filling the distribs
+                    return this.fillDistributionFromProject(projectId, true);
                 }
-                // Remove any selected distributions on project select
-                this.distributionsControl.controls.distributionsSelect.reset();
-                // Get project's distributions, emit an event when filling the distribs
-                this.fillDistributionFromProject(projectId, true);
-            }),
+            )).subscribe(),
 
             // Send request when distribution report form is valid
             this.distributionsControl.statusChanges.pipe(
@@ -237,16 +248,19 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     // Helper function: set all forms' values
     private setFormsValues() {
+        if (!this.projects || !this.projects.length) {
+            return of(undefined);
+        }
         this.projectsControl.get('projectsSelect').setValue(this.projects.map((project: Project) => project.get('id')), {emitEvent: false});
         const firstProjectId = this.projects[0].get<number>('id');
         this.distributionsControl.get('projectSelect').setValue(firstProjectId, {emitEvent: false});
-        this.fillDistributionFromProject(firstProjectId, false);
+        return this.fillDistributionFromProject(firstProjectId, false);
     }
 
     fillDistributionFromProject(projectId: number, emitEvent?: boolean) {
 
-        this.distributionService.getByProject(projectId)
-            .subscribe((apiDistributions: Array<any>) => {
+        return this.distributionService.getByProject(projectId).pipe(
+            tap((apiDistributions: Array<any>) => {
                 if (apiDistributions || apiDistributions === []) {
                     this.distributions = apiDistributions.map((apiDistribution: any) => {
                         return Distribution.apiToModel(apiDistribution);
@@ -258,7 +272,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
                     );
                     this.projectDistributionsMismatch = false;
                 }
-        });
+            }
+        ));
     }
 
     selectReport(clickedReport: object) {
@@ -292,7 +307,10 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     // Prevent unnecessary calls to the api on filter change
     private onFilterChange() {
-
+        // If the page is still initializing
+        if (this.initializing) {
+            return;
+        }
         // In the event where no report/frequency is selected, do nothing
         if (!this.selectedReport || !this.selectedFrequency) {
             return;

@@ -307,7 +307,10 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
     // Prevent unnecessary calls to the api on filter change
     private onFilterChange() {
-
+        // If the page is still initializing
+        if (this.initializing) {
+            return;
+        }
         // In the event where no report/frequency is selected, do nothing
         if (!this.selectedReport || !this.selectedFrequency) {
             return;

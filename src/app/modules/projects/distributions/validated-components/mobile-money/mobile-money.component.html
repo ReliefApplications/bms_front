@@ -179,7 +179,7 @@
             <button mat-flat-button class="button-background-accent" *ngIf="!transacting"
                 [disabled]="!enteredCodeControl.valid"
                 (click)="confirmTransaction()">{{language.transaction_confirm_button}}</button>
-            <mat-spinner [diameter]="30" *ngIf="transacting"></mat-spinner>
+            <mat-spinner [diameter]="25" *ngIf="transacting"></mat-spinner>
         </div>
     </mat-dialog-actions>
 </ng-template>

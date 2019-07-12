@@ -80,10 +80,9 @@ export class Commodity extends CustomModel {
     matSortActive = 'modality';
 
     public fields = {
-        id : new NumberModelField(
+        id: new NumberModelField(
             {
                 title: null,
-                placeholder: null,
                 isDisplayedInTable: false,
                 isDisplayedInModal: false,
             },
@@ -91,7 +90,6 @@ export class Commodity extends CustomModel {
         modality: new SingleSelectModelField(
             {
                 title: this.language.commodity_modality,
-                placeholder: null,
                 isRequired: true,
                 isSettable: true,
                 isDisplayedInModal: true,
@@ -106,7 +104,6 @@ export class Commodity extends CustomModel {
         modalityType: new SingleSelectModelField(
             {
                 title: this.language.type,
-                placeholder: null,
                 isRequired: true,
                 isSettable: true,
                 isDisplayedInModal: true,
@@ -121,7 +118,6 @@ export class Commodity extends CustomModel {
         unit: new TextModelField(
             {
                 title: this.language.unit,
-                placeholder: null,
                 isSettable: true,
                 isRequired: true,
                 isDisplayedInModal: true,
@@ -133,7 +129,6 @@ export class Commodity extends CustomModel {
         value: new NumberModelField(
             {
                 title: this.language.commodity_value,
-                placeholder: null,
                 isRequired: true,
                 isSettable: true,
                 isDisplayedInModal: true,
@@ -177,8 +172,8 @@ export class Commodity extends CustomModel {
             description: this.get('description'),
             modality_type: {
                 id: this.get('modalityType').get('id'),
-                name:  this.get('modalityType').get('name'),
-                modality: {name: this.get('modality').get('name')}
+                name: this.get('modalityType').get('name'),
+                modality: { name: this.get('modality').get('name') }
             },
         };
     }

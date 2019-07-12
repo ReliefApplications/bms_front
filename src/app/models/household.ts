@@ -50,7 +50,6 @@ export class Household extends CustomModel {
         localFamilyName: new TextModelField(
             {
                 title: this.language.beneficiary_family_name,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
@@ -62,7 +61,6 @@ export class Household extends CustomModel {
         localFirstName: new TextModelField(
             {
                 title: this.language.beneficiary_given_name,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
@@ -74,7 +72,6 @@ export class Household extends CustomModel {
         enFamilyName: new TextModelField(
             {
                 title: this.language.beneficiary_en_family_name,
-                placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
                 isRequired: true,
@@ -85,7 +82,6 @@ export class Household extends CustomModel {
         enFirstName: new TextModelField(
             {
                 title: this.language.beneficiary_en_given_name,
-                placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
                 isRequired: true,

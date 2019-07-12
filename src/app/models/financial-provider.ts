@@ -3,7 +3,6 @@ import { TextModelField } from './custom-models/text-model-field';
 
 export class FinancialProvider extends CustomModel {
 
-    public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
 
     title = this.language.settings_financial_provider;
     matSortActive = 'username';

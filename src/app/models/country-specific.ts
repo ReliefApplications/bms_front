@@ -19,7 +19,6 @@ export class CountrySpecificType extends CustomModel {
 }
 export class CountrySpecific extends CustomModel {
 
-    public static rights = ['ROLE_ADMIN', 'ROLE_COUNTRY_MANAGER', 'ROLE_PROJECT_MANAGER'];
 
     title = this.language.country_specific;
     matSortActive = 'field';
@@ -28,7 +27,6 @@ export class CountrySpecific extends CustomModel {
         id : new NumberModelField(
             {
                 title: null,
-                placeholder: null,
                 isDisplayedInTable: false,
                 isDisplayedInModal: false,
             },

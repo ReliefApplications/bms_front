@@ -12,6 +12,7 @@ import { User } from 'src/app/models/user';
 import { CountriesService } from '../countries/countries.service';
 import { Language } from '../language/language';
 import { LanguageService } from '../language/language.service';
+import { CachedCountryReturnValue, CachedCountryValue } from './cached-country-value.interface';
 import { CachedItemInterface } from './cached-item.interface';
 
 @Injectable({
@@ -75,8 +76,8 @@ export class AsyncacheService {
             return of(this.formatKeyCountry(key, this.countriesService.selectedCountry));
         } else {
             return this.getCountry().pipe(
-                map((country: Country) => {
-                    return this.formatKeyCountry(key, country);
+                map((cachedCountryReturnValue: CachedCountryReturnValue) => {
+                    return this.formatKeyCountry(key, cachedCountryReturnValue.country);
                 })
             );
         }
@@ -116,7 +117,6 @@ export class AsyncacheService {
                     );
                 })
             )
-
         );
     }
 
@@ -129,7 +129,6 @@ export class AsyncacheService {
     set(key: string, value: any, options: any = {}): Observable<boolean> {
         return this.getFormattedKey(key).pipe(
             switchMap((formattedKey: string) => {
-
                 // this.localStorage.setItemSubscribe(formattedKey, value);
                 if (options.canBeDeleted == null) {
                     options.canBeDeleted = true;
@@ -233,24 +232,35 @@ export class AsyncacheService {
     // ─── COUNTRY UTILS ──────────────────────────────────────────────────────────────────────
     //
 
-    setCountry(country: Country): Observable<boolean> {
-        return this.set(AsyncacheService.COUNTRY, country.get<string>('id'));
+    setCountry(country: Country, updatedInLastSession: boolean = true): Observable<boolean> {
+        return this.set(AsyncacheService.COUNTRY,
+            {
+                countryId: country.get<string>('id'),
+                // To make the app go back to '/' on the next login
+                updatedInLastSession: updatedInLastSession,
+            }
+        );
     }
 
-    getCountry(): Observable<Country> {
-        // countries are stored in user object
+    getCountry(): Observable<CachedCountryReturnValue> {
         const countries: Array<Country> = this.countriesService.enabledCountries;
         if (this.countriesService.selectedCountry) {
-            return of(this.countriesService.selectedCountry);
+            return of({country: this.countriesService.selectedCountry, updatedInLastSession: false});
         }
         return this.get(AsyncacheService.COUNTRY).pipe(
-            map((countryId: string) => {
-                for (const country of countries) {
-                    if (country.get<string>('id') === countryId) {
-                        return country;
+            switchMap((countryCacheObject: CachedCountryValue) => {
+                if (countryCacheObject) {
+                    // Reset updatedInLastSession
+                    for (const country of countries) {
+                        if (country.get<string>('id') === countryCacheObject.countryId) {
+                            // Reset it and reset the updatedInLastSession to false
+                            return this.setCountry(country, false).pipe(
+                                map((_: any) => ({country, updatedInLastSession: countryCacheObject.updatedInLastSession}))
+                            );
+                        }
                     }
                 }
-                return undefined;
+                return of(undefined);
             }),
         );
     }

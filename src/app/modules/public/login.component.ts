@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RecaptchaComponent } from 'ng-recaptcha';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { LoginService } from 'src/app/core/api/login.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
@@ -51,12 +53,15 @@ export class LoginComponent implements OnInit {
     public onSubmit(): void {
         const { username, password } = this.form.value;
         this.loader = true;
-        this.loginService.login(username, password).subscribe(
-            (success) => {
-                this.loginService.redirect(success.user);
+        this.loginService.login(username, password).pipe(
+            catchError((error: any) => {
                 this.loader = false;
-            },
-            (_error) => { this.loader = false; console.error(_error); }
+                return throwError(error);
+            })
+        ).subscribe(
+            (_success) => {
+                this.loader = false;
+            }
         );
     }
 

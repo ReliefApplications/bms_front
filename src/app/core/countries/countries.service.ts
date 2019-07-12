@@ -53,19 +53,6 @@ export class CountriesService {
     }
 
     //
-    // ─── SETTER ─────────────────────────────────────────────────────────────────────
-    //
-    public setCountry(country?: Country): Country {
-        if (!country) {
-            country = this.enabledCountries[0];
-        }
-        if (this.selectedCountry !== country) {
-            this.selectedCountry = country;
-        }
-        return country;
-    }
-
-    //
     // ─── HELPER FUNCTIONS ───────────────────────────────────────────────────────────
     //
     public clearCountries(): void {

@@ -21,7 +21,7 @@
             </mat-toolbar>
             <ng-template #mobileHeader>
                 <mat-toolbar class="mobile">
-                    <app-header-mobile *ngIf="userService.currentUser" (toggleSideNav)="extendedSideNav = !extendedSideNav"></app-header-mobile>
+                    <app-header-mobile *ngIf="headerIsReady()" (toggleSideNav)="extendedSideNav = !extendedSideNav"></app-header-mobile>
                 </mat-toolbar>
             </ng-template>
         </ng-container>

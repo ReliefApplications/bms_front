@@ -23,6 +23,7 @@ export class LanguageService {
     }
     set selectedLanguage(language: Language) {
         this._selectedLanguage = language;
+        this.setMargins();
     }
 //
 // ─── HELPER FUNCTIONS ───────────────────────────────────────────────────────────
@@ -32,11 +33,6 @@ export class LanguageService {
         return this.selectedLanguage;
     }
 
-    public setLanguage(language: Language): Language {
-        this.selectedLanguage = language;
-        this.setMargins();
-        return language;
-    }
 //
 // ─── TYPE CONVERSION ────────────────────────────────────────────────────────────
 //

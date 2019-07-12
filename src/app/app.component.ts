@@ -79,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     public headerIsReady() {
         const {selectableCountries, selectedCountry } = this.countriesService;
-        return selectableCountries.length && selectedCountry && this.userService.currentUser;
+        return selectableCountries.length && selectedCountry && this.userService.currentUser && this.getLanguage();
     }
 
     // Chat should only be shown in prod, on the dashboard page and in desktop mode

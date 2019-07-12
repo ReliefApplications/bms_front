@@ -5,8 +5,6 @@ import { FileModelField } from './custom-models/file-model-field';
 
 export class Donor extends CustomModel {
 
-    public static rights = ['ROLE_ADMIN'];
-
     title = this.language.donor;
     matSortActive = 'fullname';
 

@@ -10,7 +10,6 @@ export class ErrorInterface {
 
 export class Organization extends CustomModel {
 
-    public static rights = ['ROLE_ADMIN'];
     title = this.language.settings_organization;
     matSortActive = 'name';
 

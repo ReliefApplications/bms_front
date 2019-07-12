@@ -5,7 +5,6 @@ import { TextModelField } from './custom-models/text-model-field';
 
 export class Product extends CustomModel {
 
-    public static rights = ['ROLE_ADMIN'];
     title = this.language.products;
     matSortActive = 'name';
 

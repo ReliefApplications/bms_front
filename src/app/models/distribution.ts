@@ -35,9 +35,6 @@ export class Distribution extends CustomModel {
         super();
     }
 
-
-    public static rights = ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER'];
-    public static rightsEdit = ['ROLE_ADMIN', 'ROLE_PROJECT_MANAGER', 'ROLE_PROJECT_OFFICER'];
     matSortActive = 'date';
     title = this.language.distribution;
 
@@ -52,7 +49,6 @@ export class Distribution extends CustomModel {
         name: new TextModelField(
             {
                 title: this.language.name,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
@@ -82,7 +78,6 @@ export class Distribution extends CustomModel {
         date: new DateModelField(
             {
                 title: this.language.distribution_date,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isDisplayedInSummary: true,
@@ -114,7 +109,6 @@ export class Distribution extends CustomModel {
         type: new SingleSelectModelField(
             {
                 title: this.language.distribution_type,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isDisplayedInSummary: true,

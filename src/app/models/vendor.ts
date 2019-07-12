@@ -12,7 +12,6 @@ import { CountriesService } from '../core/countries/countries.service';
 
 export class Vendor extends CustomModel {
 
-    public static rights = ['ROLE_ADMIN'];
     title = this.language.vendors;
     matSortActive = 'username';
 

@@ -126,7 +126,7 @@ export class LoginService {
         return this.asyncacheService.getLanguage().pipe(
             switchMap(language => {
                 if (language) {
-                    this.languageService.setLanguage(language);
+                    this.languageService.selectedLanguage = language;
                     return of(undefined);
                 }
                 else {
@@ -139,7 +139,7 @@ export class LoginService {
 
     private setDefaultLanguage(user: User) {
         const language = this.languageService.stringToLanguage(user.get<string>('language'));
-        this.languageService.setLanguage(language);
+        this.languageService.selectedLanguage = language;
         return this.asyncacheService.setLanguage(language);
     }
 }

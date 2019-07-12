@@ -24,9 +24,6 @@ export class AppComponent implements OnInit, OnDestroy {
     public currentDisplayType: DisplayType;
     public viewReady = false;
 
-    // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
-
     // Subscriptions
     subscriptions: Array<Subscription>;
 
@@ -48,9 +45,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscriptions = [
-            this.languageService.languageSubject.subscribe((language: Language) => {
-                this.language = language;
-            }),
             this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
                 this.currentDisplayType = displayType;
                 this.handleChat();
@@ -85,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     public headerIsReady() {
         const {selectableCountries, selectedCountry } = this.countriesService;
-        return selectableCountries.length && selectedCountry && this.userService.currentUser;
+        return selectableCountries.length && selectedCountry && this.userService.currentUser && this.getLanguage();
     }
 
     // Chat should only be shown in prod, on the dashboard page and in desktop mode
@@ -102,5 +96,9 @@ export class AppComponent implements OnInit, OnDestroy {
             }
             chat.style.display = 'block';
         }
+    }
+
+    public getLanguage(): Language {
+        return (this.languageService.selectedLanguage);
     }
 }

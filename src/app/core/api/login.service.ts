@@ -139,7 +139,7 @@ export class LoginService {
 
     private setDefaultLanguage(user: User) {
         const language = this.languageService.stringToLanguage(user.get<string>('language'));
-        this.languageService.setLanguage(language);
+        this.languageService.selectedLanguage = language;
         return this.asyncacheService.setLanguage(language);
     }
 }

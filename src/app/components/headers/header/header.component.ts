@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/api/user.service';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
-import { Language } from 'src/app/core/language/language';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
@@ -26,11 +25,10 @@ export interface Breadcrumb {
 export class HeaderComponent implements OnInit, OnDestroy {
 
     // Screen size
-    private screenSizeSubscription: Subscription;
     public currentDisplayType: DisplayType;
 
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
+    public language = this.languageService.selectedLanguage;
 
     // Countries
     public selectedCountry: Country = this.countriesService.selectedCountry;
@@ -65,10 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         });
 
         this.subscriptions = [
-            this.languageService.languageSubject.subscribe((language: Language) => {
-                this.language = language;
-            }),
-            this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
                 this.currentDisplayType = displayType;
             }),
         ];

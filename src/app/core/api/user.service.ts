@@ -139,7 +139,7 @@ export class UserService extends CustomModelService {
         });
     }
 
-    public hasRights(action: string) {
+    public hasRights(action: string, condition: boolean = true) {
         // Logged out users have no rights
         if (!this.currentUser || !this.currentUser.get('id')) {
             return false;
@@ -149,6 +149,7 @@ export class UserService extends CustomModelService {
             return true;
         }
         const userRights = rightsHierarchy[this.currentUser.get('rights').get<string>('id')];
-        return userRights.includes(action);
+        const hasRight = userRights.includes(action);
+        return condition ? hasRight : !hasRight;
     }
 }

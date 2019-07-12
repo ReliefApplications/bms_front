@@ -97,6 +97,7 @@ export class ModalAddCommodityComponent implements OnInit {
             case 'QR Code Voucher':
             case 'Paper Voucher':
             case 'Loan':
+            case 'Cash':
                 return this.language.currency;
             default:
                 return this.language.unit;
@@ -115,6 +116,7 @@ export class ModalAddCommodityComponent implements OnInit {
             case 'QR Code Voucher':
             case 'Paper Voucher':
             case 'Loan':
+            case 'Cash':
                 this.isCurrency = true;
                 this.form.controls.unit.setValue(this.localCurrency);
                 break;

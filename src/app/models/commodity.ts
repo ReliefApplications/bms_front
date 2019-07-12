@@ -50,6 +50,7 @@ export class ModalityType extends CustomModel {
 
     public getTooltip(): string {
         const commoditiesTooltips: object = {
+            'Cash': this.language.commodity_cash,
             'Mobile Money': this.language.commodity_modality_cash,
             'QR Code Voucher': this.language.commodity_modality_qr_voucher,
             'Paper Voucher': this.language.commodity_modality_paper_voucher,
@@ -182,6 +183,7 @@ export class Commodity extends CustomModel {
     public getImage(): string {
 
         const commoditiesImages: object = {
+            'Cash': 'cash',
             'Mobile Money': 'cash',
             'QR Code Voucher': 'voucher',
             'Paper Voucher': 'voucher',

@@ -85,8 +85,7 @@ export class BoxPropertiesComponent implements OnInit {
     }
 
     getLocationValue(location: Location) {
-        const adm = this.getMorePreciseAdm(location);
-        return location.get(adm).get('name');
+        return location.getPreciseLocationName();
     }
 
     getMorePreciseAdm(location: Location) {

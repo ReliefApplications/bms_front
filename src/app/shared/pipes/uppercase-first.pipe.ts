@@ -6,6 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class UppercaseFirstPipe implements PipeTransform {
 
     transform(value: string): string {
+        if (!value) {
+            return '';
+        }
         const words = value.split(' ');
         let response = '';
         words.forEach(word => {

@@ -31,7 +31,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             catchError(
                 (error: any, caught: Observable<HttpEvent<any>>) => {
                     if (error.status === 403 && error.error === 'You are not authenticated') {
-                        this.userService.currentUser = undefined;
+                        this.userService.setCurrentUser(undefined);
                         this.router.navigate(['/login']);
                     }
                     this.snackErrors(error);

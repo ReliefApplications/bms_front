@@ -160,6 +160,7 @@ export interface Language {
     beneficiary_family_name: string
     beneficiary_given_name: string
     beneficiary_head: string
+    beneficiary_id: string
     beneficiary_justification_added: string
     beneficiary_justification_removed: string
     beneficiary_local_family_name: string

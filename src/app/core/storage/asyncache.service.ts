@@ -71,17 +71,15 @@ export class AsyncacheService {
         if (key === AsyncacheService.COUNTRY || key === AsyncacheService.USER || key === AsyncacheService.USERS
             || key === AsyncacheService.PENDING_REQUESTS || key === AsyncacheService.LANGUAGE) {
             return of(this.PREFIX + '_' + key);
-        } else if (this.countriesService.selectedCountry.getValue()) {
-            return of(this.formatKeyCountry(key, this.countriesService.selectedCountry.getValue()));
+        } else if (this.countriesService.selectedCountry) {
+            return of(this.formatKeyCountry(key, this.countriesService.selectedCountry));
         } else {
             return this.getCountry().pipe(
                 map((country: Country) => {
-                    this.countriesService.setCountry(country);
                     return this.formatKeyCountry(key, country);
                 })
             );
         }
-
     }
 
     private formatKeyCountry(key: string, country: Country) {
@@ -105,7 +103,7 @@ export class AsyncacheService {
                             (result: CachedItemInterface) => {
                                 if (result && result.storageTime + result.limit < (new Date).getTime()) {
                                     if (result.canBeDeleted) {
-                                        this.remove(formattedKey);
+                                        this.removeItem(formattedKey);
                                     }
                                     return null;
                                 } else if (result) {
@@ -152,12 +150,8 @@ export class AsyncacheService {
         );
     }
 
-    /**
-     * Removes an item with its key.
-     * @param key
-     */
-    remove(key: string) {
-        this.getFormattedKey(key).pipe(
+    removeItem(key: string) {
+        return this.getFormattedKey(key).pipe(
             tap((formattedKey: string) => {
                 this.storage.removeItemSubscribe(formattedKey);
             }),
@@ -244,9 +238,11 @@ export class AsyncacheService {
     }
 
     getCountry(): Observable<Country> {
-        // countries are stored in user object TODO: don't
+        // countries are stored in user object
         const countries: Array<Country> = this.countriesService.enabledCountries;
-
+        if (this.countriesService.selectedCountry) {
+            return of(this.countriesService.selectedCountry);
+        }
         return this.get(AsyncacheService.COUNTRY).pipe(
             map((countryId: string) => {
                 for (const country of countries) {
@@ -259,25 +255,31 @@ export class AsyncacheService {
         );
     }
 
+    removeCountry() {
+        return this.removeItem(AsyncacheService.COUNTRY).subscribe();
+    }
+    removeLanguage() {
+        return this.removeItem(AsyncacheService.LANGUAGE).subscribe();
+    }
+
     //
     // ─── USER UTILS ──────────────────────────────────────────────────────────────────────
     //
 
-    setUser(user: User): Observable<boolean> {
-        return this.set(AsyncacheService.USER, user.modelToApi());
+    setUser(user: any): Observable<boolean> {
+        return this.set(AsyncacheService.USER, user);
     }
 
     /**
      * Waits for asynchronous user value to return it synchronously.
     */
-    getUser(): Observable<any> {
+    getUser(): Observable<User> {
         return this.get(AsyncacheService.USER).pipe(
             map((cachedUser: object) => {
                 if (!cachedUser) {
-                    // TODO: remove this case
                     return undefined;
                 } else {
-                    return cachedUser;
+                    return User.apiToModel(cachedUser);
                 }
             }
             ),

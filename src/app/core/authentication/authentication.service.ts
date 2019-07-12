@@ -1,13 +1,12 @@
-import { HttpService } from '../network/http.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { Country } from 'src/app/models/country';
+import { switchMap } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
 import { SaltInterface } from '../../models/salt';
-import { ErrorInterface, User } from '../../models/user';
+import { User } from '../../models/user';
 import { CountriesService } from '../countries/countries.service';
+import { HttpService } from '../network/http.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
 
@@ -22,7 +21,7 @@ export class AuthenticationService {
 
     constructor(
         public _wsseService: WsseService,
-        public _cacheService: AsyncacheService,
+        public asyncacheService: AsyncacheService,
         public countryService: CountriesService,
         protected http: HttpService,
         public router: Router,
@@ -49,43 +48,21 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        return new Promise<User | ErrorInterface | null>((resolve, reject) => {
-            this.requestSalt(username).subscribe(success => {
-                const getSalt = success as SaltInterface;
-                const saltedPassword = this._wsseService.saltPassword(getSalt.salt, password);
+        return this.requestSalt(username).pipe(
+            switchMap((saltInterface: SaltInterface) => {
+                const saltedPassword = this._wsseService.saltPassword(saltInterface.salt, password);
                 const user = new User().set('email', username).set('password', saltedPassword);
-                this.logUser(user.modelToApi()).subscribe((userFromApi: object) => {
-                    if (userFromApi) {
-                        this.user = User.apiToModel(userFromApi);
-                        this.setUser(this.user);
-                        resolve(this.user);
-                    } else {
-                        reject({ message: 'Bad credentials' });
-                    }
-                }, _error => {
-                    reject({ message: 'Bad credentials' });
-                });
-            }, _error => {
-                reject({ message: 'User not found' });
-            });
-        });
+                return this.logUser(user.modelToApi());
+            })
+        );
     }
 
     logout(): Observable<any> {
-        return this._cacheService.clear(false);
+        return this.asyncacheService.clear(false);
     }
 
-    getUser(): Observable<any> {
-        return this._cacheService.getUser();
-    }
-
-    setUser(user: User) {
-        const countries = user.get<Country[]>('countries');
-        if (countries && countries.length === 1) {
-            this.countryService.setCountry(countries[0]);
-            this._cacheService.setCountry(countries[0]).subscribe();
-        }
-        this._cacheService.setUser(user).subscribe();
+    getUser(): Observable<User> {
+        return this.asyncacheService.getUser();
     }
 
     setSaltedPassword(user: User, saltedPassword: string) {
@@ -94,7 +71,7 @@ export class AuthenticationService {
 
     resetUser() {
         this.user = new User();
-        this._cacheService.remove(AsyncacheService.USER);
+        this.asyncacheService.removeItem(AsyncacheService.USER);
     }
 
     public updateUser(body: any, url: string) {

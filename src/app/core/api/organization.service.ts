@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { Donor } from '../../models/donor';
-import { CustomModelService } from '../utils/custom-model.service';
-import { HttpService } from '../network/http.service';
-import { ExportService } from './export.service';
 import { Organization } from 'src/app/models/organization';
+import { Donor } from '../../models/donor';
+import { HttpService } from '../network/http.service';
+import { CustomModelService } from '../utils/custom-model.service';
+import { ExportService } from './export.service';
 
 
 
@@ -24,7 +24,7 @@ export class OrganizationService extends CustomModelService {
     }
 
     print(event: Organization) {
-        return this.exportService.printOrganizationTemplate();
+        return this.exportService.printOrganizationTemplate().subscribe();
     }
 
 

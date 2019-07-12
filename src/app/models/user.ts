@@ -1,4 +1,6 @@
 import { FormGroup } from '@angular/forms';
+import { AppInjector } from '../app-injector';
+import { CountriesService } from '../core/countries/countries.service';
 import { Language } from '../core/language/language';
 import { Country } from './country';
 import { BooleanModelField } from './custom-models/boolan-model-field';
@@ -33,6 +35,7 @@ export class User extends CustomModel {
     public static rights = ['ROLE_ADMIN'];
     title = this.language.user;
     matSortActive = 'email';
+    private readonly countriesService = AppInjector.get(CountriesService);
 
     public fields = {
         id: new NumberModelField({
@@ -120,7 +123,7 @@ export class User extends CustomModel {
         }),
         countries: new MultipleSelectModelField({
             title: this.language.country,
-            options: [new Country('KHM', this.language.country_khm), new Country('SYR', this.language.country_syr)],
+            options: this.countriesService.enabledCountries,
             isDisplayedInModal: true,
             bindField: 'name',
             apiLabel: 'id',
@@ -142,7 +145,6 @@ export class User extends CustomModel {
     };
 
     public static apiToModel(userFromApi: any): User {
-
         if (!userFromApi) {
             return null; // If it was retrieved from cache and was null
         }
@@ -171,8 +173,8 @@ export class User extends CustomModel {
         let countries = null;
         if (userFromApi.countries && userFromApi.countries.length) {
             countries = userFromApi.countries;
-        } else if (userFromApi.user_projects && userFromApi.user_projects.length) {
-            const allCountries = userFromApi.user_projects.filter((project: any) => !project.project.archived)
+        } else if (userFromApi.projects && userFromApi.projects.length) {
+            const allCountries = userFromApi.projects.filter((project: any) => !project.project.archived)
                 .map((project) => project.project.iso3);
             countries = allCountries.filter((iso3, index) => allCountries.indexOf(iso3) === index);
         }
@@ -188,8 +190,8 @@ export class User extends CustomModel {
             null
         );
 
-        newUser.set('projects', userFromApi.user_projects ?
-            userFromApi.user_projects.filter((project: any) => !project.project.archived)
+        newUser.set('projects', userFromApi.projects ?
+            userFromApi.projects.filter((project: any) => !project.project.archived)
                 .map((project: any) => Project.apiToModel(project.project)) :
             null
         );
@@ -201,7 +203,6 @@ export class User extends CustomModel {
         newUser.set('id', userFromApi.id);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en');
         newUser.set('changePassword', userFromApi.change_password);
-
         return newUser;
     }
 

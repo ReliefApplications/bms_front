@@ -25,13 +25,11 @@ import { BeneficiariesService } from './../../../../core/api/beneficiaries.servi
 export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
     @Input() actualDistribution: Distribution;
-    @Input() loaderCache: boolean;
-    @Input() distributionIsStored: boolean;
 
     @Output() emitStore = new EventEmitter<Distribution>();
     @Output() isUpdated = new EventEmitter<void>();
-    loadingExport = false;
 
+    loadingExport = false;
     loadingDatas = true;
     loadingDistribution = true;
     modalSubscriptions: Array<Subscription> = [];
@@ -302,10 +300,9 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
     exportSample() {
         this.loadingExport = true;
         const randomSampleForApi = this.randomSampleData.data.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
-        this.distributionService.exportSample(randomSampleForApi, this.extensionTypeStep3).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
+        this.distributionService.exportSample(randomSampleForApi, this.extensionTypeStep3).subscribe(
+            () => { this.loadingExport = false; },
+            (_error: any) => { this.loadingExport = false; }
         );
     }
 
@@ -314,10 +311,9 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
      */
     export() {
         this.loadingExport = true;
-        this.distributionService.export('distribution', this.extensionTypeStep1, this.actualDistribution.get('id')).then(
-            () => { this.loadingExport = false; }
-        ).catch(
-            () => { this.loadingExport = false; }
+        this.distributionService.export('distribution', this.extensionTypeStep1, this.actualDistribution.get('id')).subscribe(
+            () => { this.loadingExport = false; },
+            (_error: any) => { this.loadingExport = false; }
         );
     }
 

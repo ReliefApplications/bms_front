@@ -30,14 +30,14 @@ export class Livelihood extends CustomModel {
 }
 export class Household extends CustomModel {
 
-    plural_name = this.language.beneficiary_plural;
+    pluralName = this.language.beneficiary_plural;
     title = this.language.households;
     matSortActive = 'localFamilyName';
 
     protected countryService = AppInjector.get(CountriesService);
 
-    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
-    this.countryService.selectedCountry.getValue().get<string>('id') :
+    protected country = this.countryService.selectedCountry.get<string>('id') ?
+    this.countryService.selectedCountry.get<string>('id') :
     this.countryService.khm.get<string>('id');
 
     public fields = {

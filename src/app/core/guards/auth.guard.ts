@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { LanguageService } from 'src/app/core/language/language.service';
-import { User } from 'src/app/models/user';
+import { LoginService } from '../api/login.service';
 import { UserService } from '../api/user.service';
 
 @Injectable({
@@ -17,6 +18,7 @@ export class AuthGuard implements CanActivate {
     constructor (
         private router: Router,
         private userService: UserService,
+        private loginService: LoginService,
         private authenticationService: AuthenticationService,
         public languageService: LanguageService,
     ) { }
@@ -25,29 +27,23 @@ export class AuthGuard implements CanActivate {
         if (this.userService.currentUser === undefined) {
             return this.authenticationService.getUser()
             .pipe(
-                map((user: any) => {
+                switchMap((user: any) => {
                     if (user) {
-                        this.userService.currentUser = User.apiToModel(user);
+                        return this.loginService.reLogin(user).pipe(
+                            switchMap(
+                                (_: any) => {
+                                    return of(true);
+                                }
+                            )
+                        );
                     }
-                return this.checkLoginWrapper();
-            }));
+                    this.router.navigateByUrl('/login');
+                    return of(false);
+                })
+            );
         }
         else {
-            return this.checkLoginWrapper();
+            return true;
         }
-    }
-
-    private checkLoginWrapper(): boolean {
-        const accessGranted = this.checkLogin(this.userService.currentUser);
-
-        if (!accessGranted) {
-            this.router.navigateByUrl('/login');
-        }
-
-        return accessGranted;
-    }
-
-    private checkLogin(user: User): boolean {
-        return !(user === undefined || !user.get<number>('id'));
     }
 }

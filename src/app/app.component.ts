@@ -5,11 +5,11 @@ import { Subscription } from 'rxjs';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { environment } from 'src/environments/environment';
 import { UserService } from './core/api/user.service';
+import { CountriesService } from './core/countries/countries.service';
 import { Language } from './core/language/language';
 import { LanguageService } from './core/language/language.service';
 import { ScreenSizeService } from './core/screen-size/screen-size.service';
 import { UpdateService } from './core/service-worker/update.service';
-import { Country } from './models/country';
 
 @Component({
     selector: 'app-root',
@@ -19,8 +19,6 @@ import { Country } from './models/country';
 export class AppComponent implements OnInit, OnDestroy {
 
     public extendedSideNav = false;
-
-    public countries: Array<Country>;
 
     // Screen size
     public currentDisplayType: DisplayType;
@@ -40,6 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
         private updateService: UpdateService,
+        private countriesService: CountriesService,
     ) { }
 
     @HostListener('window:resize')
@@ -84,6 +83,10 @@ export class AppComponent implements OnInit, OnDestroy {
         return match[0];
     }
 
+    public headerIsReady() {
+        const {selectableCountries, selectedCountry } = this.countriesService;
+        return selectableCountries.length && selectedCountry && this.userService.currentUser;
+    }
 
     // Chat should only be shown in prod, on the dashboard page and in desktop mode
     public chatShouldBeDisplayed(): boolean {

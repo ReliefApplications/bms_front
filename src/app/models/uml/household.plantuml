@@ -2,19 +2,22 @@
 
 class Household {
     - id
-    - familyName
-    - firstName
-    - location
+    - localFamilyName
+    - localFirstName
+    - enFamilyName
+    - enFirstName
     - dependents
     - vulnerabilities
     - projects
     - beneficiaries
     - countrySpecificAnswers
-    - addressNumber
-    - addressStreet
-    - addressPostcode
     - livelihood
     - notes
+    - incomeLevel
+    - foodConsumptionScore
+    - copingStrategiesIndex
+    - currentHouseholdLocation
+    - residentHouseholdLocation
 }
 
 class Livelihood {
@@ -41,6 +44,44 @@ class CountrySpecificType {
     - name
 }
 
+class HouseholdLocationGroup {
+    - id
+    - name
+}
+
+class HouseholdLocationType {
+    - id
+    - name
+}
+
+class HouseholdLocation {
+    - id
+    - locationGroup
+    - type
+    - address
+    - campAddress
+}
+
+class Address {
+    - id
+    - number
+    - street
+    - postcode
+    - location
+}
+
+class CampAddress {
+    - id
+    - tentNumber
+    - camp
+}
+
+class Camp {
+    - id
+    - name
+    - location
+}
+
 class Location {
     - id
     - adm1
@@ -58,13 +99,20 @@ class Adm {
  CountrySpecificType "1" *-- "1" CountrySpecific
  CountrySpecific "1" *-- "1" CountrySpecificAnswer
  
- Livelihood "1" *-- "1" Household
- Location "1" *-- "1" Household
- VulnerabilityCriteria "0-*" *-- "1" Household
+ Livelihood "1" *-- "0-*" Household
+ VulnerabilityCriteria "0-*" *-- "0-*" Household
  Project "1-*" o-- "0-*" Household
- Beneficiary "1-*" *-- "0-*" Household
+ Beneficiary "1-*" *-- "1" Household
  CountrySpecificAnswer "0-*" *-- "1" Household
- 
+ HouseholdLocation "2" *-- "1" Household
+ HouseholdLocationGroup "1" *-- "0-*" HouseholdLocation
+ HouseholdLocationType "1" *-- "0-*" HouseholdLocation
+ Address "0-1" *-- "1" HouseholdLocation
+ Address "0-*" *-- "1" Location
+ CampAddress "0-1" *-- "1" HouseholdLocation
+ CampAddress "0-*" *-- "1" Camp
+ Camp "0-*" *-- "1" Location
+
  Project "0-*" *-- "1" HouseholdFilters
  VulnerabilityCriteria "0-*" *-- "1" HouseholdFilters
  Location "0-*" *-- "1" HouseholdFilters

@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { AppInjector } from '../app-injector';
 import { LocationService } from '../core/api/location.service';
+import { CountriesService } from '../core/countries/countries.service';
 import { CustomModel } from './custom-models/custom-model';
 import { NestedFieldModelField } from './custom-models/nested-field';
 import { NumberModelField } from './custom-models/number-model-field';
@@ -8,7 +9,6 @@ import { ObjectModelField } from './custom-models/object-model-field';
 import { TextModelField } from './custom-models/text-model-field';
 import { Location } from './location';
 import { User } from './user';
-import { CountriesService } from '../core/countries/countries.service';
 
 export class Vendor extends CustomModel {
 
@@ -18,8 +18,8 @@ export class Vendor extends CustomModel {
 
     protected countryService = AppInjector.get(CountriesService);
     // Country
-    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
-    this.countryService.selectedCountry.getValue().get<string>('id') :
+    protected country = this.countryService.selectedCountry.get<string>('id') ?
+    this.countryService.selectedCountry.get<string>('id') :
     this.countryService.khm.get<string>('id');
 
 

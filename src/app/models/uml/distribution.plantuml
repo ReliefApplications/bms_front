@@ -14,6 +14,7 @@
     - validated
     - threshold
     - finished
+    - updatedOn
  }
  
  class DistributionType {
@@ -28,6 +29,7 @@
     - modalityType
     - unit
     - value
+    - description
  }
  
  class Modality {
@@ -51,7 +53,7 @@ class Criteria {
 }
 
 
-class CriteriaField {
+class CriteriaValue {
     - id
     - name
 }
@@ -75,7 +77,7 @@ class CriteriaCondition {
  ModalityType "1" *-- "1" Commodity
  
  
- CriteriaField "1" *-- "1" Criteria
+ CriteriaValue "1" *-- "1" Criteria
  CriteriaCondition "1" *-- "1" Criteria
  CriteriaType "1" *-- "1" Criteria
 

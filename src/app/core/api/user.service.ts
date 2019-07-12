@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppInjector } from 'src/app/app-injector';
 import { LanguageService } from 'src/app/core/language/language.service';
@@ -30,10 +30,11 @@ export class UserService extends CustomModelService {
         protected languageService: LanguageService,
         private wsseService: WsseService,
         private authenticationService: AuthenticationService,
-        private asyncCacheService: AsyncacheService,
+        private asyncacheService: AsyncacheService,
         private countriesService: CountriesService,
     ) {
         super(http, languageService);
+        this.getUserFromCache();
     }
 
     public create(body: any) {
@@ -45,17 +46,22 @@ export class UserService extends CustomModelService {
         return this.http.get(url);
     }
 
+    public setCurrentUser(user: User) {
+        this.currentUser = user;
+        return this.currentUser;
+    }
+
     public getUserFromCache(): Observable<User> {
-        return this.authenticationService.getUser().pipe(map((userObject: any) => {
+        return this.asyncacheService.getUser().pipe(map((userObject: User) => {
             if (userObject) {
-                this.currentUser = User.apiToModel(userObject);
+                this.setCurrentUser(userObject);
             }
             return this.currentUser;
         }));
     }
 
-    public resetCacheUser() {
-        this.currentUser = undefined;
+    public resetUser() {
+        this.setCurrentUser(undefined);
         this.authenticationService.resetUser();
     }
 
@@ -89,12 +95,13 @@ export class UserService extends CustomModelService {
                 this.requestPasswordChange(parseInt(user.get('id'), 10), { oldPassword: saltedOldPassword, newPassword: saltedNewPassword })
                     .subscribe(data => {
                         this.authenticationService.setSaltedPassword(user, data.password);
-                        this.authenticationService.setUser(user);
+                        this.asyncacheService.setUser(data).subscribe();
+                        this.setCurrentUser(user);
                         resolve();
-                    }, error => {
+                    }, _error => {
                         reject({ message: 'Wrong password' });
                     });
-            }, error => {
+            }, _error => {
                 reject({ message: 'User not found' });
             });
         });
@@ -107,14 +114,8 @@ export class UserService extends CustomModelService {
 
     public setDefaultLanguage(id: number, languageObject: Language): Observable<any[]> {
         const language = this.languageService.languageToString(languageObject);
-        this.currentUser.set('language', language);
         const url = this.apiBase + '/users/' + id + '/language';
-        return forkJoin(
-            [
-                this.asyncCacheService.setUser(this.currentUser),
-                this.http.post(url, {language})
-            ]
-        );
+        return this.http.post(url, {language});
     }
 
     public fillWithOptions(user: User) {
@@ -123,8 +124,8 @@ export class UserService extends CustomModelService {
                 const projectOptions = projects.map(project => {
                     return Project.apiToModel(project);
                 });
-                const country = this.countriesService.selectedCountry.getValue().get<string>('id') ?
-                    this.countriesService.selectedCountry.getValue().get<string>('id') :
+                const country = this.countriesService.selectedCountry.get<string>('id') ?
+                    this.countriesService.selectedCountry.get<string>('id') :
                     this.countriesService.khm.get<string>('id');
                     if (user.get<Array<Project>>('projects')) {
                         user.get<Array<Project>>('projects').forEach((project: Project) => {

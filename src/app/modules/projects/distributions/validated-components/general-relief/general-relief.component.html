@@ -1,19 +1,24 @@
 <div class="container-table">
     <div class="container-content box-primary">
         <div *ngIf="transactionData !== undefined" class="progression">
-            <div class="commodities" *ngFor="let commodity of actualDistribution.get('commodities')">
-                <h4>{{ commodity.get('modalityType').get('name') }} {{ language.transaction_progress | uppercaseFirst }} {{ getPercentageValue(commodity) | number: '1.0-0' }} % </h4>
-                <mat-progress-bar mode="determinate" [value]="getPercentageValue(commodity)"></mat-progress-bar>
+            <div class="commodities">
+                <h4>{{ language.transaction_progress | uppercaseFirst }}
+                    {{ getPercentageValue(actualDistribution.get('commodities')[0]) | number: '1.0-0' }} % </h4>
+                <mat-progress-bar mode="determinate" [value]="getPercentageValue(actualDistribution.get('commodities')[0])"></mat-progress-bar>
                 <div class="details">
                     <div class="info_1">
                         <h5>{{language.transaction_amount_total | uppercaseFirst}}</h5>
-                        {{ getTotalCommodityValue(commodity) }} {{commodity.get('unit')}}
+                        <span *ngFor="let commodity of actualDistribution.get('commodities')">
+                            {{ getTotalCommodityValue(commodity) }} {{commodity.get('unit')}} <br>
+                        </span>
                     </div>
 
                     <ng-container>
                         <div class="info_2">
                             <h5>{{language.transaction_amount_distributed | uppercaseFirst}}</h5>
-                            {{ getAmountSent(commodity) }} {{commodity.get('unit')}}
+                            <span *ngFor="let commodity of actualDistribution.get('commodities')">
+                                {{ getAmountSent(commodity) }} {{commodity.get('unit')}} <br>
+                            </span>
                         </div>
                     </ng-container>
 
@@ -69,7 +74,7 @@
                 <mat-spinner [diameter]="35" *ngIf="loadingComplete"></mat-spinner>
                 <button mat-stroked-button (click)="complete(); $event.stopPropagation()" color="primary"
                     *ngIf="!actualDistribution.get('finished') && userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR') && !loadingComplete">
-                    <mat-icon>done</mat-icon> {{language.close}}
+                    {{ language.close }}
                 </button>
                 <mat-spinner [diameter]="35" *ngIf="loaderCache"></mat-spinner>
                 <button mat-stroked-button [disabled]="distributionIsStored" *ngIf="!loaderCache" class="button-text-accent" (click)="storeBeneficiaries()">

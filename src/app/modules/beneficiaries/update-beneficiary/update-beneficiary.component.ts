@@ -84,8 +84,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
 
     // Language and country
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
-    public countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
-        this.countryService.selectedCountry.getValue().get<string>('id') :
+    public countryId = this.countryService.selectedCountry.get<string>('id') ?
+        this.countryService.selectedCountry.get<string>('id') :
         this.countryService.khm.get<string>('id');
 
     // Reference models
@@ -219,19 +219,21 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         });
 
         this.countrySpecificService.get().subscribe((countrySpecifics: any) => {
-            this.countrySpecificList = countrySpecifics.map((countrySpecific: any) => CountrySpecific.apiToModel(countrySpecific));
-            this.countrySpecificList.forEach((countrySpecific: CountrySpecific) => {
-                this.mainFields.push(countrySpecific.get<string>('field'));
-                const answer = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers').filter(countrySpecificAnswer => {
-                    return countrySpecificAnswer.get('countrySpecific').get<string>('field') === countrySpecific.get<string>('field');
-                })[0];
-                mainFormControls[countrySpecific.get<string>('field')] = new FormControl(answer ? answer.get<string>('answer') : null);
-            });
-            mainFormControls['livelihood'].setValue(this.household.get('livelihood') ?
-                this.household.get('livelihood').get('id') : null);
-            mainFormControls = this.makeLocationForm(mainFormControls);
-            this.mainForm = new FormGroup(mainFormControls);
-            this.onChanges();
+            if (countrySpecifics) {
+                this.countrySpecificList = countrySpecifics.map((countrySpecific: any) => CountrySpecific.apiToModel(countrySpecific));
+                this.countrySpecificList.forEach((countrySpecific: CountrySpecific) => {
+                    this.mainFields.push(countrySpecific.get<string>('field'));
+                    const answer = this.household.get<CountrySpecificAnswer[]>('countrySpecificAnswers').filter(countrySpecificAnswer => {
+                        return countrySpecificAnswer.get('countrySpecific').get<string>('field') === countrySpecific.get<string>('field');
+                    })[0];
+                    mainFormControls[countrySpecific.get<string>('field')] = new FormControl(answer ? answer.get<string>('answer') : null);
+                });
+                mainFormControls['livelihood'].setValue(this.household.get('livelihood') ?
+                    this.household.get('livelihood').get('id') : null);
+                mainFormControls = this.makeLocationForm(mainFormControls);
+                this.mainForm = new FormGroup(mainFormControls);
+                this.onChanges();
+            }
         });
 
 

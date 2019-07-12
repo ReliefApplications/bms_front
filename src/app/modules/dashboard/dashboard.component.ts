@@ -1,13 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
+import { CountriesService } from 'src/app/core/countries/countries.service';
 import { MapService } from 'src/app/core/external/map.service';
-import { Language } from 'src/app/core/language/language';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
-import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Distribution } from 'src/app/models/distribution';
@@ -39,32 +37,28 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     public currentDisplayType: DisplayType;
     private screenSizeSubscription: Subscription;
 
-    // Language
-    public language: Language = this.languageService.selectedLanguage ?
-        this.languageService.selectedLanguage : this.languageService.english;
-
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     constructor(
         private mapService: MapService,
-        private _cacheService: AsyncacheService,
         public _distributionService: DistributionService,
         public _generalService: GeneralService,
         public modalService: ModalService,
         private userService: UserService,
         public languageService: LanguageService,
         private screenSizeService: ScreenSizeService,
+        private countriesService: CountriesService,
+
     ) { }
 
     ngOnInit() {
         this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
             this.currentDisplayType = displayType;
         });
-        this._cacheService.getUser().subscribe(result => {
-            if (result) {
-                this.getSummary();
-                this.checkDistributions();
-            }
-        });
+
+        this.getSummary();
+        this.checkDistributions();
+
         this.deletable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
         this.editable = this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT');
     }
@@ -91,12 +85,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
                         apiDistributions = [];
                     }
                     this.distributionData = new MatTableDataSource();
-                        const distributions = apiDistributions.map((apiDistribution) => {
-                            return Distribution.apiToModel(apiDistribution);
-                        });
-                        this.mapService.addDistributions(distributions);
-                        this.distributionData = new MatTableDataSource(distributions);
-                        this.loadingTable = false;
+                    const distributions = apiDistributions.map((apiDistribution) => {
+                        return Distribution.apiToModel(apiDistribution);
+                    });
+                    this.mapService.addDistributions(distributions);
+                    this.distributionData = new MatTableDataSource(distributions);
+                    this.loadingTable = false;
                 },
                 error => {
                     this.distributionData = new MatTableDataSource();
@@ -112,22 +106,12 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     getSummary(): void {
         this.loadingSummary = true;
         this._generalService.getSummary()
-            .pipe(
-                finalize(
-                    () => {
-                        this.loadingSummary = false;
-                    },
-                )
-            ).subscribe(
+           .subscribe(
                 response => {
                     if (response) {
                         this.loadingSummary = false;
                         this.summary = response;
                     }
-                },
-                error => {
-                    this.loadingSummary = false;
-                    this.summary = null;
                 }
             );
     }

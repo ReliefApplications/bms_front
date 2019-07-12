@@ -7,6 +7,7 @@ import { UserService } from '../../core/api/user.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
 import { User } from '../../models/user';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-profile',
@@ -37,6 +38,7 @@ export class ProfileComponent implements OnInit {
         public snackbar: SnackbarService,
         public formBuilder: FormBuilder,
         public languageService: LanguageService,
+        public router: Router,
         ) {
     }
 
@@ -44,12 +46,11 @@ export class ProfileComponent implements OnInit {
         this.setActualUser();
     }
 
-
     setActualUser() {
         this.authenticationService.getUser().subscribe(
-            result => {
+            (result: User) => {
                 if (result) {
-                    this.actualUser = User.apiToModel(result);
+                    this.actualUser = result;
                 }
                 if (this.actualUser) {
                     this.profileForm.patchValue({
@@ -81,6 +82,7 @@ export class ProfileComponent implements OnInit {
                 () => {
                     this.loading = false;
                     this.snackbar.success('Password changed');
+                    this.router.navigate(['/']);
                 }, err => this.loading = false);
         }
 }

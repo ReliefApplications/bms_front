@@ -157,19 +157,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
                     exported = true;
 
                     country = result[0].country_i_s_o3;
-                    return this._settingsService.export(this.extensionType, category, country).then(
-                        () => { this.loadingExport = false; }
-                    ).catch(
-                        () => { this.loadingExport = false; }
+                    return this._settingsService.export(this.extensionType, category, country).subscribe(
+                        () => { this.loadingExport = false; },
+                        (_error: any) => { this.loadingExport = false; }
                     );
                 }
             }
         );
     } else {
-        return this._settingsService.export(this.extensionType, category, country).then(
-          () => { this.loadingExport = false; }
-        ).catch(
-          () => { this.loadingExport = false; }
+        return this._settingsService.export(this.extensionType, category, country).subscribe(
+          () => { this.loadingExport = false; },
+          (_error: any) => { this.loadingExport = false; }
         );
     }
   }

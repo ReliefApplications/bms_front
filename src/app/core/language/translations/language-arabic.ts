@@ -24,6 +24,7 @@ export class Arabic implements Language {
     new = 'الجديد'
     next = 'التالى'
     no_data = 'لايوجد بيانات'
+    no_data_to_export = 'لا توجد بيانات للتصدير'
     or = 'أو'
     rights = 'الحقوق'
     settings = 'الإعدادات'
@@ -408,6 +409,7 @@ export class Arabic implements Language {
     household_location_type = 'نوع الموقع'
     household_location = 'مكان الأسرة='
     household_members = 'أفراد العائلة'
+    household_no_data_offline = 'لا يمكن الوصول إلى هذه البيانات في وضع عدم الاتصال'
     household_sentence = 'الأسرة من'
 
 
@@ -487,6 +489,8 @@ export class Arabic implements Language {
     modal_not_enough_strong = 'كلمة المرور ليست قوية بما فيه الكفاية ... الحد الأدنى المطلوب: 8 أحرف ، وحرف صغير واحد ، وحجم واحد ، ورقم 1'
     modal_pending_requests = 'الطلبات المعلقة'
     modal_pick_color = 'اختيار اللون'
+    modal_request_error = 'خطأ أثناء إرسال الطلب'
+    modal_request_success = 'تم ارساله'
     modal_required = 'مطلوب'
     modal_save_language_as_default = 'قم بتعيين هذه اللغة كلغتي المفضلة.'
     modal_success = 'نجاح'
@@ -588,6 +592,7 @@ export class Arabic implements Language {
     // Role
     role_user_admin = 'مسؤول'
     role_user_country_manager = 'مسؤول عن البلد'
+    role_user_enumerator = 'العداد'
     role_user_field_officer = 'مسؤول عن الميدان'
     role_user_project_manager = 'مسؤول عن مشروع'
     role_user_project_officer = 'عنصر في مشروع'
@@ -629,17 +634,19 @@ export class Arabic implements Language {
 
     // Table
     table_actions = 'اجراءات'
+    table_assign = 'تعيين'
     table_element_deleted = ' تم حذفها'
     table_element_updated = ' تم تحديثها'
     table_filter = 'البحث عن طريق الكلمات الرئيسية'
     table_first_page = 'الصفحة الأولى'
     table_items_per_page = 'العناصر في كل صفحة'
     table_last_page = 'الصفحة الاخيرة'
+    table_logs_error = 'لا يمكن إرسال السجلات'
+    table_logs_success = 'تم إرسال السجلات'
     table_next_page = 'الصفحة التالية'
     table_of_page = 'من'
     table_previous_page = 'الصفحة السابقة'
     table_print = 'طباعة'
-    table_assign = 'تعيين'
 
     //Time 
     time_just_now = 'Just now'

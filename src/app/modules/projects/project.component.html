@@ -73,11 +73,11 @@
                     </div>
                     </div>
                     <h3 *ngIf="distributionData && distributionData.data.length > 0">{{language.distributions }}</h3>
-                    <button mat-flat-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button-create">
+                    <button mat-flat-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" (click)="addDistribution()" class="add-button-create">
                     <mat-icon>add</mat-icon>
                     {{language.add | uppercaseFirst}}
                     </button>
-                    <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
+                    <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" (click)="addDistribution()" class="add-button" [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
                     <mat-icon>add</mat-icon>
                     </button>
                 </div>
@@ -106,8 +106,8 @@
                         [isLoading]="loadingDistributions" [searchable]="true" [paginable]="true"
                         *ngIf="currentDisplayType.type !== 'mobile'" [validatable]="true"
                         [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')"
-                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
-                        [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
+                        [updatable]="true"
                         [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
                         [duplicable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (duplicateOne)="duplicate($event)"
                         (openModal)="openDialog($event)"
@@ -116,8 +116,8 @@
                         [isLoading]="loadingDistributions"
                         *ngIf="currentDisplayType.type === 'mobile'"
                         [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')"
-                        [editable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
-                        [updatable]="userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT')"
+                        [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
+                        [updatable]="true"
                         [entity]="distributionClass" [service]="distributionService" [data]="distributionData"
                         [duplicable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (duplicateOne)="duplicate($event)"
                         (openModal)="openDialog($event)"

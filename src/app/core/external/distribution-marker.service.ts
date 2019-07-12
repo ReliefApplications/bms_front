@@ -4,9 +4,9 @@ import * as Leaflet from 'leaflet';
 import { Commodity } from 'src/app/models/commodity';
 import { Distribution } from 'src/app/models/distribution';
 import { DistributionBeneficiary } from 'src/app/models/distribution-beneficiary';
+import { UppercaseFirstPipe } from 'src/app/shared/pipes/uppercase-first.pipe';
 import { CountriesService } from '../countries/countries.service';
 import { LanguageService } from '../language/language.service';
-import { UppercaseFirstPipe } from 'src/app/shared/pipes/uppercase-first.pipe';
 
 @Injectable({
   providedIn: 'root'
@@ -47,8 +47,8 @@ export class DistributionMarkerService {
 
     public getPopup(distribution: Distribution) {
         const popup = Leaflet.DomUtil.create('div', 'infoWindow');
-        const countryId = this.countryService.selectedCountry.getValue().get<string>('id') ?
-            this.countryService.selectedCountry.getValue().get<string>('id') :
+        const countryId = this.countryService.selectedCountry.get<string>('id') ?
+            this.countryService.selectedCountry.get<string>('id') :
             this.countryService.khm.get<string>('id');
         const language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
         const titlePipe = new UppercaseFirstPipe();

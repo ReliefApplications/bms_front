@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { forkJoin, of, concat } from 'rxjs';
+import { concat, forkJoin, Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Country } from 'src/app/models/country';
 import { Project } from 'src/app/models/project';
 import { User } from 'src/app/models/user';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { CountriesService } from '../countries/countries.service';
+import { Language } from '../language/language';
 import { LanguageService } from '../language/language.service';
 import { SnackbarService } from '../logging/snackbar.service';
 import { AsyncacheService } from '../storage/asyncache.service';
@@ -39,10 +40,12 @@ export class LoginService {
             switchMap((userFromApi: any) => {
                 const user = User.apiToModel(userFromApi);
                 this.userService.setCurrentUser(user);
-                this.redirect(user);
                 return concat(
-                    this.asyncacheService.setUser(userFromApi),
-                    this.loginRoutine(user)
+                    this.asyncacheService.setUser(userFromApi).pipe(
+                        switchMap((_: any) => {
+                            return this.loginRoutine(user);
+                        })
+                    ),
                 );
             })
         );
@@ -59,14 +62,14 @@ export class LoginService {
     }
 
     private loginRoutine(user: User) {
-        return forkJoin([
-            this.setCountries(user),
-            this.setLanguage(user),
-            this.setUser(user)
-        ]);
+        return forkJoin({
+            country: this.setCountries(user),
+            language: this.setLanguage(user),
+            user: this.setUser(user)
+        });
     }
 
-    private redirect(user: User) {
+    public redirect(user: User) {
         if (user.get<boolean>('changePassword') === true) {
             this.router.navigateByUrl('/profile');
             this.snackbar.info(this.language.profile_change_password);
@@ -97,15 +100,18 @@ export class LoginService {
 
     private setServiceCountry(country: Country) {
         if (!country) {
-            country = this.countriesService.selectableCountries.value[0];
+            country = this.countriesService.selectableCountries[0];
         }
 
-        return this.asyncacheService.getCountry().pipe(tap((cacheCountry: Country) => {
-            if (!cacheCountry) {
-                this.countriesService.setCountry(country);
-            }
-            this.countriesService.setCountry(cacheCountry);
-        }));
+        return this.asyncacheService.getCountry().pipe(
+            tap((cacheCountry: Country) => {
+                if (cacheCountry) {
+                    this.countriesService.selectedCountry = cacheCountry;
+                } else {
+                    this.countriesService.selectedCountry = country;
+                }
+            }),
+        );
     }
 
     // User
@@ -116,11 +122,11 @@ export class LoginService {
 
     // Language
 
-    private setLanguage(user: User) {
+    private setLanguage(user: User): Observable<Language> {
         return this.asyncacheService.getLanguage().pipe(
             switchMap(language => {
                 if (language) {
-                    this.languageService.setLanguage(language);
+                    this.languageService.selectedLanguage = language;
                     return of(undefined);
                 }
                 else {
@@ -133,7 +139,7 @@ export class LoginService {
 
     private setDefaultLanguage(user: User) {
         const language = this.languageService.stringToLanguage(user.get<string>('language'));
-        this.languageService.setLanguage(language);
+        this.languageService.selectedLanguage = language;
         return this.asyncacheService.setLanguage(language);
     }
 }

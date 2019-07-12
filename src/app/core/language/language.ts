@@ -20,6 +20,7 @@ export interface Language {
     new: string
     next: string
     no_data: string
+    no_data_to_export: string
     or: string
     rights: string
     settings: string
@@ -415,6 +416,7 @@ export interface Language {
     household_location_type: string
     household_location: string
     household_members: string
+    household_no_data_offline: string
     household_sentence: string
 
     // Import
@@ -493,6 +495,8 @@ export interface Language {
     modal_not_enough_strong: string
     modal_pending_requests: string
     modal_pick_color: string
+    modal_request_error: string
+    modal_request_success: string
     modal_required: string
     modal_save_language_as_default: string
     modal_success: string
@@ -508,6 +512,12 @@ export interface Language {
     national_id_number: string
     national_id_passport: string
     national_id_type: string
+
+    //Network errors
+    network_access_offline: string
+    network_no_connection: string
+    network_no_connection_reconnect: string
+    network_manipulate_offline: string
 
     // Null values
     null_none: string
@@ -590,6 +600,7 @@ export interface Language {
     // Role
     role_user_admin: string
     role_user_country_manager: string
+    role_user_enumerator: string
     role_user_field_officer: string
     role_user_project_manager: string
     role_user_project_officer: string
@@ -631,17 +642,19 @@ export interface Language {
     
     // Table
     table_actions: string
+    table_assign: string
     table_element_deleted: string
     table_element_updated: string
     table_filter: string
     table_first_page: string
     table_items_per_page: string
     table_last_page: string
+    table_logs_error: string
+    table_logs_success: string
     table_next_page: string
     table_of_page: string
     table_previous_page: string
     table_print: string
-    table_assign: string
 
     // Time
     time_just_now: string
@@ -702,7 +715,7 @@ export interface Language {
     update_beneficiary_title: string
     update_beneficiary_updated_successfully: string
 
-    //Vouchers
+    // Vouchers
     voucher_ask_code: string
     voucher_assign_title: string
     voucher_assign: string

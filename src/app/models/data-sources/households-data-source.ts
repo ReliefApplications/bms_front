@@ -2,11 +2,12 @@ import { CollectionViewer } from '@angular/cdk/collections';
 import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
-import { CountriesService } from '../../core/countries/countries.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { AppInjector } from '../../app-injector';
 import { HouseholdsService } from '../../core/api/households.service';
 import { LocationService } from '../../core/api/location.service';
+import { CountriesService } from '../../core/countries/countries.service';
+import { BeneficiaryReferralType } from '../beneficiary';
 import { MultipleSelectModelField } from '../custom-models/multiple-select-model-field';
 import { NestedFieldModelField } from '../custom-models/nested-field';
 import { ObjectModelField } from '../custom-models/object-model-field';
@@ -14,7 +15,6 @@ import { SingleSelectModelField } from '../custom-models/single-select-model-fie
 import { Household } from '../household';
 import { Location } from '../location';
 import { CustomDataSource } from './custom-data-source.interface';
-import { BeneficiaryReferralType } from '../beneficiary';
 
 export class HouseholdFilters extends CustomModel {
 
@@ -23,8 +23,8 @@ export class HouseholdFilters extends CustomModel {
     // TO DO: stop duplicating that (in location.ts and vendor.ts too) once the location structure is stable
     // (cannot put it in customModel because of circular dependency with country.ts)
     // Maybe create an intermediary customModel->customModelWithLocation->householdFilters
-    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
-    this.countryService.selectedCountry.getValue().get<string>('id') :
+    protected country = this.countryService.selectedCountry.get<string>('id') ?
+    this.countryService.selectedCountry.get<string>('id') :
     this.countryService.khm.get<string>('id');
 
     public fields = {

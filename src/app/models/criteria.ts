@@ -1,10 +1,10 @@
+import { AppInjector } from '../app-injector';
+import { CountriesService } from '../core/countries/countries.service';
+import { Gender } from './beneficiary';
 import { CustomModel } from './custom-models/custom-model';
 import { NumberModelField } from './custom-models/number-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
-import { Gender } from './beneficiary';
-import { AppInjector } from '../app-injector';
-import { CountriesService } from '../core/countries/countries.service';
 
 export class CriteriaCondition extends CustomModel {
 
@@ -51,8 +51,8 @@ export class Criteria extends CustomModel {
     matSortActive = 'field';
 
     protected countryService = AppInjector.get(CountriesService);
-    public country = this.countryService.selectedCountry.getValue().get<string>('id') ?
-    this.countryService.selectedCountry.getValue().get<string>('id') :
+    public country = this.countryService.selectedCountry.get<string>('id') ?
+    this.countryService.selectedCountry.get<string>('id') :
     this.countryService.khm.get<string>('id');
 
     public genders = [

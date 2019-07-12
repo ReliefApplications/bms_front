@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from '../network/http.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 @Injectable({
     providedIn: 'root'

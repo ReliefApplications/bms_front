@@ -46,9 +46,6 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
 
     @ViewChild(TableServerComponent) table: TableServerComponent;
 
-    canEdit     = false;
-    canDelete   = false;
-
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
@@ -91,8 +88,6 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
 
         this.extensionType = 'xls';
         this.getProjects('updateSelection');
-        this.canEdit    = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE');
-        this.canDelete  = this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE');
 
     }
 

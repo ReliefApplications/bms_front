@@ -1,4 +1,6 @@
 import { FormGroup } from '@angular/forms';
+import { AppInjector } from '../app-injector';
+import { CountriesService } from '../core/countries/countries.service';
 import { Language } from '../core/language/language';
 import { Country } from './country';
 import { BooleanModelField } from './custom-models/boolan-model-field';
@@ -30,9 +32,9 @@ export class Role extends CustomModel {
 }
 export class User extends CustomModel {
 
-    public static rights = ['ROLE_ADMIN'];
     title = this.language.user;
     matSortActive = 'email';
+    private readonly countriesService = AppInjector.get(CountriesService);
 
     public fields = {
         id: new NumberModelField({
@@ -71,6 +73,7 @@ export class User extends CustomModel {
                 new Role('ROLE_PROJECT_MANAGER', this.language.role_user_project_manager),
                 new Role('ROLE_COUNTRY_MANAGER', this.language.role_user_country_manager),
                 new Role('ROLE_REGIONAL_MANAGER', this.language.role_user_regional_manager),
+                new Role('ROLE_ENUMERATOR', this.language.role_user_enumerator),
             ],
             bindField: 'name',
             apiLabel: 'id',
@@ -92,7 +95,8 @@ export class User extends CustomModel {
                         user.fields.countries.hint = '';
                     }
 
-                } else if (value === 'ROLE_PROJECT_MANAGER' || value === 'ROLE_PROJECT_OFFICER' || value === 'ROLE_FIELD_OFFICER') {
+                } else if (value === 'ROLE_PROJECT_MANAGER' || value === 'ROLE_PROJECT_OFFICER'
+                    || value === 'ROLE_FIELD_OFFICER' || value === 'ROLE_ENUMERATOR') {
                     form.controls.projects.enable();
                     form.controls.countries.disable();
                     user.fields.countries.hint = '';
@@ -118,7 +122,7 @@ export class User extends CustomModel {
         }),
         countries: new MultipleSelectModelField({
             title: this.language.country,
-            options: [new Country('KHM', this.language.country_khm), new Country('SYR', this.language.country_syr)],
+            options: this.countriesService.enabledCountries,
             isDisplayedInModal: true,
             bindField: 'name',
             apiLabel: 'id',
@@ -160,7 +164,8 @@ export class User extends CustomModel {
                 newUser.fields.countries.hint = 'You can select only one country';
             }
         }
-        if (rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER' || rights === 'ROLE_FIELD_OFFICER') {
+        if (rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER'
+            || rights === 'ROLE_FIELD_OFFICER' || rights === 'ROLE_ENUMERATOR') {
             newUser.fields.projects.isEditable = true;
         }
 
@@ -223,7 +228,8 @@ export class User extends CustomModel {
                 this.fields.countries.value.map((country: Country) => country.get('id')) :
                 null;
         }
-        if (rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER' || rights === 'ROLE_FIELD_OFFICER') {
+        if (rights === 'ROLE_PROJECT_MANAGER' || rights === 'ROLE_PROJECT_OFFICER'
+            || rights === 'ROLE_FIELD_OFFICER' || rights === 'ROLE_ENUMERATOR') {
             userForApi['projects'] = this.fields.projects.value ?
                 this.fields.projects.value.map((project: Project) => project.get('id')) :
                 null;

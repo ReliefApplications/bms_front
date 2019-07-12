@@ -36,8 +36,8 @@ export class Household extends CustomModel {
 
     protected countryService = AppInjector.get(CountriesService);
 
-    protected country = this.countryService.selectedCountry.getValue().get<string>('id') ?
-    this.countryService.selectedCountry.getValue().get<string>('id') :
+    protected country = this.countryService.selectedCountry.get<string>('id') ?
+    this.countryService.selectedCountry.get<string>('id') :
     this.countryService.khm.get<string>('id');
 
     public fields = {
@@ -50,7 +50,6 @@ export class Household extends CustomModel {
         localFamilyName: new TextModelField(
             {
                 title: this.language.beneficiary_family_name,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
@@ -62,7 +61,6 @@ export class Household extends CustomModel {
         localFirstName: new TextModelField(
             {
                 title: this.language.beneficiary_given_name,
-                placeholder: null,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 isRequired: true,
@@ -74,7 +72,6 @@ export class Household extends CustomModel {
         enFamilyName: new TextModelField(
             {
                 title: this.language.beneficiary_en_family_name,
-                placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
                 isRequired: true,
@@ -85,7 +82,6 @@ export class Household extends CustomModel {
         enFirstName: new TextModelField(
             {
                 title: this.language.beneficiary_en_given_name,
-                placeholder: null,
                 isDisplayedInModal: false,
                 isDisplayedInTable: false,
                 isRequired: true,

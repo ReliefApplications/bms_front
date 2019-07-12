@@ -11,6 +11,7 @@ import { Language } from '../language/language';
 import { LanguageService } from '../language/language.service';
 import { SnackbarService } from '../logging/snackbar.service';
 import { AsyncacheService } from '../storage/asyncache.service';
+import { CachedCountryReturnValue } from '../storage/cached-country-value.interface';
 import { UserService } from './user.service';
 
 
@@ -23,6 +24,8 @@ export class LoginService {
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
+    private redirectUrl = '';
+
     constructor (
         private authService: AuthenticationService,
         private userService: UserService,
@@ -33,8 +36,11 @@ export class LoginService {
         private asyncacheService: AsyncacheService,
         ) {}
 
+    // Login from the login page
     public login(username: string, password: string) {
         this.clearSessionCacheEntries();
+        // Set default redirectUrl
+        this.redirectUrl = '/';
 
         return this.authService.login(username, password).pipe(
             switchMap((userFromApi: any) => {
@@ -47,15 +53,21 @@ export class LoginService {
                         })
                     ),
                 );
-            })
+            }),
+            tap(() => { this.redirect(); })
         );
     }
 
+    // Login back using the token in the cache
     public reLogin(user: User) {
-        return this.loginRoutine(user);
+        // Reset redirect url
+        this.redirectUrl = undefined;
+        return this.loginRoutine(user).pipe(tap((_) => {
+            this.redirect();
+        }));
     }
 
-
+    // Clear the last session's cache entries
     private clearSessionCacheEntries(): void {
         this.asyncacheService.removeCountry();
         this.asyncacheService.removeLanguage();
@@ -65,31 +77,32 @@ export class LoginService {
         return forkJoin({
             country: this.setCountries(user),
             language: this.setLanguage(user),
-            user: this.setUser(user)
+            user: this.setUser(user),
         });
     }
 
-    public redirect(user: User) {
-        if (user.get<boolean>('changePassword') === true) {
-            this.router.navigateByUrl('/profile');
-            this.snackbar.info(this.language.profile_change_password);
-        } else {
-            this.router.navigateByUrl('/');
+    // Redirect to profile if the user needs to change their password
+    private redirect() {
+        // Redirect only if redirectUrl has been set, otherwise stay on the same page
+        if (this.redirectUrl) {
+            this.router.navigateByUrl(this.redirectUrl);
         }
     }
 
-    // Country
-
+    // Set user's available countries
     private setCountries(user: User) {
+        // Get current user's country (only set when user only has one country)
         const countries = user.get<Array<Country>>('countries');
         if (! countries) {
             const projects = user.get<Array<Project>>('projects');
+
             if (projects && projects.length) {
                 const countriesSet = new Set(projects.map((project: Project) => {
                     return this.countriesService.stringToCountry(project.get<string>('iso3'));
                 }));
                 this.countriesService.fillWithCountries(Array.from(countriesSet));
             } else {
+                // User is admin
                 this.countriesService.fillWithAllExistingCountries();
             }
         } else {
@@ -98,15 +111,20 @@ export class LoginService {
         return this.setServiceCountry(countries ? countries[0] : undefined);
     }
 
+    // Set the user's default selected country
     private setServiceCountry(country: Country) {
         if (!country) {
             country = this.countriesService.selectableCountries[0];
         }
 
         return this.asyncacheService.getCountry().pipe(
-            tap((cacheCountry: Country) => {
-                if (cacheCountry) {
-                    this.countriesService.selectedCountry = cacheCountry;
+            tap((cachedCountryReturnValue: CachedCountryReturnValue) => {
+                if (cachedCountryReturnValue) {
+                    this.countriesService.selectedCountry = cachedCountryReturnValue.country;
+                    // If the country has just been changed, redirect to home page
+                    if (cachedCountryReturnValue.updatedInLastSession) {
+                        this.redirectUrl = '/';
+                    }
                 } else {
                     this.countriesService.selectedCountry = country;
                 }
@@ -114,15 +132,19 @@ export class LoginService {
         );
     }
 
-    // User
-
+    // Set the user in service
     private setUser(user: User) {
+
+        if (user.get<boolean>('changePassword') === true) {
+            this.redirectUrl = '/profile';
+            this.snackbar.info(this.language.profile_change_password);
+        }
         return of(this.userService.setCurrentUser(user));
     }
 
-    // Language
-
+    // Set the language in cache
     private setLanguage(user: User): Observable<Language> {
+
         return this.asyncacheService.getLanguage().pipe(
             switchMap(language => {
                 if (language) {
@@ -137,6 +159,7 @@ export class LoginService {
 
     }
 
+    // Set user's default language
     private setDefaultLanguage(user: User) {
         const language = this.languageService.stringToLanguage(user.get<string>('language'));
         this.languageService.setLanguage(language);

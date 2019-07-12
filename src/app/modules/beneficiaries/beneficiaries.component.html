@@ -6,7 +6,8 @@
         <div class="container-content box-primary">
             <div class="content-button">
                 <div class="action-buttons">
-                    <button mat-flat-button class="button-background-primary" *ngIf="selection.selected.length > 0"
+                    <button mat-flat-button class="button-background-primary" 
+                        *ngIf="selection.selected.length > 0 && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                         [matMenuTriggerFor]="menu" [matBadge]="selection.selected.length">
                         <mat-icon>more_vert</mat-icon>
                         <span>{{language.table_actions | titlecase}}</span>
@@ -17,13 +18,14 @@
                                 (click)="addToProject(addBeneficiaries)">
                                 {{language.beneficiary_add_list}}
                             </button>
-                            <button mat-menu-item *ngIf="canDelete" (click)="deleteSelected()">
+                            <button mat-menu-item *ngIf="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" (click)="deleteSelected()">
                                 {{language.delete | titlecase}}
                             </button>
                         </mat-menu>
                     </div>
 
                     <div class="button-with-extension"
+                        *ngIf="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
                         [ngClass]="{'rtl':language.direction === 'rtl'}">
                         <button mat-flat-button [disabled]="!(dataSource.length$ | async)"
                             *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport"
@@ -69,13 +71,13 @@
                     </div>
                 </div>
                 <button
-                    *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')"
+                    *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                     mat-flat-button class="add-button-create" (click)="toggleAddButtons()">
                     <mat-icon>add</mat-icon>
                     {{language.create | uppercaseFirst}}
                 </button>
                 <button mat-fab
-                    *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_READ')"
+                    *ngIf="currentDisplayType.type === 'mobile' && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                     class="add-button"
                     [ngClass]="{'add-button-rtl': language.direction === 'rtl'}"
                     (click)="toggleAddButtons()">
@@ -84,12 +86,14 @@
             </div>
 
             <div class="content-table">
-                <app-table-server *ngIf="currentDisplayType.type !== 'mobile'" selectable="true" [selection]="selection"
-                    [deletable]='canDelete' [entity]="referedClassToken"
-                    [service]="householdsService" [data]="dataSource" [updatable]="canEdit"
+                <app-table-server *ngIf="currentDisplayType.type !== 'mobile'" 
+                    [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT') || userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [selection]="selection"
+                    [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [entity]="referedClassToken"
+                    [service]="householdsService" [data]="dataSource" [updatable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                     (openModal)="openDialog($event)"></app-table-server>
-                <app-table-mobile-server *ngIf="currentDisplayType.type === 'mobile'" [deletable]='canDelete' [selection]="selection"
-                    [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="canEdit"
+                <app-table-mobile-server *ngIf="currentDisplayType.type === 'mobile'" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [selection]="selection"
+                    [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT') || userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
+                    [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                     (openModal)="openDialog($event)"></app-table-mobile-server>
             </div>
         </div>

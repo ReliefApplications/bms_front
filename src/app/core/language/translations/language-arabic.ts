@@ -588,6 +588,7 @@ export class Arabic implements Language {
     // Role
     role_user_admin = 'مسؤول'
     role_user_country_manager = 'مسؤول عن البلد'
+    role_user_enumerator = 'العداد'
     role_user_field_officer = 'مسؤول عن الميدان'
     role_user_project_manager = 'مسؤول عن مشروع'
     role_user_project_officer = 'عنصر في مشروع'

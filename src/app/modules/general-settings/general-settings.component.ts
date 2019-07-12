@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SettingsComponent } from 'src/app/components/settings/settings.component';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { UserService } from 'src/app/core/api/user.service';
 
 
 @Component({
@@ -18,7 +19,10 @@ export class GeneralSettingsComponent implements OnInit {
 
     @ViewChild(SettingsComponent) settings: SettingsComponent;
 
-    constructor(public languageService: LanguageService) { }
+    constructor(
+        public languageService: LanguageService,
+        public userService: UserService,
+    ) { }
 
     ngOnInit() {
         this.selectTitle('projects');

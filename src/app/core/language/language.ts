@@ -590,6 +590,7 @@ export interface Language {
     // Role
     role_user_admin: string
     role_user_country_manager: string
+    role_user_enumerator: string
     role_user_field_officer: string
     role_user_project_manager: string
     role_user_project_officer: string

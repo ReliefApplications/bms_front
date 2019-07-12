@@ -58,23 +58,7 @@ export class PermissionsGuard implements CanActivate {
     }
 
     private checkPermissions(route: ActivatedRouteSnapshot, user: User): boolean {
-
-        const segmentedRoute = route.url.map((urlSegment: UrlSegment) => urlSegment.path);
-
-        // Deny access to distributions if the user is not authorized
-        if (segmentedRoute.slice(0, 2).join('/') === 'projects/distributions') {
-            return (this.userService.hasRights('ROLE_DISTRIBUTIONS_MANAGEMENT'));
-        }
-
-        if (segmentedRoute[0] === 'settings') {
-            return this.userService.hasRights('ROLE_VIEW_ADMIN_SETTINGS');
-        }
-
-        if (segmentedRoute[0] === 'admin') {
-            return this.userService.hasRights('ROLE_ADMIN');
-        }
         return true;
-
     }
 }
 

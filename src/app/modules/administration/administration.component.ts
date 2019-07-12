@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SettingsComponent } from 'src/app/components/settings/settings.component';
 import { LanguageService } from 'src/app/core/language/language.service';
+import { UserService } from 'src/app/core/api/user.service';
 
 
 @Component({
@@ -19,10 +20,17 @@ export class AdministrationComponent implements OnInit {
     @ViewChild(SettingsComponent) settings: SettingsComponent;
 
 
-    constructor(public languageService: LanguageService) { }
+    constructor(
+        public languageService: LanguageService,
+        public userService: UserService
+    ) { }
 
     ngOnInit() {
-        this.selectTitle('users');
+        if (this.userService.hasRights('ROLE_USER_MANAGEMENT')) {
+            this.selectTitle('users');
+        } else {
+            this.selectTitle('donors');
+        }
     }
 
     selectTitle(title): void {

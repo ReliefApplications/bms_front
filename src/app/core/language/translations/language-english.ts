@@ -589,6 +589,7 @@ export class English implements Language {
     // Role
     role_user_admin = 'Administrator'
     role_user_country_manager = 'Country manager'
+    role_user_enumerator = 'Enumerator'
     role_user_field_officer = 'Field officer'
     role_user_project_manager = 'Project manager'
     role_user_project_officer = 'Project officer'

@@ -46,7 +46,7 @@
 <mat-dialog-actions *ngIf="step === 1">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-primary"
-            (click)="exit('Voucher Assignment Cancelled')">{{language.cancel}}</button>
+            (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
         <button mat-flat-button class="button-background-primary" (click)="nextStep()"
             [disabled]="!form.valid && !data.beneficiary">{{language.next}}</button>
     </div>
@@ -74,7 +74,7 @@
 <mat-dialog-actions *ngIf="step === 3">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-primary"
-            (click)="exit('Voucher Assignment Cancelled')">{{language.cancel}}</button>
+            (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
         <button mat-flat-button class="button-background-primary" (click)="nextStep()">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
@@ -107,7 +107,7 @@
 <mat-dialog-actions *ngIf="step === 4">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-primary"
-            (click)="exit('Voucher Assignment Cancelled')">{{language.cancel}}</button>
+            (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
         <button [disabled]="displayPasswordControl.value && !voucherPasswordControl.valid"
             mat-flat-button class="button-background-primary" (click)="nextStep()"
@@ -125,7 +125,7 @@
 <mat-dialog-actions *ngIf="step === 5">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-primary"
-            (click)="exit('Voucher Assignment Cancelled')">{{language.cancel}}</button>
+            (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
         <button mat-flat-button class="button-background-primary" (click)="assignBooklet()"
             *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>

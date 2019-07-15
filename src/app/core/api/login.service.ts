@@ -134,7 +134,7 @@ export class LoginService {
     private setUser(user: User) {
         if (user.get<boolean>('changePassword') === true) {
             this.redirectUrl = '/profile';
-            this.snackbar.info(this.language.profile_change_password);
+            this.snackbar.success(this.language.profile_change_password);
         }
         return of(this.userService.setCurrentUser(user));
     }

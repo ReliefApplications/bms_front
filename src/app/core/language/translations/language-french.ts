@@ -725,6 +725,7 @@ export class French implements Language {
     //Vouchers
     voucher_ask_code = 'S\'il vous plaît, demandez au bénéficiaire de saisir 4 chiffres ci-dessous'
     voucher_assign = 'Assigner aux vouchers'
+    voucher_assignment_cancelled = 'Affectation de vouchers annulée'
     voucher_assign_title = 'Assigner la brochure à un bénéficiaire'
     voucher_assigned_success = 'La brochure a été assignée à '
     voucher_confirm = 'Brochure assignée à'

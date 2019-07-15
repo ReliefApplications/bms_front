@@ -726,6 +726,7 @@ export class English implements Language {
     //Vouchers
     voucher_ask_code = 'Please ask beneficiary to enter his 4 digits code here'
     voucher_assign = 'Assign vouchers'
+    voucher_assignment_cancelled = 'Voucher Assignment Cancelled'
     voucher_assign_title = 'Assign booklet to a beneficiary'
     voucher_assigned_success = 'The booklet has been assigned to '
     voucher_confirm = 'Booklet assigned to'

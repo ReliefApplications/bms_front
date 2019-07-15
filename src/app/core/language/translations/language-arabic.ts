@@ -725,6 +725,7 @@ export class Arabic implements Language {
     //Vouchers
     voucher_ask_code = 'الرجاء مطالبة المستفيد بإدخال رمزه المكون من 4 أرقام هنا'
     voucher_assign = 'تعيين قسائم'
+    voucher_assignment_cancelled = 'تم إلغاء مهمة القسيمة'
     voucher_assign_title = 'تخصيص كتيب للمستفيد'
     voucher_assigned_success = ' تم تعيين الكتيب إلى'
     voucher_confirm = ' كتيب مخصص ل'

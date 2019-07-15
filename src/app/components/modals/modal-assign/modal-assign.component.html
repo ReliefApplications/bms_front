@@ -1,4 +1,4 @@
-<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.voucher_assign_title | uppercaseFirst}}</h4>
+<h4 mat-dialog-title class="modal-title underline-primary" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.voucher_assign_title | uppercaseFirst}}</h4>
 
 <!-- Step 1 -->
 <mat-dialog-content class="modal-container" *ngIf="step === 1">
@@ -45,9 +45,9 @@
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="step === 1">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
-        <button mat-button class="button-text-accent"
-            (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <button mat-flat-button class="button-background-accent" (click)="nextStep()"
+        <button mat-button class="button-text-primary"
+            (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
+        <button mat-flat-button class="button-background-primary" (click)="nextStep()"
             [disabled]="!form.valid && !data.beneficiary">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
@@ -63,7 +63,7 @@
         <mat-icon>check_circle_outline</mat-icon>
     </div>
 
-    <div class="button-text-accent center-items">
+    <div class="button-text-primary center-items">
         <mat-icon>local_activity</mat-icon>
         <span>{{ bookletQRCode }}</span>
     </div>
@@ -73,9 +73,9 @@
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="step === 3">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
-        <button mat-button class="button-text-accent"
-            (click)="exit('Assignation canceled')">{{language.cancel}}</button>
-        <button mat-flat-button class="button-background-accent" (click)="nextStep()">{{language.next}}</button>
+        <button mat-button class="button-text-primary"
+            (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
+        <button mat-flat-button class="button-background-primary" (click)="nextStep()">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
 
@@ -106,11 +106,11 @@
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="step === 4">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
-        <button mat-button class="button-text-accent"
-            (click)="exit('Assignation canceled')">{{language.cancel}}</button>
+        <button mat-button class="button-text-primary"
+            (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
         <button [disabled]="displayPasswordControl.value && !voucherPasswordControl.valid"
-            mat-flat-button class="button-background-accent" (click)="nextStep()"
+            mat-flat-button class="button-background-primary" (click)="nextStep()"
             *ngIf="!loadingPassword">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
@@ -124,10 +124,10 @@
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="step === 5">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
-        <button mat-button class="button-text-accent"
-            (click)="exit('Assignation canceled')">{{language.cancel}}</button>
+        <button mat-button class="button-text-primary"
+            (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
         <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
-        <button mat-flat-button class="button-background-accent" (click)="assignBooklet()"
+        <button mat-flat-button class="button-background-primary" (click)="assignBooklet()"
             *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>
     </div>
 </mat-dialog-actions>

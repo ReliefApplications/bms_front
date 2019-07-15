@@ -224,7 +224,7 @@ export class HouseholdsService extends CustomModelService {
     public visit(householdId) {
 
         if (!this.networkService.getStatus()) {
-            this.snackbar.warning('This data can\'t be accessed offline');
+            this.snackbar.warning(this.language.household_no_data_offline);
         } else {
             this.router.navigate(['/beneficiaries/update-beneficiary', householdId]);
         }

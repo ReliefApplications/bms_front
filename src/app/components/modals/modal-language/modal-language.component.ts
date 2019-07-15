@@ -18,7 +18,7 @@ export class ModalLanguageComponent implements OnInit {
     public rtl = false;
     public languageForm: FormGroup;
 
-    // Language
+    // Languageen
     public language: Language = this.languageService.selectedLanguage ?
         this.languageService.selectedLanguage : this.languageService.english;
 
@@ -70,13 +70,13 @@ export class ModalLanguageComponent implements OnInit {
             this.userService.setDefaultLanguage(this.userService.currentUser.get<number>('id'), newLanguage)
                 .pipe(
                     switchMap((user: any) => {
-                        this.snackbar.success('Default Language Saved');
+                        this.snackbar.success(this.language.snackbar_saved_language);
                         return this.asyncacheService.setUser(user).pipe(
                             switchMap( _ => {
                                 return this.changeLanguage(newLanguage);
                             })
                         );
-                })
+                    })
             ).subscribe();
         } else {
             this.changeLanguage(newLanguage).subscribe();

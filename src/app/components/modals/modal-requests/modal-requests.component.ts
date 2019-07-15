@@ -70,10 +70,11 @@ export class ModalRequestsComponent implements OnInit {
             method.subscribe(
                 (requestResult) => {
                     if (requestResult instanceof FailedRequest) {
-                        this.snackbar.error('Error while sending request: ' + requestResult.error);
+                        this.snackbar.error(this.language.modal_request_error + requestResult.error);
                         this.loading = false;
                     } else {
-                        this.snackbar.success(request.method + ' ' + request.url.split('wsse/')[1] + ' was sent');
+                        this.snackbar.success(request.method + ' ' + request.url
+                             .split('wsse/')[1] + ' ' + this.language.modal_request_success);
                         this.requests.splice(this.requests.indexOf(request), 1);
                         this.cacheService.set(AsyncacheService.PENDING_REQUESTS, this.requests).subscribe(
                             () => this.loading = false
@@ -102,7 +103,8 @@ export class ModalRequestsComponent implements OnInit {
                         this.progressCountFail++;
                     } else {
                         this.progressCountSuccess++;
-                        this.snackbar.success(request.method + ' ' + request.url.split('wsse/')[1] + ' was sent');
+                        this.snackbar.success(request.method + ' ' + request.url
+                            .split('wsse/')[1] + ' ' + this.language.modal_request_success);
                         stillToBeSent.splice(stillToBeSent.indexOf(request), 1);
                     }
 

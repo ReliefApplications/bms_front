@@ -4,6 +4,7 @@ import { tap } from 'rxjs/operators';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { URL_BMS_API } from '../../../environments/environment';
 import { HttpService } from '../network/http.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,9 +12,13 @@ import { HttpService } from '../network/http.service';
 export class ExportService {
     readonly api = URL_BMS_API;
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
     constructor(
         private http: HttpService,
-        private snackbar: SnackbarService
+        private snackbar: SnackbarService,
+        protected languageService: LanguageService,
     ) {
     }
 
@@ -44,7 +49,7 @@ export class ExportService {
         return this.http.post(url, body, options).pipe(
             tap(response => {
                 if (! response) {
-                    this.snackbar.warning('No data to export');
+                    this.snackbar.warning(this.language.snackbar_no_data_export);
                 }
                 saveAs(response, key + '.' + extensionType);
             }),

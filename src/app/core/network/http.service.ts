@@ -8,6 +8,7 @@ import { StoredRequest } from 'src/app/models/interfaces/stored-request';
 import { URL_BMS_API } from '../../../environments/environment';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { NetworkService } from './network.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 @Injectable({
     providedIn: 'root'
@@ -15,11 +16,15 @@ import { NetworkService } from './network.service';
 export class HttpService {
     save = true;
 
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
     constructor(
         private http: HttpClient,
         private cacheService: AsyncacheService,
         private networkService: NetworkService,
         private snackbar: SnackbarService,
+        protected languageService: LanguageService,
     ) {
     }
 
@@ -138,7 +143,7 @@ export class HttpService {
                 )
             );
         } else {
-            this.snackbar.warning('This data can\'t be accessed offline: ' + url);
+            this.snackbar.warning(this.language.network_access_offline + ' ' + url);
             return of([]);
         }
     }
@@ -152,11 +157,11 @@ export class HttpService {
                 const method = 'PUT';
                 const request = new StoredRequest(method, url, options, date, body);
                 this.cacheService.storeRequest(request);
-                this.snackbar.warning('No network connection, this data will be sent once you are reconnected');
+                this.snackbar.warning(this.language.network_no_connection_reconnect);
 
                 this.forceDataInCache(method, url, body);
             } else {
-                this.snackbar.warning('No network connection');
+                this.snackbar.warning(this.language.network_no_connection);
             }
 
             return (of(null));
@@ -177,12 +182,12 @@ export class HttpService {
                 if (!urlSplitted.match(regex)) {
                     const request = new StoredRequest(method, url, options, date, body);
                     this.cacheService.storeRequest(request);
-                    this.snackbar.warning('No network connection, this data will be sent once you are reconnected');
+                    this.snackbar.warning(this.language.network_no_connection_reconnect);
                 }
 
                 this.forceDataInCache(method, url, body);
             } else {
-                this.snackbar.warning('No network connection');
+                this.snackbar.warning(this.language.network_no_connection);
             }
 
             return (of(null));
@@ -200,11 +205,11 @@ export class HttpService {
                 const method = 'DELETE';
                 const request = new StoredRequest(method, url, options, date);
                 this.cacheService.storeRequest(request);
-                this.snackbar.warning('No network connection, this data will be sent once you are reconnected');
+                this.snackbar.warning(this.language.network_no_connection_reconnect);
 
                 this.forceDataInCache(method, url, {});
             } else {
-                this.snackbar.warning('No network connection');
+                this.snackbar.warning(this.language.network_no_connection);
             }
 
             return (of(null));
@@ -303,7 +308,7 @@ export class HttpService {
             });
 
             if (!match) {
-                this.snackbar.warning('This data can\'t be manipulated offline: ' + url);
+                this.snackbar.warning(this.language.network_manipulate_offline + ' ' + url);
             }
         }
     }

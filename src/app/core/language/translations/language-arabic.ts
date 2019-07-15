@@ -24,6 +24,7 @@ export class Arabic implements Language {
     new = 'الجديد'
     next = 'التالى'
     no_data = 'لايوجد بيانات'
+    no_data_to_export = 'لا توجد بيانات للتصدير'
     or = 'أو'
     rights = 'الحقوق'
     settings = 'الإعدادات'
@@ -100,6 +101,7 @@ export class Arabic implements Language {
     forbidden = 'الصفحة ممنوعة'
     forbidden_message = 'عذرا , ليس لديك إذن للدخول إلى هذه الصفحة'
     not_connected_error = 'Please log in'
+    not_enough_rights = 'لا توجد حقوق كافية لطلب السجلات'
     not_found = 'الصفحة غير موجودة'
     not_found_message = 'عذرا , لا يمكن العثور على هذه الصفحة'
 
@@ -408,6 +410,7 @@ export class Arabic implements Language {
     household_location_type = 'نوع الموقع'
     household_location = 'مكان الأسرة='
     household_members = 'أفراد العائلة'
+    household_no_data_offline = 'لا يمكن الوصول إلى هذه البيانات في وضع عدم الاتصال'
     household_sentence = 'الأسرة من'
 
 
@@ -487,6 +490,8 @@ export class Arabic implements Language {
     modal_not_enough_strong = 'كلمة المرور ليست قوية بما فيه الكفاية ... الحد الأدنى المطلوب: 8 أحرف ، وحرف صغير واحد ، وحجم واحد ، ورقم 1'
     modal_pending_requests = 'الطلبات المعلقة'
     modal_pick_color = 'اختيار اللون'
+    modal_request_error = 'خطأ أثناء إرسال الطلب'
+    modal_request_success = 'تم ارساله'
     modal_required = 'مطلوب'
     modal_save_language_as_default = 'قم بتعيين هذه اللغة كلغتي المفضلة.'
     modal_success = 'نجاح'
@@ -508,6 +513,14 @@ export class Arabic implements Language {
     null_not_yet = 'ليس بعد'
     null_not_distributed = 'غير موزعة'
     null_not_yet_defined = 'لم يحدد بعد'
+
+    //Network
+    network_access_offline = 'لا يمكن الوصول إلى هذه البيانات في وضع عدم الاتصال'
+    network_no_connection = 'لا يوجد اتصال شبكة'
+    network_no_connection_reconnect = 'لا يوجد اتصال بالشبكة ، سيتم إرسال هذه البيانات بمجرد إعادة الاتصال'
+    network_manipulate_offline = 'لا يمكن معالجة هذه البيانات في وضع عدم الاتصال'
+    network_status_connected = 'أنت الآن متصل بالشبكة'
+    network_status_disconnected = 'أنت الآن مفصول عن الشبكة'
 
     // Number suffixes
     number_suffixes = {
@@ -540,6 +553,7 @@ export class Arabic implements Language {
 
     // Profile
     profile_change_password = 'تحتاج إلى تغيير كلمة المرور الخاصة بك'
+    profile_password_changed = 'تم تغيير كلمة السر'
     profile_user_change_password = 'تغيير كلمة المرور'
     profile_user_hint_new_password = 'كلمة المرور الجديدة'
     profile_user_hint_new_password_again = 'أعد إدخال كلمة المرور الجديدة'
@@ -625,21 +639,29 @@ export class Arabic implements Language {
     snackbar_change_password_fail = '...لا يمكن تغيير كلمة المرور'
     snackbar_change_password_not_possible = 'يجب أن تكون كلمة المرور أطول من حرف واحد وتتطابق مع الشروط'
     snackbar_invalid_transaction_date = 'انتهت مهلة المعاملة.'
+    snackbar_no_data_export = 'لا توجد بيانات للتصدير'
     snackbar_pickup_error = 'من المستحيل حاليًا التحقق من حالة الالتقاط'
+    snackbar_saved_language = 'اللغة الافتراضية المحفوظة'
+    snackbar_update = 'تحديث متاح'
+    snackbar_verification_code = 'تم إرسال رمز التحقق في'
+    snackbar_verification_code_error = 'لا يمكن إرسال الرمز:'
+    snackbar_verification_code_wait_error = 'تم إرسال الرمز الأخير قبل أقل من 10 ثوانٍ ، يجب عليك الانتظار.'
 
     // Table
     table_actions = 'اجراءات'
+    table_assign = 'تعيين'
     table_element_deleted = ' تم حذفها'
     table_element_updated = ' تم تحديثها'
     table_filter = 'البحث عن طريق الكلمات الرئيسية'
     table_first_page = 'الصفحة الأولى'
     table_items_per_page = 'العناصر في كل صفحة'
     table_last_page = 'الصفحة الاخيرة'
+    table_logs_error = 'لا يمكن إرسال السجلات'
+    table_logs_success = 'تم إرسال السجلات'
     table_next_page = 'الصفحة التالية'
     table_of_page = 'من'
     table_previous_page = 'الصفحة السابقة'
     table_print = 'طباعة'
-    table_assign = 'تعيين'
 
     //Time 
     time_just_now = 'Just now'

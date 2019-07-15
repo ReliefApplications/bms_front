@@ -18,11 +18,11 @@
 
             <div class="content-button">
                 <div class="action-buttons">
-                    <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && country === 'SYR'">
+                    <mat-spinner [diameter]="25" class="spinner" *ngIf="loadLocations && countryId === 'SYR'">
                     </mat-spinner>
                     <div class="convert-button">
                         <button mat-stroked-button color="primary" class="template"
-                            *ngIf="!loadLocations && country === 'SYR'" (click)="openConversionDialog(mapFile)">
+                            *ngIf="!loadLocations && countryId === 'SYR'" (click)="openConversionDialog(mapFile)">
                             <mat-icon>publish</mat-icon>
                             <span>{{language.beneficiary_import_convert | uppercaseFirst }}</span>
                         </button>

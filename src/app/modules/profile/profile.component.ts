@@ -81,7 +81,7 @@ export class ProfileComponent implements OnInit {
             .then(
                 () => {
                     this.loading = false;
-                    this.snackbar.success('Password changed');
+                    this.snackbar.success(this.language.profile_password_changed);
                     this.router.navigate(['/']);
                 }, err => this.loading = false);
         }

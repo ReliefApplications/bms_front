@@ -101,6 +101,7 @@ export class French implements Language {
     forbidden = 'Page interdite'
     forbidden_message = 'Désolé, vous n\'avez pas l\'autorisation d\'accéder à cette page'
     not_connected_error = 'Veuillez vous connecter'
+    not_enough_rights = 'Pas assez de droits pour demander des journaux'
     not_found = 'Page non trouvée'
     not_found_message = 'Désolé, cette page n\'est pas disponible'
 
@@ -507,6 +508,14 @@ export class French implements Language {
     national_id_passport = 'Passeport'
     national_id_type = 'Type d\'identifiant national'
 
+    //Network
+    network_access_offline = 'Ces données ne sont pas accessibles offline'
+    network_no_connection = 'Pas d\'internet'
+    network_no_connection_reconnect = 'Pas d\'internet, ces données seront envoyées lors que vous serez à nouveau connecté'
+    network_manipulate_offline = 'Ces données ne peuvent pas être manipulées offline'
+    network_status_connected = 'Vous êtes maintenant connecté au réseau'
+    network_status_disconnected = 'Vous êtes maintenant déconnecté du réseau'
+
     // Null values
     null_none = 'aucun'
     null_not_yet = 'pas encore'
@@ -545,6 +554,7 @@ export class French implements Language {
     // Profile
     profile_change_password = 'Vous devez changer de mot de passe'
     profile_password_would_not_be_changed = 'Les deux mots de passe sont identiques, les changements seront ignorés.'
+    profile_password_changed = 'Mot de passe changé'
     profile_user_change_password = 'Changer de mot de passe'
     profile_user_hint_new_password = 'Nouveau mot de passe'
     profile_user_hint_new_password_again = 'Ré-entrez votre nouveau mot de passe'
@@ -629,8 +639,13 @@ export class French implements Language {
     snackbar_change_password_fail = 'Le mot de passe n\'a pas pu être changé...'
     snackbar_change_password_not_possible = 'Mot de passe pas assez long ou différent de la vérification'
     snackbar_invalid_transaction_date = 'La date valide de transaction est dépassée.'
+    snackbar_no_data_export = 'Pas de données à exporter'    
     snackbar_pickup_error = 'Il est impossile de vérifier le statut de la récupération pour le moment'
     snackbar_saved_language = 'Langage par défaut enregistré'
+    snackbar_update = 'Une mise à jour est disponible'
+    snackbar_verification_code = 'Le code de vérification a été envoyé à'
+    snackbar_verification_code_error = 'Impossible d\'envoyer le code:'
+    snackbar_verification_code_wait_error = 'Le dernier code a été envoyé il y a moins de 10 secondes, vous devriez attendre.'
 
     // Table
     table_actions = 'Actions'

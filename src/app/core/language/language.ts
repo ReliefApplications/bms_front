@@ -97,6 +97,7 @@ export interface Language {
     forbidden_message: string
     forbidden: string
     not_connected_error: string
+    not_enough_rights: string
     not_found_message: string
     not_found: string
 
@@ -513,11 +514,13 @@ export interface Language {
     national_id_passport: string
     national_id_type: string
 
-    //Network errors
+    //Network
     network_access_offline: string
     network_no_connection: string
     network_no_connection_reconnect: string
     network_manipulate_offline: string
+    network_status_connected: string
+    network_status_disconnected: string
 
     // Null values
     null_none: string
@@ -552,6 +555,7 @@ export interface Language {
 
     // Profile
     profile_change_password: string
+    profile_password_changed: string
     profile_password_would_not_be_changed: string
     profile_user_change_password: string
     profile_user_hint_new_password_again: string
@@ -637,9 +641,14 @@ export interface Language {
     snackbar_change_password_fail: string
     snackbar_change_password_not_possible: string
     snackbar_invalid_transaction_date: string
+    snackbar_no_data_export: string
     snackbar_pickup_error: string
     snackbar_saved_language: string
-    
+    snackbar_update: string
+    snackbar_verification_code: string
+    snackbar_verification_code_error: string
+    snackbar_verification_code_wait_error: string
+
     // Table
     table_actions: string
     table_assign: string

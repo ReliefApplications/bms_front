@@ -103,6 +103,7 @@ export class English implements Language {
     forbidden = 'Forbidden Page'
     forbidden_message = 'Sorry, you don\'t have permission to access this page'
     not_connected_error = 'Please log in'
+    not_enough_rights = 'Not enough rights to request logs'
     not_found = 'Page Not Found'
     not_found_message = 'Sorry, this page could not be found'
 
@@ -421,7 +422,7 @@ export class English implements Language {
     import_created = 'Newly created'
     import_deleted = 'Will be deleted'
     import_description = 'Import the file that contains the modified distribution. The database will be updated with the new list of beneficiaries for this distribution when you will click on "update" after importing.'
-    import_distribution_no_right_update = 'لا يحق لك تحديث التوزيع ، اسأل مدير المشروع الخاص بك'
+    import_distribution_no_right_update = 'You do not have the right to modify the distribution, ask your project manager'
     import_distribution_updated = 'Distribution updated'
     import_select_new = 'Select all new'
     import_select_old = 'Select all old'
@@ -508,6 +509,14 @@ export class English implements Language {
     national_id_passport = 'Passport'
     national_id_type = 'ID Type'
 
+    //Network
+    network_access_offline = 'This data can\'t be accessed offline:'
+    network_no_connection = 'No network connection'
+    network_no_connection_reconnect = 'No network connection, this data will be sent once you are reconnected'
+    network_manipulate_offline = 'This data can\'t be manipulated offline:'
+    network_status_connected = 'You are now connected to the network'
+    network_status_disconnected = 'You are now disconnected from the network'
+
     // Null values
     null_none = 'none'
     null_not_yet = 'not yet'
@@ -545,6 +554,7 @@ export class English implements Language {
 
     // Profile
     profile_change_password = 'You need to change your password'
+    profile_password_changed = 'Password changed'
     profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'
     profile_user_change_password = 'Change password'
     profile_user_hint_new_password = 'New password'
@@ -630,8 +640,13 @@ export class English implements Language {
     snackbar_change_password_fail = 'Could not change password...'
     snackbar_change_password_not_possible = 'Password must be longer than 1 character and match with verification'
     snackbar_invalid_transaction_date = 'The transaction deadline is over.'
+    snackbar_no_data_export = 'No data to export'
     snackbar_pickup_error = 'It is currently impossible to check the pickup status'
     snackbar_saved_language = 'Default Language Saved'
+    snackbar_update = 'An update is available'
+    snackbar_verification_code = 'Verification code has been sent at'
+    snackbar_verification_code_error = 'Could not send code:'
+    snackbar_verification_code_wait_error = 'The last code was sent less than 10 seconds ago, you should wait.'
     
     // Table
     table_actions = 'Actions'

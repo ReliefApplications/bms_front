@@ -8,6 +8,7 @@ import { State, TransactionMobileMoney } from 'src/app/models/transaction-mobile
 import { User } from 'src/app/models/user';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
 import { Subscription } from 'rxjs';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 @Component({
     selector: 'app-mobile-money',
@@ -18,6 +19,9 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
 
     // sentStates = [State.Sent, State.AlreadySent, State.PickedUp];
     // receivedStates = [State.PickedUp];
+
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     public transactionData: MatTableDataSource<TransactionMobileMoney>;
 
@@ -173,13 +177,13 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
             try {
                 this.distributionService.logs(this.actualDistribution.get('id')).subscribe(
                     e => { this.snackbar.error('' + e); },
-                    () => { this.snackbar.success('Logs have been sent'); },
+                    () => { this.snackbar.success(this.language.table_logs_success); },
                 );
             } catch (e) {
-                this.snackbar.error('Logs could not be sent : ' + e);
+                this.snackbar.error(this.language.table_logs_error + ' : ' + e);
             }
         } else {
-            this.snackbar.error('Not enough rights to request logs');
+            this.snackbar.error(this.language.not_enough_rights);
         }
     }
 
@@ -190,21 +194,21 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
                     anwser => {
                         if (anwser === 'Email sent') {
                             this.lastCodeSentTime = (new Date()).getTime();
-                            this.snackbar.success('Verification code has been sent at ' + this.actualUser.get('email'));
+                            this.snackbar.success(this.language.snackbar_verification_code + ' ' + this.actualUser.get('email'));
                         }
                     },
                     () => {
                         this.lastCodeSentTime = (new Date()).getTime();
-                        this.snackbar.success('Verification code has been sent at ' + this.actualUser.get('email'));
+                        this.snackbar.success(this.language.snackbar_verification_code + ' ' + this.actualUser.get('email'));
                     }
                 )
                 .catch(
                     (err) => {
-                        this.snackbar.error('Could not send code :' + err);
+                        this.snackbar.error(this.language.snackbar_verification_code_error + ' ' + err);
                     }
                 );
         } else {
-            this.snackbar.error('The last code was sent less than 10 seconds ago, you should wait.');
+            this.snackbar.error(this.language.snackbar_verification_code_wait_error);
         }
     }
 

@@ -101,6 +101,7 @@ export class Arabic implements Language {
     forbidden = 'الصفحة ممنوعة'
     forbidden_message = 'عذرا , ليس لديك إذن للدخول إلى هذه الصفحة'
     not_connected_error = 'Please log in'
+    not_enough_rights = 'لا توجد حقوق كافية لطلب السجلات'
     not_found = 'الصفحة غير موجودة'
     not_found_message = 'عذرا , لا يمكن العثور على هذه الصفحة'
 
@@ -513,6 +514,14 @@ export class Arabic implements Language {
     null_not_distributed = 'غير موزعة'
     null_not_yet_defined = 'لم يحدد بعد'
 
+    //Network
+    network_access_offline = 'لا يمكن الوصول إلى هذه البيانات في وضع عدم الاتصال'
+    network_no_connection = 'لا يوجد اتصال شبكة'
+    network_no_connection_reconnect = 'لا يوجد اتصال بالشبكة ، سيتم إرسال هذه البيانات بمجرد إعادة الاتصال'
+    network_manipulate_offline = 'لا يمكن معالجة هذه البيانات في وضع عدم الاتصال'
+    network_status_connected = 'أنت الآن متصل بالشبكة'
+    network_status_disconnected = 'أنت الآن مفصول عن الشبكة'
+
     // Number suffixes
     number_suffixes = {
         1: '',
@@ -544,6 +553,7 @@ export class Arabic implements Language {
 
     // Profile
     profile_change_password = 'تحتاج إلى تغيير كلمة المرور الخاصة بك'
+    profile_password_changed = 'تم تغيير كلمة السر'
     profile_user_change_password = 'تغيير كلمة المرور'
     profile_user_hint_new_password = 'كلمة المرور الجديدة'
     profile_user_hint_new_password_again = 'أعد إدخال كلمة المرور الجديدة'
@@ -629,8 +639,13 @@ export class Arabic implements Language {
     snackbar_change_password_fail = '...لا يمكن تغيير كلمة المرور'
     snackbar_change_password_not_possible = 'يجب أن تكون كلمة المرور أطول من حرف واحد وتتطابق مع الشروط'
     snackbar_invalid_transaction_date = 'انتهت مهلة المعاملة.'
+    snackbar_no_data_export = 'لا توجد بيانات للتصدير'
     snackbar_pickup_error = 'من المستحيل حاليًا التحقق من حالة الالتقاط'
     snackbar_saved_language = 'اللغة الافتراضية المحفوظة'
+    snackbar_update = 'تحديث متاح'
+    snackbar_verification_code = 'تم إرسال رمز التحقق في'
+    snackbar_verification_code_error = 'لا يمكن إرسال الرمز:'
+    snackbar_verification_code_wait_error = 'تم إرسال الرمز الأخير قبل أقل من 10 ثوانٍ ، يجب عليك الانتظار.'
 
     // Table
     table_actions = 'اجراءات'

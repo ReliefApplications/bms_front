@@ -101,7 +101,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     public lastAdm3;
     public loadLocations = false;
     public loadDownload = false;
-    public country: boolean;
 
     public apiList: Array<Api> = [];
     public selectedApi: Api;
@@ -138,13 +137,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
             this.getAPINames();
             this.extensionType = 'xls';
         }
-
-        this._cacheService.get('country')
-            .subscribe(
-                result => {
-                    this.country = result;
-                }
-            );
 
         this._cacheService.getUser()
             .subscribe(

@@ -130,7 +130,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
     print(event: Booklet) {
         this.snackbar.info(this.language.voucher_print_starting);
 
-        return this._exportService.printVoucher(event.get('id')).subscribe();
+        return this._exportService.printVoucher(event.get('id'), event.get('code')).subscribe();
     }
 
     printMany() {

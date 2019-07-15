@@ -99,7 +99,6 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 this.updateNbBeneficiary();
             }
         });
-        this.loadProvince();
         this.getProjectDates();
     }
 
@@ -176,64 +175,6 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
 
     getMinDate() {
         return this.projectInfo.startDate > new Date() ? this.projectInfo.startDate : new Date();
-    }
-
-    /**
-     * Get adm1 from the back or from the cache service with the key ADM1
-     */
-    loadProvince() {
-        const location = this.objectInstance.get<Location>('location');
-        this.locationService.fillAdm1Options(location).subscribe((filledLocation: Location) => {
-            this.objectInstance.set('location', filledLocation);
-            this.form.controls.adm2.setValue(null);
-            this.form.controls.adm3.setValue(null);
-            this.form.controls.adm4.setValue(null);
-        });
-    }
-
-    /**
-     *  Get adm2 from the back or from the cache service with the id of adm1
-     *  @param adm1Id
-     */
-    loadDistrict(adm1Id) {
-        if (adm1Id) {
-            const location = this.objectInstance.get<Location>('location');
-            this.locationService.fillAdm2Options(location, adm1Id).subscribe((filledLocation: Location) => {
-                this.objectInstance.set('location', filledLocation);
-                this.form.controls.adm2.setValue(null);
-                this.form.controls.adm3.setValue(null);
-                this.form.controls.adm4.setValue(null);
-            });
-        }
-    }
-
-    /**
-     * Get adm3 from the back or from the cahce service with the if of adm2
-     * @param adm2Id
-     */
-    loadCommunity(adm2Id) {
-        const location = this.objectInstance.get<Location>('location');
-        if (adm2Id) {
-            this.locationService.fillAdm3Options(location, adm2Id).subscribe((filledLocation: Location) => {
-                this.objectInstance.set('location', filledLocation);
-                this.form.controls.adm3.setValue(null);
-                this.form.controls.adm4.setValue(null);
-            });
-        }
-    }
-
-    /**
-     *  Get adm4 from the back or from the cahce service with the id of adm3
-     * @param adm3Id
-     */
-    loadVillage(adm3Id) {
-        const location = this.objectInstance.get<Location>('location');
-        if (adm3Id) {
-            this.locationService.fillAdm4Options(location, adm3Id).subscribe((filledLocation: Location) => {
-                this.objectInstance.set('location', filledLocation);
-                this.form.controls.adm4.setValue(null);
-            });
-        }
     }
 
     /**

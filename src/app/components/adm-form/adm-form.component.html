@@ -1,0 +1,37 @@
+<form [formGroup]="form" *ngIf="form">
+        <ng-container>
+          <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm1" (change)="loadDistrict($event)" [placeholder]="location.fields.adm1.title | uppercaseFirst" required>
+              <ng-option *ngFor="let option of location.getOptions('adm1')" [value]="option.get('id')">
+                  {{option.get('name') | uppercaseFirst}}
+              </ng-option>
+          </ng-select>
+          <app-hint-error [form]="form" fieldName="adm1" [field]="location.fields.adm1" [isMatField]="false"></app-hint-error>
+        </ng-container>
+
+        <ng-container>
+            <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm2" (change)="loadCommunity($event)" [placeholder]="location.fields.adm2.title | uppercaseFirst">
+                <ng-option *ngFor="let option of location.getOptions('adm2')"  [value]="option.get('id')">
+                    {{option.get('name') | uppercaseFirst}}
+                </ng-option>
+            </ng-select>
+            <app-hint-error [form]="form" fieldName="adm2" [field]="location.fields.adm2" [isMatField]="false"></app-hint-error>
+        </ng-container>
+
+        <ng-container>
+            <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm3" (change)="loadVillage($event)" [placeholder]="location.fields.adm3.title | uppercaseFirst">
+                <ng-option *ngFor="let option of location.getOptions('adm3')"[value]="option.get('id')">
+                    {{option.get('name') | uppercaseFirst}}
+                </ng-option>
+            </ng-select>
+            <app-hint-error [form]="form" fieldName="adm3" [field]="location.fields.adm3" [isMatField]="false"></app-hint-error>
+        </ng-container>
+
+        <ng-container>
+            <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm4" [placeholder]="location.fields.adm4.title | uppercaseFirst">
+                <ng-option *ngFor="let option of location.getOptions('adm4')" [value]="option.get('id')">
+                    {{option.get('name') | uppercaseFirst}}
+                </ng-option>
+            </ng-select>
+            <app-hint-error [form]="form" fieldName="adm4" [field]="location.fields.adm4" [isMatField]="false"></app-hint-error>
+        </ng-container>
+      </form>

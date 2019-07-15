@@ -101,9 +101,6 @@ export class Vendor extends CustomModel {
             isTrigger: true,
             triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
-                // vendor.set('adm2', null);
-                // vendor.set('adm3', null);
-                // vendor.set('adm4', null);
                 form.controls.adm2.setValue(null);
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
@@ -125,8 +122,6 @@ export class Vendor extends CustomModel {
             isTrigger: true,
             triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
-                // vendor.set('adm3', null);
-                // vendor.set('adm4', null);
                 form.controls.adm3.setValue(null);
                 form.controls.adm4.setValue(null);
                 if (value) {
@@ -147,7 +142,6 @@ export class Vendor extends CustomModel {
             isTrigger: true,
             triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
                 const appInjector = AppInjector;
-                // vendor.set('adm4', null);
                 form.controls.adm4.setValue(null);
                 if (value) {
                     const location = vendor.get<Location>('location');

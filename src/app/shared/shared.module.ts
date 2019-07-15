@@ -33,6 +33,7 @@ import { MonthPickerComponent } from '../components/date-pickers/month-picker/mo
 import { YearPickerComponent } from '../components/date-pickers/year-picker/year-picker.component';
 import { DisplayFieldComponent } from '../components/display-field/display-field.component';
 import { HintErrorComponent } from '../components/hint-error/hint-error.component';
+import { AdmFormComponent } from '../components/adm-form/adm-form.component';
 import { IconSvgComponent } from '../components/icon-svg/icon-svg.component';
 import { ModalAddBeneficiaryComponent } from '../components/modals/modal-add-beneficiary/modal-add-beneficiary.component';
 import { ModalAddCommodityComponent } from '../components/modals/modal-add-commodity/modal-add-commodity.component';
@@ -165,6 +166,7 @@ imports: [
         BoxPropertiesComponent,
         DisplayFieldComponent,
         HintErrorComponent,
+        AdmFormComponent,
         DataValidationComponent,
         DistributionsComponent,
         MobileMoneyComponent,
@@ -223,6 +225,7 @@ imports: [
         MonthPickerComponent,
         YearPickerComponent,
         HintErrorComponent,
+        AdmFormComponent,
         TableComponent,
         TableMobileComponent,
         TableMobileServerComponent,

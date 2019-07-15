@@ -78,7 +78,14 @@ export class ModalFieldsComponent implements OnInit {
         this.onChanges();
     }
 
-    display(field) {
+    display(field, fieldName) {
+        if (this.modalType !== 'Details' &&
+            (fieldName === 'adm1' || fieldName === 'adm2' || fieldName === 'adm3' || fieldName === 'adm4')
+        ) {
+            return false;
+        } else if (this.modalType === 'Details' && fieldName === 'location') {
+            return false;
+        }
         if (field.kindOfField === 'Children') {
             return this.objectInstance.get(field.childrenObject) ?
                 this.objectInstance.get(field.childrenObject).fields[field.childrenFieldName] :

@@ -12,7 +12,7 @@
         <table class="modal-table" [ngClass]="{'rtl':language.direction === 'rtl'}" cdkFocusRegionstart>
             <ng-container *ngFor="let fieldName of objectFields">
                 <ng-container *ngIf="objectInstance.fields[fieldName].isDisplayedInModal">
-                    <tr class="modal-row" *ngIf="display(objectInstance.fields[fieldName]); let field">
+                    <tr class="modal-row" *ngIf="display(objectInstance.fields[fieldName], fieldName); let field">
                         <th class="table-title"
                             *ngIf="modalType === 'Details' || (field.kindOfField !== 'Object' && field.kindOfField !== 'MultipleObject')">
                             {{ field.title | uppercaseFirst }}
@@ -192,7 +192,9 @@
                                 </mat-form-field>
                                 <ng-template #isObject>
                                     <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
-                                        <mat-form-field *ngIf="modalType === 'Details'">
+                                        <app-adm-form *ngIf="modalType !== 'Details' && fieldName === 'location' && field.isEditable" [form]="form" [location]="form.controls.location.value">
+                                        </app-adm-form>
+                                        <mat-form-field *ngIf="modalType === 'Details' && fieldName !== 'location'">
                                             <input matInput disabled="true" type="text"
                                                 [placeholder]="field.title | uppercaseFirst"
                                                 [value]="field.displayModalFunction(field.value)">

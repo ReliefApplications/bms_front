@@ -726,8 +726,9 @@ export interface Language {
 
     // Vouchers
     voucher_ask_code: string
-    voucher_assign_title: string
     voucher_assign: string
+    voucher_assignment_cancelled: string
+    voucher_assign_title: string
     voucher_assigned_success: string
     voucher_confirm: string
     voucher_created: string

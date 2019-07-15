@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, CommonModule } from '@angular/common';
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
@@ -346,12 +346,18 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 return;
             }
             else {
-                const distributionModality = this.commodityData.data[0].get(['modality', 'name']);
                 for (const commodity of this.commodityData.data) {
                     if (commodity.get<number>('value') <= 0) {
                         this.snackbar.error(this.language.add_distribution_zero);
                         return;
-                    } else if (commodity.get('modality').get('name') !== distributionModality) {
+                    }
+                }
+                if (this.commodityData.data.length > 1) {
+                    const commodityAlone = this.commodityData.data.filter((commodity: Commodity) => {
+                        return commodity.get('modalityType').get<string>('name') === 'Mobile Money' ||
+                            commodity.get('modalityType').get<string>('name') === 'QR Code Voucher';
+                    });
+                    if (commodityAlone.length > 0) {
                         this.snackbar.error(this.language.add_distribution_multiple_modalities);
                         return;
                     }

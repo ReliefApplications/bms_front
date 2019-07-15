@@ -87,7 +87,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
         this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4', 'date', 'type', 'threshold'];
         this.getQueryParameter().subscribe(params => {
             this.queryParams = params;
-            if (params.prefill === 'false') {
+            if (params.prefill === 'false' || !this._distributionService.distributionToDuplicate) {
                 this.objectInstance = new Distribution();
                 this.objectInstance.set('location', new Location());
                 this.makeForm();

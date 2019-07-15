@@ -56,11 +56,11 @@ export class ExportService {
         );
     }
 
-    public printVoucher(id: number) {
+    public printVoucher(id: number, code: string) {
         return this.http.get(this.api + '/booklets/print/' + id, {responseType: 'blob'}).pipe(
             tap(response => {
                 const blob = new Blob([response], {type: ('blob')});
-                const filename = 'Booklet-' + id + '.pdf';
+                const filename = 'Booklet-' + code + '.pdf';
                 saveAs(blob, filename);
             })
         );

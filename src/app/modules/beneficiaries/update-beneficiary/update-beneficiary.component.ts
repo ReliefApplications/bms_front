@@ -47,7 +47,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
 
     // Mode
     public mode: string;
-    public locationSuscribers: Subscription[];
+    public locationSuscribers: Subscription[] = [];
 
     // Loaders
     public validationLoading = false;
@@ -943,6 +943,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
     }
 
     private checkIfFormHasBeenModified(): boolean {
+        if (!this.mainForm) {
+            return false;
+        }
         if (!this.checkEqualValues(this.mainForm.value, this.uneditedHouseholdSnapshot)) {
             return true;
         }

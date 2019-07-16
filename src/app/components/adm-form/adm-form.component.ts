@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { LocationService } from 'src/app/core/api/location.service';
@@ -25,6 +25,8 @@ export class AdmFormComponent implements OnInit {
 
     ngOnInit() {
         this.loadProvince();
+        this.form.controls.adm1.setValidators([Validators.required]);
+
     }
 
     /**

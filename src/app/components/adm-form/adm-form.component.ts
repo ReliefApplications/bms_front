@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, OnDestroy, AfterViewInit, Output } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './adm-form.component.html',
   styleUrls: ['./adm-form.component.scss', '../modals/modal-fields/modal-fields.component.scss']
 })
-export class AdmFormComponent implements OnInit, OnDestroy {
+export class AdmFormComponent implements AfterViewInit, OnDestroy {
 
     @Input() form: FormGroup;
     @Input() location: Location;
@@ -21,10 +21,13 @@ export class AdmFormComponent implements OnInit, OnDestroy {
     adm2Subscription: Subscription = null;
     adm3Subscription: Subscription = null;
     adm4Subscription: Subscription = null;
-    adm1FormName: string;
-    adm2FormName: string;
-    adm3FormName: string;
-    adm4FormName: string;
+    formName: any = {
+        adm1: null,
+        adm2: null,
+        adm3: null,
+        adm4: null
+    };
+    @Output() changeAdm = new EventEmitter<any>();
 
     constructor(
         public languageService: LanguageService,
@@ -33,7 +36,7 @@ export class AdmFormComponent implements OnInit, OnDestroy {
 
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
-    ngOnInit() {
+    ngAfterViewInit() {
         if (!this.initialValues) {
             this.initialValues = {
                 adm1: null,
@@ -43,20 +46,30 @@ export class AdmFormComponent implements OnInit, OnDestroy {
 
             };
         }
-        this.adm1FormName = Object.keys(this.initialValues)[0];
-        this.adm2FormName = Object.keys(this.initialValues)[1];
-        this.adm3FormName = Object.keys(this.initialValues)[2];
-        this.adm4FormName = Object.keys(this.initialValues)[3];
+        this.formName['adm1'] = Object.keys(this.initialValues)[0];
+        this.formName['adm2'] = Object.keys(this.initialValues)[1];
+        this.formName['adm3'] = Object.keys(this.initialValues)[2];
+        this.formName['adm4'] = Object.keys(this.initialValues)[3];
 
-        const adm1Id = this.initialValues ? this.initialValues[this.adm1FormName] : null;
-        const adm2Id = this.initialValues ? this.initialValues[this.adm2FormName] : null;
-        const adm3Id = this.initialValues ? this.initialValues[this.adm3FormName] : null;
-        const adm4Id = this.initialValues ? this.initialValues[this.adm4FormName] : null;
+        const adm1Id = this.initialValues ? this.initialValues[this.formName['adm1']] : null;
+        const adm2Id = this.initialValues ? this.initialValues[this.formName['adm2']] : null;
+        const adm3Id = this.initialValues ? this.initialValues[this.formName['adm3']] : null;
+        const adm4Id = this.initialValues ? this.initialValues[this.formName['adm4']] : null;
 
-        this.form.addControl(this.adm1FormName, new FormControl(adm1Id, [Validators.required]));
-        this.form.addControl(this.adm2FormName, new FormControl(adm2Id));
-        this.form.addControl(this.adm3FormName, new FormControl(adm3Id));
-        this.form.addControl(this.adm4FormName, new FormControl(adm4Id));
+        if (adm4Id) {
+            this.changeAdm.emit({admType: 'adm4', admId: adm4Id});
+        } else if (adm3Id) {
+            this.changeAdm.emit({admType: 'adm3', admId: adm3Id});
+        } else if (adm2Id) {
+            this.changeAdm.emit({admType: 'adm2', admId: adm2Id});
+        } else if (adm1Id) {
+            this.changeAdm.emit({admType: 'adm1', admId: adm1Id});
+        }
+
+        this.form.addControl(this.formName['adm1'], new FormControl(adm1Id, [Validators.required]));
+        this.form.addControl(this.formName['adm2'], new FormControl(adm2Id));
+        this.form.addControl(this.formName['adm3'], new FormControl(adm3Id));
+        this.form.addControl(this.formName['adm4'], new FormControl(adm4Id));
 
         this.adm1Subscription = this.locationService.fillAdm1Options(this.location).subscribe((filledLocation0: Location) => {
             this.location = filledLocation0;
@@ -101,11 +114,12 @@ export class AdmFormComponent implements OnInit, OnDestroy {
      */
     loadDistrict(adm1Id) {
         if (adm1Id) {
+            this.changeAdm.emit({admType: 'adm1', admId: adm1Id});
             this.locationService.fillAdm2Options(this.location, adm1Id).subscribe((filledLocation: Location) => {
                 this.location = filledLocation;
-                this.form.controls[this.adm2FormName].setValue(null);
-                this.form.controls[this.adm3FormName].setValue(null);
-                this.form.controls[this.adm4FormName].setValue(null);
+                this.form.controls[this.formName['adm2']].setValue(null);
+                this.form.controls[this.formName['adm3']].setValue(null);
+                this.form.controls[this.formName['adm4']].setValue(null);
             });
         }
     }
@@ -116,10 +130,11 @@ export class AdmFormComponent implements OnInit, OnDestroy {
      */
     loadCommunity(adm2Id) {
         if (adm2Id) {
+            this.changeAdm.emit({admType: 'adm2', admId: adm2Id});
             this.locationService.fillAdm3Options(this.location, adm2Id).subscribe((filledLocation: Location) => {
                 this.location = filledLocation;
-                this.form.controls[this.adm3FormName].setValue(null);
-                this.form.controls[this.adm4FormName].setValue(null);
+                this.form.controls[this.formName['adm3']].setValue(null);
+                this.form.controls[this.formName['adm4']].setValue(null);
             });
         }
     }
@@ -130,20 +145,23 @@ export class AdmFormComponent implements OnInit, OnDestroy {
      */
     loadVillage(adm3Id) {
         if (adm3Id) {
+            this.changeAdm.emit({admType: 'adm3', admId: adm3Id});
             this.locationService.fillAdm4Options(this.location, adm3Id).subscribe((filledLocation: Location) => {
                 this.location = filledLocation;
-                this.form.controls[this.adm4FormName].setValue(null);
+                this.form.controls[this.formName['adm4']].setValue(null);
             });
         }
     }
 
     loadAdm(adm, event) {
-        if (adm === this.adm1FormName) {
+        if (adm === 'adm1') {
             this.loadDistrict(event);
-        } else if (adm === this.adm2FormName) {
+        } else if (adm === 'adm2') {
             this.loadCommunity(event);
-        } else if (adm === this.adm3FormName) {
+        } else if (adm === 'adm3') {
             this.loadVillage(event);
+        } else if (adm === 'adm4') {
+            this.changeAdm.emit({admType: 'adm4', admId: event});
         }
     }
 

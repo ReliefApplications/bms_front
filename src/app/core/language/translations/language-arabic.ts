@@ -761,6 +761,11 @@ export class Arabic implements Language {
     criteria_operator = 'الشروط'
     criteria_weight = 'وزن النتيجة'
     criteria_target = 'معايير الهدف'
+    currentAdm1 = this.household_location_current_location
+    currentAdm2 = this.household_location_current_location
+    currentAdm3 = this.household_location_current_location
+    currentAdm4 = this.household_location_current_location
+    currentLocation = this.household_location_current_location
     dateOfBirth = this.beneficiary_date_of_birth
     residencyStatus = this.beneficiary_residency_status
     hasNotBeenInDistributionsSince = 'لم يكن في التوزيع منذ'

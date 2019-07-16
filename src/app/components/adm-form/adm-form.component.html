@@ -8,8 +8,7 @@
                 class="single-select"
                 [formControlName]="adm"
                 (change)="loadAdm(adm, $event)"
-                [placeholder]="location.fields[adm].title | uppercaseFirst"
-                required>
+                [placeholder]="location.fields[adm].title | uppercaseFirst">
                 <ng-option *ngFor="let option of location.getOptions(adm)" [value]="option.get('id')">
                     {{option.get('name') | uppercaseFirst}}
                 </ng-option>
@@ -32,8 +31,7 @@
                 class="single-select"
                 [formControlName]="adm"
                 (change)="loadAdm(adm, $event)"
-                [placeholder]="location.fields[adm].title | uppercaseFirst"
-                required>
+                [placeholder]="location.fields[adm].title | uppercaseFirst">
                 <ng-option *ngFor="let option of location.getOptions(adm)" [value]="option.get('id')">
                     {{option.get('name') | uppercaseFirst}}
                 </ng-option>

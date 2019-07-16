@@ -14,6 +14,7 @@ import { Livelihood } from 'src/app/models/household';
 import { HouseholdLocation, HouseholdLocationType } from 'src/app/models/household-location';
 import { Subscription } from 'rxjs';
 import { Camp } from 'src/app/models/camp';
+import { Location, Adm } from 'src/app/models/location';
 
 @Component({
     selector: 'app-modal-add-criteria',
@@ -30,6 +31,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
     public form: FormGroup;
     public displayWeight = false;
     public iconAdvanced = 'arrow_drop_down';
+    public location = new Location();
 
     criteriaList: Array<Criteria>;
     livelihoods: Array<Livelihood>;
@@ -89,13 +91,19 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
         });
         formControls['criteriaType'] = new FormControl();
         formControls['campName'] = new FormControl();
+        formControls['adm1'] = new FormControl();
+        formControls['adm2'] = new FormControl();
+        formControls['adm3'] = new FormControl();
+        formControls['adm4'] = new FormControl();
+
         this.form = new FormGroup(formControls);
     }
 
     onChanges(): void {
+        const notDisplayedCriteria = ['campName', 'currentAdm1', 'currentAdm2', 'currentAdm3', 'currentAdm4'];
         this.subscribers.push(this.form.get('criteriaType').valueChanges.subscribe(value => {
             this.criteriaSubList = this.criteriaList.filter((criteria: Criteria) => {
-                return criteria.get<string>('target') === value && criteria.get<string>('field') !== 'campName';
+                return criteria.get<string>('target') === value && !notDisplayedCriteria.includes(criteria.get<string>('field'));
             });
             this.form.controls.field.setValue(null);
             this.form.controls.condition.setValue(null);
@@ -174,7 +182,27 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
             }
         });
 
-        if (controls.field.value === 'locationType' && controls.value.value === 'camp' &&
+        if (controls.field.value === 'currentLocation') {
+            if (controls.adm4.value) {
+                this.criteria.set('field', 'currentAdm4');
+                const adm4Value = this.location.getOptions('adm4').filter((adm: Adm) => adm.get('id') === controls.adm4.value)[0];
+                this.criteria.set('value', new CriteriaValue(controls.adm4.value, adm4Value.get('name')));
+            } else if (controls.adm3.value) {
+                this.criteria.set('field', 'currentAdm3');
+                const adm3Value = this.location.getOptions('adm3').filter((adm: Adm) => adm.get('id') === controls.adm3.value)[0];
+                this.criteria.set('value', new CriteriaValue(controls.adm3.value, adm3Value.get('name')));
+            } else if (controls.adm2.value) {
+                this.criteria.set('field', 'currentAdm2');
+                const adm2Value = this.location.getOptions('adm2').filter((adm: Adm) => adm.get('id') === controls.adm2.value)[0];
+                this.criteria.set('value', new CriteriaValue(controls.adm2.value, adm2Value.get('name')));
+            } else if (controls.adm1.value) {
+                this.criteria.set('field', 'currentAdm1');
+                const adm1Value = this.location.getOptions('adm1').filter((adm: Adm) => adm.get('id') === controls.adm1.value)[0];
+                this.criteria.set('value', new CriteriaValue(controls.adm1.value, adm1Value.get('name')));
+            }
+            this.criteria.set('condition', this.criteria.getOptions('condition')
+                .filter((option: CriteriaCondition) => option.get('name') === controls.condition.value)[0]);
+        } else if (controls.field.value === 'locationType' && controls.value.value === 'camp' &&
             controls.condition.value === '=' && controls.campName.value) {
             const campValue = this.campList.filter((camp: Camp) => camp.get('id') === controls.campName.value)[0];
             this.criteria.set('value', new CriteriaValue(controls.campName.value, campValue.get('name')))

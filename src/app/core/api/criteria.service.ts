@@ -40,7 +40,7 @@ export class CriteriaService extends CustomModelService {
             let conditionNames = [];
 
             const compared = ['dateOfBirth', 'headOfHouseholdDateOfBirth', 'householdSize'];
-            const nonEqual = ['gender', 'equityCardNo', 'locationType', 'headOfHouseholdGender', 'residencyStatus'];
+            const nonEqual = ['gender', 'equityCardNo', 'locationType', 'headOfHouseholdGender', 'residencyStatus', 'currentLocation'];
             const equal = ['IDPoor', 'livelihood', 'foodConsumptionScore', 'campName', 'copingStrategiesIndex',
                 'incomeLevel', 'hasNotBeenInDistributionsSince'];
 

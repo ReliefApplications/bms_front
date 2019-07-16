@@ -762,7 +762,12 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                 this.campLists[event.prefix] = camps.map((camp: any) => Camp.apiToModel(camp));
                 const householdLocation = this.household.get(event.prefix + 'HouseholdLocation');
                 if (householdLocation && householdLocation.get('campAddress') && householdLocation.get('campAddress').get('camp')) {
-                    this.mainForm.controls[event.prefix + 'Camp'].setValue(householdLocation.get('campAddress').get('camp').get('id'));
+
+                    const isInCampList = this.campLists[event.prefix]
+                        .filter((camp: Camp) => camp.get('id') === householdLocation.get('campAddress').get('camp').get('id'))
+                        .length;
+                    this.mainForm.controls[event.prefix + 'Camp']
+                        .setValue(isInCampList ? householdLocation.get('campAddress').get('camp').get('id') : null);
                     this.snapshot();
                 } else {
                     this.mainForm.controls[event.prefix + 'Camp'].setValue(null);

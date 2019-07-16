@@ -1,21 +1,26 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { LocationService } from 'src/app/core/api/location.service';
 import { Location } from 'src/app/models/location';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-adm-form',
   templateUrl: './adm-form.component.html',
   styleUrls: ['./adm-form.component.scss', '../modals/modal-fields/modal-fields.component.scss']
 })
-export class AdmFormComponent implements OnInit {
+export class AdmFormComponent implements OnInit, OnDestroy {
 
     @Input() form: FormGroup;
     @Input() location: Location;
     @Input() withTitle: Boolean = false;
     @Input() initialValues: number[];
+    adm1Subscription: Subscription = null;
+    adm2Subscription: Subscription = null;
+    adm3Subscription: Subscription = null;
+    adm4Subscription: Subscription = null;
 
     constructor(
         public languageService: LanguageService,
@@ -35,24 +40,41 @@ export class AdmFormComponent implements OnInit {
         this.form.addControl('adm3', new FormControl(adm3Id));
         this.form.addControl('adm4', new FormControl(adm4Id));
 
-        this.locationService.fillAdm1Options(this.location).subscribe((filledLocation0: Location) => {
+        this.adm1Subscription = this.locationService.fillAdm1Options(this.location).subscribe((filledLocation0: Location) => {
             this.location = filledLocation0;
-            if (adm1Id) {
-                this.locationService.fillAdm2Options(this.location, adm1Id).subscribe((filledLocation1: Location) => {
-                    this.location = filledLocation1;
-                    if (adm2Id) {
-                        this.locationService.fillAdm3Options(this.location, adm2Id).subscribe((filledLocation2: Location) => {
-                            this.location = filledLocation2;
-                            if (adm3Id) {
-                                this.locationService.fillAdm4Options(this.location, adm3Id).subscribe((filledLocation3: Location) => {
-                                    this.location = filledLocation3;
+            // Sometimes the adm1 are sent twice because of the cache and we want to call the others only once
+            if (adm1Id && !this.adm2Subscription) {
+                this.adm2Subscription =  this.locationService.fillAdm2Options(this.location, adm1Id)
+                    .subscribe((filledLocation1: Location) => {
+                        this.location = filledLocation1;
+                        if (adm2Id) {
+                            this.adm3Subscription =  this.locationService.fillAdm3Options(this.location, adm2Id)
+                                .subscribe((filledLocation2: Location) => {
+                                    this.location = filledLocation2;
+                                    if (adm3Id) {
+                                        this.adm4Subscription = this.locationService.fillAdm4Options(this.location, adm3Id)
+                                        .subscribe((filledLocation3: Location) => this.location = filledLocation3);
+                                    }
                                 });
-                            }
-                        });
-                    }
-                });
+                        }
+                    });
             }
         });
+    }
+
+    ngOnDestroy() {
+        if (this.adm1Subscription) {
+            this.adm1Subscription.unsubscribe();
+        }
+        if (this.adm2Subscription) {
+            this.adm2Subscription.unsubscribe();
+        }
+        if (this.adm3Subscription) {
+            this.adm3Subscription.unsubscribe();
+        }
+        if (this.adm4Subscription) {
+            this.adm4Subscription.unsubscribe();
+        }
     }
 
     /**

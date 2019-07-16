@@ -71,26 +71,28 @@ export class AdmFormComponent implements AfterViewInit, OnDestroy {
         this.form.addControl(this.formName['adm3'], new FormControl(adm3Id));
         this.form.addControl(this.formName['adm4'], new FormControl(adm4Id));
 
-        this.adm1Subscription = this.locationService.fillAdm1Options(this.location).subscribe((filledLocation0: Location) => {
-            this.location = filledLocation0;
-            // Sometimes the adm1 are sent twice because of the cache and we want to call the others only once
-            if (adm1Id && !this.adm2Subscription) {
-                this.adm2Subscription =  this.locationService.fillAdm2Options(this.location, adm1Id)
+        if (!this.adm1Subscription) {
+            this.adm1Subscription = this.locationService.fillAdm1Options(this.location).subscribe((filledLocation0: Location) => {
+                this.location = filledLocation0;
+                // Sometimes the adm1 are sent twice because of the cache and we want to call the others only once
+                if (adm1Id) {
+                    this.adm2Subscription =  this.locationService.fillAdm2Options(this.location, adm1Id)
                     .subscribe((filledLocation1: Location) => {
                         this.location = filledLocation1;
                         if (adm2Id) {
                             this.adm3Subscription =  this.locationService.fillAdm3Options(this.location, adm2Id)
-                                .subscribe((filledLocation2: Location) => {
-                                    this.location = filledLocation2;
-                                    if (adm3Id) {
-                                        this.adm4Subscription = this.locationService.fillAdm4Options(this.location, adm3Id)
-                                        .subscribe((filledLocation3: Location) => this.location = filledLocation3);
-                                    }
-                                });
-                        }
-                    });
-            }
-        });
+                            .subscribe((filledLocation2: Location) => {
+                                this.location = filledLocation2;
+                                        if (adm3Id) {
+                                            this.adm4Subscription = this.locationService.fillAdm4Options(this.location, adm3Id)
+                                            .subscribe((filledLocation3: Location) => this.location = filledLocation3);
+                                        }
+                                    });
+                            }
+                        });
+                }
+            });
+        }
     }
 
     ngOnDestroy() {

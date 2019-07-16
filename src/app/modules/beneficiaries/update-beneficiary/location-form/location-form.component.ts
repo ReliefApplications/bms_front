@@ -9,7 +9,7 @@ import { HouseholdLocationType } from 'src/app/models/household-location';
     templateUrl: './location-form.component.html',
     styleUrls: ['./location-form.component.scss', '../update-beneficiary.component.scss']
 })
-export class LocationFormComponent implements AfterViewInit {
+export class LocationFormComponent {
 
     constructor(
         public languageService: LanguageService,
@@ -33,20 +33,6 @@ export class LocationFormComponent implements AfterViewInit {
         this.countryService.selectedCountry.get<string>('id') :
         this.countryService.khm.get<string>('id');
 
-    ngAfterViewInit() {
-        // this.initialAdms['current'] = {
-        //     currentAdm1: this.locations['current'].get('adm1') ? this.locations['current'].get('adm1').get<number>('id') : null,
-        //     currentAdm2: this.locations['current'].get('adm2') ? this.locations['current'].get('adm2').get<number>('id') : null,
-        //     currentAdm3: this.locations['current'].get('adm3') ? this.locations['current'].get('adm3').get<number>('id') : null,
-        //     currentAdm4: this.locations['current'].get('adm4') ? this.locations['current'].get('adm4').get<number>('id') : null,
-        // };
-        // this.initialAdms['resident'] = {
-        //     residentAdm1: this.locations['resident'].get('adm1') ? this.locations['resident'].get('adm1').get<number>('id') : null,
-        //     residentAdm2: this.locations['resident'].get('adm2') ? this.locations['resident'].get('adm2').get<number>('id') : null,
-        //     residentAdm3: this.locations['resident'].get('adm3') ? this.locations['resident'].get('adm3').get<number>('id') : null,
-        //     residentAdm4: this.locations['resident'].get('adm4') ? this.locations['resident'].get('adm4').get<number>('id') : null,
-        // };
-    }
 
     loadCamps(event, locationGroup) {
         this.changeAdm.emit({

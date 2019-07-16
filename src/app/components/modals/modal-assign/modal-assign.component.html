@@ -1,4 +1,5 @@
-<h4 mat-dialog-title class="modal-title underline-primary" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.voucher_assign_title | uppercaseFirst}}</h4>
+<h4 mat-dialog-title class="modal-title underline-primary" [ngClass]="{'rtl':language.direction === 'rtl'}">
+    {{language.voucher_assign_title | uppercaseFirst}}</h4>
 
 <!-- Step 1 -->
 <mat-dialog-content class="modal-container" *ngIf="step === 1">
@@ -19,8 +20,8 @@
             <tr class="modal-row">
                 <th class="table-title">{{ language.distribution }}</th>
                 <th class="table-value">
-                    <ng-select appendTo="body" *ngIf="!data.distribution" class="full-width single-select" [clearable]=false
-                        formControlName="distributionControl" (change)="getBeneficiaries()">
+                    <ng-select appendTo="body" *ngIf="!data.distribution" class="full-width single-select"
+                        [clearable]=false formControlName="distributionControl" (change)="getBeneficiaries()">
                         <ng-option *ngFor="let distribution of distributions" [value]="distribution.get('id')">
                             {{distribution.get('name')}}</ng-option>
                     </ng-select>
@@ -31,32 +32,29 @@
             <tr class="modal-row">
                 <th class="table-title">{{ language.beneficiary }}</th>
                 <th class="table-value">
-                    <ng-select appendTo="body" appendTo="body" class="full-width single-select" [clearable]=false formControlName="beneficiaryControl"
-                        *ngIf="!data.beneficiary">
+                    <ng-select appendTo="body" appendTo="body" class="full-width single-select" [clearable]=false
+                        formControlName="beneficiaryControl" *ngIf="!data.beneficiary">
                         <ng-option *ngFor="let beneficiary of beneficiaries" [value]="beneficiary.get('id')">
                             {{beneficiary.get('localFullName')}}</ng-option>
                     </ng-select>
                     <p *ngIf="data.beneficiary">{{ data.beneficiary.get('localFullName') }}</p>
-
                 </th>
             </tr>
         </table>
     </form>
+    <p *ngIf="!form.controls.beneficiaryControl.value" style="color:#f44336"> Select a beneficiary </p>
+    <app-scanner *ngIf="form.controls.beneficiaryControl.value" (result)="getResultScanner($event)"></app-scanner>
 </mat-dialog-content>
+
 <mat-dialog-actions *ngIf="step === 1">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-primary"
             (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
-        <button mat-flat-button class="button-background-primary" (click)="nextStep()"
-            [disabled]="!form.valid && !data.beneficiary">{{language.next}}</button>
     </div>
 </mat-dialog-actions>
 
 <!-- Step 2 -->
-<app-scanner *ngIf="step === 2" (result)="getResultScanner($event)"></app-scanner>
-
-<!-- Step 3 -->
-<mat-dialog-content class="modal-container" *ngIf="step === 3">
+<mat-dialog-content class="modal-container" *ngIf="step === 2">
     <p>{{language.voucher_scan_text }}</p>
 
     <div class="scan-checked">
@@ -71,7 +69,7 @@
     <div class="modal-body">
     </div>
 </mat-dialog-content>
-<mat-dialog-actions *ngIf="step === 3">
+<mat-dialog-actions *ngIf="step === 2">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-primary"
             (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
@@ -79,10 +77,13 @@
     </div>
 </mat-dialog-actions>
 
-<!-- Step 4 -->
-<mat-dialog-content class="modal-container" *ngIf="step === 4">
+<!-- Step 3 -->
+<mat-dialog-content class="modal-container" *ngIf="step === 3">
     <div class="modal-body">
-        <span>{{ language.voucher_define_password}} {{ bookletQRCode }} ?</span>
+        <p>{{ language.booklet }} {{ bookletQRCode }} {{ language.voucher_step }} {{ beneficiaryName }} {{
+                language.voucher_for }} {{ distributionName }}</p>
+                
+        <span>{{ language.voucher_define_password}}?</span>
         <mat-checkbox color="primary" [formControl]="displayPasswordControl" class="margin-left"></mat-checkbox>
         <div [hidden]="!displayPasswordControl.value">
             <p>{{ language.voucher_ask_code }}</p>
@@ -91,7 +92,7 @@
                     <input matInput type="password" autocomplete="new-password" [formControl]="voucherPasswordControl"
                         [placeholder]="language.password | uppercaseFirst" />
                     <mat-error *ngIf="voucherPasswordControl.hasError('required')">
-                       {{ language.password }} {{ language.is_required | uppercaseFirst }}
+                        {{ language.password }} {{ language.is_required | uppercaseFirst }}
                     </mat-error>
                     <mat-error *ngIf="voucherPasswordControl.hasError('pattern')">
                         {{ language.booklet_password_pattern }}
@@ -104,30 +105,17 @@
         </div>
     </div>
 </mat-dialog-content>
-<mat-dialog-actions *ngIf="step === 4">
+<mat-dialog-actions *ngIf="step === 3">
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
         <button mat-button class="button-text-primary"
             (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
-        <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
-        <button [disabled]="displayPasswordControl.value && !voucherPasswordControl.valid"
-            mat-flat-button class="button-background-primary" (click)="nextStep()"
-            *ngIf="!loadingPassword">{{language.next}}</button>
+
+        <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
+
+        <button [disabled]="displayPasswordControl.value && !voucherPasswordControl.valid" mat-flat-button
+            class="button-background-primary" (click)="assignBooklet()"
+            *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>
+
     </div>
 </mat-dialog-actions>
 
-<!-- Step 5 -->
-<mat-dialog-content class="modal-container" *ngIf="step === 5">
-    <div class="modal-body">
-        <p>{{ language.booklet }} {{ bookletQRCode }} {{ language.voucher_step5 }} {{ beneficiaryName }} {{
-      language.voucher_for }} {{ distributionName }}</p>
-    </div>
-</mat-dialog-content>
-<mat-dialog-actions *ngIf="step === 5">
-    <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
-        <button mat-button class="button-text-primary"
-            (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
-        <mat-spinner [diameter]="25" *ngIf="loadingAssignation"></mat-spinner>
-        <button mat-flat-button class="button-background-primary" (click)="assignBooklet()"
-            *ngIf="!loadingAssignation">{{language.transaction_confirm_button}}</button>
-    </div>
-</mat-dialog-actions>

@@ -740,7 +740,7 @@ export class Arabic implements Language {
     voucher_select_project = 'يجب عليك اختيار مشروع'
     voucher_select_distribution = 'يجب عليك اختيار التوزيع'
     voucher_select_beneficiary = 'عليك أن تختار المستفيد'
-    voucher_step5 = 'سيتم تعيين ل'
+    voucher_step = 'سيتم تعيين ل'
     voucher_print_selection = 'اختيار الطباعة'
     voucher_print_error = 'لا يمكنك طباعة كتيب إذا لم يكن لديه مستفيد'
     voucher_print_starting = 'بدأ تنزيل القسيمة'

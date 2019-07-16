@@ -1,30 +1,23 @@
-<mat-dialog-content class="modal-container">
-    <p [hidden]="!hasDevices || !hasPermission" cdkFocusRegionstart>{{ language.voucher_scan_text }}</p>
+<p [hidden]="!hasDevices || !hasPermission" cdkFocusRegionstart>{{ language.voucher_scan_text }}</p>
 
-    <div [hidden]="!hasDevices || !hasPermission">
-        <ng-select appendTo="body" [clearable]="false" [formControl]="selectedDeviceControl" *ngIf="selectedDeviceControl.value">
-            <ng-option *ngFor="let device of availableDevices" [value]="device.deviceId">
-                {{device.label }}
-            </ng-option>
-        </ng-select>
+<div [hidden]="!hasDevices || !hasPermission">
+    <ng-select appendTo="body" [clearable]="false" [formControl]="selectedDeviceControl"
+        *ngIf="selectedDeviceControl.value">
+        <ng-option *ngFor="let device of availableDevices" [value]="device.deviceId">
+            {{device.label }}
+        </ng-option>
+    </ng-select>
 
-        <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)"
-            (scanError)="log($event)" (scanFailure)="log($event)" (scanComplete)="log($event)"
-            [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']">
-        </zxing-scanner>
-    </div>
+    <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)"
+        (scanError)="log($event)" (scanFailure)="log($event)" (scanComplete)="log($event)"
+        [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']">
+    </zxing-scanner>
+</div>
 
-    <div *ngIf="!hasDevices">
-        <p>{{ language.voucher_no_device }}.</p>
-    </div>
+<div *ngIf="!hasDevices">
+    <p>{{ language.voucher_no_device }}.</p>
+</div>
 
-    <div *ngIf="!hasPermission && hasDevices">
-        <p>{{ language.voucher_no_permission }}.</p>
-    </div>
-</mat-dialog-content>
-<mat-dialog-actions >
-    <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
-        <button mat-button class="button-text-primary"
-            (click)="exit(language.voucher_assignment_cancelled)">{{language.cancel}}</button>
-    </div>
-</mat-dialog-actions>
+<div *ngIf="!hasPermission && hasDevices">
+    <p>{{ language.voucher_no_permission }}.</p>
+</div>

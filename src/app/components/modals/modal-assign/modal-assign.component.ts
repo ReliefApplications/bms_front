@@ -70,7 +70,7 @@ export class ModalAssignComponent implements OnInit {
     }
 
     /**
-     * get all distributions of a project
+     * Get all distributions of a project
      */
     getDistributions() {
         this.distributionService.getQrVoucherByProject(this.projectControl.value)
@@ -108,45 +108,23 @@ export class ModalAssignComponent implements OnInit {
             );
     }
 
+    /**
+     * Administrates the steps of the assignation
+     */
     nextStep() {
         if (this.step === 1) {
-            if (this.projectControl.value === 0) {
-                this.snackbar.error(this.language.voucher_select_project);
-            } else if (this.distributionControl.value === 0) {
-                this.snackbar.error(this.language.voucher_select_distribution);
-            } else if (this.beneficiaryControl.value === 0) {
-                this.snackbar.error(this.language.voucher_select_beneficiary);
-            } else {
-                if (!this.data.distribution || !this.data.project) {
-                    this.distributionName = this.distributions.filter(
-                        (distribution: Distribution) => distribution.get('id') === this.distributionControl.value)[0].get('name');
-                } if (!this.data.beneficiary) {
-                    this.beneficiaryName = this.beneficiaries.filter(
-                        (beneficiary: Beneficiary) => beneficiary.get('id') === this.beneficiaryControl.value)[0].get('localFullName');
-                }
-                this.step = 2;
-            }
+            this.step = 2;
         }
-        // Step 3 passed when we scan the QRCode
-        else if (this.step === 3) {
-            this.step = 4;
-        } else if (this.step === 4) {
-            if (this.voucherPasswordControl.hasError('pattern')) {
-                this.snackbar.error(this.language.voucher_only_digits);
-            } else {
-                this.loadingPassword = true;
-
-                if (!this.displayPasswordControl.value) {
-                    this.password = null;
-                }
-
-                this.step = 5;
-
-            }
+        else if (this.step === 2) {
+            this.step = 3;
         }
     }
 
+    /**
+     * Assigns a booklet to a beneficiary and a password if any
+     */
     assignBooklet() {
+        this.loadPassword();
         this.loadingAssignation = true;
         const bookletId = this.bookletQRCode;
 
@@ -184,10 +162,48 @@ export class ModalAssignComponent implements OnInit {
         }
     }
 
+    /**
+     * Gets the Beneficiaries of the selected distribution
+     */
     getResultScanner(event) {
         this.bookletQRCode = event;
+        this.getData();
+        this.step = 2;
+    }
 
-        this.step = 3;
+    /**
+     * Gets the input data of the beneficiary
+     */
+    getData() {
+        if (this.projectControl.value === 0) {
+            this.snackbar.error(this.language.voucher_select_project);
+        } else if (this.distributionControl.value === 0) {
+            this.snackbar.error(this.language.voucher_select_distribution);
+        } else if (this.beneficiaryControl.value === 0) {
+            this.snackbar.error(this.language.voucher_select_beneficiary);
+        } else {
+            if (!this.data.distribution || !this.data.project) {
+                this.distributionName = this.distributions.filter(
+                    (distribution: Distribution) => distribution.get('id') === this.distributionControl.value)[0].get('name');
+            } if (!this.data.beneficiary) {
+                this.beneficiaryName = this.beneficiaries.filter(
+                    (beneficiary: Beneficiary) => beneficiary.get('id') === this.beneficiaryControl.value)[0].get('localFullName');
+            }
+        }
+    }
+
+    /**
+     * Loads the password if any
+     */
+    loadPassword() {
+        if (this.voucherPasswordControl.hasError('pattern')) {
+            this.snackbar.error(this.language.voucher_only_digits);
+        } else {
+            this.loadingPassword = true;
+            if (!this.displayPasswordControl.value) {
+                this.password = null;
+            }
+        }
     }
 
     exit(message: string) {

@@ -744,7 +744,7 @@ export class French implements Language {
     voucher_select_beneficiary = 'Vous devez sélectionner un bénéficiaire'
     voucher_select_distribution = 'Vous devez sélectionner une distribution'
     voucher_select_project = 'Vous devez sélectionner un projet'
-    voucher_step5 = 'va être assignée à'
+    voucher_step = 'va être assignée à'
     vouchers_booklet = 'Brochures de coupons'
 
     // Vulnerability

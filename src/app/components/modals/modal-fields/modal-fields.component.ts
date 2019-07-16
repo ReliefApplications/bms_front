@@ -47,7 +47,7 @@ export class ModalFieldsComponent implements OnInit {
     private colors: string[] = COLORS;
     private colorModalRef;
     private currentColor: string;
-    initialAdmValues: number[];
+    initialAdmValues: any;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -75,12 +75,12 @@ export class ModalFieldsComponent implements OnInit {
         }
 
         if (this.objectInstance.get('location') && this.modalType !== 'Details') {
-            this.initialAdmValues = [
-                this.objectInstance.get('location').get('adm1') ? this.objectInstance.get('location').get('adm1').get('id') : null,
-                this.objectInstance.get('location').get('adm2') ? this.objectInstance.get('location').get('adm2').get('id') : null,
-                this.objectInstance.get('location').get('adm3') ? this.objectInstance.get('location').get('adm3').get('id') : null,
-                this.objectInstance.get('location').get('adm4') ? this.objectInstance.get('location').get('adm4').get('id') : null
-            ];
+            this.initialAdmValues = {
+                adm1: this.objectInstance.get('location').get('adm1') ? this.objectInstance.get('location').get('adm1').get('id') : null,
+                adm2: this.objectInstance.get('location').get('adm2') ? this.objectInstance.get('location').get('adm2').get('id') : null,
+                adm3: this.objectInstance.get('location').get('adm3') ? this.objectInstance.get('location').get('adm3').get('id') : null,
+                adm4: this.objectInstance.get('location').get('adm4') ? this.objectInstance.get('location').get('adm4').get('id') : null
+            };
         }
 
         // Create the form

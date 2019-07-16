@@ -1,6 +1,6 @@
 <form [formGroup]="form" *ngIf="form">
     <ng-container *ngIf="!withTitle; else formWithTitle">
-        <ng-container *ngFor="let adm of ['adm1', 'adm2', 'adm3', 'adm4']">
+        <ng-container *ngFor="let adm of [adm1FormName, adm2FormName, adm3FormName, adm4FormName]">
             <ng-select
                 [multiple]="false"
                 [closeOnSelect]="true"
@@ -19,7 +19,7 @@
     </ng-container>
 
     <ng-template #formWithTitle>
-        <tr class="modal-row" *ngFor="let adm of ['adm1', 'adm2', 'adm3', 'adm4']">
+        <tr class="modal-row" *ngFor="let adm of [adm1FormName, adm2FormName, adm3FormName, adm4FormName]">
             <th class="table-title">
                 {{ location.fields[adm].title | uppercaseFirst }}
             </th>

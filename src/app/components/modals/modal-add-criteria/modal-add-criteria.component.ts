@@ -91,10 +91,6 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
         });
         formControls['criteriaType'] = new FormControl();
         formControls['campName'] = new FormControl();
-        formControls['adm1'] = new FormControl();
-        formControls['adm2'] = new FormControl();
-        formControls['adm3'] = new FormControl();
-        formControls['adm4'] = new FormControl();
 
         this.form = new FormGroup(formControls);
     }

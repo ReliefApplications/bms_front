@@ -84,7 +84,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
             this.currentDisplayType = displayType;
         });
         this.loadingCreation = false;
-        this.objectFields = ['adm1', 'adm2', 'adm3', 'adm4', 'date', 'type', 'threshold'];
+        this.objectFields = ['date', 'type', 'threshold'];
         this.getQueryParameter().subscribe(params => {
             this.queryParams = params;
             if (params.prefill === 'false' || !this._distributionService.distributionToDuplicate) {

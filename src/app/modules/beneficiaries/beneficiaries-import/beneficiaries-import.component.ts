@@ -68,12 +68,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     // Syria template conversion
     private conversionDialog: MatDialogRef<any, any>;
     public conversionLocation = new Location();
-    public conversionForm = new FormGroup({
-        adm1: new FormControl(undefined, [Validators.required]),
-        adm2: new FormControl(),
-        adm3: new FormControl(),
-        adm4: new FormControl(),
-    });
+    public conversionForm = new FormGroup({});
     conversionFormControlSubscriptions: Array<Subscription>;
     loadingConversion = false;
 

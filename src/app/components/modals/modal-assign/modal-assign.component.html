@@ -42,7 +42,7 @@
             </tr>
         </table>
     </form>
-    <p *ngIf="!form.controls.beneficiaryControl.value" style="color:#f44336"> Select a beneficiary </p>
+    <p class="red-color" *ngIf="!form.controls.beneficiaryControl.value" > {{language.select_beneficiary | uppercaseFirst}} </p>
     <app-scanner *ngIf="form.controls.beneficiaryControl.value" (result)="getResultScanner($event)"></app-scanner>
 </mat-dialog-content>
 

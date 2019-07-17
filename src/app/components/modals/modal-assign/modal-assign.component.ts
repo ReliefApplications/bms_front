@@ -50,7 +50,6 @@ export class ModalAssignComponent implements OnInit {
     public beneficiaryName = '';
     public bookletQRCode;
     public password = '';
-    public loadingPassword = false;
     public loadingAssignation = false;
 
     ngOnInit() {
@@ -136,14 +135,7 @@ export class ModalAssignComponent implements OnInit {
             );
 
         if (this.voucherPasswordControl.value) {
-            const passwordObservable = this.bookletService.setPassword(this.bookletQRCode, this.voucherPasswordControl.value)
-                .pipe(
-                    finalize(
-                        () => {
-                            this.loadingPassword = false;
-                        }
-                    )
-                );
+            const passwordObservable = this.bookletService.setPassword(this.bookletQRCode, this.voucherPasswordControl.value);
             forkJoin(assignObservable, passwordObservable).subscribe((_: any) => {
                 this.snackbar.success(
                     this.language.voucher_assigned_success + this.beneficiaryName);
@@ -168,7 +160,7 @@ export class ModalAssignComponent implements OnInit {
     getResultScanner(event) {
         this.bookletQRCode = event;
         this.getData();
-        this.step = 2;
+        this.nextStep();
     }
 
     /**
@@ -199,7 +191,6 @@ export class ModalAssignComponent implements OnInit {
         if (this.voucherPasswordControl.hasError('pattern')) {
             this.snackbar.error(this.language.voucher_only_digits);
         } else {
-            this.loadingPassword = true;
             if (!this.displayPasswordControl.value) {
                 this.password = null;
             }

@@ -12,6 +12,7 @@ import { ObjectModelField } from './custom-models/object-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
 import { HouseholdLocation } from './household-location';
+import { Location } from './location';
 import { Project } from './project';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
 
@@ -277,4 +278,9 @@ export class Household extends CustomModel {
             coping_strategies_index: this.get('copingStrategiesIndex'),
         };
     }
+
+}
+export class FormLocation {
+    current: Location = new Location();
+    resident: Location = new Location();
 }

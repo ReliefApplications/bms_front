@@ -23,7 +23,7 @@ import { CampAddress } from 'src/app/models/camp-address';
 import { PHONECODES } from 'src/app/models/constants/phone-codes';
 import { CountrySpecific, CountrySpecificAnswer } from 'src/app/models/country-specific';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
-import { Household, Livelihood } from 'src/app/models/household';
+import { Household, Livelihood, FormLocation } from 'src/app/models/household';
 import { HouseholdLocation, HouseholdLocationGroup, HouseholdLocationType } from 'src/app/models/household-location';
 import { Adm, Location } from 'src/app/models/location';
 import { NationalId, NationalIdType } from 'src/app/models/national-id';
@@ -90,8 +90,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
 
     // Reference models
     public household: Household;
-    public locations = { 'current': new Location(), 'resident': new Location() };
-    public initialAdms: any = {};
+    public locations = new FormLocation();
+    public initialAdms: any = {
+        current: null,
+        resident: null
+    };
 
     @ViewChild(MatStepper) stepper: MatStepper;
 
@@ -245,7 +248,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         this.mainForm.controls.currentCreateCamp.setValue(false);
         this.mainForm.controls.residentCreateCamp.setValue(false);
 
-        const locations = {};
+        const locations = new FormLocation();
         householdLocations.forEach((householdLocation: HouseholdLocation) => {
             const prefix = householdLocation.get('locationGroup') &&
                 householdLocation.get('locationGroup').get<string>('id') === 'resident' ? 'resident' : 'current';
@@ -268,16 +271,16 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
 
         });
         this.initialAdms['current'] = {
-            currentAdm1: locations['current'].get('adm1') ? locations['current'].get('adm1').get<number>('id') : null,
-            currentAdm2: locations['current'].get('adm2') ? locations['current'].get('adm2').get<number>('id') : null,
-            currentAdm3: locations['current'].get('adm3') ? locations['current'].get('adm3').get<number>('id') : null,
-            currentAdm4: locations['current'].get('adm4') ? locations['current'].get('adm4').get<number>('id') : null,
+            currentAdm1: locations.current.get('adm1') ? locations.current.get('adm1').get<number>('id') : null,
+            currentAdm2: locations.current.get('adm2') ? locations.current.get('adm2').get<number>('id') : null,
+            currentAdm3: locations.current.get('adm3') ? locations.current.get('adm3').get<number>('id') : null,
+            currentAdm4: locations.current.get('adm4') ? locations.current.get('adm4').get<number>('id') : null,
         };
         this.initialAdms['resident'] = {
-            residentAdm1: locations['resident'].get('adm1') ? locations['resident'].get('adm1').get<number>('id') : null,
-            residentAdm2: locations['resident'].get('adm2') ? locations['resident'].get('adm2').get<number>('id') : null,
-            residentAdm3: locations['resident'].get('adm3') ? locations['resident'].get('adm3').get<number>('id') : null,
-            residentAdm4: locations['resident'].get('adm4') ? locations['resident'].get('adm4').get<number>('id') : null,
+            residentAdm1: locations.resident.get('adm1') ? locations.resident.get('adm1').get<number>('id') : null,
+            residentAdm2: locations.resident.get('adm2') ? locations.resident.get('adm2').get<number>('id') : null,
+            residentAdm3: locations.resident.get('adm3') ? locations.resident.get('adm3').get<number>('id') : null,
+            residentAdm4: locations.resident.get('adm4') ? locations.resident.get('adm4').get<number>('id') : null,
         };
     }
 

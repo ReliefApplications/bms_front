@@ -160,6 +160,12 @@ export class French implements Language {
     add_distribution_threshold = 'Score minimum de sélection'
     add_distribution_zero = 'Le nombre de ménage atteint ou le montant à distribuer est 0'
 
+    add_distribution_very_low = 'Très bas'
+    add_distribution_low = 'Bas'
+    add_distribution_average = 'Moyenne'
+    add_distribution_high = 'Haut'
+    add_distribution_very_high = 'Très haut'
+
     // Add project
     add_project_new_distribution = 'nouvelle distribution'
     add_project_title = 'nouveau projet'

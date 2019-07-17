@@ -162,6 +162,12 @@ export class English implements Language {
     add_distribution_threshold = 'Minimum selection score'
     add_distribution_zero = 'The number of households reached or the amount to be distributed is 0'
 
+    add_distribution_very_low = 'Very low'
+    add_distribution_low = 'Low'
+    add_distribution_average = 'Average'
+    add_distribution_high = 'High'
+    add_distribution_very_high = 'Very high'
+
     // Add project
     add_project_title = 'new project'
     add_project_new_distribution = 'new distribution'

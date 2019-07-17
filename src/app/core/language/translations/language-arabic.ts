@@ -160,6 +160,12 @@ export class Arabic implements Language {
     add_distribution_threshold = ' المجموع الادنى لاختيار '
     add_distribution_zero = 'عدد الأسر التي تم الوصول إليها أو المبلغ المطلوب توزيعه هو 0'
 
+    add_distribution_very_low = 'منخفظ جدا'
+    add_distribution_low = 'منخفض'
+    add_distribution_average = 'معدل'
+    add_distribution_high = 'متوسط'
+    add_distribution_very_high = 'عالي جدا'
+
     // Add project
     add_project_new_distribution = 'توزيعة جديدة'
     add_project_title = 'مشروع جديد'

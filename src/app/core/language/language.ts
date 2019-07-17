@@ -143,6 +143,12 @@ export interface Language {
     add_distribution_threshold: string
     add_distribution_zero: string
 
+    add_distribution_very_low: string
+    add_distribution_low: string
+    add_distribution_average: string
+    add_distribution_high: string
+    add_distribution_very_high: string
+
     // Add project
     add_project_new_distribution: string
     add_project_title: string

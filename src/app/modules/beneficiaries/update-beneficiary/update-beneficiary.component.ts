@@ -233,6 +233,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                     })[0];
                     this.mainForm.addControl(
                         countrySpecific.get<string>('field'), new FormControl(answer ? answer.get<string>('answer') : null));
+                    this.snapshot();
                 });
             }
         });

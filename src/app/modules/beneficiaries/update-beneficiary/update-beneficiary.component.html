@@ -25,7 +25,7 @@
                             <div class="main-information-content">
                                 <app-location-form *ngIf="mainForm && locations" [initialAdms]="initialAdms" [locations]="locations" [form]="mainForm"
                                     [householdLocationTypes]="household.get('currentHouseholdLocation').getOptions('type')"
-                                    [campLists]="campLists" locationGroup="current" (changeAdm)="loadCamps($event)">
+                                    [campLists]="campLists" locationGroup="current" (changeAdm)="loadCamps($event)" (changeForm)="snapshot()">
                                 </app-location-form>
                                 <form [formGroup]="mainForm" class="location-question">
                                     <mat-checkbox color="primary" formControlName="locationDifferent"></mat-checkbox>
@@ -34,7 +34,7 @@
                                 <app-location-form *ngIf="mainForm && locations && mainForm.controls.locationDifferent.value"
                                     [initialAdms]="initialAdms" [locations]="locations" [form]="mainForm"
                                     [householdLocationTypes]="household.get('currentHouseholdLocation').getOptions('type')"
-                                    [campLists]="campLists" locationGroup="resident" (changeAdm)="loadCamps($event)">
+                                    [campLists]="campLists" locationGroup="resident" (changeAdm)="loadCamps($event)" (changeForm)="snapshot()">
                                 </app-location-form>
                                 <form [formGroup]="mainForm" class="not-location-form">
                                     <div class="column-container">

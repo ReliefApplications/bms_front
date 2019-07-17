@@ -23,6 +23,7 @@ export class LocationFormComponent {
     @Input() locationGroup: string;
 
     @Output() changeAdm = new EventEmitter<any>();
+    @Output() changeForm = new EventEmitter<any>();
 
     // Location initial values
     @Input() initialAdms: any = {};
@@ -40,5 +41,9 @@ export class LocationFormComponent {
             admType: event.admType,
             admId: event.admId
         });
+    }
+
+    emitChangeForm() {
+        this.changeForm.emit();
     }
 }

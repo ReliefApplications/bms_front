@@ -28,6 +28,7 @@ export class AdmFormComponent implements AfterViewInit, OnDestroy {
         adm4: null
     };
     @Output() changeAdm = new EventEmitter<any>();
+    @Output() changeForm = new EventEmitter<any>();
 
     constructor(
         public languageService: LanguageService,
@@ -70,6 +71,7 @@ export class AdmFormComponent implements AfterViewInit, OnDestroy {
         this.form.addControl(this.formName['adm2'], new FormControl(adm2Id));
         this.form.addControl(this.formName['adm3'], new FormControl(adm3Id));
         this.form.addControl(this.formName['adm4'], new FormControl(adm4Id));
+        this.changeForm.emit();
 
         if (!this.adm1Subscription) {
             this.adm1Subscription = this.locationService.fillAdm1Options(this.location).subscribe((filledLocation0: Location) => {

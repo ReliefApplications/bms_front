@@ -1,7 +1,7 @@
 <form [formGroup]="form" class="location-form" *ngIf="locations && initialAdms[locationGroup]">
   <div class="column-container">
     <h4 class="location">{{ language['household_location_' + locationGroup + '_location'] | uppercaseFirst}}</h4>
-    <app-adm-form [form]="form" [location]="locations[locationGroup]" [initialValues]="initialAdms[locationGroup]" (changeAdm)="loadCamps($event, locationGroup)"></app-adm-form>
+    <app-adm-form [form]="form" [location]="locations[locationGroup]" [initialValues]="initialAdms[locationGroup]" (changeAdm)="loadCamps($event, locationGroup)" (changeForm)="emitChangeForm()"></app-adm-form>
   </div>
   <div class="column-container">
     <h4>{{ language.household_location_type | uppercaseFirst }}</h4>

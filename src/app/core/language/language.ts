@@ -746,7 +746,7 @@ export interface Language {
     voucher_select_beneficiary: string
     voucher_select_distribution: string
     voucher_select_project: string
-    voucher_step5: string
+    voucher_step: string
     vouchers_booklet: string
 
     // Vulnerability

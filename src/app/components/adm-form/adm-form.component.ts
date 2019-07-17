@@ -77,15 +77,15 @@ export class AdmFormComponent implements AfterViewInit, OnDestroy {
             this.adm1Subscription = this.locationService.fillAdm1Options(this.location).subscribe((filledLocation0: Location) => {
                 this.location = filledLocation0;
                 // Sometimes the adm1 are sent twice because of the cache and we want to call the others only once
-                if (adm1Id) {
+                if (adm1Id && !this.adm2Subscription) {
                     this.adm2Subscription =  this.locationService.fillAdm2Options(this.location, adm1Id)
                     .subscribe((filledLocation1: Location) => {
                         this.location = filledLocation1;
-                        if (adm2Id) {
+                        if (adm2Id && !this.adm3Subscription) {
                             this.adm3Subscription =  this.locationService.fillAdm3Options(this.location, adm2Id)
                             .subscribe((filledLocation2: Location) => {
                                 this.location = filledLocation2;
-                                        if (adm3Id) {
+                                        if (adm3Id && !this.adm4Subscription) {
                                             this.adm4Subscription = this.locationService.fillAdm4Options(this.location, adm3Id)
                                             .subscribe((filledLocation3: Location) => this.location = filledLocation3);
                                         }

@@ -4,7 +4,7 @@
       <h2 class="distribution-title">{{language.add_project_new_distribution | uppercaseFirst}}</h2>
       <div class="distribution-accordion">
         <mat-card class="accordion-card">
-          <app-adm-form [form]="form" [location]="objectInstance.get('location')"></app-adm-form>
+          <app-adm-form [form]="form" [location]="objectInstance.get('location')" [initialValues]="initialAdmValues"></app-adm-form>
           <form [formGroup]="form">
             <mat-form-field class="accordion-field">
               <input matInput [matDatepicker]="dateDistribution" [placeholder]="objectInstance.fields.date.title | uppercaseFirst"

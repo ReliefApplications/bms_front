@@ -52,6 +52,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     public load = false;
     public loadingCreation: boolean;
     public projectInfo: any = { startDate: '', endDate: '' };
+    initialAdmValues: any;
 
 
     @ViewChild('criteriaTable') criteriaTable: TableComponent;
@@ -98,6 +99,12 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
                 this.makeForm();
                 this.updateNbBeneficiary();
             }
+            this.initialAdmValues = {
+                adm1: this.objectInstance.get('location').get('adm1') ? this.objectInstance.get('location').get('adm1').get('id') : null,
+                adm2: this.objectInstance.get('location').get('adm2') ? this.objectInstance.get('location').get('adm2').get('id') : null,
+                adm3: this.objectInstance.get('location').get('adm3') ? this.objectInstance.get('location').get('adm3').get('id') : null,
+                adm4: this.objectInstance.get('location').get('adm4') ? this.objectInstance.get('location').get('adm4').get('id') : null
+            };
         });
         this.getProjectDates();
     }

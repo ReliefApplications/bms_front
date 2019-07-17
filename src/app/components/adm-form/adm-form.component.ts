@@ -44,19 +44,30 @@ export class AdmFormComponent implements AfterViewInit, OnDestroy {
                 adm2: null,
                 adm3: null,
                 adm4: null,
-
             };
         }
-        this.formName['adm1'] = Object.keys(this.initialValues)[0];
-        this.formName['adm2'] = Object.keys(this.initialValues)[1];
-        this.formName['adm3'] = Object.keys(this.initialValues)[2];
-        this.formName['adm4'] = Object.keys(this.initialValues)[3];
 
-        const adm1Id = this.initialValues ? this.initialValues[this.formName['adm1']] : null;
-        const adm2Id = this.initialValues ? this.initialValues[this.formName['adm2']] : null;
-        const adm3Id = this.initialValues ? this.initialValues[this.formName['adm3']] : null;
-        const adm4Id = this.initialValues ? this.initialValues[this.formName['adm4']] : null;
+        // First we get the name of the form controls associated with every adm
+        const formNames = Object.keys(this.initialValues);
+        this.formName['adm1'] = formNames[0];
+        this.formName['adm2'] = formNames[1];
+        this.formName['adm3'] = formNames[2];
+        this.formName['adm4'] = formNames[3];
 
+        // Then we get the initial values to fill the form
+        const adm1Id = this.initialValues[this.formName['adm1']];
+        const adm2Id = this.initialValues[this.formName['adm2']];
+        const adm3Id = this.initialValues[this.formName['adm3']];
+        const adm4Id = this.initialValues[this.formName['adm4']];
+
+        // Then we update the form
+        this.form.addControl(this.formName['adm1'], new FormControl(adm1Id, [Validators.required]));
+        this.form.addControl(this.formName['adm2'], new FormControl(adm2Id));
+        this.form.addControl(this.formName['adm3'], new FormControl(adm3Id));
+        this.form.addControl(this.formName['adm4'], new FormControl(adm4Id));
+        this.changeForm.emit();
+
+        // This is to tell the parent component to load the corresponding Camps List if necessary
         if (adm4Id) {
             this.changeAdm.emit({admType: 'adm4', admId: adm4Id});
         } else if (adm3Id) {
@@ -67,16 +78,11 @@ export class AdmFormComponent implements AfterViewInit, OnDestroy {
             this.changeAdm.emit({admType: 'adm1', admId: adm1Id});
         }
 
-        this.form.addControl(this.formName['adm1'], new FormControl(adm1Id, [Validators.required]));
-        this.form.addControl(this.formName['adm2'], new FormControl(adm2Id));
-        this.form.addControl(this.formName['adm3'], new FormControl(adm3Id));
-        this.form.addControl(this.formName['adm4'], new FormControl(adm4Id));
-        this.changeForm.emit();
-
+        // Then we fetch the list of sub-adm for every adm
         if (!this.adm1Subscription) {
             this.adm1Subscription = this.locationService.fillAdm1Options(this.location).subscribe((filledLocation0: Location) => {
                 this.location = filledLocation0;
-                // Sometimes the adm1 are sent twice because of the cache and we want to call the others only once
+                // Sometimes the adm are sent twice because of the cache and we want to call the sub adms only once
                 if (adm1Id && !this.adm2Subscription) {
                     this.adm2Subscription =  this.locationService.fillAdm2Options(this.location, adm1Id)
                     .subscribe((filledLocation1: Location) => {

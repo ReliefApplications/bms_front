@@ -26,6 +26,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     public nameComponent = 'projects';
 
     loadingExport = false;
+    loadingOfficialExport = false;
     modalSubscriptions: Array<Subscription> = [];
 
     projects: Project[];
@@ -42,6 +43,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     selectedProject = null;
     selectedProjectId = null;
     extensionType: string;
+    extensionOfficialType: string;
 
     // Screen size
     public currentDisplayType: DisplayType;
@@ -74,6 +76,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
         }
         this.getProjects();
         this.extensionType = 'xls';
+        this.extensionOfficialType = 'xls';
     }
 
     ngOnDestroy() {
@@ -99,6 +102,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
 
     setType(choice: string) {
         this.extensionType = choice;
+    }
+
+    setOfficialType(choice: string) {
+        this.extensionOfficialType = choice;
     }
 
     // TO DO : get from cache
@@ -179,6 +186,14 @@ export class ProjectComponent implements OnInit, OnDestroy {
         this.distributionService.export('project', this.extensionType, this.selectedProject.get('id')).subscribe(
             () => { this.loadingExport = false; },
             (_error: any) => { this.loadingExport = false; }
+        );
+    }
+
+    exportOfficial() {
+        this.loadingOfficialExport = true;
+        this.distributionService.export('officialDistributions', this.extensionOfficialType, this.selectedProject.get('id')).subscribe(
+            () => { this.loadingOfficialExport = false; },
+            (_error: any) => { this.loadingOfficialExport = false; }
         );
     }
 

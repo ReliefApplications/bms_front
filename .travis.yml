@@ -20,18 +20,18 @@ jobs:
         - stage: deploy
           if: branch = dev AND NOT type = "pull_request"
           before_install:
-              - sudo apt-get install python3-pip
+              - sudo apt-get install python3-pip python3-setuptools
               - pip3 install awscli --upgrade
           script: ./build-deploy.sh testing
         - stage: deploy
           if: branch = 2.0 AND NOT type = "pull_request"
           before_install:
-              - sudo apt-get install python3-pip
+              - sudo apt-get install python3-pip python3-setuptools
               - pip3 install awscli --upgrade
           script: ./build-deploy.sh testing
         - stage: deploy
           if: branch = master AND NOT type = "pull_request"
           before_install:
-              - sudo apt-get install python3-pip
+              - sudo apt-get install python3-pip python3-setuptools
               - pip3 install awscli --upgrade
           script: ./build-deploy.sh front

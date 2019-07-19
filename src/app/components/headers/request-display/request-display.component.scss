@@ -2,14 +2,9 @@
 @import '../../../../assets/css/animations.scss';
 
 .notification-container {
-    height: 100%;
 
     .notif {
-        height: 100%;
         display: flex;
-        align-items: center;
-        justify-content: center;
-
         mat-icon {
             height: auto;
             width: auto;

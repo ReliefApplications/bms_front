@@ -51,12 +51,12 @@
                     <div class="action-buttons">
 
                     <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
-                        <button mat-flat-button [disabled]="!(distributionData && distributionData.data.length > 0)" class="button-background-primary" (click)="exportOfficial()" *ngIf="!loadingExportOfficial">
+                        <button mat-flat-button [disabled]="!(distributionData && distributionData.data.length > 0)" class="button-background-primary" (click)="exportOfficial()" *ngIf="!loadingOfficialExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{language.export | uppercaseFirst}}</span>
                         </button>
-                        <mat-spinner [diameter]='25' *ngIf="loadingExportOfficial"></mat-spinner>
-                        <div class="extension" *ngIf="!loadingExportOfficial">
+                        <mat-spinner [diameter]='25' *ngIf="loadingOfficialExport"></mat-spinner>
+                        <div class="extension" *ngIf="!loadingOfficialExport">
                             <button mat-flat-button class="dropdown button-background-primary" [disabled]="!(distributionData && distributionData.data.length > 0)" [matMenuTriggerFor]="exportOfficialType">
                                 <mat-icon>keyboard_arrow_down</mat-icon>
                             </button>

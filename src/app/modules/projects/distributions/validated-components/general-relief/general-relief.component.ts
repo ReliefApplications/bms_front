@@ -103,8 +103,6 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                 this.actualDistribution.modelToApi()
             ).subscribe();
 
-            this.verifyIsFinished();
-
             this.selection.selected.forEach((selectedDistributionBeneficiary: TransactionGeneralRelief) => {
                 const distributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');
                 distributionBeneficiaries.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
@@ -122,6 +120,8 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                 });
                 this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
             });
+            this.verifyIsFinished();
+
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
         }, (_err: any) => {
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);

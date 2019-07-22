@@ -16,6 +16,7 @@ import { NestedFieldModelField } from './custom-models/nested-field';
 import { FormGroup } from '@angular/forms';
 import { AppInjector } from '../app-injector';
 import { LocationService } from '../core/api/location.service';
+import { CountriesService } from '../core/countries/countries.service';
 export class DistributionType extends CustomModel {
 
     public fields = {
@@ -38,6 +39,10 @@ export class Distribution extends CustomModel {
     matSortActive = 'date';
     title = this.language.distribution;
 
+    protected countryService = AppInjector.get(CountriesService);
+    protected country = this.countryService.selectedCountry.get<string>('id') ?
+    this.countryService.selectedCountry.get<string>('id') :
+    this.countryService.khm.get<string>('id');
 
     public fields = {
         id: new NumberModelField(
@@ -149,66 +154,26 @@ export class Distribution extends CustomModel {
             // Only displayed in the distribution component title
         }),
         adm1: new NestedFieldModelField({
-            title: this.language.adm1,
-            isSettable: true,
-            isEditable: true,
+            title: this.language.adm1[this.country],
+            isDisplayedInModal: true,
             childrenObject: 'location',
             childrenFieldName: 'adm1',
-            isTrigger: true,
-            triggerFunction: (distribution: Distribution, value: string, form: FormGroup) => {
-                const appInjector = AppInjector;
-                form.controls.adm2.setValue(null);
-                form.controls.adm3.setValue(null);
-                form.controls.adm4.setValue(null);
-                if (value) {
-                    const location = distribution.get<Location>('location');
-                    appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10))
-                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
-                }
-                return distribution;
-            },
         }),
         adm2: new NestedFieldModelField({
-            title: this.language.adm2,
-            isSettable: true,
-            isEditable: true,
+            title: this.language.adm2[this.country],
+            isDisplayedInModal: true,
             childrenObject: 'location',
             childrenFieldName: 'adm2',
-            isTrigger: true,
-            triggerFunction: (distribution: Distribution, value: string, form: FormGroup) => {
-                const appInjector = AppInjector;
-                form.controls.adm3.setValue(null);
-                form.controls.adm4.setValue(null);
-                if (value) {
-                    const location = distribution.get<Location>('location');
-                    appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10))
-                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
-                }
-                return distribution;
-            },
         }),
         adm3: new NestedFieldModelField({
-            title: this.language.adm3,
-            isSettable: true,
-            isEditable: true,
+            title: this.language.adm3[this.country],
+            isDisplayedInModal: true,
             childrenObject: 'location',
             childrenFieldName: 'adm3',
-            isTrigger: true,
-            triggerFunction: (distribution: Distribution, value: string, form: FormGroup) => {
-                const appInjector = AppInjector;
-                form.controls.adm4.setValue(null);
-                if (value) {
-                    const location = distribution.get<Location>('location');
-                    appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10))
-                        .subscribe((filledLocation: Location) => distribution.set('location', filledLocation));
-                }
-                return distribution;
-            },
         }),
         adm4: new NestedFieldModelField({
-            title: this.language.adm4,
-            isSettable: true,
-            isEditable: true,
+            title: this.language.adm4[this.country],
+            isDisplayedInModal: true,
             childrenObject: 'location',
             childrenFieldName: 'adm4',
         }),

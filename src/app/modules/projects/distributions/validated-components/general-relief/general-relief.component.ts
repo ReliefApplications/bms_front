@@ -103,8 +103,6 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                 this.actualDistribution.modelToApi()
             ).subscribe();
 
-            this.verifyIsFinished();
-
             this.selection.selected.forEach((selectedDistributionBeneficiary: TransactionGeneralRelief) => {
                 const distributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');
                 distributionBeneficiaries.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
@@ -122,6 +120,8 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                 });
                 this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
             });
+            this.verifyIsFinished();
+
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
         }, (_err: any) => {
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
@@ -160,9 +160,8 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                     objectInstance: dialogDetails.element
                  }
             });
-            dialogRef.afterClosed().subscribe((closeMethod: string) => {
+            this.modalService.isCompleted.subscribe((response: string) => {
                 this.updateElement(dialogDetails.element);
-                this.snackbar.success(this.language.transaction_update_success);
             });
         } else if (dialogDetails.action === 'delete') {
             dialogDetails.element = dialogDetails.element.get('beneficiary');

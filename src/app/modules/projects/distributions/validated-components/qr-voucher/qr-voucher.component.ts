@@ -123,11 +123,7 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
         dialogDetails.element = dialogDetails.element.get('beneficiary');
         this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
         completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
-            if (response) {
-                this.snackbar.success(this.language.transaction_update_success);
-            } else {
                 this.loadingTransaction = false;
-            }
         });
     } else {
         this.modalService.openDialog(TransactionQRVoucher, this.beneficiariesService, dialogDetails);

@@ -126,6 +126,10 @@
               </th>
           </tr>
 
+          <ng-container *ngIf="form.controls.field.value === 'currentLocation'">
+              <app-adm-form [form]="form" [location]="location" [withTitle]="true"></app-adm-form>
+          </ng-container>
+
           <tr class="modal-row">
               <th class="table-title"></th>
               <th class="table-value advanced-icon-wrapper">

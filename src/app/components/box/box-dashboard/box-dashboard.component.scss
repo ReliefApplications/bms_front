@@ -3,8 +3,6 @@
 $box-content: 80px;
 
 .box-content{
-    position: relative;
-    width :100%;
     height: 100%;
     background-color: $bms_white;
     border-radius: 4px;
@@ -22,64 +20,56 @@ $box-content: 80px;
             outline: none;
         }
     }
-}
-
-.box-content-content{
-    height: 100%;
-    display: flex;
-    justify-content: left;
-
-    .content-info{
+    .box-content-content{
         height: 100%;
-        justify-content: right;
-        align-content: center;
-        text-align: right;
-        font-family: $bms_font_text;
-        width :100%;
-        padding:15px;
-
-        .info-title{
-            &.rtl{
-                text-align:right;
-            }
-            font-size : 16px;
-            margin: 0 !important;
-            text-align:left;
-        }
-
-        .info-subtitle{
-            &.rtl{
-                text-align:right;
-            }
-            font-weight: bold;
-            font-size : 2.5vh;
-            margin: 0 !important;
-            padding-top:2px;
-            text-align:left;
-        }
-
-        h5 {
-            height: 36px;
-        }
-    }
-
-    .content-icon{
-        flex-shrink: 1;
-        width: 35%;
         display: flex;
-        justify-content: center;
-        align-items: center;
-
-        mat-icon {
-            padding: 5px;
+    
+        .content-info{
+            height: 100%;
+            width :100%;
+            padding:15px;
+    
+            .info-title{
+                &.rtl{
+                    text-align:right;
+                }
+                font-size : 16px;
+                margin: 0 !important;
+                text-align:left;
+                height: 36px;
+            }
+    
+            .info-subtitle{
+                &.rtl{
+                    text-align:right;
+                }
+                font-weight: bold;
+                font-size : 2.5vh;
+                margin: 0 !important;
+                padding-top:2px;
+                text-align:left;
+            }
+        }
+    
+        .content-icon{
+            flex-shrink: 1;
+            width: 35%;
             display: flex;
-            color: white;
-            font-size: 2.5em;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+    
+            mat-icon {
+                padding: 5px;
+                display: flex;
+                color: white;
+                font-size: 2.5em;
+                align-items: center;
+                justify-content: center;
+            }
         }
     }
 }
+
 
 .box-green {
     background-color:  $bms_green;

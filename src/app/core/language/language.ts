@@ -10,6 +10,7 @@ export interface Language {
     done: string
     email: string
     export: string
+    export_selected: string
     general_settings: string;
     home: string
     import: string
@@ -185,6 +186,7 @@ export interface Language {
     beneficiary_residency: string
     beneficiary_select_api: string
     beneficiary_selected_project: string
+    beneficiary_update_title: string
     beneficiary_vulnerabilities: string
 
     // Benficiary form errors
@@ -276,6 +278,11 @@ export interface Language {
     criteria_operator: string
     criteria_weight: string
     criteria_target: string
+    currentAdm1: string
+    currentAdm2: string
+    currentAdm3: string
+    currentAdm4: string
+    currentLocation: string
     dateOfBirth: string
     residencyStatus: string
     hasNotBeenInDistributionsSince: string
@@ -640,14 +647,18 @@ export interface Language {
     snackbar_change_password_done: string
     snackbar_change_password_fail: string
     snackbar_change_password_not_possible: string
+    snackbar_created_successfully: string
+    snackbar_error_creating: string
+    snackbar_error_updating: string
     snackbar_invalid_transaction_date: string
     snackbar_no_data_export: string
     snackbar_pickup_error: string
     snackbar_saved_language: string
     snackbar_update: string
-    snackbar_verification_code: string
+    snackbar_updated_successfully: string
     snackbar_verification_code_error: string
     snackbar_verification_code_wait_error: string
+    snackbar_verification_code: string
 
     // Table
     table_actions: string
@@ -696,7 +707,6 @@ export interface Language {
     transaction_state_sending_failed: string
     transaction_state_sent: string
     transaction_transaction: string
-    transaction_update_success: string
     transaction_validate_distribution: string
     transaction_validation: string
 
@@ -716,13 +726,6 @@ export interface Language {
     tooltip_settings: string
     tooltip_update_beneficiary: string
     tooltip_vouchers: string
-
-    // Update beneficiary
-    update_beneficiary_created_successfully: string
-    update_beneficiary_error_creating: string
-    update_beneficiary_error_updated: string
-    update_beneficiary_title: string
-    update_beneficiary_updated_successfully: string
 
     // Vouchers
     voucher_ask_code: string

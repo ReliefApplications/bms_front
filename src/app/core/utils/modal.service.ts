@@ -94,7 +94,7 @@ export class ModalService {
                        // If the response is null, it means we are offline and the request was stored, not really made
                         if (response) {
                            this.snackbar.success(
-                               this.referedClassInstance.title + ' ' + this.language.update_beneficiary_created_successfully);
+                               this.referedClassInstance.title + ' ' + this.language.snackbar_created_successfully);
                        }
                         this.isCompleted.next(true);
                     });
@@ -211,7 +211,11 @@ export class ModalService {
 
     updateElement(updateElement) {
         const apiUpdateElement = updateElement.modelToApi(updateElement);
-        this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((_response: any) => {
+        this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((response: any) => {
+            // If the response is null, it means we are offline and the request was stored, not really made
+            if (response) {
+                this.snackbar.success(this.language.snackbar_updated_successfully);
+            }
             this.isCompleted.next(true);
         }, (_error: any) => {
             this.isCompleted.next(false);

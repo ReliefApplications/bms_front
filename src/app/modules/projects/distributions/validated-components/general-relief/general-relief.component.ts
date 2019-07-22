@@ -160,9 +160,8 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                     objectInstance: dialogDetails.element
                  }
             });
-            dialogRef.afterClosed().subscribe((closeMethod: string) => {
+            this.modalService.isCompleted.subscribe((response: string) => {
                 this.updateElement(dialogDetails.element);
-                this.snackbar.success(this.language.transaction_update_success);
             });
         } else if (dialogDetails.action === 'delete') {
             dialogDetails.element = dialogDetails.element.get('beneficiary');

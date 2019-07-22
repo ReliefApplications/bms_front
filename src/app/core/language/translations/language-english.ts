@@ -15,6 +15,7 @@ export class English implements Language {
     done = 'Done'
     email = 'Email'
     export = 'Export'
+    export_selected = 'Export Selected Items'
     general_settings = 'Configuration'
     home = 'Home'
     import = 'Import'

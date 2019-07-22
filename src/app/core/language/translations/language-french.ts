@@ -222,6 +222,7 @@ export class French implements Language {
     beneficiary_residency_status_resident = 'Résident'
     beneficiary_select_api = 'Sélectionner une API'
     beneficiary_selected_project = 'bénéficiaires sélectionnés:'
+    beneficiary_update_title = 'Modifier un bénéficiaire'
     beneficiary_vulnerabilities = 'Vulnérabilités'
 
     // Benficiaries Imports
@@ -639,11 +640,15 @@ export class French implements Language {
     snackbar_change_password_done = 'Mot de passe modifié !'
     snackbar_change_password_fail = 'Le mot de passe n\'a pas pu être changé...'
     snackbar_change_password_not_possible = 'Mot de passe pas assez long ou différent de la vérification'
+    snackbar_created_successfully = 'Créé avec succès !'
+    snackbar_error_creating = 'Erreur lors de la création = '
+    snackbar_error_updating = 'Erreur lors de la modification = '
     snackbar_invalid_transaction_date = 'La date valide de transaction est dépassée.'
     snackbar_no_data_export = 'Pas de données à exporter'    
     snackbar_pickup_error = 'Il est impossile de vérifier le statut de la récupération pour le moment'
     snackbar_saved_language = 'Langage par défaut enregistré'
     snackbar_update = 'Une mise à jour est disponible'
+    snackbar_updated_successfully = 'Modifié avec succès !'
     snackbar_verification_code = 'Le code de vérification a été envoyé à'
     snackbar_verification_code_error = 'Impossible d\'envoyer le code:'
     snackbar_verification_code_wait_error = 'Le dernier code a été envoyé il y a moins de 10 secondes, vous devriez attendre.'
@@ -695,7 +700,6 @@ export class French implements Language {
     transaction_state_sending_failed = 'Envoie échoué'
     transaction_state_sent = 'Envoyé'
     transaction_transaction = 'Démarrer la transaction'
-    transaction_update_success = 'Modification réussie !'
     transaction_validate_distribution = 'Voulez vous vraiment valider la distribution ?'
     transaction_validation = 'Confirmer la validation'
 
@@ -715,13 +719,6 @@ export class French implements Language {
     tooltip_settings = 'C\'est sur cette page que vous pouvez ajouter un nouvel projet, de nouvelle options pour le pays, de nouvelles connexions, produits et vendeurs.'
     tooltip_update_beneficiary = 'Cette page est un formulaire pour modifier le ménage selectionné.'
     tooltip_vouchers = 'C\'est sur cette page que vous pouvez créer, modifier, assigner et imprimer des brochures de coupons'
-
-    // Update beneficiary
-    update_beneficiary_created_successfully = 'Créé avec succès !'
-    update_beneficiary_error_creating = 'Erreur lors de la création = '
-    update_beneficiary_error_updated = 'Erreur lors de la modification = '
-    update_beneficiary_title = 'Modifier un bénéficiaire'
-    update_beneficiary_updated_successfully = 'Modifié avec succès !'
 
     //Vouchers
     voucher_ask_code = 'S\'il vous plaît, demandez au bénéficiaire de saisir 4 chiffres ci-dessous'

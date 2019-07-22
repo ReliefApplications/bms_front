@@ -494,15 +494,15 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
 
         if (this.mode === 'create') {
             this._householdsService.create(body).subscribe((_success: any) => {
-                this.snackbar.success(this.language.update_beneficiary_created_successfully);
+                this.snackbar.success(this.language.snackbar_created_successfully);
                 this.leave();
             }, error => {
-                this.snackbar.error(this.language.update_beneficiary_error_creating + error);
+                this.snackbar.error(this.language.snackbar_error_creating + error);
                 this.validationLoading = false;
             });
         } else if (this.mode === 'update') {
             this._householdsService.update(this.household.get('id'), body).subscribe((_success: any) => {
-                this.snackbar.success(this.language.update_beneficiary_updated_successfully);
+                this.snackbar.success(this.language.snackbar_updated_successfully);
                 this.leave();
             }, error => {
                 this.validationLoading = false;

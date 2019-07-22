@@ -203,6 +203,7 @@ export class Arabic implements Language {
     beneficiary_residency_status_resident = 'مقيم'
     beneficiary_select_api = 'API اختر'
     beneficiary_selected_project = 'المستفيدين المختارين='
+    beneficiary_update_title = 'تحديث المستفيدين'
     beneficiary_vulnerabilities = 'نقاط الضعف'
 
     // Benficiary form errors
@@ -639,11 +640,15 @@ export class Arabic implements Language {
     snackbar_change_password_done = '!تم تغيير كلمة المرور'
     snackbar_change_password_fail = '...لا يمكن تغيير كلمة المرور'
     snackbar_change_password_not_possible = 'يجب أن تكون كلمة المرور أطول من حرف واحد وتتطابق مع الشروط'
+    snackbar_created_successfully = 'تم الإنشاء بنجاح!'
+    snackbar_error_creating = ': حدث خطأ أثناء الإنشاء '
+    snackbar_error_updating = ': حدث خطأ أثناء التحديث'
     snackbar_invalid_transaction_date = 'انتهت مهلة المعاملة.'
     snackbar_no_data_export = 'لا توجد بيانات للتصدير'
     snackbar_pickup_error = 'من المستحيل حاليًا التحقق من حالة الالتقاط'
     snackbar_saved_language = 'اللغة الافتراضية المحفوظة'
     snackbar_update = 'تحديث متاح'
+    snackbar_updated_successfully = ' !تم التحديث بنجاح'
     snackbar_verification_code = 'تم إرسال رمز التحقق في'
     snackbar_verification_code_error = 'لا يمكن إرسال الرمز:'
     snackbar_verification_code_wait_error = 'تم إرسال الرمز الأخير قبل أقل من 10 ثوانٍ ، يجب عليك الانتظار.'
@@ -695,7 +700,6 @@ export class Arabic implements Language {
     transaction_state_sending_failed = 'لقد تعذر الارسال'
     transaction_state_sent = 'أرسلت'
     transaction_transaction = 'عملية تجارية'
-    transaction_update_success = 'تم التحديث بنجاح'
     transaction_validate_distribution = 'هل تريد حقًا التحقق من صحة هذا التوزيع؟'
     transaction_validation = 'تأكيد التحقق من الصحة'
 
@@ -714,14 +718,7 @@ export class Arabic implements Language {
     tooltip_reports = 'تُستخدم هذه الصفحة للاطلاع على إحصائيات الدولة ، مثل متوسط ​​معاملات المشروعات وعدد التوزيعات ...'
     tooltip_settings = 'هذه الصفحة هي المكان الذي ستتمكن فيه من إضافة مشروع جديد أو بلد معين أو اتصال طرف ثالث أو منتج أو بائع وتعديلها وحذفها وفقًا لحقوقك'
     tooltip_update_beneficiary = 'هذه الصفحة هي نموذج لتحديث الأسرة المختارة.'
-    tooltip_vouchers = 'هذه الصفحة هي المكان الذي يمكنك فيه إنشاء كتيبات قسائم وتعديلها وتعيينها وطباعتها'
-
-    // Update beneficiary
-    update_beneficiary_created_successfully = 'تم الإنشاء بنجاح!'
-    update_beneficiary_error_creating = ': حدث خطأ أثناء الإنشاء '
-    update_beneficiary_error_updated = ': حدث خطأ أثناء التحديث'
-    update_beneficiary_title = 'تحديث المستفيدين'
-    update_beneficiary_updated_successfully = ' !تم التحديث بنجاح'
+    tooltip_vouchers = 'هذه الصفحة هي المكان الذي يمكنك فيه إنشاء كتيبات قسائم وتعديلها وتعيينها وطباعتها'    
 
     //Vouchers
     voucher_ask_code = 'الرجاء مطالبة المستفيد بإدخال رمزه المكون من 4 أرقام هنا'

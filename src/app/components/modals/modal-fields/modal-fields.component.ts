@@ -47,6 +47,7 @@ export class ModalFieldsComponent implements OnInit {
     private colors: string[] = COLORS;
     private colorModalRef;
     private currentColor: string;
+    initialAdmValues: any;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -73,12 +74,28 @@ export class ModalFieldsComponent implements OnInit {
             this.objectFields = Object.keys(this.objectInstance.fields);
         }
 
+        if (this.objectInstance.get('location') && this.modalType !== 'Details') {
+            this.initialAdmValues = {
+                adm1: this.objectInstance.get('location').get('adm1') ? this.objectInstance.get('location').get('adm1').get('id') : null,
+                adm2: this.objectInstance.get('location').get('adm2') ? this.objectInstance.get('location').get('adm2').get('id') : null,
+                adm3: this.objectInstance.get('location').get('adm3') ? this.objectInstance.get('location').get('adm3').get('id') : null,
+                adm4: this.objectInstance.get('location').get('adm4') ? this.objectInstance.get('location').get('adm4').get('id') : null
+            };
+        }
+
         // Create the form
         this.makeForm();
         this.onChanges();
     }
 
-    display(field) {
+    display(field, fieldName) {
+        if (this.modalType !== 'Details' &&
+            (fieldName === 'adm1' || fieldName === 'adm2' || fieldName === 'adm3' || fieldName === 'adm4')
+        ) {
+            return false;
+        } else if (this.modalType === 'Details' && fieldName === 'location') {
+            return false;
+        }
         if (field.kindOfField === 'Children') {
             return this.objectInstance.get(field.childrenObject) ?
                 this.objectInstance.get(field.childrenObject).fields[field.childrenFieldName] :
@@ -97,7 +114,10 @@ export class ModalFieldsComponent implements OnInit {
     }
 
     makeForm() {
-        this.form = this.formService.makeForm(this.objectInstance, this.objectFields, this.modalType);
+        // The adms form controls will be created inside the adm-form component to avoid multiple api calls
+        const filteredObjectFields = this.objectFields.filter((fieldName: string) =>
+            this.modalType === 'Details' || (fieldName !== 'adm1' && fieldName !== 'adm2' && fieldName !== 'adm3' && fieldName !== 'adm4'));
+        this.form = this.formService.makeForm(this.objectInstance, filteredObjectFields, this.modalType);
     }
 
     onChanges(): void {

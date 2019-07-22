@@ -52,14 +52,6 @@ export class VendorsService extends CustomModelService {
 
     // TO DO : make an empty method by default for every service
     public fillWithOptions(vendor: Vendor) {
-        const appInjector = AppInjector;
-        if (!vendor.get('location')) {
-            vendor.set('location', new Location());
-        }
-        const location = vendor.get<Location>('location');
-        appInjector.get(LocationService).fillAdm1Options(location).subscribe((filledLocation: Location) => {
-            vendor.set('location', filledLocation);
-        });
 
         if (!vendor.get('user')) {
             vendor.set('user', new User());

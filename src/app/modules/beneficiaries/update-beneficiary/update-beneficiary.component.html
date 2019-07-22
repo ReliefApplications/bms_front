@@ -23,18 +23,18 @@
                     <div class="content-table content-table-step1">
                         <div class="step1 all-information">
                             <div class="main-information-content">
-                                <app-location-form [locations]="locations" [form]="mainForm"
+                                <app-location-form *ngIf="mainForm && locations" [initialAdms]="initialAdms" [locations]="locations" [form]="mainForm"
                                     [householdLocationTypes]="household.get('currentHouseholdLocation').getOptions('type')"
-                                    [campLists]="campLists" locationGroup="current">
+                                    [campLists]="campLists" locationGroup="current" (changeAdm)="loadCamps($event)" (changeForm)="snapshot()">
                                 </app-location-form>
                                 <form [formGroup]="mainForm" class="location-question">
                                     <mat-checkbox color="primary" formControlName="locationDifferent"></mat-checkbox>
                                     <span>{{ language.household_location_question | uppercaseFirst }}</span>
                                 </form>
-                                <app-location-form *ngIf="mainForm.controls.locationDifferent.value"
-                                    [locations]="locations" [form]="mainForm"
+                                <app-location-form *ngIf="mainForm && locations && mainForm.controls.locationDifferent.value"
+                                    [initialAdms]="initialAdms" [locations]="locations" [form]="mainForm"
                                     [householdLocationTypes]="household.get('currentHouseholdLocation').getOptions('type')"
-                                    [campLists]="campLists" locationGroup="resident">
+                                    [campLists]="campLists" locationGroup="resident" (changeAdm)="loadCamps($event)" (changeForm)="snapshot()">
                                 </app-location-form>
                                 <form [formGroup]="mainForm" class="not-location-form">
                                     <div class="column-container">
@@ -262,7 +262,7 @@
                                 </div>
                                 <ng-container *ngFor="let locationGroup of ['current', 'resident']">
                                     <div class="info-container"
-                                        *ngIf="mainForm.controls[locationGroup + 'Type'].value && mainForm.controls[locationGroup + 'Type'].value !== 'camp'">
+                                        *ngIf="mainForm.controls[locationGroup + 'Type'] && mainForm.controls[locationGroup + 'Type'].value && mainForm.controls[locationGroup + 'Type'].value !== 'camp'">
                                         <h4 class='summary-title'>
                                             {{language['household_location_' + locationGroup + '_address'] | uppercaseFirst }} </h4>
                                         <p class="summary-title-value">
@@ -272,7 +272,7 @@
                                         </p>
                                     </div>
                                     <div class="info-container"
-                                        *ngIf="mainForm.controls[locationGroup + 'Type'].value === 'camp'">
+                                        *ngIf="mainForm.controls[locationGroup + 'Type'] && mainForm.controls[locationGroup + 'Type'].value === 'camp'">
                                         <h4 class='summary-title'>
                                             {{language['household_location_' + locationGroup + '_address'] | uppercaseFirst }} </h4>
                                         <p class="summary-title-value">
@@ -285,7 +285,7 @@
                                             {{ mainForm.controls[locationGroup + 'TentNumber'].value }}
                                         </p>
                                     </div>
-                                    <div class="info-container" *ngIf="mainForm.controls[locationGroup + 'Adm1'].value">
+                                    <div class="info-container" *ngIf="mainForm.controls[locationGroup + 'Adm1'] && mainForm.controls[locationGroup + 'Adm1'].value">
                                         <h4 class='summary-title'>
                                             {{ language['household_location_' + locationGroup + '_location'] | uppercaseFirst }} </h4>
                                         <p class="summary-title-value">

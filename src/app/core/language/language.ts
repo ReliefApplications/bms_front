@@ -278,6 +278,11 @@ export interface Language {
     criteria_operator: string
     criteria_weight: string
     criteria_target: string
+    currentAdm1: string
+    currentAdm2: string
+    currentAdm3: string
+    currentAdm4: string
+    currentLocation: string
     dateOfBirth: string
     residencyStatus: string
     hasNotBeenInDistributionsSince: string

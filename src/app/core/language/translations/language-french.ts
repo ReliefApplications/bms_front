@@ -760,6 +760,11 @@ export class French implements Language {
     criteria_operator = 'Condition'
     criteria_weight = 'Score du poids'
     criteria_target = 'Cible du critère'
+    currentAdm1 = this.household_location_current_location
+    currentAdm2 = this.household_location_current_location
+    currentAdm3 = this.household_location_current_location
+    currentAdm4 = this.household_location_current_location
+    currentLocation = this.household_location_current_location
     dateOfBirth = this.beneficiary_date_of_birth
     residencyStatus = this.beneficiary_residency_status
     hasNotBeenInDistributionsSince = 'n\'a pas été dans une distribution depuis '

@@ -68,12 +68,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     // Syria template conversion
     private conversionDialog: MatDialogRef<any, any>;
     public conversionLocation = new Location();
-    public conversionForm = new FormGroup({
-        adm1: new FormControl(undefined, [Validators.required]),
-        adm2: new FormControl(),
-        adm3: new FormControl(),
-        adm4: new FormControl(),
-    });
+    public conversionForm = new FormGroup({});
     conversionFormControlSubscriptions: Array<Subscription>;
     loadingConversion = false;
 
@@ -225,25 +220,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     public openConversionDialog(template: TemplateRef<void>) {
         this.conversionForm.reset();
-
-        this.conversionFormControlSubscriptions = Object.keys(this.conversionForm.controls).map((admKey: string) => {
-            return this.conversionForm.controls[admKey].valueChanges.subscribe((value: any) => {
-                if (value) {
-                    this.onAdmChange(admKey);
-                }
-            });
-        });
         this.conversionDialog = this.dialog.open(template);
-        this.locationService.getAdm1().subscribe((adm1: Array<any>) => {
-            if (adm1) {
-                this.conversionLocation.setOptions('adm1', adm1.map((singleAdm1: any) => Adm.apiToModel(singleAdm1)));
-            }
-        });
-        this.conversionDialog.afterClosed().subscribe((_: any) => {
-            this.conversionFormControlSubscriptions.forEach((subscription: Subscription) => {
-                subscription.unsubscribe();
-            });
-        });
     }
 
     public closeConversionDialog(method: string, error?: string) {
@@ -259,41 +236,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
                 return;
             case 'error':
                 this.snackbar.error(error);
-                return;
-        }
-    }
-
-    onAdmChange(admKey: string) {
-        switch (admKey) {
-            case('adm3'):
-                this.locationService.getAdm4({adm3: this.conversionForm.get('adm3').value.get('id')}).subscribe((adm4: Array<any>) => {
-                    if (adm4) {
-                        this.conversionLocation.setOptions('adm4', adm4.map((singleAdm4: any) => Adm.apiToModel(singleAdm4)));
-                        this.conversionForm.controls.adm4.setValue(null);
-                    }
-                });
-                return;
-            case('adm2'):
-                this.locationService.getAdm3({adm2: this.conversionForm.get('adm2').value.get('id')}).subscribe((adm3: Array<any>) => {
-                    if (adm3) {
-                        this.conversionLocation.setOptions('adm3', adm3.map((singleAdm3: any) => Adm.apiToModel(singleAdm3)));
-                        this.conversionForm.controls.adm3.setValue(null);
-                        this.conversionForm.controls.adm4.setValue(null);
-
-                    }
-                });
-                return;
-            case('adm1'):
-                this.locationService.getAdm2({adm1: this.conversionForm.get('adm1').value.get('id')}).subscribe((adm2: Array<any>) => {
-                    if (adm2) {
-                        this.conversionLocation.setOptions('adm2', adm2.map((singleAdm2: any) => Adm.apiToModel(singleAdm2)));
-                        this.conversionForm.controls.adm2.setValue(null);
-                        this.conversionForm.controls.adm3.setValue(null);
-                        this.conversionForm.controls.adm4.setValue(null);
-                    }
-                });
-                return;
-            default:
                 return;
         }
     }
@@ -314,11 +256,11 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         data.append('file', this.csv2);
 
         const body = {};
-
-        body['adm4'] = this.conversionForm.controls.adm4.value ? this.conversionForm.controls.adm4.value.get('name') : '';
-        body['adm3'] = this.conversionForm.controls.adm3.value ? this.conversionForm.controls.adm3.value.get('name') : '';
-        body['adm2'] = this.conversionForm.controls.adm2.value ? this.conversionForm.controls.adm2.value.get('name') : '';
-        body['adm1'] = this.conversionForm.controls.adm1.value ? this.conversionForm.controls.adm1.value.get('name') : '';
+        ['adm1', 'adm2', 'adm3', 'adm4'].forEach((admName: string) => {
+            const filter = this.conversionLocation.getOptions(admName)
+                .filter((adm: Adm) => adm.get('id') === this.conversionForm.controls[admName].value);
+            body[admName] = filter.length ? filter[0].get('name') : '';
+        });
 
         this._householdsService.testFileTemplate(data, body).subscribe(
             () => { this.closeConversionDialog('success'); },

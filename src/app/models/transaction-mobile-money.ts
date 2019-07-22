@@ -180,11 +180,11 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
     public modelToApi(): Object {
 
         return {
-            id: this.get('id'),
-            beneficiary: this.get('beneficiary').modelToApi(),
-            transaction_id: this.get('idTransaction'),
-            message: this.get('message'),
-            state: this.get('state').get('id')
+            id: this.fields.id.formatForApi(),
+            beneficiary: this.fields.beneficiary.formatForApi(),
+            transaction_id: this.fields.idTransaction.formatForApi(),
+            message: this.fields.message.formatForApi(),
+            state: this.fields.state.formatForApi()
 
             // localGivenName: this.get('beneficiary').get('localGivenName'),
             // localFamilyName: this.get('beneficiary').get('localFamilyName'),

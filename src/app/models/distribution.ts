@@ -266,26 +266,24 @@ export class Distribution extends CustomModel {
         const commodities = this.get('commodities') ?
             this.get<Commodity[]>('commodities').map(commodity => commodity.modelToApi()) :
             [];
-        const location = this.get('location').modelToApi();
         const project = { id: this.get('projectId') };
         const selectionCriteria = this.get('selectionCriteria') ?
             this.get<Criteria[]>('selectionCriteria').map(criteria => criteria.modelToApi()) :
             [];
 
         return {
-            id: this.get('id'),
+            id: this.fields.id.formatForApi(),
             commodities: commodities,
             date_distribution: this.fields.date.formatForApi(),
             finished: false,
-            location: location,
-            name: this.get('name'),
+            location: this.fields.location.formatForApi(),
+            name: this.fields.name.formatForApi(),
             project: project,
             selection_criteria: selectionCriteria,
-            threshold: this.get('threshold'),
-            type: this.get('type').get('id'),
-            distribution_beneficiaries: this.get<Array<DistributionBeneficiary>>('distributionBeneficiaries')
-                .map((distributionBeneficiary: DistributionBeneficiary) => distributionBeneficiary.modelToApi()),
-            validated: this.get('validated') ? this.get('validated') : false
+            threshold: this.fields.threshold.formatForApi(),
+            type: this.fields.type.formatForApi(),
+            distribution_beneficiaries: this.fields.distributionBeneficiaries.formatForApi(),
+            validated: this.fields.validated.formatForApi()
         };
 
     }

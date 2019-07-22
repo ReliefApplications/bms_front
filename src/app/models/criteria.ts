@@ -93,7 +93,7 @@ export class Criteria extends CustomModel {
                 apiLabel: 'name'
             }
         ),
-        type: new SingleSelectModelField(
+        type: new TextModelField(
             {
             }
         ),
@@ -146,13 +146,13 @@ export class Criteria extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            condition_string: this.get('condition').get('name'),
-            field_string: this.get('field'),
-            target: this.get('target'),
-            table_string: this.get('tableString'),
-            value_string: this.get('value').get('id'),
-            weight: this.get('weight'),
-            type: this.get('type'),
+            condition_string: this.fields.condition.formatForApi(),
+            field_string: this.fields.field.formatForApi(),
+            target: this.fields.target.formatForApi(),
+            table_string: this.fields.tableString.formatForApi(),
+            value_string: this.fields.value.formatForApi(),
+            weight: this.fields.weight.formatForApi(),
+            type: this.fields.type.formatForApi(),
         };
     }
 

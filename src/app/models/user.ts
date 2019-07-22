@@ -207,14 +207,14 @@ export class User extends CustomModel {
 
     public modelToApi(): object {
         const userForApi = {
-            id: this.get('id'),
-            email: this.get('email'),
-            username: this.get('email'),
-            password: this.get('password'),
-            language: this.get('language'),
+            id: this.fields.id.formatForApi(),
+            email: this.fields.email.formatForApi(),
+            username: this.fields.email.formatForApi(),
+            password: this.fields.password.formatForApi(),
+            language: this.fields.language.formatForApi(),
             roles: (this.get('rights') ? [this.get('rights').get('id')] : null),
             vendor: null,
-            change_password: this.get('changePassword')
+            change_password: this.fields.changePassword.formatForApi()
         };
 
         if (!this.get('rights')) {

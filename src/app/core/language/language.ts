@@ -10,6 +10,7 @@ export interface Language {
     done: string
     email: string
     export: string
+    export_selected: string
     general_settings: string;
     home: string
     import: string

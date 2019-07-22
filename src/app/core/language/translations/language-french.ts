@@ -14,6 +14,7 @@ export class French implements Language {
     done = 'Fin'
     email = 'Email'
     export = 'Export'
+    export_selected = 'Exporter les items sélectionnés'
     general_settings = 'Configuration'
     home = 'Accueil'
     import = 'Import'

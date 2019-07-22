@@ -14,6 +14,7 @@ export class Arabic implements Language {
     done = 'النهاية'
     email = 'البريد الالكتروني'
     export = 'تحميل'
+    export_selected = 'تصدير العناصر المحددة'
     general_settings = 'ترتيب'
     home = 'الصفحة الرئيسية'
     import = 'تحميل'

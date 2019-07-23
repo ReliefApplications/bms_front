@@ -49,7 +49,6 @@ app-placeholder-panel {
     background-color: $bms_white;
     height: 90%;
     display: flex;
-    box-shadow: $bms_shadow;
     z-index: 0;
     border-radius: 4px;
     overflow: hidden;
@@ -103,7 +102,6 @@ app-placeholder-panel {
         background-color: $bms_white;
         margin: 0 10px;
         border-radius: 4px;
-        box-shadow: $bms_shadow;
         border-top: solid 5px $bms_dark_blue;
         display: flex;
         flex-direction: row;
@@ -161,7 +159,6 @@ app-placeholder-panel {
     flex-grow: 1;
     display: flex;
     background-color: $bms_white;
-    box-shadow: $bms_shadow;
 
     app-table {
       width: 100%;

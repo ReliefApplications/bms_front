@@ -49,7 +49,31 @@
             <ng-template #distribution>
                 <div class="content-button" *ngIf="selectedProject.get('numberOfHouseholds') !== 0 ">
                     <div class="action-buttons">
+
                     <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
+                        <button mat-flat-button [disabled]="!(distributionData && distributionData.data.length > 0)" class="button-background-primary" (click)="exportOfficial()" *ngIf="!loadingOfficialExport">
+                        <mat-icon>get_app</mat-icon>
+                        <span>{{language.export | uppercaseFirst}}</span>
+                        </button>
+                        <mat-spinner [diameter]='25' *ngIf="loadingOfficialExport"></mat-spinner>
+                        <div class="extension" *ngIf="!loadingOfficialExport">
+                            <button mat-flat-button class="dropdown button-background-primary" [disabled]="!(distributionData && distributionData.data.length > 0)" [matMenuTriggerFor]="exportOfficialType">
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                            <mat-menu #exportOfficialType>
+                                <button mat-menu-item (click)="setOfficialType('xls')"> .xls <mat-icon *ngIf="extensionOfficialType=='xls'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setOfficialType('csv')"> .csv <mat-icon *ngIf="extensionOfficialType=='csv'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setOfficialType('ods')"> .ods <mat-icon *ngIf="extensionOfficialType=='ods'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setOfficialType('pdf')"> .pdf <mat-icon *ngIf="extensionOfficialType=='pdf'">done</mat-icon>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+
+                    <!-- <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
                         <button mat-flat-button [disabled]="!(distributionData && distributionData.data.length > 0)" class="button-background-primary" (click)="export()" *ngIf="!loadingExport">
                         <mat-icon>get_app</mat-icon>
                         <span>{{language.export | uppercaseFirst}}</span>
@@ -70,7 +94,7 @@
                                 </button>
                             </mat-menu>
                         </div>
-                    </div>
+                    </div> -->
                     </div>
                     <h3 *ngIf="distributionData && distributionData.data.length > 0">{{language.distributions }}</h3>
                     <button mat-flat-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" (click)="addDistribution()" class="add-button-create">

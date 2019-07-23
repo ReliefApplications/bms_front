@@ -180,53 +180,8 @@
     <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.beneficiary_import_convert | uppercaseFirst}}
     </h4>
     <mat-dialog-content class="modal-container">
+        <app-adm-form [form]="conversionForm" [location]="conversionLocation"></app-adm-form>
         <form [formGroup]="conversionForm">
-            <table class="modal-table" [ngClass]="{'rtl':language.direction === 'rtl'}">
-                <tr class="modal-row">
-                    <th class="table-title">{{ language.adm1[countryId] }}</th>
-                    <th class="table-value">
-                        <ng-select appendTo="body" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                            formControlName="adm1">
-                            <ng-option *ngFor="let adm1 of conversionLocation.getOptions('adm1')" [value]="adm1">
-                                {{adm1.get('name')}}</ng-option>
-                        </ng-select>
-                    </th>
-                </tr>
-
-                <tr class="modal-row">
-                    <th class="table-title">{{ language.adm2[countryId] }}</th>
-                    <th class="table-value">
-                        <ng-select appendTo="body" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                            formControlName="adm2">
-                            <ng-option *ngFor="let adm2 of conversionLocation.getOptions('adm2')" [value]="adm2">
-                                {{adm2.get('name')}}</ng-option>
-                        </ng-select>
-                    </th>
-                </tr>
-
-                <tr class="modal-row">
-                    <th class="table-title">{{ language.adm3[countryId] }}</th>
-                    <th class="table-value">
-                        <ng-select appendTo="body" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                            formControlName="adm3">
-                            <ng-option *ngFor="let adm3 of conversionLocation.getOptions('adm3')" [value]="adm3">
-                                {{adm3.get('name')}}</ng-option>
-                        </ng-select>
-                    </th>
-                </tr>
-
-                <tr class="modal-row">
-                    <th class="table-title">{{ language.adm4[countryId] }}</th>
-                    <th class="table-value">
-                        <ng-select appendTo="body" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true"
-                            formControlName="adm4">
-                            <ng-option *ngFor="let adm4 of conversionLocation.getOptions('adm4')" [value]="adm4">
-                                {{adm4.get('name')}}</ng-option>
-                        </ng-select>
-                    </th>
-                </tr>
-            </table>
-
             <div class="drag-and-drop-file">
                 <div>
                     <img class='img-folder' src="assets/images/folder.svg">

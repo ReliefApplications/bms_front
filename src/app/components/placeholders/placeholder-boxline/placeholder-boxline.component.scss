@@ -1,9 +1,7 @@
 @import '../../../../assets/css/variable.scss';
 
 .placeholder-container {
-    width: 99%;
     display: flex;
-    flex-direction: row;
     margin-left: 5px;
 
     .placeholder-box-line {
@@ -18,7 +16,6 @@
 }
 
 @media only screen and (max-width: 750px) {
-
     
     .placeholder-panel {
         margin: 20px;

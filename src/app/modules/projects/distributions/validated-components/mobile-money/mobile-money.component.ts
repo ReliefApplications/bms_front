@@ -340,11 +340,7 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
             dialogDetails.element = dialogDetails.element.get('beneficiary');
             this.modalService.openDialog(Beneficiary, this.beneficiariesService, dialogDetails);
             completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
-                if (response) {
-                    this.snackbar.success(this.language.transaction_update_success);
-                } else {
                     this.loadingTransaction = false;
-                }
             });
         } else {
             this.modalService.openDialog(TransactionMobileMoney, this.beneficiariesService, dialogDetails);

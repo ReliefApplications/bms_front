@@ -1,0 +1,47 @@
+<form [formGroup]="form" *ngIf="form">
+    <ng-container *ngIf="!withTitle; else formWithTitle">
+        <ng-container *ngFor="let adm of ['adm1', 'adm2', 'adm3', 'adm4']">
+            <ng-select
+                *ngIf="formName[adm]"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                [searchable]="true"
+                class="single-select"
+                [formControlName]="formName[adm]"
+                (change)="loadAdm(adm, $event)"
+                [placeholder]="location.fields[adm].title | uppercaseFirst">
+                <ng-option *ngFor="let option of location.getOptions(adm)" [value]="option.get('id')">
+                    {{option.get('name') | uppercaseFirst}}
+                </ng-option>
+            </ng-select>
+            <app-hint-error [form]="form" [fieldName]="adm" [field]="location.fields[adm]" [isMatField]="false"></app-hint-error>
+        </ng-container>
+    </ng-container>
+
+    <ng-template #formWithTitle>
+        <tr class="modal-row" *ngFor="let adm of ['adm1', 'adm2', 'adm3', 'adm4']">
+            <th class="table-title">
+                {{ location.fields[adm].title | uppercaseFirst }}
+            </th>
+            <td class="form-item">
+                <ng-select
+                appendTo="body"
+                *ngIf="formName[adm]"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                [searchable]="true"
+                class="single-select"
+                [formControlName]="formName[adm]"
+                (change)="loadAdm(adm, $event)"
+                [placeholder]="location.fields[adm].title | uppercaseFirst">
+                <ng-option *ngFor="let option of location.getOptions(adm)" [value]="option.get('id')">
+                    {{option.get('name') | uppercaseFirst}}
+                </ng-option>
+                </ng-select>
+                <app-hint-error [form]="form" [fieldName]="adm" [field]="location.fields[adm]" [isMatField]="false"></app-hint-error>
+            <td>
+        </tr>
+    </ng-template>
+
+
+</form>

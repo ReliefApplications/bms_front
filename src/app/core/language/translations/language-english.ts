@@ -15,6 +15,7 @@ export class English implements Language {
     done = 'Done'
     email = 'Email'
     export = 'Export'
+    export_selected = 'Export Selected Items'
     general_settings = 'Configuration'
     home = 'Home'
     import = 'Import'
@@ -212,6 +213,7 @@ export class English implements Language {
     beneficiary_residency_status_resident = 'Resident'
     beneficiary_select_api = 'Select API'
     beneficiary_selected_project = 'selected beneficiaries:'
+    beneficiary_update_title = 'Update Beneficiary'
     beneficiary_vulnerabilities = 'Vulnerabilities'
 
     // Beneficiary form errors
@@ -648,15 +650,19 @@ export class English implements Language {
     snackbar_change_password_done = 'Password has been changed!'
     snackbar_change_password_fail = 'Could not change password...'
     snackbar_change_password_not_possible = 'Password must be longer than 1 character and match with verification'
+    snackbar_created_successfully = 'Created successfully'
+    snackbar_error_creating = 'Error while creating '
+    snackbar_error_updating = 'Error while updating '
     snackbar_invalid_transaction_date = 'The transaction deadline is over.'
     snackbar_no_data_export = 'No data to export'
     snackbar_pickup_error = 'It is currently impossible to check the pickup status'
     snackbar_saved_language = 'Default Language Saved'
     snackbar_update = 'An update is available'
+    snackbar_updated_successfully = 'Updated successfully'
     snackbar_verification_code = 'Verification code has been sent at'
     snackbar_verification_code_error = 'Could not send code:'
     snackbar_verification_code_wait_error = 'The last code was sent less than 10 seconds ago, you should wait.'
-    
+
     // Table
     table_actions = 'Actions'
     table_assign = 'Assign'
@@ -704,7 +710,6 @@ export class English implements Language {
     transaction_state_sending_failed = 'Sending failed'
     transaction_state_sent = 'Sent' // Means sent during the current transaction (after loading the page)
     transaction_transaction = 'Start transaction'
-    transaction_update_success = 'Update successful!'
     transaction_validate_distribution = 'Do you really want to validate this distribution ?'
     transaction_validation = 'Confirm the validation'
 
@@ -724,13 +729,6 @@ export class English implements Language {
     tooltip_settings = 'This page is where you\'ll be able to add a new project, country specific, third party connection, product, vendor, edit and delete them according to your rights'
     tooltip_update_beneficiary = 'This page is a form to update the selected household.'
     tooltip_vouchers = 'This page is where you can create, edit, assign and print vouchers booklets'
-
-    // Update beneficiary
-    update_beneficiary_created_successfully = 'Created successfuly'
-    update_beneficiary_error_creating = 'Error while creating = '
-    update_beneficiary_error_updated = 'Error while updating = '
-    update_beneficiary_title = 'Update Beneficiary'
-    update_beneficiary_updated_successfully = 'Updated successfuly'
 
     //Vouchers
     voucher_ask_code = 'Please ask beneficiary to enter his 4 digits code here'
@@ -772,6 +770,11 @@ export class English implements Language {
     criteria_operator = 'Condition'
     criteria_weight = 'Score weight'
     criteria_target = 'Criteria Target'
+    currentAdm1 = this.household_location_current_location
+    currentAdm2 = this.household_location_current_location
+    currentAdm3 = this.household_location_current_location
+    currentAdm4 = this.household_location_current_location
+    currentLocation = this.household_location_current_location
     dateOfBirth = this.beneficiary_date_of_birth
     residencyStatus = this.beneficiary_residency_status
     hasNotBeenInDistributionsSince = 'has not been in a distribution since '

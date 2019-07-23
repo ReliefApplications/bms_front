@@ -4,42 +4,8 @@
       <h2 class="distribution-title">{{language.add_project_new_distribution | uppercaseFirst}}</h2>
       <div class="distribution-accordion">
         <mat-card class="accordion-card">
+          <app-adm-form [form]="form" [location]="objectInstance.get('location')" [initialValues]="initialAdmValues"></app-adm-form>
           <form [formGroup]="form">
-            <ng-container>
-              <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm1" (change)="loadDistrict($event)" [placeholder]="objectInstance.get('location').fields.adm1.title | uppercaseFirst" required>
-                  <ng-option *ngFor="let option of objectInstance.get('location').getOptions('adm1')" [value]="option.get('id')">
-                      {{option.get('name') | uppercaseFirst}}
-                  </ng-option>
-              </ng-select>
-              <app-hint-error [form]="form" fieldName="adm1" [field]="objectInstance.get('location').fields.adm1" [isMatField]="false"></app-hint-error>
-            </ng-container>
-
-            <ng-container>
-                <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm2" (change)="loadCommunity($event)" [placeholder]="objectInstance.get('location').fields.adm2.title | uppercaseFirst">
-                    <ng-option *ngFor="let option of objectInstance.get('location').getOptions('adm2')"  [value]="option.get('id')">
-                        {{option.get('name') | uppercaseFirst}}
-                    </ng-option>
-                </ng-select>
-                <app-hint-error [form]="form" fieldName="adm2" [field]="objectInstance.get('location').fields.adm2" [isMatField]="false"></app-hint-error>
-            </ng-container>
-
-            <ng-container>
-                <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm3"  (change)="loadVillage($event)" [placeholder]="objectInstance.get('location').fields.adm3.title | uppercaseFirst">
-                    <ng-option *ngFor="let option of objectInstance.get('location').getOptions('adm3')"[value]="option.get('id')">
-                        {{option.get('name') | uppercaseFirst}}
-                    </ng-option>
-                </ng-select>
-                <app-hint-error [form]="form" fieldName="adm3" [field]="objectInstance.get('location').fields.adm3" [isMatField]="false"></app-hint-error>
-            </ng-container>
-
-            <ng-container>
-                <ng-select [multiple]="false" [closeOnSelect]="true" [searchable]="true" class="single-select" formControlName="adm4" [placeholder]="objectInstance.get('location').fields.adm4.title | uppercaseFirst">
-                    <ng-option *ngFor="let option of objectInstance.get('location').getOptions('adm4')" [value]="option.get('id')">
-                        {{option.get('name') | uppercaseFirst}}
-                    </ng-option>
-                </ng-select>
-                <app-hint-error [form]="form" fieldName="adm4" [field]="objectInstance.get('location').fields.adm4" [isMatField]="false"></app-hint-error>
-            </ng-container>
             <mat-form-field class="accordion-field">
               <input matInput [matDatepicker]="dateDistribution" [placeholder]="objectInstance.fields.date.title | uppercaseFirst"
                 formControlName="date" [min]="getMinDate()" [max]="projectInfo.endDate" required>

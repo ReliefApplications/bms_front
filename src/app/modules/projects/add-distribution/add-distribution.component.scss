@@ -47,7 +47,6 @@
             height: 450px;
 
             .accordion-card {
-                box-shadow: $bms_shadow !important;
                 width: 100%;
 
                 .accordion-field {
@@ -145,7 +144,6 @@
                 .form {
                     margin: 20px 0;
                     background-color: $bms_white;
-                    box-shadow: $bms_shadow;
                 }
             }
         }

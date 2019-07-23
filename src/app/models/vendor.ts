@@ -87,6 +87,9 @@ export class Vendor extends CustomModel {
         location: new ObjectModelField<Location>({
             isDisplayedInTable: true,
             displayTableFunction: null,
+            isDisplayedInModal: true,
+            isSettable: true,
+            isEditable: true,
             title: this.language.location,
             tooltip: null
         }),
@@ -97,23 +100,6 @@ export class Vendor extends CustomModel {
             isEditable: true,
             childrenObject: 'location',
             childrenFieldName: 'adm1',
-            isRequired: true,
-            isTrigger: true,
-            triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
-                const appInjector = AppInjector;
-                // vendor.set('adm2', null);
-                // vendor.set('adm3', null);
-                // vendor.set('adm4', null);
-                form.controls.adm2.setValue(null);
-                form.controls.adm3.setValue(null);
-                form.controls.adm4.setValue(null);
-                if (value) {
-                    const location = vendor.get<Location>('location');
-                    appInjector.get(LocationService).fillAdm2Options(location, parseInt(value, 10))
-                        .subscribe((filledLocation: Location) => vendor.set('location', location));
-                }
-                return vendor;
-            },
         }),
         adm2: new NestedFieldModelField({
             title: this.language.adm2[this.country],
@@ -122,20 +108,6 @@ export class Vendor extends CustomModel {
             isEditable: true,
             childrenObject: 'location',
             childrenFieldName: 'adm2',
-            isTrigger: true,
-            triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
-                const appInjector = AppInjector;
-                // vendor.set('adm3', null);
-                // vendor.set('adm4', null);
-                form.controls.adm3.setValue(null);
-                form.controls.adm4.setValue(null);
-                if (value) {
-                    const location = vendor.get<Location>('location');
-                    appInjector.get(LocationService).fillAdm3Options(location, parseInt(value, 10))
-                        .subscribe((filledLocation: Location) => vendor.set('location', location));
-                }
-                return vendor;
-            },
         }),
         adm3: new NestedFieldModelField({
             title: this.language.adm3[this.country],
@@ -144,18 +116,6 @@ export class Vendor extends CustomModel {
             isEditable: true,
             childrenObject: 'location',
             childrenFieldName: 'adm3',
-            isTrigger: true,
-            triggerFunction: (vendor: Vendor, value: string, form: FormGroup) => {
-                const appInjector = AppInjector;
-                // vendor.set('adm4', null);
-                form.controls.adm4.setValue(null);
-                if (value) {
-                    const location = vendor.get<Location>('location');
-                    appInjector.get(LocationService).fillAdm4Options(location, parseInt(value, 10))
-                        .subscribe((filledLocation: Location) => vendor.set('location', location));
-                }
-                return vendor;
-            },
         }),
         adm4: new NestedFieldModelField({
             title: this.language.adm4[this.country],

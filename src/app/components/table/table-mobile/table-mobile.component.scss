@@ -2,7 +2,6 @@
 
 
 .table-entry {
-    box-shadow: $bms_shadow;
     background-color: $bms-grey;
     border-radius: 10px;
     margin: 20px 0;
@@ -24,9 +23,9 @@
         flex-direction: column;
         justify-content: space-around;
         transition: all 0.5s;
-        
+
         &.checked{
-          background-color: $bms_dark_grey;  
+          background-color: $bms_dark_grey;
           color: $bms_white;
         }
 

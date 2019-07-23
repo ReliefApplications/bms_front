@@ -31,11 +31,13 @@ export class Arabic implements Language {
     summary = 'ملخص'
     the = 'ال'
     this = 'هذه'
+    selected = 'المحدد'
 
     // Models
     beneficiaries = 'المستفيدون'
     beneficiary = 'المستفيد'
     booklet = 'كتيب'
+    booklets = 'كتيبات'
     commodity = 'السلع'
     country = 'البلد'
     criteria = 'المعاير'

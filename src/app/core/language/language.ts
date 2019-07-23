@@ -27,11 +27,13 @@ export interface Language {
     summary: string
     the: string
     this: string
+    selected: string
 
     // Models
     beneficiaries: string
     beneficiary: string
     booklet: string
+    booklets: string
     commodity: string
     country: string
     criteria: string

@@ -35,19 +35,14 @@ app-table-mobile {
     }
 }
 
-.margin-left {
-    margin-left: 15px;
-}
-
-.center-items {
+.selected-items {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    mat-icon {
-        margin-right: 10px;
-    }
+    color: $bms_dark_grey;
+    font: Roboto;
 }
+
 @media only screen and (max-width: 750px) {
     app-placeholder-panel {
         width: 85% !important;

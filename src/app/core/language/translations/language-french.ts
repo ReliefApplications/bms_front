@@ -31,11 +31,13 @@ export class French implements Language {
     summary = 'Sommaire'
     the = 'le'
     this = 'Ce'
+    selected = 'selectionné'
 
     // Models
     beneficiaries = 'Bénéficiaires'
     beneficiary = 'Bénéficiaire'
     booklet = 'Brochure'
+    booklets  = 'Brochures'
     commodity = 'Ressource'
     country = 'Pays'
     criteria = 'Critère'

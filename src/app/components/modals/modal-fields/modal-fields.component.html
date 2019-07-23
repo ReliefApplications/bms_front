@@ -193,7 +193,7 @@
                                 <ng-template #isObject>
                                     <ng-container *ngIf="field.kindOfField === 'Object'; else isMultipleObject">
                                         <app-adm-form *ngIf="modalType !== 'Details' && fieldName === 'location' && field.isEditable"
-                                            [form]="form" [location]="form.controls.location.value" [withTitle]="true" [initialValues]="initialAdmValues">
+                                            [form]="form" [location]="objectInstance.get('location')" [withTitle]="true" [initialValues]="initialAdmValues">
                                         </app-adm-form>
                                         <mat-form-field *ngIf="modalType === 'Details' && fieldName !== 'location'">
                                             <input matInput disabled="true" type="text"

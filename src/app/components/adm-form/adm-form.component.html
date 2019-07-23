@@ -20,7 +20,7 @@
     </ng-container>
 
     <ng-template #formWithTitle>
-        <!-- <tr class="modal-row" *ngFor="let adm of ['adm1', 'adm2', 'adm3', 'adm4']">
+        <tr class="modal-row" *ngFor="let adm of ['adm1', 'adm2', 'adm3', 'adm4']">
             <th class="table-title">
                 {{ location.fields[adm].title | uppercaseFirst }}
             </th>
@@ -40,7 +40,7 @@
                 </ng-select>
                 <app-hint-error [form]="form" [fieldName]="adm" [field]="location.fields[adm]" [isMatField]="false"></app-hint-error>
             <td>
-        </tr> -->
+        </tr>
     </ng-template>
 
 

@@ -395,7 +395,7 @@ export class French implements Language {
     household_full_address = 'Adresse entière du ménage'
     household_id = 'ID du foyer'
     household_income = 'Niveau de revenu'
-    household_income_level = INCOMELEVELS.fr
+    household_income_level = INCOMELEVELS.french
     household_info = 'Résumé des informations du ménage'
     household_livelihood = 'Métier'
     household_location = 'Localisation du ménage'

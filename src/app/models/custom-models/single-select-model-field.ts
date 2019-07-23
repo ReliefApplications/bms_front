@@ -9,7 +9,18 @@ export class SingleSelectModelField<CustomModel> extends SelectModelField<Custom
      */
     value: any;
 
+     /**
+     * Sometimes when the value can have special characters such as <, >, etc, we need a mat-select to handle them
+     * @type {boolean}
+     */
+    isMatSelect: boolean;
+
     kindOfField = 'SingleSelect';
+
+    constructor(properties: any) {
+        super(properties);
+        this.isMatSelect               = properties['isMatSelect'];
+    }
 
     formatForApi(): any {
         return this.value ? this.value.get(this.apiLabel) : null;

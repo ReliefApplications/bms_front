@@ -15,7 +15,6 @@
                 </ng-option>
             </ng-select>
             <app-hint-error [form]="form" [fieldName]="adm" [field]="location.fields[adm]" [isMatField]="false"></app-hint-error>
-    
         </ng-container>
     </ng-container>
 
@@ -26,6 +25,7 @@
             </th>
             <td class="form-item">
                 <ng-select
+                appendTo="body"
                 *ngIf="formName[adm]"
                 [multiple]="false"
                 [closeOnSelect]="true"

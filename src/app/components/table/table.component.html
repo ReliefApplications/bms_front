@@ -7,13 +7,18 @@
     </div>
 
     <ng-template #dataInTable>
-        <div class="container-header" *ngIf="searchable">
-            <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{language.table_filter | uppercaseFirst}}">
-                <mat-icon matPrefix>search</mat-icon>
-            </mat-form-field>
+        <div class="buttons-header">
+            <div class="container-header" *ngIf="searchable">
+                <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{language.table_filter | uppercaseFirst}}">
+                    <mat-icon matPrefix>search</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="selected-items">
+                <p *ngIf="selection.selected.length > 0 && selection.selected.length < 2">{{selection.selected.length}} {{language.booklet | uppercaseFirst}} {{language.selected}}</p>
+                <p *ngIf="selection.selected.length > 1">{{selection.selected.length}} {{language.booklets | uppercaseFirst}} {{language.selected}}</p>    
+            </div>
         </div>
-
         <div class="spinner-container" *ngIf="isLoading">
             <mat-spinner></mat-spinner>
         </div>

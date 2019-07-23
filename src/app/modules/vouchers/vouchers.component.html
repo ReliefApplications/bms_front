@@ -17,7 +17,10 @@
                 [disabled]="!bookletData" class="button-background-primary"
                 (click)="exportCodes()" *ngIf="!loadingExportCodes">
                 <mat-icon>get_app</mat-icon>
-                <span>{{language.export | uppercaseFirst}}</span>
+                <span *ngIf="selection.selected.length > 0; else noSelected">{{language.export_selected | uppercaseFirst}}</span>
+                <ng-template #noSelected>
+                    <span >{{language.export | uppercaseFirst}}</span>
+                </ng-template>
               </button>
               <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
               <div class="extension" *ngIf="!loadingExportCodes">
@@ -37,8 +40,6 @@
               </div>
             </div>
         </div>
-        <p class="selected-items" *ngIf="selection.selected.length > 0 && selection.selected.length < 2">{{selection.selected.length}} {{language.booklet | uppercaseFirst}} {{language.selected}}</p>
-        <p class="selected-items" *ngIf="selection.selected.length > 1">{{selection.selected.length}} {{language.booklets | uppercaseFirst}} {{language.selected}}</p>
         <button mat-flat-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
           (click)="openDialog({action: 'add'})" class="add-button-create">
           <mat-icon>add</mat-icon>

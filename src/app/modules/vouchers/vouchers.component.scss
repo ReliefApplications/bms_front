@@ -35,14 +35,6 @@ app-table-mobile {
     }
 }
 
-.selected-items {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: $bms_dark_grey;
-    font: $bms_font_text;
-}
-
 @media only screen and (max-width: 750px) {
     app-placeholder-panel {
         width: 85% !important;

@@ -14,7 +14,7 @@
 
 .buttons-search-clear {
     display: flex;
-    width: 100%;
+    width: 25%;
     justify-content: left;
     font-size: 14px;
 
@@ -40,4 +40,8 @@
 
 .table-placeholder {
     position: absolute;
+}
+
+.selected-items {
+    left: 25%;
 }

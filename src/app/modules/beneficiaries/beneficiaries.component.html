@@ -57,8 +57,6 @@
                         </div>
                     </div>
                 </div>
-                <p class="selected-items" *ngIf="selection.selected.length > 0 && selection.selected.length < 2">{{selection.selected.length}} {{language.beneficiary | uppercaseFirst}} {{language.selected}}</p>
-                <p class="selected-items" *ngIf="selection.selected.length > 1">{{selection.selected.length}} {{language.beneficiaries | uppercaseFirst}} {{language.selected}}</p>
                 <div class="add-buttons"
                     [ngClass]="{'add-buttons-rtl': language.direction === 'rtl', 'add-buttons-mobile': currentDisplayType.type === 'mobile'}"
                     (mouseenter)="currentDisplayType.type !== 'mobile' && this.addToggled = true"

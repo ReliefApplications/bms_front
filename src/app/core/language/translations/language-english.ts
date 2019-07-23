@@ -396,12 +396,7 @@ export class English implements Language {
     household_full_address = 'Full household address'
     household_id = 'Household ID'
     household_income = 'income level'
-    household_income_level = INCOMELEVELS.en
-    household_income_level_1 = 'very low'
-    household_income_level_2 = 'low'
-    household_income_level_3 = 'average'
-    household_income_level_4 = 'high'
-    household_income_level_5 = 'very high'
+    household_income_level = INCOMELEVELS.english
     household_info = 'Household information summary'
     household_livelihood = 'Livelihood'
     household_location = 'Household Location'

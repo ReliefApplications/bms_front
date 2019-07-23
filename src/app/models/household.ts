@@ -161,16 +161,11 @@ export class Household extends CustomModel {
                 apiLabel: 'id',
                 isMatSelect: true,
                 options: [
-                    new IncomeLevel('1', this.language.household_income_level_1 +
-                        ' (' + this.language['household_income_level']['1'][this.country] + ')'),
-                    new IncomeLevel('2', this.language.household_income_level_2 +
-                        ' (' + this.language['household_income_level']['2'][this.country] + ')'),
-                    new IncomeLevel('3', this.language.household_income_level_3 +
-                        ' (' + this.language['household_income_level']['3'][this.country] + ')'),
-                    new IncomeLevel('4', this.language.household_income_level_4 +
-                        ' (' + this.language['household_income_level']['4'][this.country] + ')'),
-                    new IncomeLevel('5', this.language.household_income_level_5 +
-                        ' (' + this.language['household_income_level']['5'][this.country] + ')')
+                    new IncomeLevel('1', this.language['household_income_level']['1'][this.country]),
+                    new IncomeLevel('2', this.language['household_income_level']['2'][this.country]),
+                    new IncomeLevel('3', this.language['household_income_level']['3'][this.country]),
+                    new IncomeLevel('4', this.language['household_income_level']['4'][this.country]),
+                    new IncomeLevel('5', this.language['household_income_level']['5'][this.country])
                 ]
             }
         ),

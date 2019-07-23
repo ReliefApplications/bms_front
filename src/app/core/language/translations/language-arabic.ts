@@ -394,12 +394,7 @@ export class Arabic implements Language {
     household_full_address = 'عنوان المنزل بالكامل:'
     household_id = 'معرف الأسرة'
     household_income = 'مستوى الدخل'
-    household_income_level = INCOMELEVELS.ar
-    household_income_level_1 = 'منخفظ جدا'
-    household_income_level_2 = 'منخفض'
-    household_income_level_3 = 'معدل'
-    household_income_level_4 = 'متوسط'
-    household_income_level_5 = 'عالي جدا'
+    household_income_level = INCOMELEVELS.arabic
     household_info = 'ملخص المعلومات الخاصة بالمنزل  :'
     household_livelihood = 'الوظيفة'
     household_location_address = 'عنوان'

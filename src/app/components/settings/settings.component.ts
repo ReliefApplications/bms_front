@@ -8,7 +8,7 @@ import { TableComponent } from 'src/app/components/table/table.component';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { LocationService } from 'src/app/core/api/location.service';
 import { OrganizationService } from 'src/app/core/api/organization.service';
-import { ProductService } from 'src/app/core/api/product-service';
+import { ProductService } from 'src/app/core/api/product.service';
 import { VendorsService } from 'src/app/core/api/vendors.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';

@@ -171,6 +171,45 @@ app-display-field.ng-star-inserted {
   }
 }
 
+.marker-cluster {
+    background-color: rgba(241, 211, 87, 0.6);
+}
+
+.marker-cluster div {
+    background-color: rgba(240, 194, 12, 0.6);
+}
+
+
+.marker-cluster-medium {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50px !important;
+    div {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 40px !important;
+        span {
+            line-height: 40px;
+        }
+    }
+}
+
+
+.marker-cluster-large {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 60px !important;
+    div {
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 50px !important;
+        span {
+            line-height: 50px;
+        }
+    }
+}
+
+
 .legend {
 
     background: rgba(255,255,255,0.75);

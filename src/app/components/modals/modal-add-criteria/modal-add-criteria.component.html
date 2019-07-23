@@ -94,8 +94,8 @@
                 <ng-container *ngIf="form.controls.field.value === 'incomeLevel'; else text">
                   <mat-form-field>
                     <mat-select class="single-select" [multiple]="false" placeholder="{{language.household_income | uppercaseFirst}}" formControlName="value">
-                      <mat-option *ngFor="let index of [1, 2, 3, 4, 5]" [value]="index">
-                          {{ index }} ({{ language['household_income_level'][index.toString()][criteria.country] }})
+                      <mat-option *ngFor="let option of household.getOptions('incomeLevel')" [value]="option.get('id')">
+                        {{ option.get('name')  | uppercaseFirst }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>

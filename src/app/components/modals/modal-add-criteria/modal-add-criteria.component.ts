@@ -10,7 +10,7 @@ import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/dat
 import { Criteria, CriteriaCondition, CriteriaValue } from 'src/app/models/criteria';
 import { Gender, Beneficiary, ResidencyStatus } from 'src/app/models/beneficiary';
 import { LIVELIHOOD } from 'src/app/models/constants/livelihood';
-import { Livelihood } from 'src/app/models/household';
+import { Livelihood, Household, IncomeLevel } from 'src/app/models/household';
 import { HouseholdLocation, HouseholdLocationType } from 'src/app/models/household-location';
 import { Subscription } from 'rxjs';
 import { Camp } from 'src/app/models/camp';
@@ -39,6 +39,9 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
     locationTypes: Array<HouseholdLocationType>;
     criteriaSubList: Array<Criteria>;
     campList: Array<Camp>;
+
+    // For incomeLevel list
+    household = new Household();
 
     subscribers: Array<Subscription> = [];
 
@@ -224,8 +227,10 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
                     .filter((locationType: HouseholdLocationType) => locationType.get('id') === value)[0];
                 this.criteria.set('value', new CriteriaValue(value, locationTypeValue.get('name')));
             } else if (controls.field.value === 'incomeLevel') {
-                this.criteria.set('value',
-                    new CriteriaValue(value, this.language['household_income_level'][value.toString()][this.criteria.country]));
+                const incomeLevelValue = value ?
+                    this.household.getOptions('incomeLevel').filter((incomeLevel: IncomeLevel) => incomeLevel.get('id') === value)[0] :
+                    null;
+                this.criteria.set('value', new CriteriaValue(value, incomeLevelValue.get<string>('name')));
             }
             // In case the criteria is the dateOfBirth
             else if (value instanceof Date) {

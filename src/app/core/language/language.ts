@@ -406,6 +406,11 @@ export interface Language {
     household_full_address: string
     household_id: string
     household_income_level: object
+    household_income_level_1: string
+    household_income_level_2: string
+    household_income_level_3: string
+    household_income_level_4: string
+    household_income_level_5: string
     household_income: string
     household_info: string
     household_livelihood: string

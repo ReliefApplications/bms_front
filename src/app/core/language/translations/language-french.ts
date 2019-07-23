@@ -396,6 +396,11 @@ export class French implements Language {
     household_id = 'ID du foyer'
     household_income = 'Niveau de revenu'
     household_income_level = INCOMELEVELS.fr
+    household_income_level_1 = 'très bas'
+    household_income_level_2 = 'bas'
+    household_income_level_3 = 'moyen'
+    household_income_level_4 = 'haut'
+    household_income_level_5 = 'très haut'
     household_info = 'Résumé des informations du ménage'
     household_livelihood = 'Métier'
     household_location = 'Localisation du ménage'

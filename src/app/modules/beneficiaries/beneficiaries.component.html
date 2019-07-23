@@ -8,7 +8,7 @@
                 <div class="action-buttons">
                     <button mat-flat-button class="button-background-primary" 
                         *ngIf="selection.selected.length > 0 && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
-                        [matMenuTriggerFor]="menu" [matBadge]="selection.selected.length">
+                        [matMenuTriggerFor]="menu">
                         <mat-icon>more_vert</mat-icon>
                         <span>{{language.table_actions | titlecase}}</span>
                     </button>
@@ -29,7 +29,7 @@
                         [ngClass]="{'rtl':language.direction === 'rtl'}">
                         <button mat-flat-button [disabled]="!(dataSource.length$ | async)"
                             *ngIf="userService.hasRights('ROLE_BENEFICIARY_EXPORT') && !loadingExport"
-                            class="button-background-primary" (click)="export()" [matBadge]="getNumberToExport()">
+                            class="button-background-primary" (click)="export()">
                             <mat-icon>get_app</mat-icon>
                             <span>{{language.export | uppercaseFirst}}</span>
                         </button>
@@ -54,7 +54,8 @@
                         </div>
                     </div>
                 </div>
-
+                <p class="selected-items" *ngIf="selection.selected.length > 0 && selection.selected.length < 2">{{selection.selected.length}} {{language.beneficiary | uppercaseFirst}} {{language.selected}}</p>
+                <p class="selected-items" *ngIf="selection.selected.length > 1">{{selection.selected.length}} {{language.beneficiaries | uppercaseFirst}} {{language.selected}}</p>
                 <div class="add-buttons"
                     [ngClass]="{'add-buttons-rtl': language.direction === 'rtl', 'add-buttons-mobile': currentDisplayType.type === 'mobile'}"
                     (mouseenter)="currentDisplayType.type !== 'mobile' && this.addToggled = true"
@@ -84,7 +85,7 @@
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
-
+      
             <div class="content-table">
                 <app-table-server *ngIf="currentDisplayType.type !== 'mobile'" 
                     [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT') || userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [selection]="selection"

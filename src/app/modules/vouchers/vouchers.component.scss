@@ -40,7 +40,7 @@ app-table-mobile {
     justify-content: center;
     align-items: center;
     color: $bms_dark_grey;
-    font: Roboto;
+    font: $bms_font_text;
 }
 
 @media only screen and (max-width: 750px) {

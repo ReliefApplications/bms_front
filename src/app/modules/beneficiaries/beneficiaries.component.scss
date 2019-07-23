@@ -29,3 +29,11 @@ app-placeholder-panel {
 .mat-badge {
     z-index: 1;
 }
+
+.selected-items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $bms_dark_grey;
+    font: $bms_font_text;
+}

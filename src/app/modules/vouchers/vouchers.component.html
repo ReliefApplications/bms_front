@@ -37,7 +37,8 @@
               </div>
             </div>
         </div>
-
+        <p class="selected-items" *ngIf="selection.selected.length > 0 && selection.selected.length < 2">{{selection.selected.length}} {{language.booklet | uppercaseFirst}} {{language.selected}}</p>
+        <p class="selected-items" *ngIf="selection.selected.length > 1">{{selection.selected.length}} {{language.booklets | uppercaseFirst}} {{language.selected}}</p>
         <button mat-flat-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
           (click)="openDialog({action: 'add'})" class="add-button-create">
           <mat-icon>add</mat-icon>
@@ -48,8 +49,6 @@
           <mat-icon>add</mat-icon>
         </button>  
       </div>
-      <p class="selected-items" *ngIf="selection.selected.length > 0 && selection.selected.length < 2">{{selection.selected.length}} {{language.booklet}} {{language.selected}}</p>
-      <p class="selected-items" *ngIf="selection.selected.length > 1">{{selection.selected.length}} {{language.booklets}} {{language.selected}}</p>
       <div class="content-table">
         <app-table [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
           [data]="bookletData" [selection]="selection" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"

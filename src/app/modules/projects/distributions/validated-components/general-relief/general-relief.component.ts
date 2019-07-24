@@ -7,7 +7,7 @@ import { Beneficiary } from 'src/app/models/beneficiary';
 import { Commodity } from 'src/app/models/commodity';
 import { GeneralRelief, TransactionGeneralRelief } from 'src/app/models/transaction-general-relief';
 import { ValidatedDistributionComponent } from '../validated-distribution.component';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-general-relief',
@@ -52,6 +52,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         this.transactionData = new MatTableDataSource(distributionBeneficiaries);
         this.verifyIsFinished();
         this.loadingTransaction = false;
+
     }
 
      /**
@@ -160,8 +161,10 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                     objectInstance: dialogDetails.element
                  }
             });
-            this.modalService.isCompleted.subscribe((response: string) => {
-                this.updateElement(dialogDetails.element);
+            completeSubscription = dialogRef.afterClosed().subscribe((response: string) => {
+                if (response) {
+                    this.updateElement(dialogDetails.element);
+                }
             });
         } else if (dialogDetails.action === 'delete') {
             dialogDetails.element = dialogDetails.element.get('beneficiary');
@@ -209,27 +212,27 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 
         // Then, send the updated general reliefs to the api
         const generalReliefsForApi = generalReliefs.map((generalRelief: GeneralRelief) => generalRelief.modelToApi());
-        this.distributionService.addNotes(generalReliefsForApi).subscribe(() => {
-        });
+        const addNotesObservable = this.distributionService.addNotes(generalReliefsForApi);
 
         // Then, send the updatee associated Beneficiary to the api
         const apiUpdateElement = updateElement.get<Beneficiary>('beneficiary').modelToApi();
-        this.beneficiariesService.update(apiUpdateElement['id'], apiUpdateElement).subscribe();
+        const updateObservable = this.beneficiariesService.update(apiUpdateElement['id'], apiUpdateElement);
 
-
-        // Then, replace the old value of the transaction by updateElement in the actual distribution
-        const distributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');
-        distributionBeneficiaries.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
-            if (distributionBeneficiary.get('beneficiary').get('id') === updateElement.get('beneficiary').get('id')) {
-                distributionBeneficiary = updateElement;
-            }
+        forkJoin(addNotesObservable, updateObservable).subscribe(() => {
+            // Then, replace the old value of the transaction by updateElement in the actual distribution
+            const distributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');
+            distributionBeneficiaries.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
+                if (distributionBeneficiary.get('beneficiary').get('id') === updateElement.get('beneficiary').get('id')) {
+                    distributionBeneficiary = updateElement;
+                }
+            });
+            this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
+            this.transactionData = new MatTableDataSource(distributionBeneficiaries);
+            // Then we store the updated distribution in the cache
+            this.hideSnackEmitter.emit();
+            this.storeEmitter.emit(this.actualDistribution);
+            this.snackbar.success(this.language.snackbar_updated_successfully);
         });
-        this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
-        this.transactionData = new MatTableDataSource(distributionBeneficiaries);
 
-        // Then we store the updated distribution in the cache
-        this._cacheService.set(
-            `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}_beneficiaries`, this.actualDistribution.modelToApi()
-        ).subscribe();
     }
 }

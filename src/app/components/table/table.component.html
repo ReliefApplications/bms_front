@@ -14,7 +14,7 @@
                     <mat-icon matPrefix>search</mat-icon>
                 </mat-form-field>
             </div>
-            <div class="selected-items">
+            <div *ngIf="selectable" class="selected-items">
                 <p *ngIf="selection.selected.length > 0 && selection.selected.length < 2">{{selection.selected.length}} {{language.booklet | uppercaseFirst}} {{language.selected}}</p>
                 <p *ngIf="selection.selected.length > 1">{{selection.selected.length}} {{language.booklets | uppercaseFirst}} {{language.selected}}</p>    
             </div>

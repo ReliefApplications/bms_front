@@ -14,10 +14,12 @@
                     <mat-icon matPrefix>search</mat-icon>
                 </mat-form-field>
             </div>
-            <div *ngIf="selectable" class="selected-items">
-                <p *ngIf="selection.selected.length > 0 && selection.selected.length < 2">{{selection.selected.length}} {{language.booklet | uppercaseFirst}} {{language.selected}}</p>
-                <p *ngIf="selection.selected.length > 1">{{selection.selected.length}} {{language.booklets | uppercaseFirst}} {{language.selected}}</p>    
-            </div>
+            <div class="selected-items" *ngIf="selectable && selection.selected.length > 0">
+                    <p *ngIf="selection.selected.length < 2; else plural">{{selection.selected.length}} {{language.booklet | uppercaseFirst}} {{language.selected}}</p>
+                    <ng-template #plural>
+                        <p>{{selection.selected.length}} {{language.booklets | uppercaseFirst}} {{language.selected}}</p> 
+                    </ng-template>     
+                </div>  
         </div>
         <div class="spinner-container" *ngIf="isLoading">
             <mat-spinner></mat-spinner>

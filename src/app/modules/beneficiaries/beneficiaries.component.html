@@ -86,7 +86,6 @@
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
-      
             <div class="content-table">
                 <app-table-server *ngIf="currentDisplayType.type !== 'mobile'" 
                     [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT') || userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [selection]="selection"

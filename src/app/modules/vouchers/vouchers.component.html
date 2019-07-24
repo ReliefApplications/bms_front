@@ -48,7 +48,7 @@
         <button mat-fab *ngIf="currentDisplayType.type === 'mobile'" (click)="openDialog({action: 'add'})" class="add-button"
           [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
           <mat-icon>add</mat-icon>
-        </button>  
+        </button>
       </div>
       <div class="content-table">
         <app-table [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"

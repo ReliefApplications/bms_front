@@ -1,7 +1,7 @@
 <mat-horizontal-stepper #myStepper *ngIf="!loadingDatas && actualDistribution && !actualDistribution.get('validated')">
 
     <mat-step label="{{ language.distribution_details_export | uppercaseFirst }}">
-        <div class="container-table">
+        <div class="container-table" *ngIf="myStepper.selectedIndex === 0">
             <div class="container-content box-primary box-primary">
                 <div class="content-button">
                     <div class="action-buttons">
@@ -76,7 +76,7 @@
     </mat-step>
 
     <mat-step label="{{ language.distribution_details_import | uppercaseFirst }}" *ngIf="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
-        <div class="container-table">
+        <div class="container-table" *ngIf="myStepper.selectedIndex === 1">
             <div class="container-content box-primary">
                 <div class="import-content">
                     <app-import-distribution *ngIf="!actualDistribution.get('validated')"
@@ -100,7 +100,7 @@
     </mat-step>
 
     <mat-step label="{{ language.distribution_details_random | uppercaseFirst }}">
-        <div class="container-table">
+        <div class="container-table" *ngIf="myStepper.selectedIndex === 2">
             <div class="container-content box-primary">
                 <div class="content-button">
                     <div class="action-buttons">
@@ -175,7 +175,7 @@
     </mat-step>
 
     <mat-step label="{{ language.distribution_details_validate | uppercaseFirst }}" *ngIf="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
-        <div class="container-table">
+        <div class="container-table" *ngIf="myStepper.selectedIndex === 3">
             <div class="container-content box-primary">
                 <div class="content-button">
                 </div>

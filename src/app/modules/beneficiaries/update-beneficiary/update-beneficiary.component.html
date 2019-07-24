@@ -135,7 +135,7 @@
                                             </button>
                                             <button mat-flat-button class="button-background-primary"
                                                 *ngIf="mode=='update' && !validationLoading"
-                                                (click)="submit(); nextValidation(1, true)">{{language.update | uppercaseFirst }}</button>
+                                                (click)="submit(1)">{{language.update | uppercaseFirst }}</button>
                                         </div>
                                     </div>
                                 </form>
@@ -170,7 +170,7 @@
                                 </button>
                                 <button mat-flat-button class="button-background-primary"
                                     *ngIf="mode=='update' && !validationLoading"
-                                    (click)="submit(); nextValidation(2, true)">{{language.update | uppercaseFirst}}</button>
+                                    (click)="submit(2)">{{language.update | uppercaseFirst}}</button>
                             </div>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
                                 </button>
                                 <button mat-flat-button class="button-background-primary"
                                     *ngIf="mode=='update' && !validationLoading"
-                                    (click)="submit(); nextValidation(3, true)">
+                                    (click)="submit(3)">
                                     {{language.update | uppercaseFirst}}
                                 </button>
                             </div>

@@ -28,6 +28,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
 
     @Output() emitStore = new EventEmitter<Distribution>();
     @Output() isUpdated = new EventEmitter<void>();
+    @Output() hideSnackEmitter = new EventEmitter<Distribution>();
 
     loadingExport = false;
     loadingDatas = true;
@@ -70,7 +71,6 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
     interval: any;
     correctCode = false;
     progression: number;
-    hideSnack = false;
 
     // Screen size
     public currentDisplayType: DisplayType;
@@ -217,7 +217,7 @@ export class NotValidatedDistributionComponent implements OnInit, OnDestroy {
                                 .subscribe(
                                     result => {
                                         if (result) {
-                                            this.hideSnack = true;
+                                            this.hideSnackEmitter.emit();
                                             this.storeBeneficiaries();
                                         }
                                     }

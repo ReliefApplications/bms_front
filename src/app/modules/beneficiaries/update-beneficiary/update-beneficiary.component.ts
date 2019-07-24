@@ -23,7 +23,7 @@ import { CampAddress } from 'src/app/models/camp-address';
 import { PHONECODES } from 'src/app/models/constants/phone-codes';
 import { CountrySpecific, CountrySpecificAnswer } from 'src/app/models/country-specific';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
-import { Household, Livelihood, FormLocation } from 'src/app/models/household';
+import { Household, Livelihood, FormLocation, IncomeLevel } from 'src/app/models/household';
 import { HouseholdLocation, HouseholdLocationGroup, HouseholdLocationType } from 'src/app/models/household-location';
 import { Adm, Location } from 'src/app/models/location';
 import { NationalId, NationalIdType } from 'src/app/models/national-id';
@@ -215,6 +215,8 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
             if (field && field.kindOfField === 'MultipleSelect') {
                 const selectedOptions = this.household.get<CustomModel[]>(fieldName).map(option => option.get('id'));
                 this.mainForm.addControl(fieldName, new FormControl(selectedOptions));
+            } else if (field && field.kindOfField === 'SingleSelect') {
+                this.mainForm.addControl(fieldName, new FormControl(field.value ? field.value.get(field.apiLabel) : null));
             } else {
                 this.mainForm.addControl(fieldName, new FormControl(this.household.get(fieldName) ? this.household.get(fieldName) : null));
             }
@@ -406,7 +408,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
 
             this.household.set('livelihood', this.getLivelihood());
             this.household.set('notes', controls.notes.value);
-            this.household.set('incomeLevel', controls.incomeLevel.value);
+            this.household.set('incomeLevel', controls.incomeLevel.value ?
+            this.household.getOptions('incomeLevel')
+                .filter((incomeLevel: IncomeLevel) => controls.incomeLevel.value === incomeLevel.get('id'))[0] :
+                null);
             this.household.set('foodConsumptionScore', controls.foodConsumptionScore.value);
             this.household.set('copingStrategiesIndex', controls.copingStrategiesIndex.value);
 

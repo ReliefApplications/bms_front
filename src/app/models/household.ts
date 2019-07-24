@@ -29,6 +29,20 @@ export class Livelihood extends CustomModel {
         this.set('name', name);
     }
 }
+
+export class IncomeLevel extends CustomModel {
+
+    public fields = {
+        name: new TextModelField({}),
+        id: new TextModelField({})
+    };
+
+    constructor(id: string, name: string) {
+        super();
+        this.set('id', id);
+        this.set('name', name);
+    }
+}
 export class Household extends CustomModel {
 
     pluralName = this.language.beneficiary_plural;
@@ -139,10 +153,20 @@ export class Household extends CustomModel {
                 isLongText: true
             }
         ),
-        incomeLevel: new NumberModelField(
+        incomeLevel: new SingleSelectModelField(
             {
                 title: this.language.household_income,
                 isDisplayedInModal: true,
+                bindField: 'name',
+                apiLabel: 'id',
+                isMatSelect: true,
+                options: [
+                    new IncomeLevel('1', this.language['household_income_level']['1'][this.country]),
+                    new IncomeLevel('2', this.language['household_income_level']['2'][this.country]),
+                    new IncomeLevel('3', this.language['household_income_level']['3'][this.country]),
+                    new IncomeLevel('4', this.language['household_income_level']['4'][this.country]),
+                    new IncomeLevel('5', this.language['household_income_level']['5'][this.country])
+                ]
             }
         ),
         foodConsumptionScore: new NumberModelField(
@@ -190,7 +214,9 @@ export class Household extends CustomModel {
 
         newHousehold.set('id', householdFromApi.id);
         newHousehold.set('notes', householdFromApi.notes);
-        newHousehold.set('incomeLevel', householdFromApi.income_level);
+        newHousehold.set('incomeLevel', householdFromApi.income_level ? newHousehold.getOptions('incomeLevel')
+            .filter((incomeLevel: IncomeLevel) => incomeLevel.get('id') === householdFromApi.income_level.toString())[0] :
+            null);
         newHousehold.set('foodConsumptionScore', householdFromApi.food_consumption_score);
         newHousehold.set('copingStrategiesIndex', householdFromApi.coping_strategies_index);
         newHousehold.set('livelihood',
@@ -272,7 +298,7 @@ export class Household extends CustomModel {
             notes: this.get('notes'),
             country_specific_answers: this.get<CountrySpecificAnswer[]>('countrySpecificAnswers').map(answer => answer.modelToApi()),
             beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi()),
-            income_level: this.get('incomeLevel'),
+            income_level: this.fields.incomeLevel.formatForApi(),
             household_locations: householdLocations.map((householdLocation: HouseholdLocation) => householdLocation.modelToApi()),
             food_consumption_score: this.get('foodConsumptionScore'),
             coping_strategies_index: this.get('copingStrategiesIndex'),

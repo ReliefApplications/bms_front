@@ -102,6 +102,8 @@ export class HttpService {
         const itemKey = this.resolveItemKey(url);
         const connected = this.networkService.getStatus();
         let cacheData: any;
+        const regex = new RegExp(/\/location\/adm/);
+
 
         // If this item is cachable & user is connected
         if (itemKey && connected) {
@@ -127,7 +129,13 @@ export class HttpService {
                                     this.cacheService.set(itemKey, result).subscribe();
                                 }
                             }
-                            return result;
+
+                            // If it is an adm fetch and the results are the same, we don't return it
+                            // TO DO : do it for every request but it will return null so test if (response) everywhere
+                            if ((Array.isArray(result) && Array.isArray(cacheData) && JSON.stringify(result) !== JSON.stringify(cacheData))
+                                || !url.match(regex) || (!(Array.isArray(result) && Array.isArray(cacheData)) && result !== cacheData)) {
+                                return result;
+                            }
                         }
                     )
                 )

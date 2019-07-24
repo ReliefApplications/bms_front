@@ -1,33 +1,37 @@
 language: node_js
 node_js:
-- '9'
+  - "9"
+
 cache: npm
+
+# Define environment variables
 env:
-  global:
-    secure: ogUMJHi7XO7EVfPtVCFylCzfE7Kase/9QVpxvMcDZ4is15GIXdB/L8N7H/1+Ve3ZUaL8IF72FZ+cmIQUOfx9lNIjxifGYzFnFMq3DvCJLQ1J8mOYPg3Hke08fjoGhd/UjuPCRxw0pkn1fBkTeWuPHi51/yUn8GRwceuNHLFXAMpYwpDSwpuRPWn8ROwHjC+adcWU+Ch0Gb2nYjCui2zsUu5k4F/FYKb6sHxhwrF+XwKzB/SWHrzenS9D54usRi8NOf3ml048f5YdruD3pLVky4GB+sp0691AnStv1FHWsD8aQe4tiVCSD08qWrDbQ+PN2ilH4cMP24eJxyhGzngBiLaswKnuh6FK2/rUCIUeVK6Ds6U6rELorL9W8vMweoP5GmRVsmr/ELG+B88FKOjumDuDAMynwmWvIucS9YqrZ0SNRXPia4WVR08nwwfXDoZZ8g5zh4hP/WFcOb5lfk4kQsSIx90Y5jbYxUDt10YPvaTBU2on5KgK9GKMmXElBo5j1B9SmQJQb6WdvtfM4MCVLRj7OIoCDqQz8EUsn4e2NBsJQ3xEJkYEU/mbl8PVWQ6XYfv4qM6l1Tuvf3owukff0TXJCkcGMdnd4NrSTZjuBkPTqFlMuO3cGAD3UUbriHV2g+f1mQvBplknG6X25WCYwmFV6E/oZr2EbWLrob480tk=
+  - secure: "ogUMJHi7XO7EVfPtVCFylCzfE7Kase/9QVpxvMcDZ4is15GIXdB/L8N7H/1+Ve3ZUaL8IF72FZ+cmIQUOfx9lNIjxifGYzFnFMq3DvCJLQ1J8mOYPg3Hke08fjoGhd/UjuPCRxw0pkn1fBkTeWuPHi51/yUn8GRwceuNHLFXAMpYwpDSwpuRPWn8ROwHjC+adcWU+Ch0Gb2nYjCui2zsUu5k4F/FYKb6sHxhwrF+XwKzB/SWHrzenS9D54usRi8NOf3ml048f5YdruD3pLVky4GB+sp0691AnStv1FHWsD8aQe4tiVCSD08qWrDbQ+PN2ilH4cMP24eJxyhGzngBiLaswKnuh6FK2/rUCIUeVK6Ds6U6rELorL9W8vMweoP5GmRVsmr/ELG+B88FKOjumDuDAMynwmWvIucS9YqrZ0SNRXPia4WVR08nwwfXDoZZ8g5zh4hP/WFcOb5lfk4kQsSIx90Y5jbYxUDt10YPvaTBU2on5KgK9GKMmXElBo5j1B9SmQJQb6WdvtfM4MCVLRj7OIoCDqQz8EUsn4e2NBsJQ3xEJkYEU/mbl8PVWQ6XYfv4qM6l1Tuvf3owukff0TXJCkcGMdnd4NrSTZjuBkPTqFlMuO3cGAD3UUbriHV2g+f1mQvBplknG6X25WCYwmFV6E/oZr2EbWLrob480tk="
+
 install:
-- npm install -g @angular/cli
-- npm install
+  - npm install -g @angular/cli
+  - npm install
+
 jobs:
-  include:
-  - stage: test
-    script: npm run lint && npm run build -- --prod --stats-json
-    fast_finish: true
-  - stage: deploy
-    if: branch = dev AND NOT type = "pull_request"
-    before_install:
-    - sudo apt-get install python3-pip python3-setuptools
-    - pip3 install awscli --upgrade
-    script: "./build-deploy.sh testing"
-  - stage: deploy
-    if: branch = 2.0 AND NOT type = "pull_request"
-    before_install:
-    - sudo apt-get install python3-pip python3-setuptools
-    - pip3 install awscli --upgrade
-    script: "./build-deploy.sh testing"
-  - stage: deploy
-    if: branch = master AND NOT type = "pull_request"
-    before_install:
-    - sudo apt-get install python3-pip python3-setuptools
-    - pip3 install awscli --upgrade
-    script: "./build-deploy.sh front && ./build-deploy.sh demo"
+    include:
+        - stage: test
+          script: npm run lint && npm run build -- --prod --stats-json
+          fast_finish: true
+        - stage: deploy
+          if: branch = dev AND NOT type = "pull_request"
+          before_install:
+              - sudo apt-get install python3-pip python3-setuptools
+              - pip3 install awscli --upgrade
+          script: ./build-deploy.sh testing
+        - stage: deploy
+          if: branch = 2.0 AND NOT type = "pull_request"
+          before_install:
+              - sudo apt-get install python3-pip python3-setuptools
+              - pip3 install awscli --upgrade
+          script: ./build-deploy.sh testing
+        - stage: deploy
+          if: branch = master AND NOT type = "pull_request"
+          before_install:
+              - sudo apt-get install python3-pip python3-setuptools
+              - pip3 install awscli --upgrade
+          script: ./build-deploy.sh front && ./build-deploy.sh demo

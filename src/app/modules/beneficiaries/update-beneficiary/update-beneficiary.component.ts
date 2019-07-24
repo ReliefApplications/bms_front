@@ -394,59 +394,64 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
     /**
      * Call backend to create a new household with filled data.
      */
-    submit() {
-        const controls = this.mainForm.controls;
-        if (controls.projects.value.length < 1) {
-            this.snackbar.error(this.language.beneficiairy_error_project);
-            return;
+    submit(step = null) {
+
+        // if the update is triggered from a step < 4, we need to validate the step before submitting
+        if (!step || this.nextValidation(step, true)) {
+            const controls = this.mainForm.controls;
+            if (controls.projects.value.length < 1) {
+                this.snackbar.error(this.language.beneficiairy_error_project);
+                return;
+            }
+
+            this.household.set('livelihood', this.getLivelihood());
+            this.household.set('notes', controls.notes.value);
+            this.household.set('incomeLevel', controls.incomeLevel.value);
+            this.household.set('foodConsumptionScore', controls.foodConsumptionScore.value);
+            this.household.set('copingStrategiesIndex', controls.copingStrategiesIndex.value);
+
+            this.household.set('projects',
+                this.household.getOptions('projects').filter((project: Project) => controls.projects.value.includes(project.get('id')))
+            );
+
+            const countrySpecificAnswers = [];
+            // We push all the country specific answers, even null, so it's possible to delete one
+            this.countrySpecificList.forEach((countrySpecific: CountrySpecific) => {
+                const countrySpecificAnswer = new CountrySpecificAnswer();
+                countrySpecificAnswer.set('answer', controls[countrySpecific.get<string>('field')].value);
+                countrySpecificAnswer.set('countrySpecific', countrySpecific);
+                countrySpecificAnswers.push(countrySpecificAnswer);
+            });
+            this.household.set('countrySpecificAnswers', countrySpecificAnswers);
+
+            this.fillLocationFromForm();
+            this.fillBeneficiaryFromForms();
+
+            const body = {
+                household: this.household.modelToApi(),
+                projects: this.household.get<Project[]>('projects').map(project => project.get('id'))
+            };
+
+            this.validationLoading = true;
+
+            if (this.mode === 'create') {
+                this._householdsService.create(body).subscribe((_success: any) => {
+                    this.snackbar.success(this.language.snackbar_created_successfully);
+                    this.leave();
+                }, error => {
+                    this.snackbar.error(this.language.snackbar_error_creating + error);
+                    this.validationLoading = false;
+                });
+            } else if (this.mode === 'update') {
+                this._householdsService.update(this.household.get('id'), body).subscribe((_success: any) => {
+                    this.snackbar.success(this.language.snackbar_updated_successfully);
+                    this.leave();
+                }, error => {
+                    this.validationLoading = false;
+                });
+            }
         }
 
-        this.household.set('livelihood', this.getLivelihood());
-        this.household.set('notes', controls.notes.value);
-        this.household.set('incomeLevel', controls.incomeLevel.value);
-        this.household.set('foodConsumptionScore', controls.foodConsumptionScore.value);
-        this.household.set('copingStrategiesIndex', controls.copingStrategiesIndex.value);
-
-        this.household.set('projects',
-            this.household.getOptions('projects').filter((project: Project) => controls.projects.value.includes(project.get('id')))
-        );
-
-        const countrySpecificAnswers = [];
-        // We push all the country specific answers, even null, so it's possible to delete one
-        this.countrySpecificList.forEach((countrySpecific: CountrySpecific) => {
-            const countrySpecificAnswer = new CountrySpecificAnswer();
-            countrySpecificAnswer.set('answer', controls[countrySpecific.get<string>('field')].value);
-            countrySpecificAnswer.set('countrySpecific', countrySpecific);
-            countrySpecificAnswers.push(countrySpecificAnswer);
-        });
-        this.household.set('countrySpecificAnswers', countrySpecificAnswers);
-
-        this.fillLocationFromForm();
-        this.fillBeneficiaryFromForms();
-
-        const body = {
-            household: this.household.modelToApi(),
-            projects: this.household.get<Project[]>('projects').map(project => project.get('id'))
-        };
-
-        this.validationLoading = true;
-
-        if (this.mode === 'create') {
-            this._householdsService.create(body).subscribe((_success: any) => {
-                this.snackbar.success(this.language.snackbar_created_successfully);
-                this.leave();
-            }, error => {
-                this.snackbar.error(this.language.snackbar_error_creating + error);
-                this.validationLoading = false;
-            });
-        } else if (this.mode === 'update') {
-            this._householdsService.update(this.household.get('id'), body).subscribe((_success: any) => {
-                this.snackbar.success(this.language.snackbar_updated_successfully);
-                this.leave();
-            }, error => {
-                this.validationLoading = false;
-            });
-        }
     }
 
     fillLocationFromForm() {
@@ -586,6 +591,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                 if (final) { validSteps++; }
             } else {
                 message = locationMessage;
+                if (final) {
+                    this.snackbar.error(message);
+                    return false;
+                }
             }
         }
         if (step === 2 || final) {
@@ -598,6 +607,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                 if (final) { validSteps++; }
             } else {
                 message = messageHeadValidation;
+                if (final) {
+                    this.snackbar.error(message);
+                    return false;
+                }
             }
         }
         if (step === 3 || final) {
@@ -614,6 +627,10 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                     counter++;
                 } else {
                     message = messageMemberValidation;
+                    if (final) {
+                        this.snackbar.error(message);
+                        return false;
+                    }
                 }
             }
             if (counter === this.beneficiariesForm.length) {
@@ -624,13 +641,11 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
             }
         }
 
-        if (final) {
-            return (validSteps === 3);
-        } else if (message !== '') {
+        if (message !== '') {
             this.snackbar.error(message);
         }
 
-        return (false);
+        return true;
     }
 
     validateLocationForm() {

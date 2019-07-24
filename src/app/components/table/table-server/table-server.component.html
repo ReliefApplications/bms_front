@@ -14,7 +14,6 @@
                 <mat-icon matPrefix>search</mat-icon>
             </mat-form-field>
         </div>
-
         <div class="buttons-search-clear">
             <button mat-flat-button class="button-text-accent" (click)="showAdvancedResearch()">
                 <mat-icon *ngIf="!advancedResearch">keyboard_arrow_down</mat-icon>
@@ -26,6 +25,13 @@
                 {{language.beneficiary_clear_all_research | uppercaseFirst}}
             </button>
         </div>
+        
+        <div class="selected-items" *ngIf="selectable && selection.selected.length > 0">
+            <p *ngIf="selection.selected.length < 2; else plural">{{selection.selected.length}} {{language.beneficiary | uppercaseFirst}} {{language.selected}}</p>
+            <ng-template #plural>
+                <p>{{selection.selected.length}} {{language.beneficiaries | uppercaseFirst}} {{language.selected}}</p> 
+            </ng-template>     
+        </div>  
     </div>
 
     <div *ngIf="filtersForm && advancedResearch">

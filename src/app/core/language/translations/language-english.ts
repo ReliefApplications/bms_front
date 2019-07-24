@@ -33,12 +33,14 @@ export class English implements Language {
     summary = 'Summary'
     the = 'the'
     this = 'this'
+    selected = 'selected'
 
 
     // Models
     beneficiaries = 'Beneficiaries'
     beneficiary = 'Beneficiary'
     booklet = 'Booklet'
+    booklets = 'Booklets'
     commodity = 'Commodity'
     country = 'Country'
     criteria = 'Criteria'
@@ -162,6 +164,12 @@ export class English implements Language {
     add_distribution_text_explanation = 'The system will only select beneficiaries/households that have a score higher than the minimum selection score'
     add_distribution_threshold = 'Minimum selection score'
     add_distribution_zero = 'The number of households reached or the amount to be distributed is 0'
+
+    add_distribution_very_low = 'Very low'
+    add_distribution_low = 'Low'
+    add_distribution_average = 'Average'
+    add_distribution_high = 'High'
+    add_distribution_very_high = 'Very high'
 
     // Add project
     add_project_title = 'new project'
@@ -502,6 +510,7 @@ export class English implements Language {
     modal_values_format_error = 'If you want to set individual values, type numeric values separated by commas (max 5)'
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
+
 
     // National ID
     national_id_card = 'ID Card'

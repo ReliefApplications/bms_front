@@ -24,6 +24,7 @@
           </div>
         </div>
       </div>
+      <button mat-flat-button class="button-background-primary" (click)="createHumanID()" *ngIf="selectedTitle === 'users'">Add a user with Humanitarian ID</button>
       <button mat-flat-button *ngIf="currentDisplayType.type !== 'mobile' && checkRights() && deletable" (click)="openDialog({action: 'add'})" class="add-button-create">
         <mat-icon>add</mat-icon>
         {{language.add | titlecase}}
@@ -31,7 +32,6 @@
       <button mat-fab *ngIf="currentDisplayType.type === 'mobile' && checkRights() && deletable" (click)="openDialog({action: 'add'})" class="add-button" [ngClass]="{'add-button-rtl':language.direction === 'rtl'}">
         <mat-icon>add</mat-icon>
       </button>
-      <button (click)="createHumanID()">Add a user with Humanitarian ID</button>
     </div>
     <div class="content-table">
       <app-table [isLoading]="loadingData" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="referedClassToken" [service]="referedClassService" [data]="data" [editable]="editable" [deletable]="deletable" (openModal)="openDialog($event)" [printable]="printable" [loggable]="loggable" (printOne)="print($event)"></app-table>

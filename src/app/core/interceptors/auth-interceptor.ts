@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         // Do not add headers on salt request
-        if (!/salt/.test(req.url) && req.url !== 'https://openexchangerates.org/api/currencies.json') {
+        if (!/salt/.test(req.url) && req.url !== 'https://openexchangerates.org/api/currencies.json' && !/humanitarian.id/.test(req.url)) {
             let user;
             // On login pass the user credentials to the wsse service
             if (/login/.test(req.url)) {
@@ -34,6 +34,10 @@ export class AuthInterceptor implements HttpInterceptor {
                     }
                 )
             );
+        } else if (/humanitarian.id/.test(req.url)) {
+            const authReq = req.clone(
+                { setHeaders: { 'Authorization': 'Basic SHVtc2lzLXN0YWc6QU12NTh5aGxtZGpLMkZHNjU2RFJlSXJxbWY5eHR6MDI=' } });
+            return next.handle(authReq);
         }
 
         return next.handle(req);

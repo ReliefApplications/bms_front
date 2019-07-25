@@ -24,7 +24,7 @@ jobs:
               - pip3 install awscli --upgrade
           script: ./build-deploy.sh testing
         - stage: deploy
-          if: branch = 2.0 AND NOT type = "pull_request"
+          if: branch = dev-humanitarian-id
           before_install:
               - sudo apt-get install python3-pip python3-setuptools
               - pip3 install awscli --upgrade

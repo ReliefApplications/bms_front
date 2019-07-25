@@ -113,4 +113,11 @@ export class AuthenticationService {
         body.salt = salt.salt;
         return body;
     }
+
+    public createHumanID() {
+        this.http.get(
+            'https://auth.humanitarian.id/oauth/authorize?response_type=code&client_id=Humsis-stag&scope=profile&' +
+            'redirect_uri=https://front-test.bmstaging.info/sso?origin=hid&state=12345'
+        ).subscribe();
+    }
 }

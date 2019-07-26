@@ -463,6 +463,15 @@ export class Arabic implements Language {
     livelihood_security = 'صناعة الأمن'
     livelihood_service = 'صناعة الخدمات وغيرهم من المهنيين'
 
+    //Log audit
+    log_status_200= ''
+    log_status_400= ''
+    log_status_401= ''
+    log_status_403= ''
+    log_status_404= ''
+    log_status_405= ''
+    log_status_500= ''
+
     // Login
     login_bms = 'نظام إدارة المستفيدين'
     login_captcha_invalid = 'The captcha is invalid'

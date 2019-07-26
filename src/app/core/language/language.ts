@@ -474,6 +474,15 @@ export interface Language {
     livelihood_security: string
     livelihood_service: string
 
+    //Log audit
+    log_status_200: string
+    log_status_400: string
+    log_status_401: string
+    log_status_403: string
+    log_status_404: string
+    log_status_405: string
+    log_status_500: string
+
     // Login
     login_bms: string
     login_captcha_invalid: string

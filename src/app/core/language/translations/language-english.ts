@@ -464,6 +464,15 @@ export class English implements Language {
     livelihood_security = 'Security Industry'
     livelihood_service = 'Service Industry and Other Professionals'
 
+    //Log audit
+    log_status_200 = ''
+    log_status_400 = ''
+    log_status_401 = ''
+    log_status_403 = ''
+    log_status_404 = ''
+    log_status_405 = ''
+    log_status_500 = ''
+
     // Login
     login_bms = 'Beneficiary management system'
     login_captcha_invalid = 'The captcha is invalid'

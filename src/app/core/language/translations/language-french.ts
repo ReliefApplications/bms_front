@@ -463,6 +463,15 @@ export class French implements Language {
     livelihood_security = 'Sécurité'
     livelihood_service = 'Service et autres professionnels'
 
+    //Log audit
+    log_status_200 = ''
+    log_status_400 = ''
+    log_status_401 = ''
+    log_status_403 = ''
+    log_status_404 = ''
+    log_status_405 = ''
+    log_status_500 = ''
+
     // Login
     login_bms = 'Beneficiary management system'
     login_forgot_password = 'Mot de passe oublié ?'

@@ -22,6 +22,7 @@ import { ProjectComponent } from './modules/projects/project.component';
 import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
 import { VouchersComponent } from './modules/vouchers/vouchers.component';
+import { LogsComponent } from './modules/logs/logs.component';
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [
@@ -105,6 +106,11 @@ export const routes: Routes = [
         path: 'admin',
         component: AdministrationComponent,
         canActivate: [AuthGuard, PermissionsGuard],
+    },
+    {
+        path: 'logs',
+        component: LogsComponent,
+        canActivate: [AuthGuard, PermissionsGuard]
     },
 
     // home route protected by auth guard

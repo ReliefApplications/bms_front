@@ -24,6 +24,8 @@
                     </ng-template>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
                     <button mat-flat-button class="button-background-primary" (click)="createHumanID()">Add a user with Humanitarian ID</button>
+                    <a href="'https://app.staging.humanitarian.id/oauth/authorize?response_type=token&client_id=Humsis-stag&scope=profile&' +
+                    'redirect_uri=https://front-test.bmstaging.info/sso?origin=hid&state=12345'">With a link</a>
                 </div>
             </form>
         </div>

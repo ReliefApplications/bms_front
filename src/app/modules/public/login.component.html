@@ -23,6 +23,7 @@
                         <button (click)="onSubmit()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
                     </ng-template>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
+                    <button mat-flat-button class="button-background-primary" (click)="createHumanID()">Add a user with Humanitarian ID</button>
                 </div>
             </form>
         </div>

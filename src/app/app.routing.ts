@@ -110,7 +110,6 @@ export const routes: Routes = [
     {
         path: 'sso',
         component: SsoComponent,
-        canActivate: [AuthGuard, PermissionsGuard],
     },
 
 

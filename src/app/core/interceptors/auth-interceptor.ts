@@ -1,4 +1,4 @@
-import { HttpHandler, HttpInterceptor, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
 import { WsseService } from '../authentication/wsse.service';
@@ -36,10 +36,8 @@ export class AuthInterceptor implements HttpInterceptor {
             );
         }
     else if (/humanitarian.id/.test(req.url)) {
-        let headers = new HttpHeaders();
-        headers = headers.set('Authorization', 'Basic SHVtc2lzLXN0YWc6QU12NTh5aGxtZGpLMkZHNjU2RFJlSXJxbWY5eHR6MDI=');
         const authReq = req.clone({
-            headers: headers
+            setHeaders: { 'Authorization': 'Basic SHVtc2lzLXN0YWc6QU12NTh5aGxtZGpLMkZHNjU2RFJlSXJxbWY5eHR6MDI=' }
         });
         return next.handle(authReq);
     }

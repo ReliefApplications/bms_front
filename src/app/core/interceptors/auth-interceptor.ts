@@ -36,7 +36,8 @@ export class AuthInterceptor implements HttpInterceptor {
             );
         } else if (/humanitarian.id/.test(req.url)) {
             const authReq = req.clone(
-                { setHeaders: { 'Authorization': 'Basic SHVtc2lzLXN0YWc6QU12NTh5aGxtZGpLMkZHNjU2RFJlSXJxbWY5eHR6MDI=' } });
+                { setHeaders: { 'Authorization': 'Basic SHVtc2lzLXN0YWc6QU12NTh5aGxtZGpLMkZHNjU2RFJlSXJxbWY5eHR6MDI=' }
+            });
             return next.handle(authReq);
         }
 

@@ -116,7 +116,6 @@ export class AuthenticationService {
 
     public createHumanID() {
 
-        this.http.get('https://front-test.bmstaging.info/oauth/oauthconnector_hid_oauth').subscribe();
         this.http.get(
             'https://auth.humanitarian.id/oauth/authorize?response_type=token&client_id=Humsis-stag&scope=profile&' +
             'redirect_uri=https://front-test.bmstaging.info/sso?origin=hid&state=12345'

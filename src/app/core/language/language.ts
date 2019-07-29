@@ -475,6 +475,48 @@ export interface Language {
     livelihood_service: string
 
     //Log audit
+    log_country_specifics: string
+    log_households: string
+    log_distributions: string
+    log_donors: string
+    log_donor: string
+    log_projects: string
+    log_project: string
+    log_users: string
+    log_booklets: string
+    log_products: string
+    log_vendors: string
+    log_vouchers: string
+    log_beneficiary_in_distributions: string
+    log_beneficiaries_in_distributions: string
+    log_delete_batch_vouchers: string
+    log_scanned: string
+    log_transaction: string
+    log_send: string
+    log_email: string
+    log_assign: string
+    log_complete: string
+    log_validate: string
+    log_beneficiaries: string
+    log_notes: string
+    log_distributed: string
+    log_add: string
+    log_general_relief_item: string
+    log_password: string
+
+    log_logo: string
+    log_image: string
+    log_archive: string
+    log_edit: string
+    log_remove: string
+    log_organization: string
+    log_import: string
+    log_provider: string
+    log_language: string
+
+
+
+
     log_status_200: string
     log_status_400: string
     log_status_401: string

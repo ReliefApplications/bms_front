@@ -3,19 +3,17 @@
       <h2>{{ 'Logs ' | uppercaseFirst}}</h2>
   </div>
   <div class="container-table">
-      <div class="container-content box-primary">
-        <p>This is the box over the table</p>
+    <div class="container-content box-primary">
+      <div class="content-table">
+          <app-table *ngIf="currentDisplayType.type !== 'mobile'" 
+              [entity]="logClass" [service]="logsService" [data]="logData"
+              [searchable]="true" [paginable]="true" [isLoading]="loadingLog">
+          </app-table>
+          <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'"
+            [entity]="logClass" [service]="logsService" [data]="logData"
+            [searchable]="true" [paginable]="true" [isLoading]="loadingLog">
+          </app-table-mobile>
       </div>
-          <!-- <div class="content-table">
-              <app-table-server *ngIf="currentDisplayType.type !== 'mobile'" 
-                  [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT') || userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [selection]="selection"
-                  [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [entity]="referedClassToken"
-                  [service]="householdsService" [data]="dataSource" [updatable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
-                  (openModal)="openDialog($event)"></app-table-server>
-              <app-table-mobile-server *ngIf="currentDisplayType.type === 'mobile'" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [selection]="selection"
-                  [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT') || userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
-                  [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
-                  (openModal)="openDialog($event)"></app-table-mobile-server>
-          </div> -->
+    </div>
   </div>
 </div>

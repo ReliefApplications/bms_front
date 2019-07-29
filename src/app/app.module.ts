@@ -22,6 +22,7 @@ import { ProfileComponent } from './modules/profile/profile.component';
 import { ReportsModule } from './modules/reports/reports.module';
 import { CustomDateAdapter } from './shared/adapters/date.adapter';
 import { SharedModule } from './shared/shared.module';
+import { LogsModule } from './modules/logs/logs.module';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { SharedModule } from './shared/shared.module';
 
         // Reporting
         ReportsModule,
+        LogsModule,
 
         // Routing
         AppRouting,

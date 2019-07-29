@@ -513,7 +513,8 @@ export interface Language {
     log_import: string
     log_provider: string
     log_language: string
-
+    log_deactivate: string
+    log: string
 
 
 

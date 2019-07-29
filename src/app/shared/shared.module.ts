@@ -192,8 +192,7 @@ imports: [
         VouchersComponent,
         ScannerComponent,
         SettingsComponent,
-        AdministrationComponent,
-        LogsComponent
+        AdministrationComponent
     ],
     entryComponents: [
         ModalDeleteComponent,
@@ -284,7 +283,7 @@ imports: [
         PlaceholderStepperComponent,
         SettingsComponent,
         AdministrationComponent,
-        LogsComponent
+        UppercaseFirstPipe
     ],
     providers: [
         { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },

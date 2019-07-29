@@ -6,33 +6,13 @@ import { DateModelField } from './custom-models/date-model-field';
 export class Log extends CustomModel {
 
     public fields = {
+        url: new TextModelField({}),
+        tabName: new TextModelField({}),
         id: new NumberModelField(
             {
-            title: 'Id',                      // this.language.log_id
-            isDisplayedInModal: true,
-            isDisplayedInTable: true,
-            }
-        ),
-        url: new TextModelField({}),
-        date: new DateModelField(
-            {
-                title: 'Date',                      // this.language.log_date
-                isDisplayedInModal: true,
-                isDisplayedInTable: true,
-                displayTime: true
-            }
-        ),
-        user: new TextModelField(
-            {
-                title: 'User',
-                isDisplayedInModal: true,
-                isDisplayedInTable: true,
-        }),
-        action: new TextModelField(
-            {
-                title: 'Action',                      // this.language.action
-                isDisplayedInModal: true,
-                isDisplayedInTable: true,
+            title: 'Id',
+            isDisplayedInModal: false,
+            isDisplayedInTable: false,
             }
         ),
         objectOfAction: new TextModelField(
@@ -44,17 +24,43 @@ export class Log extends CustomModel {
         ),
         nameOfObject: new TextModelField(
             {
-                title: 'asda',
+                title: 'Name/s',
                 isDisplayedInModal: true,
                 isDisplayedInTable: false
         }),
-        status: new TextModelField(
+        action: new TextModelField(
             {
-                title: '',                      // this.language.something
+                title: 'Action',
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
             }
         ),
+        status: new TextModelField(
+            {
+                title: 'Status',                      // this.language.something
+                isDisplayedInModal: true,
+                isDisplayedInTable: true,
+            }
+        ),
+        date: new DateModelField(
+            {
+                title: 'Date',
+                isDisplayedInModal: true,
+                isDisplayedInTable: true,
+                displayTime: true
+            }
+        ),
+        user: new TextModelField(
+            {
+                title: 'User',
+                isDisplayedInModal: true,
+                isDisplayedInTable: true,
+        }),
+        country: new TextModelField({
+            title: 'Country',
+            isDisplayedInModal: true,
+            isDisplayedInTable: true
+        })
     };
 
     constructor() {
@@ -70,6 +76,24 @@ export class Log extends CustomModel {
         newLog.set('user', logFromApi.mail_user);
         const url = logFromApi.url;
         const method = logFromApi.method;
+        newLog.set('country', JSON.parse(logFromApi.request).__country);
+
+        if (url.includes('users') || url.includes('donor') || url.includes('organization')) {
+            newLog.set('tabName', 'administrative');
+        } else if ((url.includes('project') ||  url.includes('distribution')) && !url.includes('households')) {
+            newLog.set('tabName', 'distributions');
+        } else if (url.includes('beneficiaries') || url.includes('households')) {
+            newLog.set('tabName', 'beneficiaries');
+        } else if (url.includes('vouchers') || url.includes('products') || url.includes('booklets') || url.includes('vendors')) {
+            newLog.set('tabName', 'vouchers');
+        }
+        else {
+            newLog.set('tabName', 'other');
+        }
+
+
+
+
 
         const status = logFromApi.http_status;
         switch (true) {

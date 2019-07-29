@@ -504,6 +504,8 @@ export class Arabic implements Language {
     log_import = ''
     log_provider = ''
     log_language = ''
+    log_deactivate = ''
+    log = ''
 
     log_status_200= ''
     log_status_400= ''

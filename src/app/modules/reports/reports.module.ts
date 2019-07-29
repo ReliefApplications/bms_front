@@ -29,6 +29,13 @@ import { ReportsComponent } from './reports.component';
         BaseChartComponent,
         PieChartComponent,
         BarChartComponent,
+    ],
+    exports: [
+        ReportsComponent,
+        LineChartComponent,
+        BaseChartComponent,
+        PieChartComponent,
+        BarChartComponent,
     ]
 })
 export class ReportsModule { }

@@ -8,6 +8,10 @@ import { Subscription } from 'rxjs';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { TableComponent } from 'src/app/components/table/table.component';
 import { TableMobileComponent } from 'src/app/components/table/table-mobile/table-mobile.component';
+import { LanguageService } from 'src/app/core/language/language.service';
+import { Graph } from '../reports/models/graph.model';
+import { rgb } from 'color-convert';
+import { RGBLuminanceSource } from '@zxing/library';
 
 @Component({
   selector: 'app-logs',
@@ -16,10 +20,15 @@ import { TableMobileComponent } from 'src/app/components/table/table-mobile/tabl
 })
 export class LogsComponent implements OnInit, OnDestroy {
 
+      // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+
   public logClass = Log;
   public logs: Log[];
   public logData: MatTableDataSource<Log>;
   public loadingLog = true;
+  public selectedTab = 'distributions';
+  graphs: Array<Graph> = [];
 
   @ViewChild(TableComponent) table: TableComponent;
   @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
@@ -31,6 +40,7 @@ export class LogsComponent implements OnInit, OnDestroy {
   private screenSizeSubscription: Subscription;
 
   constructor(
+    public languageService: LanguageService,
     public logService: LogsService,
     private screenSizeService: ScreenSizeService
   ) { }
@@ -63,12 +73,47 @@ export class LogsComponent implements OnInit, OnDestroy {
         response => {
             if (response && response.length > 0) {
                 this.logs = response.map((log: any) => Log.apiToModel(log));
-                this.logData = new MatTableDataSource(this.logs);
+                this.selectTab('distributions');
+                this.createGraph();
             } else if (response === null) {
                 this.logs = null;
             }
         }
     );
 }
+
+selectTab(tab: string): void {
+  const filteredLogList = this.logs.filter((log: Log) => log.get<string>('tabName') === tab);
+  this.logData = new MatTableDataSource(filteredLogList);
+  this.selectedTab = tab;
+}
+
+createGraph() {
+  const sortedLogs = this.logs
+    .sort((log1: Log, log2: Log) => log1.get<Date>('date').getTime() - log2.get<Date>('date').getTime());
+    const oldestDate = sortedLogs[0].get<Date>('date').getFullYear();
+    const latestDate = sortedLogs[sortedLogs.length - 1].get<Date>('date').getFullYear();
+
+    const statusGraph = {
+      type: 'pie',
+      name: 'successErrorRate',  // this.language.something
+      values: {}
+    };
+
+    for (let date = oldestDate; date <= latestDate; date++) {
+      statusGraph.values[date] = [{date: date, name: 'success', unit: 'success', value: 0},
+        {date: date, name: 'errors', unit: 'errors', value: 0}];
+    }
+    this.logs.forEach((log: Log) => {
+      if (log.get<string>('status') === 'success') {
+        statusGraph.values[log.get<Date>('date').getFullYear()][0].value++;
+      } else {
+        statusGraph.values[log.get<Date>('date').getFullYear()][1].value++;
+      }
+    });
+    this.graphs.push(statusGraph);
+}
+
+
 
 }

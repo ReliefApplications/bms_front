@@ -32,11 +32,13 @@ export class French implements Language {
     summary = 'Sommaire'
     the = 'le'
     this = 'Ce'
+    selected = 'selectionné'
 
     // Models
     beneficiaries = 'Bénéficiaires'
     beneficiary = 'Bénéficiaire'
     booklet = 'Brochure'
+    booklets  = 'Brochures'
     commodity = 'Ressource'
     country = 'Pays'
     criteria = 'Critère'
@@ -160,6 +162,12 @@ export class French implements Language {
     add_distribution_text_explanation = 'Le système va seulement sélectionner les bénéficiaires/ménages avec un score supérieur que le score minimum de sélection'
     add_distribution_threshold = 'Score minimum de sélection'
     add_distribution_zero = 'Le nombre de ménage atteint ou le montant à distribuer est 0'
+
+    add_distribution_very_low = 'Très bas'
+    add_distribution_low = 'Bas'
+    add_distribution_average = 'Moyenne'
+    add_distribution_high = 'Haut'
+    add_distribution_very_high = 'Très haut'
 
     // Add project
     add_project_new_distribution = 'nouvelle distribution'
@@ -395,7 +403,7 @@ export class French implements Language {
     household_full_address = 'Adresse entière du ménage'
     household_id = 'ID du foyer'
     household_income = 'Niveau de revenu'
-    household_income_level = INCOMELEVELS.fr
+    household_income_level = INCOMELEVELS.french
     household_info = 'Résumé des informations du ménage'
     household_livelihood = 'Métier'
     household_location = 'Localisation du ménage'

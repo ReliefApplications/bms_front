@@ -32,11 +32,13 @@ export class Arabic implements Language {
     summary = 'ملخص'
     the = 'ال'
     this = 'هذه'
+    selected = 'المحدد'
 
     // Models
     beneficiaries = 'المستفيدون'
     beneficiary = 'المستفيد'
     booklet = 'كتيب'
+    booklets = 'كتيبات'
     commodity = 'السلع'
     country = 'البلد'
     criteria = 'المعاير'
@@ -160,6 +162,12 @@ export class Arabic implements Language {
     add_distribution_text_explanation = 'سيختار النظام فقط المستفيدين / الأسر التي لديها مجموع أعلى من المجموع الادنى '
     add_distribution_threshold = ' المجموع الادنى لاختيار '
     add_distribution_zero = 'عدد الأسر التي تم الوصول إليها أو المبلغ المطلوب توزيعه هو 0'
+
+    add_distribution_very_low = 'منخفظ جدا'
+    add_distribution_low = 'منخفض'
+    add_distribution_average = 'معدل'
+    add_distribution_high = 'متوسط'
+    add_distribution_very_high = 'عالي جدا'
 
     // Add project
     add_project_new_distribution = 'توزيعة جديدة'
@@ -394,7 +402,7 @@ export class Arabic implements Language {
     household_full_address = 'عنوان المنزل بالكامل:'
     household_id = 'معرف الأسرة'
     household_income = 'مستوى الدخل'
-    household_income_level = INCOMELEVELS.ar
+    household_income_level = INCOMELEVELS.arabic
     household_info = 'ملخص المعلومات الخاصة بالمنزل  :'
     household_livelihood = 'الوظيفة'
     household_location_address = 'عنوان'

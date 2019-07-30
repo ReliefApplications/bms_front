@@ -20,14 +20,14 @@
                     <button
                         *ngFor="let frequency of enabledFrequencies"
                         (click)="selectFrequency(frequency)"
-                        mat-raised-button
+                        mat-flat-button
                         [ngClass]="{'selected-frequency': frequency === selectedFrequency}">
                         {{frequency.label | titlecase}}
                     </button>
 
                     <button
                         (click)="togglePeriod()"
-                        mat-raised-button
+                        mat-flat-button
                         [ngClass]="{'period-mode-enabled': periodMode}">
                         {{language.report_filter_chose_periode | titlecase}}
                     </button>
@@ -36,13 +36,13 @@
                 <div class="action-buttons">
                     <mat-spinner [diameter]='25' *ngIf="isDownloading"></mat-spinner>
                     <div class="extension button-with-extension" [ngClass]="{'arabic':languageService.languageToString(language)==='ar'}" *ngIf='!isDownloading'>
-                        <button mat-raised-button class="button-background-primary" (click)="export(exportFileType)">
+                        <button mat-flat-button class="button-background-primary" (click)="export(exportFileType)">
                             <mat-icon>get_app</mat-icon>
                             <span>{{language.export | titlecase}}</span>
                         </button>
                         <div class="extension">
 
-                            <button mat-raised-button class="dropdown button-background-primary" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType">
+                            <button mat-flat-button class="dropdown button-background-primary" *ngIf="!loadingExport" [matMenuTriggerFor]="exportType">
                                 <mat-icon>keyboard_arrow_down</mat-icon>
                             </button>
                             <mat-menu #exportType>

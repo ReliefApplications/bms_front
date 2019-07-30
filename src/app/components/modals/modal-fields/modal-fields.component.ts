@@ -16,6 +16,7 @@ import { COLORS } from 'src/app/models/constants/colors';
 import { CustomModelField } from 'src/app/models/custom-models/custom-model-field';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { FileModelField } from 'src/app/models/custom-models/file-model-field';
+import { Location } from 'src/app/models/location';
 
 @Component({
     selector: 'app-project',
@@ -72,6 +73,10 @@ export class ModalFieldsComponent implements OnInit {
                 .filter((fieldName: string) => this.objectInstance.fields[fieldName].isSettable);
         } else {
             this.objectFields = Object.keys(this.objectInstance.fields);
+        }
+
+        if (this.objectFields.includes('location') && !this.objectInstance.get('location')) {
+            this.objectInstance.set('location', new Location);
         }
 
         if (this.objectInstance.get('location') && this.modalType !== 'Details') {
@@ -171,6 +176,8 @@ export class ModalFieldsComponent implements OnInit {
                         childrenField.set(childrenFieldName, this.form.controls[fieldName].value);
                     }
                     this.objectInstance.set(field.childrenObject, childrenField);
+                } else {
+                    childrenField.set(childrenFieldName, null);
                 }
             } else if (field.kindOfField === 'File') {
                 if (this.form.controls[fieldName].value) {
@@ -188,22 +195,25 @@ export class ModalFieldsComponent implements OnInit {
                     array.push(this.form.controls[fieldName + index.toString()].value);
                 });
                 this.objectInstance.set(fieldName, array);
-            } else if (this.form.controls[fieldName].value && field.kindOfField === 'MultipleSelect') {
+            } else if (field.kindOfField === 'MultipleSelect') {
                 this.objectInstance.set(fieldName, []);
+                if (this.form.controls[fieldName].value) {
+                    this.form.controls[fieldName].value.forEach(optionId => {
+                        const selectedOption = this.objectInstance.getOptions(fieldName).filter(option => {
+                            return option.get('id') === optionId;
+                        })[0];
+                        this.objectInstance.add(fieldName, selectedOption);
+                    });
+                }
 
-                this.form.controls[fieldName].value.forEach(optionId => {
-                    const selectedOption = this.objectInstance.getOptions(fieldName).filter(option => {
-                        return option.get('id') === optionId;
-                    })[0];
-
-                    this.objectInstance.add(fieldName, selectedOption);
-                });
             } else if (this.form.controls[fieldName].value && field.kindOfField === 'SingleSelect') {
                 this.objectInstance.set(fieldName, this.objectInstance.getOptions(fieldName).filter(option => {
                     return option.get('id') === this.form.controls[fieldName].value;
                 })[0]);
             } else if (this.form.controls[fieldName].value !== null && this.form.controls[fieldName].value !== undefined) {
                 this.objectInstance.set(fieldName, this.form.controls[fieldName].value);
+            } else if (!this.form.controls.value) {
+                this.objectInstance.set(fieldName, null);
             }
         }
         return subscription;

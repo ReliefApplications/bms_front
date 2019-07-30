@@ -7,7 +7,7 @@
     <div class="container-content box-primary">
       <div class="content-button">
         <div class="action-buttons">
-          <button mat-flat-button *ngIf="selection.selected.length > 0 && !loadingPrint && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" class="button-background-primary action-button" (click)="printMany()" [matBadge]="selection.selected.length">
+          <button mat-flat-button *ngIf="selection.selected.length > 0 && !loadingPrint && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" class="button-background-primary action-button" (click)="printMany()">
               <span>{{language.voucher_print_selection | uppercaseFirst}}</span>
           </button>
           <mat-spinner [diameter]='25' *ngIf="loadingPrint"></mat-spinner>
@@ -15,9 +15,12 @@
           <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}" *ngIf="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
               <button mat-flat-button
                 [disabled]="!bookletData" class="button-background-primary"
-                (click)="exportCodes()" *ngIf="!loadingExportCodes" [matBadge]="getNumberToExport()">
+                (click)="exportCodes()" *ngIf="!loadingExportCodes">
                 <mat-icon>get_app</mat-icon>
-                <span>{{language.export | uppercaseFirst}}</span>
+                <span *ngIf="selection.selected.length > 0; else noSelected">{{language.export_selected | uppercaseFirst}}</span>
+                <ng-template #noSelected>
+                    <span >{{language.export | uppercaseFirst}}</span>
+                </ng-template>
               </button>
               <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
               <div class="extension" *ngIf="!loadingExportCodes">
@@ -37,7 +40,6 @@
               </div>
             </div>
         </div>
-
         <button mat-flat-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
           (click)="openDialog({action: 'add'})" class="add-button-create">
           <mat-icon>add</mat-icon>
@@ -48,7 +50,6 @@
           <mat-icon>add</mat-icon>
         </button>
       </div>
-
       <div class="content-table">
         <app-table [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
           [data]="bookletData" [selection]="selection" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"

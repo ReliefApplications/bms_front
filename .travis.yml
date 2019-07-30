@@ -34,4 +34,4 @@ jobs:
           before_install:
               - sudo apt-get install python3-pip python3-setuptools
               - pip3 install awscli --upgrade
-          script: ./build-deploy.sh front
+          script: ./build-deploy.sh front && ./build-deploy.sh demo

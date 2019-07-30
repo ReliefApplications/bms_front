@@ -19,15 +19,13 @@ export class DistributionMarker {
     popupIsOpen = false;
     private distributionMarkerService: DistributionMarkerService;
 
-    constructor (area: Leaflet.FeatureGroup, map: Leaflet.Map, distribution: Distribution,
-        ) {
-
+    constructor(area: Leaflet.FeatureGroup, map: Leaflet.Map, distribution: Distribution) {
         this.distributionMarkerService = AppInjector.get(DistributionMarkerService);
 
         this.area = area;
         this.map = map;
-         // Calculate their center
-         this.marker = Leaflet.marker(this.area.getBounds().getCenter(), {icon: this.generateIcon(distribution) });
+        // Calculate their center
+        this.marker = Leaflet.marker(this.area.getBounds().getCenter(), { icon: this.generateIcon(distribution) });
 
         this.area.setStyle(this.generateAreaStyle());
 
@@ -53,7 +51,7 @@ export class DistributionMarker {
     }
 
     private generateIcon(distribution: Distribution) {
-        const {width, height} = this.iconSize;
+        const { width, height } = this.iconSize;
         const status = this.distributionMarkerService.getClassesNames(distribution);
         return Leaflet.divIcon({
             className: `marker-container ${status}`,
@@ -64,9 +62,9 @@ export class DistributionMarker {
                 ${this.distributionMarkerService.generateMarker(this.distributionMarkerService.isToday(distribution))}
             `,
             // 0,0 is the top left corner of the icon
-            iconSize:       [width, height], // size of the icon
-            iconAnchor:     [width / 2, height], // Position of the location relative to the icon
-            popupAnchor:    [0, - height + 5], // Position of the popup relative to the iconAnchor
+            iconSize: [width, height], // size of the icon
+            iconAnchor: [width / 2, height], // Position of the location relative to the icon
+            popupAnchor: [0, - height + 5], // Position of the popup relative to the iconAnchor
         });
     }
 }

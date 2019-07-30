@@ -51,7 +51,6 @@ export class MapService {
 
     addTileLayer() {
         // Add title layer to the map
-
         this.tiles = Leaflet.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
@@ -85,17 +84,16 @@ export class MapService {
                 const admGroup = new Leaflet.FeatureGroup();
 
                 admLayers.eachLayer((layer: any) => {
-                    // Previous layer for the distribution
-                    const previousLayer = admGroup.getLayers().length ? admGroup.getLayers()[0] : null;
-
-                    if (this.isDistributionInLayer(layer, distribution.get('location').get<string>('codeForMap'))) {
-                        if (previousLayer && this.getLayerAdmLevel(layer) > this.getLayerAdmLevel(previousLayer)) {
-                            // Overwrite the previous layer
-                            admGroup.removeLayer(previousLayer);
-                            admGroup.addLayer(layer);
-                        } else if (! previousLayer) {
-                            admGroup.addLayer(layer);
-                        }
+                    // Fill an array containing all the adm of the current layer
+                    const kmlAdm = [
+                        layer.feature.properties.ADM0_PCODE,
+                        layer.feature.properties.ADM1_PCODE,
+                        layer.feature.properties.ADM2_PCODE,
+                        layer.feature.properties.ADM3_PCODE,
+                    ];
+                    // Group all the matching adm4 layers
+                    if (this.compareAdmToMapDistribution(kmlAdm, distribution.get('location').get<string>('codeForMap'))) {
+                        admGroup.addLayer(layer);
                     }
                 });
                 const distributionMarker = new DistributionMarker(admGroup, this.map, distribution);
@@ -109,30 +107,15 @@ export class MapService {
     }
 
     // Compare the kml layer's location to the distribution's code recursively
-    isDistributionInLayer(layer: any, distribution_adm: string): boolean {
-        const layerAdmLevel = this.getLayerAdmLevel(layer);
-        const distributionAdmLevel = this.getAdmLevel(distribution_adm);
-
-        if (layerAdmLevel > distributionAdmLevel) {
-            // If the layer is more precise than the distribution return false
-            return false;
-        } else if (layerAdmLevel === distributionAdmLevel) {
-            return layer.feature.properties[`ADM${layerAdmLevel}_PCODE`] === distribution_adm;
-        } else {
-            return this.isDistributionInLayer(layer, distribution_adm.substr(0, distribution_adm.length - 2));
+    compareAdmToMapDistribution(adm: Array<string>, distribution_adm: string): boolean {
+        const admLevel = this.getAdmLevel(distribution_adm);
+        // If an adm is missing in the location layer, retry with a broader region
+        if (!adm[admLevel]) {
+            return this.compareAdmToMapDistribution(adm, distribution_adm.substr(0, distribution_adm.length - 2));
         }
+        return adm[admLevel] === distribution_adm;
     }
 
-    getLayerAdmLevel(layer: any): number {
-        const kmlAdm = [
-            layer.feature.properties.ADM0_PCODE,
-            layer.feature.properties.ADM1_PCODE,
-            layer.feature.properties.ADM2_PCODE,
-            layer.feature.properties.ADM3_PCODE,
-        ];
-        // Return the highest adm level of the layer
-        return kmlAdm.indexOf(undefined) !== -1 ? kmlAdm.indexOf(undefined) - 1 : kmlAdm.length - 1;
-    }
 
     getAdmLevel(admCode: string) {
         // Remove 2-character identifier and calculate adm based on the code's length

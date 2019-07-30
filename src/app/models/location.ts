@@ -110,7 +110,7 @@ export class Location extends CustomModel {
         // Set location code with most precise location
         if (adm3) {
             newLocation.set('codeForMap', adm3.code);
-        } else if (adm3) {
+        } else if (adm2) {
             newLocation.set('codeForMap', adm2.code);
         } else {
             newLocation.set('codeForMap', adm1.code);

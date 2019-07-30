@@ -4,7 +4,6 @@ import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
 import * as Leaflet from 'leaflet';
 import 'leaflet.markercluster';
 import { Distribution } from 'src/app/models/distribution';
-import { DistributionService } from '../api/distribution.service';
 import { CountriesService } from '../countries/countries.service';
 import { DistributionMarker } from './distribution-marker';
 import { DistributionMarkerService } from './distribution-marker.service';
@@ -22,7 +21,6 @@ export class MapService {
     private tiles: any;
 
     constructor(
-        private distributionService: DistributionService,
         private countriesService: CountriesService,
         private distributionMarkerService: DistributionMarkerService
     ) { }
@@ -64,20 +62,23 @@ export class MapService {
     // Add all layers to show the upcoming distribution in the map dashboard
     addDistributions(distributions: Array<Distribution>) {
         const country = this.countriesService.selectedCountry;
-        let markers = this.initializeFeatureGroup();
         const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.fields.id.value.toLowerCase() + '.kml').on('ready', () => {
             // Center view on country
             this.map.fitBounds(admLayers.getBounds());
 
-            // Remove previous markers on the map
-            this.map.removeLayer(markers);
+            // Remove previous layers on the map
+            this.map.eachLayer((layer: Leaflet.Layer) => {
+                if (!(layer instanceof Leaflet.TileLayer)) {
+                    this.map.removeLayer(layer);
+                }
+            });
 
             // Exit if there is nothing to display
             if (!distributions) {
                 return;
             }
             // Create empty markers
-            markers = this.initializeFeatureGroup();
+            const markers = this.initializeFeatureGroup();
 
             // Find regions corresponding to distribution
             distributions.forEach((distribution: Distribution) => {

@@ -19,6 +19,8 @@ export class BaseChartComponent {
     ) {}
 
     @Input() graphInfo: Graph;
+    @Input() xLabel = 'Time';
+    @Input() yLabel;
 
     protected generateLabels() {
         this.options = {
@@ -27,14 +29,14 @@ export class BaseChartComponent {
                 xAxes: [ {
                     scaleLabel: {
                         display: true,
-                        labelString: 'Time'
+                        labelString: this.xLabel
                     }
                 } ],
                 yAxes: [
                     {
                         scaleLabel: {
                             display: true,
-                            labelString: this.titlecasePipe.transform(Object.values(this.graphInfo.values)[0][0].unit),
+                            labelString: this.titlecasePipe.transform(this.yLabel),
                         },
                         ticks: {
                             beginAtZero: true,

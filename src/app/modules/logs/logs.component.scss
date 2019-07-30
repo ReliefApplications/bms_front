@@ -11,10 +11,38 @@ app-table-mobile {
     height: 100%;
 }
 
+app-pie-chart {
+    width: 100%;
+    height: 100%;
+}
+
+app-bar-chart {
+    width: 100%;
+    height: 100%;
+}
+
+app-line-chart {
+    width: 100%;
+    height: 100%;
+}
+
 .container-table {
     width: 100%;
 }
 
 .container-content {
     margin-bottom: 20px;
+}
+
+.graphs {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    h2 {
+        text-align: center;
+    }
+    div {
+        width: 40%;
+    }
 }

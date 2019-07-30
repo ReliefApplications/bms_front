@@ -508,4 +508,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
     public selectAll(control: FormControl, entities: Array<CustomModel>) {
         control.setValue(entities.map((entity: CustomModel) => entity.get('id')));
     }
+
+    public getYLabel(graph: Graph) {
+        return Object.values(graph.values)[0][0].unit;
+    }
 }

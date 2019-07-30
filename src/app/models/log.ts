@@ -154,22 +154,18 @@ export class Log extends CustomModel {
                     urlMatch = url.match(/.+\/(deactivate)-(booklets)/);
                     newLog.set('action', newLog.language['log_' + urlMatch[1]]);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]);
-                    // break;
                 } else if (url.includes('import')) {
                     urlMatch = url.match(/.+\/(import)\/(.+)\/(.+)\/[0-9]+/);
                     newLog.set('action', newLog.language['log_' + urlMatch[1]]);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]
                         + ' in ' + newLog.language['log_' + urlMatch[3]]);
-                    // break;
                 } else if (url.includes('scanned')) {
                     newLog.set('action', newLog.language['log_scanned']);
                     newLog.set('objectOfAction', newLog.language['log_vouchers']);
-                    // break;
                 } else if (url.includes('transaction')) {
                     urlMatch = url.match(/.+\/(transaction)\/distribution\/[0-9]+\/(.+)/);
                     newLog.set('action', newLog.language['log_' + urlMatch[1]]);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]);
-                    // break;
                 } else if (url.includes('assign')) {
                     newLog.set('action', newLog.language['log_assign']);
                     newLog.set('objectOfAction', newLog.language['log_booklets'] + ' to '
@@ -180,19 +176,16 @@ export class Log extends CustomModel {
                     urlMatch = url.match(/.+\/(.+)\/archive\/[0-9]+/);
                     newLog.set('action', newLog.language['log_archive']);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                    // break;
                  } else if (url.includes('validate')) {
                     newLog.set('action', newLog.language['log_validate']);
                     newLog.set('objectOfAction', newLog.language['log_distributions']);
                 } else if (url.includes('complete')) {
                     newLog.set('action', newLog.language['log_complete']);
                     newLog.set('objectOfAction', newLog.language['log_distributions']);
-                    // break;
                 } else if (url.includes('users') && (url.includes('password') || url.includes('language'))) {
                     urlMatch = url.match(/.+\/users\/[0-9]+\/(.+)/);
                     newLog.set('action', newLog.language['log_edit']);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                    // break;
                 }
                 // For the moment until here
                 else if (url.includes('remove')) {
@@ -200,45 +193,36 @@ export class Log extends CustomModel {
                     newLog.set('action', newLog.language['log_' + urlMatch[3]]);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]
                         + ' from ' + newLog.language['log_' + urlMatch[1]]);
-                    // break;
                 } else if (url.includes('notes')) {
                     newLog.set('action', newLog.language['log_add']);
                     newLog.set('objectOfAction', newLog.language['log_notes'] + ' ' + newLog.language['log_general_relief_item']
                         + ' from ' + newLog.language['log_distributions']);
-                    // break;
                 } else if (url.includes('distributed')) {
                     newLog.set('action', newLog.language['log_distributed']);
                     newLog.set('objectOfAction', newLog.language['log_general_relief_item']
                         + ' from ' + newLog.language['log_distributions']);
-                    // break;
                 } else if (url.includes('add')) {
                     urlMatch = url.match(/.+\/(.+)\/[0-9]+\/(.+)\/(.+)/);
                     newLog.set('action', newLog.language['log_' + urlMatch[3]]);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]
                     + ' to ' + newLog.language['log_' + urlMatch[1]]);
-                    // break;
                 }
                 else {
                     newLog.set('action', newLog.language['log_edit']);
                     if (url.includes('update')) {
                         newLog.set('objectOfAction', newLog.language['log_booklets'] + newLog.language['log_password']);
-                        // break;
                     } else if (url.includes('provider')) {
                         newLog.set('objectOfAction', newLog.language['log_provider']);
-                        // break;
                     } else if (url.includes('upload')) {
                         urlMatch = url.match(/.+\/(.+)\/.+\/(.+)/);
                         newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]] + ' of '
                             + newLog.language['log_' + urlMatch[1]]);
-                        // break;
                     }
                     else {
                         urlMatch = url.match(/.+\/(.+)\/[0-9]+/);
                         newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                        // break;
                     }
                 }
-                // break;
             }
             return newLog;
         }

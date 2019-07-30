@@ -11,15 +11,18 @@
     <app-box-setting [isSelected]="selectedTab === 'graphs'" (click)="selectTab('graphs')" [info]='{icon: "settings/report", color: "green", title:language.reports}'></app-box-setting>
   </div>
 
-  <div *ngIf="selectedTab === 'graphs'">
+  <div *ngIf="selectedTab === 'graphs'" class="graphs">
     <div *ngFor="let graph of graphs">
         <h2>{{graph.name}}</h2>
-            <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'"></app-line-chart>
-            <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie' || graph.type === 'grid'"></app-pie-chart>
-            <app-bar-chart [graphInfo]="graph" *ngIf="graph.type === 'number'"></app-bar-chart>
+            <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'" [yLabel] = 'graph.yLabel'></app-line-chart>
+            <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie' || graph.type === 'grid'" [yLabel] = 'graph.yLabel'></app-pie-chart>
+            <app-bar-chart [graphInfo]="graph" *ngIf="graph.type === 'bar'" [xLabel] = 'graph.xLabel' [yLabel] = 'graph.yLabel'></app-bar-chart>
+    </div>
+    <div>
+      <h2>Requests per country</h2>
+      <app-line-chart [multipleGraphInfo]="[requestsKHM, requestsSYR]" [yLabel] = 'Request'></app-line-chart>
     </div>
   </div>
-
   <div *ngIf="selectedTab !== 'graphs'"class="container-table">
     <div class="container-content box-primary">
       <div class="content-table">

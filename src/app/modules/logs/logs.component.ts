@@ -12,6 +12,8 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { Graph } from '../reports/models/graph.model';
 import { rgb } from 'color-convert';
 import { RGBLuminanceSource } from '@zxing/library';
+import { DatePipe } from '@angular/common';
+import { GraphValue } from '../reports/graph-value.model';
 
 @Component({
   selector: 'app-logs',
@@ -29,6 +31,8 @@ export class LogsComponent implements OnInit, OnDestroy {
   public loadingLog = true;
   public selectedTab = 'distributions';
   graphs: Array<Graph> = [];
+  public requestsKHM;
+  public requestsSYR;
 
   @ViewChild(TableComponent) table: TableComponent;
   @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
@@ -96,7 +100,7 @@ createGraph() {
 
     const statusGraph = {
       type: 'pie',
-      name: 'successErrorRate',  // this.language.something
+      name: 'Success/Error Rate',  // this.language.something
       values: {}
     };
 
@@ -112,6 +116,88 @@ createGraph() {
       }
     });
     this.graphs.push(statusGraph);
+
+    const dayRequestGraph = {
+      type: 'line',
+      name: 'Requests per day',
+      yLabel: 'Requests',
+      values: {}
+    };
+
+    const oldestDay = new Date();
+    oldestDay.setDate(oldestDay.getDate() - 90);
+    const latestDay = new Date();
+    latestDay.setDate(latestDay.getDate() + 1);
+    const datePipe = new DatePipe('en-US');
+
+    for (const date = new Date(oldestDay.getTime()); date <= latestDay; date.setDate(date.getDate() + 1)) {
+      dayRequestGraph.values[datePipe.transform(date, 'dd-MM-yyyy')] =
+        [{date: datePipe.transform(date, 'dd-MM-yyyy'), name: 'requests', unit: 'requests', value: 0}];
+    }
+
+    this.logs.forEach((log: Log) => {
+      if (dayRequestGraph.values[datePipe.transform(log.get<Date>('date'), 'dd-MM-yyyy')]) {
+      dayRequestGraph.values[datePipe.transform(log.get<Date>('date'), 'dd-MM-yyyy')][0].value++;
+      }
+    });
+    this.graphs.push(dayRequestGraph);
+
+    const activeUsersGraph = {
+      type: 'bar',
+      name: 'Most active users',
+      xLabel: 'Users',
+      yLabel: 'Requests',
+      values: {},
+    };
+
+    this.logs.forEach((log: Log) => {
+      if (activeUsersGraph.values[log.get<string>('user')]) {
+        activeUsersGraph.values[log.get<string>('user')][0].value++;
+      } else {
+        activeUsersGraph.values[log.get<string>('user')] = [{name: log.get<string>('user'), value: 1, unit: 'requests'}];
+      }
+    });
+    activeUsersGraph.values = Object.keys(activeUsersGraph.values)
+      .sort((user1, user2) => activeUsersGraph.values[user2][0].value - activeUsersGraph.values[user1][0].value)
+        .reduce((_sortedObj, key) => ({..._sortedObj, [key]: activeUsersGraph.values[key]}), {});
+
+    this.graphs.push(activeUsersGraph);
+
+    this.requestsKHM = {
+      type: 'line',
+      name: 'Requests KHM',
+      xLabel: 'Time',
+      yLabel: 'Requests',
+      values: {},
+    };
+
+    this.requestsSYR = {
+      type: 'line',
+      name: 'Requests SYR',
+      xLabel: 'Time',
+      yLabel: 'Requests',
+      values: {},
+    };
+
+    for (const date = new Date(oldestDay.getTime()); date <= latestDay; date.setDate(date.getDate() + 1)) {
+      this.requestsKHM.values[datePipe.transform(date, 'dd-MM-yyyy')] =
+        [{date: datePipe.transform(date, 'dd-MM-yyyy'), name: 'requests', unit: 'requests', value: 0}];
+      this.requestsSYR.values[datePipe.transform(date, 'dd-MM-yyyy')] =
+        [{date: datePipe.transform(date, 'dd-MM-yyyy'), name: 'requests', unit: 'requests', value: 0}];
+    }
+
+    this.logs.forEach((log: Log) => {
+      if (this.requestsKHM.values[datePipe.transform(log.get<Date>('date'), 'dd-MM-yyyy')]) {
+        if (log.get<string>('country') === 'KHM') {
+          this.requestsKHM.values[datePipe.transform(log.get<Date>('date'), 'dd-MM-yyyy')][0].value++;
+        }
+      }
+      if (this.requestsSYR.values[datePipe.transform(log.get<Date>('date'), 'dd-MM-yyyy')]) {
+        if (log.get<string>('country') === 'SYR') {
+          this.requestsSYR.values[datePipe.transform(log.get<Date>('date'), 'dd-MM-yyyy')][0].value++;
+        }
+      }
+    });
 }
 
 

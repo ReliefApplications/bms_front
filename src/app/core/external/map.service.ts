@@ -4,7 +4,6 @@ import * as LeafletOmnivore from '@mapbox/leaflet-omnivore';
 import * as Leaflet from 'leaflet';
 import 'leaflet.markercluster';
 import { Distribution } from 'src/app/models/distribution';
-import { DistributionService } from '../api/distribution.service';
 import { CountriesService } from '../countries/countries.service';
 import { DistributionMarker } from './distribution-marker';
 import { DistributionMarkerService } from './distribution-marker.service';
@@ -22,7 +21,6 @@ export class MapService {
     private tiles: any;
 
     constructor(
-        private distributionService: DistributionService,
         private countriesService: CountriesService,
         private distributionMarkerService: DistributionMarkerService
     ) { }
@@ -51,7 +49,6 @@ export class MapService {
 
     addTileLayer() {
         // Add title layer to the map
-
         this.tiles = Leaflet.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
@@ -65,21 +62,23 @@ export class MapService {
     // Add all layers to show the upcoming distribution in the map dashboard
     addDistributions(distributions: Array<Distribution>) {
         const country = this.countriesService.selectedCountry;
-        let markers = this.initializeFeatureGroup();
         const admLayers = LeafletOmnivore.kml('assets/maps/map_' + country.fields.id.value.toLowerCase() + '.kml').on('ready', () => {
             // Center view on country
             this.map.fitBounds(admLayers.getBounds());
 
-            // Remove previous markers on the map
-            this.map.removeLayer(markers);
+            // Remove previous layers on the map
+            this.map.eachLayer((layer: Leaflet.Layer) => {
+                if (!(layer instanceof Leaflet.TileLayer)) {
+                    this.map.removeLayer(layer);
+                }
+            });
 
             // Exit if there is nothing to display
             if (!distributions) {
                 return;
             }
             // Create empty markers
-            markers = this.initializeFeatureGroup();
-
+            const markers = this.initializeFeatureGroup();
 
             // Find regions corresponding to distribution
             distributions.forEach((distribution: Distribution) => {
@@ -91,10 +90,10 @@ export class MapService {
                         layer.feature.properties.ADM0_PCODE,
                         layer.feature.properties.ADM1_PCODE,
                         layer.feature.properties.ADM2_PCODE,
-                        layer.feature.properties.ADM3_PCODE ,
+                        layer.feature.properties.ADM3_PCODE,
                     ];
                     // Group all the matching adm4 layers
-                    if (this.compareAdmToMapDistribution(kmlAdm, distribution.get('location').get<string>('code'))) {
+                    if (this.compareAdmToMapDistribution(kmlAdm, distribution.get('location').get<string>('codeForMap'))) {
                         admGroup.addLayer(layer);
                     }
                 });
@@ -112,7 +111,7 @@ export class MapService {
     compareAdmToMapDistribution(adm: Array<string>, distribution_adm: string): boolean {
         const admLevel = this.getAdmLevel(distribution_adm);
         // If an adm is missing in the location layer, retry with a broader region
-        if (! adm[admLevel]) {
+        if (!adm[admLevel]) {
             return this.compareAdmToMapDistribution(adm, distribution_adm.substr(0, distribution_adm.length - 2));
         }
         return adm[admLevel] === distribution_adm;

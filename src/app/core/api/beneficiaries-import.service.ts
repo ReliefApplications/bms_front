@@ -31,6 +31,7 @@ export class ImportService {
         this.project = project;
 
         this.token = undefined;
+        this.email = email;
         const body = new FormData();
         body.append('file', csvFile);
 

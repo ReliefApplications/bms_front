@@ -328,8 +328,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
 
-  createHumanID() {
-    this.authenticationService.createHumanID();
-  }
+  // createHumanID() {
+  //   this.authenticationService.createHumanID();
+  // }
 
 }

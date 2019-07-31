@@ -1,70 +1,74 @@
-<mat-sidenav-container class="app-component" disableClose="true" [hasBackdrop]="false">
+<div *ngIf="userService.currentUser && !userService.currentUser.get('rights'); else enabledUser">
+    To access the platform, please contact an administrator that will grant you the relevant rights
+</div>
 
-    <mat-sidenav *ngIf="currentDisplayType.type !== 'mobile'; else mobileSidenav" class="page-menu-wrapper" [ngClass]="{show: extendedSideNav}" [opened]="router.url !=='/login'"
-        (mouseenter)="extendedSideNav = true" (mouseleave)="closeSideNav()" (click)="closeSideNav()" mode="over" [disableClose]="true">
-        <ng-container *ngTemplateOutlet="sidenav"></ng-container>
-    </mat-sidenav>
-
-    <ng-template #mobileSidenav>
-        <mat-sidenav *ngIf="getLanguage()" class="page-menu-wrapper mobile-side-nav" [opened]="router.url !=='/login' && extendedSideNav"
-            mode="over" [disableClose]="false" [ngClass]="{show: extendedSideNav}" (click)="closeSideNav()">
+<ng-template #enabledUser>
+    <mat-sidenav-container class="app-component" disableClose="true" [hasBackdrop]="false">
+        <mat-sidenav *ngIf="currentDisplayType.type !== 'mobile'; else mobileSidenav" class="page-menu-wrapper" [ngClass]="{show: extendedSideNav}" [opened]="router.url !=='/login' && !router.url.includes('sso?origin')"
+            (mouseenter)="extendedSideNav = true" (mouseleave)="closeSideNav()" (click)="closeSideNav()" mode="over" [disableClose]="true">
             <ng-container *ngTemplateOutlet="sidenav"></ng-container>
         </mat-sidenav>
-    </ng-template>
 
+        <ng-template #mobileSidenav>
+            <mat-sidenav *ngIf="getLanguage()" class="page-menu-wrapper mobile-side-nav" [opened]="router.url !=='/login' && extendedSideNav"
+                mode="over" [disableClose]="false" [ngClass]="{show: extendedSideNav}" (click)="closeSideNav()">
+                <ng-container *ngTemplateOutlet="sidenav"></ng-container>
+            </mat-sidenav>
+        </ng-template>
 
-
-    <mat-sidenav-content (scroll)="closeSideNav()" (click)="closeSideNav()" class="page-content-wrapper" [ngClass]="{'no-margin': router.url ==='/login'}">
-        <ng-container *ngIf="router.url !== '/login'">
-            <mat-toolbar *ngIf="currentDisplayType.type !== 'mobile'; else mobileHeader">
-                <app-header *ngIf="headerIsReady()"></app-header>
-            </mat-toolbar>
-            <ng-template #mobileHeader>
-                <mat-toolbar class="mobile">
-                    <app-header-mobile *ngIf="headerIsReady()" (toggleSideNav)="extendedSideNav = !extendedSideNav"></app-header-mobile>
+        <mat-sidenav-content (scroll)="closeSideNav()" (click)="closeSideNav()" class="page-content-wrapper" [ngClass]="{'no-margin': router.url ==='/login'}">
+            <ng-container *ngIf="router.url !== '/login'">
+                <mat-toolbar *ngIf="currentDisplayType.type !== 'mobile'; else mobileHeader">
+                    <app-header *ngIf="headerIsReady()"></app-header>
                 </mat-toolbar>
-            </ng-template>
-        </ng-container>
+                <ng-template #mobileHeader>
+                    <mat-toolbar class="mobile">
+                        <app-header-mobile *ngIf="headerIsReady()" (toggleSideNav)="extendedSideNav = !extendedSideNav"></app-header-mobile>
+                    </mat-toolbar>
+                </ng-template>
+            </ng-container>
 
-        <router-outlet></router-outlet>
-    </mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
 
-</mat-sidenav-container>
+    </mat-sidenav-container>
 
-<ng-template #sidenav>
-    <mat-nav-list *ngIf="getLanguage()">
-        <mat-list-item *ngIf="currentDisplayType.type !== 'mobile'" routerLink="/">
-            <img class="bms-logo" src="assets/images/bms_logo.png" mat-list-icon>
-        </mat-list-item>
-        <mat-list-item [ngClass]="{selected: matchUrl() === ''}" routerLink="/">
-            <span class="full-width" >{{getLanguage().home | titlecase}}</span>
-            <mat-icon mat-list-icon>home</mat-icon>
-        </mat-list-item>
-        <mat-list-item [ngClass]="{selected: matchUrl() === 'projects'}" routerLink="/projects">
-            <span class="full-width" >{{getLanguage().projects | titlecase}}</span>
-            <mat-icon mat-list-icon>assignment</mat-icon>
-        </mat-list-item>
-        <mat-list-item [ngClass]="{selected: matchUrl() === 'beneficiaries'}" routerLink="/beneficiaries">
-            <span class="full-width" >{{getLanguage().beneficiaries | titlecase}}</span>
-            <mat-icon mat-list-icon>supervisor_account</mat-icon>
-        </mat-list-item>
-        <mat-list-item *ngIf="userService.hasRights('ROLE_ENUMERATOR', false)" [ngClass]="{selected: matchUrl() === 'reports'}" routerLink="/reports">
-            <span class="full-width" >{{getLanguage().reports | titlecase}}</span>
-            <mat-icon mat-list-icon>timeline</mat-icon>
-        </mat-list-item>
-        <mat-list-item *ngIf="userService.hasRights('ROLE_ENUMERATOR', false)" [ngClass]="{selected: matchUrl() === 'vouchers'}" routerLink="/vouchers">
-            <span class="full-width">{{getLanguage().voucher | titlecase}}</span>
-            <mat-icon mat-list-icon>local_activity</mat-icon>
-        </mat-list-item>
-        <mat-list-item *ngIf="userService.hasRights('ROLE_ENUMERATOR', false)" [ngClass]="{selected: matchUrl() === 'settings'}" routerLink="/settings">
-            <span class="full-width">{{getLanguage().general_settings | titlecase}}</span>
-            <mat-icon mat-list-icon>settings</mat-icon>
-        </mat-list-item>
-        <mat-list-item *ngIf="userService.hasRights('ROLE_USER_MANAGEMENT')" [ngClass]="{selected: matchUrl() === 'admin'}" routerLink="/admin">
-            <span class="full-width">{{getLanguage().administrative_settings | titlecase}}</span>
-            <mat-icon mat-list-icon>build</mat-icon>
-        </mat-list-item>
-    </mat-nav-list>
+    <ng-template #sidenav>
+        <mat-nav-list *ngIf="getLanguage()">
+            <mat-list-item *ngIf="currentDisplayType.type !== 'mobile'" routerLink="/">
+                <img class="bms-logo" src="assets/images/bms_logo.png" mat-list-icon>
+            </mat-list-item>
+            <mat-list-item [ngClass]="{selected: matchUrl() === ''}" routerLink="/">
+                <span class="full-width" >{{getLanguage().home | titlecase}}</span>
+                <mat-icon mat-list-icon>home</mat-icon>
+            </mat-list-item>
+            <mat-list-item [ngClass]="{selected: matchUrl() === 'projects'}" routerLink="/projects">
+                <span class="full-width" >{{getLanguage().projects | titlecase}}</span>
+                <mat-icon mat-list-icon>assignment</mat-icon>
+            </mat-list-item>
+            <mat-list-item [ngClass]="{selected: matchUrl() === 'beneficiaries'}" routerLink="/beneficiaries">
+                <span class="full-width" >{{getLanguage().beneficiaries | titlecase}}</span>
+                <mat-icon mat-list-icon>supervisor_account</mat-icon>
+            </mat-list-item>
+            <mat-list-item *ngIf="userService.hasRights('ROLE_ENUMERATOR', false)" [ngClass]="{selected: matchUrl() === 'reports'}" routerLink="/reports">
+                <span class="full-width" >{{getLanguage().reports | titlecase}}</span>
+                <mat-icon mat-list-icon>timeline</mat-icon>
+            </mat-list-item>
+            <mat-list-item *ngIf="userService.hasRights('ROLE_ENUMERATOR', false)" [ngClass]="{selected: matchUrl() === 'vouchers'}" routerLink="/vouchers">
+                <span class="full-width">{{getLanguage().voucher | titlecase}}</span>
+                <mat-icon mat-list-icon>local_activity</mat-icon>
+            </mat-list-item>
+            <mat-list-item *ngIf="userService.hasRights('ROLE_ENUMERATOR', false)" [ngClass]="{selected: matchUrl() === 'settings'}" routerLink="/settings">
+                <span class="full-width">{{getLanguage().general_settings | titlecase}}</span>
+                <mat-icon mat-list-icon>settings</mat-icon>
+            </mat-list-item>
+            <mat-list-item *ngIf="userService.hasRights('ROLE_USER_MANAGEMENT')" [ngClass]="{selected: matchUrl() === 'admin'}" routerLink="/admin">
+                <span class="full-width">{{getLanguage().administrative_settings | titlecase}}</span>
+                <mat-icon mat-list-icon>build</mat-icon>
+            </mat-list-item>
+        </mat-nav-list>
+    </ng-template>
 </ng-template>
+
 
 <!-- <livechat-widget *ngIf="viewReady && chatShouldBeDisplayed()" licenseId="10347002"></livechat-widget> -->

@@ -66,12 +66,12 @@ export class LoginService {
     }
 
     // Clear the last session's cache entries
-    private clearSessionCacheEntries(): void {
+    public clearSessionCacheEntries(): void {
         this.asyncacheService.removeCountry();
         this.asyncacheService.removeLanguage();
     }
 
-    private loginRoutine(user: User) {
+    public loginRoutine(user: User) {
         return forkJoin({
             country: this.setCountries(user),
             language: this.setLanguage(user),

@@ -68,10 +68,5 @@ export class LoginComponent implements OnInit {
     prod() {
         return environment.production;
     }
-
-
-  createHumanID() {
-    this.authService.createHumanID();
-  }
 }
 

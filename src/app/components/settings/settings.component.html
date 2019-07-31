@@ -24,7 +24,12 @@
           </div>
         </div>
       </div>
-      <button mat-flat-button class="button-background-primary" (click)="createHumanID()" *ngIf="selectedTitle === 'users'">Add a user with Humanitarian ID</button>
+      <!-- <button mat-flat-button class="button-background-primary" *ngIf="selectedTitle === 'users'">
+        <a href="https://auth.staging.humanitarian.id/oauth/authorize?response_type=token&client_id=Humsis-stag&scope=profile&redirect_uri=https://front-test.bmstaging.info/sso?origin=hid&state=12345">
+            Login with Humanitarian ID
+        </a>
+      </button> -->
+    
       <button mat-flat-button *ngIf="currentDisplayType.type !== 'mobile' && checkRights() && deletable" (click)="openDialog({action: 'add'})" class="add-button-create">
         <mat-icon>add</mat-icon>
         {{language.add | titlecase}}

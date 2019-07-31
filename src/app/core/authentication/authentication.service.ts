@@ -114,11 +114,18 @@ export class AuthenticationService {
         return body;
     }
 
-    public createHumanID() {
+    // public createHumanID(token: string, userForApi: any) {
+    //     const body = {
+    //         token: token,
+    //         user: userForApi
+    //     };
+    //     return this.http.post(URL_BMS_API + '/add-humanitarian', body);
+    // }
 
-        this.http.get(
-            'https://auth.staging.humanitarian.id/oauth/authorize?response_type=token&client_id=Humsis-stag&scope=profile&' +
-            'redirect_uri=https://front-test.bmstaging.info/sso?origin=hid&state=12345'
-        ).subscribe();
+    public loginHumanID(token: string) {
+        const body = {
+            token: token,
+        };
+        return this.http.post(URL_BMS_API + '/login-humanitarian', body);
     }
 }

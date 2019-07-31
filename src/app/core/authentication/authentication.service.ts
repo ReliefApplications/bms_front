@@ -114,14 +114,6 @@ export class AuthenticationService {
         return body;
     }
 
-    // public createHumanID(token: string, userForApi: any) {
-    //     const body = {
-    //         token: token,
-    //         user: userForApi
-    //     };
-    //     return this.http.post(URL_BMS_API + '/add-humanitarian', body);
-    // }
-
     public loginHumanID(token: string) {
         const body = {
             token: token,

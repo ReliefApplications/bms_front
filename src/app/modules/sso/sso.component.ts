@@ -26,10 +26,10 @@ export class SsoComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.route.fragment.subscribe(result => {
-            const accessToken = result.match(/access_token=([a-z\d]+)/);
-            if (accessToken) {
-                this.authService.loginHumanID(accessToken[1]).subscribe((userFromApi: any) => {
+        this.route.queryParams.subscribe(result => {
+            const code = result['code'];
+            if (code) {
+                this.authService.loginHumanID(code).subscribe((userFromApi: any) => {
                     const user = User.apiToModel(userFromApi);
                     this.userService.setCurrentUser(user);
                     this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {

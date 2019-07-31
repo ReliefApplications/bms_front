@@ -114,9 +114,9 @@ export class AuthenticationService {
         return body;
     }
 
-    public loginHumanID(token: string) {
+    public loginHumanID(code: string) {
         const body = {
-            token: token,
+            code: code,
         };
         return this.http.post(URL_BMS_API + '/login-humanitarian', body);
     }

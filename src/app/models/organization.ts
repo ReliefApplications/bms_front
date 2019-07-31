@@ -87,13 +87,13 @@ export class Organization extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            id: this.get('id'),
-            name: this.get('name'),
-            logo: this.get('logo'),
-            font: this.get('font'),
-            primary_color: this.get('primaryColor'),
-            secondary_color: this.get('secondaryColor'),
-            footer_content: this.get('footerContent'),
+            id: this.fields.id.formatForApi(),
+            name: this.fields.name.formatForApi(),
+            logo: this.fields.logo.formatForApi(),
+            font: this.fields.font.formatForApi(),
+            primary_color: this.fields.primaryColor.formatForApi(),
+            secondary_color: this.fields.secondaryColor.formatForApi(),
+            footer_content: this.fields.footerContent.formatForApi(),
         };
     }
 

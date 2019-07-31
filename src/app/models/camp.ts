@@ -35,9 +35,9 @@ export class Camp extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            id: this.get('id'),
-            name: this.get('name'),
-            location: this.get('location').modelToApi(),
+            id: this.fields.id.formatForApi(),
+            name: this.fields.name.formatForApi(),
+            location: this.fields.location.formatForApi(),
 
         };
     }

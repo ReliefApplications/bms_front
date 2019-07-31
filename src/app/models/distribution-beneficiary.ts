@@ -63,7 +63,7 @@ export class DistributionBeneficiary extends CustomModel {
 
         return {
            id: this.get('id'),
-           beneficiary:  this.get('beneficiary') ? this.get('beneficiary').modelToApi() : null,
+           beneficiary: this.fields.beneficiary.formatForApi(),
        };
 
     }

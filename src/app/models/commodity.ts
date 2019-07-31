@@ -170,7 +170,7 @@ export class Commodity extends CustomModel {
             unit: this.fields.unit.formatForApi(),
             value: this.fields.value.formatForApi(),
             modality: this.fields.modality.formatForApi(),
-            description: this.get('description'),
+            description: this.fields.description.formatForApi(),
             modality_type: {
                 id: this.get('modalityType').get('id'),
                 name: this.get('modalityType').get('name'),

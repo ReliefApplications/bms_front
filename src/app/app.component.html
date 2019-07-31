@@ -1,5 +1,8 @@
 <div *ngIf="userService.currentUser && !userService.currentUser.get('rights'); else enabledUser">
     To access the platform, please contact an administrator that will grant you the relevant rights
+    <a href="/login">
+        Back to login page
+    </a>
 </div>
 
 <ng-template #enabledUser>

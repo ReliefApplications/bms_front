@@ -9,6 +9,7 @@ import { CountriesService } from '../countries/countries.service';
 import { HttpService } from '../network/http.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -117,6 +118,7 @@ export class AuthenticationService {
     public loginHumanID(code: string) {
         const body = {
             code: code,
+            environment: environment.name
         };
         return this.http.post(URL_BMS_API + '/login-humanitarian', body);
     }

@@ -327,9 +327,4 @@ export class SettingsComponent implements OnInit, OnDestroy {
       return this.referedClassService.print(event);
   }
 
-
-  // createHumanID() {
-  //   this.authenticationService.createHumanID();
-  // }
-
 }

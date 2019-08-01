@@ -122,4 +122,12 @@ export class AuthenticationService {
         };
         return this.http.post(URL_BMS_API + '/login-humanitarian', body);
     }
+
+    public loginGoogle(token: string) {
+        const body = {
+            token: token,
+            environment: environment.name
+        };
+        return this.http.post(URL_BMS_API + '/login-google', body);
+    }
 }

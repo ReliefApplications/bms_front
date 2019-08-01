@@ -27,21 +27,41 @@ export class SsoComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(result => {
-            const code = result['code'];
-            if (code) {
-                this.authService.loginHumanID(code).subscribe((userFromApi: any) => {
-                    const user = User.apiToModel(userFromApi);
-                    this.userService.setCurrentUser(user);
-                    this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {
-                        this.loginService.clearSessionCacheEntries();
-                        this.loginService.loginRoutine(user).subscribe(() => {
-                            this.router.navigateByUrl('/');
-                        });
-                    });
-                }, (error) => {
-                    this.router.navigateByUrl('/login');
-                });
+            const origin = result['origin'];
+            if (origin === 'hid') {
+                this.loginHID(result['code']);
+            } else if (origin === 'google') {
+                this.loginGoogle(result['token']);
             }
+        });
+    }
+
+    loginHID(code: string) {
+        if (code) {
+            this.authService.loginHumanID(code).subscribe((userFromApi: any) => {
+                this.login(userFromApi);
+            }, (error) => {
+                this.router.navigateByUrl('/login');
+            });
+        }
+    }
+
+    loginGoogle(token: string) {
+        this.authService.loginGoogle(token).subscribe((userFromApi: any) => {
+           this.login(userFromApi);
+        }, (error) => {
+            this.router.navigateByUrl('/login');
+        });
+    }
+
+    login(userFromApi) {
+        const user = User.apiToModel(userFromApi);
+        this.userService.setCurrentUser(user);
+        this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {
+            this.loginService.clearSessionCacheEntries();
+            this.loginService.loginRoutine(user).subscribe(() => {
+                this.router.navigateByUrl('/');
+            });
         });
     }
 }

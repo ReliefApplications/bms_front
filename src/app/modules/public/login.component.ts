@@ -11,7 +11,9 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { environment } from 'src/environments/environment';
-
+import * as firebase from 'firebase';
+import 'firebase/auth';
+import 'firebase/firestore';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -27,6 +29,7 @@ export class LoginComponent implements OnInit {
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
+    private googleProvider = new firebase.auth.GoogleAuthProvider();
 
     constructor(
         public authService: AuthenticationService,
@@ -41,6 +44,7 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         this.userService.resetUser();
         this.makeForm();
+        this.initializeFirebase();
     }
 
     makeForm() {
@@ -64,6 +68,38 @@ export class LoginComponent implements OnInit {
             }
         );
     }
+
+    private initializeFirebase() {
+        const firebaseConfig = {
+            apiKey: 'AIzaSyBy89u6u5u17xwhHWQQJ2jhqfIkPkJUzIU',
+            authDomain: 'humansis.firebaseapp.com',
+            databaseURL: 'https://humansis.firebaseio.com',
+            projectId: 'humansis',
+            storageBucket: '',
+            messagingSenderId: '592445518256',
+            appId: '1:592445518256:web:79dfcb980f4b73ea'
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().getRedirectResult().then((result: any) => {
+            if (result.credential) {
+                this.router.navigateByUrl('/sso?origin=google&token=' + result.credential.idToken);
+            }
+        }).catch((error) => {
+            this.snackbar.error(error.message);
+        });
+    }
+
+    public googleAuthRedirect() {
+        firebase.auth().signInWithRedirect(this.googleProvider);
+    }
+
+    // public googleAuthPopUp() {
+    //     firebase.auth().signInWithPopup(this.googleProvider).then((result: any) => {
+    //         this.router.navigateByUrl('/sso?origin=google&token=' + result.credential.idToken);
+    //     }).catch((error) => {
+    //         this.snackbar.error(error.message);
+    //     });
+    // }
 
     prod() {
         return environment.production;

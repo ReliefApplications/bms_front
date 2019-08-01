@@ -465,9 +465,9 @@ export class English implements Language {
     livelihood_service = 'Service Industry and Other Professionals'
 
     //Log audit
-    log_country_specifics = 'country specific option'
-    log_households = 'household'
-    log_distributions = 'distribution'
+    log_country_specifics = 'country specific option'   //Exists 301
+    log_households = 'household'    // Exists 52
+    log_distributions = 'distribution'     // Exists 47
     log_donors = 'donor'
     log_donor = 'donor'
     log_projects = 'project'
@@ -499,13 +499,17 @@ export class English implements Language {
     log_archive = 'archived'
     log_edit = 'edited'
     log_remove = 'removed'
-    log_organization = 'an organization'
+    log_organization = 'organization'
     log_import = 'imported'
     log_provider = 'third party connection'
     log_language = 'the default language'
     log_deactivate = 'deactivated'
     log = 'logs'
+    log_status = '' // Exists 97
 
+    log_region = 'region'
+    log_no_details = 'No details to display'
+    log_upload = ''
 
     log_status_200 = ''
     log_status_400 = ''

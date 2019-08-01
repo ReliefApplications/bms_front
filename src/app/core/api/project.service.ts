@@ -35,6 +35,10 @@ export class ProjectService extends CustomModelService {
         return this.http.post(url, body);
     }
 
+    public getOne(projectId: number) {
+
+    }
+
     // Todo: add fail condition
     public fillWithOptions (project: Project) {
         const appInjector = AppInjector;

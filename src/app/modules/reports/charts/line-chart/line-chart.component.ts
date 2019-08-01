@@ -49,9 +49,12 @@ export class LineChartComponent extends BaseChartComponent implements OnInit {
         Object.keys(graph.values).forEach((period: string) => {
             // Casting is necessary due to a type error otherwise
             (dataset.data as (number | ChartPoint)[]).push(graph.values[period][0].value);
-            this.xAxisLabels.push(graph.values[period][0].date);
+            if (!this.xAxisLabels.includes(graph.values[period][0].date)) {
+                this.xAxisLabels.push(graph.values[period][0].date);
+            }
         });
     }
+
 
     private generateColors() {
         const mainColor = this.colorsService.chooseRandomColor();

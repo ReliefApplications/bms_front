@@ -503,7 +503,6 @@ export interface Language {
     log_add: string
     log_general_relief_item: string
     log_password: string
-
     log_logo: string
     log_image: string
     log_archive: string
@@ -516,7 +515,10 @@ export interface Language {
     log_deactivate: string
     log: string
 
-
+    log_status: string
+    log_region: string
+    log_no_details: string
+    log_upload: string
 
     log_status_200: string
     log_status_400: string

@@ -29,8 +29,8 @@ export class BaseChartComponent {
                 xAxes: [ {
                     scaleLabel: {
                         display: true,
-                        labelString: this.xLabel
-                    }
+                        labelString: this.titlecasePipe.transform(this.xLabel)
+                    },
                 } ],
                 yAxes: [
                     {

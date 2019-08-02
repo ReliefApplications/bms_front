@@ -55,6 +55,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+
+        // We update the breadcrums and tooltip after refresh...
+        this.updateBreadcrumbs(this.router.url);
+        this.updateTooltip(this.router.url);
+
+        // ...and after navigation
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
                 this.updateBreadcrumbs(event.url);

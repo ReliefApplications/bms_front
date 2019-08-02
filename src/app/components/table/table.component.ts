@@ -32,6 +32,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     @ViewChild(MatPaginator)
     set matPaginator(mp: MatPaginator) {
+        this.initPaginator();
         this.paginator = mp;
     }
 
@@ -223,7 +224,9 @@ export class TableComponent implements OnInit,  AfterViewInit {
                         return this.getFieldStringValues(field);
                     };
         }
+    }
 
+    initPaginator() {
         if ((this.tableData && this.tableData.data)) {
             this.tableData.sort = this.sort;
             if (this.paginator && this.paginable) {

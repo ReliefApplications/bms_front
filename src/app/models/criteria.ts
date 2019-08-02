@@ -68,7 +68,9 @@ export class Criteria extends CustomModel {
         // ),
         target: new TextModelField(
             {
-
+                title: this.language.criteria_target,
+                isDisplayedInTable: true,
+                isTranslatable: true
             }
         ),
         tableString: new TextModelField({

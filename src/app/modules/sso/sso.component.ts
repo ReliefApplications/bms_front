@@ -6,6 +6,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/core/api/user.service';
 import { LoginService } from 'src/app/core/api/login.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 @Component({
     selector: 'app-sso',
@@ -23,6 +24,7 @@ export class SsoComponent implements OnInit {
         public userService: UserService,
         public loginService: LoginService,
         private router: Router,
+        public snackbar: SnackbarService,
     ) { }
 
     ngOnInit() {
@@ -32,6 +34,12 @@ export class SsoComponent implements OnInit {
                 this.loginHID(result['code']);
             } else if (origin === 'google') {
                 this.loginGoogle(result['token']);
+            } else if (origin === 'linkedin') {
+                if (result['error_description']) {
+                    this.snackbar.error(result['error_description']);
+                } else {
+                    this.loginLinkedIn(result['code']);
+                }
             }
         });
     }
@@ -51,6 +59,11 @@ export class SsoComponent implements OnInit {
            this.login(userFromApi);
         }, (error) => {
             this.router.navigateByUrl('/login');
+        });
+    }
+
+    loginLinkedIn(code: string) {
+        this.authService.loginLinkedIn(code).subscribe((userFromApi: any) => {
         });
     }
 

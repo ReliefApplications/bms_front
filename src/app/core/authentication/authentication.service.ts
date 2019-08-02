@@ -123,10 +123,17 @@ export class AuthenticationService {
         return this.http.post(URL_BMS_API + '/login-humanitarian', body);
     }
 
+    public loginLinkedIn(code: string) {
+        const body = {
+            code: code,
+            environment: environment.name
+        };
+        return this.http.post(URL_BMS_API + '/login-linkedin', body);
+    }
+
     public loginGoogle(token: string) {
         const body = {
-            token: token,
-            environment: environment.name
+            token: token
         };
         return this.http.post(URL_BMS_API + '/login-google', body);
     }

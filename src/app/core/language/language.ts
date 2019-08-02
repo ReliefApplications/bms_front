@@ -43,6 +43,8 @@ export interface Language {
     donor: string
     donors: string
     general_relief: string
+    head: string
+    household: string
     households: string
     language: string
     location: string

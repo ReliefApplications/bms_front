@@ -47,6 +47,8 @@ export class French implements Language {
     donor = 'Donneur'
     donors = 'donateurs'
     general_relief = 'Item'
+    head = 'Chef de famille'
+    household = 'Ménage'
     households = 'Ménage'
     language = 'langue'
     location = 'Lieu'

@@ -47,6 +47,8 @@ export class Arabic implements Language {
     donor = 'المانح'
     donors = 'المانحين'
     general_relief = 'بند'
+    head = 'رب الأسرة'
+    household = 'الأسرة'
     households = 'الأسرة'
     language = 'اللغة'
     location = 'الموقع'

@@ -47,6 +47,8 @@ export class Arabic implements Language {
     donor = 'المانح'
     donors = 'المانحين'
     general_relief = 'بند'
+    head = 'رب الأسرة'
+    household = 'الأسرة'
     households = 'الأسرة'
     language = 'اللغة'
     location = 'الموقع'
@@ -791,7 +793,4 @@ export class Arabic implements Language {
     pregnant = this.vulnerability_pregnant
     soloParent = this.vulnerability_solo_parent
     nutritionalIssues = this.vulnerability_nutrional
-    Beneficiary = this.beneficiary
-    Head = this.beneficiary_head
-    Household = this.households
 };

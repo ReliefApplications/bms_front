@@ -131,7 +131,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
             if (criteria) {
                 this.criteriaList = criteria.map((criterion: any) => Criteria.apiToModel(criterion));
                 this.onChanges();
-                this.form.controls.criteriaType.setValue('Beneficiary');
+                this.form.controls.criteriaType.setValue('beneficiary');
             }
         });
     }

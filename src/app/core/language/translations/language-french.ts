@@ -47,6 +47,8 @@ export class French implements Language {
     donor = 'Donneur'
     donors = 'donateurs'
     general_relief = 'Item'
+    head = 'Chef de famille'
+    household = 'Ménage'
     households = 'Ménage'
     language = 'langue'
     location = 'Lieu'
@@ -791,7 +793,4 @@ export class French implements Language {
     pregnant = this.vulnerability_pregnant
     soloParent = this.vulnerability_solo_parent
     nutritionalIssues = this.vulnerability_nutrional
-    Beneficiary = this.beneficiary
-    Head = this.beneficiary_head
-    Household = this.households
 };

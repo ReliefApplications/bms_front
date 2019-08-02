@@ -43,6 +43,8 @@ export interface Language {
     donor: string
     donors: string
     general_relief: string
+    head: string
+    household: string
     households: string
     language: string
     location: string
@@ -283,9 +285,6 @@ export interface Language {
     country_specific_field: string
 
     // Criteria
-    Beneficiary: string
-    Head: string
-    Household: string
     criteria_operator: string
     criteria_weight: string
     criteria_target: string

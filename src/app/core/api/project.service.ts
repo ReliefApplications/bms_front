@@ -35,9 +35,11 @@ export class ProjectService extends CustomModelService {
         return this.http.post(url, body);
     }
 
-    public getOne(projectId: number) {
-
+    public getOne(id: number) {
+        const url = this.apiBase + '/projects/' + id;
+        return this.http.get(url);
     }
+
 
     // Todo: add fail condition
     public fillWithOptions (project: Project) {

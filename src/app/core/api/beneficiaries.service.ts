@@ -21,6 +21,11 @@ export class BeneficiariesService extends CustomModelService {
         return this.http.get(url);
     }
 
+    public getOne(id: number) {
+        const url = this.apiBase + '/beneficiaries/' + id;
+        return this.http.get(url);
+    }
+
     public update(beneficiaryId: number, beneficiary: any) {
         const url = this.api + '/beneficiaries/' + beneficiaryId;
         return this.http.post(url, beneficiary);

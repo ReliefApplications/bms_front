@@ -28,7 +28,7 @@ export class Log extends CustomModel {
             {
                 title: 'Details',
                 isDisplayedInModal: true,
-                isDisplayedInTable: false
+                isDisplayedInTable: false,
             }),
         action: new TextModelField(
             {
@@ -71,14 +71,21 @@ export class Log extends CustomModel {
 
     public static apiToModel(logFromApi: any): Log {
         const newLog = new Log();
-
-        // Assign default fields
-        newLog.set('id', logFromApi.id);
-        newLog.set('date', DateModelField.formatDateTimeFromApi(logFromApi.date));
-        newLog.set('user', logFromApi.mail_user);
         const url = logFromApi.url;
         const method = logFromApi.method;
         const request = logFromApi.request;
+        const status = logFromApi.http_status;
+
+        // Assign all fields
+        newLog.set('id', logFromApi.id);
+        newLog.set('date', DateModelField.formatDateTimeFromApi(logFromApi.date));
+        newLog.set('user', logFromApi.mail_user);
+        newLog.set('url', url);
+        newLog.set('method', method);
+        newLog.set('request', request);
+        newLog.set('status', status);
+
+        let urlMatch = [];
         newLog.set('country', JSON.parse(logFromApi.request).__country);
 
         if (url.includes('users') || url.includes('donor') || url.includes('organization')) {
@@ -94,11 +101,6 @@ export class Log extends CustomModel {
             newLog.set('tabName', 'other');
         }
 
-
-
-
-
-        const status = logFromApi.http_status;
         switch (true) {
             case status >= 200 && status < 300:
                 newLog.set('status', 'success');
@@ -114,19 +116,19 @@ export class Log extends CustomModel {
                 } else if (status === 404) {
                     newLog.set('status', 'not found');
                 } else {
-                    newLog.set('status', 'Error');
+                    newLog.set('status', 'error');
                 }
                 break;
         }
-
-        let urlMatch = [];
+        let detailString;
         switch (method) {
             case 'PUT':
                 newLog.set('action', 'created');
                 if (/.+\/(distributions)\/[0-9]+\/(beneficiary)/.test(url)) {
                     urlMatch = url.match(/.+\/(distributions)\/([0-9])+\/(beneficiary)/);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[3] + '_in_' + urlMatch[1]]);
-                    newLog.set('details', request.match(/"local_given_name":"(.*?)"/)[1] + ' in distribution ' + urlMatch[2]);
+                    detailString  = request.match(/"local_given_name":"(.*?)"/)[1] + ' in distribution ' + urlMatch[2];
+                    newLog.set('details', detailString);
                 } else {
                     urlMatch = url.match(/.+\/(.+)/);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
@@ -171,7 +173,6 @@ export class Log extends CustomModel {
             case 'POST':
                 newLog.set('action', 'Action Failed');
                 newLog.set('objectOfAction', 'Object Failed');
-                newLog.set('details', 'Details Failed');
 
                 // First of all, we treat the urls that have nothing to do with the rest
 
@@ -223,7 +224,7 @@ export class Log extends CustomModel {
                     // Distribution validated (/distributions/{id}/validate)
                     urlMatch = url.match(/.*\/(.*?)\/([0-9]*)\/(.*)/);
                     newLog.set('action', newLog.language['log_' + urlMatch[3]]);
-                    newLog.set('objectOfAction', newLog.language['log_' + [1]]);
+                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
                     // DETAILS [2] distribution name
                 } else if (url.includes('remove')) {
                     // Beneficiary from distribution removed
@@ -298,7 +299,29 @@ export class Log extends CustomModel {
                                 newLog.set('details', request.match(/.*"local_family_name":"(.*?)"/)[1]);
                                 break;
                             case 'distributions':
-
+                                newLog.set('details', request.match(/.*"NOT WORKING":"(.*?)"/)[1]);
+                                break;
+                            case 'projects':
+                                newLog.set('details', request.match(/.*"name":"(.*?)"/)[1]);
+                                break;
+                            case 'organization':
+                                newLog.set('details', request.match(/.*"name":"(.*?)"/)[1]);
+                                break;
+                            case 'booklets':
+                                newLog.set('details', request.match(/.*"code":"(.*?)"/)[1]);
+                                break;
+                            case 'products':
+                                newLog.set('details', request.match(/.*"name":"(.*?)"/)[1]);
+                                break;
+                            case 'vendors':
+                                newLog.set('details', request.match(/.*"username":"(.*?)"/)[1]);
+                                break;
+                            case 'users':
+                                newLog.set('details', request.match(/.*"username":"(.*?)"/)[1]);
+                                break;
+                            case 'country-specifics':
+                                newLog.set('details', request.match(/.*"field":"(.*?)"/)[1]);
+                                break;
                         }
                     }
                 }

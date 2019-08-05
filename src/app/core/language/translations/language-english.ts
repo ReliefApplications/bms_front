@@ -494,7 +494,7 @@ export class English implements Language {
     log_general_relief_item = 'general relief item'
     log_password = 'password'
 
-    log_logo = 'the logo'
+    log_logo = 'logo'
     log_image = 'the image'
     log_archive = 'archived'
     log_edit = 'edited'
@@ -502,14 +502,14 @@ export class English implements Language {
     log_organization = 'organization'
     log_import = 'imported'
     log_provider = 'third party connection'
-    log_language = 'the default language'
+    log_language = 'default language'
     log_deactivate = 'deactivated'
     log = 'logs'
     log_status = '' // Exists 97
 
     log_region = 'region'
     log_no_details = 'No details to display'
-    log_upload = ''
+    log_upload = 'uploaded'
 
     log_status_200 = ''
     log_status_400 = ''

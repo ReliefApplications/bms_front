@@ -10,8 +10,7 @@ import { DistributionService } from './distribution.service';
 import { BeneficiariesService } from './beneficiaries.service';
 import { VendorsService } from './vendors.service';
 import { UserService } from './user.service';
-import { Distribution } from 'src/app/models/distribution';
-import { Project } from 'src/app/models/project';
+import { forkJoin } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -34,18 +33,44 @@ export class LogsService extends CustomModelService {
     }
 
 
-    public fillWithOptions (log: Log) {
-        const appInjector = AppInjector;
-        const url = log.get('url');
-        const urlMatch = [];
-
-        appInjector.get(ProjectService).get().subscribe((projects: any) => {
-            if (projects) {
-                const projectOptions = projects.map(project => {
-                    return Project.apiToModel(project).get('name');
+    public fillWithOptions(log: Log) {
+        const url = log.fields.url.value;
+        let urlMatch = [];
+        let detailString = '';
+        // We only request data from the backend when strictly necessary
+        if (url.includes('import') || url.includes('transaction') || url.includes('archive') || url.includes('complete')
+            || url.includes('validate') || url.includes('assign') || url.includes('remove') || url.includes('add')) {
+            if (url.includes('assign') || url.includes('remove')) {
+                // url = /booklets/assign/{benefId}/{distId}
+                // url = /distributions/1/beneficiaries/3/remove
+                urlMatch = url.match(/.*\/([0-9]+).*\/([0-9]+)/);
+                forkJoin(
+                    this.distributionService.getOne(urlMatch[url.includes('assign') ? 2 : 1]),
+                    this.beneficiariesService.getOne(urlMatch[url.includes('assign') ? 1 : 2])
+                ).subscribe(([distribution, beneficiary]: [any, any]) => {
+                    detailString = 'Distribution: ' + distribution.name + ', Beneficiary: ' + beneficiary.name;
+                    log.set('details', detailString);
                 });
-                log.set('details', projectOptions);
+            } else if (url.includes('distribution')) {
+                // url = /transaction/distribution/1/send || /transaction/distribution/1/email || /distributions/1/validate
+                // url = /import/beneficiaries/distributions/1 || /distributions/archive/1 || /distributions/complete/1
+                urlMatch = url.match(/.*\/([0-9]+)/);
+                this.distributionService.getOne(urlMatch[1]).subscribe((distribution: any) => {
+                    log.set('details', 'Distribution: ' + distribution.name);
+                });
+            } else if (url.includes('poject')) {
+                // url = /import/households/project/2 || api/import/households/project/2 || /projects/2/beneficiaries/add
+                urlMatch = url.match(/.*\/([0-9]+)/);
+                this.projectService.getOne(urlMatch[1]).subscribe((project: any) => {
+                    log.set('details', 'Project: ' + project.name);
+                });
+            } else {
+                // url = /vendors/archive/4
+                urlMatch = url.match(/.*\/([0-9]+)/);
+                this.vendorsService.getOne(urlMatch[1]).subscribe((user: any) => {
+                    log.set('details', 'Vendor: ' + user.name);
+                });
             }
-        });
+        }
     }
 }

@@ -465,59 +465,88 @@ export class English implements Language {
     livelihood_service = 'Service Industry and Other Professionals'
 
     //Log audit
-    log_country_specifics = 'country specific option'   //Exists 301
-    log_households = 'household'    // Exists 52
-    log_distributions = 'distribution'     // Exists 47
-    log_donors = 'donor'
-    log_donor = 'donor'
-    log_projects = 'project'
-    log_project = 'project'
-    log_users = 'user'
-    log_booklets = 'booklet'
-    log_products = 'product'
-    log_vendors = 'vendor'
-    log_vouchers = 'voucher'
-    log_beneficiary_in_distributions = 'beneficiary in distribution'
-    log_beneficiaries_in_distributions = ''
-    log_delete_batch_vouchers = 'batch of vouchers'
-    log_scanned = 'scanned'
-    log_transaction = 'sent'
-    log_send = 'mobile money'
-    log_email = 'transaction code'
-    log_assign = 'assigned'
-    log_complete = 'completed'
-    log_validate = 'validated'
-    log_beneficiaries = 'beneficiary'
-    log_add = 'added'
-    log_notes = 'notes in'
-    log_distributed = 'distributed'
-    log_general_relief_item = 'general relief item'
-    log_password = 'password'
 
-    log_logo = 'logo'
-    log_image = 'the image'
-    log_archive = 'archived'
-    log_edit = 'edited'
-    log_remove = 'removed'
-    log_organization = 'organization'
-    log_import = 'imported'
-    log_provider = 'third party connection'
-    log_language = 'default language'
-    log_deactivate = 'deactivated'
-    log = 'logs'
-    log_status = '' // Exists 97
+        //Actions
+        log_add = 'added'
+        log_archive = 'archived'
+        log_assign = 'assigned'
+        log_complete = 'completed'
+        log_created = 'created'
+        log_deactivate = 'deactivated'
+        log_delete = 'deleted'
+        log_distributed = 'distributed'
+        log_edit = 'edited'
+        log_import = 'imported'
+        log_remove = 'removed'
+        log_scanned = 'scanned'
+        log_transaction = 'sent'
+        log_upload = 'uploaded'      
+        log_validate = 'validated'
 
-    log_region = 'region'
-    log_no_details = 'No details to display'
-    log_upload = 'uploaded'
+        //Fields
+        log_field_action = 'action'
+        log_field_country = 'country'
+        log_field_date = 'date'
+        log_field_details = 'details'
+        log_field_id = 'id'
+        log_field_object = 'object'
+        log_field_status = 'status' // Exists 97
+        log_field_user = 'user'
 
-    log_status_200 = ''
-    log_status_400 = ''
-    log_status_401 = ''
-    log_status_403 = ''
-    log_status_404 = ''
-    log_status_405 = ''
-    log_status_500 = ''
+        //Objects
+        log_beneficiaries = 'beneficiary'   //Exists 41
+        log_batch_vouchers = 'batch of vouchers'
+        log_booklets = 'booklet'
+        log_country_specifics = 'country specific option'   //Exists 301
+        log_distributions = 'distribution'     // Exists 47
+        log_general_relief_item = 'general relief item'
+        log_households = 'household'    // Exists 52
+        log_image = 'image' 
+        log_email = 'transaction code'
+        log_language = 'default language'
+        log_logo = 'logo'
+        log_notes = 'notes in'
+        log_organization = 'organization'
+        log_password = 'password'
+        log_products = 'product'
+        log_provider = 'third party connection'
+        log_region = 'region'
+        log_send = 'mobile money'    
+        log_users = 'user'
+        log_vendors = 'vendor'
+        log_vouchers = 'voucher'
+
+        //********* CORRECT THEM ****** */
+        log_donors = 'donor'
+        log_donor = 'donor'
+
+        log_projects = 'project'
+        log_project = 'project'
+
+        log_beneficiary_in_distributions = 'beneficiary in distribution'
+        log_beneficiaries_in_distributions = ''
+        /******************** */
+        
+        //Status
+        log_status_200 = 'success'
+        log_status_300 = 'redirected'
+        log_status_400 = 'error'
+        log_status_401 = 'unauthenticated'
+        log_status_403 = 'forbidden'
+        log_status_404 = 'not found'
+
+        //Reports
+        logs = 'logs'
+        log_family_name = 'family name'
+        log_field = 'field'
+        log_name = 'name'
+        log_not_exists = 'not exists'
+        log_no_details = 'no details to display'
+        log_number_booklets = 'number of booklets'
+        log_number_vouchers = 'number of vouchers'
+        log_requests_country = 'requests per country'
+        log_username = 'username'
+        log_value = 'value'
 
     // Login
     login_bms = 'Beneficiary management system'

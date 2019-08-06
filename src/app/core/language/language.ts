@@ -475,58 +475,88 @@ export interface Language {
     livelihood_service: string
 
     //Log audit
-    log_country_specifics: string
-    log_households: string
-    log_distributions: string
-    log_donors: string
-    log_donor: string
-    log_projects: string
-    log_project: string
-    log_users: string
-    log_booklets: string
-    log_products: string
-    log_vendors: string
-    log_vouchers: string
-    log_beneficiary_in_distributions: string
-    log_beneficiaries_in_distributions: string
-    log_delete_batch_vouchers: string
-    log_scanned: string
-    log_transaction: string
-    log_send: string
-    log_email: string
-    log_assign: string
-    log_complete: string
-    log_validate: string
-    log_beneficiaries: string
-    log_notes: string
-    log_distributed: string
-    log_add: string
-    log_general_relief_item: string
-    log_password: string
-    log_logo: string
-    log_image: string
-    log_archive: string
-    log_edit: string
-    log_remove: string
-    log_organization: string
-    log_import: string
-    log_provider: string
-    log_language: string
-    log_deactivate: string
-    log: string
 
-    log_status: string
-    log_region: string
-    log_no_details: string
-    log_upload: string
+        //Actions
+        log_add: string
+        log_archive: string
+        log_assign: string
+        log_complete: string
+        log_created: string
+        log_delete: string
+        log_distributed
+        log_edit: string
+        log_import: string
+        log_remove: string
+        log_scanned: string
+        log_transaction: string
+        log_upload: string
+        log_validate: string
 
-    log_status_200: string
-    log_status_400: string
-    log_status_401: string
-    log_status_403: string
-    log_status_404: string
-    log_status_405: string
-    log_status_500: string
+        //Fields
+        log_field_action: string
+        log_field_country: string
+        log_field_date: string
+        log_field_details: string
+        log_field_id: string
+        log_field_object: string
+        log_field_status: string
+        log_field_user: string
+
+        //Objects
+        log_beneficiaries: string
+        log_batch_vouchers: string
+        log_booklets: string
+        log_country_specifics: string
+        log_deactivate: string
+        log_distributions: string
+        log_general_relief_item: string
+        log_households: string
+        log_image: string 
+        log_email: string
+        log_language: string
+        log_logo: string
+        log_notes: string
+        log_organization: string
+        log_password: string
+        log_products: string
+        log_provider: string
+        log_region: string
+        log_send: string
+        log_users: string
+        log_vendors: string
+        log_vouchers: string
+
+        //********* CORRECT THEM ****** */
+        log_donors: string
+        log_donor: string 
+
+        log_projects: string
+        log_project: string
+
+        log_beneficiary_in_distributions: string
+        log_beneficiaries_in_distributions: string
+        /******************** */
+        
+        //Status
+        log_status_200: string
+        log_status_300: string
+        log_status_400: string
+        log_status_401: string
+        log_status_403: string
+        log_status_404: string
+
+        //Reports
+        logs: string
+        log_family_name: string
+        log_field: string
+        log_name: string
+        log_not_exists: string
+        log_no_details: string
+        log_number_booklets: string
+        log_number_vouchers: string
+        log_requests_country: string
+        log_username: string
+        log_value: string
 
     // Login
     login_bms: string

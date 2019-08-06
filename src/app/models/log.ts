@@ -5,48 +5,48 @@ import { DateModelField } from './custom-models/date-model-field';
 
 export class Log extends CustomModel {
 
-    title = this.language.log;
+    title = this.language.logs;
 
     public fields = {
         url: new TextModelField({}),
         tabName: new TextModelField({}),
         id: new NumberModelField(
             {
-                title: 'Id',
+                title: this.language.log_field_id,
                 isDisplayedInModal: false,
                 isDisplayedInTable: true,
             }
         ),
         objectOfAction: new TextModelField(
             {
-                title: 'Object',                      // this.language.something
+                title: this.language.log_field_object,                      // this.language.something
                 isDisplayedInModal: true,
                 isDisplayedInTable: true
             }
         ),
         details: new TextModelField(
             {
-                title: 'Details',
+                title: this.language.log_field_details,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
             }),
         action: new TextModelField(
             {
-                title: 'Action',
+                title: this.language.log_field_action,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
             }
         ),
         status: new TextModelField(
             {
-                title: 'Status',                      // this.language.something
+                title: this.language.log_field_status,                      // this.language.something
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
             }
         ),
         date: new DateModelField(
             {
-                title: 'Date',
+                title: this.language.log_field_date,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
                 displayTime: true
@@ -54,12 +54,12 @@ export class Log extends CustomModel {
         ),
         user: new TextModelField(
             {
-                title: 'User',
+                title: this.language.log_field_user,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
             }),
         country: new TextModelField({
-            title: 'Country',
+            title: this.language.log_field_country,
             isDisplayedInModal: true,
             isDisplayedInTable: true
         })
@@ -75,6 +75,7 @@ export class Log extends CustomModel {
         const method = logFromApi.method;
         const request = logFromApi.request;
         const status = logFromApi.http_status;
+        let urlMatch = [];
 
         // Assign all fields
         newLog.set('id', logFromApi.id);
@@ -84,10 +85,11 @@ export class Log extends CustomModel {
         newLog.set('method', method);
         newLog.set('request', request);
         newLog.set('status', status);
-
-        let urlMatch = [];
         newLog.set('country', JSON.parse(logFromApi.request).__country);
 
+
+
+        // Group the logs that are related. Separate the ones that are not
         if (url.includes('users') || url.includes('donor') || url.includes('organization')) {
             newLog.set('tabName', 'administrative');
         } else if ((url.includes('project') || url.includes('distribution')) && !url.includes('households')) {
@@ -101,51 +103,58 @@ export class Log extends CustomModel {
             newLog.set('tabName', 'other');
         }
 
+        // Assign messages corresponding to the status of the request
         switch (true) {
             case status >= 200 && status < 300:
-                newLog.set('status', 'success');
+                newLog.set('status', newLog.language.log_status_200);
                 break;
             case status >= 300 && status < 400:
-                newLog.set('status', 'redirection');
+                newLog.set('status', newLog.language.log_status_300);
                 break;
             case status >= 400:
                 if (status === 401) {
-                    newLog.set('status', 'unauthenticated');
+                    newLog.set('status', newLog.language.log_status_401);
                 } else if (status === 403) {
-                    newLog.set('status', 'forbidden');
+                    newLog.set('status', newLog.language.log_status_403);
                 } else if (status === 404) {
-                    newLog.set('status', 'not found');
+                    newLog.set('status', newLog.language.log_status_404);
                 } else {
-                    newLog.set('status', 'error');
+                    newLog.set('status', newLog.language.log_status_400);
                 }
                 break;
         }
+
         let detailString;
         switch (method) {
             case 'PUT':
-                newLog.set('action', 'created');
-                if (/.+\/(distributions)\/[0-9]+\/(beneficiary)/.test(url)) {
+                newLog.set('action', newLog.language.log_created);
+                if (/.+\/distributions\/[0-9]+\/beneficiary/.test(url)) {
+                    // url = /distributions/{id}/beneficiary
                     urlMatch = url.match(/.+\/(distributions)\/([0-9])+\/(beneficiary)/);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[3] + '_in_' + urlMatch[1]]);
-                    detailString  = request.match(/"local_given_name":"(.*?)"/)[1] + ' in distribution ' + urlMatch[2];
-                    newLog.set('details', detailString);
+                    detailString = request.match(/"local_given_name":"(.*?)"/)[1];
+                    if (detailString === 'undefined') { detailString = newLog.language.log_not_exists; }
+                    newLog.set('details', newLog.language.log_name + ': ' + detailString);
                 } else {
+                    // urls = /distributions || /country_specifics || /households || /donors
+                    // || /users || /booklets  || (/projects || /products || /vendors || ?/vouchers?)
                     urlMatch = url.match(/.+\/(.+)/);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
                     //  Testing
                     if (url.includes('distributions')) {
-                        newLog.set('details', request.match(/.*"name":"(.*?)"/)[1]);
+                        newLog.set('details', newLog.language.log_name + ': ' + request.match(/.*"name":"(.*?)"/)[1]);
                     } else if (url.includes('country_specifics')) {
-                        newLog.set('details', request.match(/"field":"(.*?)"/)[1]);
+                        newLog.set('details', newLog.language.log_field + ': ' + request.match(/"field":"(.*?)"/)[1]);
                     } else if (url.includes('households')) {
-                        newLog.set('details', request.match(/"local_family_name":"(.*?)"/)[1]);
+                        newLog.set('details', newLog.language.log_family_name + ': ' + request.match(/"local_family_name":"(.*?)".+/)[1]);
                     } else if (url.includes('donors')) {
-                        newLog.set('details', request.match(/"shortname":"(.*?)"/)[1]);
+                        newLog.set('details', newLog.language.log_name + ': ' + request.match(/"shortname":"(.*?)"/)[1]);
                     } else if (url.includes('users')) {
-                        newLog.set('details', request.match(/"username":"(.*?)"/)[1]);
+                        newLog.set('details', newLog.language.log_username + ': ' + request.match(/"username":"(.*?)"/)[1]);
                     } else if (url.includes('booklets')) {
-                        newLog.set('details', request.match(/"number_booklets":([0-9])+/)[1] + ' booklet/s with '
-                            + request.match(/"number_vouchers":([0-9])+/)[1] + ' voucher/s each');
+                        newLog.set('details', newLog.language.log_number_booklets + ': ' + request.match(/"number_booklets":([0-9]+)/)[1]
+                        + ', ' + newLog.language.log_number_vouchers + ': ' + request.match(/"number_vouchers":([0-9]+)/)[1]
+                        + ', ' + newLog.language.log_value + ': ' + request.match(/.+\["([0-9]+)/)[1]);
                     } else {
                         newLog.set('details', request.match(/"name":"(.*?)"/)[1]);
                     }
@@ -161,7 +170,7 @@ export class Log extends CustomModel {
                 } else {
                     newLog.set('action', 'deleted');
                     if (/.+\/vouchers\/delete_batch/.test(url)) {
-                        newLog.set('objectOfAction', newLog.language['log_delete_batch_vouchers']);
+                        newLog.set('objectOfAction', newLog.language['log_batch_vouchers']);
                     } else {
                         urlMatch = url.match(/.+\/(.+)\/([0-9])+/);
                         newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);

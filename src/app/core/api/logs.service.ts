@@ -36,36 +36,35 @@ export class LogsService extends CustomModelService {
     public fillWithOptions(log: Log) {
         const url = log.fields.url.value;
         let urlMatch = [];
-        let detailString = '';
         // We only request data from the backend when strictly necessary
         if (url.includes('import') || url.includes('transaction') || url.includes('archive') || url.includes('complete')
             || url.includes('validate') || url.includes('assign') || url.includes('remove') || url.includes('add')) {
             if (url.includes('assign') || url.includes('remove')) {
                 // url = /booklets/assign/{benefId}/{distId}
-                // url = /distributions/1/beneficiaries/3/remove
+                // url = /distributions/{distId}/beneficiaries/{benefId}/remove
                 urlMatch = url.match(/.*\/([0-9]+).*\/([0-9]+)/);
                 forkJoin(
                     this.distributionService.getOne(urlMatch[url.includes('assign') ? 2 : 1]),
                     this.beneficiariesService.getOne(urlMatch[url.includes('assign') ? 1 : 2])
                 ).subscribe(([distribution, beneficiary]: [any, any]) => {
-                    detailString = 'Distribution: ' + distribution.name + ', Beneficiary: ' + beneficiary.name;
-                    log.set('details', detailString);
+                    log.set('details', this.language.log_distributions + ': ' + distribution.name + ', '
+                    + this.language.log_beneficiaries + ': ' + beneficiary.name);
                 });
             } else if (url.includes('distribution')) {
-                // url = /transaction/distribution/1/send || /transaction/distribution/1/email || /distributions/1/validate
-                // url = /import/beneficiaries/distributions/1 || /distributions/archive/1 || /distributions/complete/1
+                // url = /transaction/distribution/{id}/send || /transaction/distribution/{id}/email || /distributions/{id}/validate
+                // url = /import/beneficiaries/distributions/{id} || /distributions/archive/{id} || /distributions/complete/{id}
                 urlMatch = url.match(/.*\/([0-9]+)/);
                 this.distributionService.getOne(urlMatch[1]).subscribe((distribution: any) => {
                     log.set('details', 'Distribution: ' + distribution.name);
                 });
             } else if (url.includes('poject')) {
-                // url = /import/households/project/2 || api/import/households/project/2 || /projects/2/beneficiaries/add
+                // url = /import/households/project/{id} || api/import/households/project/{id} || /projects/{id}/beneficiaries/add
                 urlMatch = url.match(/.*\/([0-9]+)/);
                 this.projectService.getOne(urlMatch[1]).subscribe((project: any) => {
                     log.set('details', 'Project: ' + project.name);
                 });
             } else {
-                // url = /vendors/archive/4
+                // url = /vendors/archive/{id}
                 urlMatch = url.match(/.*\/([0-9]+)/);
                 this.vendorsService.getOne(urlMatch[1]).subscribe((user: any) => {
                     log.set('details', 'Vendor: ' + user.name);

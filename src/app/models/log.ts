@@ -129,9 +129,10 @@ export class Log extends CustomModel {
             case 'PUT':
                 newLog.set('action', newLog.language.log_created);
                 if (/.+\/distributions\/[0-9]+\/beneficiary/.test(url)) {
-                    // url = /distributions/{id}/beneficiary
-                    urlMatch = url.match(/.+\/(distributions)\/([0-9])+\/(beneficiary)/);
-                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[3] + '_in_' + urlMatch[1]]);
+                    // Distribution beneficiaries created (/distributions/{id}/beneficiary)
+                    urlMatch = url.match(/.+\/(distributions)\/([0-9]+)\/(beneficiary)/);
+                    newLog.set('objectOfAction', newLog.language.log_distributions
+                        + ' ' + newLog.language.log_beneficiaries_plural );
                     detailString = request.match(/"local_given_name":"(.*?)"/)[1];
                     if (detailString === 'undefined') { detailString = newLog.language.log_not_exists; }
                     newLog.set('details', newLog.language.log_name + ': ' + detailString);
@@ -156,184 +157,180 @@ export class Log extends CustomModel {
                         + ', ' + newLog.language.log_number_vouchers + ': ' + request.match(/"number_vouchers":([0-9]+)/)[1]
                         + ', ' + newLog.language.log_value + ': ' + request.match(/.+\["([0-9]+)/)[1]);
                     } else {
-                        newLog.set('details', request.match(/"name":"(.*?)"/)[1]);
+                        newLog.set('details', newLog.language.log_name + ': ' + request.match(/"name":"(.*?)"/)[1]);
                     }
                 }
                 break;
 
             case 'DELETE':
                 if (/.+\/deactivate-booklets\/[0-9]+/.test(url)) {
-                    urlMatch = url.match(/.+\/(deactivate)-(booklets)\/([0-9])+/);
-                    newLog.set('action', 'log_' + urlMatch[1]);
-                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]);
-                    newLog.set('details', urlMatch[3]);
+                    urlMatch = url.match(/.+\/deactivate-booklets\/([0-9]+)/);
+                    newLog.set('action', newLog.language.log_deactivate);
+                    newLog.set('objectOfAction', newLog.language.log_booklets);
+                    newLog.set('details', newLog.language.log_old_id + ': ' + urlMatch[1]);
                 } else {
-                    newLog.set('action', 'deleted');
+                    newLog.set('action', newLog.language.log_delete);
                     if (/.+\/vouchers\/delete_batch/.test(url)) {
-                        newLog.set('objectOfAction', newLog.language['log_batch_vouchers']);
+                        // url = /vouchers/delete_batch
+                        newLog.set('objectOfAction', newLog.language.log_batch_vouchers);
+                        newLog.set('details', newLog.language.log_no_details);
                     } else {
-                        urlMatch = url.match(/.+\/(.+)\/([0-9])+/);
+                        // urls = /country_specifics/{id} || /households/{id} || /donors/{id} || /projects/{id}
+                        // || /users/{id} || /booklets/{id} || /products/{id} || /vendors/{id} || /vouchers/{id}
+                        urlMatch = url.match(/.+\/(.+)\/([0-9]+)/);
                         newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                        newLog.set('details', urlMatch[2]);
+                        newLog.set('details',  newLog.language.log_old_id + ': ' + urlMatch[2]);
                     }
                 }
                 break;
 
             case 'POST':
-                newLog.set('action', 'Action Failed');
-                newLog.set('objectOfAction', 'Object Failed');
-
-                // First of all, we treat the urls that have nothing to do with the rest
+                // In case the logs fail
+                newLog.set('action', 'Error');
+                newLog.set('objectOfAction', 'Error');
 
                 if (url.includes('deactivate-booklets')) {
                     // Booklets deactivated (/deactivate-booklets)
                     newLog.set('action', newLog.language['log_deactivate']);
                     newLog.set('objectOfAction', newLog.language['log_booklets']);
-                    newLog.set('details', request.match(/(?<="bookletCodes":\[")(.*)(?="])/)[1]);
+                    newLog.set('details', request.match(/(?<="bookletCodes":\[")(.*)(?="])/)[1].replace('\",\"', ', '));
                 } else if (url.includes('scanned')) {
                     // Voucher scanned (/vouchers/scanned)
                     newLog.set('action', newLog.language['log_scanned']);
                     newLog.set('objectOfAction', newLog.language['log_vouchers']);
                     newLog.set('details', newLog.language['log_no_details']);
                 } else if (url.includes('import')) {
-                    // Beneficiary/ies in distribution imported (/import/beneficiaries/distributions/{id})
-                    // Household/s in project imported (/import/households/project/{id})
-                    urlMatch = url.match(/.*\/(.*?)\/(.*?)\/(.*?)\/([0-9]*)/);
-                    newLog.set('action', newLog.language['log_import']);
-                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]
-                        + ' in ' + newLog.language['log_' + urlMatch[3]]);
-                    if (urlMatch[1].includes('api')) {
-                        newLog.set('objectOfAction', newLog.get('objectOfAction')
-                            + ' from ' + newLog.language['log_region']);
+                    // Distribution beneficiaries imported (/import/beneficiaries/distributions/{id})
+                    // Project households imported (/api/import/households/project/{id})
+                    // Project households from region imported (/import/households/project/{id})
+                    urlMatch = url.match(/.*\/(.*?)\/.*?\/(.*?)\/(.*?)\/[0-9]+/);
+                    newLog.set('action', newLog.language.log_import);
+                    if (/.*\/import\/households$/.test(url)) {
+                        newLog.set('objectOfAction', newLog.language.log_households);
+                    } else if (urlMatch[1].includes('api')) {
+                        newLog.set('objectOfAction', newLog.language.log_project + ' '
+                        + newLog.language.log_households + ' ' + newLog.language.log_from
+                        + ' ' + newLog.language.log_region);
+                    } else {
+                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[3]]
+                        + ' ' + newLog.language['log_' + urlMatch[2]]);
                     }
-                    // DETAILS [4] distribution/beneficiary name + adm3 from request
+                    // DETAILS ON SERVICE (distribution/project name)
                 } else if (url.includes('transaction')) {
                     // Mobile money sent (/transaction/distribution/{id}/send)
                     // Transaction code sent (/transaction/distribution/{id}/email)
-                    urlMatch = url.match(/.*\/(transaction)\/distribution\/([0-9]*)\/(.*)/);
-                    newLog.set('action', newLog.language['log_' + urlMatch[1]]);
-                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[3]]);
-                    // DETAILS [2] distribution name
+                    urlMatch = url.match(/.*\/[0-9]+\/(.*)/);
+                    newLog.set('action', newLog.language.log_transaction);
+                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
+                    // DETAILS ON SERVICE (distribution name)
                 } else if (url.includes('assign')) {
-                    // Assigned a booklet to a beneficiary in a distribution (/booklets/assign/{benefId}/{distId})
-                    urlMatch = url.match(/.*\/(.*?)\/(.*?)\/(.*?)\/(.*)/);
-                    newLog.set('action', newLog.language['log_assign']);
-                    newLog.set('objectOfAction', newLog.language['log_booklets'] + ' to '
-                        + newLog.language['log_beneficiary_in_distributions']);
-                    // DETAILS [3] beneficiary name, [4] distribution name + code from request
+                    // Booklets assigned (/booklets/assign/{benefId}/{distId})
+                    newLog.set('action', newLog.language.log_assign);
+                    newLog.set('objectOfAction', newLog.language.log_booklets);
+                    // DETAILS ON SERVICE (beneficiary name, distribution name) + !!code from request!!
                 } else if (url.includes('archive') || url.includes('complete')) {
                     // Distribution archived (/distributions/archive/{id})
                     // Vendor archived (/vendors/archive/{id})
                     // Distribution completed (/distributions/complete/{id})
-                    urlMatch = url.match(/.*\/(.*?)\/(.*?)\/([0-9]*)/);
+                    urlMatch = url.match(/.*\/(.*?)\/(.*?)\/[0-9]+/);
                     newLog.set('action', newLog.language['log_' + urlMatch[2]]);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                    // DETAILS [3] distribution/vendor name
+                    // DETAILS ON SERVICE (distribution/vendor name)
                 } else if (url.includes('validate')) {
                     // Distribution validated (/distributions/{id}/validate)
-                    urlMatch = url.match(/.*\/(.*?)\/([0-9]*)\/(.*)/);
-                    newLog.set('action', newLog.language['log_' + urlMatch[3]]);
-                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                    // DETAILS [2] distribution name
+                    newLog.set('action', newLog.language.log_validate);
+                    newLog.set('objectOfAction', newLog.language.log_distributions);
+                    // DETAILS ON SERVICE
                 } else if (url.includes('remove')) {
-                    // Beneficiary from distribution removed
+                    // Distribution beneficiary removed
                     // (/api/wsse/distributions/{distId}/beneficiaries/{benefId}/remove)
-                    urlMatch = url.match(/.*\/(.*?)\/([0-9]*)\/(.*?)\/([0-9]*)\/(.*)/);
-                    newLog.set('action', newLog.language['log_' + urlMatch[5]]);
-                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[3]]
-                        + ' from ' + newLog.language['log_' + urlMatch[1]]);
-                    // DETAILS [2] distribution name, [4] beneficiary name + justification from request
+                    newLog.set('action', newLog.language.log_remove);
+                    newLog.set('objectOfAction', newLog.language.log_distributions
+                        + ' ' + newLog.language.log_beneficiaries_singular);
+                    // DETAILS ON SERVICE + ??justification from request??
                 } else if (url.includes('notes')) {
-                    // Notes in general relief item added (/distributions/generalrelief/notes)
+                    // General relief item notes added (/distributions/generalrelief/notes)
                     newLog.set('action', newLog.language['log_add']);
-                        newLog.set('objectOfAction', newLog.language['log_notes']
-                        + ' in' + newLog.language['log_general_relief_item']);
-                    // DETAILS item and distribution name from request
+                    newLog.set('objectOfAction', newLog.language['log_general_relief_item']
+                        + ' ' + newLog.language['log_notes']);
+                    // DETAILS !!item and distribution name from request!!
                 } else if (url.includes('distributed')) {
                     // General relief item distributed (/distributions/generalrelief/distributed)
                     newLog.set('action', newLog.language['log_distributed']);
                     newLog.set('objectOfAction', newLog.language['log_general_relief_item']);
-                    // DETAILS item and distribution name from request
+                    // DETAILS !!item and distribution name from request!!
                 } else if (url.includes('add')) {
-                    // Beneficiaries in project added (/projects/{id}/beneficiaries/add)
-                    urlMatch = url.match(/.*\/(.*?)\/([0-9]*)\/(.*?)\/(.*)/);
-                    newLog.set('action', newLog.language['log_' + urlMatch[4]]);
-                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[3]]
-                        + ' in ' + newLog.language['log_' + urlMatch[1]]);
-                    // DETAILS [2] project name, beneficiaries names from request
+                    // Project beneficiaries added (/projects/{id}/beneficiaries/add)
+                    newLog.set('action', newLog.language.log_add);
+                    newLog.set('objectOfAction', newLog.language.log_project
+                        + ' ' + newLog.language.log_beneficiaries_plural);
+                    // DETAILS ON SERVICE + !!beneficiaries names from request!!
                 } else if (url.includes('upload')) {
                     // Product image uploaded (/products/upload/image)
                     // Donor logo uploaded (/donor/upload/logo)
                     // Organization logo uploaded (/organization/upload/logo)
-                    urlMatch = url.match(/.*\/(.*)\/(.*)\/(.*)/);
-                    newLog.set('action', newLog.language['log_' + urlMatch[2]]);
+                    urlMatch = url.match(/.*\/(.*)\/upload\/(.*)/);
+                    newLog.set('action', newLog.language.log_upload);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]
-                        + ' ' + newLog.language['log_' + urlMatch[3]]);
+                        + ' ' + newLog.language['log_' + urlMatch[2]]);
                     newLog.set('details', newLog.language['log_no_details']);
                 } else {
-                    newLog.set('action', newLog.language['log_edit']);
+                    newLog.set('action', newLog.language.log_edit);
                     if (url.includes('update')) {
                         // Booklet password edited (/booklets/update/password)
-                        newLog.set('objectOfAction', newLog.language['log_booklets'] + newLog.language['log_password']);
-                        // DETAILS code from request
+                        newLog.set('objectOfAction', newLog.language.log_booklets + newLog.language.log_password);
+                        // DETAILS !!code from request!!
                     } else if (url.includes('provider')) {
-                        // 3er party connection edited (/financial/provider)
-                        newLog.set('objectOfAction', newLog.language['log_provider']);
-                        // DETAILS new name from request
+                        // 3rd party connection edited (/financial/provider)
+                        newLog.set('objectOfAction', newLog.language.log_provider);
+                        // DETAILS !!new name from request!!
                     } else if (url.includes('users') && (url.includes('password') || url.includes('language'))) {
-                            // Default language edited (/users/{id}/language)
-                            // Password edited (/users/{id}/password)
-                            urlMatch = url.match(/.*\/([0-9]*)\/(.*)/);
-                            newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]);
-                            // DETAILS [1] user name (+ language from request)}
+                        // Default language edited (/users/{id}/language)
+                        // Password edited (/users/{id}/password)
+                        urlMatch = url.match(/.*\/[0-9]+\/(.*)/);
+                        newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
+                        // DETAILS ON SERVICE + !!language from request!!
                     } else {
-                        // Beneficiary edited (/beneficiaries/{id})
-                        // Country specific option edited (/country_specifics/{id})
-                        // Household edited (/households/{id})
-                        // Organization edited (/organization/{id})
-                        // Distribution edited (/distributions/{id})
-                        // Project edited (/projects/{id})
-                        // User edited (/users/{id})
-                        // Booklet edited (/booklets/{id})
-                        // Product edited (/products/{id})
-                        // Vendor edited (/vendors/{id})
                         urlMatch = url.match(/.*\/(.*)\/[0-9]*/);
                         newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-
-                        switch (urlMatch[1]) {
-                            case 'beneficiaries':
-                                newLog.set('details', request.match(/.*"local_given_name":"(.*?)"/)[1]);
-                                break;
-                            case 'households':
-                                newLog.set('details', request.match(/.*"local_family_name":"(.*?)"/)[1]);
-                                break;
-                            case 'distributions':
-                                newLog.set('details', request.match(/.*"NOT WORKING":"(.*?)"/)[1]);
-                                break;
-                            case 'projects':
-                                newLog.set('details', request.match(/.*"name":"(.*?)"/)[1]);
-                                break;
-                            case 'organization':
-                                newLog.set('details', request.match(/.*"name":"(.*?)"/)[1]);
-                                break;
-                            case 'booklets':
-                                newLog.set('details', request.match(/.*"code":"(.*?)"/)[1]);
-                                break;
-                            case 'products':
-                                newLog.set('details', request.match(/.*"name":"(.*?)"/)[1]);
-                                break;
-                            case 'vendors':
-                                newLog.set('details', request.match(/.*"username":"(.*?)"/)[1]);
-                                break;
-                            case 'users':
-                                newLog.set('details', request.match(/.*"username":"(.*?)"/)[1]);
-                                break;
-                            case 'country-specifics':
-                                newLog.set('details', request.match(/.*"field":"(.*?)"/)[1]);
-                                break;
+                        if (url.includes('beneficiaries')) {
+                            // Beneficiary edited (/beneficiaries/{id})
+                            newLog.set('details', newLog.language.log_name + ': '
+                                + request.match(/.*"local_given_name":"(.*?)"/)[1]);
+                        } else if (url.includes('households')) {
+                            // Household edited (/households/{id})
+                            newLog.set('details', newLog.language.log_family_name + ': '
+                                + request.match(/.*"local_family_name":"(.*?)"/)[1]);
+                        } else if (url.includes('booklets')) {
+                            // Booklet edited (/booklets/{id})
+                            newLog.set('details', newLog.language.log_codes + ': '
+                                + request.match(/.*"code":"(.*?)"/)[1]);
+                        } else if (url.includes('donors')) {
+                            // Booklet edited (/donors/{id})
+                            newLog.set('details', newLog.language.log_name + ': '
+                                + request.match(/.*"shortname":"(.*?)"/)[1]);
+                        } else if (url.includes('country_specifics')) {
+                            // Country specific option edited (/country_specifics/{id})
+                            newLog.set('details', newLog.language.log_codes + ': '
+                                + request.match(/.*"field":"(.*?)"/)[1]);
+                        } else if (url.includes('users') || url.includes('vendors')) {
+                            // User edited (/users/{id})
+                            // Vendor edited (/vendors/{id})
+                            newLog.set('details', newLog.language.log_username + ': '
+                                + request.match(/.*"username":"(.*?)"/)[1]);
+                        } else if (url.includes('distributions')) {
+                            // Distribution edited (/distributions/{id})
+                            // DISTRIBUTION EDITION BUG STILL NEEDS TO BE FIXED
+                        } else {
+                            // Organization edited (/organization/{id})
+                            // Project edited (/projects/{id})
+                            // Product edited (/products/{id})
+                            newLog.set('details', newLog.language.log_name + ': '
+                                + request.match(/.*"name":"(.*?)"/)[1]);
                         }
                     }
                 }
+                break;
         }
         return newLog;
     }

@@ -503,7 +503,8 @@ export interface Language {
         log_field_user: string
 
         //Objects
-        log_beneficiaries: string
+        log_beneficiaries_singular: string
+        log_beneficiaries_plural: string
         log_batch_vouchers: string
         log_booklets: string
         log_country_specifics: string
@@ -526,15 +527,12 @@ export interface Language {
         log_vendors: string
         log_vouchers: string
 
+        log_households_in_project: string
+
         //********* CORRECT THEM ****** */
         log_donors: string
         log_donor: string 
-
-        log_projects: string
         log_project: string
-
-        log_beneficiary_in_distributions: string
-        log_beneficiaries_in_distributions: string
         /******************** */
         
         //Status
@@ -547,8 +545,10 @@ export interface Language {
 
         //Reports
         logs: string
+        log_codes: string
         log_family_name: string
         log_field: string
+        log_old_id: string
         log_name: string
         log_not_exists: string
         log_no_details: string
@@ -557,6 +557,7 @@ export interface Language {
         log_requests_country: string
         log_username: string
         log_value: string
+        log_from: string
 
     // Login
     login_bms: string

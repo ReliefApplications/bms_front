@@ -494,7 +494,8 @@ export class English implements Language {
         log_field_user = 'user'
 
         //Objects
-        log_beneficiaries = 'beneficiary'   //Exists 41
+        log_beneficiaries_singular = 'beneficiary'   //Exists 41
+        log_beneficiaries_plural = 'beneficiaries'   
         log_batch_vouchers = 'batch of vouchers'
         log_booklets = 'booklet'
         log_country_specifics = 'country specific option'   //Exists 301
@@ -509,22 +510,19 @@ export class English implements Language {
         log_organization = 'organization'
         log_password = 'password'
         log_products = 'product'
+        log_project = 'project'
         log_provider = 'third party connection'
-        log_region = 'region'
+        log_region = 'specific region'
         log_send = 'mobile money'    
         log_users = 'user'
         log_vendors = 'vendor'
         log_vouchers = 'voucher'
 
+        log_households_in_project = 'households in project'
+
         //********* CORRECT THEM ****** */
         log_donors = 'donor'
         log_donor = 'donor'
-
-        log_projects = 'project'
-        log_project = 'project'
-
-        log_beneficiary_in_distributions = 'beneficiary in distribution'
-        log_beneficiaries_in_distributions = ''
         /******************** */
         
         //Status
@@ -537,8 +535,10 @@ export class English implements Language {
 
         //Reports
         logs = 'logs'
+        log_codes = 'code/s'
         log_family_name = 'family name'
         log_field = 'field'
+        log_old_id = 'previous id'
         log_name = 'name'
         log_not_exists = 'not exists'
         log_no_details = 'no details to display'
@@ -547,6 +547,7 @@ export class English implements Language {
         log_requests_country = 'requests per country'
         log_username = 'username'
         log_value = 'value'
+        log_from = 'from'
 
     // Login
     login_bms = 'Beneficiary management system'

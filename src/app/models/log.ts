@@ -345,6 +345,7 @@ export class Log extends CustomModel {
                 }
                 break;
         }
+        newLog.set('details', logFromApi.details ? logFromApi.details : 'Reopen the details');
         return newLog;
     }
 }

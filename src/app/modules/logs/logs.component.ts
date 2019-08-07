@@ -28,9 +28,9 @@ export class LogsComponent implements OnInit, OnDestroy {
   public logData: MatTableDataSource<Log>;
   public loadingLog = true;
   public selectedTab = 'distributions';
-  graphs: Array<Graph> = [];
   public requestsKHM;
   public requestsSYR;
+  graphs: Array<Graph> = [];
 
   @ViewChild(TableComponent) table: TableComponent;
   @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
@@ -89,6 +89,8 @@ export class LogsComponent implements OnInit, OnDestroy {
     const filteredLogList = this.logs.filter((log: Log) => log.get<string>('tabName') === tab);
     this.logData = new MatTableDataSource(filteredLogList);
     this.selectedTab = tab;
+    this.table.paginator.pageIndex = 0;
+    this.tableMobile.paginator.pageIndex = 0;
   }
 
   createGraph() {

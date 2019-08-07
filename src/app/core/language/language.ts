@@ -503,13 +503,15 @@ export interface Language {
         log_field_user: string
 
         //Objects
-        log_beneficiaries_singular: string
-        log_beneficiaries_plural: string
+        log_beneficiary: string
+        log_beneficiaries: string
         log_batch_vouchers: string
         log_booklets: string
         log_country_specifics: string
         log_deactivate: string
         log_distributions: string
+        log_donor: string 
+        log_donors: string
         log_general_relief_item: string
         log_households: string
         log_image: string 
@@ -520,6 +522,8 @@ export interface Language {
         log_organization: string
         log_password: string
         log_products: string
+        log_project: string
+        log_projects: string
         log_provider: string
         log_region: string
         log_send: string
@@ -527,12 +531,9 @@ export interface Language {
         log_vendors: string
         log_vouchers: string
 
-        log_households_in_project: string
-
         //********* CORRECT THEM ****** */
-        log_donors: string
-        log_donor: string 
-        log_project: string
+        
+        
         /******************** */
         
         //Status

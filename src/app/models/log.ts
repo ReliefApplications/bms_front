@@ -10,6 +10,7 @@ export class Log extends CustomModel {
     public fields = {
         url: new TextModelField({}),
         tabName: new TextModelField({}),
+        request: new TextModelField({}),
         id: new NumberModelField(
             {
                 title: this.language.log_field_id,
@@ -19,7 +20,7 @@ export class Log extends CustomModel {
         ),
         objectOfAction: new TextModelField(
             {
-                title: this.language.log_field_object,                      // this.language.something
+                title: this.language.log_field_object,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true
             }
@@ -29,6 +30,8 @@ export class Log extends CustomModel {
                 title: this.language.log_field_details,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
+                isLongText: true,
+                displayValue: '',
             }),
         action: new TextModelField(
             {
@@ -39,7 +42,7 @@ export class Log extends CustomModel {
         ),
         status: new TextModelField(
             {
-                title: this.language.log_field_status,                      // this.language.something
+                title: this.language.log_field_status,
                 isDisplayedInModal: true,
                 isDisplayedInTable: true,
             }
@@ -132,7 +135,7 @@ export class Log extends CustomModel {
                     // Distribution beneficiaries created (/distributions/{id}/beneficiary)
                     urlMatch = url.match(/.+\/(distributions)\/([0-9]+)\/(beneficiary)/);
                     newLog.set('objectOfAction', newLog.language.log_distributions
-                        + ' ' + newLog.language.log_beneficiaries_plural );
+                        + ' ' + newLog.language.log_beneficiaries);
                     detailString = request.match(/"local_given_name":"(.*?)"/)[1];
                     if (detailString === 'undefined') { detailString = newLog.language.log_not_exists; }
                     newLog.set('details', newLog.language.log_name + ': ' + detailString);
@@ -154,8 +157,8 @@ export class Log extends CustomModel {
                         newLog.set('details', newLog.language.log_username + ': ' + request.match(/"username":"(.*?)"/)[1]);
                     } else if (url.includes('booklets')) {
                         newLog.set('details', newLog.language.log_number_booklets + ': ' + request.match(/"number_booklets":([0-9]+)/)[1]
-                        + ', ' + newLog.language.log_number_vouchers + ': ' + request.match(/"number_vouchers":([0-9]+)/)[1]
-                        + ', ' + newLog.language.log_value + ': ' + request.match(/.+\["([0-9]+)/)[1]);
+                        + '\n'  + newLog.language.log_number_vouchers + ': ' + request.match(/"number_vouchers":([0-9]+)/)[1]
+                        + '\n'  + newLog.language.log_value + ': ' + request.match(/.+\["([0-9]+)/)[1]);
                     } else {
                         newLog.set('details', newLog.language.log_name + ': ' + request.match(/"name":"(.*?)"/)[1]);
                     }
@@ -191,29 +194,32 @@ export class Log extends CustomModel {
 
                 if (url.includes('deactivate-booklets')) {
                     // Booklets deactivated (/deactivate-booklets)
-                    newLog.set('action', newLog.language['log_deactivate']);
-                    newLog.set('objectOfAction', newLog.language['log_booklets']);
-                    newLog.set('details', request.match(/(?<="bookletCodes":\[")(.*)(?="])/)[1].replace('\",\"', ', '));
+                    newLog.set('action', newLog.language.log_deactivate);
+                    newLog.set('objectOfAction', newLog.language.log_booklets);
+                    newLog.set('details', newLog.language.log_codes + ': '
+                        + request.match(/.*"bookletCodes":\["(.*?)"\]/)[1].replace('\",\"', ', '));
                 } else if (url.includes('scanned')) {
                     // Voucher scanned (/vouchers/scanned)
                     newLog.set('action', newLog.language['log_scanned']);
                     newLog.set('objectOfAction', newLog.language['log_vouchers']);
-                    newLog.set('details', newLog.language['log_no_details']);
+                    newLog.set('details', newLog.language.log_no_details);
                 } else if (url.includes('import')) {
                     // Distribution beneficiaries imported (/import/beneficiaries/distributions/{id})
                     // Project households imported (/api/import/households/project/{id})
                     // Project households from region imported (/import/households/project/{id})
-                    urlMatch = url.match(/.*\/(.*?)\/.*?\/(.*?)\/(.*?)\/[0-9]+/);
+                    // Households imported (/import/households)
+                    urlMatch = url.match(/.*\/.*?\/.*?\/(.*?)\/(.*?)\/[0-9]+/);
                     newLog.set('action', newLog.language.log_import);
+
                     if (/.*\/import\/households$/.test(url)) {
                         newLog.set('objectOfAction', newLog.language.log_households);
-                    } else if (urlMatch[1].includes('api')) {
+                    } else if (/.*\/import\/api\/.*?\/.*?\/[0-9]+/.test(url)) {
                         newLog.set('objectOfAction', newLog.language.log_project + ' '
                         + newLog.language.log_households + ' ' + newLog.language.log_from
                         + ' ' + newLog.language.log_region);
                     } else {
-                    newLog.set('objectOfAction', newLog.language['log_' + urlMatch[3]]
-                        + ' ' + newLog.language['log_' + urlMatch[2]]);
+                        newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]
+                            + ' ' + newLog.language['log_' + urlMatch[1]]);
                     }
                     // DETAILS ON SERVICE (distribution/project name)
                 } else if (url.includes('transaction')) {
@@ -246,25 +252,29 @@ export class Log extends CustomModel {
                     // (/api/wsse/distributions/{distId}/beneficiaries/{benefId}/remove)
                     newLog.set('action', newLog.language.log_remove);
                     newLog.set('objectOfAction', newLog.language.log_distributions
-                        + ' ' + newLog.language.log_beneficiaries_singular);
-                    // DETAILS ON SERVICE + ??justification from request??
-                } else if (url.includes('notes')) {
-                    // General relief item notes added (/distributions/generalrelief/notes)
-                    newLog.set('action', newLog.language['log_add']);
-                    newLog.set('objectOfAction', newLog.language['log_general_relief_item']
-                        + ' ' + newLog.language['log_notes']);
-                    // DETAILS !!item and distribution name from request!!
-                } else if (url.includes('distributed')) {
-                    // General relief item distributed (/distributions/generalrelief/distributed)
-                    newLog.set('action', newLog.language['log_distributed']);
-                    newLog.set('objectOfAction', newLog.language['log_general_relief_item']);
-                    // DETAILS !!item and distribution name from request!!
+                        + ' ' + newLog.language.log_beneficiary);
+                    // DETAILS ON SERVICE (distribution name, beneficiary name)
+                } else if (url.includes('generalrelief')) {
+                    if (url.includes('notes')) {
+                        // General relief item notes added (/distributions/generalrelief/notes)
+                        newLog.set('action', newLog.language['log_add']);
+                        newLog.set('objectOfAction', newLog.language['log_general_relief_item']
+                            + ' ' + newLog.language['log_notes']);
+                    } else {
+                        // General relief item distributed (/distributions/generalrelief/distributed)
+                        newLog.set('action', newLog.language['log_distributed']);
+                        newLog.set('objectOfAction', newLog.language['log_general_relief_item']);
+                    }
+                    detailString = '';
+                    newLog.set('details', newLog.language['log_no_details']);
+                    // DETAILS ??item and distribution name from request?? (too much backend logic for the frontend.
+                    // too much backend logic in backend for what it is)
                 } else if (url.includes('add')) {
                     // Project beneficiaries added (/projects/{id}/beneficiaries/add)
                     newLog.set('action', newLog.language.log_add);
                     newLog.set('objectOfAction', newLog.language.log_project
-                        + ' ' + newLog.language.log_beneficiaries_plural);
-                    // DETAILS ON SERVICE + !!beneficiaries names from request!!
+                        + ' ' + newLog.language.log_beneficiaries);
+                    // DETAILS ON SERVICE (project name) + ??beneficiaries names from request?? (might me too much)
                 } else if (url.includes('upload')) {
                     // Product image uploaded (/products/upload/image)
                     // Donor logo uploaded (/donor/upload/logo)
@@ -273,27 +283,30 @@ export class Log extends CustomModel {
                     newLog.set('action', newLog.language.log_upload);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]
                         + ' ' + newLog.language['log_' + urlMatch[2]]);
-                    newLog.set('details', newLog.language['log_no_details']);
+                    newLog.set('details', newLog.language.log_no_details);
                 } else {
                     newLog.set('action', newLog.language.log_edit);
                     if (url.includes('update')) {
                         // Booklet password edited (/booklets/update/password)
-                        newLog.set('objectOfAction', newLog.language.log_booklets + newLog.language.log_password);
-                        // DETAILS !!code from request!!
+                        newLog.set('objectOfAction', newLog.language.log_booklets + ' ' + newLog.language.log_password);
+                        newLog.set('details', newLog.language.log_codes + ': '
+                                + request.match(/.*"code":"(.*?)"/)[1]);
                     } else if (url.includes('provider')) {
                         // 3rd party connection edited (/financial/provider)
                         newLog.set('objectOfAction', newLog.language.log_provider);
-                        // DETAILS !!new name from request!!
+                        newLog.set('details', newLog.language.log_username + ': '
+                                + request.match(/.*"username":"(.*?)"/)[1]);
                     } else if (url.includes('users') && (url.includes('password') || url.includes('language'))) {
                         // Default language edited (/users/{id}/language)
                         // Password edited (/users/{id}/password)
                         urlMatch = url.match(/.*\/[0-9]+\/(.*)/);
                         newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                        // DETAILS ON SERVICE + !!language from request!!
+                        newLog.set('details', newLog.language.log_no_details);
                     } else {
                         urlMatch = url.match(/.*\/(.*)\/[0-9]*/);
                         newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
                         if (url.includes('beneficiaries')) {
+                            newLog.set('objectOfAction', newLog.language.log_beneficiary);
                             // Beneficiary edited (/beneficiaries/{id})
                             newLog.set('details', newLog.language.log_name + ': '
                                 + request.match(/.*"local_given_name":"(.*?)"/)[1]);
@@ -311,7 +324,7 @@ export class Log extends CustomModel {
                                 + request.match(/.*"shortname":"(.*?)"/)[1]);
                         } else if (url.includes('country_specifics')) {
                             // Country specific option edited (/country_specifics/{id})
-                            newLog.set('details', newLog.language.log_codes + ': '
+                            newLog.set('details', newLog.language.log_field + ': '
                                 + request.match(/.*"field":"(.*?)"/)[1]);
                         } else if (url.includes('users') || url.includes('vendors')) {
                             // User edited (/users/{id})

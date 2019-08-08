@@ -87,7 +87,6 @@ export class ModalFieldsComponent implements OnInit {
                 adm4: this.objectInstance.get('location').get('adm4') ? this.objectInstance.get('location').get('adm4').get('id') : null
             };
         }
-
         // Create the form
         this.makeForm();
         this.onChanges();
@@ -167,18 +166,18 @@ export class ModalFieldsComponent implements OnInit {
             } else if (field.kindOfField === 'Children') {
                 const childrenField = this.objectInstance.get(field.childrenObject);
                 const childrenFieldName = field.childrenFieldName;
-                if (this.form.controls[fieldName].value) {
-                    if (childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
-                        childrenField.set(childrenFieldName, childrenField.getOptions(childrenFieldName).filter(option => {
-                            return option.get('id') === this.form.controls[fieldName].value;
-                        })[0]);
+                    if (this.form.controls[fieldName]) {
+                        if (childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
+                            childrenField.set(childrenFieldName, childrenField.getOptions(childrenFieldName).filter(option => {
+                                return option.get('id') === this.form.controls[fieldName].value;
+                            })[0]);
+                        } else {
+                            childrenField.set(childrenFieldName, this.form.controls[fieldName].value);
+                        }
+                        this.objectInstance.set(field.childrenObject, childrenField);
                     } else {
-                        childrenField.set(childrenFieldName, this.form.controls[fieldName].value);
+                        childrenField.set(childrenFieldName, null);
                     }
-                    this.objectInstance.set(field.childrenObject, childrenField);
-                } else {
-                    childrenField.set(childrenFieldName, null);
-                }
             } else if (field.kindOfField === 'File') {
                 if (this.form.controls[fieldName].value) {
                     subscription = this.uploadService

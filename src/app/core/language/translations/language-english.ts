@@ -198,7 +198,7 @@ export class English implements Language {
     beneficiary_local_name = 'name (Local)' 
     beneficiary_member = 'Member'
     beneficiary_missing_selected_project = 'You must select a project before uploading'
-    beneficiary_personnal = 'personnal information'
+    beneficiary_personnal = 'personal information'
     beneficiary_plural = 'these beneficiaries'
     beneficiary_referral = 'Referral'
     beneficiary_referral_comment = 'Comment'

@@ -189,7 +189,7 @@ export class English implements Language {
     beneficiary_en_name = 'name (English)'
     beneficiary_family_name = 'Family name'
     beneficiary_given_name = 'First name'
-    beneficiary_head = 'Household head'
+    beneficiary_head = 'Head'
     beneficiary_id = 'Beneficiary ID'
     beneficiary_justification_added = 'Justification for adding'
     beneficiary_justification_removed = 'Justification for removing'

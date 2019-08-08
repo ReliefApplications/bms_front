@@ -31,6 +31,7 @@ export class LogsComponent implements OnInit, OnDestroy {
   public requestsKHM;
   public requestsSYR;
   graphs: Array<Graph> = [];
+  modalSubscriptions: Array<Subscription> = [];
 
   @ViewChild(TableComponent) table: TableComponent;
   @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
@@ -63,6 +64,7 @@ export class LogsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.screenSizeSubscription.unsubscribe();
+    this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
 
   getLogs() {
@@ -76,6 +78,7 @@ export class LogsComponent implements OnInit, OnDestroy {
       response => {
         if (response && response.length > 0) {
           this.logs = response.map((log: any) => Log.apiToModel(log));
+          // this.logs.map((log: Log) => this.logService.getDetails(log));  Solves details bug but costs too much
           this.selectTab('distributions');
           this.createGraph();
         } else if (response === null) {
@@ -89,8 +92,11 @@ export class LogsComponent implements OnInit, OnDestroy {
     const filteredLogList = this.logs.filter((log: Log) => log.get<string>('tabName') === tab);
     this.logData = new MatTableDataSource(filteredLogList);
     this.selectedTab = tab;
-    this.table.paginator.pageIndex = 0;
-    this.tableMobile.paginator.pageIndex = 0;
+    if (this.table) {
+      this.table.paginator.pageIndex = 0;
+    } else {
+      this.tableMobile.paginator.pageIndex = 0;
+    }
   }
 
   createGraph() {
@@ -200,7 +206,14 @@ export class LogsComponent implements OnInit, OnDestroy {
   }
 
   openDialog(dialogDetails: any): void {
-    this.modalService.openDialog(this.logClass, this.logService, dialogDetails);
+    this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
+    let completeSubscription = null;
 
+    this.modalService.openDialog(this.logClass, this.logService, dialogDetails);
+    completeSubscription = this.modalService.isCompleted.subscribe((_response: boolean) => {
+    });
+    if (completeSubscription) {
+      this.modalSubscriptions = [completeSubscription];
+    }
   }
 }

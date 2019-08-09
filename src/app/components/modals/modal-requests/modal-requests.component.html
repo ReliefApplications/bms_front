@@ -104,6 +104,6 @@
         <button mat-button (click)="closeDialog()" class="button-text-accent">{{language.modal_leave}}</button>
         <mat-spinner [diameter]="35" *ngIf="inProgress"></mat-spinner>
         <button mat-flat-button class="send-all button-background-accent" (click)="sendAllRequests()"
-            *ngIf="!inProgress">{{language.update}}</button>
+            *ngIf="!inProgress && requests.length > 0">{{language.update}}</button>
     </div>
 </mat-dialog-actions>

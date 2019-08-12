@@ -71,7 +71,7 @@
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="req-detail-row"></tr>
     </table>
     <ng-template #noRequests>
-        <p>{{language.modal_no_pending_requests | titlecase}}</p>   
+        <p *ngIf="!loading">{{language.modal_no_pending_requests | titlecase}}</p>   
     </ng-template>
 
     

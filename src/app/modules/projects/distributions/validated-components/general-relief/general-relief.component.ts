@@ -122,7 +122,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                 this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
             });
             // Check the cache is empty to avoid completing a distribution before distributing to all beneficiaries
-            if (!this.cacheService.get(`${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}`)) {
+            if (!this.cacheService.checkForBeneficiaries(this.actualDistribution)) {
                 this.verifyIsFinished();
             }
 

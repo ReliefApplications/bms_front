@@ -166,6 +166,11 @@ mat-dialog-content {
     }
 }
 
+p {
+    text-align: center;
+    font-weight: bold;
+}
+
 @media only screen and (max-width: 750px) {
     mat-dialog-content {
         width: 70vw !important;

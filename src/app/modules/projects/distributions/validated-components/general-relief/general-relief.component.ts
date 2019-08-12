@@ -121,7 +121,10 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                 });
                 this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
             });
-            this.verifyIsFinished();
+            // Check the cache is empty to avoid completing a distribution before distributing to all beneficiaries
+            if (!this.cacheService.checkForBeneficiaries(this.actualDistribution)) {
+                this.verifyIsFinished();
+            }
 
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
         }, (_err: any) => {

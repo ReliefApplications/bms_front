@@ -512,7 +512,7 @@ export class English implements Language {
     modal_values_format_error = 'If you want to set individual values, type numeric values separated by commas (max 5)'
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
-
+    modal_no_pending_requests = 'There are no pending requests'
 
     // National ID
     national_id_card = 'ID Card'

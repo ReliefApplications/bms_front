@@ -522,6 +522,7 @@ export interface Language {
     modal_values_format_error: string
     modal_warning_pending_requests_1: string
     modal_warning_pending_requests_2: string
+    modal_no_pending_requests: string
 
     // National ID
     national_id_card: string

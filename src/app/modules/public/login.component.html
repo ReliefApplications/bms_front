@@ -23,16 +23,19 @@
                         <button (click)="onSubmit()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
                     </ng-template>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
-                    <button (click)="googleAuthRedirect()" mat-flat-button class="button-background-primary">Login with Google</button>
+                    <button (click)="googleAuthRedirect()" mat-stroked-button class="button-flat" *ngIf="!loader">
+                        <mat-icon>mood</mat-icon>{{language.login_title_google | uppercaseFirst}}</button>
                     <!-- <button (click)="googleAuthPopUp()" mat-flat-button class="button-background-primary">Login with Google Pop up</button> -->
-                    <button mat-flat-button class="button-background-primary">
+                    <button mat-flat-button class="button-sso" *ngIf="!loader">
+                        <mat-icon>mood</mat-icon>
                         <a href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77f3bwmwrncdfs&scope=r_liteprofile&redirect_uri=https://front-test.bmstaging.info/sso?origin=linkedin&state=12345">
-                            Login with Linked In
+                            {{language.login_title_linkedin | uppercaseFirst}}
                         </a>
                     </button>
-                    <button mat-flat-button class="button-background-primary">
+                    <button mat-flat-button class="button-sso" *ngIf="!loader">
+                        <mat-icon>mood</mat-icon>
                         <a href="https://auth.staging.humanitarian.id/oauth/authorize?response_type=code&client_id=Humsis-stag&scope=profile&redirect_uri=https://front-test.bmstaging.info/sso?origin=hid&state=12345">
-                            Login with Humanitarian ID
+                            {{language.login_title_humanitarian | uppercaseFirst}}
                         </a>
                     </button>
                     
@@ -41,4 +44,3 @@
         </div>
     </div>
 </div>
-

@@ -470,6 +470,9 @@ export class French implements Language {
     login_password = '*********'
     login_prompt = 'Veuillez vous connecter'
     login_title = 'Connexion'
+    login_title_humanitarian = 'Se connecter avec Humanitarian ID'
+    login_title_google = 'Se connecter avec Google'
+    login_title_linkedin = 'Se connecter avec LinkedIn'
 
     // Map legend
     map_legend_completed = 'completée'

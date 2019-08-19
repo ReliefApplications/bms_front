@@ -470,6 +470,9 @@ export class Arabic implements Language {
     login_password = 'كلمة المرور'
     login_prompt = 'Please log in'
     login_title = ' تسجيل الدخول الى الحساب'
+    login_title_humanitarian = 'Humanitarian ID تسجيل الدخول مع'
+    login_title_google = 'Google تسجيل الدخول مع'
+    login_title_linkedin = 'LinkedIn تسجيل الدخول مع'
 
     // Map legend
     map_legend_completed = 'منجز'

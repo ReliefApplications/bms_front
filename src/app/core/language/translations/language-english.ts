@@ -471,6 +471,9 @@ export class English implements Language {
     login_password = '*********'
     login_prompt = 'Please log in'
     login_title = 'Login'
+    login_title_humanitarian = 'Login with Humanitarian ID'
+    login_title_google = 'Login with Google'
+    login_title_linkedin = 'Login with LinkedIn'
 
     // Map legend
     map_legend_completed = 'completed'

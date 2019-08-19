@@ -15,6 +15,7 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 })
 export class SsoComponent implements OnInit {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
+    public originString = 'the login page';
 
     constructor(
         public languageService: LanguageService,
@@ -32,13 +33,16 @@ export class SsoComponent implements OnInit {
             const origin = result['origin'];
             if (origin === 'hid') {
                 this.loginHID(result['code']);
+                this.originString = 'Humanitarian ID';
             } else if (origin === 'google') {
                 this.loginGoogle(result['token']);
+                this.originString = 'Google';
             } else if (origin === 'linkedin') {
                 if (result['error_description']) {
                     this.snackbar.error(result['error_description']);
                 } else {
                     this.loginLinkedIn(result['code']);
+                    this.originString = 'LinkedIn';
                 }
             }
         });

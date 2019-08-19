@@ -1,4 +1,9 @@
 @import '../../../assets/css/variable.scss';
+a
+{
+   color:white;
+   text-decoration: none;
+}
 
 form {
     display:flex;
@@ -95,17 +100,35 @@ form {
             }
 
             .login-button {
-                flex-grow: 1;
                 display: flex;
                 border-radius : 5px;
                 justify-content: center;
-                margin: 5px;
+                align-content: space-between;
+                flex-wrap: wrap;
 
-                .button:disabled {
-                    background-color: $bms_grey!important;
-                    color:black!important;
+                .button-background-primary {
+                    margin: 5px;
+                    width: 45%;
+
+                    .button:disabled {
+                        background-color: $bms_grey!important;
+                        color:black!important;
+                    }                    
+                }
+
+                .button-flat {
+                    margin: 5px;
+                    width: 45%;
+                    color: white!important;           
+                }
+
+                .button-sso {
+                    margin: 5px;
+                    width: 45%;
+                    background-color: $bms_dark_blue !important;
                 }
             }
         }
     }
 }
+

@@ -101,34 +101,107 @@ form {
 
             .login-button {
                 display: flex;
-                border-radius : 5px;
                 justify-content: center;
-                align-content: space-between;
                 flex-wrap: wrap;
+                margin: 5px;
 
                 .button-background-primary {
                     margin: 5px;
-                    width: 45%;
+                    width: 55%;
 
                     .button:disabled {
-                        background-color: $bms_grey!important;
-                        color:black!important;
+                        background-color: $bms_grey !important;
+                        color:black !important;
                     }                    
                 }
 
-                .button-flat {
+                .button-hid {
                     margin: 5px;
-                    width: 45%;
-                    color: white!important;           
+                    width: 55%;
+                    background-color: $bms_light_blue !important;
+                    display: flex;
+                    justify-content: flex-start;
                 }
 
-                .button-sso {
+                .button-google {
                     margin: 5px;
-                    width: 45%;
-                    background-color: $bms_dark_blue !important;
+                    width: 55%;
+                    background: white;
+                    display: flex; 
+                    justify-content: flex-start;
+                    &:focus,
+                    &:hover {
+                        box-shadow: $bms_shadow;
+                    }
+                    
+                    &:active {
+                        background-color: $bms_white;
+                        box-shadow: none;
+                        transition-duration: 10ms;
+                    }
                 }
+
+                
+                
             }
         }
     }
 }
+
+    .icon-google {
+        background: url(../../../assets/icons/icon_google.svg) no-repeat top left;
+        background-size: contain;
+        cursor: pointer;
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+    }
+    
+    .google-button-text {
+        font: $bms_font_text bold;
+        color: #737373;
+        margin-left: 25px;
+    }
+
+    .icon-hid {
+        background: url(../../../assets/icons/icon_hid.svg) no-repeat top left;
+        background-size: contain;
+        cursor: pointer;
+        display: inline-block;
+        height: 40px;
+        width: 40px;
+    }
+        
+    .hid-button-text {
+        font: $bms_font_text bold;
+        color: $bms_black;
+        margin-left: 15px;
+    }
+
+    // .ce-google {
+    //     height: 40px;   
+    //     margin: 5px;
+    //     background: white;
+    //     color: #737373;
+    //     border-radius: 2px;
+    //     white-space: nowrap;
+    //     box-shadow: 1px 1px 0px 1px rgba(0,0,0,0.05);
+    //     transition-property: background-color, box-shadow;
+    //     transition-duration: 150ms;
+    //     transition-timing-function: ease-in-out;
+    //     width: 60%;
+    //     display: flex;
+    //     align-items: center;
+        
+        // &:focus,
+        // &:hover {
+        //     box-shadow: 1px 4px 5px 1px rgba(0,0,0,0.1);
+        // }
+        
+        // &:active {
+        //     background-color: #e5e5e5;
+        //     box-shadow: none;
+        //     transition-duration: 10ms;
+        // }
+    // }  
 

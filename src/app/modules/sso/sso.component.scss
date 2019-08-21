@@ -24,28 +24,20 @@ a
             background-color: rgba(161, 160, 160, 0.8);
             padding: 10px 0;
             width: 500px;
-            flex-wrap: wrap;
+            border-radius : 5px;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            border-radius : 5px;
 
             .login-title {
-                flex-grow: 1;
-                display: flex;
-                text-align: center;
-                justify-content: center;
-                flex-direction: column;
-                align-items: center;
                 margin: 5px;
 
                 .title-text {
-                        display: flex;
-                        font-family: $bms_font_header;
-                        color : $bms_grey;
-                        font-weight: bold;
-                        font-size: 20px;
-                        text-align: center;
+                    font-family: $bms_font_header;
+                    color : $bms_grey;
+                    font-weight: bold;
+                    font-size: 20px;
+                    text-align: center;
                 }
             }
         }

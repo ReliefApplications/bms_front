@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import * as firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -79,9 +80,7 @@ export class LoginComponent implements OnInit {
             messagingSenderId: '592445518256',
             appId: '1:592445518256:web:79dfcb980f4b73ea'
         };
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
+        firebase.initializeApp(firebaseConfig);
         firebase.auth().getRedirectResult().then((result: any) => {
             if (result.credential) {
                 this.router.navigateByUrl('/sso?origin=google&token=' + result.credential.idToken);

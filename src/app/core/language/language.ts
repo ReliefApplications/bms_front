@@ -481,7 +481,7 @@ export interface Language {
     login_password: string
     login_prompt: string
     login_title: string
-    login_title_humanitarian: string
+    login_title_hid: string
     login_title_google: string
     login_title_linkedin: string
     

@@ -94,3 +94,45 @@ mat-sidenav-content.no-margin {
         }
     }
 }
+
+
+
+.container-box {
+    height:100%;
+    width: 100%;
+
+    .box-image {
+        background-image: url('../assets/images/login_page.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        overflow: hidden;
+        display: flex;
+        flex: 1 0 100%;
+        height:100%;
+        justify-content: center;
+        align-items: center;
+
+        .box-login {
+            background-color: rgba(161, 160, 160, 0.8);
+            padding: 10px 0;
+            width: 500px;
+            border-radius : 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .login-title {
+                margin: 5px;
+
+                .title-text {
+                    font-family: $bms_font_header;
+                    color : $bms_grey;
+                    font-weight: bold;
+                    font-size: 20px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

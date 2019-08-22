@@ -129,16 +129,6 @@ form {
                     background: white;
                     display: flex; 
                     justify-content: flex-start;
-                    &:focus,
-                    &:hover {
-                        box-shadow: $bms_shadow;
-                    }
-                    
-                    &:active {
-                        background-color: $bms_white;
-                        box-shadow: none;
-                        transition-duration: 10ms;
-                    }
                 }
 
                 
@@ -160,7 +150,7 @@ form {
     .google-button-text {
         font: $bms_font_text bold;
         color: #737373;
-        margin-left: 25px;
+        margin-left: 15px;
     }
 
     .icon-hid {

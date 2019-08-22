@@ -1,6 +1,6 @@
 <div class="container-box">
     <div class="box-image">
-        <div class="box-login">
+        <div *ngIf="userService.currentUser && !userService.currentUser.get('rights'); else noRights" class="box-login">
             <div class="login-title">
                 <h1 class="title-text">We are logging you into Humansis from {{this.originString}}, please wait...</h1>
             </div>     
@@ -12,9 +12,9 @@
             <div class="box-login">
                 <div class="login-title">
                     <p class="title-text">To access the platform, please contact an administrator that will grant you the relevant rights</p>
-                    <button mat-flat-button>
-                        <a href="/login">Back to login page</a></button>
                 </div>     
+                <button mat-flat-button accent>
+                    <a href="/login">Back to login page</a></button>
             </div>
         </ng-template>
     </div>

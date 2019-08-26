@@ -1,18 +1,3 @@
-<div *ngIf="userService.currentUser && !userService.currentUser.get('rights'); else enabledUser">
-    <div class="container-box">
-        <div class="box-image">
-            <div class="box-login">
-                <div class="login-title">
-                    <p class="title-text">To access the platform, please contact an administrator that will grant you the relevant rights</p>
-                    <button mat-flat-button>
-                        <a href="/login">Back to login page</a></button>
-                </div>     
-            </div>
-        </div>
-    </div>
-</div>
-
-<ng-template #enabledUser>
     <mat-sidenav-container class="app-component" disableClose="true" [hasBackdrop]="false">
         <mat-sidenav *ngIf="currentDisplayType.type !== 'mobile'; else mobileSidenav" class="page-menu-wrapper" [ngClass]="{show: extendedSideNav}" [opened]="router.url !== '/login' && !router.url.includes('/sso')" 
             (mouseenter)="extendedSideNav = true" (mouseleave)="closeSideNav()" (click)="closeSideNav()" mode="over" [disableClose]="true">
@@ -38,6 +23,7 @@
                 </ng-template>
             </ng-container>
 
+            <app-sso *ngIf="userService.currentUser && !userService.currentUser.get('rights') && router.url.includes('/sso')"></app-sso>
             <router-outlet></router-outlet>
         </mat-sidenav-content>
 
@@ -78,7 +64,6 @@
             </mat-list-item>
         </mat-nav-list>
     </ng-template>
-</ng-template>
 
 
 <!-- <livechat-widget *ngIf="viewReady && chatShouldBeDisplayed()" licenseId="10347002"></livechat-widget> -->

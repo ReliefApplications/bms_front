@@ -75,7 +75,7 @@ export class LogsService extends CustomModelService {
                     }
                 });
             } else if (url.includes('project')) {
-                // url = /import/households/project/{id} || api/import/households/project/{id} || /projects/{id}/beneficiaries/add
+                // url = /import/households/project/{id} || /import/api/households/project/{id} || /projects/{id}/beneficiaries/add
                 idMatch = url.match(/.*\/([0-9]+)/);
                 appInjector.get(ProjectService).getOne(idMatch[1]).subscribe((project: any) => {
                     if (project === null) {

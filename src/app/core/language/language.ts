@@ -527,25 +527,12 @@ export interface Language {
         log_provider: string
         log_region: string
         log_send: string
-        log_users: string
         log_vendors: string
         log_vouchers: string
 
-        //********* CORRECT THEM ****** */
-        
-        
-        /******************** */
-        
-        //Status
-        log_status_200: string
-        log_status_300: string
-        log_status_400: string
-        log_status_401: string
-        log_status_403: string
-        log_status_404: string
-
         //Reports
         logs: string
+        log_active_users_title: string
         log_codes: string
         log_family_name: string
         log_field: string
@@ -555,10 +542,24 @@ export interface Language {
         log_no_details: string
         log_number_booklets: string
         log_number_vouchers: string
-        log_requests_country: string
+        log_requests: string
+        log_requests_country_title: string
+        log_requests_day_title: string
+        log_status_rate_title: string
+        log_time: string
+        log_users: string
         log_username: string
-        log_value: string
-        log_from: string
+        log_value: string    
+
+        
+        //Status
+        log_status_200: string
+        log_status_300: string
+        log_status_400: string
+        log_status_401: string
+        log_status_403: string
+        log_status_404: string
+
 
     // Login
     login_bms: string

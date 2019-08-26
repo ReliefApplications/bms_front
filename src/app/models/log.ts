@@ -127,6 +127,8 @@ export class Log extends CustomModel {
                 break;
         }
 
+        // Assign an action, the receptor of the action and interesting details if any.
+        // All possible urls are commented with their respective message
         let detailString;
         switch (method) {
             case 'PUT':
@@ -167,10 +169,12 @@ export class Log extends CustomModel {
 
             case 'DELETE':
                 if (/.+\/deactivate-booklets\/[0-9]+/.test(url)) {
+                    // Booklets deactivated (/deactivate-booklets)
                     urlMatch = url.match(/.+\/deactivate-booklets\/([0-9]+)/);
                     newLog.set('action', newLog.language.log_deactivate);
                     newLog.set('objectOfAction', newLog.language.log_booklets);
                     newLog.set('details', newLog.language.log_old_id + ': ' + urlMatch[1]);
+                    // !!! As they are deactivated, we could theoretically get the booklet code
                 } else {
                     newLog.set('action', newLog.language.log_delete);
                     if (/.+\/vouchers\/delete_batch/.test(url)) {
@@ -188,10 +192,6 @@ export class Log extends CustomModel {
                 break;
 
             case 'POST':
-                // In case the logs fail
-                newLog.set('action', 'Error');
-                newLog.set('objectOfAction', 'Error');
-
                 if (url.includes('deactivate-booklets')) {
                     // Booklets deactivated (/deactivate-booklets)
                     newLog.set('action', newLog.language.log_deactivate);
@@ -204,19 +204,18 @@ export class Log extends CustomModel {
                     newLog.set('objectOfAction', newLog.language['log_vouchers']);
                     newLog.set('details', newLog.language.log_no_details);
                 } else if (url.includes('import')) {
-                    // Distribution beneficiaries imported (/import/beneficiaries/distributions/{id})
-                    // Project households imported (/api/import/households/project/{id})
-                    // Project households from region imported (/import/households/project/{id})
                     // Households imported (/import/households)
+                    // Project households from region imported (/import/api/households/project/{id})
+                    // Project households imported (/import/households/project/{id})
+                    // Distribution beneficiaries imported (/import/beneficiaries/distributions/{id})
                     urlMatch = url.match(/.*\/.*?\/.*?\/(.*?)\/(.*?)\/[0-9]+/);
                     newLog.set('action', newLog.language.log_import);
 
                     if (/.*\/import\/households$/.test(url)) {
                         newLog.set('objectOfAction', newLog.language.log_households);
                     } else if (/.*\/import\/api\/.*?\/.*?\/[0-9]+/.test(url)) {
-                        newLog.set('objectOfAction', newLog.language.log_project + ' '
-                        + newLog.language.log_households + ' ' + newLog.language.log_from
-                        + ' ' + newLog.language.log_region);
+                        newLog.set('objectOfAction', newLog.language.log_region + ' ' + newLog.language.log_project + ' '
+                        + newLog.language.log_households);
                     } else {
                         newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]
                             + ' ' + newLog.language['log_' + urlMatch[1]]);
@@ -345,7 +344,6 @@ export class Log extends CustomModel {
                 }
                 break;
         }
-        newLog.set('details', logFromApi.details ? logFromApi.details : 'mala suerte amigo');
         return newLog;
     }
 }

@@ -517,21 +517,12 @@ export class English implements Language {
         log_provider = 'Third party connection'
         log_region = 'Specific region'
         log_send = 'Mobile money'    
-        log_users = 'User'
         log_vendors = 'Vendor'
         log_vouchers = 'Voucher'
-
-
-        //Status
-        log_status_200 = 'Success'
-        log_status_300 = 'Redirected'
-        log_status_400 = 'Error'
-        log_status_401 = 'Unauthenticated'
-        log_status_403 = 'Forbidden'
-        log_status_404 = 'Not Found'
-
+        
         //Reports
         logs = 'Logs'
+        log_active_users_title = 'Most active users'
         log_codes = 'Code/s'
         log_family_name = 'family name'
         log_field = 'field'
@@ -541,10 +532,23 @@ export class English implements Language {
         log_no_details = 'No details to display'
         log_number_booklets = 'Number of booklets'
         log_number_vouchers = 'Number of vouchers'
-        log_requests_country = 'Requests per country'
+        log_requests = 'Requests'
+        log_requests_country_title = 'Requests per country'
+        log_requests_day_title = 'Requests per day'
+        log_status_rate_title = 'Status rate'
+        log_time = 'Time'
+        log_users = 'Users'
         log_username = 'Username'
         log_value = 'Value'
-        log_from = 'From'
+
+        //Status
+        log_status_200 = 'success'
+        log_status_300 = 'redirected'
+        log_status_400 = 'error'
+        log_status_401 = 'unauthenticated'
+        log_status_403 = 'forbidden'
+        log_status_404 = 'not found'
+
 
     // Login
     login_bms = 'Beneficiary management system'

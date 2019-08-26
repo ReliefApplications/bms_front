@@ -267,15 +267,15 @@ app-display-field.ng-star-inserted {
 
 @media screen and (min-width: 700px) {
     .graph-canvas {
-        width: 400px;
-        height:400px;
+        width: 400px!important;
+        height:400px!important;
     } 
 }
 
 @media screen and (max-width: 700px) {
     .graph-canvas {
-        width: 200px;
-        height:200px;
+        width: 200px!important;
+        height:200px!important;
     }
 }
 

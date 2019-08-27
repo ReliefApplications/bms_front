@@ -133,6 +133,18 @@ export class User extends CustomModel {
         language: new TextModelField({
 
         }),
+        phonePrefix: new SingleSelectModelField({
+            title: 'Prefix',
+            isDisplayedInModal: true,
+            isEditable: true,
+            isSettable: true,
+        }),
+        phoneNumber: new NumberModelField({
+            title: 'Number',
+            isDisplayedInModal: true,
+            isEditable: true,
+            isSettable: true,
+        }),
         changePassword: new BooleanModelField({
             title: this.language.user_password_question,
             isDisplayedInModal: true,

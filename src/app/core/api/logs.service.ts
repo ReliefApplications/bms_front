@@ -50,7 +50,9 @@ export class LogsService extends CustomModelService {
                 ).subscribe(([distribution, beneficiary]: [any, any]) => {
                     if (distribution === null || beneficiary === null) {
                         log.set('details', this.language.log_not_exists + '\n'
-                            + this.language.log_old_id + ': ' + idMatch[1]);
+                            + this.language.log_old_id + ':\n' + this.language.log_distributions + ': '
+                            + idMatch[url.includes('assign') ? 2 : 1] + '\n' + this.language.log_beneficiaries + ': '
+                            + idMatch[url.includes('assign') ? 1 : 2]);
                     } else {
                         if (url.includes('assign')) {
                             log.set('details', this.language.log_distributions + ': ' + distribution.name + '\n'

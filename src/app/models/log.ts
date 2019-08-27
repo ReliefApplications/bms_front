@@ -78,6 +78,7 @@ export class Log extends CustomModel {
         const method = logFromApi.method;
         const request = logFromApi.request;
         const status = logFromApi.http_status;
+        let detailString;
         let urlMatch = [];
 
         // Assign all fields
@@ -90,9 +91,7 @@ export class Log extends CustomModel {
         newLog.set('status', status);
         newLog.set('country', JSON.parse(logFromApi.request).__country);
 
-
-
-        // Group the logs that are related. Separate the ones that are not
+        // Group the logs that are related in the same tab.
         if (url.includes('users') || url.includes('donor') || url.includes('organization')) {
             newLog.set('tabName', 'administrative');
         } else if ((url.includes('project') || url.includes('distribution')) && !url.includes('households')) {
@@ -101,8 +100,7 @@ export class Log extends CustomModel {
             newLog.set('tabName', 'beneficiaries');
         } else if (url.includes('vouchers') || url.includes('products') || url.includes('booklets') || url.includes('vendors')) {
             newLog.set('tabName', 'vouchers');
-        }
-        else {
+        } else {
             newLog.set('tabName', 'other');
         }
 
@@ -125,11 +123,11 @@ export class Log extends CustomModel {
                     newLog.set('status', newLog.language.log_status_400);
                 }
                 break;
+            default: break;
         }
 
         // Assign an action, the receptor of the action and interesting details if any.
         // All possible urls are commented with their respective message
-        let detailString;
         switch (method) {
             case 'PUT':
                 newLog.set('action', newLog.language.log_created);
@@ -146,7 +144,7 @@ export class Log extends CustomModel {
                     // || /users || /booklets  || (/projects || /products || /vendors || ?/vouchers?)
                     urlMatch = url.match(/.+\/(.+)/);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                    //  Testing
+                    // Testing
                     if (url.includes('distributions')) {
                         newLog.set('details', newLog.language.log_name + ': ' + request.match(/.*"name":"(.*?)"/)[1]);
                     } else if (url.includes('country_specifics')) {
@@ -174,7 +172,6 @@ export class Log extends CustomModel {
                     newLog.set('action', newLog.language.log_deactivate);
                     newLog.set('objectOfAction', newLog.language.log_booklets);
                     newLog.set('details', newLog.language.log_old_id + ': ' + urlMatch[1]);
-                    // !!! As they are deactivated, we could theoretically get the booklet code
                 } else {
                     newLog.set('action', newLog.language.log_delete);
                     if (/.+\/vouchers\/delete_batch/.test(url)) {
@@ -245,6 +242,7 @@ export class Log extends CustomModel {
                     // Distribution validated (/distributions/{id}/validate)
                     newLog.set('action', newLog.language.log_validate);
                     newLog.set('objectOfAction', newLog.language.log_distributions);
+                    newLog.set('details', 'distributions');
                     // DETAILS ON SERVICE
                 } else if (url.includes('remove')) {
                     // Distribution beneficiary removed
@@ -343,6 +341,7 @@ export class Log extends CustomModel {
                     }
                 }
                 break;
+            default: break;
         }
         return newLog;
     }

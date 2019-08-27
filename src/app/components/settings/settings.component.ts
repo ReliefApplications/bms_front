@@ -307,10 +307,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
 	*/
     openDialog(dialogDetails: any): void {
       this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
-
       this.modalService.openDialog(this.referedClassToken, this.referedClassService, dialogDetails);
       const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
-          this.loadingData = true;
+        this.loadingData = true;
       });
       const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
           if (response) {

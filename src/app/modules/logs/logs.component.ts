@@ -26,7 +26,7 @@ export class LogsComponent implements OnInit, OnDestroy {
     public logClass = Log;
     public logs: Log[];
     public logData: MatTableDataSource<Log>;
-    public loadingLog = true;
+    public loadingLogs = true;
     public selectedTab = 'distributions';
     public requestsKHM;
     public requestsSYR;
@@ -41,6 +41,10 @@ export class LogsComponent implements OnInit, OnDestroy {
     // Screen size
     public currentDisplayType: DisplayType;
     private screenSizeSubscription: Subscription;
+    public canvasAreReloading = false;
+
+    // Logs
+    private logSubscription: Subscription;
 
     constructor(
         public languageService: LanguageService,
@@ -51,6 +55,9 @@ export class LogsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+            this.canvasAreReloading = true;
+                // Recreate the canvas to resize them correctly
+                setTimeout(() => {this.canvasAreReloading = false; }, 0);
             this.currentDisplayType = displayType;
             if (this.currentDisplayType.type === 'mobile') {
                 this.displayedTable = this.tableMobile;
@@ -64,14 +71,15 @@ export class LogsComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.screenSizeSubscription.unsubscribe();
+        this.logSubscription.unsubscribe();
         this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
     getLogs() {
-        this.logService.get().pipe(
+        this.logSubscription = this.logService.get().pipe(
             finalize(
                 () => {
-                    this.loadingLog = false;
+                    this.loadingLogs = false;
                 },
             )
         ).subscribe(
@@ -93,14 +101,10 @@ export class LogsComponent implements OnInit, OnDestroy {
         if (this.logs) {
             const filteredLogList = this.logs.filter((log: Log) => log.get<string>('tabName') === tab);
             this.logData = new MatTableDataSource(filteredLogList);
-            if (this.table) {
-                if (this.table.paginator) {
+            if (this.table && this.table.paginator) {
                     this.table.paginator.pageIndex = 0;
-                }
-            } else if (this.tableMobile) {
-                if (this.tableMobile.paginator) {
+            } else if (this.tableMobile && this.tableMobile.paginator) {
                     this.tableMobile.paginator.pageIndex = 0;
-                }
             }
         }
     }
@@ -227,13 +231,19 @@ export class LogsComponent implements OnInit, OnDestroy {
 
     openDialog(dialogDetails: any): void {
         this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
-        let completeSubscription = null;
-
         this.modalService.openDialog(this.logClass, this.logService, dialogDetails);
-        completeSubscription = this.modalService.isCompleted.subscribe((_response: boolean) => {
+
+        const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
+            this.loadingLogs = true;
         });
-        if (completeSubscription) {
-            this.modalSubscriptions = [completeSubscription];
-        }
+
+        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
+            if (response) {
+                this.getLogs();
+            } else {
+                this.loadingLogs = false;
+            }
+        });
+        this.modalSubscriptions = [isLoadingSubscription, completeSubscription];
     }
 }

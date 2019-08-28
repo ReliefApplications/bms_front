@@ -18,39 +18,71 @@
             [info]='{icon: "settings/report", color: "green", title:language.reports}'></app-box-setting>
     </div>
 
-    <div class="container-table" *ngIf="!loadingLogs">
-        <div *ngIf="selectedTab !== 'graphs'; else graphTab" class="container-content box-primary">
-            <div class="content-table" *ngIf="((logData && logData.data.length>0) ||  loadingLogs)">
-                <app-table *ngIf="currentDisplayType.type !== 'mobile'" [entity]="logClass" [service]="logService"
-                    [data]="logData" [searchable]="true" [paginable]="true" [isLoading]="loadingLogs"
+    <div class="container-table">
+        <div *ngIf="selectedTab === 'graphs'" class="container-content">
+            <div id="graphs">
+                <div *ngFor="let graph of graphs" class="graph" style="page-break-after: always;">
+                    <h2 class="graph-title">{{graph.name}}</h2>
+                    <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie' || graph.type === 'grid'"
+                        [yLabel]='graph.yLabel'>
+                    </app-pie-chart>
+                    <app-bar-chart [graphInfo]="graph" *ngIf="graph.type === 'bar'" [xLabel]='graph.xLabel'
+                        [yLabel]='graph.yLabel'>
+                    </app-bar-chart>
+                    <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'" [yLabel]='graph.yLabel'
+                        [xLabel]='graph.xLabel'>
+                    </app-line-chart>
+                </div>
+                <div class="graph">
+                    <h2 class="graph-title">{{language.log_requests_country_title | titlecase}}</h2>
+                    <app-line-chart [multipleGraphInfo]="[requestsKHM, requestsSYR]" [yLabel]=language.log_requests 
+                        [xLabel]=language.log_time>
+                    </app-line-chart>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="selectedTab !== 'graphs'" class="container-content box-primary">
+            <div class="content-table">
+                <app-table *ngIf="currentDisplayType.type !== 'mobile'" [entity]="logClass" [service]="logsService"
+                    [data]="logData" [searchable]="true" [paginable]="true" [isLoading]="loadingLog"
                     (openModal)="openDialog($event)">
                 </app-table>
                 <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [entity]="logClass"
-                    [service]="logService" [data]="logData" [searchable]="true" [paginable]="true"
-                    [isLoading]="loadingLogs" (openModal)="openDialog($event)">
+                    [service]="logsService" [data]="logData" [searchable]="true" [paginable]="true"
+                    [isLoading]="loadingLog" (openModal)="openDialog($event)">
                 </app-table-mobile>
             </div>
         </div>
     </div>
-        
-    <ng-template #graphTab>
-        <div class="container-content">
-            <div id="graphs" *ngIf="!canvasAreReloading">
-                <div *ngFor="let graph of graphs" class="graph" style="page-break-after: always;">
-                    <h2 class="graph-title">{{graph.name}}</h2>
-                    <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie' || graph.type === 'grid'"
-                        [yLabel]='graph.yLabel'></app-pie-chart>
-                    <app-bar-chart [graphInfo]="graph" *ngIf="graph.type === 'bar'" [xLabel]='graph.xLabel'
-                        [yLabel]='graph.yLabel'></app-bar-chart>
-                    <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'" [xLabel]='graph.xLabel'
-                        [yLabel]='graph.yLabel'></app-line-chart>
-                </div>
-                <div class="graph">
-                    <h2 class="graph-title">{{language.log_requests_country_title | titlecase}}</h2>
-                    <app-line-chart [multipleGraphInfo]="[requestsKHM, requestsSYR]" [xLabel]=language.log_time
-                        [yLabel]=language.log_requests></app-line-chart>
-                </div>
-            </div>
-        </div>
-    </ng-template>
+
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

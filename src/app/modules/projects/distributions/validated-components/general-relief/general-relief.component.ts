@@ -59,28 +59,33 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
      * To be used everytime transactionData changes
      */
     verifyIsFinished() {
-        let amount: number;
+        // let amount: number;
 
-        if (!this.transactionData) {
-            amount = 0;
-        } else {
-            amount = 0;
-            this.transactionData.data.forEach(
-                (distributionBeneficiary: TransactionGeneralRelief) => {
-                    if (distributionBeneficiary.get('distributedAt') === null) {
-                        amount++;
+        // if (!this.transactionData) {
+        //     amount = 0;
+        // } else {
+        //     amount = 0;
+        //     this.transactionData.data.forEach(
+        //         (distributionBeneficiary: TransactionGeneralRelief) => {
+        //             if (distributionBeneficiary.get('distributedAt') === null) {
+        //                 amount++;
+        //             }
+        //         }
+        //     );
+        // }
+        //  if (amount === 0) {
+        // }
+             this.distributionService.complete(this.actualDistribution.get('id'))
+                .subscribe((success: any) => {
+                    console.log(success)
+                    if (success === 'Completed') {
+                        console.log('Distribution is completed')
+                        this.finishedEmitter.emit();
                     }
-                }
-            );
-        }
-         if (amount === 0) {
-            this.finishedEmitter.emit();
-            this.distributionService.complete(this.actualDistribution.get('id')).subscribe();
-         }
+                });
     }
 
     distributeRelief() {
-        this.distributed = true;
         // Get the General Relief's ids
         const generalReliefsId: number[] = [];
         this.selection.selected.forEach((selectedDistributionBeneficiary: TransactionGeneralRelief) => {
@@ -121,10 +126,8 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                 });
                 this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
             });
-            // Check the cache is empty to avoid completing a distribution before distributing to all beneficiaries
-            if (!this.cacheService.checkForBeneficiaries(this.actualDistribution)) {
-                this.verifyIsFinished();
-            }
+            this.distributed = true;
+            this.verifyIsFinished();
 
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
         }, (_err: any) => {

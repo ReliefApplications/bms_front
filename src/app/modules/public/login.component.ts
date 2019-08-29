@@ -21,8 +21,6 @@ import 'firebase/firestore';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-    public forgotMessage = false;
     public loader = false;
     public form: FormGroup;
 
@@ -88,6 +86,12 @@ export class LoginComponent implements OnInit {
         }).catch((error) => {
             this.snackbar.error(error.message);
         });
+    }
+
+    public hidAuthRedirect() {
+        window.location.href = 'https://auth.staging.humanitarian.id/oauth/authorize' +
+            '?response_type=code&client_id=Humsis-stag&scope=profile' +
+            '&redirect_uri=https://front-test.bmstaging.info/sso?origin=hid&state=12345';
     }
 
     public googleAuthRedirect() {

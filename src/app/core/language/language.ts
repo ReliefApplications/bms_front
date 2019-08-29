@@ -477,14 +477,13 @@ export interface Language {
     // Login
     login_bms: string
     login_captcha_invalid: string
-    login_forgot_password: string
     login_password: string
     login_prompt: string
     login_title: string
     login_title_hid: string
     login_title_google: string
     login_title_linkedin: string
-    
+
     // Map legend
     map_legend_completed: string
     map_legend_not_validated: string

@@ -297,7 +297,7 @@ export class Arabic implements Language {
     country_khm = 'كمبوديا'
     country_syr = 'سوريا'
     country_specific = 'خيار حسب بالبلد'
-    country_specific_field = 'الميدان'    
+    country_specific_field = 'الميدان'
 
     // Dashboard
     dashboard_distribution_map = 'خريطة التوزيع'
@@ -466,7 +466,6 @@ export class Arabic implements Language {
     // Login
     login_bms = 'نظام إدارة المستفيدين'
     login_captcha_invalid = 'The captcha is invalid'
-    login_forgot_password = 'هل نسيت كلمة المرور'
     login_password = 'كلمة المرور'
     login_prompt = 'Please log in'
     login_title = ' تسجيل الدخول الى الحساب'
@@ -680,7 +679,7 @@ export class Arabic implements Language {
     table_previous_page = 'الصفحة السابقة'
     table_print = 'طباعة'
 
-    //Time 
+    //Time
     time_just_now = 'Just now'
 
     // Transaction
@@ -729,7 +728,7 @@ export class Arabic implements Language {
     tooltip_reports = 'تُستخدم هذه الصفحة للاطلاع على إحصائيات الدولة ، مثل متوسط ​​معاملات المشروعات وعدد التوزيعات ...'
     tooltip_settings = 'هذه الصفحة هي المكان الذي ستتمكن فيه من إضافة مشروع جديد أو بلد معين أو اتصال طرف ثالث أو منتج أو بائع وتعديلها وحذفها وفقًا لحقوقك'
     tooltip_update_beneficiary = 'هذه الصفحة هي نموذج لتحديث الأسرة المختارة.'
-    tooltip_vouchers = 'هذه الصفحة هي المكان الذي يمكنك فيه إنشاء كتيبات قسائم وتعديلها وتعيينها وطباعتها'    
+    tooltip_vouchers = 'هذه الصفحة هي المكان الذي يمكنك فيه إنشاء كتيبات قسائم وتعديلها وتعيينها وطباعتها'
 
     //Vouchers
     voucher_ask_code = 'الرجاء مطالبة المستفيد بإدخال رمزه المكون من 4 أرقام هنا'

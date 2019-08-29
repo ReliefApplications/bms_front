@@ -1,24 +1,15 @@
-<div class="container-box">
-    <div class="box-image">
-        <div *ngIf="userService.currentUser && !userService.currentUser.get('rights'); else noRights" class="box-login">
-            <div class="login-title">
-                <h1 class="title-text">We are logging you into Humansis from {{this.originString}}, please wait...</h1>
-            </div>     
-            <br>
-            <mat-spinner></mat-spinner>
-        </div>
-
-        <ng-template #noRights>
-            <div class="box-login">
-                <div class="login-title">
-                    <p class="title-text">To access the platform, please contact an administrator that will grant you the relevant rights</p>
-                </div>     
-                <button mat-flat-button accent>
-                    <a href="/login">Back to login page</a></button>
-            </div>
-        </ng-template>
+<div class="box-image">
+    <div class="box-info" *ngIf="! userDisabled">
+        We are logging you into Humansis from {{this.originString}}, please wait...
+        <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
+    <div class="box-info" *ngIf="userDisabled">
+        To access the platform, please contact an administrator that will grant you the relevant rights.
+        <button mat-flat-button class="button-background-primary" routerLink="/login">
+            Back to Login Page
+        </button>
     </div>
 </div>
 
-<!-- TO USE IN BOX LOGIN: 
+<!-- TO USE IN BOX LOGIN:
     *ngIf="userService.currentUser && !userService.currentUser.get('rights'); else noRights" -->

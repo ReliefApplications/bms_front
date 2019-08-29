@@ -46,10 +46,32 @@ export class LoginComponent implements OnInit {
         this.initializeFirebase();
     }
 
-    makeForm() {
+    private makeForm() {
         this.form = new FormGroup({
             username: new FormControl('', [Validators.required]),
             password: new FormControl('', [Validators.required]),
+        });
+    }
+
+    private initializeFirebase() {
+        const firebaseConfig = {
+            apiKey: 'AIzaSyBy89u6u5u17xwhHWQQJ2jhqfIkPkJUzIU',
+            authDomain: 'humansis.firebaseapp.com',
+            databaseURL: 'https://humansis.firebaseio.com',
+            projectId: 'humansis',
+            storageBucket: '',
+            messagingSenderId: '592445518256',
+            appId: '1:592445518256:web:79dfcb980f4b73ea'
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().getRedirectResult().then((result: any) => {
+            if (result.credential) {
+                this.router.navigateByUrl('/sso?origin=google&token=' + result.credential.idToken);
+            }
+        }).catch((error) => {
+            this.snackbar.error(error.message);
         });
     }
 
@@ -66,26 +88,6 @@ export class LoginComponent implements OnInit {
                 this.loader = false;
             }
         );
-    }
-
-    private initializeFirebase() {
-        const firebaseConfig = {
-            apiKey: 'AIzaSyBy89u6u5u17xwhHWQQJ2jhqfIkPkJUzIU',
-            authDomain: 'humansis.firebaseapp.com',
-            databaseURL: 'https://humansis.firebaseio.com',
-            projectId: 'humansis',
-            storageBucket: '',
-            messagingSenderId: '592445518256',
-            appId: '1:592445518256:web:79dfcb980f4b73ea'
-        };
-        firebase.initializeApp(firebaseConfig);
-        firebase.auth().getRedirectResult().then((result: any) => {
-            if (result.credential) {
-                this.router.navigateByUrl('/sso?origin=google&token=' + result.credential.idToken);
-            }
-        }).catch((error) => {
-            this.snackbar.error(error.message);
-        });
     }
 
     public hidAuthRedirect() {

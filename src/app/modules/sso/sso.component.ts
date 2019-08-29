@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { LanguageService } from 'src/app/core/language/language.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from 'src/app/core/api/login.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
+import { LanguageService } from 'src/app/core/language/language.service';
+import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/models/user';
-import { UserService } from 'src/app/core/api/user.service';
-import { LoginService } from 'src/app/core/api/login.service';
-import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 
 @Component({
     selector: 'app-sso',
@@ -16,6 +16,7 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 export class SsoComponent implements OnInit {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
     public originString = 'the login page';
+    public userDisabled = false;
 
     constructor(
         public languageService: LanguageService,
@@ -31,19 +32,24 @@ export class SsoComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams.subscribe(result => {
             const origin = result['origin'];
-            if (origin === 'hid') {
-                this.loginHID(result['code']);
-                this.originString = 'Humanitarian ID';
-            } else if (origin === 'google') {
-                this.loginGoogle(result['token']);
-                this.originString = 'Google';
-            } else if (origin === 'linkedin') {
-                if (result['error_description']) {
-                    this.snackbar.error(result['error_description']);
-                } else {
-                    this.loginLinkedIn(result['code']);
-                    this.originString = 'LinkedIn';
-                }
+
+            switch (origin) {
+                case 'hid':
+                    this.loginHID(result['code']);
+                    this.originString = 'Humanitarian ID';
+                    break;
+                case 'google':
+                    this.loginGoogle(result['token']);
+                    this.originString = 'Google';
+                    break;
+                case 'linkedin':
+                    if (result['error_description']) {
+                        this.snackbar.error(result['error_description']);
+                    } else {
+                        this.loginLinkedIn(result['code']);
+                        this.originString = 'LinkedIn';
+                    }
+                    break;
             }
         });
     }
@@ -52,7 +58,7 @@ export class SsoComponent implements OnInit {
         if (code) {
             this.authService.loginHumanID(code).subscribe((userFromApi: any) => {
                 this.login(userFromApi);
-            }, (error) => {
+            }, (_error) => {
                 this.router.navigateByUrl('/login');
             });
         }
@@ -61,24 +67,30 @@ export class SsoComponent implements OnInit {
     loginGoogle(token: string) {
         this.authService.loginGoogle(token).subscribe((userFromApi: any) => {
            this.login(userFromApi);
-        }, (error) => {
+        }, (_error) => {
             this.router.navigateByUrl('/login');
         });
     }
 
     loginLinkedIn(code: string) {
         this.authService.loginLinkedIn(code).subscribe((userFromApi: any) => {
+        }, (_error) => {
+            this.router.navigateByUrl('/login');
         });
     }
 
     login(userFromApi) {
         const user = User.apiToModel(userFromApi);
-        this.userService.setCurrentUser(user);
-        this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {
-            this.loginService.clearSessionCacheEntries();
-            this.loginService.loginRoutine(user).subscribe(() => {
-                this.router.navigateByUrl('/');
+        if (user && ! user.get('rights')) {
+            this.userDisabled = true;
+        } else {
+            this.userService.setCurrentUser(user);
+            this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {
+                this.loginService.clearSessionCacheEntries();
+                this.loginService.loginRoutine(user).subscribe(() => {
+                    this.router.navigateByUrl('/');
+                });
             });
-        });
+        }
     }
 }

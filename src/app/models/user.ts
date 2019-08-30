@@ -135,12 +135,14 @@ export class User extends CustomModel {
         }),
         phonePrefix: new SingleSelectModelField({
             title: 'Prefix',
+            isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
         }),
         phoneNumber: new NumberModelField({
             title: 'Number',
+            isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: true,
             isSettable: true,
@@ -213,6 +215,8 @@ export class User extends CustomModel {
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en');
+        newUser.set('phonePrefix', userFromApi.phonePrefix);
+        newUser.set('phoneNumber', userFromApi.phoneNumber);
         newUser.set('changePassword', userFromApi.change_password);
         return newUser;
     }
@@ -226,6 +230,8 @@ export class User extends CustomModel {
             language: this.fields.language.formatForApi(),
             roles: (this.get('rights') ? [this.get('rights').get('id')] : null),
             vendor: null,
+            phonePrefix: this.fields.phonePrefix.formatForApi(),
+            phoneNumber: this.fields.phoneNumber.formatForApi(),
             change_password: this.fields.changePassword.formatForApi()
         };
 

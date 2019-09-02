@@ -50,7 +50,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 
         this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
         this.transactionData = new MatTableDataSource(distributionBeneficiaries);
-        this.verifyIsFinished();
+        // this.verifyIsFinished();
         this.loadingTransaction = false;
 
     }
@@ -59,30 +59,32 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
      * To be used everytime transactionData changes
      */
     verifyIsFinished() {
-        // let amount: number;
-
-        // if (!this.transactionData) {
-        //     amount = 0;
-        // } else {
-        //     amount = 0;
-        //     this.transactionData.data.forEach(
-        //         (distributionBeneficiary: TransactionGeneralRelief) => {
-        //             if (distributionBeneficiary.get('distributedAt') === null) {
-        //                 amount++;
-        //             }
-        //         }
-        //     );
-        // }
-        //  if (amount === 0) {
-        // }
-             this.distributionService.complete(this.actualDistribution.get('id'))
-                .subscribe((success: any) => {
-                    console.log(success)
-                    if (success === 'Completed') {
-                        console.log('Distribution is completed')
-                        this.finishedEmitter.emit();
+        let amount: number;
+        if (!this.transactionData) {
+            amount = 0;
+        } else {
+            amount = 0;
+            this.transactionData.data.forEach(
+                (distributionBeneficiary: TransactionGeneralRelief) => {
+                    if (distributionBeneficiary.get('distributedAt') === null) {
+                        amount++;
                     }
-                });
+                }
+            );
+        }
+         if (amount === 0) {
+            this.distributionService.complete(this.actualDistribution.get('id')).subscribe();
+            this.finishedEmitter.emit();
+        }
+        // this.distributionService.complete(this.actualDistribution.get('id'))
+        //         .subscribe((success: any) => {
+        //             console.log(success)
+        //             if (success === 'Completed') {
+        //                 console.log('Distribution is completed')
+        //                 this.finishedEmitter.emit();
+        //             }
+        //         });
+
     }
 
     distributeRelief() {
@@ -127,7 +129,6 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                 this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
             });
             this.distributed = true;
-            this.verifyIsFinished();
 
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
         }, (_err: any) => {

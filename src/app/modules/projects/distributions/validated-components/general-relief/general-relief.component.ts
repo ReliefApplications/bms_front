@@ -17,6 +17,7 @@ import { Subscription, forkJoin } from 'rxjs';
 export class GeneralReliefComponent extends ValidatedDistributionComponent implements OnInit {
 
     distributed = false;
+    completed = false;
     selection = new SelectionModel<TransactionGeneralRelief>(true, []);
 
     ngOnInit() {
@@ -28,8 +29,8 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         this.actualDistribution.set(
             'distributionBeneficiaries',
             distributionBeneficiaries
-                .map((distributionBeneficiariy: any) =>
-                    TransactionGeneralRelief.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
+                .map((distributionBeneficiary: any) =>
+                    TransactionGeneralRelief.apiToModel(distributionBeneficiary, this.actualDistribution.get('id'))));
     }
 
     formatTransactionTable() {
@@ -50,7 +51,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
 
         this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
         this.transactionData = new MatTableDataSource(distributionBeneficiaries);
-        // this.verifyIsFinished();
+        this.verifyIsFinished();
         this.loadingTransaction = false;
 
     }
@@ -73,17 +74,9 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
             );
         }
          if (amount === 0) {
-            this.distributionService.complete(this.actualDistribution.get('id')).subscribe();
+            // this.distributionService.complete(this.actualDistribution.get('id')).subscribe();
             this.finishedEmitter.emit();
-        }
-        // this.distributionService.complete(this.actualDistribution.get('id'))
-        //         .subscribe((success: any) => {
-        //             console.log(success)
-        //             if (success === 'Completed') {
-        //                 console.log('Distribution is completed')
-        //                 this.finishedEmitter.emit();
-        //             }
-        //         });
+         }
 
     }
 
@@ -104,7 +97,11 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
         });
 
         // Request to the API to set the General Reliefs as distributed
-        this.distributionService.distributeGeneralReliefs(generalReliefsId).subscribe(() => {
+        this.distributionService.distributeGeneralReliefs(generalReliefsId).subscribe((result: any) => {
+            if (result) {
+                this.completed = result[2] === '0' ? true : false;
+            }
+
             // Store the modified distribution in the cache
             this.cacheService.set(
                 `${AsyncacheService.DISTRIBUTIONS}_${this.actualDistribution.get('id')}`,
@@ -115,22 +112,23 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
                 const distributionBeneficiaries = this.actualDistribution.get<TransactionGeneralRelief[]>('distributionBeneficiaries');
                 distributionBeneficiaries.forEach((distributionBeneficiary: TransactionGeneralRelief) => {
                     if (distributionBeneficiary.get('beneficiary').get('id') ===
-                        selectedDistributionBeneficiary.get('beneficiary').get('id')) {
-
+                    selectedDistributionBeneficiary.get('beneficiary').get('id')) {
                         const generalReliefs = distributionBeneficiary.get<GeneralRelief[]>('generalReliefs')
-                            .map((generalRelief: GeneralRelief) => {
-                                generalRelief.set('distributedAt', new Date());
-                                return generalRelief;
-                            });
+                        .map((generalRelief: GeneralRelief) => {
+                            generalRelief.set('distributedAt', new Date());
+                            return generalRelief;
+                        });
                         distributionBeneficiary.set('generalReliefs', generalReliefs);
                         distributionBeneficiary.set('distributedAt', new Date());
                     }
                 });
                 this.actualDistribution.set('distributionBeneficiaries', distributionBeneficiaries);
-            });
-            this.distributed = true;
+                });
+                if (this.completed) {
+                    this.finishedEmitter.emit();
+                }
 
-            this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
+                this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
         }, (_err: any) => {
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
             this.distributed = false;
@@ -147,10 +145,13 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
             return 0;
         }
         const correspondingGeneralRelief = beneficiary.get<GeneralRelief[]>('generalReliefs')[commodityIndex];
-        return (correspondingGeneralRelief.get('distributedAt') ? commodity.get('value') : 0 );
+        if (correspondingGeneralRelief) {
+            return (correspondingGeneralRelief.get('distributedAt') ? commodity.get('value') : 0 );
+        }
+
     }
 
-    /**
+    /*
 	* open each modal dialog
 	*/
     openDialog(dialogDetails: any): void {

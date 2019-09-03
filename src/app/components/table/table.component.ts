@@ -32,8 +32,8 @@ export class TableComponent implements OnInit,  AfterViewInit {
 
     @ViewChild(MatPaginator)
     set matPaginator(mp: MatPaginator) {
-        this.initPaginator();
         this.paginator = mp;
+        this.initPaginator();
     }
 
     @ViewChild(MatSort)
@@ -227,7 +227,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
     }
 
     initPaginator() {
-        if ((this.tableData && this.tableData.data)) {
+        if ((this.tableData && this.tableData.data && this.tableData.data.length)) {
             this.tableData.sort = this.sort;
             if (this.paginator && this.paginable) {
                 this.paginator._intl.itemsPerPageLabel = this.language.table_items_per_page;

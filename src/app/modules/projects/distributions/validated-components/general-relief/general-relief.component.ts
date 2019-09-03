@@ -127,6 +127,7 @@ export class GeneralReliefComponent extends ValidatedDistributionComponent imple
             }
 
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
+
         }, (_err: any) => {
             this.selection = new SelectionModel<TransactionGeneralRelief>(true, []);
             this.distributed = false;

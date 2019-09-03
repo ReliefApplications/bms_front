@@ -33,7 +33,8 @@ export class MapService {
             minZoom: 3,           // Too see the whole world on small screens
             zoomControl: true,        // Display the + and - buttons for the zoom
             zoomAnimation: true,        // Smooth transition of zoom
-            zoomSnap: 1.5,              // To avoid overzooming on clusters
+            zoomSnap: 0.5,              // To avoid overzooming on clusters
+            zoomDelta: 1,           // To zoomm normally with + and -
             trackResize: true,        // Keep the center of the map if the window is resized
             doubleClickZoom: true,        // To zoom on the pointer position and not on the center of the map
             dragging: true,         // Enable the dragging of the map
@@ -130,6 +131,10 @@ export class MapService {
 
     initializeFeatureGroup() {
         return Leaflet.markerClusterGroup({
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: false,
+        }).on('clusterclick', function (a: any) {
+            a.layer.zoomToBounds({ padding: [20, 20] });
         });
     }
 

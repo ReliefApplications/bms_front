@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
 export class QrVoucherComponent extends ValidatedDistributionComponent implements OnInit {
     // distributed = false;
     loadingAssign = false;
-    completed = false;
     // beneficiaries = [];
     // beneficiariesClass = Beneficiary;
 
@@ -46,31 +45,28 @@ export class QrVoucherComponent extends ValidatedDistributionComponent implement
    * To be used everytime transactionData changes
    */
   verifyIsFinished() {
-    //   let amount: number;
+      let amount: number;
 
-    //   if (!this.transactionData) {
-    //       amount = 0;
-    //   } else {
-    //       amount = 0;
-    //       this.transactionData.data.forEach(
-    //           (distributionBeneficiary: TransactionQRVoucher) => {
-    //             if (!distributionBeneficiary.get('booklet')) {
-    //               amount++;
-    //             } else {
-    //               const stateId = distributionBeneficiary.get('booklet').get<BookletStatus>('status').get<string>('id');
-    //               if (stateId !== '3' && stateId !== '2') {
-    //                   amount++;
-    //               }
-    //             }
-    //           }
-    //       );
-    //   }
-    //    if (amount === 0) {
-    //       this.finishedEmitter.emit();
-    //    }
-    if (this.completed) {
-            this.finishedEmitter.emit();
-        }
+      if (!this.transactionData) {
+          amount = 0;
+      } else {
+          amount = 0;
+          this.transactionData.data.forEach(
+              (distributionBeneficiary: TransactionQRVoucher) => {
+                if (!distributionBeneficiary.get('booklet')) {
+                  amount++;
+                } else {
+                  const stateId = distributionBeneficiary.get('booklet').get<BookletStatus>('status').get<string>('id');
+                  if (stateId !== '3' && stateId !== '2') {
+                      amount++;
+                  }
+                }
+              }
+          );
+      }
+       if (amount === 0) {
+          this.finishedEmitter.emit();
+       }
   }
 
   // Total ammount assigned/distributed to a benefeciary

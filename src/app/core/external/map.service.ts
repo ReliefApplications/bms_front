@@ -134,7 +134,7 @@ export class MapService {
             showCoverageOnHover: false,
             zoomToBoundsOnClick: false,
         }).on('clusterclick', function (a: any) {
-            a.layer.zoomToBounds({ padding: [20, 20] });
+            a.layer.zoomToBounds({ padding: [50, 50] });
         });
     }
 

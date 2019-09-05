@@ -14,7 +14,7 @@ export class SwInterceptor implements HttpInterceptor {
             console.log(req.url);
             return next.handle(
                 req.clone({
-                    headers: req.headers.append('ngsw-bypass', null),
+                    headers: req.headers.append('ngsw-bypass', ''),
                 })
             );
         }

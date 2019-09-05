@@ -49,7 +49,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
 
-    @ViewChild(TableComponent) tableVoucher: TableComponent;
+    @ViewChild(TableComponent, { static: false }) tableVoucher: TableComponent;
 
     constructor(
         public bookletService: BookletService,

@@ -39,7 +39,7 @@ enum CheckboxState {
 })
 export class DataValidationComponent implements OnInit {
 
-    @ViewChild('stepper') stepper: MatStepper;
+    @ViewChild('stepper', { static: true }) stepper: MatStepper;
 
     currentStep: number;
 

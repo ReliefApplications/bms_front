@@ -55,8 +55,8 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     initialAdmValues: any;
 
 
-    @ViewChild('criteriaTable') criteriaTable: TableComponent;
-    @ViewChild('commodityTable') commodityTable: TableComponent;
+    @ViewChild('criteriaTable', { static: false }) criteriaTable: TableComponent;
+    @ViewChild('commodityTable', { static: false }) commodityTable: TableComponent;
 
     // Screen size
     public currentDisplayType: DisplayType;

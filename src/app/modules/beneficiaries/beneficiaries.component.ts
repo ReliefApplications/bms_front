@@ -44,7 +44,7 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
 
     numberToExport: number = null;
 
-    @ViewChild(TableServerComponent) table: TableServerComponent;
+    @ViewChild(TableServerComponent, { static: false }) table: TableServerComponent;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;

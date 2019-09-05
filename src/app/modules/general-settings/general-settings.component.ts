@@ -17,7 +17,7 @@ export class GeneralSettingsComponent implements OnInit {
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
-    @ViewChild(SettingsComponent) settings: SettingsComponent;
+    @ViewChild(SettingsComponent, { static: true }) settings: SettingsComponent;
 
     constructor(
         public languageService: LanguageService,

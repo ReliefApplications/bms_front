@@ -64,8 +64,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   public exportable = true;
   public httpSubscriber: Subscription;
 
-  @ViewChild(TableComponent) table: TableComponent;
-  @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
+  @ViewChild(TableComponent, { static: false }) table: TableComponent;
+  @ViewChild(TableMobileComponent, { static: false }) tableMobile: TableMobileComponent;
 
   public displayedTable = this.table;
 

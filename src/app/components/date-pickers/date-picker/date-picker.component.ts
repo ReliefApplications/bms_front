@@ -15,7 +15,7 @@ export class DatePickerComponent implements OnInit {
     @Input() control: FormControl;
     @Input() placeholder: string;
 
-    @ViewChild(MatDatepicker) datePicker: MatDatepicker<Date|string>;
+    @ViewChild(MatDatepicker, { static: true }) datePicker: MatDatepicker<Date|string>;
 
     public pickerControl: FormControl = new FormControl(undefined, Validators.required);
 

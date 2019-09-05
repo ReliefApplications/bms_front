@@ -36,7 +36,7 @@
     "@angular/router": "^9.0.0-next.5",
     "@angular/service-worker": "^9.0.0-next.5",
     "@mapbox/leaflet-omnivore": "^0.3.4",
-    "@ng-select/ng-select": "^2.20.0",
+    "@ng-select/ng-select": "^3.0.7",
     "@ngx-pwa/local-storage": "^6.2.4",
     "@ngx-translate/core": "^10.0.2",
     "@types/color": "^3.0.0",

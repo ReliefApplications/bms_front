@@ -10,6 +10,8 @@ export class SwInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         if (req.url.match(URL_BMS_API)) {
             // Add this header to bypass the service worker for requests to the backend
+            // tslint:disable-next-line
+            console.log(req.url);
             return next.handle(
                 req.clone({
                     headers: req.headers.append('ngsw-bypass', null),

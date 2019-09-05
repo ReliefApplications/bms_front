@@ -1,5 +1,9 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { DateAdapter, MatDialog, MatPaginator, MatSort, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { FinancialProviderService } from 'src/app/core/api/financial-provider.service';
 import { HouseholdsService } from 'src/app/core/api/households.service';
@@ -30,13 +34,13 @@ export class TableComponent implements OnInit,  AfterViewInit {
     public paginator: MatPaginator;
     public sort;
 
-    @ViewChild(MatPaginator)
+    @ViewChild(MatPaginator, {static: true})
     set matPaginator(mp: MatPaginator) {
         this.paginator = mp;
         this.initPaginator();
     }
 
-    @ViewChild(MatSort)
+    @ViewChild(MatSort, {static: false})
     set content(content: ElementRef<MatSort>) {
         this.sort = content;
         if (this.sort && this.tableData) {

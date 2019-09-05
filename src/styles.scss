@@ -47,6 +47,10 @@ body > ng-dropdown-panel {
 
 .mat-drawer-container {
     background-color: $bms_grey !important;
+
+    .mat-drawer-inner-container {
+        overflow: hidden !important;
+    }
 }
 
 .mat-step-icon {
@@ -249,7 +253,7 @@ app-display-field.ng-star-inserted {
 
     h4 {
         margin: 0;
-    } 
+    }
 
 }
 
@@ -269,7 +273,7 @@ app-display-field.ng-star-inserted {
     .graph-canvas {
         width: 400px;
         height:400px;
-    } 
+    }
 }
 
 @media screen and (max-width: 700px) {

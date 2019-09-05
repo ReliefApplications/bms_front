@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { ModalEditComponent } from 'src/app/components/modals/modal-edit/modal-edit.component';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { Beneficiary } from 'src/app/models/beneficiary';

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 import { DatePickerComponent } from '../date-picker/date-picker.component';
 

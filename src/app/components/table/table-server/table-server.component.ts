@@ -54,9 +54,6 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     @Output() selectChecked = new EventEmitter<any>();
 
     ngOnInit() {
-    }
-
-    ngAfterViewInit() {
         // define and get filters
         this.filters = this.tableServerData.getFilterFields();
         this.filterFields = Object.keys(this.filters.fields).filter(property => {
@@ -67,6 +64,9 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         this.listenToChanges();
         // get data
         this.tableServerData.loadData();
+    }
+
+    ngAfterViewInit() {
 
         if (this.sort) {
             this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);

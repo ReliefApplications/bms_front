@@ -1,20 +1,18 @@
 import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { URL_BMS_API } from 'src/environments/environment';
-import { CountriesService } from '../countries/countries.service';
 
 @Injectable()
-export class CountryInterceptor implements HttpInterceptor {
+export class SwInterceptor implements HttpInterceptor {
 
-    constructor(
-        private countriesService: CountriesService,
-    ) {}
+    constructor() { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
-        if (req.url.match(URL_BMS_API) && this.countriesService.selectedCountry) {
+        if (req.url.match(URL_BMS_API)) {
+            // Add this header to bypass the service worker for requests to the backend
             return next.handle(
                 req.clone({
-                    headers: req.headers.append('country', this.countriesService.selectedCountry.get<string>('id')),
+                    headers: req.headers.append('ngsw-bypass', null),
                 })
             );
         }

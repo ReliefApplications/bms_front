@@ -34,7 +34,7 @@ export class FilterEvent {
 
 
 @Directive()
-export abstract class AbstractFilter implements FilterInterface {
+export abstract class AbstractFilterDirective implements FilterInterface {
 
     /**
      * if  one filter in the block is active
@@ -71,6 +71,6 @@ export abstract class AbstractFilter implements FilterInterface {
      * Create an unique name for filter with its id and its page
      */
     getFullname(): string {
-        return AbstractFilter.formatFullname(this.page, this.id) ;
+        return AbstractFilterDirective.formatFullname(this.page, this.id) ;
     }
 }

@@ -2,10 +2,8 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { LivechatWidgetModule } from '@livechat/angular-widget';
 import { environment } from '../environments/environment';
 import { setAppInjector } from './app-injector';
 import { AppComponent } from './app.component';
@@ -41,8 +39,6 @@ import { SharedModule } from './shared/shared.module';
         ReactiveFormsModule,
         HttpClientModule,
         SharedModule,
-        HttpModule,
-        LivechatWidgetModule,
 
         // Reporting
         ReportsModule,

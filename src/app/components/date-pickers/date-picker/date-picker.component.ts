@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDatepicker } from '@angular/material';
+import { MatDatepicker } from '@angular/material/datepicker';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
 

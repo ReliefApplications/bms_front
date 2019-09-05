@@ -1,4 +1,4 @@
-import { EventEmitter, Output, Input } from '@angular/core';
+import { EventEmitter, Output, Input, Directive } from '@angular/core';
 
 
 export interface FilterInterface {
@@ -33,6 +33,7 @@ export class FilterEvent {
 }
 
 
+@Directive()
 export abstract class AbstractFilter implements FilterInterface {
 
     /**

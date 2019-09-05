@@ -29,7 +29,6 @@
     "@angular/compiler": "^9.0.0-next.5",
     "@angular/core": "^9.0.0-next.5",
     "@angular/forms": "^9.0.0-next.5",
-    "@angular/http": "^6.1.10",
     "@angular/material": "^8.1.4",
     "@angular/platform-browser": "^9.0.0-next.5",
     "@angular/platform-browser-dynamic": "^9.0.0-next.5",

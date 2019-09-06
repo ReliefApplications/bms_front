@@ -115,7 +115,6 @@ export class ReportsComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-
         this.generateFrequencies();
         this.generateEnabledReports();
         this.getProjects().pipe(
@@ -124,7 +123,8 @@ export class ReportsComponent implements OnInit, OnDestroy {
                     return of(undefined);
                 }
                 return this.setFormsValues();
-        })).subscribe((_: any) => {
+            })
+        ).subscribe((_: any) => {
             this.generateFormsEvents();
             this.selectDefault();
 

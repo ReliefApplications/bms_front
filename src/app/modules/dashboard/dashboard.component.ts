@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/api/user.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';

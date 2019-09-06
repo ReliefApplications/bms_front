@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { APP_DATE_FORMATS } from 'src/app/shared/adapters/date.adapter';
 import { CustomDateAdapter } from '../../../shared/adapters/date.adapter';
 import { CustomModelField } from '../../../models/custom-models/custom-model-field';

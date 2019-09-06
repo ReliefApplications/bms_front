@@ -1,5 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { MatTableDataSource, MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';

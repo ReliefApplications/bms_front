@@ -287,8 +287,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
           this.form.controls.threshold.value > 0 && this.form.controls.adm1.value && this.criteriaNbBeneficiaries > 0) {
               const now = new Date();
               now.setHours(0, 0, 0, 0);
-
-            if (this.form.controls.date.value <= this.projectInfo.startDate || this.form.controls.date.value >= this.projectInfo.endDate) {
+            if (this.form.controls.date.value < this.projectInfo.startDate || this.form.controls.date.value > this.projectInfo.endDate) {
                 this.snackbar.error(this.language.add_distribution_date_inside_project);
                 return;
             } else if (this.form.controls.date.value < now || this.form.controls.date.value === now) {

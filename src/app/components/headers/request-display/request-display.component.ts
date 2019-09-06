@@ -51,7 +51,7 @@ export class RequestDisplayComponent implements OnInit {
 
     loadStoredRequests() {
         this.cacheService.get(AsyncacheService.PENDING_REQUESTS).subscribe(
-            (result) => {
+            (result: StoredRequest[]) => {
                 this.storedRequests = result;
             }
         );

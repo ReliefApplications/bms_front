@@ -30,17 +30,17 @@ import { WsseService } from '../../core/authentication/wsse.service';
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class TableComponent implements OnInit,  AfterViewInit {
+export class TableComponent implements OnInit, AfterViewInit {
     public paginator: MatPaginator;
     public sort;
 
-    @ViewChild(MatPaginator, {static: true})
+    @ViewChild(MatPaginator, { static: true })
     set matPaginator(mp: MatPaginator) {
         this.paginator = mp;
         this.initPaginator();
     }
 
-    @ViewChild(MatSort, {static: false})
+    @ViewChild(MatSort, { static: false })
     set content(content: ElementRef<MatSort>) {
         this.sort = content;
         if (this.sort && this.tableData) {
@@ -103,7 +103,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
     public user_action = '';
 
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     constructor(
         public dialog: MatDialog,
@@ -155,9 +155,9 @@ export class TableComponent implements OnInit,  AfterViewInit {
         if (values.length > 0) {
             let stringValue = '';
             values.forEach(arrayValue => {
-                if (typeof(arrayValue) === 'number') {
+                if (typeof (arrayValue) === 'number') {
                     stringValue += ' ' + arrayValue.toString();
-                } else if (typeof(arrayValue) === 'string') {
+                } else if (typeof (arrayValue) === 'string') {
                     stringValue += ' ' + arrayValue;
                 }
             });
@@ -169,10 +169,10 @@ export class TableComponent implements OnInit,  AfterViewInit {
         }
 
         // If it is a number or a date
-        if (typeof(value) === 'number' || typeof(value) === 'object') {
+        if (typeof (value) === 'number' || typeof (value) === 'object') {
             return value;
         }
-        if (typeof(value) === 'string') {
+        if (typeof (value) === 'string') {
             return value.toLowerCase();
         }
     }
@@ -201,7 +201,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
                     if (field.kindOfField === 'Date') {
                         stringValue = field.formatForApi();
                     }
-                    const value = typeof(stringValue) === 'string' || !stringValue ? stringValue : stringValue.toString();
+                    const value = typeof (stringValue) === 'string' || !stringValue ? stringValue : stringValue.toString();
                     fieldStringValues.push(value);
                 });
 
@@ -217,16 +217,16 @@ export class TableComponent implements OnInit,  AfterViewInit {
         }
 
         if (this.tableData) {
-                    this.tableData.sortingDataAccessor = (item, property) => {
-                        let field = item.fields[property];
+            this.tableData.sortingDataAccessor = (item, property) => {
+                let field = item.fields[property];
 
-                        if (field.kindOfField === 'Children') {
-                            field = item.get(field.childrenObject) ?
-                                item.get(field.childrenObject).fields[field.childrenFieldName] :
-                                new TextModelField({});
-                        }
-                        return this.getFieldStringValues(field);
-                    };
+                if (field.kindOfField === 'Children') {
+                    field = item.get(field.childrenObject) ?
+                        item.get(field.childrenObject).fields[field.childrenFieldName] :
+                        new TextModelField({});
+                }
+                return this.getFieldStringValues(field);
+            };
         }
     }
 
@@ -358,7 +358,7 @@ export class TableComponent implements OnInit,  AfterViewInit {
         }
         this.service.requestLogs(element.get('id')).subscribe(
             () => { this.snackbar.success(this.language.table_logs_success); },
-            (_error: any) => {this.snackbar.error(this.language.table_logs_error); }
+            (_error: any) => { this.snackbar.error(this.language.table_logs_error); }
         );
     }
 }

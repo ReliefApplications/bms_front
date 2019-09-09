@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { Beneficiary } from 'src/app/models/beneficiary';

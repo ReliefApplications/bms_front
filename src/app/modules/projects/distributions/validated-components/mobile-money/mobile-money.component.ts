@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { finalize } from 'rxjs/operators';
 import { Beneficiary } from 'src/app/models/beneficiary';
 import { Commodity } from 'src/app/models/commodity';

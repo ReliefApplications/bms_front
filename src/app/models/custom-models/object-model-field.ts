@@ -1,6 +1,7 @@
 import { CustomModelField } from './custom-model-field';
+import { CustomModel } from './custom-model';
 
-export class ObjectModelField<CustomModel> extends CustomModelField<CustomModel> {
+export class ObjectModelField<T> extends CustomModelField<CustomModel> {
     kindOfField = 'Object';
 
      /**
@@ -20,5 +21,9 @@ export class ObjectModelField<CustomModel> extends CustomModelField<CustomModel>
      * @type {Function}
      */
     displayModalFunction: Function;
+
+    formatForApi(): any {
+        return this.value ? this.value.modelToApi() : null;
+    }
 
 }

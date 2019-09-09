@@ -147,16 +147,16 @@ export class Vendor extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            id: this.get('id'),
-            address_number: this.get('addressNumber'),
-            address_street: this.get('addressStreet'),
-            address_postcode: this.get('addressPostcode'),
-            location: this.get('location') ? this.get('location').modelToApi() : null,
-            name: this.get('shopName'),
+            id: this.fields.id.formatForApi(),
+            address_number: this.fields.addressNumber.formatForApi(),
+            address_street: this.fields.addressStreet.formatForApi(),
+            address_postcode: this.fields.addressPostcode.formatForApi(),
+            location: this.fields.location.formatForApi(),
+            name: this.fields.shopName.formatForApi(),
             password: this.get('user').get('password'),
             username: this.get('user').get('username'),
             salt: this.get('user').get('salt'),
-            shop: this.get('shopType'),
+            shop: this.fields.shopType.formatForApi(),
         };
     }
 

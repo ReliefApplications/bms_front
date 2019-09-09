@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { TableComponent } from 'src/app/components/table/table.component';
@@ -49,7 +50,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
 
-    @ViewChild(TableComponent) tableVoucher: TableComponent;
+    @ViewChild(TableComponent, { static: false }) tableVoucher: TableComponent;
 
     constructor(
         public bookletService: BookletService,

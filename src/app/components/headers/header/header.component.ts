@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/core/api/user.service';
@@ -55,6 +55,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+
+        // We update the breadcrums and tooltip after refresh...
+        this.updateBreadcrumbs(this.router.url);
+        this.updateTooltip(this.router.url);
+
+        // ...and after navigation
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationEnd) {
                 this.updateBreadcrumbs(event.url);

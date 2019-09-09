@@ -64,10 +64,10 @@ export class Phone extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            number: this.get('number'),
-            prefix: this.get('prefix'),
-            proxy: this.get('proxy') ? true : false,
-            type: this.get('type') ? this.fields.type.formatForApi() : null,
+            number: this.fields.number.formatForApi(),
+            prefix: this.fields.prefix.formatForApi(),
+            proxy: this.fields.proxy.formatForApi(),
+            type: this.fields.type.formatForApi(),
 
         };
     }

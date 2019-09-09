@@ -49,6 +49,8 @@ export class English implements Language {
     donor = 'Donor'
     donors = 'donors'
     general_relief = 'Item'
+    head = 'Head'
+    household = 'Household'
     households = 'Household'
     language = 'Language'
     location = 'Location'
@@ -189,7 +191,7 @@ export class English implements Language {
     beneficiary_en_name = 'name (English)'
     beneficiary_family_name = 'Family name'
     beneficiary_given_name = 'First name'
-    beneficiary_head = 'Head'
+    beneficiary_head = 'Household head'
     beneficiary_id = 'Beneficiary ID'
     beneficiary_justification_added = 'Justification for adding'
     beneficiary_justification_removed = 'Justification for removing'
@@ -198,7 +200,7 @@ export class English implements Language {
     beneficiary_local_name = 'name (Local)'
     beneficiary_member = 'Member'
     beneficiary_missing_selected_project = 'You must select a project before uploading'
-    beneficiary_personnal = 'personnal information'
+    beneficiary_personnal = 'personal information'
     beneficiary_plural = 'these beneficiaries'
     beneficiary_referral = 'Referral'
     beneficiary_referral_comment = 'Comment'
@@ -512,7 +514,7 @@ export class English implements Language {
     modal_values_format_error = 'If you want to set individual values, type numeric values separated by commas (max 5)'
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
-
+    modal_no_pending_requests = 'There are no pending requests'
 
     // National ID
     national_id_card = 'ID Card'

@@ -145,7 +145,8 @@ export class Household extends CustomModel {
         ),
         livelihood: new SingleSelectModelField(
             {
-                options: LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, this.language[livelihood.language_key]))
+                options: LIVELIHOOD.map(livelihood => new Livelihood(livelihood.id, this.language[livelihood.language_key])),
+                apiLabel: 'id'
             }
         ),
         notes: new TextModelField(
@@ -225,7 +226,7 @@ export class Household extends CustomModel {
                 .filter((livelihood: Livelihood) => livelihood.get('id') === householdFromApi.livelihood.toString())[0] :
             null);
 
-        newHousehold.set('dependents', householdFromApi.beneficiaries.length - 1);
+        newHousehold.set('dependents', householdFromApi.beneficiaries.length);
 
         newHousehold.fields.vulnerabilities.displayTableFunction = value => value;
         const pipe = new UppercaseFirstPipe();
@@ -292,16 +293,16 @@ export class Household extends CustomModel {
         }
 
         return {
-            livelihood: this.get('livelihood') ? this.get('livelihood').get('id') : null,
-            longitude: this.get('longitude'),
-            latitude: this.get('latitude'),
-            notes: this.get('notes'),
-            country_specific_answers: this.get<CountrySpecificAnswer[]>('countrySpecificAnswers').map(answer => answer.modelToApi()),
-            beneficiaries: this.get<Beneficiary[]>('beneficiaries').map(beneficiary => beneficiary.modelToApi()),
+            livelihood: this.fields.livelihood.formatForApi(),
+            longitude: this.fields.longitude.formatForApi(),
+            latitude: this.fields.latitude.formatForApi(),
+            notes: this.fields.notes.formatForApi(),
+            country_specific_answers: this.fields.countrySpecificAnswers.formatForApi(),
+            beneficiaries: this.fields.beneficiaries.formatForApi(),
             income_level: this.fields.incomeLevel.formatForApi(),
             household_locations: householdLocations.map((householdLocation: HouseholdLocation) => householdLocation.modelToApi()),
-            food_consumption_score: this.get('foodConsumptionScore'),
-            coping_strategies_index: this.get('copingStrategiesIndex'),
+            food_consumption_score: this.fields.foodConsumptionScore.formatForApi(),
+            coping_strategies_index: this.fields.copingStrategiesIndex.formatForApi(),
         };
     }
 

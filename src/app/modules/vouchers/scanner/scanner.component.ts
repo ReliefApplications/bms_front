@@ -11,7 +11,7 @@ import { VouchersComponent } from '../vouchers.component';
 export class ScannerComponent extends VouchersComponent implements OnInit {
     @Output() public result = new EventEmitter<string>();
 
-    @ViewChild('scanner') public scanner: ZXingScannerComponent;
+    @ViewChild('scanner', { static: true }) public scanner: ZXingScannerComponent;
 
     public hasDevices = true;
     public hasPermission = true;

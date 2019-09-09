@@ -8,7 +8,7 @@
     }
 }
 
-/deep/ .date .mat-form-field-flex div.mat-form-field-infix  {
+::ng-deep .date .mat-form-field-flex div.mat-form-field-infix  {
   display: flex;
   padding: 0;
 

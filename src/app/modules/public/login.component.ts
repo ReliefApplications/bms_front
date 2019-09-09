@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     public loader = false;
     public form: FormGroup;
 
-    @ViewChild('captchaRef') recaptcha: RecaptchaComponent;
+    @ViewChild('captchaRef', { static: false }) recaptcha: RecaptchaComponent;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;

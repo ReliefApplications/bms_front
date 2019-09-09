@@ -8,14 +8,14 @@
               <th class="table-title">{{ language.criteria_target | uppercaseFirst }}</th>
               <td class="form-item">
                 <ng-select appendTo="body" formControlName="criteriaType" [placeholder]="language.criteria_target | uppercaseFirst">
-                    <ng-option value="Beneficiary">
+                    <ng-option value="beneficiary">
                       {{ language.beneficiary | uppercaseFirst}}
                     </ng-option>
-                    <ng-option value="Head">
-                      {{ language.beneficiary_head | uppercaseFirst}}
+                    <ng-option value="head">
+                      {{ language.head | uppercaseFirst}}
                     </ng-option>
-                    <ng-option value="Household">
-                      {{ language.households | uppercaseFirst}}
+                    <ng-option value="household">
+                      {{ language.household | uppercaseFirst}}
                     </ng-option>
                 </ng-select>
               </td>

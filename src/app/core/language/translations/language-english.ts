@@ -49,7 +49,7 @@ export class English implements Language {
     donor = 'Donor'
     donors = 'donors'
     general_relief = 'Item'
-    head = 'Head'
+    head = 'Household Head'
     household = 'Household'
     households = 'Household'
     language = 'Language'

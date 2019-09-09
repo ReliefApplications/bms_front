@@ -356,12 +356,12 @@ export class Beneficiary extends CustomModel {
             date_of_birth: this.fields.dateOfBirth.formatForApi(),
             residency_status: this.fields.residencyStatus.formatForApi(),
             status: this.fields.beneficiaryStatus.formatForApi(),
-            vulnerability_criteria: this.get<VulnerabilityCriteria[]>('vulnerabilities').map(vulnerability => vulnerability.modelToApi()),
-            phones: this.get<Phone[]>('phones').map(phone => phone.modelToApi()),
-            national_ids: this.get<NationalId[]>('nationalIds').map(nationalId => nationalId.modelToApi()),
-            profile: this.get('profile') ? this.get('profile').modelToApi() : null,
-            referral_type: this.fields.referralType.value ? this.fields.referralType.formatForApi() : null,
-            referral_comment: this.fields.referralComment.value ? this.fields.referralComment.formatForApi() : null,
+            vulnerability_criteria: this.fields.vulnerabilities.formatForApi(),
+            phones: this.fields.phones.formatForApi(),
+            national_ids: this.fields.nationalIds.formatForApi(),
+            profile: this.fields.profile.formatForApi(),
+            referral_type: this.fields.referralType.formatForApi(),
+            referral_comment: this.fields.referralComment.formatForApi(),
         };
     }
 

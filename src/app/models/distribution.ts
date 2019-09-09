@@ -1,10 +1,13 @@
 
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
+import { AppInjector } from '../app-injector';
+import { CountriesService } from '../core/countries/countries.service';
 import { Commodity } from './commodity';
 import { Criteria } from './criteria';
 import { BooleanModelField } from './custom-models/boolan-model-field';
 import { DateModelField } from './custom-models/date-model-field';
 import { MultipleObjectsModelField } from './custom-models/multiple-object-model-field';
+import { NestedFieldModelField } from './custom-models/nested-field';
 import { NumberModelField } from './custom-models/number-model-field';
 import { ObjectModelField } from './custom-models/object-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
@@ -12,11 +15,6 @@ import { TextModelField } from './custom-models/text-model-field';
 import { DistributionBeneficiary } from './distribution-beneficiary';
 import { Location } from './location';
 import { Project } from './project';
-import { NestedFieldModelField } from './custom-models/nested-field';
-import { FormGroup } from '@angular/forms';
-import { AppInjector } from '../app-injector';
-import { LocationService } from '../core/api/location.service';
-import { CountriesService } from '../core/countries/countries.service';
 export class DistributionType extends CustomModel {
 
     public fields = {
@@ -41,8 +39,8 @@ export class Distribution extends CustomModel {
 
     protected countryService = AppInjector.get(CountriesService);
     protected country = this.countryService.selectedCountry.get<string>('id') ?
-    this.countryService.selectedCountry.get<string>('id') :
-    this.countryService.khm.get<string>('id');
+        this.countryService.selectedCountry.get<string>('id') :
+        this.countryService.khm.get<string>('id');
 
     public fields = {
         id: new NumberModelField(
@@ -60,7 +58,7 @@ export class Distribution extends CustomModel {
                 isSettable: true,
             }
         ),
-        location: new ObjectModelField<Location> (
+        location: new ObjectModelField<Location>(
             {
                 title: this.language.location,
                 isDisplayedInTable: true,
@@ -125,7 +123,7 @@ export class Distribution extends CustomModel {
                 value: new DistributionType('0', this.language.households),
             }
         ),
-        commodities: new MultipleObjectsModelField<Commodity> (
+        commodities: new MultipleObjectsModelField<Commodity>(
             {
                 title: this.language.commodity,
                 isDisplayedInTable: true,
@@ -186,7 +184,7 @@ export class Distribution extends CustomModel {
         newDistribution.set('id', distributionFromApi.id);
         newDistribution.set('date', DateModelField.formatFromApi(distributionFromApi.date_distribution));
 
-        newDistribution.set('type', distributionFromApi.type >= 0  ?
+        newDistribution.set('type', distributionFromApi.type >= 0 ?
             newDistribution.getOptions('type').filter(
                 (option: DistributionType) => distributionFromApi.type.toString() === option.get('id'))[0] :
             null);
@@ -204,9 +202,9 @@ export class Distribution extends CustomModel {
         newDistribution.fields.project.displayTableFunction = (value: Project) => value.get('name');
 
         newDistribution.set('commodities',
-        distributionFromApi.commodities ?
-            distributionFromApi.commodities.map((commodity: any) => Commodity.apiToModel(commodity)) :
-            null);
+            distributionFromApi.commodities ?
+                distributionFromApi.commodities.map((commodity: any) => Commodity.apiToModel(commodity)) :
+                null);
 
         newDistribution.set('selectionCriteria', distributionFromApi.selection_criteria ?
             distributionFromApi.selection_criteria.map((criteria: any) => Criteria.apiToModel(criteria)) :
@@ -231,26 +229,24 @@ export class Distribution extends CustomModel {
         const commodities = this.get('commodities') ?
             this.get<Commodity[]>('commodities').map(commodity => commodity.modelToApi()) :
             [];
-        const location = this.get('location').modelToApi();
         const project = { id: this.get('projectId') };
         const selectionCriteria = this.get('selectionCriteria') ?
             this.get<Criteria[]>('selectionCriteria').map(criteria => criteria.modelToApi()) :
             [];
 
         return {
-            id: this.get('id'),
+            id: this.fields.id.formatForApi(),
             commodities: commodities,
             date_distribution: this.fields.date.formatForApi(),
             finished: false,
-            location: location,
-            name: this.get('name'),
+            location: this.fields.location.formatForApi(),
+            name: this.fields.name.formatForApi(),
             project: project,
             selection_criteria: selectionCriteria,
-            threshold: this.get('threshold'),
-            type: this.get('type').get('id'),
-            distribution_beneficiaries: this.get<Array<DistributionBeneficiary>>('distributionBeneficiaries')
-                .map((distributionBeneficiary: DistributionBeneficiary) => distributionBeneficiary.modelToApi()),
-            validated: this.get('validated') ? this.get('validated') : false
+            threshold: this.fields.threshold.formatForApi(),
+            type: this.fields.type.formatForApi(),
+            distribution_beneficiaries: this.fields.distributionBeneficiaries.formatForApi(),
+            validated: this.fields.validated.formatForApi()
         };
 
     }

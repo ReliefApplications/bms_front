@@ -55,10 +55,10 @@ export class Product extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            id: this.get('id'),
-            name: this.get('name'),
-            image: this.get('image'),
-            unit: this.get('unit')
+            id: this.fields.id.formatForApi(),
+            name: this.fields.name.formatForApi(),
+            image: this.fields.image.formatForApi(),
+            unit: this.fields.unit.formatForApi()
         };
     }
 

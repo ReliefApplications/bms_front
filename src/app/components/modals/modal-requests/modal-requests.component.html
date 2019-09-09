@@ -14,7 +14,7 @@
     </div>
 
     <table mat-table [dataSource]="requests" multiTemplateDataRows
-        *ngIf="requests && !loading && !inProgress && requests.length > 0" cdkFocusRegionstart>
+        *ngIf="requests && !loading && !inProgress && requests.length > 0; else noRequests" cdkFocusRegionstart>
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
             <th mat-header-cell *matHeaderCellDef class="{{column}}">
                 <div *ngIf="column !== 'icon'">
@@ -70,7 +70,11 @@
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="req-detail-row"></tr>
     </table>
+    <ng-template #noRequests>
+        <p *ngIf="!loading">{{language.modal_no_pending_requests | titlecase}}</p>   
+    </ng-template>
 
+    
     <div class="loading-container" *ngIf="loading">
         <mat-spinner [diameter]="35"></mat-spinner>
     </div>
@@ -104,6 +108,6 @@
         <button mat-button (click)="closeDialog()" class="button-text-accent">{{language.modal_leave}}</button>
         <mat-spinner [diameter]="35" *ngIf="inProgress"></mat-spinner>
         <button mat-flat-button class="send-all button-background-accent" (click)="sendAllRequests()"
-            *ngIf="!inProgress">{{language.update}}</button>
+            *ngIf="!inProgress && requests.length > 0">{{language.update}}</button>
     </div>
 </mat-dialog-actions>

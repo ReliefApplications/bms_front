@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { DateAdapter, MatDialog, MatTableDataSource, MAT_DATE_FORMATS } from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -55,8 +57,8 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
     initialAdmValues: any;
 
 
-    @ViewChild('criteriaTable') criteriaTable: TableComponent;
-    @ViewChild('commodityTable') commodityTable: TableComponent;
+    @ViewChild('criteriaTable', { static: false }) criteriaTable: TableComponent;
+    @ViewChild('commodityTable', { static: false }) commodityTable: TableComponent;
 
     // Screen size
     public currentDisplayType: DisplayType;
@@ -285,8 +287,7 @@ export class AddDistributionComponent implements OnInit, DesactivationGuarded, O
           this.form.controls.threshold.value > 0 && this.form.controls.adm1.value && this.criteriaNbBeneficiaries > 0) {
               const now = new Date();
               now.setHours(0, 0, 0, 0);
-
-            if (this.form.controls.date.value <= this.projectInfo.startDate || this.form.controls.date.value >= this.projectInfo.endDate) {
+            if (this.form.controls.date.value < this.projectInfo.startDate || this.form.controls.date.value > this.projectInfo.endDate) {
                 this.snackbar.error(this.language.add_distribution_date_inside_project);
                 return;
             } else if (this.form.controls.date.value < now || this.form.controls.date.value === now) {

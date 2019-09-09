@@ -5,6 +5,7 @@ import { CustomModel } from './custom-models/custom-model';
 import { NumberModelField } from './custom-models/number-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
+import { TitleCasePipe } from '@angular/common';
 
 export class CriteriaCondition extends CustomModel {
 
@@ -68,7 +69,9 @@ export class Criteria extends CustomModel {
         // ),
         target: new TextModelField(
             {
-
+                title: this.language.criteria_target,
+                isDisplayedInTable: true,
+                isTranslatable: true
             }
         ),
         tableString: new TextModelField({
@@ -93,7 +96,7 @@ export class Criteria extends CustomModel {
                 apiLabel: 'name'
             }
         ),
-        type: new SingleSelectModelField(
+        type: new TextModelField(
             {
             }
         ),
@@ -124,7 +127,7 @@ export class Criteria extends CustomModel {
 
         newCriteria.set('field', criteriaFromApi.field_string);
         newCriteria.set('type', criteriaFromApi.type);
-        newCriteria.set('target', criteriaFromApi.target);
+        newCriteria.set('target', criteriaFromApi.target ? criteriaFromApi.target.toLowerCase() : null);
         newCriteria.set('tableString', criteriaFromApi.table_string);
 
         // If it is a criteria associated with a distribution, it already has a value and condition
@@ -145,14 +148,16 @@ export class Criteria extends CustomModel {
     }
 
     public modelToApi(): Object {
+        const titleCase = new TitleCasePipe();
+
         return {
-            condition_string: this.get('condition').get('name'),
-            field_string: this.get('field'),
-            target: this.get('target'),
-            table_string: this.get('tableString'),
-            value_string: this.get('value').get('id'),
-            weight: this.get('weight'),
-            type: this.get('type'),
+            condition_string: this.fields.condition.formatForApi(),
+            field_string: this.fields.field.formatForApi(),
+            target: this.fields.target.formatForApi() ? titleCase.transform(this.fields.target.formatForApi()) : null,
+            table_string: this.fields.tableString.formatForApi(),
+            value_string: this.fields.value.formatForApi(),
+            weight: this.fields.weight.formatForApi(),
+            type: this.fields.type.formatForApi(),
         };
     }
 

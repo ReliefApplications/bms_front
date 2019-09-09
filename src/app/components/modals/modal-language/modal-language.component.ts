@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { switchMap, tap } from 'rxjs/operators';
 import { UserService } from 'src/app/core/api/user.service';
 import { Language } from 'src/app/core/language/language';

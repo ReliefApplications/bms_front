@@ -18,7 +18,7 @@ export class Profile extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            photo: this.get('photo')
+            photo: this.fields.photo.formatForApi()
         };
     }
 }

@@ -9,11 +9,11 @@ import { LanguageService } from 'src/app/core/language/language.service';
 })
 export class NetworkService {
 
-    private CONNECTED = true;
+    private CONNECTED: boolean;
     public online$: Observable<boolean>;
 
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
 
     constructor(
@@ -29,6 +29,10 @@ export class NetworkService {
     }
 
     refreshNetworkStatus() {
+        if (!this.CONNECTED) {
+            this.CONNECTED = navigator.onLine;
+        }
+
         this.online$.subscribe(
             status => {
                 // If connection status has changed

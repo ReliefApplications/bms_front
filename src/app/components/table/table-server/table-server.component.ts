@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DateAdapter, MatPaginator, MatSort, MAT_DATE_FORMATS } from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { merge } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CustomModel } from 'src/app/models/custom-models/custom-model';
@@ -33,8 +35,8 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         }
     }
 
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+    @ViewChild(MatSort, {static: false}) sort: MatSort;
 
     public filters: CustomModel;
     public filterFields: Array<string>;
@@ -52,9 +54,6 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     @Output() selectChecked = new EventEmitter<any>();
 
     ngOnInit() {
-    }
-
-    ngAfterViewInit() {
         // define and get filters
         this.filters = this.tableServerData.getFilterFields();
         this.filterFields = Object.keys(this.filters.fields).filter(property => {
@@ -65,6 +64,9 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         this.listenToChanges();
         // get data
         this.tableServerData.loadData();
+    }
+
+    ngAfterViewInit() {
 
         if (this.sort) {
             this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);

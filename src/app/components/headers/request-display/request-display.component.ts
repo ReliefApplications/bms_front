@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { ModalRequestsComponent } from 'src/app/components/modals/modal-requests/modal-requests.component';
 import { NetworkService } from 'src/app/core/network/network.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
@@ -51,7 +51,7 @@ export class RequestDisplayComponent implements OnInit {
 
     loadStoredRequests() {
         this.cacheService.get(AsyncacheService.PENDING_REQUESTS).subscribe(
-            (result) => {
+            (result: StoredRequest[]) => {
                 this.storedRequests = result;
             }
         );

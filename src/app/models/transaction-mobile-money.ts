@@ -175,7 +175,7 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
     public modelToApi(): Object {
 
         return {
-            id: this.fields.id.formatForApi(),
+            id: this.fields.beneficiaryId.formatForApi(),
             beneficiary: this.fields.beneficiary.formatForApi(),
             transaction_id: this.fields.idTransaction.formatForApi(),
             message: this.fields.message.formatForApi(),

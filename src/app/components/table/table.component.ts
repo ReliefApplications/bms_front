@@ -34,7 +34,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     public paginator: MatPaginator;
     public sort;
 
-    @ViewChild(MatPaginator, { static: true })
+    @ViewChild(MatPaginator, { static: false })
     set matPaginator(mp: MatPaginator) {
         this.paginator = mp;
         this.initPaginator();

@@ -42,7 +42,7 @@
                         <ng-select [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst"
                             [multiple]="true" [closeOnSelect]="false">
                             <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
-                                {{option.get(field.bindField) | uppercaseFirst}}
+                                {{(language[option.get(field.bindField)] || option.get(field.bindField)) | uppercaseFirst}}
                             </ng-option>
                         </ng-select>
                     </ng-container>

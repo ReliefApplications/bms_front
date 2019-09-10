@@ -98,7 +98,7 @@
                         [disabled]="!element.isPrintable()">
                         <mat-icon>printer</mat-icon>
                     </button>
-                    <button mat-icon-button [matTooltip]="language.table_assign | uppercaseFirst" *ngIf="assignable"
+                    <button mat-icon-button [matTooltip]="language.table_assign | uppercaseFirst" *ngIf="assignable && !element.get('removed')"
                         (click)="assign(element); $event.stopPropagation()" class="grey"
                         [disabled]="!element.isAssignable()">
                         <mat-icon>assignment</mat-icon>

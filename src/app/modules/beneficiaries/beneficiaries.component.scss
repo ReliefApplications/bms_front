@@ -29,3 +29,11 @@ app-placeholder-panel {
 .mat-badge {
     z-index: 1;
 }
+
+.action-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+    .button-with-extension, .action-button {
+        margin-top: 10px;
+    }
+}

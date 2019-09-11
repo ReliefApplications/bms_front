@@ -41,3 +41,14 @@
 .table-placeholder {
     position: absolute;
 }
+
+.selected-items {
+    display: flex;
+    width: 25%;
+    font-size: 14px;
+    margin-left: auto;
+    margin-right: 10px;
+    justify-content: flex-end;
+    color: $bms_dark_grey;
+    font: $bms_font_text;
+}

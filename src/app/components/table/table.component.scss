@@ -248,10 +248,12 @@ mat-table.rtl {
 .selected-items {
     display: flex;
     width: 25%;
+    margin-left: auto;
+    margin-right: 10px;
+    justify-content: flex-end;
+    font-size: 14px;
     color: $bms_dark_grey;
     font: $bms_font_text;
-    font-size: 14px;
-    justify-content: center;
-    align-content: center;
-    margin-left: auto;
 }
+
+

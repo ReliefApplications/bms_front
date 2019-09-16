@@ -2,6 +2,7 @@ import { TextModelField } from './custom-models/text-model-field';
 import { CustomModel } from './custom-models/custom-model';
 import { NumberModelField } from './custom-models/number-model-field';
 import { DateModelField } from './custom-models/date-model-field';
+import { FormGroup } from '@angular/forms';
 
 export class Log extends CustomModel {
 
@@ -9,13 +10,14 @@ export class Log extends CustomModel {
 
     public fields = {
         url: new TextModelField({}),
-        tabName: new TextModelField({}),
+        method: new TextModelField({}),
         request: new TextModelField({}),
+        tabName: new TextModelField({}),
         id: new NumberModelField(
             {
                 title: this.language.log_field_id,
                 isDisplayedInModal: false,
-                isDisplayedInTable: true,
+                isDisplayedInTable: false,
             }
         ),
         objectOfAction: new TextModelField(
@@ -30,9 +32,9 @@ export class Log extends CustomModel {
                 title: this.language.log_field_details,
                 isDisplayedInModal: true,
                 isDisplayedInTable: false,
-                isLongText: true,
-                displayValue: '',
-            }),
+                isLongText: true
+            }
+        ),
         action: new TextModelField(
             {
                 title: this.language.log_field_action,
@@ -59,13 +61,16 @@ export class Log extends CustomModel {
             {
                 title: this.language.log_field_user,
                 isDisplayedInModal: true,
-                isDisplayedInTable: true,
-            }),
-        country: new TextModelField({
-            title: this.language.log_field_country,
-            isDisplayedInModal: true,
-            isDisplayedInTable: true
-        })
+                isDisplayedInTable: true
+            }
+        ),
+        country: new TextModelField(
+            {
+                title: this.language.log_field_country,
+                isDisplayedInModal: true,
+                isDisplayedInTable: true
+            }
+        )
     };
 
     constructor() {
@@ -78,7 +83,6 @@ export class Log extends CustomModel {
         const method = logFromApi.method;
         const request = logFromApi.request;
         const status = logFromApi.http_status;
-        let detailString;
         let urlMatch = [];
 
         // Assign all fields
@@ -126,33 +130,32 @@ export class Log extends CustomModel {
             default: break;
         }
 
-        // Assign an action, the receptor of the action and interesting details if any.
+        // Assign an action, the object of the action and interesting details if any.
         // All possible urls are commented with their respective message
         switch (method) {
             case 'PUT':
+            {
                 newLog.set('action', newLog.language.log_created);
                 if (/.+\/distributions\/[0-9]+\/beneficiary/.test(url)) {
-                    // Distribution beneficiaries created (/distributions/{id}/beneficiary)
-                    urlMatch = url.match(/.+\/(distributions)\/([0-9]+)\/(beneficiary)/);
+                    // Distribution beneficiaries added (/distributions/{id}/beneficiary)
+                    newLog.set('action', newLog.language.log_add);
                     newLog.set('objectOfAction', newLog.language.log_distributions
                         + ' ' + newLog.language.log_beneficiaries);
-                    detailString = request.match(/"local_given_name":"(.*?)"/)[1];
-                    if (detailString === 'undefined') { detailString = newLog.language.log_not_exists; }
-                    newLog.set('details', newLog.language.log_name + ': ' + detailString);
+                    // DETAILS ON SERVICE (Distribution & Beneficiaries name)
                 } else {
                     // urls = /distributions || /country_specifics || /households || /donors
                     // || /users || /booklets  || (/projects || /products || /vendors || ?/vouchers?)
                     urlMatch = url.match(/.+\/(.+)/);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                    // Testing
+
                     if (url.includes('distributions')) {
-                        newLog.set('details', newLog.language.log_name + ': ' + request.match(/.*"name":"(.*?)"/)[1]);
+                        newLog.set('details', newLog.language.log_distributions + ': ' + request.match(/.*"name":"(.*?)"/)[1]);
                     } else if (url.includes('country_specifics')) {
                         newLog.set('details', newLog.language.log_field + ': ' + request.match(/"field":"(.*?)"/)[1]);
                     } else if (url.includes('households')) {
                         newLog.set('details', newLog.language.log_family_name + ': ' + request.match(/"local_family_name":"(.*?)".+/)[1]);
                     } else if (url.includes('donors')) {
-                        newLog.set('details', newLog.language.log_name + ': ' + request.match(/"shortname":"(.*?)"/)[1]);
+                        newLog.set('details', newLog.language.log_donors + ': ' + request.match(/"shortname":"(.*?)"/)[1]);
                     } else if (url.includes('users')) {
                         newLog.set('details', newLog.language.log_username + ': ' + request.match(/"username":"(.*?)"/)[1]);
                     } else if (url.includes('booklets')) {
@@ -163,9 +166,11 @@ export class Log extends CustomModel {
                         newLog.set('details', newLog.language.log_name + ': ' + request.match(/"name":"(.*?)"/)[1]);
                     }
                 }
-                break;
+            }
+            break;
 
             case 'DELETE':
+            {
                 if (/.+\/deactivate-booklets\/[0-9]+/.test(url)) {
                     // Booklets deactivated (/deactivate-booklets)
                     urlMatch = url.match(/.+\/deactivate-booklets\/([0-9]+)/);
@@ -175,7 +180,7 @@ export class Log extends CustomModel {
                 } else {
                     newLog.set('action', newLog.language.log_delete);
                     if (/.+\/vouchers\/delete_batch/.test(url)) {
-                        // url = /vouchers/delete_batch
+                        // Batch of vouchers deleted(/vouchers/delete_batch)
                         newLog.set('objectOfAction', newLog.language.log_batch_vouchers);
                         newLog.set('details', newLog.language.log_no_details);
                     } else {
@@ -186,7 +191,8 @@ export class Log extends CustomModel {
                         newLog.set('details',  newLog.language.log_old_id + ': ' + urlMatch[2]);
                     }
                 }
-                break;
+            }
+            break;
 
             case 'POST':
                 if (url.includes('deactivate-booklets')) {
@@ -207,7 +213,6 @@ export class Log extends CustomModel {
                     // Distribution beneficiaries imported (/import/beneficiaries/distributions/{id})
                     urlMatch = url.match(/.*\/.*?\/.*?\/(.*?)\/(.*?)\/[0-9]+/);
                     newLog.set('action', newLog.language.log_import);
-
                     if (/.*\/import\/households$/.test(url)) {
                         newLog.set('objectOfAction', newLog.language.log_households);
                     } else if (/.*\/import\/api\/.*?\/.*?\/[0-9]+/.test(url)) {
@@ -217,19 +222,19 @@ export class Log extends CustomModel {
                         newLog.set('objectOfAction', newLog.language['log_' + urlMatch[2]]
                             + ' ' + newLog.language['log_' + urlMatch[1]]);
                     }
-                    // DETAILS ON SERVICE (distribution/project name)
+                    // DETAILS ON SERVICE (distribution, project)
                 } else if (url.includes('transaction')) {
                     // Mobile money sent (/transaction/distribution/{id}/send)
                     // Transaction code sent (/transaction/distribution/{id}/email)
                     urlMatch = url.match(/.*\/[0-9]+\/(.*)/);
                     newLog.set('action', newLog.language.log_transaction);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                    // DETAILS ON SERVICE (distribution name)
+                    // DETAILS ON SERVICE (distribution)
                 } else if (url.includes('assign')) {
                     // Booklets assigned (/booklets/assign/{benefId}/{distId})
                     newLog.set('action', newLog.language.log_assign);
                     newLog.set('objectOfAction', newLog.language.log_booklets);
-                    // DETAILS ON SERVICE (beneficiary name, distribution name) + !!code from request!!
+                    // DETAILS ON SERVICE (beneficiary, distribution, booklet code)
                 } else if (url.includes('archive') || url.includes('complete')) {
                     // Distribution archived (/distributions/archive/{id})
                     // Vendor archived (/vendors/archive/{id})
@@ -237,7 +242,7 @@ export class Log extends CustomModel {
                     urlMatch = url.match(/.*\/(.*?)\/(.*?)\/[0-9]+/);
                     newLog.set('action', newLog.language['log_' + urlMatch[2]]);
                     newLog.set('objectOfAction', newLog.language['log_' + urlMatch[1]]);
-                    // DETAILS ON SERVICE (distribution/vendor name)
+                    // DETAILS ON SERVICE (distribution, vendor)
                 } else if (url.includes('validate')) {
                     // Distribution validated (/distributions/{id}/validate)
                     newLog.set('action', newLog.language.log_validate);
@@ -246,11 +251,11 @@ export class Log extends CustomModel {
                     // DETAILS ON SERVICE
                 } else if (url.includes('remove')) {
                     // Distribution beneficiary removed
-                    // (/api/wsse/distributions/{distId}/beneficiaries/{benefId}/remove)
+                    // (/distributions/{distId}/beneficiaries/{benefId}/remove)
                     newLog.set('action', newLog.language.log_remove);
                     newLog.set('objectOfAction', newLog.language.log_distributions
                         + ' ' + newLog.language.log_beneficiary);
-                    // DETAILS ON SERVICE (distribution name, beneficiary name)
+                    // DETAILS ON SERVICE (distribution, beneficiary)
                 } else if (url.includes('generalrelief')) {
                     if (url.includes('notes')) {
                         // General relief item notes added (/distributions/generalrelief/notes)
@@ -259,19 +264,17 @@ export class Log extends CustomModel {
                             + ' ' + newLog.language['log_notes']);
                     } else {
                         // General relief item distributed (/distributions/generalrelief/distributed)
-                        newLog.set('action', newLog.language['log_distributed']);
-                        newLog.set('objectOfAction', newLog.language['log_general_relief_item']);
+                        newLog.set('action', newLog.language.log_distributed);
+                        newLog.set('objectOfAction', newLog.language.log_general_relief_item);
                     }
-                    detailString = '';
-                    newLog.set('details', newLog.language['log_no_details']);
-                    // DETAILS ??item and distribution name from request?? (too much backend logic for the frontend.
-                    // too much backend logic in backend for what it is)
+                    newLog.set('details', newLog.language.log_no_details);
+                    // DETAILS ??item and distribution?? (ids on request) -> REQUIRES BACKEND LOGIC
                 } else if (url.includes('add')) {
                     // Project beneficiaries added (/projects/{id}/beneficiaries/add)
                     newLog.set('action', newLog.language.log_add);
                     newLog.set('objectOfAction', newLog.language.log_project
                         + ' ' + newLog.language.log_beneficiaries);
-                    // DETAILS ON SERVICE (project name) + ??beneficiaries names from request?? (might me too much)
+                    // DETAILS ON SERVICE (project) + ??beneficiaries?? (id on request)
                 } else if (url.includes('upload')) {
                     // Product image uploaded (/products/upload/image)
                     // Donor logo uploaded (/donor/upload/logo)

@@ -26,6 +26,7 @@ export class LogsComponent implements OnInit, OnDestroy {
     public logClass = Log;
     public logs: Log[];
     public logData: MatTableDataSource<Log>;
+    public filteredLogList: Log[];
     public loadingLogs = true;
     public selectedTab = 'distributions';
     public requestsKHM;
@@ -33,8 +34,8 @@ export class LogsComponent implements OnInit, OnDestroy {
     graphs: Array<Graph> = [];
     modalSubscriptions: Array<Subscription> = [];
 
-    @ViewChild(TableComponent) table: TableComponent;
-    @ViewChild(TableMobileComponent) tableMobile: TableMobileComponent;
+    @ViewChild(TableComponent, { static: false }) table: TableComponent;
+    @ViewChild(TableMobileComponent, { static: false }) tableMobile: TableMobileComponent;
 
     public displayedTable = this.table;
 
@@ -80,13 +81,12 @@ export class LogsComponent implements OnInit, OnDestroy {
             finalize(
                 () => {
                     this.loadingLogs = false;
-                },
+                }
             )
         ).subscribe(
             response => {
                 if (response && response.length > 0) {
                     this.logs = response.map((log: any) => Log.apiToModel(log));
-                    // this.logs.map((log: Log) => this.logService.getDetails(log));  Solves details bug but costs too much
                     this.selectTab('distributions');
                     this.createGraph();
                 } else if (response === null) {
@@ -99,8 +99,13 @@ export class LogsComponent implements OnInit, OnDestroy {
     selectTab(tab: string): void {
         this.selectedTab = tab;
         if (this.logs) {
-            const filteredLogList = this.logs.filter((log: Log) => log.get<string>('tabName') === tab);
-            this.logData = new MatTableDataSource(filteredLogList);
+            this.filteredLogList = this.logs.filter((log: Log) => log.get<string>('tabName') === tab);
+            this.filteredLogList.map((log: any) => {
+                if (!log.get('details')) {
+                    this.logService.getDetails(log);
+                }
+            });
+            this.logData = new MatTableDataSource(this.filteredLogList);
             if (this.table && this.table.paginator) {
                     this.table.paginator.pageIndex = 0;
             } else if (this.tableMobile && this.tableMobile.paginator) {
@@ -231,19 +236,10 @@ export class LogsComponent implements OnInit, OnDestroy {
 
     openDialog(dialogDetails: any): void {
         this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
-        this.modalService.openDialog(this.logClass, this.logService, dialogDetails);
-
-        const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
-            this.loadingLogs = true;
+        let completeSubscription = null;
+        this.modalService.openDialog(Log, this.logService, dialogDetails);
+        completeSubscription = this.modalService.isCompleted.subscribe((_response: boolean) => {
         });
-
-        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
-            if (response) {
-                this.getLogs();
-            } else {
-                this.loadingLogs = false;
-            }
-        });
-        this.modalSubscriptions = [isLoadingSubscription, completeSubscription];
+        this.modalSubscriptions = [completeSubscription];
     }
 }

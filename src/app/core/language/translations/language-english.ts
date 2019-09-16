@@ -525,7 +525,7 @@ export class English implements Language {
         log_active_users_title = 'Most active users'
         log_codes = 'Code/s'
         log_family_name = 'family name'
-        log_field = 'field'
+        log_field = 'Field'
         log_old_id = 'Previous id'
         log_name = 'Name'
         log_not_exists = 'Not exists anymore'
@@ -542,12 +542,12 @@ export class English implements Language {
         log_value = 'Value'
 
         //Status
-        log_status_200 = 'success'
-        log_status_300 = 'redirected'
-        log_status_400 = 'error'
-        log_status_401 = 'unauthenticated'
-        log_status_403 = 'forbidden'
-        log_status_404 = 'not found'
+        log_status_200 = 'Success'
+        log_status_300 = 'Redirected'
+        log_status_400 = 'Error'
+        log_status_401 = 'Unauthenticated'
+        log_status_403 = 'Forbidden'
+        log_status_404 = 'Not Found'
 
 
     // Login
@@ -596,7 +596,7 @@ export class English implements Language {
     modal_values_format_error = 'If you want to set individual values, type numeric values separated by commas (max 5)'
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
-
+    
 
     // National ID
     national_id_card = 'ID Card'

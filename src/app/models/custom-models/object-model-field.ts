@@ -16,7 +16,7 @@ export class ObjectModelField<CustomModel> extends CustomModelField<CustomModel>
     displayTableFunction: Function;
 
     /**
-     * What to display in the table and how
+     * What to display in the modal and how
      * @type {Function}
      */
     displayModalFunction: Function;

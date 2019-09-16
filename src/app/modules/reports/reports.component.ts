@@ -18,9 +18,11 @@ import { CustomModel } from 'src/app/models/custom-models/custom-model';
 import { Distribution } from 'src/app/models/distribution';
 import { Project } from 'src/app/models/project';
 import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/date.adapter';
-import { GraphDTO } from './models/graph.dto';
+import { GraphDTO, GraphValueDTO } from './models/graph.dto';
 import { Graph } from './models/graph.model';
 import { IndicatorService } from './services/indicator.service';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { GraphValue } from './graph-value.model';
 
 const PDFConfig = {
     paperWidthMm : 210,
@@ -355,9 +357,23 @@ export class ReportsComponent implements OnInit, OnDestroy {
         this.getAllSubscription = this.indicatorService.getAllGraphs(this.generateFilters())
             .subscribe((graphsDTO: Array<GraphDTO>) => {
             this.graphs = graphsDTO.map((graphDTO: GraphDTO) => {
+                graphDTO = this.translateGraphs(graphDTO);
                 return new Graph(graphDTO);
             });
         });
+    }
+
+    private translateGraphs(graphDTO: GraphDTO): GraphDTO {
+        graphDTO.name = this.language['report_' + graphDTO.name.trim().replace(/ /g, '_').toLowerCase()];
+
+        if (graphDTO.values) {
+            Object.keys(graphDTO.values).forEach((period: string) => {
+                    graphDTO.values[period].forEach((graphValue: GraphValueDTO) => {
+                        graphValue.unity = this.language['report_' + graphValue.unity.trim().replace(/ /g, '_')];
+                    });
+            });
+        }
+        return graphDTO;
     }
 
     private generateFilters() {

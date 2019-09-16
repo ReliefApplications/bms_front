@@ -618,6 +618,18 @@ export interface Language {
     report_select_frequency: string
     report_to: string
     report_upcoming_reporting: string
+    report_time: string;
+
+    report_total_households: string
+    report_active_projects: string
+    report_total_transactions_completed: string
+    report_enrolled_beneficiaries: string
+    report_total_number_of_distributions: string
+    report_household: string
+    report_active_project: string
+    report_transactions_completed: string
+    report_enrolled_beneficiary: string
+    report_distributions: string
 
     // Role
     role_user_admin: string

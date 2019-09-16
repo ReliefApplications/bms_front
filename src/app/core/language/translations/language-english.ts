@@ -612,6 +612,19 @@ export class English implements Language {
     report_select_frequency = 'Select frequency'
     report_to = 'to'
     report_upcoming_reporting = 'Upcoming reporting'
+    report_time = 'Time'
+
+    report_total_households = 'Total Households'
+    report_active_projects = 'Active Projects'
+    report_total_transactions_completed = 'Total Transactions Completed'
+    report_enrolled_beneficiaries = 'Enrolled Beneficiaries'
+    report_total_number_of_distributions = 'Total Number Of Distributions'
+    report_household = 'household'
+    report_active_project = 'active project'
+    report_transactions_completed = 'transactions completed'
+    report_enrolled_beneficiary = 'enrolled beneficiary'
+    report_distributions = 'distributions'
+
 
     // Role
     role_user_admin = 'Administrator'

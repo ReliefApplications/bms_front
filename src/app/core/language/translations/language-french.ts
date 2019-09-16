@@ -611,6 +611,18 @@ export class French implements Language {
     report_select_frequency = 'Choisir fréquence'
     report_to = 'à'
     report_upcoming_reporting = 'Graphiques à venir'
+    report_time = 'Temps'
+
+    report_total_households = 'cuac'
+    report_active_projects = 'cuac'
+    report_total_transactions_completed = 'cuac'
+    report_enrolled_beneficiaries = 'cuac'
+    report_total_number_of_distributions = 'cuac'
+    report_household = 'household'
+    report_active_project = 'active project'
+    report_transactions_completed = 'transactions completed'
+    report_enrolled_beneficiary = 'enrolled beneficiary'
+    report_distributions = 'distributions'
 
     // Role
     role_user_admin = 'Administrateur'

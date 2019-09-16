@@ -611,6 +611,18 @@ export class Arabic implements Language {
     report_select_frequency = 'اختر التكرار'
     report_to = 'إلى'
     report_upcoming_reporting = 'الرسوم البيانية القادمة'
+    report_time = 'زمن'
+
+    report_total_households = 'مجموع الأسر'
+    report_active_projects = 'مشاريع نشطة'
+    report_total_transactions_completed = 'إجمالي المعاملات المنجزة'
+    report_enrolled_beneficiaries = 'المستفيدون المسجلون'
+    report_total_number_of_distributions = 'إجمالي عدد التوزيعات'
+    report_household = 'منزلي'
+    report_active_project = 'مشروع نشط'
+    report_transactions_completed = 'المعاملات المنجزة'
+    report_enrolled_beneficiary = 'المستفيد المسجل'
+    report_distributions = 'التوزيعات'
 
     // Role
     role_user_admin = 'مسؤول'

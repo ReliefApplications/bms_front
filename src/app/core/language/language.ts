@@ -599,10 +599,15 @@ export interface Language {
     project_value: string
 
     // Report
+    report_active_project: string
+    report_active_projects: string
     report_apply: string
     report_country_report: string
     report_country: string
+    report_distributions: string
     report_distribution_report: string
+    report_enrolled_beneficiary: string
+    report_enrolled_beneficiaries: string
     report_filter_chose_periode: string
     report_filter_per_month: string
     report_filter_per_quarter: string
@@ -611,25 +616,39 @@ export interface Language {
     report_frequency_quarter: string
     report_frequency_year: string
     report_from: string
+    report_household: string
     report_loader: string
     report_period_selected: string
     report_project_report: string
     report_project: string
     report_select_frequency: string
-    report_to: string
-    report_upcoming_reporting: string
     report_time: string;
-
+    report_to: string
     report_total_households: string
-    report_active_projects: string
     report_total_transactions_completed: string
-    report_enrolled_beneficiaries: string
     report_total_number_of_distributions: string
-    report_household: string
-    report_active_project: string
     report_transactions_completed: string
-    report_enrolled_beneficiary: string
-    report_distributions: string
+    report_upcoming_reporting: string
+
+    report_age_breakdown: string
+    report_donors: string
+    report_household_served: string
+    report_modality: string
+    report_number_men_and_women: string
+    report_number_of_enrolled_beneficiaries: string
+    report_percentage_of_vulnerabilities_served: string
+    report_percentage_of_beneficiaries_reached: string
+    report_total_distribution_value: string
+
+    // report_%_beneficiaries
+    // report_households: string
+    // report_men: string
+    // report_women: string
+    // report_disabled: string
+    // report_lactating: string
+    // report_nutritionalissues: string
+    // report_soloparent: string
+
 
     // Role
     role_user_admin: string

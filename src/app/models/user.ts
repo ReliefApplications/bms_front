@@ -133,17 +133,17 @@ export class User extends CustomModel {
         language: new TextModelField({
 
         }),
-        phonePrefix: new SingleSelectModelField({
+        phonePrefix: new TextModelField({
             title: 'Prefix',
+            isDisplayedInTable: true,
             isDisplayedInModal: true,
-            isEditable: true,
-            isSettable: true,
+            isEditable: true
         }),
         phoneNumber: new NumberModelField({
             title: 'Number',
+            isDisplayedInTable: true,
             isDisplayedInModal: true,
-            isEditable: true,
-            isSettable: true,
+            isEditable: true
         }),
         changePassword: new BooleanModelField({
             title: this.language.user_password_question,
@@ -159,9 +159,7 @@ export class User extends CustomModel {
         if (!userFromApi) {
             return null; // If it was retrieved from cache and was null
         }
-
         const newUser = new User();
-
         newUser.set('rights', userFromApi.roles ?
             newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0] :
             null
@@ -213,6 +211,8 @@ export class User extends CustomModel {
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en');
+        newUser.set('phonePrefix', userFromApi.phone_prefix);
+        newUser.set('phoneNumber', userFromApi.phone_number);
         newUser.set('changePassword', userFromApi.change_password);
         return newUser;
     }
@@ -226,6 +226,8 @@ export class User extends CustomModel {
             language: this.fields.language.formatForApi(),
             roles: (this.get('rights') ? [this.get('rights').get('id')] : null),
             vendor: null,
+            phone_prefix: this.fields.phonePrefix.formatForApi(),
+            phone_number: this.fields.phoneNumber.formatForApi(),
             change_password: this.fields.changePassword.formatForApi()
         };
 
@@ -246,7 +248,6 @@ export class User extends CustomModel {
                 this.fields.projects.value.map((project: Project) => project.get('id')) :
                 null;
         }
-
         return userForApi;
     }
 

@@ -8,6 +8,7 @@ import { AuthenticationService } from '../../core/authentication/authentication.
 import { WsseService } from '../../core/authentication/wsse.service';
 import { User } from '../../models/user';
 import { Router } from '@angular/router';
+import { PHONECODES } from 'src/app/models/constants/phone-codes';
 
 @Component({
     selector: 'app-profile',
@@ -20,14 +21,25 @@ export class ProfileComponent implements OnInit {
     nameComponent = 'profile_title';
 
     actualUser: User;
-    profileForm = new FormGroup({
+    passwordForm = new FormGroup({
         email: new FormControl({ value: '', disabled: 'true' }),
         oldPassword: new FormControl(''),
         newPassword1: new FormControl(''),
         newPassword2: new FormControl('')
     });
 
-    loading = false;
+    // Phone Stuff that will go to a modal
+    phoneForm = new FormGroup({
+        phonePrefix: new FormControl(''),
+        phoneNumber: new FormControl('')
+    });
+    twoFA = false;
+    loadingPhone = false;
+    canTwoFA = false;
+
+    public countryCodesList = PHONECODES;
+
+    loadingPassword = false;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
@@ -53,9 +65,17 @@ export class ProfileComponent implements OnInit {
                     this.actualUser = result;
                 }
                 if (this.actualUser) {
-                    this.profileForm.patchValue({
+                    this.passwordForm.patchValue({
                         email: this.actualUser.get<string>('username')
                     });
+                    this.phoneForm.patchValue({
+                        phonePrefix: this.actualUser.get<string>('phonePrefix'),
+                        phoneNumber: this.actualUser.get('phoneNumber')
+                    });
+                    this.twoFA = this.actualUser.get('twoFactorAuthentication');
+                    if (this.actualUser.get<string>('phonePrefix') && this.actualUser.get('phoneNumber')) {
+                        this.canTwoFA = true;
+                    }
                 } else {
                 }
             }
@@ -63,26 +83,67 @@ export class ProfileComponent implements OnInit {
 
     }
 
-    onProfileFormSubmit(): void {
-        if (this.profileForm.value.newPassword1 !== this.profileForm.value.newPassword2) {
+    onPasswordSubmit(): void {
+        if (this.passwordForm.value.newPassword1 !== this.passwordForm.value.newPassword2) {
             this.snackbar.error(this.language.snackbar_change_password_not_possible);
             return;
         }
-        if (this.profileForm.value.newPassword1 === this.profileForm.value.oldPassword) {
+        if (this.passwordForm.value.newPassword1 === this.passwordForm.value.oldPassword) {
             this.snackbar.warning(this.language.profile_password_would_not_be_changed);
             return;
         }
-        if (!Constants.REGEX_PASSWORD.test(this.profileForm.value.newPassword1)) {
+        if (!Constants.REGEX_PASSWORD.test(this.passwordForm.value.newPassword1)) {
             this.snackbar.error(this.language.modal_not_enough_strong);
             return;
         }
-        this.loading = true;
-        this.userService.updatePassword(this.actualUser, this.profileForm.value.oldPassword, this.profileForm.value.newPassword1)
+        this.loadingPassword = true;
+        this.userService.updatePassword(this.actualUser, this.passwordForm.value.oldPassword, this.passwordForm.value.newPassword1)
             .then(
                 () => {
-                    this.loading = false;
+                    this.loadingPassword = false;
                     this.snackbar.success(this.language.profile_password_changed);
                     this.router.navigate(['/']);
-                }, err => this.loading = false);
+                }, err => this.loadingPassword = false);
+    }
+
+    onPhoneSubmit(): void {
+        // TODO: check form is correct
+        this.loadingPhone = true;
+        this.actualUser.set('phonePrefix', this.phoneForm.value.phonePrefix);
+        this.actualUser.set('phoneNumber', this.phoneForm.value.phoneNumber);
+        this.actualUser.set('password', null);
+
+        this.userService.update(this.actualUser.get('id'), this.actualUser.modelToApi()).subscribe((data) => {
+            },
+            () => this.loadingPhone = false,
+            () => {this.loadingPhone = false;
+                this.snackbar.success('OLE NIÑO OLE');
+                this.router.navigate(['/profile']);
+            }
+        );
+
+        // this.actualUser.set('phonePrefix', this.phoneForm.value.phonePrefix);
+        // this.actualUser.set('phoneNumber', this.phoneForm.value.phoneNumber);
+        // this.userService.updatePhone(this.actualUser, this.phoneForm.value.phonePrefix, this.phoneForm.value.phoneNumber)
+        // .then(
+        //     () => {
+        //         this.loadingPhone = false;
+        //         this.snackbar.success('OLE NIÑO OLE');
+        //         this.router.navigate(['/profile']);
+        //     }, err => this.loadingPhone = false);
+    }
+
+    toogleTwoFA () {
+        if (this.twoFA) {
+            this.twoFA = false;
+            this.actualUser.set('twoFactorAuthentication', false);
+            // TODO: Disable user 2FA. Update DB
+        } else {
+            if (this.actualUser.get('phonePrefix') || this.actualUser.get('phonePrefix')) {
+                this.twoFA = true;
+                this.actualUser.set('twoFactorAuthentication', true);
+                // TODO: Set user 2FA phone (modal?). Update DB
+            }
         }
+    }
 }

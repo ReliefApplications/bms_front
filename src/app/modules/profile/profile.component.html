@@ -1,36 +1,78 @@
 <div class="page-container">
-  <div class="container-title">
-    <h2> {{language.profile | titlecase}} </h2>
-  </div>
-
-  <div class="container-table">
-    <div class="container-profile">
-      <form class="profile-field" [formGroup]="profileForm" (ngSubmit)="onProfileFormSubmit()">
-        <h2> {{ language.profile_user_information | titlecase }} </h2>
-        <mat-form-field *ngIf='actualUser'>
-          <input matInput placeholder="{{language.email | titlecase}}" formControlName="email" [disabled]="true">
-        </mat-form-field>
-
-        <h2> {{ language.profile_user_change_password | titlecase }} </h2>
-        <mat-form-field>
-          <input matInput [placeholder]="language.profile_user_hint_old_password | titlecase" type="password" formControlName="oldPassword">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input autocomplete="new-password" matInput [placeholder]="language.profile_user_hint_new_password | titlecase" type="password" formControlName="newPassword1">
-        </mat-form-field>
-
-        <mat-form-field>
-          <input autocomplete="new-password" matInput [placeholder]="language.profile_user_hint_new_password_again | titlecase" type="password" formControlName="newPassword2">
-        </mat-form-field>
-
-        <div class="action-buttons">
-          <mat-spinner [diameter]="25" *ngIf="loading"></mat-spinner>
-          <button *ngIf="!loading" mat-flat-button type="submit" [disabled]="!profileForm.valid" class="button-background-primary">
-            {{ language.save | titlecase }}
-          </button>
-        </div>
-      </form>
+    <div class="container-title">
+        <h2> {{language.profile | titlecase}} </h2>
     </div>
-  </div>
+
+    <div class="container-table">
+        <div class="container-profile">
+            <form class="profile-field" [formGroup]="passwordForm" (ngSubmit)="onPasswordSubmit()">
+                <h2> {{ language.profile_user_information | titlecase }} </h2>
+                <mat-form-field *ngIf='actualUser'>
+                    <input matInput placeholder="{{language.email | titlecase}}" formControlName="email"
+                        [disabled]="true">
+                </mat-form-field>
+
+                <h2> {{ language.profile_user_change_password | titlecase }} </h2>
+                <mat-form-field>
+                    <input matInput [placeholder]="language.profile_user_hint_old_password | titlecase" type="password"
+                        formControlName="oldPassword">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input autocomplete="new-password" matInput
+                        [placeholder]="language.profile_user_hint_new_password | titlecase" type="password"
+                        formControlName="newPassword1">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input autocomplete="new-password" matInput
+                        [placeholder]="language.profile_user_hint_new_password_again | titlecase" type="password"
+                        formControlName="newPassword2">
+                </mat-form-field>
+
+                <div class="action-buttons">
+                    <mat-spinner [diameter]="25" *ngIf="loadingPassword"></mat-spinner>
+                    <button *ngIf="!loadingPassword" mat-flat-button type="submit" [disabled]="!passwordForm.valid"
+                        class="button-background-primary">
+                        {{ language.save | titlecase }}
+                    </button>
+                </div>
+            </form>
+
+            <form class="profile-field" [formGroup]="phoneForm" (ngSubmit)="onPhoneSubmit()">
+                <h2> Change Phone Number </h2>
+                <div class="items-line">
+                    <ng-select class="single-select country-code" [multiple]="false" [searchable]="true" [closeOnSelect]="true"
+                        [formControlName]="phonePrefix" placeholder="{{language.phone_prefix}}">
+                        <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
+                    </ng-select>
+                    <mat-form-field class="phone-number">
+                        <input matInput [placeholder]="language.profile_user_hint_new_password_again | titlecase"
+                            formControlName="phoneNumber">
+                    </mat-form-field>
+                </div>
+
+                <div class="action-buttons">
+                    <mat-spinner [diameter]="25" *ngIf="loadingPhone"></mat-spinner>
+                    <button *ngIf="!loadingPhone" mat-flat-button type="submit" [disabled]="!phoneForm.valid"
+                        class="button-background-primary">
+                        {{ language.save | titlecase }}
+                    </button>
+                </div>
+            </form>
+
+            <h2> 2 Factor Authentication </h2>
+            <span>Two-factor authentication adds an additional layer of security to your account by requiring more than
+                just a password to log in</span>
+            <br>
+            <strong *ngIf="!canTwoFA">You need a registered telephone number to enable two-phase authentication</strong>
+            <div class="action-buttons twoFA">
+                <mat-spinner [diameter]="25" *ngIf="false"></mat-spinner>
+                <button mat-flat-button class="button-background-primary" (click)="toogleTwoFA()"
+                    [disabled]="!canTwoFA">
+                    Enable
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -10,6 +10,7 @@ import { NumberModelField } from './custom-models/number-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
 import { Project } from './project';
+import { PHONECODES } from './constants/phone-codes';
 
 export class ErrorInterface {
     message: string;
@@ -133,11 +134,19 @@ export class User extends CustomModel {
         language: new TextModelField({
 
         }),
-        phonePrefix: new TextModelField({
+        changePassword: new BooleanModelField({
+            title: this.language.user_password_question,
+            isDisplayedInModal: true,
+            isSettable: true,
+            isEditable: true,
+            value: true,
+        }),
+        phonePrefix: new SingleSelectModelField({
             title: 'Prefix',
             isDisplayedInTable: true,
             isDisplayedInModal: true,
-            isEditable: true
+            isEditable: true,
+            options: []
         }),
         phoneNumber: new NumberModelField({
             title: 'Number',
@@ -145,13 +154,12 @@ export class User extends CustomModel {
             isDisplayedInModal: true,
             isEditable: true
         }),
-        changePassword: new BooleanModelField({
-            title: this.language.user_password_question,
+        twoFactorAuthentication: new BooleanModelField({
+            title: 'TwoFA',
+            isDisplayedInTable: true,
             isDisplayedInModal: true,
-            isSettable: true,
-            isEditable: true,
-            value: true,
-        })
+            isEditable: true
+        }),
 
     };
 
@@ -211,13 +219,15 @@ export class User extends CustomModel {
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en');
+        newUser.set('changePassword', userFromApi.change_password);
         newUser.set('phonePrefix', userFromApi.phone_prefix);
         newUser.set('phoneNumber', userFromApi.phone_number);
-        newUser.set('changePassword', userFromApi.change_password);
+        newUser.set('twoFactorAuthentication', userFromApi.two_factor_authentication);
+        newUser.setOptions('phonePrefix', PHONECODES);
         return newUser;
     }
 
-    public modelToApi(): object {
+    public modelToApi(): Object {
         const userForApi = {
             id: this.fields.id.formatForApi(),
             email: this.fields.email.formatForApi(),
@@ -226,9 +236,10 @@ export class User extends CustomModel {
             language: this.fields.language.formatForApi(),
             roles: (this.get('rights') ? [this.get('rights').get('id')] : null),
             vendor: null,
+            change_password: this.fields.changePassword.formatForApi(),
             phone_prefix: this.fields.phonePrefix.formatForApi(),
             phone_number: this.fields.phoneNumber.formatForApi(),
-            change_password: this.fields.changePassword.formatForApi()
+            two_factor_authentication: this.fields.twoFactorAuthentication.formatForApi()
         };
 
         if (!this.get('rights')) {

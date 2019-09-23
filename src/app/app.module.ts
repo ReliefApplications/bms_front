@@ -22,6 +22,7 @@ import { ProfileComponent } from './modules/profile/profile.component';
 import { ReportsModule } from './modules/reports/reports.module';
 import { CustomDateAdapter } from './shared/adapters/date.adapter';
 import { SharedModule } from './shared/shared.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     declarations: [
@@ -43,6 +44,7 @@ import { SharedModule } from './shared/shared.module';
         SharedModule,
         HttpModule,
         LivechatWidgetModule,
+        NgSelectModule,
 
         // Reporting
         ReportsModule,

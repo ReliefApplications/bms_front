@@ -40,7 +40,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
         ReactiveFormsModule,
         HttpClientModule,
         SharedModule,
-        NgSelectModule,
 
         // Reporting
         ReportsModule,

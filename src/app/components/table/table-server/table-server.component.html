@@ -24,8 +24,8 @@
                 <mat-icon>clear</mat-icon>
                 {{language.beneficiary_clear_all_research | uppercaseFirst}}
             </button>
-        </div>
-        
+        </div> 
+
         <div class="selected-items" *ngIf="selectable && selection.selected.length > 0">
             <p *ngIf="selection.selected.length < 2; else plural">{{selection.selected.length}} {{language.beneficiary | uppercaseFirst}} {{language.selected}}</p>
             <ng-template #plural>
@@ -42,7 +42,7 @@
                         <ng-select [formControlName]="fieldName" [placeholder]="field.title | uppercaseFirst"
                             [multiple]="true" [closeOnSelect]="false">
                             <ng-option *ngFor="let option of field.options" [value]="option.get('id')">
-                                {{option.get(field.bindField) | uppercaseFirst}}
+                                {{(language[option.get(field.bindField)] || option.get(field.bindField)) | uppercaseFirst}}
                             </ng-option>
                         </ng-select>
                     </ng-container>

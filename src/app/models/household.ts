@@ -226,7 +226,7 @@ export class Household extends CustomModel {
                 .filter((livelihood: Livelihood) => livelihood.get('id') === householdFromApi.livelihood.toString())[0] :
             null);
 
-        newHousehold.set('dependents', householdFromApi.beneficiaries.length - 1);
+        newHousehold.set('dependents', householdFromApi.beneficiaries.length);
 
         newHousehold.fields.vulnerabilities.displayTableFunction = value => value;
         const pipe = new UppercaseFirstPipe();

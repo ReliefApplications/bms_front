@@ -566,13 +566,22 @@ export class Arabic implements Language {
 
     // Profile
     profile_change_password = 'تحتاج إلى تغيير كلمة المرور الخاصة بك'
+    profile_change_phone = 'غير رقم الهاتف'
     profile_password_changed = 'تم تغيير كلمة السر'
+    profile_phone_changed = 'تم تغيير رقم الهاتف بنجاح'
+    profile_phone_not_valid = 'رقم الهاتف المقدم غير صالح'
+    profile_two_fa_enable = 'ممكن'
+    profile_two_fa_disabled = 'تحتاج إلى رقم هاتف مسجل لتمكين المصادقة ثنائية الطور'
+    profile_two_fa_information = 'تضيف المصادقة ثنائية العوامل طبقة إضافية من الأمان إلى حسابك عن طريق طلب أكثر من كلمة مرور لتسجيل الدخول'
+    profile_two_fa_title = '2 عامل المصادقة'
     profile_user_change_password = 'تغيير كلمة المرور'
     profile_user_hint_new_password = 'كلمة المرور الجديدة'
     profile_user_hint_new_password_again = 'أعد إدخال كلمة المرور الجديدة'
+    profile_user_hint_new_phone_number = 'رقم الهاتف'
+    profile_user_hint_new_phone_prefix = 'اختصار'
     profile_user_hint_old_password = 'كلمة المرور القديمة'
     profile_user_information = 'معلومات المستخدم'
-    profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'
+    profile_password_would_not_be_changed = 'كلمتا المرور متطابقتان ، مع تجاهل التحديث'
 
     // Project
     project_add = 'الرجاء إضافة مشروع جديد للبدء!'
@@ -766,6 +775,8 @@ export class Arabic implements Language {
     // User
     user_only_one_country = 'يمكنك اختيار دولة واحدة فقط'
     user_password_question = 'تحديث كلمة المرور عند تسجيل الدخول المقبل'
+    user_phone_number = this.profile_user_hint_new_phone_number
+    user_phone_prefix = this.profile_user_hint_new_phone_prefix
 
     // Criteria (must be the last thing declared because uses the previous variables)
     criteria_operator = 'الشروط'

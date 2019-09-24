@@ -566,11 +566,20 @@ export class French implements Language {
 
     // Profile
     profile_change_password = 'Vous devez changer de mot de passe'
+    profile_change_phone = 'Changer le numéro de téléphone'
     profile_password_would_not_be_changed = 'Les deux mots de passe sont identiques, les changements seront ignorés.'
     profile_password_changed = 'Mot de passe changé'
+    profile_phone_changed = 'Numéro de téléphone changé avec succès'
+    profile_phone_not_valid = 'Le numéro de téléphone introduit n\'est pas valide'
+    profile_two_fa_enable = 'Activer'
+    profile_two_fa_disabled = 'Vous avez besoin d\'un numéro de téléphone enregistré pour activer l\'authentification en deux phases'
+    profile_two_fa_information = 'L\'authentification à deux facteurs ajoute une couche de sécurité supplémentaire à votre compte en nécessitant plus d\'un mot de passe pour vous connecter.'
+    profile_two_fa_title = 'Authentification à 2 facteurs'
     profile_user_change_password = 'Changer de mot de passe'
     profile_user_hint_new_password = 'Nouveau mot de passe'
     profile_user_hint_new_password_again = 'Ré-entrez votre nouveau mot de passe'
+    profile_user_hint_new_phone_number = 'Numéro de téléphone'
+    profile_user_hint_new_phone_prefix = 'Préfixe'
     profile_user_hint_old_password = 'Mot de passe actuel'
     profile_user_information = 'Informations utilisateur'
 
@@ -766,6 +775,8 @@ export class French implements Language {
     // User
     user_only_one_country = 'Vous ne pouvez sélectionner qu\'un pays'
     user_password_question = 'Modifier le mot de passe à la prochaine connexion'
+    user_phone_number = this.profile_user_hint_new_phone_number
+    user_phone_prefix = this.profile_user_hint_new_phone_prefix
 
     // Criteria (must be the last thing declared because uses the previous variables)
     criteria_operator = 'Condition'

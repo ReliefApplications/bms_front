@@ -573,11 +573,20 @@ export interface Language {
 
     // Profile
     profile_change_password: string
+    profile_change_phone: string
     profile_password_changed: string
     profile_password_would_not_be_changed: string
+    profile_phone_changed: string
+    profile_phone_not_valid: string
+    profile_two_fa_enable: string
+    profile_two_fa_disabled: string
+    profile_two_fa_information: string
+    profile_two_fa_title: string
     profile_user_change_password: string
     profile_user_hint_new_password_again: string
     profile_user_hint_new_password: string
+    profile_user_hint_new_phone_number: string
+    profile_user_hint_new_phone_prefix: string
     profile_user_hint_old_password: string
     profile_user_information: string
 
@@ -773,5 +782,7 @@ export interface Language {
     // User
     user_only_one_country: string
     user_password_question: string
+    user_phone_number: string
+    user_phone_prefix: string
 }
 

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { PHONECODES } from 'src/app/models/constants/phone-codes';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import * as CountryIso from 'country-iso-3-to-2';
+import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 
 @Component({
     selector: 'app-profile',
@@ -44,7 +45,7 @@ export class ProfileComponent implements OnInit {
 
     loadingPassword = false;
 
-    // Language
+    // Language and country
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
     public countryId = this.countryService.selectedCountry.get<string>('id') ?
         this.countryService.selectedCountry.get<string>('id') :
@@ -57,6 +58,7 @@ export class ProfileComponent implements OnInit {
         public formBuilder: FormBuilder,
         public languageService: LanguageService,
         public router: Router,
+        private asyncacheService: AsyncacheService,
         public countryService: CountriesService,
         ) {
     }
@@ -114,45 +116,52 @@ export class ProfileComponent implements OnInit {
     }
 
     onPhoneSubmit(): void {
-        // TODO: check form is correct
-        this.loadingPhone = true;
-        this.actualUser.set('phonePrefix', this.getPhonePrefix(this.phoneForm.value.phonePrefix, this.countryId));
-        this.actualUser.set('phoneNumber', this.phoneForm.value.phoneNumber);
-        this.actualUser.set('password', null);
+        if (!this.phoneForm.value.phoneNumber) {
+            this.snackbar.error(this.language.profile_phone_not_valid);
+            return;
+        } else {
+            this.loadingPhone = true;
+            this.actualUser.set('phonePrefix', this.formatPhonePrefix(this.phoneForm.value.phonePrefix, this.countryId));
+            this.actualUser.set('phoneNumber', this.phoneForm.value.phoneNumber);
+            this.actualUser.set('password', null);
 
-        this.userService.update(this.actualUser.get('id'), this.actualUser.modelToApi()).subscribe((data) => {
-            },
-            () => this.loadingPhone = false,
-            () => {this.loadingPhone = false;
-                this.snackbar.success('OLE NIÑO OLE');
-                this.router.navigate(['/profile']);
-            }
-        );
+            this.userService.update(this.actualUser.get('id'), this.actualUser.modelToApi()).subscribe((data) => {
+                this.asyncacheService.setUser(data).subscribe();
+                this.userService.setCurrentUser(this.actualUser);
+                },
+                () => {
+                    this.loadingPhone = false;
+                },
+                () => {
+                    this.loadingPhone = false;
+                    this.snackbar.success(this.language.profile_phone_changed);
+                    this.router.navigate(['/profile']);
+                }
+            );
+        }
     }
 
-    getPhonePrefix(prefix: string, countryISO3): string {
+    formatPhonePrefix(prefix: string, countryISO3): string {
         let phoneCode;
         if (prefix) {
-            return this.countryCodesList.filter(element => element === prefix)[0].split('- ')[1];
+            if (/([A-Z])+/.test(prefix)) {
+                return this.countryCodesList.filter(element => element === prefix)[0].split('- ')[1];
+            } else {
+                return prefix;
+            }
         } else {
             const countryCode = String(this.getCountryISO2(String(countryISO3)));
             phoneCode = this.countryCodesList.filter(element => element.split(' -')[0] === countryCode)[0].split('- ')[1];
             return phoneCode ? phoneCode : null;
-
         }
     }
 
     toogleTwoFA () {
         if (this.twoFA) {
             this.twoFA = false;
-            this.actualUser.set('twoFactorAuthentication', false);
-            // TODO: Disable user 2FA. Update DB
         } else {
-            if (this.actualUser.get('phonePrefix') || this.actualUser.get('phonePrefix')) {
-                this.twoFA = true;
-                this.actualUser.set('twoFactorAuthentication', true);
-                // TODO: Set user 2FA phone (modal?). Update DB
-            }
+            this.twoFA = true;
         }
+        this.actualUser.set('twoFactorAuthentication', this.twoFA);
     }
 }

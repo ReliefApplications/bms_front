@@ -40,14 +40,15 @@
             </form>
 
             <form class="profile-field" [formGroup]="phoneForm" (ngSubmit)="onPhoneSubmit()">
-                <h2> Change Phone Number </h2>
+                <h2>{{ language.profile_change_phone | titlecase }}</h2>
                 <div class="items-line">
-                    <ng-select class="single-select country-code" [multiple]="false" [searchable]="true" [closeOnSelect]="true"
-                        formControlName="phonePrefix" placeholder="{{language.phone_prefix}}">
+                    <ng-select class="single-select country-code" [multiple]="false" [searchable]="true"
+                        [closeOnSelect]="true" formControlName="phonePrefix"
+                        placeholder="{{ language.profile_user_hint_new_phone_prefix | titlecase }}">
                         <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
                     </ng-select>
                     <mat-form-field class="phone-number">
-                        <input matInput [placeholder]="language.profile_user_hint_new_password_again | titlecase"
+                        <input matInput [placeholder]="language.profile_user_hint_new_phone_number | titlecase"
                             formControlName="phoneNumber">
                     </mat-form-field>
                 </div>
@@ -61,16 +62,15 @@
                 </div>
             </form>
 
-            <h2> 2 Factor Authentication </h2>
-            <span>Two-factor authentication adds an additional layer of security to your account by requiring more than
-                a password to log in</span>
+            <h2>{{ language.profile_two_fa_title | titlecase }}</h2>
+            <span>{{ language.profile_two_fa_information }}</span>
             <br>
-            <strong *ngIf="!canTwoFA">You need a registered telephone number to enable two-phase authentication</strong>
+            <strong *ngIf="!canTwoFA">{{ language.profile_two_fa_disabled }}</strong>
             <div class="action-buttons twoFA">
                 <mat-spinner [diameter]="25" *ngIf="false"></mat-spinner>
                 <button mat-flat-button class="button-background-primary" (click)="toogleTwoFA()"
                     [disabled]="!canTwoFA">
-                    Enable
+                    {{ language.profile_two_fa_enable | titlecase }}
                 </button>
             </div>
         </div>

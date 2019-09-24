@@ -140,13 +140,13 @@ export class User extends CustomModel {
             value: true,
         }),
         phonePrefix: new TextModelField({
-            title: 'Prefix',
+            title: this.language.user_phone_prefix,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: false,
         }),
         phoneNumber: new NumberModelField({
-            title: 'Number',
+            title: this.language.user_phone_number,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             isEditable: false,

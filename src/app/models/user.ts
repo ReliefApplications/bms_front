@@ -131,9 +131,7 @@ export class User extends CustomModel {
             isSettable: true,
             isDisabled: true,
         }),
-        language: new TextModelField({
-
-        }),
+        language: new TextModelField({}),
         changePassword: new BooleanModelField({
             title: this.language.user_password_question,
             isDisplayedInModal: true,
@@ -141,24 +139,22 @@ export class User extends CustomModel {
             isEditable: true,
             value: true,
         }),
-        phonePrefix: new SingleSelectModelField({
+        phonePrefix: new TextModelField({
             title: 'Prefix',
             isDisplayedInTable: true,
             isDisplayedInModal: true,
-            isEditable: true,
-            options: []
+            isEditable: false,
         }),
         phoneNumber: new NumberModelField({
             title: 'Number',
             isDisplayedInTable: true,
             isDisplayedInModal: true,
-            isEditable: true
+            isEditable: false,
         }),
         twoFactorAuthentication: new BooleanModelField({
-            title: 'TwoFA',
-            isDisplayedInTable: true,
-            isDisplayedInModal: true,
-            isEditable: true
+            isDisplayedInTable: false,
+            isDisplayedInModal: false,
+            isEditable: false
         }),
 
     };
@@ -219,11 +215,12 @@ export class User extends CustomModel {
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en');
+        newUser.set('phonePrefix', userFromApi.phonePrefix);
+        newUser.set('phoneNumber', userFromApi.phoneNumber);
         newUser.set('changePassword', userFromApi.change_password);
         newUser.set('phonePrefix', userFromApi.phone_prefix);
         newUser.set('phoneNumber', userFromApi.phone_number);
         newUser.set('twoFactorAuthentication', userFromApi.two_factor_authentication);
-        newUser.setOptions('phonePrefix', PHONECODES);
         return newUser;
     }
 

@@ -9,6 +9,8 @@ import { WsseService } from '../../core/authentication/wsse.service';
 import { User } from '../../models/user';
 import { Router } from '@angular/router';
 import { PHONECODES } from 'src/app/models/constants/phone-codes';
+import { CountriesService } from 'src/app/core/countries/countries.service';
+import * as CountryIso from 'country-iso-3-to-2';
 
 @Component({
     selector: 'app-profile',
@@ -38,11 +40,15 @@ export class ProfileComponent implements OnInit {
     canTwoFA = false;
 
     public countryCodesList = PHONECODES;
+    private getCountryISO2 = CountryIso;
 
     loadingPassword = false;
 
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
+    public countryId = this.countryService.selectedCountry.get<string>('id') ?
+        this.countryService.selectedCountry.get<string>('id') :
+        this.countryService.khm.get<string>('id');
 
     constructor(public userService: UserService,
         public authenticationService: AuthenticationService,
@@ -51,6 +57,7 @@ export class ProfileComponent implements OnInit {
         public formBuilder: FormBuilder,
         public languageService: LanguageService,
         public router: Router,
+        public countryService: CountriesService,
         ) {
     }
 
@@ -109,7 +116,7 @@ export class ProfileComponent implements OnInit {
     onPhoneSubmit(): void {
         // TODO: check form is correct
         this.loadingPhone = true;
-        this.actualUser.set('phonePrefix', this.phoneForm.value.phonePrefix);
+        this.actualUser.set('phonePrefix', this.getPhonePrefix(this.phoneForm.value.phonePrefix, this.countryId));
         this.actualUser.set('phoneNumber', this.phoneForm.value.phoneNumber);
         this.actualUser.set('password', null);
 
@@ -121,16 +128,18 @@ export class ProfileComponent implements OnInit {
                 this.router.navigate(['/profile']);
             }
         );
+    }
 
-        // this.actualUser.set('phonePrefix', this.phoneForm.value.phonePrefix);
-        // this.actualUser.set('phoneNumber', this.phoneForm.value.phoneNumber);
-        // this.userService.updatePhone(this.actualUser, this.phoneForm.value.phonePrefix, this.phoneForm.value.phoneNumber)
-        // .then(
-        //     () => {
-        //         this.loadingPhone = false;
-        //         this.snackbar.success('OLE NIÑO OLE');
-        //         this.router.navigate(['/profile']);
-        //     }, err => this.loadingPhone = false);
+    getPhonePrefix(prefix: string, countryISO3): string {
+        let phoneCode;
+        if (prefix) {
+            return this.countryCodesList.filter(element => element === prefix)[0].split('- ')[1];
+        } else {
+            const countryCode = String(this.getCountryISO2(String(countryISO3)));
+            phoneCode = this.countryCodesList.filter(element => element.split(' -')[0] === countryCode)[0].split('- ')[1];
+            return phoneCode ? phoneCode : null;
+
+        }
     }
 
     toogleTwoFA () {

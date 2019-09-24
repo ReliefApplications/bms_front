@@ -43,7 +43,7 @@
                 <h2> Change Phone Number </h2>
                 <div class="items-line">
                     <ng-select class="single-select country-code" [multiple]="false" [searchable]="true" [closeOnSelect]="true"
-                        [formControlName]="phonePrefix" placeholder="{{language.phone_prefix}}">
+                        formControlName="phonePrefix" placeholder="{{language.phone_prefix}}">
                         <ng-option *ngFor="let country of countryCodesList" [value]="country">{{country}}</ng-option>
                     </ng-select>
                     <mat-form-field class="phone-number">
@@ -63,7 +63,7 @@
 
             <h2> 2 Factor Authentication </h2>
             <span>Two-factor authentication adds an additional layer of security to your account by requiring more than
-                just a password to log in</span>
+                a password to log in</span>
             <br>
             <strong *ngIf="!canTwoFA">You need a registered telephone number to enable two-phase authentication</strong>
             <div class="action-buttons twoFA">

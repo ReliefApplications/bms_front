@@ -206,9 +206,6 @@ export class ModalService {
             return dialogRef.afterClosed();
     }
 
-
-
-
     updateElement(updateElement) {
         const apiUpdateElement = updateElement.modelToApi(updateElement);
         this.referedClassService.update(apiUpdateElement['id'], apiUpdateElement).subscribe((response: any) => {

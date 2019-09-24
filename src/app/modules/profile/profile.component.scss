@@ -18,16 +18,17 @@
 
         .items-line {
             width: 100%;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
             display: flex;
       
             mat-form-field.phone-number {
-              width: 50%;
+              width: 60%;
             }
       
             .single-select.country-code {
-              width: 105px;
+              width: 30%;
+              padding-bottom: 1.6em;
             }
         }
     }
@@ -39,7 +40,6 @@
         margin-top: 20px;
 
         &.twoFA {
-            display: flex;
             justify-content: center; 
         }
     }

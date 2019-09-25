@@ -572,6 +572,7 @@ export class French implements Language {
     profile_phone_changed = 'Numéro de téléphone changé avec succès'
     profile_phone_not_valid = 'Le numéro de téléphone introduit n\'est pas valide'
     profile_two_fa_enable = 'Activer'
+    profile_two_fa_disable = 'Désactiver'
     profile_two_fa_disabled = 'Vous avez besoin d\'un numéro de téléphone enregistré pour activer l\'authentification en deux phases'
     profile_two_fa_information = 'L\'authentification à deux facteurs ajoute une couche de sécurité supplémentaire à votre compte en nécessitant plus d\'un mot de passe pour vous connecter.'
     profile_two_fa_title = 'Authentification à 2 facteurs'

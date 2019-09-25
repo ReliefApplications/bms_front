@@ -573,6 +573,7 @@ export class English implements Language {
     profile_phone_changed = 'Phone number successfully changed'
     profile_phone_not_valid = 'The phone number introduced is not valid'
     profile_two_fa_enable = 'Enable'
+    profile_two_fa_disable = 'Disable'
     profile_two_fa_disabled = 'You need a registered telephone number to enable two-phase authentication'
     profile_two_fa_information = 'Two-factor authentication adds an additional layer of security to your account by requiring more than a password to log in'
     profile_two_fa_title = '2 Factor Authentication'

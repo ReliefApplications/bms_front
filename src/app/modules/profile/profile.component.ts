@@ -82,7 +82,7 @@ export class ProfileComponent implements OnInit {
                         phoneNumber: this.actualUser.get('phoneNumber')
                     });
                     this.twoFA = this.actualUser.get('twoFactorAuthentication');
-                    if (this.actualUser.get<string>('phonePrefix') && this.actualUser.get('phoneNumber')) {
+                    if (this.actualUser.get<string>('phonePrefix') && this.actualUser.get('phoneNumber') && !this.twoFA) {
                         this.canTwoFA = true;
                     }
                 } else {
@@ -134,8 +134,8 @@ export class ProfileComponent implements OnInit {
                 },
                 () => {
                     this.loadingPhone = false;
+                    this.canTwoFA = true;
                     this.snackbar.success(this.language.profile_phone_changed);
-                    this.router.navigate(['/profile']);
                 }
             );
         }

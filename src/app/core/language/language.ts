@@ -579,6 +579,7 @@ export interface Language {
     profile_phone_changed: string
     profile_phone_not_valid: string
     profile_two_fa_enable: string
+    profile_two_fa_disable: string
     profile_two_fa_disabled: string
     profile_two_fa_information: string
     profile_two_fa_title: string

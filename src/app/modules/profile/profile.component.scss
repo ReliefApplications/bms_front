@@ -33,17 +33,18 @@
         }
     }
 
-    span {
-        color: $bms_dark_grey;
-    }
     .action-buttons {
         margin-top: 20px;
-
+        
         &.twoFA {
             justify-content: center; 
         }
     }
-
+    
+}
+span {
+    color: $bms_dark_grey;
+    text-align: none !important;
 }
 
 //for mobile screen

@@ -14,7 +14,6 @@ import { AsyncacheService } from '../storage/asyncache.service';
 import { CachedCountryReturnValue } from '../storage/cached-country-value.interface';
 import { UserService } from './user.service';
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -25,6 +24,8 @@ export class LoginService {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     private redirectUrl = '';
+    private code: number;
+    private user: any;
 
     constructor (
         private authService: AuthenticationService,
@@ -45,15 +46,49 @@ export class LoginService {
         return this.authService.login(username, password).pipe(
             switchMap((userFromApi: any) => {
                 const user = User.apiToModel(userFromApi);
-                this.userService.setCurrentUser(user);
-                return this.asyncacheService.setUser(userFromApi).pipe(
-                    switchMap((_: any) => {
-                        return this.loginRoutine(user);
-                    })
-                );
+
+                if (user.get('twoFactorAuthentication')) {
+                    const phoneNumber = user.get('phonePrefix') + '' +  user.get('phoneNumber');
+                    this.code = this.randomIntFromInterval(10000, 99999);
+                    this.user = userFromApi;
+
+                    const body = {
+                        recipients: [phoneNumber],
+                        message: 'This is your Humansis authentication code: ' + this.code   // traduce
+                    };
+                    this.authService.sendSMS(body).subscribe((data) => {
+                        // tslint:disable-next-line
+                        console.log(data)
+                    },
+                    // tslint:disable-next-line
+                    () => {console.log('something failed')},
+                    // tslint:disable-next-line
+                    () => {console.log('ole')});
+                    return of(false);
+                } else {
+                    this.userService.setCurrentUser(user);
+                    return this.asyncacheService.setUser(userFromApi).pipe(
+                        switchMap((_: any) => {
+                            return this.loginRoutine(user);
+                        })
+                    );
+                }
             }),
             tap(() => { this.redirect(); })
         );
+    }
+
+    public authenticateCode(twoFactorCode: any): Observable<any> {
+        if (this.code === twoFactorCode) {
+            this.userService.setCurrentUser(User.apiToModel(this.user));
+            return this.asyncacheService.setUser(this.user).pipe(
+                switchMap((_: any) => {
+                    return this.loginRoutine(User.apiToModel(this.user));
+                })
+            );
+        } else {
+            return of(false);
+        }
     }
 
     // Login back using the token in the cache
@@ -160,5 +195,18 @@ export class LoginService {
         const language = this.languageService.stringToLanguage(user.get<string>('language'));
         this.languageService.selectedLanguage = language;
         return this.asyncacheService.setLanguage(language);
+    }
+
+    /**
+     * -------------------- UTILS ----------------------
+     */
+
+     /**
+      * Calculates a random number in a range
+      * @param min minimum value
+      * @param max maximum value
+      */
+    private randomIntFromInterval(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
     }
 }

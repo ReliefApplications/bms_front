@@ -11,7 +11,9 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { environment } from 'src/environments/environment';
-import { trim } from 'jquery';
+import * as firebase from 'firebase';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 @Component({
     selector: 'app-login',
@@ -19,8 +21,6 @@ import { trim } from 'jquery';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-    public forgotMessage = false;
     public loader = false;
     public form: FormGroup;
     public formTwoFA: FormGroup;
@@ -32,12 +32,14 @@ export class LoginComponent implements OnInit {
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
     private subscription: Subscription = new Subscription();
+    private googleProvider = new firebase.auth.GoogleAuthProvider();
+
     constructor(
         public authService: AuthenticationService,
         private userService: UserService,
         public asyncacheService: AsyncacheService,
         public router: Router,
-        public snackbarService: SnackbarService,
+        public snackbar: SnackbarService,
         public languageService: LanguageService,
         private loginService: LoginService,
     ) { }
@@ -45,16 +47,39 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         this.userService.resetUser();
         this.makeForm();
+        this.initializeFirebase();
     }
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 
-    makeForm() {
+    private makeForm() {
         this.form = new FormGroup({
             username: new FormControl('', [Validators.required]),
             password: new FormControl('', [Validators.required]),
+        });
+    }
+
+    private initializeFirebase() {
+        const firebaseConfig = {
+            apiKey: 'AIzaSyBy89u6u5u17xwhHWQQJ2jhqfIkPkJUzIU',
+            authDomain: 'humansis.firebaseapp.com',
+            databaseURL: 'https://humansis.firebaseio.com',
+            projectId: 'humansis',
+            storageBucket: '',
+            messagingSenderId: '592445518256',
+            appId: '1:592445518256:web:79dfcb980f4b73ea'
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().getRedirectResult().then((result: any) => {
+            if (result.credential) {
+                this.router.navigateByUrl('/sso?origin=google&token=' + result.credential.idToken);
+            }
+        }).catch((error) => {
+            this.snackbar.error(error.message);
         });
     }
 
@@ -86,15 +111,33 @@ export class LoginComponent implements OnInit {
     public onSubmitTwoFA(): void {
         const { twoFactorCode } = this.formTwoFA.value;
         this.loadingTwoFA = true;
-        this.subscription.add(this.loginService.authenticateCode(Number(trim(twoFactorCode))).subscribe((_success) => {
+        this.subscription.add(this.loginService.authenticateCode(Number(twoFactorCode)).subscribe((_success) => {
             this.loadingTwoFA = false;
             if (_success) {
                 this.router.navigateByUrl('/');
             } else {
-                this.snackbarService.error('Invalid code. Please, try again, this time with the correct code');
+                this.snackbar.error('Invalid code. Please, try again, this time with the correct code');
             }
         }));
     }
+
+    public hidAuthRedirect() {
+        window.location.href = 'https://auth.staging.humanitarian.id/oauth/authorize' +
+            '?response_type=code&client_id=Humsis-stag&scope=profile' +
+            '&redirect_uri=https://front-test.bmstaging.info/sso?origin=hid&state=12345';
+    }
+
+    public googleAuthRedirect() {
+        firebase.auth().signInWithRedirect(this.googleProvider);
+    }
+
+    // public googleAuthPopUp() {
+    //     firebase.auth().signInWithPopup(this.googleProvider).then((result: any) => {
+    //         this.router.navigateByUrl('/sso?origin=google&token=' + result.credential.idToken);
+    //     }).catch((error) => {
+    //         this.snackbar.error(error.message);
+    //     });
+    // }
 
     prod() {
         return environment.production;

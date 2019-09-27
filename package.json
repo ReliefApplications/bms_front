@@ -52,6 +52,7 @@
         "country-iso-3-to-2": "^1.0.1",
         "crypto-js": "^3.1.9-1",
         "file-saver": "^1.3.8",
+        "firebase": "^6.6.0",
         "hammerjs": "^2.0.8",
         "html2canvas": "1.0.0-alpha.12",
         "http-server": "^0.11.1",

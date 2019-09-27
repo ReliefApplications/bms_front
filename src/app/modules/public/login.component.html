@@ -9,20 +9,37 @@
                     <h1 class="title-text">{{language.login_bms | uppercaseFirst}}</h1>
                 </div>
                 <div class="login-user">
-                    <input type="text" class="user-input" aria-describedby="basic-addon1" placeholder="{{language.username | uppercaseFirst}}"
-                    formControlName="username">
-                    <input autocomplete="new-password" type="password" class="user-input" aria-describedby="basic-addon1" placeholder="{{language.login_password | uppercaseFirst}}" formControlName="password">
-                    <h5 *ngIf="forgotMessage" class="user-forgot-password">{{language.login_forgot_password}}</h5>
+                    <input type="text" class="user-input" aria-describedby="basic-addon1"
+                        placeholder="{{language.username | uppercaseFirst}}" formControlName="username">
+                    <input autocomplete="new-password" type="password" class="user-input"
+                        aria-describedby="basic-addon1" placeholder="{{language.login_password | uppercaseFirst}}"
+                        formControlName="password">
                 </div>
                 <div class="login-button">
                     <ng-container *ngIf="prod(); else notProd">
                         <re-captcha #captchaRef size="invisible" (resolved)="onSubmit()"></re-captcha>
-                        <button (click)="captchaRef.execute()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
+                        <button (click)="captchaRef.execute()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid"
+                            class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
                     </ng-container>
                     <ng-template #notProd>
-                        <button (click)="onSubmit()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid" class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
+                        <button (click)="onSubmit()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid"
+                            class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
                     </ng-template>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
+                    <button (click)="googleAuthRedirect()" mat-flat-button class="button-sso button-google"
+                        *ngIf="!loader">
+                        <img class="icon-sso" src="assets/icons/icon_google.svg">
+                        <!-- <svg class="icon-sso icon-google"></svg> -->
+                        <span class="sso-button-text google-button-text">{{language.login_title_google}}</span>
+                    </button>
+                    <button (click)="hidAuthRedirect()" mat-flat-button class="button-sso button-hid" *ngIf="!loader">
+                        <img class="icon-sso" src="assets/icons/icon_hid.svg">
+                        <!-- <svg class="icon-sso icon-hid"></svg> -->
+                        <span class="sso-button-text hid-button-text">
+                            {{language.login_title_hid}}
+                        </span>
+                    </button>
+                    <!-- <button (click)="googleAuthPopUp()" mat-flat-button class="button-background-primary">Login with Google Pop up</button> -->
                 </div>
             </form>
         </div>
@@ -33,7 +50,7 @@
                         <h1 class="title-text">Introduce the verification code we just sent you</h1>
                     </div>
                     <div class="login-user">
-                        <input type="text" class="user-input" aria-describedby="basic-addon1" placeholder="Code"
+                        <input type="number" class="user-input" aria-describedby="basic-addon1" placeholder="Code"
                         formControlName="twoFactorCode">
                     </div>
                     <div class="login-button">
@@ -47,5 +64,10 @@
         </ng-template>
     </div>
 </div>
-
-<!-- traduce -->
+<!-- <button mat-flat-button class="button-sso" *ngIf="!loader">
+    <mat-icon>mood</mat-icon>
+    <a
+        href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77f3bwmwrncdfs&scope=r_liteprofile&redirect_uri=https://front-test.bmstaging.info/sso?origin=linkedin&state=12345">
+        {{language.login_title_linkedin | uppercaseFirst}}
+    </a>
+</button> -->

@@ -581,6 +581,7 @@ export interface Language {
     profile_phone_changed: string
     profile_phone_not_valid: string
     profile_two_fa_enable: string
+    profile_two_fa_enabled: string
     profile_two_fa_disable: string
     profile_two_fa_disabled: string
     profile_two_fa_information: string
@@ -592,6 +593,8 @@ export interface Language {
     profile_user_hint_new_phone_prefix: string
     profile_user_hint_old_password: string
     profile_user_information: string
+
+    
 
     // Project
     project_add_household: string

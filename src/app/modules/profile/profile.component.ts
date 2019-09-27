@@ -38,6 +38,7 @@ export class ProfileComponent implements OnInit {
     });
     twoFA = false;
     loadingPhone = false;
+    loadingTwoFA = false;
     canTwoFA = false;
 
     public countryCodesList = PHONECODES;
@@ -157,11 +158,24 @@ export class ProfileComponent implements OnInit {
     }
 
     toogleTwoFA () {
+        this.loadingTwoFA = true;
         if (this.twoFA) {
             this.twoFA = false;
         } else {
             this.twoFA = true;
         }
         this.actualUser.set('twoFactorAuthentication', this.twoFA);
+        this.userService.update(this.actualUser.get('id'), this.actualUser.modelToApi()).subscribe((data) => {
+                this.asyncacheService.setUser(data).subscribe();
+                this.userService.setCurrentUser(this.actualUser);
+                },
+                () => {
+                    this.loadingTwoFA = false;
+                },
+                () => {
+                    this.loadingTwoFA = false;
+                    this.snackbar.success(this.language.profile_two_fa_enabled);
+                }
+            );
     }
 }

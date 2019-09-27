@@ -67,7 +67,7 @@
             <br>
             <strong *ngIf="!canTwoFA">{{ language.profile_two_fa_disabled }}</strong>
             <div class="action-buttons twoFA">
-                <mat-spinner [diameter]="25" *ngIf="false"></mat-spinner>
+                <mat-spinner [diameter]="25" *ngIf="loadingTwoFA"></mat-spinner>
                 <button mat-flat-button *ngIf="!twoFA" class="button-background-primary" (click)="toogleTwoFA()"[disabled]="!canTwoFA">
                     {{ language.profile_two_fa_enable | titlecase }}
                 </button>

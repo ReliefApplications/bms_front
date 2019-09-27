@@ -573,6 +573,7 @@ export class Arabic implements Language {
     profile_phone_changed = 'تم تغيير رقم الهاتف بنجاح'
     profile_phone_not_valid = 'رقم الهاتف المقدم غير صالح'
     profile_two_fa_enable = 'ممكن'
+    profile_two_fa_enabled = 'تم تمكين المصادقة الثنائية بنجاح'
     profile_two_fa_disable = 'تعطيل'
     profile_two_fa_disabled = 'تحتاج إلى رقم هاتف مسجل لتمكين المصادقة ثنائية الطور'
     profile_two_fa_information = 'تضيف المصادقة ثنائية العوامل طبقة إضافية من الأمان إلى حسابك عن طريق طلب أكثر من كلمة مرور لتسجيل الدخول'

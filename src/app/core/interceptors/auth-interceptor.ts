@@ -36,7 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
             );
         } else if (/https:\/\/api.sms.test.humanitarian.tech\/api\/order\/sms/.test(req.url)) {
             const authReq = req.clone(
-                { setHeaders: { 'Authorization': 'd55ed00d-a276-40c5-bb87-e0dde0706933' }
+                { setHeaders: { 'Authorization': 'd55ed00d-a276-40c5-bb87-e0dde0706933'}
             });
             return next.handle(authReq);
         }

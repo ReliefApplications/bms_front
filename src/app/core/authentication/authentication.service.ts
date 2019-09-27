@@ -9,6 +9,7 @@ import { CountriesService } from '../countries/countries.service';
 import { HttpService } from '../network/http.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { WsseService } from './wsse.service';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -112,5 +113,28 @@ export class AuthenticationService {
         body.password = saltedPassword;
         body.salt = salt.salt;
         return body;
+    }
+
+    public loginHumanID(code: string) {
+        const body = {
+            code: code,
+            environment: environment.name
+        };
+        return this.http.post(URL_BMS_API + '/login-humanitarian', body);
+    }
+
+    public loginLinkedIn(code: string) {
+        const body = {
+            code: code,
+            environment: environment.name
+        };
+        return this.http.post(URL_BMS_API + '/login-linkedin', body);
+    }
+
+    public loginGoogle(token: string) {
+        const body = {
+            token: token
+        };
+        return this.http.post(URL_BMS_API + '/login-google', body);
     }
 }

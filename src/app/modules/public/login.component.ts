@@ -11,6 +11,9 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { environment } from 'src/environments/environment';
+import * as firebase from 'firebase';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 @Component({
     selector: 'app-login',
@@ -18,8 +21,6 @@ import { environment } from 'src/environments/environment';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-    public forgotMessage = false;
     public loader = false;
     public form: FormGroup;
 
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
+    private googleProvider = new firebase.auth.GoogleAuthProvider();
 
     constructor(
         public authService: AuthenticationService,
@@ -41,12 +43,35 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         this.userService.resetUser();
         this.makeForm();
+        this.initializeFirebase();
     }
 
-    makeForm() {
+    private makeForm() {
         this.form = new FormGroup({
             username: new FormControl('', [Validators.required]),
             password: new FormControl('', [Validators.required]),
+        });
+    }
+
+    private initializeFirebase() {
+        const firebaseConfig = {
+            apiKey: 'AIzaSyBy89u6u5u17xwhHWQQJ2jhqfIkPkJUzIU',
+            authDomain: 'humansis.firebaseapp.com',
+            databaseURL: 'https://humansis.firebaseio.com',
+            projectId: 'humansis',
+            storageBucket: '',
+            messagingSenderId: '592445518256',
+            appId: '1:592445518256:web:79dfcb980f4b73ea'
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().getRedirectResult().then((result: any) => {
+            if (result.credential) {
+                this.router.navigateByUrl('/sso?origin=google&token=' + result.credential.idToken);
+            }
+        }).catch((error) => {
+            this.snackbar.error(error.message);
         });
     }
 
@@ -64,6 +89,24 @@ export class LoginComponent implements OnInit {
             }
         );
     }
+
+    public hidAuthRedirect() {
+        window.location.href = 'https://auth.staging.humanitarian.id/oauth/authorize' +
+            '?response_type=code&client_id=Humsis-stag&scope=profile' +
+            '&redirect_uri=https://front-test.bmstaging.info/sso?origin=hid&state=12345';
+    }
+
+    public googleAuthRedirect() {
+        firebase.auth().signInWithRedirect(this.googleProvider);
+    }
+
+    // public googleAuthPopUp() {
+    //     firebase.auth().signInWithPopup(this.googleProvider).then((result: any) => {
+    //         this.router.navigateByUrl('/sso?origin=google&token=' + result.credential.idToken);
+    //     }).catch((error) => {
+    //         this.snackbar.error(error.message);
+    //     });
+    // }
 
     prod() {
         return environment.production;

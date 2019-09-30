@@ -311,7 +311,7 @@
 
 <ng-template #validateButton>
     <div class="action-buttons">
-        <button *ngIf="!loadingStep" [disabled]="!form.valid" class="button-background-primary" mat-flat-button (click)="validateStep()">{{language.next | uppercaseFirst}}</button>
+        <button *ngIf="!loadingStep" [disabled]="form.invalid" class="button-background-primary" mat-flat-button (click)="validateStep()">{{language.next | uppercaseFirst}}</button>
         <mat-spinner [diameter]="35" *ngIf="loadingStep"></mat-spinner>
     </div>
 </ng-template>

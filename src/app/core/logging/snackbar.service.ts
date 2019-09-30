@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { UppercaseFirstPipe } from 'src/app/shared/pipes/uppercase-first.pipe';
 
 @Injectable({

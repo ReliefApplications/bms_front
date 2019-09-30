@@ -47,11 +47,11 @@ export class Address extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            id: this.get('id'),
-            number: this.get('number'),
-            street: this.get('street'),
-            postcode: this.get('postcode'),
-            location: this.get('location').modelToApi(),
+            id: this.fields.id.formatForApi(),
+            number: this.fields.number.formatForApi(),
+            street: this.fields.street.formatForApi(),
+            postcode: this.fields.postcode.formatForApi(),
+            location: this.fields.location.formatForApi(),
 
         };
     }

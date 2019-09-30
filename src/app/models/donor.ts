@@ -85,11 +85,11 @@ export class Donor extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            id: this.get('id'),
-            fullname: this.get('fullname'),
-            shortname: this.get('shortname'),
-            logo: this.get('logo'),
-            notes: this.get('notes'),
+            id: this.fields.id.formatForApi(),
+            fullname: this.fields.fullname.formatForApi(),
+            shortname: this.fields.shortname.formatForApi(),
+            logo: this.fields.logo.formatForApi(),
+            notes: this.fields.notes.formatForApi(),
         };
     }
 

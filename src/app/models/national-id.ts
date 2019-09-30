@@ -51,7 +51,7 @@ export class NationalId extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            id_number: this.get('number'),
+            id_number: this.fields.number.formatForApi(),
             id_type: this.fields.type.formatForApi()
         };
     }

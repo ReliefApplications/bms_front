@@ -91,7 +91,7 @@ export class Booklet extends CustomModel {
             isDisplayedInTable: true,
             isDisplayedInModal: true,
             bindField: 'name',
-            apiLabel: 'id',
+            apiLabel: 'name',
             options: CURRENCIES.map(currency => new Currency(currency.id, currency.name)),
             isEditable: true,
             isSettable: true,
@@ -244,16 +244,16 @@ export class Booklet extends CustomModel {
             }
         }
         return {
-            id: this.get('id'),
+            id: this.fields.id.formatForApi(),
             password: password,
             individual_values: values,
-            currency: this.get('currency').get('name'),
+            currency: this.fields.currency.formatForApi(),
             // inidividual_to_all: this.get('individualToAll'),
-            number_booklets: this.get('numberOfBooklets'),
-            number_vouchers: this.get('numberOfVouchers'),
-            code: this.get('code'),
-            status: this.get('status') ? this.get('status').get('id') : null,
-            vouchers: this.get('vouchers') ? this.get<Array<Voucher>>('vouchers').map((voucher: Voucher) => voucher.modelToApi()) : null
+            number_booklets: this.fields.numberOfBooklets.formatForApi(),
+            number_vouchers: this.fields.numberOfVouchers.formatForApi(),
+            code: this.fields.code.formatForApi(),
+            status: this.fields.status.formatForApi(),
+            vouchers: this.fields.vouchers.formatForApi()
         };
     }
 

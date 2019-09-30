@@ -47,6 +47,8 @@ export class French implements Language {
     donor = 'Donneur'
     donors = 'donateurs'
     general_relief = 'Item'
+    head = 'Chef de famille'
+    household = 'Ménage'
     households = 'Ménage'
     language = 'langue'
     location = 'Lieu'
@@ -597,7 +599,8 @@ export class French implements Language {
     modal_values_format_error = 'Si vous souhaitez déterminer les valeurs individuellement, vous devez taper des nombres séparés par des virgules (maximum 5)'
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
-
+    modal_no_pending_requests = 'Il n\'y a pas de demandes en attente'
+    
     // National ID
     national_id_card = 'Carte d\'identité'
     national_id_family_registry = 'Livret de famille'

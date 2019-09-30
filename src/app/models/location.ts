@@ -28,8 +28,8 @@ export class Location extends CustomModel {
     protected countryService = AppInjector.get(CountriesService);
     // Country
     protected country = this.countryService.selectedCountry.get<string>('id') ?
-    this.countryService.selectedCountry.get<string>('id') :
-    this.countryService.khm.get<string>('id');
+        this.countryService.selectedCountry.get<string>('id') :
+        this.countryService.khm.get<string>('id');
 
 
     title = 'Location';
@@ -70,7 +70,7 @@ export class Location extends CustomModel {
                 apiLabel: 'id',
             }
         ),
-        code: new TextModelField({}),
+        codeForMap: new TextModelField({}),
         countryIso3: new TextModelField(
             {
 
@@ -83,8 +83,8 @@ export class Location extends CustomModel {
         newLocation.set('id', locationFromApi.id);
 
         // Destructure locationFromApi into new variables
-        let {adm1, adm2, adm3} = locationFromApi;
-        const {adm4} = locationFromApi;
+        let { adm1, adm2, adm3 } = locationFromApi;
+        const { adm4 } = locationFromApi;
 
         // Cascade down the value of the most accurate element to the broader adm
         if (adm4) {
@@ -96,22 +96,32 @@ export class Location extends CustomModel {
         if (adm2) {
             adm1 = adm2.adm1;
         }
+
         // Exit if no adm were defined
         if (!adm1) {
             return newLocation;
         }
-        newLocation.set('code', adm1.code);
+
         newLocation.set('adm1', adm1 ? new Adm(adm1.id, adm1.name) : new Adm(null, null));
         newLocation.set('adm2', adm2 ? new Adm(adm2.id, adm2.name) : new Adm(null, null));
         newLocation.set('adm3', adm3 ? new Adm(adm3.id, adm3.name) : new Adm(null, null));
         newLocation.set('adm4', adm4 ? new Adm(adm4.id, adm4.name) : new Adm(null, null));
+
+        // Set location code with most precise location
+        if (adm3) {
+            newLocation.set('codeForMap', adm3.code);
+        } else if (adm2) {
+            newLocation.set('codeForMap', adm2.code);
+        } else {
+            newLocation.set('codeForMap', adm1.code);
+        }
 
         return newLocation;
     }
 
 
     getLocationName(): string {
-        let name =  this.get('adm1') && this.get('adm1').get('name') ? this.get('adm1').get<string>('name') : '';
+        let name = this.get('adm1') && this.get('adm1').get('name') ? this.get('adm1').get<string>('name') : '';
         name += this.get('adm2') && this.get('adm2').get('name') ? ' ' + this.get('adm2').get<string>('name') : '';
         name += this.get('adm3') && this.get('adm3').get('name') ? ' ' + this.get('adm3').get<string>('name') : '';
         name += this.get('adm4') && this.get('adm4').get('name') ? ' ' + this.get('adm4').get<string>('name') : '';
@@ -132,10 +142,10 @@ export class Location extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            adm1: this.get('adm1') ? this.get('adm1').get('id') : null,
-            adm2: this.get('adm2') ? this.get('adm2').get('id') : null,
-            adm3: this.get('adm3') ? this.get('adm3').get('id') : null,
-            adm4: this.get('adm4') ? this.get('adm4').get('id') : null,
+            adm1: this.fields.adm1.formatForApi(),
+            adm2: this.fields.adm2.formatForApi(),
+            adm3: this.fields.adm3.formatForApi(),
+            adm4: this.fields.adm4.formatForApi(),
         };
     }
 

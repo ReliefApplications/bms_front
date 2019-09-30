@@ -96,11 +96,11 @@ export class HouseholdLocation extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            id: this.get('id'),
+            id: this.fields.id.formatForApi(),
             location_group: this.fields.locationGroup.formatForApi(),
             type: this.fields.type.formatForApi(),
-            address: this.get('address') ? this.get('address').modelToApi() : null,
-            camp_address: this.get('campAddress') ? this.get('campAddress').modelToApi() : null,
+            address: this.fields.address.formatForApi(),
+            camp_address: this.fields.campAddress.formatForApi(),
 
         };
     }

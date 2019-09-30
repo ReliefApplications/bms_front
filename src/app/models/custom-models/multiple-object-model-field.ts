@@ -1,6 +1,7 @@
 import { CustomModelField } from './custom-model-field';
+import { CustomModel } from './custom-model';
 
-export class MultipleObjectsModelField<CustomModel> extends CustomModelField<CustomModel[]> {
+export class MultipleObjectsModelField<T> extends CustomModelField<CustomModel[]> {
     kindOfField = 'MultipleObject';
 
      /**
@@ -20,5 +21,9 @@ export class MultipleObjectsModelField<CustomModel> extends CustomModelField<Cus
      * @type {Function}
      */
     displayModalFunction: Function;
+
+    formatForApi(): any {
+        return this.value ? this.value.map(object => object.modelToApi()) : null;
+    }
 
 }

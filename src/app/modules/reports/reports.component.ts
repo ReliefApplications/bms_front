@@ -1,12 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { saveAs } from 'file-saver/FileSaver';
 import * as html2canvas from 'html2canvas';
 import * as jsPDF from 'jspdf';
 import { forkJoin, from, of, Subscription } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, mergeMap } from 'rxjs/operators';
 import { DistributionService } from 'src/app/core/api/distribution.service';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { UserService } from 'src/app/core/api/user.service';
@@ -115,16 +115,16 @@ export class ReportsComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-
         this.generateFrequencies();
         this.generateEnabledReports();
         this.getProjects().pipe(
-            switchMap(() => {
+            mergeMap(() => {
                 if (!this.projects) {
                     return of(undefined);
                 }
                 return this.setFormsValues();
-        })).subscribe((_: any) => {
+            })
+        ).subscribe((_: any) => {
             this.generateFormsEvents();
             this.selectDefault();
 

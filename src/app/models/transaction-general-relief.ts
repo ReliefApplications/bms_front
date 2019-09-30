@@ -30,8 +30,8 @@ export class GeneralRelief extends CustomModel {
 
     public modelToApi(): Object {
         return {
-            id: this.get('id'),
-            notes: this.get('notes'),
+            id: this.fields.id.formatForApi(),
+            notes: this.fields.notes.formatForApi(),
             distributed_at: this.fields.distributedAt.formatDateTimeForApi(),
 
         };
@@ -170,8 +170,8 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
     public modelToApi(): Object {
 
         return {
-            id: this.get('id'),
-            beneficiary: this.get('beneficiary').modelToApi(),
+            id: this.fields.id.formatForApi(),
+            beneficiary: this.fields.beneficiary.formatForApi(),
             general_reliefs: this.get('generalReliefs') ?
             this.get<Array<GeneralRelief>>('generalReliefs').map((generalRelief: GeneralRelief) => generalRelief.modelToApi()) : [],
 

@@ -1,7 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DateAdapter, MatDialogRef, MAT_DATE_FORMATS } from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { CriteriaService } from 'src/app/core/api/criteria.service';
 import { FormService } from 'src/app/core/utils/form.service';
 import { LanguageService } from 'src/app/core/language/language.service';
@@ -131,7 +132,7 @@ export class ModalAddCriteriaComponent implements OnInit, OnDestroy {
             if (criteria) {
                 this.criteriaList = criteria.map((criterion: any) => Criteria.apiToModel(criterion));
                 this.onChanges();
-                this.form.controls.criteriaType.setValue('Beneficiary');
+                this.form.controls.criteriaType.setValue('beneficiary');
             }
         });
     }

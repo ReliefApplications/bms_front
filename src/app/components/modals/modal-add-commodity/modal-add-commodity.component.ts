@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import { CommodityService } from 'src/app/core/api/commodity.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { LanguageService } from 'src/app/core/language/language.service';

@@ -44,6 +44,9 @@ export class LogsComponent implements OnInit, OnDestroy {
     private screenSizeSubscription: Subscription;
     public canvasAreReloading = false;
 
+    // Amount of past days to show in the graph
+    public graphDuration = 90;
+
     // Logs
     private logSubscription: Subscription;
 
@@ -88,8 +91,8 @@ export class LogsComponent implements OnInit, OnDestroy {
                 if (response && response.length > 0) {
                     this.logs = response.map((log: any) => Log.apiToModel(log));
                     this.selectTab('distributions');
-                    this.createGraph();
-                } else if (response === null) {
+                    this.createGraphs();
+                } else if (!response) {
                     this.logs = null;
                 }
             }
@@ -114,13 +117,13 @@ export class LogsComponent implements OnInit, OnDestroy {
         }
     }
 
-    createGraph() {
+    createGraphs() {
         const sortedLogs = this.logs
             .sort((log1: Log, log2: Log) => log1.get<Date>('date').getTime() - log2.get<Date>('date').getTime());
         const oldestDate = sortedLogs[0].get<Date>('date').getFullYear();
         const latestDate = sortedLogs[sortedLogs.length - 1].get<Date>('date').getFullYear();
         const oldestDay = new Date();
-        oldestDay.setDate(oldestDay.getDate() - 90);
+        oldestDay.setDate(oldestDay.getDate() - this.graphDuration);
         const latestDay = new Date();
         latestDay.setDate(latestDay.getDate() + 1);
         const datePipe = new DatePipe('en-US');
@@ -163,6 +166,7 @@ export class LogsComponent implements OnInit, OnDestroy {
             values: {},
         };
 
+        // Set up status graph
         for (let date = oldestDate; date <= latestDate; date++) {
             statusGraph.values[date] = [{ date: date, name: this.language.log_status_200, unit: this.language.log_status_200, value: 0 },
             { date: date, name: this.language.log_status_300, unit: this.language.log_status_300, value: 0 },
@@ -172,12 +176,11 @@ export class LogsComponent implements OnInit, OnDestroy {
             { date: date, name: this.language.log_status_404, unit: this.language.log_status_404, value: 0 }];
         }
 
+        // Set up request per day and per country graphs
         for (const date = new Date(oldestDay.getTime()); date <= latestDay; date.setDate(date.getDate() + 1)) {
             const formatDatePipe = datePipe.transform(date, 'dd-MM-yyyy');
-            // Request per day line chart
             dayRequestGraph.values[formatDatePipe] =
                 [{ date: formatDatePipe, name: this.language.log_requests, unit: this.language.log_requests, value: 0 }];
-            // Requests per country line chart
             this.requestsKHM.values[formatDatePipe] =
                 [{ date: formatDatePipe, name: this.language.log_requests, unit: this.language.log_requests, value: 0 }];
             this.requestsSYR.values[formatDatePipe] =
@@ -186,7 +189,8 @@ export class LogsComponent implements OnInit, OnDestroy {
 
         this.logs.forEach((log: Log) => {
             const formatDatePipe = datePipe.transform(log.get<Date>('date'), 'dd-MM-yyyy');
-            // Status (success/errors) pie chart
+
+            // Fill status pie graph
             if (log.get<string>('status') === this.language.log_status_200) {
                 statusGraph.values[log.get<Date>('date').getFullYear()][0].value++;
             } else if (log.get<string>('status') === this.language.log_status_300) {
@@ -201,28 +205,32 @@ export class LogsComponent implements OnInit, OnDestroy {
                 statusGraph.values[log.get<Date>('date').getFullYear()][5].value++;
             }
 
-            // Request per day line chart
+            // Fill request per day graph
             if (dayRequestGraph.values[formatDatePipe]) {
                 dayRequestGraph.values[formatDatePipe][0].value++;
             }
-            // Most active users bar chart
-            if (activeUsersGraph.values[log.get<string>('user')]) {
-                activeUsersGraph.values[log.get<string>('user')][0].value++;
-            } else {
-                activeUsersGraph.values[log.get<string>('user')] = [{ name: log.get<string>('user'), value: 1, unit: 'requests' }];
-            }
-            // Requests per country line chart
+
+            // Fill requests per country graph
             if (this.requestsKHM.values[formatDatePipe]) {
                 if (log.get<string>('country') === 'KHM') {
                     this.requestsKHM.values[formatDatePipe][0].value++;
                 }
             }
+
             if (this.requestsSYR.values[formatDatePipe]) {
                 if (log.get<string>('country') === 'SYR') {
                     this.requestsSYR.values[formatDatePipe][0].value++;
                 }
             }
+
+            // Fill most active users graph
+            if (activeUsersGraph.values[log.get<string>('user')]) {
+                activeUsersGraph.values[log.get<string>('user')][0].value++;
+            } else {
+                activeUsersGraph.values[log.get<string>('user')] = [{ name: log.get<string>('user'), value: 1, unit: 'requests' }];
+            }
         });
+
         // Sort most active users by their amount of requests
         activeUsersGraph.values = Object.keys(activeUsersGraph.values)
             .sort((user1, user2) => activeUsersGraph.values[user2][0].value - activeUsersGraph.values[user1][0].value)

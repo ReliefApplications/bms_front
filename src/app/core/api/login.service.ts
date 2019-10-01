@@ -46,18 +46,8 @@ export class LoginService {
         return this.authService.login(username, password).pipe(
             switchMap((userFromApi: any) => {
                 const user = User.apiToModel(userFromApi);
-
                 if (user.get('twoFactorAuthentication')) {
-                    const phoneNumber = user.get('phonePrefix') + '' +  user.get('phoneNumber');
-                    this.code = this.randomIntFromInterval(10000, 99999);
-                    this.user = userFromApi;
-
-                    const body = {
-                        recipients: [phoneNumber],
-                        message: this.language.login_two_fa_message + ': ' + this.code
-                    };
-                    this.authService.sendSMS(body).subscribe();
-                    return of(false);
+                    this.twoFALogin(userFromApi);
                 } else {
                     this.userService.setCurrentUser(user);
                     return this.asyncacheService.setUser(userFromApi).pipe(
@@ -69,6 +59,20 @@ export class LoginService {
             }),
             tap(() => { this.redirect(); })
         );
+    }
+
+    private twoFALogin(userFromApi: any) {
+        const user = User.apiToModel(userFromApi);
+        const phoneNumber = user.get('phonePrefix') + '' +  user.get('phoneNumber');
+        this.code = this.randomIntFromInterval(10000, 99999);
+        this.user = userFromApi;
+
+        const body = {
+            recipients: [phoneNumber],
+            message: this.language.login_two_fa_message + ': ' + this.code
+        };
+        this.authService.sendSMS(body).subscribe();
+        return of(false);
     }
 
     public authenticateCode(twoFactorCode: any): Observable<any> {

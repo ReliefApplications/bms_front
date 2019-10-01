@@ -81,7 +81,7 @@ export class SsoComponent implements OnInit {
 
     login(userFromApi) {
         const user = User.apiToModel(userFromApi);
-        if (user && ! user.get('rights')) {
+        if (user && !user.get('rights')) {
             this.userDisabled = true;
         } else {
             this.userService.setCurrentUser(user);

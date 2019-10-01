@@ -54,16 +54,9 @@ export class LoginService {
 
                     const body = {
                         recipients: [phoneNumber],
-                        message: 'This is your Humansis authentication code: ' + this.code   // traduce
+                        message: this.language.login_two_fa_message + ': ' + this.code
                     };
-                    this.authService.sendSMS(body).subscribe((data) => {
-                        // tslint:disable-next-line
-                        console.log(data)
-                    },
-                    // tslint:disable-next-line
-                    () => {console.log('something failed')},
-                    // tslint:disable-next-line
-                    () => {console.log('ole')});
+                    this.authService.sendSMS(body).subscribe();
                     return of(false);
                 } else {
                     this.userService.setCurrentUser(user);

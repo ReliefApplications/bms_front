@@ -1,5 +1,5 @@
 <div class="box-image">
-    <div class="box-info" *ngIf="! userDisabled">
+    <div class="box-info" *ngIf="!userDisabled">
         We are logging you into Humansis from {{this.originString}}, please wait...
         <mat-spinner [diameter]="50"></mat-spinner>
     </div>
@@ -10,6 +10,3 @@
         </button>
     </div>
 </div>
-
-<!-- TO USE IN BOX LOGIN:
-    *ngIf="userService.currentUser && !userService.currentUser.get('rights'); else noRights" -->

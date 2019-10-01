@@ -102,9 +102,7 @@ export class LoginComponent implements OnInit {
                         twoFactorCode: new FormControl('', [Validators.required]),
                     });
                 }
-            },
-            () => {},
-            () => {}
+            }
         ));
     }
 
@@ -116,7 +114,7 @@ export class LoginComponent implements OnInit {
             if (_success) {
                 this.router.navigateByUrl('/');
             } else {
-                this.snackbar.error('Invalid code. Please, try again, this time with the correct code');
+                this.snackbar.error(this.language.login_two_fa_invalid_code);
             }
         }));
     }

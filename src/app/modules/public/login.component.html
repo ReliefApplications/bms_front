@@ -29,12 +29,10 @@
                     <button (click)="googleAuthRedirect()" mat-flat-button class="button-sso button-google"
                         *ngIf="!loader">
                         <img class="icon-sso" src="assets/icons/icon_google.svg">
-                        <!-- <svg class="icon-sso icon-google"></svg> -->
                         <span class="sso-button-text google-button-text">{{language.login_title_google}}</span>
                     </button>
                     <button (click)="hidAuthRedirect()" mat-flat-button class="button-sso button-hid" *ngIf="!loader">
                         <img class="icon-sso" src="assets/icons/icon_hid.svg">
-                        <!-- <svg class="icon-sso icon-hid"></svg> -->
                         <span class="sso-button-text hid-button-text">
                             {{language.login_title_hid}}
                         </span>

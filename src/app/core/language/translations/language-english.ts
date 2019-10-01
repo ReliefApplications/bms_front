@@ -475,6 +475,8 @@ export class English implements Language {
     login_title_hid= 'Login with HID'
     login_title_google = 'Login with Google'
     login_title_linkedin = 'Login with LinkedIn'
+    login_two_fa_invalid_code = 'Invalid code, please try again'
+    login_two_fa_message = 'This is your Humansis authentication code'
 
     // Map legend
     map_legend_completed = 'completed'

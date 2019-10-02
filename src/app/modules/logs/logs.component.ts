@@ -89,7 +89,13 @@ export class LogsComponent implements OnInit, OnDestroy {
         ).subscribe(
             response => {
                 if (response && response.length > 0) {
-                    this.logs = response.map((log: any) => Log.apiToModel(log));
+                    this.logs = response.reduce((realLogs, res) => {
+                        const log = Log.apiToModel(res);
+                        if (log) {
+                            realLogs.push(log);
+                        }
+                        return realLogs;
+                    }, []);
                     this.selectTab('distributions');
                     this.createGraphs();
                 } else if (!response) {

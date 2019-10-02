@@ -588,6 +588,7 @@ export interface Language {
     profile_two_fa_disabled: string
     profile_two_fa_information: string
     profile_two_fa_title: string
+    profile_two_fa_warning: string
     profile_user_change_password: string
     profile_user_hint_new_password_again: string
     profile_user_hint_new_password: string

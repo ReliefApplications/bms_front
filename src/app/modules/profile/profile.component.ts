@@ -83,10 +83,9 @@ export class ProfileComponent implements OnInit {
                         phoneNumber: this.actualUser.get('phoneNumber')
                     });
                     this.twoFA = this.actualUser.get('twoFactorAuthentication');
-                    if (this.actualUser.get<string>('phonePrefix') && this.actualUser.get('phoneNumber') && !this.twoFA) {
+                    if (this.actualUser.get<string>('phonePrefix') && this.actualUser.get('phoneNumber')) {
                         this.canTwoFA = true;
                     }
-                } else {
                 }
             }
         );
@@ -135,8 +134,8 @@ export class ProfileComponent implements OnInit {
                 },
                 () => {
                     this.loadingPhone = false;
-                    this.canTwoFA = true;
                     this.snackbar.success(this.language.profile_phone_changed);
+                    this.canTwoFA = true;
                 }
             );
         }
@@ -159,23 +158,25 @@ export class ProfileComponent implements OnInit {
 
     toogleTwoFA () {
         this.loadingTwoFA = true;
-        if (this.twoFA) {
-            this.twoFA = false;
-        } else {
-            this.twoFA = true;
-        }
+        this.twoFA = this.twoFA ? false : true;
+
         this.actualUser.set('twoFactorAuthentication', this.twoFA);
+        this.actualUser.set('password', null);
+
         this.userService.update(this.actualUser.get('id'), this.actualUser.modelToApi()).subscribe((data) => {
-                this.asyncacheService.setUser(data).subscribe();
-                this.userService.setCurrentUser(this.actualUser);
-                },
-                () => {
-                    this.loadingTwoFA = false;
-                },
-                () => {
-                    this.loadingTwoFA = false;
+            this.asyncacheService.setUser(data).subscribe();
+            this.userService.setCurrentUser(this.actualUser);
+            },
+            () => {
+                this.loadingTwoFA = false;
+            },
+            () => {
+                this.loadingTwoFA = false;
+                if (this.twoFA) {
                     this.snackbar.success(this.language.profile_two_fa_enabled);
+                } else {
+                    this.snackbar.warning(this.language.profile_two_fa_disabled);
                 }
-            );
+        });
     }
 }

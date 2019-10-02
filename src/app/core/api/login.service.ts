@@ -47,7 +47,7 @@ export class LoginService {
             switchMap((userFromApi: any) => {
                 const user = User.apiToModel(userFromApi);
                 if (user.get('twoFactorAuthentication')) {
-                    this.twoFALogin(userFromApi);
+                    return this.twoFALogin(userFromApi);
                 } else {
                     this.userService.setCurrentUser(user);
                     return this.asyncacheService.setUser(userFromApi).pipe(
@@ -61,7 +61,7 @@ export class LoginService {
         );
     }
 
-    private twoFALogin(userFromApi: any) {
+    public twoFALogin(userFromApi: any): Observable<Boolean> {
         const user = User.apiToModel(userFromApi);
         const phoneNumber = user.get('phonePrefix') + '' +  user.get('phoneNumber');
         this.code = this.randomIntFromInterval(10000, 99999);

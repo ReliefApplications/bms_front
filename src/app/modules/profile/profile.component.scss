@@ -35,9 +35,8 @@
 
     .action-buttons {
         margin-top: 20px;
-        
-        &.twoFA {
-            justify-content: center; 
+        mat-spinner {
+            margin-right: 20px;
         }
     }
     

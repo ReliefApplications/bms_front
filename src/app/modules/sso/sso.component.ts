@@ -84,13 +84,17 @@ export class SsoComponent implements OnInit {
         if (user && !user.get('rights')) {
             this.userDisabled = true;
         } else {
-            this.userService.setCurrentUser(user);
-            this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {
-                this.loginService.clearSessionCacheEntries();
-                this.loginService.loginRoutine(user).subscribe(() => {
-                    this.router.navigateByUrl('/');
+            if (user.get('twoFactorAuthentication')) {
+                return this.loginService.twoFALogin(userFromApi);
+            } else {
+                this.userService.setCurrentUser(user);
+                this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {
+                    this.loginService.clearSessionCacheEntries();
+                    this.loginService.loginRoutine(user).subscribe(() => {
+                        this.router.navigateByUrl('/');
+                    });
                 });
-            });
+            }
         }
     }
 }

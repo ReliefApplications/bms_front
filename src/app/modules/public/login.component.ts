@@ -72,7 +72,11 @@ export class LoginComponent implements OnInit {
             appId: '1:592445518256:web:79dfcb980f4b73ea'
         };
 
-        firebase.initializeApp(firebaseConfig);
+        if (!firebase.app.length) {
+            firebase.initializeApp(firebaseConfig);
+        } else {
+            firebase.app();
+        }
 
         firebase.auth().getRedirectResult().then((result: any) => {
             if (result.credential) {

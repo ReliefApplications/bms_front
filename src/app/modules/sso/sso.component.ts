@@ -59,7 +59,7 @@ export class SsoComponent implements OnInit {
             this.authService.loginHumanID(code).subscribe((userFromApi: any) => {
                 this.login(userFromApi);
             }, (_error) => {
-                this.router.navigateByUrl('/login');
+                this.router.navigateByUrl('/sso');
             });
         }
     }
@@ -68,7 +68,7 @@ export class SsoComponent implements OnInit {
         this.authService.loginGoogle(token).subscribe((userFromApi: any) => {
            this.login(userFromApi);
         }, (_error) => {
-            this.router.navigateByUrl('/login');
+            this.router.navigateByUrl('/sso');
         });
     }
 

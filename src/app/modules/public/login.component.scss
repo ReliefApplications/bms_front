@@ -102,14 +102,7 @@ form {
                     width: 55%;
                     display: flex;
                     justify-content: center;
-
-                    &.button-hid {
-                        background-color: $bms_white !important;
-                    }
-
-                    &.button-google {
-                        background-color: $bms_white !important;
-                    }
+                    background-color: $bms_white !important;
 
                     .icon-sso {
                         position: absolute;
@@ -121,19 +114,6 @@ form {
                     .sso-button-text {
                         color: $bms_dark_grey;
                     }
-
-                    // .google-button-text {
-                    //     font: $bms_font_text bold;
-                    //     color: #737373;
-                    //     margin-left: 15px;
-                    // }
-
-
-                    // .hid-button-text {
-                    //     font: $bms_font_text bold;
-                    //     color: $bms_black;
-                    //     margin-left: 15px;
-                    // }
                 }
             }
         }

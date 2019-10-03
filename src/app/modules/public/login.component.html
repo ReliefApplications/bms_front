@@ -26,12 +26,12 @@
                             class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
                     </ng-template>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
-                    <button (click)="googleAuthRedirect()" mat-flat-button class="button-sso button-google"
+                    <button (click)="googleAuthRedirect()" mat-flat-button class="button-sso"
                         *ngIf="!loader">
                         <img class="icon-sso" src="assets/icons/icon_google.svg">
                         <span class="sso-button-text google-button-text">{{language.login_title_google}}</span>
                     </button>
-                    <button (click)="hidAuthRedirect()" mat-flat-button class="button-sso button-hid" *ngIf="!loader">
+                    <button (click)="hidAuthRedirect()" mat-flat-button class="button-sso" *ngIf="!loader">
                         <img class="icon-sso" src="assets/icons/icon_hid.svg">
                         <span class="sso-button-text hid-button-text">
                             {{language.login_title_hid}}

@@ -86,8 +86,8 @@ export class Log extends CustomModel {
 
         // To filter bad logs
         if (/.+\/households\/get\/.+/.test(url) || /.+\/export/.test(url) || /.+\/location.+/.test(url)
-            || /.+\/distributions\/criteria\/project\/[\d]\/number/.test(url) || /.+\/login.+/.test(url)
-            || /.+\/distributions\/beneficiaries\/project\/[\d+]/.test(url) || /.+\/indicators/.test(url)
+            || /.+\/distributions\/criteria\/project\/\d+\/number/.test(url) || /.+\/login.+/.test(url)
+            || /.+\/distributions\/beneficiaries\/project\/\d+/.test(url) || /.+\/indicators/.test(url)
             || /.+\/deactivate-booklets/.test(url) || /.+\/booklets-print/.test(url) || /.+\/vouchers\/scanned/.test(url)) {
             return null;
         }

@@ -48,7 +48,7 @@ export class VendorsService extends CustomModelService {
     }
 
     public delete(id: number) {
-        const url = this.api + '/vendors/archive/' + id;
+        const url = this.api + '/vendors/' + id + '/archive';
         return this.http.post(url, {});
     }
 

@@ -31,12 +31,12 @@ export class DistributionService extends CustomModelService {
     }
 
     public delete(distributionId) {
-        const url = this.apiBase + '/distributions/archive/' + distributionId;
+        const url = this.apiBase + '/distributions/' + distributionId + '/archive';
         return this.http.post(url, '');
     }
 
     public complete(distributionId) {
-        const url = this.apiBase + '/distributions/complete/' + distributionId;
+        const url = this.apiBase + '/distributions/' + distributionId + '/complete';
         return this.http.post(url, '');
     }
 

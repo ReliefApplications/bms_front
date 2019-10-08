@@ -73,7 +73,7 @@ export class LogsService extends CustomModelService {
                             detailString += '\n' + this.language.log_beneficiary + ': ' + beneficiary.local_given_name;
                         }
                         if (url.includes('assign')) {
-                            detailString = '\n' + this.language.log_code + ': ' + /code":"(.+?)".+/.exec(request)[1];
+                            detailString += '\n' + this.language.log_code + ': ' + /code":"(.+?)".+/.exec(request)[1];
                         }
                     } else {
                         detailString = this.language.log_old_id + ': ' + ids[0];
@@ -84,7 +84,7 @@ export class LogsService extends CustomModelService {
                 service.getOne(Number(objectId[1])).subscribe(
                     (object: any) => {
                         if (!object) {
-                            detailString += this.language.log_old_id + ': ' + objectId[1];
+                            detailString = this.language.log_old_id + ': ' + objectId[1];
                         } else {
                             detailString = this.language['log_' + objectId[0]] + ': ' + object.name;
                             if (url.includes('beneficiary')) {

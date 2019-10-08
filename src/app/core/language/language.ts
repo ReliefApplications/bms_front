@@ -478,7 +478,7 @@ export interface Language {
 
     //Log audit
 
-    // Neo-Actions
+    // Actions
     log_archive: string
     log_assign: string
     log_add_beneficiary: string
@@ -494,6 +494,7 @@ export interface Language {
     log_import_beneficiaries_from_api: string
     log_import_beneficiaries_from_syria_file: string
     log_import_beneficiary: string
+    log_post_language: string
     log_post_password: string
     log_post_transaction: string
     log_scan: string
@@ -503,13 +504,11 @@ export interface Language {
     log_set_general_relief_items_as_distributed: string
     log_update: string
     log_update_f_p: string
-    log_update_language: string
-    log_update_password: string
     log_upload_image: string
     log_upload_logo: string
     log_validate: string
 
-    // Neo-Objects
+    // Objects
     log_beneficiary: string
     log_booklet: string
     log_country: string
@@ -524,23 +523,6 @@ export interface Language {
     log_vendor: string
     log_voucher: string
 
-    //Actions
-    // log_add: string
-    // log_archive: string
-    // log_assign: string
-    // log_complete: string
-    // log_created: string
-    // log_delete: string
-    // log_distributed
-    // log_edit: string
-    // log_import: string
-    // log_remove: string
-    // log_scanned: string
-    // log_transaction: string
-    // log_upload: string
-    // log_validate: string
-    // log_deactivate: string
-
     //Fields
     log_field_action: string
     log_field_country: string
@@ -551,37 +533,10 @@ export interface Language {
     log_field_status: string
     log_field_user: string
 
-    //Objects
-    // log_beneficiary: string
-    // log_beneficiaries: string
-    // log_batch_vouchers: string
-    // log_booklets: string
-    // log_country_specifics: string
-    // log_distributions: string
-    // log_donor: string 
-    // log_donors: string
-    // log_general_relief_item: string
-    // log_households: string
-    // log_image: string 
-    // log_email: string
-    // log_language: string
-    // log_logo: string
-    // log_notes: string
-    // log_organization: string
-    // log_password: string
-    // log_products: string
-    // log_project: string
-    // log_projects: string
-    // log_provider: string
-    // log_region: string
-    // log_send: string
-    // log_vendors: string
-    // log_vouchers: string
-
     //Reports
     logs: string
     log_active_users_title: string
-    log_codes: string
+    log_code: string
     log_family_name: string
     log_field: string
     log_old_id: string

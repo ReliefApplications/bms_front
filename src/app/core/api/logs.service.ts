@@ -10,7 +10,6 @@ import { DistributionService } from './distribution.service';
 import { BeneficiariesService } from './beneficiaries.service';
 import { VendorsService } from './vendors.service';
 import { forkJoin } from 'rxjs';
-import { SnackbarService } from '../logging/snackbar.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,152 +20,86 @@ export class LogsService extends CustomModelService {
 
     constructor(
         protected http: HttpService,
-        protected languageService: LanguageService,
-        private snackbar: SnackbarService,
+        protected languageService: LanguageService
     ) {
         super(http, languageService);
     }
 
-
-    public fillWithOptions(log: Log) {
-
-    }
+    public fillWithOptions(log: Log) {}
 
     public getDetails(log: Log) {
-        const appInjector = AppInjector;
         const url = log.fields.url.value;
         const request = log.fields.request.value;
         const status = log.fields.status.value;
-        let idMatch = [];
-        let requestMatch = [];
-        let detailsString;
-        let detailsRequest;
+        let service: any;
 
-        // Only check the urls that need to fill the details
+        // Only check the urls that need to fill the details from the backend
         const canFill = (url.includes('import') || url.includes('transaction') || url.includes('archive') || url.includes('complete')
             || url.includes('validate') || url.includes('assign') || url.includes('remove') || url.includes('add')
-            || /.+\/distributions\/[0-9]+\/beneficiary/.test(url));
+            || url.includes('beneficiary'));
 
         if (canFill && status !== 'Not Found') {
-            // Set up the switch
-            let switchCase;
-            if (url.includes('assign') || url.includes('remove')) {
-                switchCase = 'distributionBeneficiaries';
-            } else if (url.includes('distribution')) {
-                switchCase = 'distributions';
-            } else if (url.includes('project')) {
-                switchCase = 'projects';
-            } else if (url.includes('vendor')) {
-                switchCase = 'vendors';
-            } else {
-                switchCase = 'error';
+            // Set up the services
+            const objectId = /(\w*)\/(\d+)/.exec(url);
+            if (!objectId) {
+                log.set('details', this.language.log_no_details);
+                return;
+            }
+            objectId.shift();
+
+            switch (true) {
+                case url.includes('distribution') || url.includes('assign'):
+                    service = AppInjector.get(DistributionService);
+                    objectId[0] = 'distribution'; break;
+                case url.includes('project'):
+                    service = AppInjector.get(ProjectService);
+                    objectId[0] = 'project'; break;
+                case url.includes('vendor'):
+                    service = AppInjector.get(VendorsService);
+                    objectId[0] = 'vendor'; break;
             }
 
-            switch (switchCase) {
-
-                case 'distributionBeneficiaries':
-                {
-                    idMatch = url.match(/.*\/([0-9]+).*\/([0-9]+)/);
-                    forkJoin(
-                        appInjector.get(DistributionService).getOne(idMatch[url.includes('assign') ? 2 : 1]),
-                        appInjector.get(BeneficiariesService).getOne(idMatch[url.includes('assign') ? 1 : 2]))
-                        .subscribe(([distribution, beneficiary]: [any, any]) => {
-                            if (!distribution || !beneficiary) {
-                                detailsString = this.language.log_not_exists + '\n'
-                                    + this.language.log_old_id + ':\n ' + this.language.log_distributions + ': '
-                                    + idMatch[url.includes('assign') ? 2 : 1] + '\n ' + this.language.log_beneficiaries + ': '
-                                    + idMatch[url.includes('assign') ? 1 : 2];
-                            } else {
-                                if (url.includes('assign')) {
-                                    detailsString = this.language.log_distributions + ': ' + distribution.name + '\n'
-                                        + this.language.log_beneficiaries + ': ' + beneficiary.local_given_name + '\n'
-                                        + this.language.log_codes + ': ' + request.match(/.*"code":"(.*?)"/)[1];
-                                } else {
-                                    detailsString = this.language.log_distributions + ': ' + distribution.name + '\n'
-                                        + this.language.log_beneficiaries + ': ' + beneficiary.local_given_name;
-                                }
-                            }
-                        log.set('details', detailsString);
-                    });
-                }
-                break;
-
-                case 'distributions':
-                {
-                    idMatch = url.match(/.*\/([0-9]+)/);
-                    detailsRequest = appInjector.get(DistributionService).getOne(idMatch[1]).subscribe(
-                        (distribution) => {
-                            if (distribution) {
-                                detailsString = this.language.log_distributions + ': '
-                                    + distribution.name;
-
-                                if (/.+\/distributions\/[0-9]+\/beneficiary/.test(url)) {
-                                    requestMatch = request.match(/"local_given_name":".*?"/g);
-                                    if (requestMatch) {
-                                        for (let i = 0; i < requestMatch.length; i++) {
-                                            detailsString += '\n' + this.language.log_beneficiary + ': ' + requestMatch[i]
-                                                .substring(20, requestMatch[i].length - 1);
-                                        }
-                                    }
-                                    else {
-                                        detailsString += '\n' + this.language.log_beneficiary + ': ' + this.language.log_not_exists;
-                                    }
-                                }
-                            } else {
-                                detailsString = this.language.log_not_exists + '\n'
-                                    + this.language.log_old_id + ': ' + idMatch[1];
-                            }
-                            log.set('details', detailsString);
-                        },
-                        (error: any) => {
-                            detailsString = this.language.log_not_exists + '\n'
-                                + this.language.log_old_id + ': ' + idMatch[1];
-                            log.set('details', detailsString);
-                        });
-                }
-                break;
-
-                case 'projects':
-                    {
-                        idMatch = url.match(/.*\/([0-9]+)/);
-                        detailsRequest = appInjector.get(ProjectService).getOne(idMatch[1]);
-                        if (detailsRequest) {
-                            detailsRequest.subscribe((project: any) => {
-                                if (project) {
-                                    detailsString = this.language.log_project + ': ' + project.name;
-                                } else {
-                                    detailsString = this.language.log_not_exists + '\n'
-                                        + this.language.log_old_id + ': ' + idMatch[1];
-                                }
-                                log.set('details', detailsString);
-                            },
-                                (error: any) => {
-                                    detailsString = this.language.log_not_exists + '\n'
-                                        + this.language.log_old_id + ': ' + idMatch[1];
-                                    log.set('details', detailsString);
-                                });
+            let detailString = '';
+            if (url.includes('remove') || url.includes('assign')) {
+                const ids = /(\d+).+(\d+)/.exec(url);
+                ids.shift();
+                forkJoin(
+                    service.getOne(Number(ids[0])),
+                    AppInjector.get(BeneficiariesService).getOne(Number(ids[1]))
+                ).subscribe(([distribution, beneficiary]: [any, any]) => {
+                    if (distribution) {
+                        detailString = this.language.log_distribution + ': ' + distribution.name;
+                        if (beneficiary) {
+                            detailString += '\n' + this.language.log_beneficiary + ': ' + beneficiary.local_given_name;
                         }
+                        if (url.includes('assign')) {
+                            detailString = '\n' + this.language.log_code + ': ' + /code":"(.+?)".+/.exec(request)[1];
+                        }
+                    } else {
+                        detailString = this.language.log_old_id + ': ' + ids[0];
                     }
-                    break;
-
-                case 'vendors':
-                {
-                    idMatch = url.match(/.*\/([0-9]+)/);
-                    appInjector.get(VendorsService).getOne(idMatch[1]).subscribe((user: any) => {
-                        if (user === null) {
-                            detailsString = this.language.log_not_exists + '\n'
-                                + this.language.log_old_id + ': ' + idMatch[1];
+                    log.set('details', detailString);
+                });
+            } else {
+                service.getOne(Number(objectId[1])).subscribe(
+                    (object: any) => {
+                        if (!object) {
+                            detailString += this.language.log_old_id + ': ' + objectId[1];
                         } else {
-                            detailsString = this.language.log_vendors + ': ' + user.name;
+                            detailString = this.language['log_' + objectId[0]] + ': ' + object.name;
+                            if (url.includes('beneficiary')) {
+                                const requestMatch = /"local_given_name":"(\w+)/g.exec(request);
+                                requestMatch.shift();
+                                if (requestMatch) {
+                                    for (let i = 0; i < requestMatch.length; i++) {
+                                        detailString += '\n' + this.language.log_beneficiary + ': ' + requestMatch[i];
+                                    }
+                                }
+                            }
                         }
-                        log.set('details', detailsString);
+                        log.set('details', detailString);
                     });
-                }
-                break;
             }
-        } else {
-            return;
         }
-
     }
 }

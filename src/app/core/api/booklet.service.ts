@@ -32,7 +32,7 @@ export class BookletService extends CustomModelService {
         const body = {
             code: code,
         };
-        const url = this.api + `/booklets/assign/${idBeneficiary}/${idDistribution}`;
+        const url = this.api + `/booklets/assign/${idDistribution}/${idBeneficiary}`;
         return this.http.post(url, body);
     }
 

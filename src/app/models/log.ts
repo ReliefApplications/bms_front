@@ -14,8 +14,8 @@ export class Log extends CustomModel {
         id: new NumberModelField(
             {
                 title: this.language.log_field_id,
-                isDisplayedInModal: true,
-                isDisplayedInTable: true,
+                isDisplayedInModal: false,
+                isDisplayedInTable: false,
             }
         ),
         objectOfAction: new TextModelField(
@@ -68,12 +68,7 @@ export class Log extends CustomModel {
                 isDisplayedInModal: true,
                 isDisplayedInTable: true
             }
-        ),
-        controller: new TextModelField({
-            title: 'Controller',
-            isDisplayedInModal: false,
-            isDisplayedInTable: false
-        })
+        )
     };
 
     constructor() {
@@ -94,14 +89,15 @@ export class Log extends CustomModel {
             return null;
         }
 
-        // Assign all fields
+        // Assign all initial fields
         newLog.set('id', logFromApi.id);
         newLog.set('date', DateModelField.formatDateTimeFromApi(logFromApi.date));
         newLog.set('user', logFromApi.mail_user);
         newLog.set('url', url);
         newLog.set('request', request);
         newLog.set('country', JSON.parse(logFromApi.request).__country);
-        newLog.set('details', null);
+
+        // Action and Object
         const controller = /^\w+\\\w+\\(\w+)Controller::(\w+)Action$/g.exec(logFromApi.controller);
         controller.shift();
 
@@ -109,6 +105,7 @@ export class Log extends CustomModel {
         const action = controller[1].split(/(?=[A-Z])/).join('_').toLowerCase();
         newLog.set('action', newLog.language['log_' + action]);
 
+        // Tab name
         if (url.includes('users') || url.includes('donor') || url.includes('organization')) {
             newLog.set('tabName', 'administrative');
         } else if ((url.includes('project') || url.includes('distribution')) && !url.includes('households')) {
@@ -119,6 +116,34 @@ export class Log extends CustomModel {
             newLog.set('tabName', 'vouchers');
         } else {
             newLog.set('tabName', 'other');
+        }
+
+        // Details
+        newLog.set('details', null);
+        let detailString = '';
+        if (action.includes('update') || action.includes('create')) {
+            if (controller[0] === 'Household' || controller[0] === 'Beneficiary'
+                || controller[0] === 'Vendor' || controller[0] === 'Donor') {
+                newLog.set('details', newLog.language['log_' + controller[0].toLowerCase()] + ': ' + /name":"(.*?)".+/g.exec(request)[1]);
+            } else if (controller[0] === 'Country') {
+                newLog.set('details', newLog.language.log_field + ': ' + /field":"(.*?)"/.exec(request)[1]);
+            } else if (controller[0] === 'Booklet') {
+                if (action.includes('update')) {
+                    detailString = newLog.language.log_code + ': ' + /code":"(.+?)".+/.exec(request)[1] + '\n';
+                }
+                newLog.set('details', detailString + newLog.language.log_value + ': ' + /values":\["(.+?)".+/.exec(request)[1]);
+            } else {
+                newLog.set('details', newLog.language['log_' + controller[0].toLowerCase()] + ': ' + /.+name":"(.*?)"/g.exec(request)[1]);
+            }
+        } else if (action.includes('delete')) {
+            newLog.set('details', newLog.language.log_old_id + ': ' + /(\d+)/g.exec(url)[1]);
+        } else if (controller[0] === 'Voucher' || action.includes('post') || action.includes('relief') || action.includes('upload')) {
+            newLog.set('details', newLog.language.log_no_details);
+        } else if (url.includes('delete')) {
+            request.match(/(\d+)/g).forEach((id: Number) => {
+                detailString += id + ', ';
+            });
+            newLog.set('details', newLog.language.log_old_id + ': ' + detailString.substring(0, detailString.length - 2));
         }
 
         // Assign messages corresponding to the status of the request
@@ -142,120 +167,8 @@ export class Log extends CustomModel {
                 break;
             default: break;
         }
-
         return newLog;
-
-
-        {
-        // Assign an action, the object of the action and interesting details if any.
-        // switch (method) {
-        //     case 'PUT':
-        //         {
-        //             if (url.includes('distributions')) {
-        //                 newLog.set('details', newLog.language.log_distributions + ': ' + request.match(/.*"name":"(.*?)"/)[1]);
-        //             } else if (url.includes('country_specifics')) {
-        //                 newLog.set('details', newLog.language.log_field + ': ' + request.match(/"field":"(.*?)"/)[1]);
-        //             } else if (url.includes('households')) {
-        //                 newLog.set('details', newLog.language.log_family_name
-        //                     + ': ' + request.match(/"local_family_name":"(.*?)".+/)[1]);
-        //             } else if (url.includes('donors')) {
-        //                 newLog.set('details', newLog.language.log_donors + ': ' + request.match(/"shortname":"(.*?)"/)[1]);
-        //             } else if (url.includes('users')) {
-        //                 newLog.set('details', newLog.language.log_username + ': ' + request.match(/"username":"(.*?)"/)[1]);
-        //             } else if (url.includes('booklets')) {
-        //                 newLog.set('details', newLog.language.log_number_booklets
-        //                     + ': ' + request.match(/"number_booklets":([0-9]+)/)[1]
-        //                     + '\n' + newLog.language.log_number_vouchers + ': ' + request.match(/"number_vouchers":([0-9]+)/)[1]
-        //                     + '\n' + newLog.language.log_value + ': ' + request.match(/.+\["([0-9]+)/)[1]);
-        //             } else {
-        //                 newLog.set('details', newLog.language.log_name + ': ' + request.match(/"name":"(.*?)"/)[1]);
-        //             }
-        //         }
-        //         break;
-
-        //     case 'DELETE':
-        //         {
-        //             if (/.+\/deactivate-booklets\/[0-9]+/.test(url)) {
-        //                 urlMatch = url.match(/.+\/deactivate-booklets\/([0-9]+)/);
-        //                 newLog.set('details', newLog.language.log_old_id + ': ' + urlMatch[1]);
-        //             } else {
-        //                 if (/.+\/vouchers\/delete_batch/.test(url)) {
-        //                     newLog.set('details', newLog.language.log_no_details);
-        //                 } else {
-        //                     urlMatch = url.match(/.+\/(.+)\/([0-9]+)/);
-        //                     newLog.set('details', newLog.language.log_old_id + ': ' + urlMatch[2]);
-        //                 }
-        //             }
-        //         }
-        //         break;
-
-        //     case 'POST':
-        //         {
-        //             if (url.includes('deactivate-booklets')) {
-        //                 newLog.set('details', newLog.language.log_codes + ': '
-        //                     + request.match(/.*"bookletCodes":\["(.*?)"\]/)[1].replace('\",\"', ', '));
-        //             } else if (url.includes('scanned')) {
-        //                 newLog.set('details', newLog.language.log_no_details);
-        //             } else if (url.includes('import')) {
-        //                 newLog.set('details', null);
-        //             } else if (url.includes('transaction')) {
-        //                 newLog.set('details', null);
-        //             } else if (url.includes('assign')) {
-        //                 newLog.set('details', null);
-        //             } else if (url.includes('archive') || url.includes('complete')) {
-        //                 newLog.set('details', null);
-        //             } else if (url.includes('validate')) {
-        //                 newLog.set('details', null);
-        //             } else if (url.includes('remove')) {
-        //                 newLog.set('details', null);
-        //             } else if (url.includes('generalrelief')) {
-        //                 newLog.set('details', newLog.language.log_no_details);
-        //             } else if (url.includes('add')) {
-        //                 newLog.set('details', null);
-        //             } else if (url.includes('upload')) {
-        //                 newLog.set('details', newLog.language.log_no_details);
-        //             } else {
-        //                 if (url.includes('update')) {
-        //                     newLog.set('details', newLog.language.log_codes + ': '
-        //                         + request.match(/.*"code":"(.*?)"/)[1]);
-        //                 } else if (url.includes('provider')) {
-        //                     newLog.set('details', newLog.language.log_username + ': '
-        //                         + request.match(/.*"username":"(.*?)"/)[1]);
-        //                 } else if (url.includes('users') && (url.includes('password') || url.includes('language'))) {
-        //                     newLog.set('details', newLog.language.log_no_details);
-        //                 } else {
-        //                     urlMatch = url.match(/.*\/(.*)\/[0-9]*/);
-        //                     if (url.includes('beneficiaries')) {
-        //                         newLog.set('details', newLog.language.log_name + ': '
-        //                             + request.match(/.*"local_given_name":"(.*?)"/)[1]);
-        //                     } else if (url.includes('households')) {
-        //                         newLog.set('details', newLog.language.log_family_name + ': '
-        //                             + request.match(/.*"local_family_name":"(.*?)"/)[1]);
-        //                     } else if (url.includes('booklets')) {
-        //                         newLog.set('details', newLog.language.log_codes + ': '
-        //                             + request.match(/.*"code":"(.*?)"/)[1]);
-        //                     } else if (url.includes('donors')) {
-        //                         newLog.set('details', newLog.language.log_name + ': '
-        //                             + request.match(/.*"shortname":"(.*?)"/)[1]);
-        //                     } else if (url.includes('country_specifics')) {
-        //                         newLog.set('details', newLog.language.log_field + ': '
-        //                             + request.match(/.*"field":"(.*?)"/)[1]);
-        //                     } else if (url.includes('users') || url.includes('vendors')) {
-        //                         newLog.set('details', newLog.language.log_username + ': '
-        //                             + request.match(/.*"username":"(.*?)"/)[1]);
-        //                     } else {
-        //                         newLog.set('details', newLog.language.log_name + ': '
-        //                             + request.match(/.*"name":"(.*?)"/)[1]);
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //         break;
-        //     default: break;
-        // }
-        }
     }
-
 }
 
 

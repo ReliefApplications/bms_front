@@ -468,7 +468,7 @@ export class English implements Language {
 
     //Log audit
 
-    // Neo-Actions
+    // Actions
     log_archive = 'Archived'
     log_assign = 'Assigned'
     log_add_beneficiary = 'Added Beneficiaries'
@@ -478,7 +478,7 @@ export class English implements Language {
     log_deactivate = 'Deactivated'
     log_deactivate_booklets = 'Deactivated'
     log_delete = 'Deleted'
-    log_delete_batch = 'Batch Deleted'  // OBJECT USING PLURAL
+    log_delete_batch = 'Batch Deleted'
     log_edit_general_relief_notes = 'General Relief Item Notes Added'
     log_import = 'Imported'
     log_import_beneficiaries_from_api = 'Imported From Api'
@@ -487,19 +487,19 @@ export class English implements Language {
     log_post_password = 'Changed Password'
     log_post_transaction = 'Mobile Money Sent'
     log_scan = 'Scanned'
-    log_remove_many = 'Deleted' // OBJECT USING PLURAL
+    log_remove_many = 'Deleted'
     log_remove_one_beneficiary = 'Removed One Beneficiary'
     log_send_verification_email = 'Code Sent'
     log_set_general_relief_items_as_distributed = 'General Relief Item Distributed'
     log_update = 'Updated'
     log_update_f_p = '3rd party connection edited'
-    log_update_language = 'Changed Default Language'
+    log_post_language = 'Changed Default Language'
     log_update_password = 'Updated Password'
     log_upload_image = 'Uploaded An Image'
     log_upload_logo = 'Uploaded A Logo'
     log_validate = 'Validated'
 
-    // Neo-Objects
+    // Objects
     log_beneficiary = 'Beneficiary'
     log_booklet = 'Booklet'
     log_country = 'Country Specifics'
@@ -514,23 +514,6 @@ export class English implements Language {
     log_vendor = 'Vendor'
     log_voucher = 'Voucher'
 
-    //Actions
-    // log_add = 'Added'
-    // log_archive = 'Archived'
-    // log_assign = 'Assigned'
-    // log_complete = 'Completed'
-    // log_created = 'Created'
-    // log_deactivate = 'Deactivated'
-    // log_delete = 'Deleted'
-    // log_distributed = 'Distributed'
-    // log_edit = 'Edited'
-    // log_import = 'Imported'
-    // log_remove = 'Removed'
-    // log_scanned = 'Scanned'
-    // log_transaction = 'Sent'
-    // log_upload = 'Uploaded'      
-    // log_validate = 'Validated'
-
     //Fields
     log_field_action = 'Action'
     log_field_country = 'Country'
@@ -538,40 +521,13 @@ export class English implements Language {
     log_field_details = 'Details'
     log_field_id = 'Id'
     log_field_object = 'Object'
-    log_field_status = 'Status' // Exists 97
+    log_field_status = 'Status'
     log_field_user = 'User'
 
-    //Objects
-    // log_beneficiary = 'Beneficiary'   //Exists 41
-    // log_beneficiaries = 'Beneficiaries'   
-    // log_batch_vouchers = 'Batch of vouchers'
-    // log_booklets = 'Booklet'
-    // log_country_specifics = 'Country specific option'   //Exists 301
-    // log_distributions = 'Distribution'     // Exists 47
-    // log_donor = 'Donor'
-    // log_donors = 'Donor'
-    // log_general_relief_item = 'General relief item'
-    // log_households = 'Household'    // Exists 52
-    // log_image = 'Image' 
-    // log_email = 'Transaction code'
-    // log_language = 'Default language'
-    // log_logo = 'Logo'
-    // log_notes = 'Notes'
-    // log_organization = 'Organization'
-    // log_password = 'Password'
-    // log_products = 'Product'
-    // log_project = 'Project'
-    // log_projects = 'Project'
-    // log_provider = 'Third party connection'
-    // log_region = 'Specific region'
-    // log_send = 'Mobile money'    
-    // log_vendors = 'Vendor'
-    // log_vouchers = 'Voucher'
-    
     //Reports
     logs = 'Logs'
     log_active_users_title = 'Most active users'
-    log_codes = 'Code/s'
+    log_code = 'Code'
     log_family_name = 'family name'
     log_field = 'Field'
     log_old_id = 'Previous id'
@@ -596,7 +552,6 @@ export class English implements Language {
     log_status_401 = 'Unauthenticated'
     log_status_403 = 'Forbidden'
     log_status_404 = 'Not Found'
-
 
     // Login
     login_bms = 'Beneficiary management system'

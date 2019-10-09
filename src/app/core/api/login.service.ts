@@ -26,6 +26,7 @@ export class LoginService {
     private redirectUrl = '';
     private code: number;
     private user: any;
+    private twoFactorStep = false;
 
     constructor (
         private authService: AuthenticationService,
@@ -45,44 +46,50 @@ export class LoginService {
 
         return this.authService.login(username, password).pipe(
             switchMap((userFromApi: any) => {
-                const user = User.apiToModel(userFromApi);
-                if (user.get('twoFactorAuthentication')) {
-                    return this.twoFALogin(userFromApi);
+                if (User.apiToModel(userFromApi).get('twoFactorAuthentication')) {
+                    this.twoFactorStep = true;
+                    this.sendCode(userFromApi);
+                    this.redirectUrl = '/sso';
+                    this.redirect();
+                    return of(true);
                 } else {
-                    this.userService.setCurrentUser(user);
-                    return this.asyncacheService.setUser(userFromApi).pipe(
-                        switchMap((_: any) => {
-                            return this.loginRoutine(user);
-                        })
-                    );
+                    return this.setupUser(userFromApi);
                 }
             }),
             tap(() => { this.redirect(); })
         );
     }
 
-    public twoFALogin(userFromApi: any): Observable<Boolean> {
+    public getTwoFactorStep() {
+        return this.twoFactorStep;
+    }
+
+    public setupUser(userFromApi) {
+        const user = User.apiToModel(userFromApi);
+        this.userService.setCurrentUser(user);
+        return this.asyncacheService.setUser(userFromApi).pipe(
+            switchMap((_: any) => {
+                return this.loginRoutine(user);
+            })
+        );
+    }
+
+    public sendCode(userFromApi: any) {
+        this.user = userFromApi;
         const user = User.apiToModel(userFromApi);
         const phoneNumber = user.get('phonePrefix') + '' +  user.get('phoneNumber');
         this.code = this.randomIntFromInterval(10000, 99999);
-        this.user = userFromApi;
 
         const body = {
             recipients: [phoneNumber],
             message: this.language.login_two_fa_message + ': ' + this.code
         };
         this.authService.sendSMS(body).subscribe();
-        return of(false);
     }
 
-    public authenticateCode(twoFactorCode: any): Observable<any> {
+    public authenticateCode(twoFactorCode: Number): Observable<any> {
         if (this.code === twoFactorCode) {
-            this.userService.setCurrentUser(User.apiToModel(this.user));
-            return this.asyncacheService.setUser(this.user).pipe(
-                switchMap((_: any) => {
-                    return this.loginRoutine(User.apiToModel(this.user));
-                })
-            );
+            return this.setupUser(this.user);
         } else {
             return of(false);
         }
@@ -194,16 +201,12 @@ export class LoginService {
         return this.asyncacheService.setLanguage(language);
     }
 
-    /**
-     * -------------------- UTILS ----------------------
-     */
-
      /**
       * Calculates a random number in a range
       * @param min minimum value
       * @param max maximum value
       */
-    private randomIntFromInterval(min, max) {
+     private randomIntFromInterval(min, max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 }

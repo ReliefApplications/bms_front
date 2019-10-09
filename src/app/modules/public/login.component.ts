@@ -93,30 +93,9 @@ export class LoginComponent implements OnInit {
             })
         ).subscribe(
             (_success) => {
-                if (_success) {
-                    this.twoFactorStep = false;
-                    this.loader = false;
-                } else {
-                    this.twoFactorStep = true;
-                    this.formTwoFA = new FormGroup({
-                        twoFactorCode: new FormControl('', [Validators.required]),
-                    });
-                }
+                this.loader = false;
             }
         ));
-    }
-
-    public onSubmitTwoFA(): void {
-        const { twoFactorCode } = this.formTwoFA.value;
-        this.loadingTwoFA = true;
-        this.subscription.add(this.loginService.authenticateCode(Number(twoFactorCode)).subscribe((_success) => {
-            this.loadingTwoFA = false;
-            if (_success) {
-                this.router.navigateByUrl('/');
-            } else {
-                this.snackbar.error(this.language.login_two_fa_invalid_code);
-            }
-        }));
     }
 
     public hidAuthRedirect() {

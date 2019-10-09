@@ -58,7 +58,7 @@ export class AuthenticationService {
         );
     }
 
-    public sendSMS(body: any) {
+    sendSMS(body: any) {
         return this.http.post('https://api.sms.test.humanitarian.tech/api/order/sms', body);
     }
 

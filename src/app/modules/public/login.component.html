@@ -1,6 +1,6 @@
 <div class="container-box">
     <div class="box-image">
-        <div class="box-login" *ngIf="!twoFactorStep; else twoFactorBox">
+        <div class="box-login">
             <div class="login-logo">
                 <img class="logo-image" src="../../../assets/images/bms_logo_with_title.png" />
             </div>
@@ -41,25 +41,6 @@
                 </div>
             </form>
         </div>
-        <ng-template #twoFactorBox>
-            <div class="box-login" style="background-color: rgba(102, 102, 102, 0.9);">
-                <form [formGroup]="formTwoFA">
-                    <div class="login-title">
-                        <h1 class="title-text">Introduce the verification code we just sent you</h1>
-                    </div>
-                    <div class="login-user">
-                        <input type="number" class="user-input" aria-describedby="basic-addon1" placeholder="Code"
-                        formControlName="twoFactorCode">
-                    </div>
-                    <div class="login-button">
-                        <ng-container>
-                            <button (click)="onSubmitTwoFA()" mat-flat-button *ngIf="!loadingTwoFA" [disabled]="formTwoFA.invalid" class="button-background-primary">Send Code</button>
-                        </ng-container>
-                        <mat-spinner [diameter]="35" *ngIf="loadingTwoFA"></mat-spinner>
-                    </div>
-                </form>
-            </div>
-        </ng-template>
     </div>
 </div>
 <!-- <button mat-flat-button class="button-sso" *ngIf="!loader">

@@ -100,6 +100,7 @@ export class SsoComponent implements OnInit {
         } else {
             if (user.get('twoFactorAuthentication')) {
                 this.loginService.sendCode(userFromApi);
+                this.makeForm();
                 this.twoFactorStep = true;
             } else {
                 this.userService.setCurrentUser(user);

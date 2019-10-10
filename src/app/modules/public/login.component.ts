@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
+
     private subscription: Subscription = new Subscription();
     private googleProvider = new firebase.auth.GoogleAuthProvider();
 
@@ -89,6 +90,9 @@ export class LoginComponent implements OnInit {
         this.subscription.add(this.loginService.login(username, password).pipe(
             catchError((error: any) => {
                 this.loader = false;
+                if (this.recaptcha) {
+                    this.recaptcha.reset();
+                }
                 return throwError(error);
             })
         ).subscribe(

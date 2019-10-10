@@ -77,16 +77,16 @@
                 border-radius: 5px;
                 border: solid 1px #00000033;
             }
-            .login-button {
-                display: flex;
-                justify-content: center;
-                flex-wrap: wrap;
+        }
+        .login-button {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 5px;
+    
+            .button-background-primary {
                 margin: 5px;
-        
-                .button-background-primary {
-                    margin: 5px;
-                    width: 55%;
-                }
+                width: 55%;
             }
         }
     }

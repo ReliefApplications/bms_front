@@ -125,7 +125,6 @@ export class SsoComponent implements OnInit {
         this.loginService.authenticateCode(Number(twoFactorCode)).subscribe((_success) => {
             this.loadingTwoFA = false;
             if (_success) {
-                this.twoFactorStep = false;
                 this.router.navigateByUrl('/');
             } else {
                 this.snackbar.error(this.language.login_two_fa_invalid_code);

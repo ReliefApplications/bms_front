@@ -633,6 +633,17 @@ export class French implements Language {
     report_percentage_of_beneficiaries_reached = 'Pourcentage de bénéficiaires servis'
     report_total_distribution_value = 'Valeur totale de la distribution'
 
+    report_disabled = 'Handicapé'
+    report_households = 'Ménages'
+    report_lactating = 'En lactation'
+    report_men = 'Hommes'
+    report_not_reached = 'Non atteint'
+    report_nutritionalissues = 'Problèmes nutritionnels'
+    report_percentage_of_beneficiaries = 'Pourcentage de bénéficiaires'
+    report_soloparent = 'Seul Parent'
+    report_vulnerability_served = 'Vulnérabilité desservie'
+    report_women = 'Femmes'
+
     // Role
     role_user_admin = 'Administrateur'
     role_user_country_manager = 'Responsable de pays'

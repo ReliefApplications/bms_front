@@ -367,43 +367,23 @@ export class ReportsComponent implements OnInit, OnDestroy {
      * Translates the name and unit labels of a graph and then return it
      * @param graphDTO
      */
-    // TODO: pie charts. Change backend? Add all translations for units in projects and distributions
     private translateGraphs(graphDTO: GraphDTO): GraphDTO {
         graphDTO.name = this.language['report_' + graphDTO.name.trim().replace(/ /g, '_').toLowerCase()];
         if (graphDTO.values) {
-            let formattedUnit;
             Object.keys(graphDTO.values).forEach((period: string) => {
                 graphDTO.values[period].forEach((graphValue: GraphValueDTO) => {
-                    formattedUnit =  graphValue.unity.trim().replace(/ /g, '_').toLowerCase();
-                    this.canTranslate(formattedUnit);
-                    // If the unit is not translatable we dont treat it
-                    // if ((/([0-9+]|\%|\[|\]|\+|\-)/g).test(formattedUnit)) {
-                    //     return;
-                    // }
-                    // graphValue.unity = this.language['report_' + graphValue.unity.trim().replace(/ /g, '_').toLowerCase()];
-                    // console.log('report_' + graphValue.unity.trim().replace(/ /g, '_').toLowerCase())
-                    });
+                    if (graphValue.unity && this.canTranslate(graphValue.unity)) {
+                            graphValue.unity = this.language['report_' + graphValue.unity.trim().replace(/ /g, '_').toLowerCase()];
+                    }
+                });
             });
         }
         return graphDTO;
     }
 
-    // TODO: if its a currency, then dont translate. If its a number or a bracket, neither.
+    // If its a number or a bracket, then dont translate. If its a currency (all uppercase), neither.
     private canTranslate(unit: string): boolean {
-        let canTranslate: boolean;
-        if ((/([0-9+]|\%|\[|\]|\+|\-)/g).test(unit)) {
-            canTranslate = false;
-        } else {
-            // console.log(Object.keys(CURRENCIES))
-            // CURRENCIES.forEach((currency: any) => {
-            //     console.log(currency.value)
-            //     if (currency.value.toLowerCase().trim() === unit) {
-            //         console.log('wow' + currency.value)
-            //         canTranslate = false;
-            //     }
-            // });
-        }
-        return canTranslate;
+        return !(/(\d+|\%|\[|\]|\+|\-)/g).test(unit) && !(unit === unit.toUpperCase());
     }
 
     private generateFilters() {

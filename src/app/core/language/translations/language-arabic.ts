@@ -633,6 +633,17 @@ export class Arabic implements Language {
     report_percentage_of_beneficiaries_reached = 'النسبة المئوية للمستفيدين الذين خدموا'
     report_total_distribution_value = 'إجمالي قيمة التوزيع'
 
+    report_disabled = 'معاق'
+    report_households = 'الأسر'
+    report_lactating = 'المرضعات'
+    report_men = 'رجالي'
+    report_not_reached = 'لم تصل'
+    report_nutritionalissues = 'القضايا الغذائية'
+    report_percentage_of_beneficiaries = 'نسبة المستفيدين'
+    report_soloparent = 'الوالد منفرد'
+    report_vulnerability_served = 'الضعف يخدم'
+    report_women = 'نساء1'
+
     // Role
     role_user_admin = 'مسؤول'
     role_user_country_manager = 'مسؤول عن البلد'

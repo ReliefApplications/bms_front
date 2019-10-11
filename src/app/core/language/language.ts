@@ -640,14 +640,16 @@ export interface Language {
     report_percentage_of_beneficiaries_reached: string
     report_total_distribution_value: string
 
-    // report_%_beneficiaries
-    // report_households: string
-    // report_men: string
-    // report_women: string
-    // report_disabled: string
-    // report_lactating: string
-    // report_nutritionalissues: string
-    // report_soloparent: string
+    report_disabled: string
+    report_households: string
+    report_lactating: string
+    report_men: string
+    report_not_reached: string
+    report_nutritionalissues: string
+    report_percentage_of_beneficiaries: string
+    report_soloparent: string
+    report_vulnerability_served: string
+    report_women: string
 
 
     // Role

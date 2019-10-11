@@ -634,6 +634,17 @@ export class English implements Language {
     report_percentage_of_beneficiaries_reached = 'Percentage of beneficiaries reached'
     report_total_distribution_value = 'Total distribution value'
 
+    report_disabled = 'Disabled'
+    report_households = 'Households'
+    report_lactating = 'Lactating'
+    report_men = 'Men'
+    report_not_reached = 'Not reached'
+    report_nutritionalissues = 'Nutritional Issues'
+    report_percentage_of_beneficiaries = 'Percentage of beneficiaries'
+    report_soloparent = 'Solo Parent'
+    report_vulnerability_served = 'Vulnerability Served'
+    report_women = 'Women'
+
     // Role
     role_user_admin = 'Administrator'
     role_user_country_manager = 'Country manager'

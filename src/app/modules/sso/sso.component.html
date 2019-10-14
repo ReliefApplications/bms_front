@@ -1,0 +1,15 @@
+<div class="box-image">
+    <div class="box-info" *ngIf="! userDisabled">
+        We are logging you into Humansis from {{this.originString}}, please wait...
+        <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
+    <div class="box-info" *ngIf="userDisabled">
+        To access the platform, please contact an administrator that will grant you the relevant rights.
+        <button mat-flat-button class="button-background-primary" routerLink="/login">
+            Back to Login Page
+        </button>
+    </div>
+</div>
+
+<!-- TO USE IN BOX LOGIN:
+    *ngIf="userService.currentUser && !userService.currentUser.get('rights'); else noRights" -->

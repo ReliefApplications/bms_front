@@ -197,7 +197,7 @@ export class English implements Language {
     beneficiary_justification_removed = 'Justification for removing'
     beneficiary_local_family_name = 'family name (Local)'
     beneficiary_local_given_name = 'first name (Local)'
-    beneficiary_local_name = 'name (Local)' 
+    beneficiary_local_name = 'name (Local)'
     beneficiary_member = 'Member'
     beneficiary_missing_selected_project = 'You must select a project before uploading'
     beneficiary_personnal = 'personal information'
@@ -419,7 +419,7 @@ export class English implements Language {
     household_location_question = 'Is your current location different than your address?'
     household_location_residence = 'Residence'
     household_location_resident_address = 'Resident address'
-    household_location_resident_location = 'Resident location'    
+    household_location_resident_location = 'Resident location'
     household_location_settlement = 'Temporary settlement'
     household_location_tent = 'Tent number'
     household_location_type = 'Type of location'
@@ -556,10 +556,12 @@ export class English implements Language {
     // Login
     login_bms = 'Beneficiary management system'
     login_captcha_invalid = 'The captcha is invalid'
-    login_forgot_password = 'Forgot password?'
     login_password = '*********'
     login_prompt = 'Please log in'
     login_title = 'Login'
+    login_title_hid= 'Login with HID'
+    login_title_google = 'Login with Google'
+    login_title_linkedin = 'Login with LinkedIn'
 
     // Map legend
     map_legend_completed = 'completed'

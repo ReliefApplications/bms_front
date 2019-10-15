@@ -113,14 +113,15 @@ export const routes: Routes = [
         component: LogsComponent,
         canActivate: [AuthGuard, PermissionsGuard]
     },
+    {
         path: 'sso',
         component: SsoComponent,
-        canActivate: [],
+        canActivate: []
     },
-
     // home route protected by auth guard
     {
-        path: '', component: DashboardComponent,
+        path: '',
+        component: DashboardComponent,
         canActivate: [AuthGuard, PermissionsGuard],
     },
 

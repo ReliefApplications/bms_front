@@ -3,20 +3,21 @@ import { CustomModelService } from '../utils/custom-model.service';
 import { LanguageService } from '../language/language.service';
 import { HttpService } from '../network/http.service';
 import { Log } from 'src/app/models/log';
-import { URL_BMS_API } from '../../../environments/environment';
 import { AppInjector } from 'src/app/app-injector';
 import { ProjectService } from './project.service';
 import { DistributionService } from './distribution.service';
 import { BeneficiariesService } from './beneficiaries.service';
 import { VendorsService } from './vendors.service';
-import { forkJoin } from 'rxjs';
+import { of, zip, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LogsService extends CustomModelService {
     customModelPath = 'logs';
-    readonly api = URL_BMS_API;
+    // Subscriptions
+    subscriptions: Array<Subscription>;
 
     constructor(
         protected http: HttpService,
@@ -25,8 +26,6 @@ export class LogsService extends CustomModelService {
         super(http, languageService);
     }
 
-    public fillWithOptions(log: Log) {}
-
     public getDetails(log: Log) {
         const url = log.fields.url.value;
         const request = log.fields.request.value;
@@ -34,13 +33,10 @@ export class LogsService extends CustomModelService {
         let service: any;
 
         // Only check the urls that need to fill the details from the backend
-        const canFill = (url.includes('import') || url.includes('transaction') || url.includes('archive') || url.includes('complete')
-            || url.includes('validate') || url.includes('assign') || url.includes('remove') || url.includes('add')
-            || url.includes('beneficiary'));
-
+        const canFill = /\/\w+\/\d+\/\w+|\d+.+\d+|\/import\/.+\d+/g.test(url);
         if (canFill && status !== 'Not Found') {
             // Set up the services
-            const objectId = /(\w*)\/(\d+)/.exec(url);
+            const objectId = /(\w+)\/(\d+)/.exec(url);
             if (!objectId) {
                 log.set('details', this.language.log_no_details);
                 return;
@@ -50,56 +46,60 @@ export class LogsService extends CustomModelService {
             switch (true) {
                 case url.includes('distribution') || url.includes('assign'):
                     service = AppInjector.get(DistributionService);
-                    objectId[0] = 'distribution'; break;
+                    objectId[0] = 'distribution';
+                    break;
                 case url.includes('project'):
                     service = AppInjector.get(ProjectService);
-                    objectId[0] = 'project'; break;
+                    objectId[0] = 'project';
+                    break;
                 case url.includes('vendor'):
                     service = AppInjector.get(VendorsService);
-                    objectId[0] = 'vendor'; break;
+                    objectId[0] = 'vendor';
+                    break;
             }
 
-            let detailString = '';
-            if (url.includes('remove') || url.includes('assign')) {
-                const ids = /(\d+).+(\d+)/.exec(url);
+            const details = this.getDataFromService(objectId[0], Number(objectId[1]), service);
+            let beneficiaryDetails = of('');
+            const ids = /(\d+).+(\d+)/.exec(url);
+            if (ids) {
                 ids.shift();
-                forkJoin(
-                    service.getOne(Number(ids[0])),
-                    AppInjector.get(BeneficiariesService).getOne(Number(ids[1]))
-                ).subscribe(([distribution, beneficiary]: [any, any]) => {
-                    if (distribution) {
-                        detailString = this.language.log_distribution + ': ' + distribution.name;
-                        if (beneficiary) {
-                            detailString += '\n' + this.language.log_beneficiary + ': ' + beneficiary.local_given_name;
-                        }
-                        if (url.includes('assign')) {
-                            detailString += '\n' + this.language.log_code + ': ' + /code":"(.+?)".+/.exec(request)[1];
-                        }
-                    } else {
-                        detailString = this.language.log_old_id + ': ' + ids[0];
-                    }
-                    log.set('details', detailString);
-                });
-            } else {
-                service.getOne(Number(objectId[1])).subscribe(
-                    (object: any) => {
-                        if (!object) {
-                            detailString = this.language.log_old_id + ': ' + objectId[1];
-                        } else {
-                            detailString = this.language['log_' + objectId[0]] + ': ' + object.name;
-                            if (url.includes('beneficiary')) {
-                                const requestMatch = /"local_given_name":"(\w+)/g.exec(request);
-                                requestMatch.shift();
-                                if (requestMatch) {
-                                    for (let i = 0; i < requestMatch.length; i++) {
-                                        detailString += '\n' + this.language.log_beneficiary + ': ' + requestMatch[i];
-                                    }
-                                }
-                            }
-                        }
-                        log.set('details', detailString);
-                    });
+                beneficiaryDetails = this.getDataFromService('beneficiary', Number(objectId[1]), AppInjector.get(BeneficiariesService));
+            }
+            zip(details, beneficiaryDetails, (d1, d2) => d1 + '\n' + d2).subscribe(detailString => {
+                if (url.includes('beneficiary')) {
+                    detailString += this.setBeneficiaries(request);
+                }
+                if (url.includes('assign')) {
+                    detailString += '\n' + this.language.log_code + ': ' + request.match(/"code":"(.+?)"/)[1];
+                }
+                log.set('details', detailString);
+            });
+        }
+    }
+
+    private getDataFromService(objectName: string, id: Number, service: any) {
+        let detailString;
+        return service.getOne(id).pipe(
+            map(res => {
+                if (!res) {
+                    detailString = this.language['log_' + objectName] + ' ' + this.language.log_old_id + ': ' + id;
+                } else {
+                    const name = (objectName === 'beneficiary') ? 'local_given_name' : 'name';
+                    detailString = this.language['log_' + objectName] + ': ' + res[name];
+                }
+                return detailString;
+            }));
+    }
+
+    private setBeneficiaries(request: string): string {
+        let beneficiaries = '';
+        const requestMatch = request.match(/(?<=local_given_name":")\w+/g);
+        requestMatch.shift();
+        if (requestMatch) {
+            for (let i = 0; i < requestMatch.length; i++) {
+                beneficiaries += this.language.log_beneficiary + ': ' + requestMatch[i] + '\n';
             }
         }
+        return beneficiaries;
     }
 }

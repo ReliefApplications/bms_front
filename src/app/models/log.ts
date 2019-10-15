@@ -170,5 +170,3 @@ export class Log extends CustomModel {
         return newLog;
     }
 }
-
-

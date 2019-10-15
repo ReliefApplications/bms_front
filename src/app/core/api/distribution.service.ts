@@ -125,10 +125,6 @@ export class DistributionService extends CustomModelService {
         return this.http.post(url, body);
     }
 
-    public fillWithOptions(distribution: Distribution, locationType: string) {
-    }
-
-
     visit(id: string) {
         if (!this.networkService.getStatus()) {
             this._cacheService.get(AsyncacheService.DISTRIBUTIONS + '_' + id + '_beneficiaries')

@@ -60,8 +60,8 @@ export class LogsComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
             this.canvasAreReloading = true;
-                // Recreate the canvas to resize them correctly
-                setTimeout(() => {this.canvasAreReloading = false; }, 0);
+            // Recreate the canvas to resize them correctly
+            setTimeout(() => { this.canvasAreReloading = false; }, 0);
             this.currentDisplayType = displayType;
             if (this.currentDisplayType.type === 'mobile') {
                 this.displayedTable = this.tableMobile;
@@ -116,9 +116,9 @@ export class LogsComponent implements OnInit, OnDestroy {
             });
             this.logData = new MatTableDataSource(this.filteredLogList);
             if (this.table && this.table.paginator) {
-                    this.table.paginator.pageIndex = 0;
+                this.table.paginator.pageIndex = 0;
             } else if (this.tableMobile && this.tableMobile.paginator) {
-                    this.tableMobile.paginator.pageIndex = 0;
+                this.tableMobile.paginator.pageIndex = 0;
             }
         }
     }
@@ -126,104 +126,62 @@ export class LogsComponent implements OnInit, OnDestroy {
     createGraphs() {
         const sortedLogs = this.logs
             .sort((log1: Log, log2: Log) => log1.get<Date>('date').getTime() - log2.get<Date>('date').getTime());
+        const datePipe = new DatePipe('en-US');
+        // Dates in the logs
         const oldestDate = sortedLogs[0].get<Date>('date').getFullYear();
         const latestDate = sortedLogs[sortedLogs.length - 1].get<Date>('date').getFullYear();
+        // Dates in the graphs
         const oldestDay = new Date();
         oldestDay.setDate(oldestDay.getDate() - this.graphDuration);
         const latestDay = new Date();
         latestDay.setDate(latestDay.getDate() + 1);
-        const datePipe = new DatePipe('en-US');
 
-        const statusGraph = {
-            type: 'pie',
-            name: this.language.log_status_rate_title,
-            values: {}
-        };
+        const statusGraph =
+            this.setupGraph('pie', this.language.log_status_rate_title);
+        const dayRequestGraph =
+            this.setupGraph('line', this.language.log_requests_day_title, this.language.log_time, this.language.log_requests);
+        const activeUsersGraph =
+            this.setupGraph('bar', this.language.log_active_users_title, this.language.log_users, this.language.log_requests);
+        this.requestsKHM =
+            this.setupGraph('line', this.language.log_requests + ' KHM', this.language.log_time, this.language.log_requests);
+        this.requestsSYR =
+            this.setupGraph('line', this.language.log_requests + ' SYR', this.language.log_time, this.language.log_requests);
 
-        const dayRequestGraph = {
-            type: 'line',
-            name: this.language.log_requests_day_title,
-            yLabel: this.language.log_requests,
-            xLabel: this.language.log_time,
-            values: {}
-        };
-
-        const activeUsersGraph = {
-            type: 'bar',
-            name: this.language.log_active_users_title,
-            xLabel: this.language.log_users,
-            yLabel: this.language.log_requests,
-            values: {}
-        };
-
-        this.requestsKHM = {
-            type: 'line',
-            name: this.language.log_requests + ' KHM',
-            xLabel: this.language.log_time,
-            yLabel: this.language.log_requests,
-            values: {},
-        };
-
-        this.requestsSYR = {
-            type: 'line',
-            name: this.language.log_requests + ' SYR',
-            xLabel: this.language.log_time,
-            yLabel: this.language.log_requests,
-            values: {},
-        };
-
-        // Set up status graph
+        const status = [this.language.log_status_200, this.language.log_status_300, this.language.log_status_400,
+        this.language.log_status_401, this.language.log_status_403, this.language.log_status_404];
+        // Set up status graph values
         for (let date = oldestDate; date <= latestDate; date++) {
-            statusGraph.values[date] = [{ date: date, name: this.language.log_status_200, unit: this.language.log_status_200, value: 0 },
-            { date: date, name: this.language.log_status_300, unit: this.language.log_status_300, value: 0 },
-            { date: date, name: this.language.log_status_400, unit: this.language.log_status_400, value: 0 },
-            { date: date, name: this.language.log_status_401, unit: this.language.log_status_401, value: 0 },
-            { date: date, name: this.language.log_status_403, unit: this.language.log_status_403, value: 0 },
-            { date: date, name: this.language.log_status_404, unit: this.language.log_status_404, value: 0 }];
+            statusGraph.values[date] = [
+                { date: date, name: status[0], unit: status[0], value: 0 },
+                { date: date, name: status[1], unit: status[1], value: 0 },
+                { date: date, name: status[2], unit: status[2], value: 0 },
+                { date: date, name: status[3], unit: status[3], value: 0 },
+                { date: date, name: status[4], unit: status[4], value: 0 },
+                { date: date, name: status[5], unit: status[5], value: 0 }];
         }
 
-        // Set up request per day and per country graphs
+        const requestGraphs = [dayRequestGraph, this.requestsKHM, this.requestsSYR];
+        // Set up request per day and per country graphs values
         for (const date = new Date(oldestDay.getTime()); date <= latestDay; date.setDate(date.getDate() + 1)) {
             const formatDatePipe = datePipe.transform(date, 'dd-MM-yyyy');
-            dayRequestGraph.values[formatDatePipe] =
-                [{ date: formatDatePipe, name: this.language.log_requests, unit: this.language.log_requests, value: 0 }];
-            this.requestsKHM.values[formatDatePipe] =
-                [{ date: formatDatePipe, name: this.language.log_requests, unit: this.language.log_requests, value: 0 }];
-            this.requestsSYR.values[formatDatePipe] =
-                [{ date: formatDatePipe, name: this.language.log_requests, unit: this.language.log_requests, value: 0 }];
+            requestGraphs.forEach((graph: any) => {
+                graph.values[formatDatePipe] =
+                    [{ date: formatDatePipe, name: this.language.log_requests, unit: this.language.log_requests, value: 0 }];
+            });
         }
 
         this.logs.forEach((log: Log) => {
             const formatDatePipe = datePipe.transform(log.get<Date>('date'), 'dd-MM-yyyy');
 
             // Fill status pie graph
-            if (log.get<string>('status') === this.language.log_status_200) {
-                statusGraph.values[log.get<Date>('date').getFullYear()][0].value++;
-            } else if (log.get<string>('status') === this.language.log_status_300) {
-                statusGraph.values[log.get<Date>('date').getFullYear()][1].value++;
-            } else if (log.get<string>('status') === this.language.log_status_400) {
-                statusGraph.values[log.get<Date>('date').getFullYear()][2].value++;
-            } else if (log.get<string>('status') === this.language.log_status_401) {
-                statusGraph.values[log.get<Date>('date').getFullYear()][3].value++;
-            } else if (log.get<string>('status') === this.language.log_status_403) {
-                statusGraph.values[log.get<Date>('date').getFullYear()][4].value++;
-            } else {
-                statusGraph.values[log.get<Date>('date').getFullYear()][5].value++;
-            }
+            statusGraph.values[log.get<Date>('date').getFullYear()][status.indexOf(log.get<string>('status'))].value++;
 
-            // Fill request per day graph
-            if (dayRequestGraph.values[formatDatePipe]) {
-                dayRequestGraph.values[formatDatePipe][0].value++;
-            }
-
-            // Fill requests per country graph
+            // Fill requests per day and per country graph
             if (this.requestsKHM.values[formatDatePipe]) {
+                dayRequestGraph.values[formatDatePipe][0].value++;
                 if (log.get<string>('country') === 'KHM') {
                     this.requestsKHM.values[formatDatePipe][0].value++;
                 }
-            }
-
-            if (this.requestsSYR.values[formatDatePipe]) {
                 if (log.get<string>('country') === 'SYR') {
                     this.requestsSYR.values[formatDatePipe][0].value++;
                 }
@@ -248,12 +206,17 @@ export class LogsComponent implements OnInit, OnDestroy {
         this.graphs.push(activeUsersGraph);
     }
 
+    setupGraph(type: string, name: string, xLabel?: string, yLabel?: string) {
+        return {
+            type: type,
+            name: name,
+            xLabel: xLabel,
+            yLabel: yLabel,
+            values: {}
+        };
+    }
+
     openDialog(dialogDetails: any): void {
-        this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
-        let completeSubscription = null;
         this.modalService.openDialog(Log, this.logService, dialogDetails);
-        completeSubscription = this.modalService.isCompleted.subscribe((_response: boolean) => {
-        });
-        this.modalSubscriptions = [completeSubscription];
     }
 }

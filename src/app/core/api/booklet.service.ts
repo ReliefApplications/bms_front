@@ -35,7 +35,4 @@ export class BookletService extends CustomModelService {
         const url = this.api + `/booklets/assign/${idDistribution}/${idBeneficiary}`;
         return this.http.post(url, body);
     }
-
-    public fillWithOptions(booklet: Booklet) {
-    }
 }

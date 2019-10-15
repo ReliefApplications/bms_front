@@ -75,6 +75,4 @@ export class BeneficiariesService extends CustomModelService {
         const url = this.api + '/import/api/households/project/' + project.get('id');
         return this.http.post(url, apiObject);
     }
-
-    public fillWithOptions(beneficiary: any) {}
 }

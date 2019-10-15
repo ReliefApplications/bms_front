@@ -49,4 +49,6 @@ export abstract class CustomModelService {
     public fillFiltersWithOptions(filters: CustomModel) {
 
     }
+
+    public fillWithOptions(object1?: Object, object2?: Object) {}
 }

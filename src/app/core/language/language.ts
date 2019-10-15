@@ -496,10 +496,10 @@ export interface Language {
     log_import_beneficiary: string
     log_post_language: string
     log_post_password: string
-    log_post_transaction: string
     log_scan: string
     log_remove_many: string
     log_remove_one_beneficiary: string
+    log_send_transaction: string
     log_send_verification_email: string
     log_set_general_relief_items_as_distributed: string
     log_update: string

@@ -424,7 +424,7 @@ export class Arabic implements Language {
     household_members = 'أفراد العائلة'
     household_no_data_offline = 'لا يمكن الوصول إلى هذه البيانات في وضع عدم الاتصال'
     household_sentence = 'الأسرة من'
-
+    household_summary_members = 'أفراد الأسرة'
 
     // Import
     import_added = 'تم إضافتها'

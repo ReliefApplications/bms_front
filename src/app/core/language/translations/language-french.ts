@@ -425,6 +425,7 @@ export class French implements Language {
     household_members = 'Membres'
     household_no_data_offline = 'Ces données ne sont accessibles offline'
     household_sentence = 'Le ménage de '
+    household_summary_members = 'Membres du foyer'
 
     // Import
     import_added = 'Ajout'

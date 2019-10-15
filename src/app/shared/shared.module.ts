@@ -99,6 +99,7 @@ import { LoginComponent } from '../modules/public/login.component';
 import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
 import { VouchersComponent } from '../modules/vouchers/vouchers.component';
 import { LogsComponent } from '../modules/logs/logs.component';
+import { SsoComponent } from '../modules/sso/sso.component';
 
 
 @NgModule({
@@ -209,7 +210,8 @@ imports: [
         VouchersComponent,
         ScannerComponent,
         SettingsComponent,
-        AdministrationComponent
+        AdministrationComponent,
+        SsoComponent
     ],
     entryComponents: [
         ModalDeleteComponent,
@@ -300,7 +302,8 @@ imports: [
         PlaceholderStepperComponent,
         SettingsComponent,
         AdministrationComponent,
-        UppercaseFirstPipe
+        UppercaseFirstPipe,
+        SsoComponent
     ],
     providers: [
         { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },

@@ -677,6 +677,7 @@ export interface Language {
     table_element_deleted: string
     table_element_updated: string
     table_filter: string
+    table_filtered: string
     table_first_page: string
     table_items_per_page: string
     table_last_page: string
@@ -686,6 +687,7 @@ export interface Language {
     table_of_page: string
     table_previous_page: string
     table_print: string
+    table_selected: string
 
     // Time
     time_just_now: string

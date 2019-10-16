@@ -245,13 +245,14 @@ mat-table.rtl {
     opacity: 0.7;
 }
 
-.selected-items {
-    display: flex;
-    width: 25%;
-    color: $bms_dark_grey;
-    font: $bms_font_text;
-    font-size: 14px;
-    justify-content: center;
-    align-content: center;
+.items-info {
     margin-left: auto;
+    display: flex;
+    justify-content: flex-end;
+    .text {
+        color: $bms_dark_grey;
+        font: $bms_font_text;
+        font-size: 14px;
+        padding-right: 10px;
+    }
 }

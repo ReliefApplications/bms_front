@@ -33,6 +33,7 @@ app-placeholder-panel {
 .action-buttons {
     flex-wrap: wrap;
     justify-content: center;
+    align-items: baseline;
     .button-with-extension, .action-button {
         margin-top: 10px;
     }

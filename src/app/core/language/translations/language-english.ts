@@ -671,6 +671,7 @@ export class English implements Language {
     table_element_deleted = ' deleted'
     table_element_updated = ' updated'
     table_filter = 'Search by keyword'
+    table_filtered = 'Items filtered'
     table_first_page = 'First page'
     table_items_per_page = 'Items per page'
     table_last_page = 'Last page'
@@ -680,6 +681,7 @@ export class English implements Language {
     table_of_page = 'of'
     table_previous_page = 'Previous page'
     table_print = 'Print'
+    table_selected = 'Items selected'
 
     // Time
     time_just_now = 'Just now'

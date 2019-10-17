@@ -626,7 +626,7 @@ export class English implements Language {
 
     report_age_breakdown = 'Age breakdown'
     report_donors = this.donors     // 'Donors'
-    report_household_served = 'Household served'
+    report_household_served = 'Households served'
     report_modality = this.commodity_modality   // 'Modality'
     report_number_men_and_women = 'Number men and women'
     report_number_of_enrolled_beneficiaries = 'Number of enrolled beneficiaries'

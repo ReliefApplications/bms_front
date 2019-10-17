@@ -625,7 +625,7 @@ export class Arabic implements Language {
 
     report_age_breakdown = 'انهيار العمر'
     report_donors = this.donors     // 'Donors'
-    report_household_served = 'خدم المنزلية'
+    report_household_served = 'خدم الأسر'
     report_modality = this.commodity_modality   // 'Modality'
     report_number_men_and_women = 'عدد الرجال والنساء'
     report_number_of_enrolled_beneficiaries = 'عدد المستفيدين المسجلين'

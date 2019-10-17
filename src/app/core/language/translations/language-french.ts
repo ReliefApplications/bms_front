@@ -625,7 +625,7 @@ export class French implements Language {
 
     report_age_breakdown = 'Répartition par âge'
     report_donors = this.donors     // 'Donors'
-    report_household_served = 'Ménage servi'
+    report_household_served = 'Ménages desservis'
     report_modality = this.commodity_modality   // 'Modality'
     report_number_men_and_women = 'Nombre d\'hommes et de femmes'
     report_number_of_enrolled_beneficiaries = 'Nombre de bénéficiaires inscrits'

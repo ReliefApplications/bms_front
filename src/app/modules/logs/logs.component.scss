@@ -1,0 +1,46 @@
+@import '../../../assets/css/variable.scss';
+
+app-table {
+    width: 100%;
+    height: 100%;
+}
+
+app-table-mobile {
+    width: 100%;
+    height: 100%;
+}
+
+.container-table {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 20px;
+
+    .container-content {
+        border-top: solid 12px $bms_dark_blue;
+        margin-bottom: 20px;
+        
+        #graphs {
+            width: auto;
+            flex-wrap: wrap;
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            justify-content: space-around;
+            padding: 20px;
+
+            .graph {
+                align-self: stretch;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-around;
+                margin: 10px;
+            }
+
+            .graph-title {
+                text-align: center;
+            }
+        }
+
+    }
+}

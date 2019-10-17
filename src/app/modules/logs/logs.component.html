@@ -1,0 +1,58 @@
+<div class="page-container">
+    <div class="container-title">
+        <h2>{{ language.logs | titlecase}}</h2>
+    </div>
+    <div class="container-boxes">
+        <app-box-setting [isSelected]="selectedTab === 'distributions'" (click)="selectTab('distributions')"
+            [info]='{icon: "settings/projects", color: "green", title:language.distributions}'></app-box-setting>
+        <app-box-setting [isSelected]="selectedTab === 'beneficiaries'" (click)="selectTab('beneficiaries')"
+            [info]='{icon: "settings/beneficiaries", color: "green", title:language.beneficiaries}'></app-box-setting>
+        <app-box-setting [isSelected]="selectedTab === 'vouchers'" (click)="selectTab('vouchers')"
+            [info]='{icon: "settings/voucher", color: "green", title:language.voucher}'></app-box-setting>
+        <app-box-setting [isSelected]="selectedTab === 'administrative'" (click)="selectTab('administrative')"
+            [info]='{icon: "settings/administrative", color: "green", title:language.administrative_settings}'>
+        </app-box-setting>
+        <app-box-setting [isSelected]="selectedTab === 'other'" (click)="selectTab('other')"
+            [info]='{icon: "settings/api", color: "green", title:language.other}'></app-box-setting>
+        <app-box-setting *ngIf="this.logs" [isSelected]="selectedTab === 'graphs'" (click)="selectTab('graphs')"
+            [info]='{icon: "settings/report", color: "green", title:language.reports}'></app-box-setting>
+    </div>
+
+    <div class="container-table">
+        <div *ngIf="selectedTab === 'graphs'" class="container-content">
+            <div id="graphs">
+                <div *ngFor="let graph of graphs" class="graph" style="page-break-after: always;">
+                    <h2 class="graph-title">{{graph.name}}</h2>
+                    <app-pie-chart [graphInfo]="graph" *ngIf="graph.type === 'pie' || graph.type === 'grid'"
+                        [yLabel]='graph.yLabel'>
+                    </app-pie-chart>
+                    <app-bar-chart [graphInfo]="graph" *ngIf="graph.type === 'bar'" [xLabel]='graph.xLabel'
+                        [yLabel]='graph.yLabel'>
+                    </app-bar-chart>
+                    <app-line-chart [graphInfo]="graph" *ngIf="graph.type === 'line'" [xLabel]='graph.xLabel'
+                        [yLabel]='graph.yLabel'>
+                    </app-line-chart>
+                </div>
+                <div class="graph">
+                    <h2 class="graph-title">{{language.log_requests_country_title | titlecase}}</h2>
+                    <app-line-chart [multipleGraphInfo]="[requestsKHM, requestsSYR]" [yLabel]=language.log_requests 
+                        [xLabel]=language.log_time>
+                    </app-line-chart>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="selectedTab !== 'graphs'" class="container-content box-primary">
+            <div class="content-table">
+                <app-table *ngIf="currentDisplayType.type !== 'mobile'" [entity]="logClass" [service]="logsService"
+                    [data]="logData" [searchable]="true" [paginable]="true" [isLoading]="loadingLog"
+                    (openModal)="openDialog($event)">
+                </app-table>
+                <app-table-mobile *ngIf="currentDisplayType.type === 'mobile'" [entity]="logClass"
+                    [service]="logsService" [data]="logData" [searchable]="true" [paginable]="true"
+                    [isLoading]="loadingLog" (openModal)="openDialog($event)">
+                </app-table-mobile>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { ChartOptions } from 'chart.js';
 import { Graph } from '../../models/graph.model';
 import { ColorsService } from '../../services/colors.service';
+import { LanguageService } from 'src/app/core/language/language.service';
 
 @Component({
     selector: 'app-base-chart',
@@ -12,13 +13,19 @@ import { ColorsService } from '../../services/colors.service';
 export class BaseChartComponent {
 
     protected options: ChartOptions;
+    // Language
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
+
 
     constructor(
+        public languageService: LanguageService,
         protected colorsService: ColorsService,
         private titlecasePipe: TitleCasePipe,
     ) {}
 
     @Input() graphInfo: Graph;
+    @Input() xLabel = this.language.log_time;
+    @Input() yLabel;
 
     protected generateLabels() {
         this.options = {
@@ -27,14 +34,14 @@ export class BaseChartComponent {
                 xAxes: [ {
                     scaleLabel: {
                         display: true,
-                        labelString: 'Time'
-                    }
+                        labelString: this.titlecasePipe.transform(this.xLabel)
+                    },
                 } ],
                 yAxes: [
                     {
                         scaleLabel: {
                             display: true,
-                            labelString: this.titlecasePipe.transform(Object.values(this.graphInfo.values)[0][0].unit),
+                            labelString: this.titlecasePipe.transform(this.yLabel),
                         },
                         ticks: {
                             beginAtZero: true,

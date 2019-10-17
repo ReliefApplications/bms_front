@@ -20,8 +20,4 @@ export class CountrySpecificService extends CustomModelService {
     ) {
         super(http, languageService);
     }
-
-    fillWithOptions(countrySpecific: CountrySpecific) {
-        // Do nothing as the types are not fetched from backend
-    }
 }

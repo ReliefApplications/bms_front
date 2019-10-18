@@ -15,6 +15,7 @@ import { HouseholdLocation } from './household-location';
 import { Location } from './location';
 import { Project } from './project';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
+import { NationalId } from './national-id';
 
 export class Livelihood extends CustomModel {
 
@@ -116,6 +117,16 @@ export class Household extends CustomModel {
                 title: this.language.beneficiary_vulnerabilities,
                 isDisplayedInTable: true,
                 isImageInTable: true,
+                value: [],
+                isDisplayedInModal: true,
+                displayModalFunction: null,
+                displayTableFunction: null,
+            }
+        ),
+        nationalId: new MultipleObjectsModelField<NationalId>(
+            {
+                title: 'parate',
+                isDisplayedInTable: true,
                 value: [],
                 isDisplayedInModal: true,
                 displayModalFunction: null,
@@ -244,6 +255,10 @@ export class Household extends CustomModel {
                 newHousehold.fields.localFirstName.displayValue = beneficiary.fields.localGivenName.displayValue;
                 newHousehold.set('enFamilyName', beneficiary.get<string>('enFamilyName'));
                 newHousehold.set('enFirstName', beneficiary.get<string>('enGivenName'));
+                newHousehold.set('nationalId', beneficiary.get<string>('nationalIds'));
+                newHousehold.fields.nationalId.displayTableFunction = value => value ? value
+                    .map((nationalId: NationalId) => nationalId.get('number')).join(', ') : null;
+
             }
             beneficiary.get<VulnerabilityCriteria[]>('vulnerabilities').forEach((vulnerability: VulnerabilityCriteria) => {
                 newHousehold.add('vulnerabilities', vulnerability);

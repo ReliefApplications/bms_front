@@ -42,8 +42,8 @@ export class MobileMoneyComponent extends ValidatedDistributionComponent impleme
         this.actualDistribution.set(
             'distributionBeneficiaries',
             distributionBeneficiaries
-                .map((distributionBeneficiariy: any) =>
-                    TransactionMobileMoney.apiToModel(distributionBeneficiariy, this.actualDistribution.get('id'))));
+                .map((distributionBeneficiary: any) =>
+                    TransactionMobileMoney.apiToModel(distributionBeneficiary, this.actualDistribution.get('id'))));
     }
 
     formatTransactionTable() {

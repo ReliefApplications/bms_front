@@ -667,19 +667,6 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                     locationMessage = this.language.beneficiary_error_location;
                 } else if (!controls[locationGroup + 'Type'].value) {
                     locationMessage = this.language.beneficiairy_error_location_type;
-                } else if (controls[locationGroup + 'Type'].value !== 'camp' && !controls[locationGroup + 'AddressNumber'].value) {
-                    locationMessage = this.language.beneficiairy_error_address_number;
-                } else if (controls[locationGroup + 'Type'].value !== 'camp' && !controls[locationGroup + 'AddressStreet'].value) {
-                    locationMessage = this.language.beneficiary_error_address_street;
-                } else if (controls[locationGroup + 'Type'].value !== 'camp' && !controls[locationGroup + 'AddressPostcode'].value) {
-                    locationMessage = this.language.beneficiary_error_address_postcode;
-                } else if (controls[locationGroup + 'Type'].value === 'camp' &&
-                    ((!controls[locationGroup + 'CreateCamp'].value && !controls[locationGroup + 'Camp'].value) ||
-                        (controls[locationGroup + 'CreateCamp'].value && !controls[locationGroup + 'NewCamp'].value))
-                ) {
-                    locationMessage = this.language.beneficiary_error_camp;
-                } else if (controls[locationGroup + 'Type'].value === 'camp' && !controls.currentTentNumber.value) {
-                    locationMessage = this.language.beneficiary_error_tent;
                 }
             }
         });

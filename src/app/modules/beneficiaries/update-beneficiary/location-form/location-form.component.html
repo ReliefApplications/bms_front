@@ -5,7 +5,7 @@
   </div>
   <div class="column-container">
     <h4>{{ language.household_location_type | uppercaseFirst }}</h4>
-    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_type | uppercaseFirst}} *" [formControlName]="locationGroup + 'Type'">
+    <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_type | uppercaseFirst}}" [formControlName]="locationGroup + 'Type'">
       <ng-option *ngFor="let option of householdLocationTypes" [value]="option.get('id')">
         {{option.get('name') | uppercaseFirst}}
       </ng-option>
@@ -14,19 +14,19 @@
       <h4>{{ language.household_location_address | uppercaseFirst }}</h4>
       <div class="address-fields">
         <mat-form-field>
-          <input matInput placeholder="{{language.address_number | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressNumber'" required>
+          <input matInput placeholder="{{language.address_number | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressNumber'">
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="{{language.address_street | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressStreet'" required>
+          <input matInput placeholder="{{language.address_street | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressStreet'">
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="{{language.address_postcode | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressPostcode'" required>
+          <input matInput placeholder="{{language.address_postcode | uppercaseFirst}}" [formControlName]="locationGroup + 'AddressPostcode'">
         </mat-form-field>
       </div>
     </ng-container>
     <ng-container *ngIf="form.controls[locationGroup + 'Type'].value && form.controls[locationGroup + 'Type'].value === 'camp'">
       <h4>{{ language.household_location_address }}</h4>
-      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_camp | uppercaseFirst}} *" [formControlName]="locationGroup + 'Camp'">
+      <ng-select [clearable]="false" class="single-select" [multiple]="false" [searchable]=true [closeOnSelect]="true" placeholder="{{language.household_location_camp | uppercaseFirst}}" [formControlName]="locationGroup + 'Camp'">
         <ng-option *ngFor="let option of campLists[locationGroup]" [value]="option.get('id')">
           {{option.get('name') | uppercaseFirst}}
         </ng-option>
@@ -35,11 +35,11 @@
         <mat-checkbox color="primary" [formControlName]="locationGroup + 'CreateCamp'"></mat-checkbox>
         <span>{{ language.household_location_create_camp | uppercaseFirst }}</span>
         <mat-form-field *ngIf="form.controls[locationGroup + 'CreateCamp'].value">
-          <input matInput placeholder="{{language.household_location_camp_name | uppercaseFirst}}" [formControlName]="locationGroup + 'NewCamp'" required>
+          <input matInput placeholder="{{language.household_location_camp_name | uppercaseFirst}}" [formControlName]="locationGroup + 'NewCamp'">
         </mat-form-field>
         </div>
       <mat-form-field>
-        <input matInput placeholder="{{language.household_location_tent | uppercaseFirst}}" [formControlName]="locationGroup + 'TentNumber'" required>
+        <input matInput placeholder="{{language.household_location_tent | uppercaseFirst}}" [formControlName]="locationGroup + 'TentNumber'">
       </mat-form-field>
     </ng-container>
   </div>

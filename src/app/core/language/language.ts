@@ -200,12 +200,12 @@ export interface Language {
     beneficiary_vulnerabilities: string
 
     // Benficiary form errors
-    beneficiairy_error_address_number: string
-    beneficiairy_error_birth_date: string
-    beneficiairy_error_gender: string
-    beneficiairy_error_head: string
-    beneficiairy_error_location_type: string
-    beneficiairy_error_project: string
+    beneficiary_error_address_number: string
+    beneficiary_error_birth_date: string
+    beneficiary_error_gender: string
+    beneficiary_error_head: string
+    beneficiary_error_location_type: string
+    beneficiary_error_project: string
     beneficiary_error_address_postcode: string
     beneficiary_error_address_street: string
     beneficiary_error_camp: string

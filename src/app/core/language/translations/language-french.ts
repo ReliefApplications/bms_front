@@ -177,22 +177,22 @@ export class French implements Language {
 
     // Benficiary form errors
     beneficiary_error_location = 'Vous devez choisir une localisation'
-    beneficiairy_error_address_number = 'Vous devez entrer un numéro de voie'
+    beneficiary_error_address_number = 'Vous devez entrer un numéro de voie'
     beneficiary_error_address_postcode = 'Vous devez entrer un code postal'
     beneficiary_error_address_street = 'Vous devez entrer un nom de voie'
-    beneficiairy_error_head = 'le chef de famille'
+    beneficiary_error_head = 'le chef de famille'
     beneficiary_error_member = ' membre'
     beneficiary_error_family_name = 'Vous devez entrer un nom de famille local pour '
     beneficiary_error_given_name = 'Vous devez entrer un prénom local pour '
-    beneficiairy_error_gender = 'Vous devez sélectionner un genre pour '
+    beneficiary_error_gender = 'Vous devez sélectionner un genre pour '
     beneficiary_error_phone = 'Le numéro de téléphone doit être uniquement composé de chiffres pour '
     beneficiary_error_existing_country_code = 'Veuillez sélectionner un préfixe valide pour '
     beneficiary_error_country_code = 'Veuillez sélectionner un préfixe de la liste pour '
-    beneficiairy_error_birth_date = 'Veuillez sélectionner une date de naissance valide pour '
-    beneficiairy_error_project = 'Veuillez sélectionner au moins un projet'
+    beneficiary_error_birth_date = 'Veuillez sélectionner une date de naissance valide pour '
+    beneficiary_error_project = 'Veuillez sélectionner au moins un projet'
     beneficiary_error_camp = 'Vous devez sélectionner un camp ou en créer un'
     beneficiary_error_tent = 'Vous devez renseigner un numéro de tente'
-    beneficiairy_error_location_type = 'Vous devez sélectionner un type de lieu'
+    beneficiary_error_location_type = 'Vous devez sélectionner un type de lieu'
 
     // Beneficiaries
     beneficiary_add_list = 'Ajouter à un projet'

@@ -217,12 +217,12 @@ export class Arabic implements Language {
     beneficiary_vulnerabilities = 'نقاط الضعف'
 
     // Benficiary form errors
-    beneficiairy_error_address_number = 'يجب إدخال رقم العنوان'
-    beneficiairy_error_birth_date = ' يرجى تحديد تاريخ ميلاد صالح لـ'
-    beneficiairy_error_gender = ' يجب عليك إدخال الجنس من أجل'
-    beneficiairy_error_head = 'رب الأسرة'
-    beneficiairy_error_location_type = 'يجب عليك تحديد نوع الموقع'
-    beneficiairy_error_project = 'يجب عليك اختيار مشروع واحد على الأقل'
+    beneficiary_error_address_number = 'يجب إدخال رقم العنوان'
+    beneficiary_error_birth_date = ' يرجى تحديد تاريخ ميلاد صالح لـ'
+    beneficiary_error_gender = ' يجب عليك إدخال الجنس من أجل'
+    beneficiary_error_head = 'رب الأسرة'
+    beneficiary_error_location_type = 'يجب عليك تحديد نوع الموقع'
+    beneficiary_error_project = 'يجب عليك اختيار مشروع واحد على الأقل'
     beneficiary_error_address_postcode = 'يجب إدخال الرمز البريدي للعنوان'
     beneficiary_error_address_street = 'يجب عليك إدخال شارع العنوان'
     beneficiary_error_camp = 'يجب عليك تحديد معسكر أو إنشاء معسكر'

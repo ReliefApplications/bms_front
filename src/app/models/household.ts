@@ -245,6 +245,8 @@ export class Household extends CustomModel {
             .map((vulnerability: VulnerabilityCriteria) => pipe.transform(vulnerability.get('name'))).join(', ');
         newHousehold.set('projects', householdFromApi.projects.filter((project: any) => !project.archived)
             .map(project => Project.apiToModel(project)));
+        newHousehold.fields.nationalId.displayTableFunction = value => value ? value
+            .map((nationalId: NationalId) => nationalId.get('number')).join(', ') : null;
 
         newHousehold.set('beneficiaries', householdFromApi.beneficiaries.map(beneficiary => Beneficiary.apiToModel(beneficiary)));
         newHousehold.get<Beneficiary[]>('beneficiaries').forEach((beneficiary: Beneficiary) => {
@@ -256,9 +258,6 @@ export class Household extends CustomModel {
                 newHousehold.set('enFamilyName', beneficiary.get<string>('enFamilyName'));
                 newHousehold.set('enFirstName', beneficiary.get<string>('enGivenName'));
                 newHousehold.set('nationalId', beneficiary.get<string>('nationalIds'));
-                newHousehold.fields.nationalId.displayTableFunction = value => value ? value
-                    .map((nationalId: NationalId) => nationalId.get('number')).join(', ') : null;
-
             }
             beneficiary.get<VulnerabilityCriteria[]>('vulnerabilities').forEach((vulnerability: VulnerabilityCriteria) => {
                 newHousehold.add('vulnerabilities', vulnerability);

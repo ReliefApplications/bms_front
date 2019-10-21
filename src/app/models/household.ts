@@ -128,7 +128,7 @@ export class Household extends CustomModel {
                 title: 'parate',
                 isDisplayedInTable: true,
                 value: [],
-                isDisplayedInModal: true,
+                isDisplayedInModal: false,
                 displayModalFunction: null,
                 displayTableFunction: null,
             }

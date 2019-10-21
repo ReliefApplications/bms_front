@@ -143,13 +143,13 @@ export class User extends CustomModel {
             title: this.language.user_phone_prefix,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
-            isEditable: false,
+            isEditable: true,
         }),
         phoneNumber: new NumberModelField({
             title: this.language.user_phone_number,
             isDisplayedInTable: true,
             isDisplayedInModal: true,
-            isEditable: false,
+            isEditable: true,
         }),
         twoFactorAuthentication: new BooleanModelField({
             isDisplayedInTable: false,
@@ -215,8 +215,6 @@ export class User extends CustomModel {
         newUser.set('username', userFromApi.username);
         newUser.set('id', userFromApi.id);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en');
-        newUser.set('phonePrefix', userFromApi.phonePrefix);
-        newUser.set('phoneNumber', userFromApi.phoneNumber);
         newUser.set('changePassword', userFromApi.change_password);
         newUser.set('phonePrefix', userFromApi.phone_prefix);
         newUser.set('phoneNumber', userFromApi.phone_number);

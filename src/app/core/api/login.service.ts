@@ -53,7 +53,7 @@ export class LoginService {
                     this.redirect();
                     return of(true);
                 } else {
-                    return this.setupUser(userFromApi);
+                    return this.setUserCache(userFromApi);
                 }
             }),
             tap(() => { this.redirect(); })
@@ -64,7 +64,7 @@ export class LoginService {
         return this.twoFactorStep;
     }
 
-    public setupUser(userFromApi) {
+    public setUserCache(userFromApi) {
         const user = User.apiToModel(userFromApi);
         this.userService.setCurrentUser(user);
         return this.asyncacheService.setUser(userFromApi).pipe(
@@ -89,7 +89,7 @@ export class LoginService {
 
     public authenticateCode(twoFactorCode: Number): Observable<any> {
         if (this.code === twoFactorCode) {
-            return this.setupUser(this.user);
+            return this.setUserCache(this.user);
         } else {
             return of(false);
         }

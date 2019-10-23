@@ -51,5 +51,7 @@
                 </button>
             </div>
         </div>
+        <mat-paginator *ngIf="paginable" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons>
+        </mat-paginator>
     </ng-template>
 </div>

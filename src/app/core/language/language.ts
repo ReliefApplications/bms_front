@@ -436,6 +436,7 @@ export interface Language {
     household_members: string
     household_no_data_offline: string
     household_sentence: string
+    household_summary_members: string
 
     // Import
     import_added: string

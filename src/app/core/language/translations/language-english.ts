@@ -426,6 +426,7 @@ export class English implements Language {
     household_members = 'Members'
     household_no_data_offline = 'This data can\'t be accessed offline'
     household_sentence = 'The household of '
+    household_summary_members = 'Household members'
 
     // Import
     import_added = 'Added from existing beneficiaries'

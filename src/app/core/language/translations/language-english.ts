@@ -219,11 +219,11 @@ export class English implements Language {
     beneficiary_vulnerabilities = 'Vulnerabilities'
 
     // Beneficiary form errors
-    beneficiairy_error_address_number = 'You must enter an address number'
-    beneficiairy_error_birth_date = 'Please select a valid birth date for '
-    beneficiairy_error_gender = 'You must select a gender for '
-    beneficiairy_error_head = 'the head of household'
-    beneficiairy_error_project = 'You must select at least one project'
+    beneficiary_error_address_number = 'You must enter an address number'
+    beneficiary_error_birth_date = 'Please select a valid birth date for '
+    beneficiary_error_gender = 'You must select a gender for '
+    beneficiary_error_head = 'the head of household'
+    beneficiary_error_project = 'You must select at least one project'
     beneficiary_error_address_postcode = 'You must enter an address postcode'
     beneficiary_error_address_street = 'You must enter an address street'
     beneficiary_error_country_code = 'Please select a country code for the phone number for '
@@ -235,7 +235,7 @@ export class English implements Language {
     beneficiary_error_phone = 'Phone can only be composed of digits for '
     beneficiary_error_camp = 'You must select or create a camp'
     beneficiary_error_tent = 'You must enter a tent number'
-    beneficiairy_error_location_type = 'You must chose a location type'
+    beneficiary_error_location_type = 'You must chose a location type'
 
     // Beneficiary import
     beneficiary_import_addFile = 'add file or drag and drop'

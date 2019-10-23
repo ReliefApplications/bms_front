@@ -89,6 +89,13 @@ export class TransactionGeneralRelief extends DistributionBeneficiary {
             childrenObject: 'beneficiary',
             childrenFieldName: 'enFamilyName'
         }),
+        nationalId: new NestedFieldModelField({
+            title: this.language.national_id,
+            isDisplayedInTable: true,
+            childrenObject: 'beneficiary',
+            childrenFieldName: 'nationalIds',
+            isDisplayedInModal: true,
+        }),
         generalReliefs: new MultipleObjectsModelField<GeneralRelief>({
 
         }),

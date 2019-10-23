@@ -56,6 +56,9 @@ export class LoginComponent implements OnInit {
         this.loginService.login(username, password).pipe(
             catchError((error: any) => {
                 this.loader = false;
+                if (this.recaptcha) {
+                    this.recaptcha.reset();
+                }
                 return throwError(error);
             })
         ).subscribe(

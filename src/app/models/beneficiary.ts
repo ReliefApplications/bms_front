@@ -331,6 +331,8 @@ export class Beneficiary extends CustomModel {
         newBeneficiary.fields.phones.displayModalFunction = value => value.map((phone: Phone) => phone.get('number')).join(', ');
         newBeneficiary.fields.nationalIds.displayModalFunction = value => value
             .map((nationalId: NationalId) => nationalId.get('number')).join(', ');
+        newBeneficiary.fields.nationalIds.displayTableFunction = value => value ? value
+            .map((nationalId: NationalId) => nationalId.get('number')).join(', ') : null;
 
         if (beneficiaryFromApi.referral) {
             newBeneficiary.fields.addReferral.isDisplayedInModal = false;

@@ -47,6 +47,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
     advancedResearch = false;
 
     public keyupTimeout: any;
+    disabledActions: boolean;
 
     @Input() selectable = false;
     @Input() selection: any;
@@ -208,6 +209,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         } else {
             this.tableServerData.dataSubject.value.forEach(row => this.selection.select(row));
         }
+        this.manageActions();
         this.selectChecked.emit(this.selection.selected);
     }
 
@@ -218,8 +220,15 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
         } else {
             this.selection.deselect(element);
         }
-
+        this.manageActions();
         this.selectChecked.emit(this.selection.selected);
     }
 
+    manageActions() {
+        if (this.selection.selected.length > 0) {
+            this.disabledActions = true;
+        } else {
+            this.disabledActions = false;
+        }
+    }
 }

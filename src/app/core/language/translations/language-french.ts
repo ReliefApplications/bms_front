@@ -703,6 +703,7 @@ export class French implements Language {
     table_element_deleted = ' supprimé(e)'
     table_element_updated = ' modifié(e)'
     table_filter = 'Rechercher par mot clé'
+    table_filtered = 'Articles filtrés'
     table_first_page = 'Début'
     table_items_per_page = 'Items par page'
     table_last_page = 'Fin'
@@ -712,6 +713,7 @@ export class French implements Language {
     table_of_page = 'sur'
     table_previous_page = 'Page précédente'
     table_print = 'imprimer'
+    table_selected = 'Articles sélectionnés'
 
     // Time
     time_just_now = 'à l\'instant'

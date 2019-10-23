@@ -702,6 +702,7 @@ export class Arabic implements Language {
     table_element_deleted = ' تم حذفها'
     table_element_updated = ' تم تحديثها'
     table_filter = 'البحث عن طريق الكلمات الرئيسية'
+    table_filtered = 'العناصر التي تمت تصفيتها'
     table_first_page = 'الصفحة الأولى'
     table_items_per_page = 'العناصر في كل صفحة'
     table_last_page = 'الصفحة الاخيرة'
@@ -711,6 +712,7 @@ export class Arabic implements Language {
     table_of_page = 'من'
     table_previous_page = 'الصفحة السابقة'
     table_print = 'طباعة'
+    table_selected = 'العناصر المحددة'
 
     //Time 
     time_just_now = 'Just now'

@@ -405,7 +405,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         if (!step || this.nextValidation(step, true)) {
             const controls = this.mainForm.controls;
             if (controls.projects.value.length < 1) {
-                this.snackbar.error(this.language.beneficiairy_error_project);
+                this.snackbar.error(this.language.beneficiary_error_project);
                 return;
             }
 
@@ -666,9 +666,9 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
                 if (!controls[locationGroup + 'Adm1'].value) {
                     locationMessage = this.language.beneficiary_error_location;
                 } else if (!controls[locationGroup + 'Type'].value) {
-                    locationMessage = this.language.beneficiairy_error_location_type;
+                    locationMessage = this.language.beneficiary_error_location_type;
                 } else if (controls[locationGroup + 'Type'].value !== 'camp' && !controls[locationGroup + 'AddressNumber'].value) {
-                    locationMessage = this.language.beneficiairy_error_address_number;
+                    locationMessage = this.language.beneficiary_error_address_number;
                 } else if (controls[locationGroup + 'Type'].value !== 'camp' && !controls[locationGroup + 'AddressStreet'].value) {
                     locationMessage = this.language.beneficiary_error_address_street;
                 } else if (controls[locationGroup + 'Type'].value !== 'camp' && !controls[locationGroup + 'AddressPostcode'].value) {
@@ -691,7 +691,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         const beneficiary = this.beneficiariesForm[formIndex].controls;
         let message = '';
         const numberSuffix = formIndex <= 3 ? this.language.number_suffixes[formIndex] : this.language.number_suffix_other;
-        const beneficiaryName = formIndex === 0 ? this.language.beneficiairy_error_head :
+        const beneficiaryName = formIndex === 0 ? this.language.beneficiary_error_head :
             this.language.the + ' ' + formIndex + numberSuffix + this.language.beneficiary_error_member;
 
         if (!beneficiary.localFamilyName.value) {
@@ -699,7 +699,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         } else if (!beneficiary.localGivenName.value) {
             message = this.language.beneficiary_error_given_name + beneficiaryName;
         } else if (beneficiary.gender.value === null) {
-            message = this.language.beneficiairy_error_gender + beneficiaryName;
+            message = this.language.beneficiary_error_gender + beneficiaryName;
         } else if (
             (beneficiary.phoneNumber0.value && isNaN(Number(beneficiary.phoneNumber0.value))) ||
             (beneficiary.phoneNumber1.value && isNaN(Number(beneficiary.phoneNumber1.value)))
@@ -718,7 +718,7 @@ export class UpdateBeneficiaryComponent implements OnInit, DesactivationGuarded,
         ) {
             message = this.language.beneficiary_error_country_code + beneficiaryName;
         } else if (!beneficiary.dateOfBirth.value || beneficiary.dateOfBirth.value.getTime() > (new Date()).getTime()) {
-            message = this.language.beneficiairy_error_birth_date + beneficiaryName;
+            message = this.language.beneficiary_error_birth_date + beneficiaryName;
         }
         return message;
     }

@@ -156,65 +156,67 @@ export class ModalFieldsComponent implements OnInit {
         let subscription: Observable<string> = of(null);
         for (const fieldName of this.objectFields) {
             const field = this.objectInstance.fields[fieldName];
-
-            // To prevent the update of encoding a null password
-            if (field.isPassword && !this.form.controls[fieldName].value) {
-                this.objectInstance.set(fieldName, null);
-                if (field.kindOfField === 'Children') {
+            // To avoid problems when trying to access a field that doesn't exists (Edit distribution -> adms)
+            if (this.form.controls[fieldName]) {
+                // To prevent the update of encoding a null password
+                if (field.isPassword && !this.form.controls[fieldName].value) {
+                    this.objectInstance.set(fieldName, null);
+                    if (field.kindOfField === 'Children') {
+                        const childrenField = this.objectInstance.get(field.childrenObject);
+                        const childrenFieldName = field.childrenFieldName;
+                        childrenField.set(childrenFieldName, null);
+                    }
+                } else if (field.kindOfField === 'Children') {
                     const childrenField = this.objectInstance.get(field.childrenObject);
                     const childrenFieldName = field.childrenFieldName;
-                    childrenField.set(childrenFieldName, null);
-                }
-            } else if (field.kindOfField === 'Children') {
-                const childrenField = this.objectInstance.get(field.childrenObject);
-                const childrenFieldName = field.childrenFieldName;
-                if (this.form.controls[fieldName].value) {
-                    if (childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
-                        childrenField.set(childrenFieldName, childrenField.getOptions(childrenFieldName).filter(option => {
-                            return option.get('id') === this.form.controls[fieldName].value;
-                        })[0]);
+                    if (this.form.controls[fieldName].value) {
+                        if (childrenField.fields[childrenFieldName].kindOfField === 'SingleSelect') {
+                            childrenField.set(childrenFieldName, childrenField.getOptions(childrenFieldName).filter(option => {
+                                return option.get('id') === this.form.controls[fieldName].value;
+                            })[0]);
+                        } else {
+                            childrenField.set(childrenFieldName, this.form.controls[fieldName].value);
+                        }
+                        this.objectInstance.set(field.childrenObject, childrenField);
                     } else {
-                        childrenField.set(childrenFieldName, this.form.controls[fieldName].value);
+                        childrenField.set(childrenFieldName, null);
                     }
-                    this.objectInstance.set(field.childrenObject, childrenField);
-                } else {
-                    childrenField.set(childrenFieldName, null);
-                }
-            } else if (field.kindOfField === 'File') {
-                if (this.form.controls[fieldName].value) {
-                    subscription = this.uploadService
-                        .uploadImage(this.form.controls[fieldName].value, field.uploadPath)
-                        .pipe(
-                            tap((fileUrl: string) => {
-                                this.objectInstance.set(field.fileUrlField, fileUrl);
-                            })
-                        );
-                }
-            } else if (field.kindOfField === 'ArrayInputField') {
-                const array = [];
-                field.value.forEach((singleValue, index) => {
-                    array.push(this.form.controls[fieldName + index.toString()].value);
-                });
-                this.objectInstance.set(fieldName, array);
-            } else if (field.kindOfField === 'MultipleSelect') {
-                this.objectInstance.set(fieldName, []);
-                if (this.form.controls[fieldName].value) {
-                    this.form.controls[fieldName].value.forEach(optionId => {
-                        const selectedOption = this.objectInstance.getOptions(fieldName).filter(option => {
-                            return option.get('id') === optionId;
-                        })[0];
-                        this.objectInstance.add(fieldName, selectedOption);
+                } else if (field.kindOfField === 'File') {
+                    if (this.form.controls[fieldName].value) {
+                        subscription = this.uploadService
+                            .uploadImage(this.form.controls[fieldName].value, field.uploadPath)
+                            .pipe(
+                                tap((fileUrl: string) => {
+                                    this.objectInstance.set(field.fileUrlField, fileUrl);
+                                })
+                            );
+                    }
+                } else if (field.kindOfField === 'ArrayInputField') {
+                    const array = [];
+                    field.value.forEach((singleValue, index) => {
+                        array.push(this.form.controls[fieldName + index.toString()].value);
                     });
-                }
+                    this.objectInstance.set(fieldName, array);
+                } else if (field.kindOfField === 'MultipleSelect') {
+                    this.objectInstance.set(fieldName, []);
+                    if (this.form.controls[fieldName].value) {
+                        this.form.controls[fieldName].value.forEach(optionId => {
+                            const selectedOption = this.objectInstance.getOptions(fieldName).filter(option => {
+                                return option.get('id') === optionId;
+                            })[0];
+                            this.objectInstance.add(fieldName, selectedOption);
+                        });
+                    }
 
-            } else if (this.form.controls[fieldName].value && field.kindOfField === 'SingleSelect') {
-                this.objectInstance.set(fieldName, this.objectInstance.getOptions(fieldName).filter(option => {
-                    return option.get('id') === this.form.controls[fieldName].value;
-                })[0]);
-            } else if (this.form.controls[fieldName].value !== null && this.form.controls[fieldName].value !== undefined) {
-                this.objectInstance.set(fieldName, this.form.controls[fieldName].value);
-            } else if (!this.form.controls.value) {
-                this.objectInstance.set(fieldName, null);
+                } else if (this.form.controls[fieldName].value && field.kindOfField === 'SingleSelect') {
+                    this.objectInstance.set(fieldName, this.objectInstance.getOptions(fieldName).filter(option => {
+                        return option.get('id') === this.form.controls[fieldName].value;
+                    })[0]);
+                } else if (this.form.controls[fieldName].value !== null && this.form.controls[fieldName].value !== undefined) {
+                    this.objectInstance.set(fieldName, this.form.controls[fieldName].value);
+                } else if (!this.form.controls.value) {
+                    this.objectInstance.set(fieldName, null);
+                }
             }
         }
         return subscription;

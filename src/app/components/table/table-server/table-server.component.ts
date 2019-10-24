@@ -96,6 +96,7 @@ export class TableServerComponent extends TableComponent implements OnInit, Afte
             },
             this.paginator.pageIndex,
             this.paginator.pageSize);
+            this.manageActions();
     }
 
     applySpecificFilter(filterValue: any, category: string) {

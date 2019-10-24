@@ -54,7 +54,7 @@
         <app-table [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
           [data]="bookletData" [selection]="selection" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
           [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table>
-        <app-table-mobile [isLoading]="loadingBooklet" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+        <app-table-mobile [isLoading]="loadingBooklet" [paginable]="true" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
           [data]="bookletData" [selection]="selection" [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table-mobile>
       </div>
     </div>

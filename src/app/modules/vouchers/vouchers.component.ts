@@ -160,6 +160,8 @@ export class VouchersComponent implements OnInit, OnDestroy {
         let ids = [];
         if (this.selection.selected.length > 0) {
             ids = this.selection.selected.map((booklet: Booklet) => booklet.get('id'));
+        } else {
+            ids = this.bookletData ? this.bookletData.filteredData.map((booklet: Booklet) => booklet.get('id')) : [];
         }
         this._exportService.export('bookletCodes', true, this.extensionTypeCode, {}, null, ids).pipe(
             finalize(() => {

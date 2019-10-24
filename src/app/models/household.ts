@@ -125,7 +125,7 @@ export class Household extends CustomModel {
         ),
         nationalId: new MultipleObjectsModelField<NationalId>(
             {
-                title: 'parate',
+                title: this.language.national_id_number,
                 isDisplayedInTable: true,
                 value: [],
                 isDisplayedInModal: false,

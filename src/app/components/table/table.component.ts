@@ -20,6 +20,7 @@ import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/dat
 import { DistributionService } from '../../core/api/distribution.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-table',
@@ -78,6 +79,7 @@ export class TableComponent implements OnInit, AfterViewInit {
             this.tableData = value;
             this.checkData();
             this.setDataTableProperties();
+            this.mobileData = this.tableData.connect();
         }
     }
 
@@ -102,6 +104,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     entityInstance = null;
     public user_action = '';
     disabledActions: boolean;
+    mobileData: Observable<any>;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
@@ -130,6 +133,9 @@ export class TableComponent implements OnInit, AfterViewInit {
         this.setDataTableProperties();
     }
 
+    ngOnDestroy(): void {
+        if (this.tableData) { this.tableData.disconnect(); }
+      }
 
     getFieldStringValues(field: any): any {
         let value: any = '';

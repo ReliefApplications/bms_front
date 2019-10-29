@@ -8,7 +8,7 @@
     </div>
 
     <ng-template #dataInTable>
-        <div *ngFor="let element of tableData?.data" class="table-entry">
+        <div *ngFor="let element of mobileData | async" class="table-entry">
             <div class="table-properties" (click)="openDialog('details', element)"
                 appMobilePress (longPressedAndReleased)="(selection ? toggleCheck(element) : '')"
                 [ngClass]="{'checked': selection?.selected.includes(element)}">
@@ -51,5 +51,7 @@
                 </button>
             </div>
         </div>
+        <mat-paginator *ngIf="paginable" [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons>
+        </mat-paginator>
     </ng-template>
 </div>

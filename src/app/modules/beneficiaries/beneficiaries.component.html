@@ -92,7 +92,7 @@
                     [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [entity]="referedClassToken"
                     [service]="householdsService" [data]="dataSource" [updatable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                     (openModal)="openDialog($event)"></app-table-server>
-                <app-table-mobile-server *ngIf="currentDisplayType.type === 'mobile'" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [selection]="selection"
+                <app-table-mobile-server *ngIf="currentDisplayType.type === 'mobile'" [paginable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [selection]="selection"
                     [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT') || userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                     [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                     (openModal)="openDialog($event)"></app-table-mobile-server>

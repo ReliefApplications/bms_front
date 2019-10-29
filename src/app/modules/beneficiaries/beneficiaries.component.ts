@@ -189,8 +189,8 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
             this.projectService.addBeneficiaries(this.projectAddControl.value, benefForApi).subscribe(
                 (_success: any) => {
                     this.snackbar.success(this.language.beneficiary_added);
+                    this.selection.clear();
                     this.table.loadDataPage();
-                    this.selection = new SelectionModel<Household>(true, []);
                 }
             );
         }
@@ -208,8 +208,8 @@ export class BeneficiariesComponent implements OnInit, OnDestroy {
         this.modalService.openDialog(Household, this.householdsService, event);
         const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
+                this.selection.clear();
                 this.table.loadDataPage();
-                this.selection = new SelectionModel<Household>(true, []);
             }
         });
         this.modalSubscriptions = [completeSubscription];

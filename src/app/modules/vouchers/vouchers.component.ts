@@ -3,8 +3,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { TableComponent } from 'src/app/components/table/table.component';
 import { BookletService } from 'src/app/core/api/booklet.service';
 import { ProjectService } from 'src/app/core/api/project.service';
 import { LanguageService } from 'src/app/core/language/language.service';
@@ -16,6 +14,8 @@ import { DisplayType } from 'src/app/models/constants/screen-sizes';
 import { Project } from 'src/app/models/project';
 import { ExportService } from '../../core/api/export.service';
 import { UserService } from 'src/app/core/api/user.service';
+import { BookletsDataSource } from 'src/app/models/data-sources/booklets-data-source';
+import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
 
 @Component({
     selector: 'app-vouchers',
@@ -31,26 +31,30 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public loadingExportCodes = false;
     modalSubscriptions: Array<Subscription> = [];
 
+    public referedClassService;
+    referedClassToken = Booklet;
+    booklets: MatTableDataSource<Booklet>;
+    public selection = new SelectionModel<Booklet>(true, []);
+
     public bookletClass = Booklet;
-    public booklets: Booklet[];
-    public bookletData: MatTableDataSource<Booklet>;
+    public dataSource: BookletsDataSource;
     public extensionType: string;
     public extensionTypeCode: string;
     public projectClass = Project;
+    numberToExport: number = null;
 
     public projects = [];
 
-    public selection = new SelectionModel<Booklet>(true, []);
 
     // Screen size
     public currentDisplayType: DisplayType;
-    private screenSizeSubscription: Subscription;
+    subscriptions: Array<Subscription>;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
 
-    @ViewChild(TableComponent, { static: false }) tableVoucher: TableComponent;
+    @ViewChild(TableServerComponent, { static: false }) tableVoucher: TableServerComponent;
 
     constructor(
         public bookletService: BookletService,
@@ -67,18 +71,21 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
-            this.currentDisplayType = displayType;
-        });
+        this.dataSource = new BookletsDataSource(this.bookletService);
+        this.subscriptions = [
+            this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+                this.currentDisplayType = displayType;
+            }),
+            this.dataSource.length$.subscribe((length) => {
+                this.numberToExport = length;
+            }),
+        ];
         this.extensionType = 'xls';
         this.extensionTypeCode = 'xls';
-        this.getBooklets();
     }
 
     ngOnDestroy() {
-        if (this.screenSizeSubscription) {
-            this.screenSizeSubscription.unsubscribe();
-        }
+        this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
         this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
@@ -88,25 +95,6 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
     setTypeCode(choice: string) {
         this.extensionTypeCode = choice;
-    }
-
-    getBooklets() {
-        this.bookletService.get().pipe(
-            finalize(
-                () => {
-                    this.loadingBooklet = false;
-                },
-            )
-        ).subscribe(
-            response => {
-                if (response && response.length > 0) {
-                    this.booklets = response.reverse().map((booklet: any) => Booklet.apiToModel(booklet));
-                    this.bookletData = new MatTableDataSource(this.booklets);
-                } else if (response === null) {
-                    this.booklets = null;
-                }
-            }
-        );
     }
 
     /**
@@ -120,7 +108,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
         });
         const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
-                this.getBooklets();
+                this.tableVoucher.setDataTableProperties();
             } else {
                 this.loadingBooklet = false;
             }
@@ -152,21 +140,21 @@ export class VouchersComponent implements OnInit, OnDestroy {
         if (this.selection.selected.length > 0) {
             return this.selection.selected.length;
         }
-        return this.bookletData ? this.bookletData.data.length : null;
+        return this.numberToExport > 0 ? this.numberToExport : null;
     }
 
     exportCodes() {
-        this.loadingExportCodes = true;
-        let ids = [];
-        if (this.selection.selected.length > 0) {
-            ids = this.selection.selected.map((booklet: Booklet) => booklet.get('id'));
-        } else {
-            ids = this.bookletData ? this.bookletData.filteredData.map((booklet: Booklet) => booklet.get('id')) : [];
-        }
-        this._exportService.export('bookletCodes', true, this.extensionTypeCode, {}, null, ids).pipe(
-            finalize(() => {
-                this.loadingExportCodes = false;
-            })
-        ).subscribe();
+        // this.loadingExportCodes = true;
+        // let ids = [];
+        // if (this.selection.selected.length > 0) {
+        //     ids = this.selection.selected.map((booklet: Booklet) => booklet.get('id'));
+        // } else {
+        //     ids = this.dataSource ? this.dataSource.filteredData.map((booklet: Booklet) => booklet.get('id')) : [];
+        // }
+        // this._exportService.export('bookletCodes', true, this.extensionTypeCode, {}, null, ids).pipe(
+        //     finalize(() => {
+        //         this.loadingExportCodes = false;
+        //     })
+        // ).subscribe();
     }
 }

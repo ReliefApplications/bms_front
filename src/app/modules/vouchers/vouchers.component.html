@@ -14,7 +14,7 @@
 
           <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}" *ngIf="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
               <button mat-flat-button
-                [disabled]="!bookletData" class="button-background-primary"
+                [disabled]="!(dataSource.length$ | async)" class="button-background-primary"
                 (click)="exportCodes()" *ngIf="!loadingExportCodes">
                 <mat-icon>get_app</mat-icon>
                 <span *ngIf="selection.selected.length > 0; else noSelected">{{language.export_selected | uppercaseFirst}}</span>
@@ -24,7 +24,7 @@
               </button>
               <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
               <div class="extension" *ngIf="!loadingExportCodes">
-                <button mat-flat-button class="dropdown button-background-primary" [disabled]="!bookletData" [matMenuTriggerFor]="exportCodesType">
+                <button mat-flat-button class="dropdown button-background-primary" [disabled]="!(dataSource.length$ | async)" [matMenuTriggerFor]="exportCodesType">
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
                 <mat-menu #exportCodesType>
@@ -51,11 +51,11 @@
         </button>
       </div>
       <div class="content-table">
-        <app-table [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
-          [data]="bookletData" [selection]="selection" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
-          [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table>
-        <app-table-mobile [isLoading]="loadingBooklet" [paginable]="true" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
-          [data]="bookletData" [selection]="selection" [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table-mobile>
+        <app-table-server [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
+          [data]="dataSource" [selection]="selection" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+          [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table-server>
+        <app-table-mobile-server [isLoading]="loadingBooklet" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+          [data]="dataSource" [selection]="selection" [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table-mobile-server>
       </div>
     </div>
   </div>

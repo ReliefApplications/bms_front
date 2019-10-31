@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false
+    production: false,
+    name: 'testing'
 };
 
 export const URL_BMS_API = 'http://0.0.0.0:8087/api/wsse';

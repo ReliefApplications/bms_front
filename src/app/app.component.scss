@@ -1,7 +1,7 @@
 @import '../assets/css/variable.scss';
 
 .bms-logo {
-    background: white;
+    background: $bms_white;
 }
 
 .app-component {
@@ -90,7 +90,7 @@ mat-sidenav-content.no-margin {
         width: auto;
 
         mat-list-item {
-            height: 13vh;
+            height: 11vh;
         }
     }
 }

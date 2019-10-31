@@ -26,9 +26,4 @@ export class OrganizationService extends CustomModelService {
     print(event: Organization) {
         return this.exportService.printOrganizationTemplate().subscribe();
     }
-
-
-    public fillWithOptions (donor: Donor) {
-
-    }
 }

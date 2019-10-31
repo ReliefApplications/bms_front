@@ -19,9 +19,4 @@ export class DonorService extends CustomModelService {
     ) {
         super(http, languageService);
     }
-
-
-    public fillWithOptions (donor: Donor) {
-
-    }
 }

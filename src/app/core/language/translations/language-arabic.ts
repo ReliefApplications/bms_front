@@ -299,7 +299,7 @@ export class Arabic implements Language {
     country_khm = 'كمبوديا'
     country_syr = 'سوريا'
     country_specific = 'خيار حسب بالبلد'
-    country_specific_field = 'الميدان'    
+    country_specific_field = 'الميدان'
 
     // Dashboard
     dashboard_distribution_map = 'خريطة التوزيع'
@@ -465,13 +465,104 @@ export class Arabic implements Language {
     livelihood_security = 'صناعة الأمن'
     livelihood_service = 'صناعة الخدمات وغيرهم من المهنيين'
 
+    //Log audit
+
+    // Actions
+    log_archive = 'أرشفة'
+    log_assign = 'تعيين'
+    log_add_beneficiary = 'وأضاف المستفيدون'
+    log_add_households = 'الأسر المضافة'
+    log_complete = 'منجز'
+    log_create = 'خلقت'
+    log_deactivate = 'إبطال مفعولها'
+    log_deactivate_booklets = this.log_deactivate
+    log_delete = 'تم الحذف'
+    log_delete_batch = 'دفعة محذوفة'
+    log_edit_general_relief_notes = 'تمت إضافة ملاحظات بند الإغاثة العامة'
+    log_import = 'مستورد'
+    log_import_beneficiaries_from_api = 'مستورد من Api'
+    log_import_beneficiaries_from_syria_file = 'مستورد من ملف سوريا'
+    log_import_beneficiary = 'المستفيدون المستوردون'
+    log_post_password = 'تغيير كلمة المرور'
+    log_scan = 'الممسوحة ضوئيا'
+    log_remove_many = 'تم الحذف'
+    log_remove_one_beneficiary = 'إزالة مستفيد واحد'
+    log_send_verification_email = 'تم إرسال رمز المعاملة'
+    log_send_transaction = 'المال المحمول المرسلة'
+    log_set_general_relief_items_as_distributed = 'توزيع مواد الإغاثة العامة'
+    log_update = 'محدث'
+    log_update_f_p = 'تم تعديل اتصال الطرف الثالث'
+    log_post_language = 'تغيير اللغة الافتراضية'
+    log_update_password = 'تحديث كلمة المرور'
+    log_upload_image = 'تم الرفع صورة'
+    log_upload_logo = 'تم الرفع شعار'
+    log_validate = 'التحقق من صحة'
+
+    // Objects
+    log_beneficiary = 'المستفيد'
+    log_booklet = 'كتيب'
+    log_country = 'تفاصيل البلد'
+    log_distribution = 'توزيع'
+    log_donor = 'الجهات المانحة'
+    log_household = 'منزلي'
+    log_organization = 'منظمة'
+    log_product = 'المنتج'
+    log_project = 'مشروع'
+    log_transaction = 'عملية تجارية'
+    log_user = 'المستعمل'
+    log_vendor = 'بائع'
+    log_voucher = 'إيصال'
+
+    //Fields
+    log_field_action = 'عمل'
+    log_field_country = 'بلد'
+    log_field_date = 'تاريخ'
+    log_field_details = 'تفاصيل'
+    log_field_id = 'Id'
+    log_field_object = 'موضوع'
+    log_field_status = 'وضع'
+    log_field_user = 'المستخدم'
+
+    //Reports
+    logs = 'سجلات'
+    log_active_users_title = 'معظم المستخدمين النشطين'
+    log_code = 'رموز'
+    log_family_name = 'اسم العائلة'
+    log_field = 'حقل'
+    log_old_id = 'المعرف السابق'
+    log_name = 'اسم'
+    log_not_exists = 'غير موجود بعد الآن'
+    log_no_details = 'لا توجد تفاصيل لعرضها'
+    log_number_booklets = 'عدد الكتيبات'
+    log_number_vouchers = 'عدد القسائم'
+    log_requests  = 'طلبات'
+    log_requests_country_title = 'طلبات لكل بلد'
+    log_requests_day_title = 'طلبات في اليوم الواحد'
+    log_status_rate_title = 'معدل الوضع'
+    log_time = 'زمن'
+    log_users = 'المستخدم'
+    log_username = 'اسم المستخدم'
+    log_value = 'القيمة'
+
+    //Status
+    log_status_200 = 'نجاح'
+    log_status_300 = 'إعادة توجيه'
+    log_status_400 = 'خطأ'
+    log_status_401 = 'غير مصادقة'
+    log_status_403 = 'ممنوع'
+    log_status_404 = 'غير معثور عليه'
+
+        
+
     // Login
     login_bms = 'نظام إدارة المستفيدين'
     login_captcha_invalid = 'The captcha is invalid'
-    login_forgot_password = 'هل نسيت كلمة المرور'
     login_password = 'كلمة المرور'
     login_prompt = 'Please log in'
     login_title = ' تسجيل الدخول الى الحساب'
+    login_title_hid = 'Humanitarian ID تسجيل الدخول مع'
+    login_title_google = 'Google تسجيل الدخول مع'
+    login_title_linkedin = 'LinkedIn تسجيل الدخول مع'
 
     // Map legend
     map_legend_completed = 'منجز'
@@ -680,7 +771,7 @@ export class Arabic implements Language {
     table_previous_page = 'الصفحة السابقة'
     table_print = 'طباعة'
 
-    //Time 
+    //Time
     time_just_now = 'Just now'
 
     // Transaction
@@ -729,7 +820,7 @@ export class Arabic implements Language {
     tooltip_reports = 'تُستخدم هذه الصفحة للاطلاع على إحصائيات الدولة ، مثل متوسط ​​معاملات المشروعات وعدد التوزيعات ...'
     tooltip_settings = 'هذه الصفحة هي المكان الذي ستتمكن فيه من إضافة مشروع جديد أو بلد معين أو اتصال طرف ثالث أو منتج أو بائع وتعديلها وحذفها وفقًا لحقوقك'
     tooltip_update_beneficiary = 'هذه الصفحة هي نموذج لتحديث الأسرة المختارة.'
-    tooltip_vouchers = 'هذه الصفحة هي المكان الذي يمكنك فيه إنشاء كتيبات قسائم وتعديلها وتعيينها وطباعتها'    
+    tooltip_vouchers = 'هذه الصفحة هي المكان الذي يمكنك فيه إنشاء كتيبات قسائم وتعديلها وتعيينها وطباعتها'
 
     //Vouchers
     voucher_ask_code = 'الرجاء مطالبة المستفيد بإدخال رمزه المكون من 4 أرقام هنا'

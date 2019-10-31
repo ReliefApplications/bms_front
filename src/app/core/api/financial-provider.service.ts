@@ -28,8 +28,4 @@ export class FinancialProviderService extends CustomModelService {
         }
         return this.http.post(this.makeUrl(), body);
     }
-
-    fillWithOptions(financialProvider: FinancialProvider) {
-
-    }
 }

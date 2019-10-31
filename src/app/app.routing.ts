@@ -21,7 +21,9 @@ import { ProjectComponent } from './modules/projects/project.component';
 // Components
 import { LoginComponent } from './modules/public/login.component';
 import { ReportsComponent } from './modules/reports/reports.component';
+import { SsoComponent } from './modules/sso/sso.component';
 import { VouchersComponent } from './modules/vouchers/vouchers.component';
+import { LogsComponent } from './modules/logs/logs.component';
 
 // Do not change the order of the routes, it matters
 export const routes: Routes = [
@@ -106,10 +108,20 @@ export const routes: Routes = [
         component: AdministrationComponent,
         canActivate: [AuthGuard, PermissionsGuard],
     },
-
+    {
+        path: 'logs',
+        component: LogsComponent,
+        canActivate: [AuthGuard, PermissionsGuard]
+    },
+    {
+        path: 'sso',
+        component: SsoComponent,
+        canActivate: []
+    },
     // home route protected by auth guard
     {
-        path: '', component: DashboardComponent,
+        path: '',
+        component: DashboardComponent,
         canActivate: [AuthGuard, PermissionsGuard],
     },
 

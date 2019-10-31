@@ -216,6 +216,7 @@ export class ProjectComponent implements OnInit, OnDestroy {
     openDialog(dialogDetails: any): void {
         this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
         this.modalService.openDialog(Distribution, this.distributionService, dialogDetails);
+
         const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
             this.loadingDistributions = true;
         });

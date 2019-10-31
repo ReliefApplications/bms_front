@@ -1,12 +1,12 @@
 @import '../../../assets/css/variable.scss';
 
 form {
-    display:flex;
+    display: flex;
     flex-direction: column;
 }
 
 .container-box {
-    height:100%;
+    height: 100%;
     width: 100%;
 
     .box-image {
@@ -16,7 +16,7 @@ form {
         overflow: hidden;
         display: flex;
         flex: 1 0 100%;
-        height:100%;
+        height: 100%;
         justify-content: center;
         align-items: center;
 
@@ -27,20 +27,20 @@ form {
             width: 500px;
             flex-wrap: wrap;
             flex-direction: column;
-            border-radius : 5px;
+            border-radius: 5px;
 
             .login-logo {
                 flex-grow: 0.5;
                 display: flex;
                 justify-content: center;
-                margin:5px;
-                border-radius : 5px;
+                margin: 5px;
+                border-radius: 5px;
 
                 .logo-image {
                     width: 150px;
                     height: 150px;
                     background-color: $bms_grey;
-                    border-radius : 100px;
+                    border-radius: 100px;
                 }
             }
 
@@ -52,13 +52,13 @@ form {
                 margin: 5px;
 
                 .title-text {
-                        display: flex;
-                        font-family: $bms_font_header;
-                        color : $bms_grey;
-                        font-weight: bold;
-                        font-size: 20px;
-                        text-align: center;
-                    }
+                    display: flex;
+                    font-family: $bms_font_header;
+                    color: $bms_grey;
+                    font-weight: bold;
+                    font-size: 20px;
+                    text-align: center;
+                }
             }
 
             .login-user {
@@ -71,9 +71,9 @@ form {
 
                 .user-input {
                     width: 57%;
-                    height : 35px;
-                    margin : 5px;
-                    padding : 10px;
+                    height: 35px;
+                    margin: 5px;
+                    padding: 10px;
                     font-weight: 200;
                     font-size: 20px;
                     align-items: baseline;
@@ -84,26 +84,56 @@ form {
                 recaptcha {
                     margin: 5px;
                 }
-
-                .user-forgot-password {
-                    width: 55%;
-                    font-size: 10px;
-                    margin : 0;
-                    font-family: $bms_font_text;
-                    color : #00000050;
-                }
             }
 
             .login-button {
-                flex-grow: 1;
                 display: flex;
-                border-radius : 5px;
                 justify-content: center;
+                flex-wrap: wrap;
                 margin: 5px;
 
-                .button:disabled {
-                    background-color: $bms_grey!important;
-                    color:black!important;
+                .button-background-primary {
+                    margin: 5px;
+                    width: 55%;
+                }
+
+                .button-sso {
+                    margin: 5px;
+                    width: 55%;
+                    display: flex;
+                    justify-content: center;
+
+                    &.button-hid {
+                        background-color: $bms_light_blue !important;
+                    }
+
+                    &.button-google {
+                        background-color: $bms_white !important;
+                    }
+
+                    .icon-sso {
+                        position: absolute;
+                        left: 10px;
+                        height: 40px;
+                        width: 40px;
+                    }
+
+                    .sso-button-text {
+                        color: $bms_dark_grey;
+                    }
+
+                    // .google-button-text {
+                    //     font: $bms_font_text bold;
+                    //     color: #737373;
+                    //     margin-left: 15px;
+                    // }
+
+
+                    // .hid-button-text {
+                    //     font: $bms_font_text bold;
+                    //     color: $bms_black;
+                    //     margin-left: 15px;
+                    // }
                 }
             }
         }

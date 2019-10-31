@@ -476,13 +476,102 @@ export interface Language {
     livelihood_security: string
     livelihood_service: string
 
+    //Log audit
+
+    // Actions
+    log_archive: string
+    log_assign: string
+    log_add_beneficiary: string
+    log_add_households: string
+    log_complete: string
+    log_create: string
+    log_deactivate: string
+    log_deactivate_booklets: string
+    log_delete: string
+    log_delete_batch: string
+    log_edit_general_relief_notes: string
+    log_import: string
+    log_import_beneficiaries_from_api: string
+    log_import_beneficiaries_from_syria_file: string
+    log_import_beneficiary: string
+    log_post_language: string
+    log_post_password: string
+    log_scan: string
+    log_remove_many: string
+    log_remove_one_beneficiary: string
+    log_send_transaction: string
+    log_send_verification_email: string
+    log_set_general_relief_items_as_distributed: string
+    log_update: string
+    log_update_f_p: string
+    log_upload_image: string
+    log_upload_logo: string
+    log_validate: string
+
+    // Objects
+    log_beneficiary: string
+    log_booklet: string
+    log_country: string
+    log_distribution: string
+    log_donor: string
+    log_household: string
+    log_organization: string
+    log_product: string
+    log_project: string
+    log_transaction: string
+    log_user: string
+    log_vendor: string
+    log_voucher: string
+
+    //Fields
+    log_field_action: string
+    log_field_country: string
+    log_field_date: string
+    log_field_details: string
+    log_field_id: string
+    log_field_object: string
+    log_field_status: string
+    log_field_user: string
+
+    //Reports
+    logs: string
+    log_active_users_title: string
+    log_code: string
+    log_family_name: string
+    log_field: string
+    log_old_id: string
+    log_name: string
+    log_not_exists: string
+    log_no_details: string
+    log_number_booklets: string
+    log_number_vouchers: string
+    log_requests: string
+    log_requests_country_title: string
+    log_requests_day_title: string
+    log_status_rate_title: string
+    log_time: string
+    log_users: string
+    log_username: string
+    log_value: string    
+    
+    //Status
+    log_status_200: string
+    log_status_300: string
+    log_status_400: string
+    log_status_401: string
+    log_status_403: string
+    log_status_404: string
+
+
     // Login
     login_bms: string
     login_captcha_invalid: string
-    login_forgot_password: string
     login_password: string
     login_prompt: string
     login_title: string
+    login_title_hid: string
+    login_title_google: string
+    login_title_linkedin: string
 
     // Map legend
     map_legend_completed: string

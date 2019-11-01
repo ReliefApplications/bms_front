@@ -491,7 +491,7 @@ export class French implements Language {
     modal_delete_many = 'ces éléments'
     modal_complete_distribution = 'Etes-vous sûr de vouloir fermer cette distribution ?'
     modal_delete_sentence = 'Vous êtes sur le point de supprimer '
-    modal_delete_sentence_2 = '. Souhaitez-vous continuer ?'
+    modal_delete_sentence_2 = 'Souhaitez-vous continuer ?'
     modal_details_title = 'Détails de ce'
     modal_edit_title = 'Modifier ce'
     modal_failure = 'Echecs'

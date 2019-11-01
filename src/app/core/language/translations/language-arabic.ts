@@ -519,6 +519,7 @@ export class Arabic implements Language {
     national_id_license = 'رخصة السائق'
     national_id_number = 'رقم الهوية الوطنية'
     national_id_passport = 'جواز سفر'
+    national_id_birth_certificate = 'شهادة الميلاد'
     national_id_type = 'نوع الهوية الوطنية'
 
     // Null values

@@ -521,6 +521,7 @@ export class English implements Language {
     national_id_license = 'Driver\'s License'
     national_id_number = 'ID Number'
     national_id_passport = 'Passport'
+    national_id_birth_certificate = 'Birth Certificate'
     national_id_type = 'ID Type'
 
     //Network

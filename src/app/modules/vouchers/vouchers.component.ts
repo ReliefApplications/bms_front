@@ -144,17 +144,25 @@ export class VouchersComponent implements OnInit, OnDestroy {
     }
 
     exportCodes() {
-        // this.loadingExportCodes = true;
-        // let ids = [];
-        // if (this.selection.selected.length > 0) {
-        //     ids = this.selection.selected.map((booklet: Booklet) => booklet.get('id'));
-        // } else {
-        //     ids = this.dataSource ? this.dataSource.filteredData.map((booklet: Booklet) => booklet.get('id')) : [];
-        // }
-        // this._exportService.export('bookletCodes', true, this.extensionTypeCode, {}, null, ids).pipe(
-        //     finalize(() => {
-        //         this.loadingExportCodes = false;
-        //     })
-        // ).subscribe();
+        this.loadingExportCodes = true;
+        let filters = null;
+        let ids = [];
+        if (this.selection.selected.length > 0) {
+            ids = this.selection.selected.map((booklet: Booklet) => booklet.get('id'));
+        } else {
+            filters = {
+                filter: this.tableVoucher.filtersForAPI,
+                sort: {
+                    sort: (this.tableVoucher.sort && this.tableVoucher.sort.active) ? this.tableVoucher.sort.active : null,
+                    direction: (this.tableVoucher.sort && this.tableVoucher.sort.direction !== '') ? this.tableVoucher.sort.direction : null
+                },
+                pageIndex: 0,
+                pageSize: -1 // No limit
+            };
+        }
+        this._exportService.export('bookletCodes', true, this.extensionTypeCode, {}, filters, ids).subscribe(
+            () => { this.loadingExportCodes = false; },
+            (_error: any) => { this.loadingExportCodes = false; }
+        );
     }
 }

@@ -24,4 +24,18 @@ export class CustomIconService {
             );
         });
     }
+
+    initializeLoginIcons(): void {
+        const iconsArray = [
+            {
+                name: 'google',
+                url: '/assets/icons/icon_google.svg'
+            },
+            {
+                name: 'hid',
+                url: '/assets/icons/icon_hid.svg'
+            }
+        ];
+        this.init(iconsArray);
+    }
 }

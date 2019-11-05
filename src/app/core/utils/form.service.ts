@@ -190,6 +190,8 @@ export class FormService {
             localCurrency = 'SYP';
         } else if (countryId === 'KHM') {
             localCurrency = 'KHR';
+        } else if (countryId === 'UKR') {
+            localCurrency = 'UAH';
         }
         return localCurrency;
     }

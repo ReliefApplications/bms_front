@@ -8,6 +8,7 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 @Component({
     selector: 'app-sso',
@@ -33,6 +34,7 @@ export class SsoComponent implements OnInit {
         public loginService: LoginService,
         private router: Router,
         public snackbar: SnackbarService,
+        private location: Location
     ) { }
 
     ngOnInit() {
@@ -100,8 +102,8 @@ export class SsoComponent implements OnInit {
         } else {
             if (user.get('twoFactorAuthentication')) {
                 this.loginService.sendCode(userFromApi);
+                this.location.replaceState('sso');
                 this.makeForm();
-                this.twoFactorStep = true;
             } else {
                 this.userService.setCurrentUser(user);
                 this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {
@@ -115,6 +117,7 @@ export class SsoComponent implements OnInit {
     }
 
     public makeForm() {
+        this.twoFactorStep = true;
         this.formTwoFA = new FormGroup({
             twoFactorCode: new FormControl('', [Validators.required]),
         });

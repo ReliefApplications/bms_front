@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { concat, forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Country } from 'src/app/models/country';
 import { Project } from 'src/app/models/project';
@@ -47,9 +47,8 @@ export class LoginService {
         return this.authService.login(username, password).pipe(
             switchMap((userFromApi: any) => {
                 if (User.apiToModel(userFromApi).get('twoFactorAuthentication')) {
-                    this.twoFactorStep = true;
-                    this.sendCode(userFromApi);
                     this.redirectUrl = '/sso';
+                    this.sendCode(userFromApi);
                     this.redirect();
                     return of(true);
                 } else {
@@ -76,6 +75,7 @@ export class LoginService {
 
     public sendCode(userFromApi: any) {
         this.user = userFromApi;
+        this.twoFactorStep = true;
         const user = User.apiToModel(userFromApi);
         const phoneNumber = user.get('phonePrefix') + '' +  user.get('phoneNumber');
         this.code = this.randomIntFromInterval(10000, 99999);
@@ -84,7 +84,7 @@ export class LoginService {
             recipients: [phoneNumber],
             message: this.language.login_two_fa_message + ': ' + this.code
         };
-        this.authService.sendSMS(body).subscribe();
+        this.authService.sendSMS(body).subscribe(() => true);
     }
 
     public authenticateCode(twoFactorCode: Number): Observable<any> {

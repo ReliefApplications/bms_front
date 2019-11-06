@@ -49,7 +49,6 @@ export class LoginService {
                 if (User.apiToModel(userFromApi).get('twoFactorAuthentication')) {
                     this.redirectUrl = '/sso';
                     this.sendCode(userFromApi);
-                    this.redirect();
                     return of(true);
                 } else {
                     return this.setUserCache(userFromApi);
@@ -84,7 +83,7 @@ export class LoginService {
             recipients: [phoneNumber],
             message: this.language.login_two_fa_message + ': ' + this.code
         };
-        this.authService.sendSMS(body).subscribe(() => true);
+        this.authService.sendSMS(body).subscribe();
     }
 
     public authenticateCode(twoFactorCode: Number): Observable<any> {

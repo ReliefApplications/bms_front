@@ -25,17 +25,16 @@
                         <button (click)="onSubmit()" mat-flat-button *ngIf="!loader" [disabled]="form.invalid"
                             class="button-background-primary">{{language.login_title | uppercaseFirst}}</button>
                     </ng-template>
+                    <br>
                     <mat-spinner [diameter]="35" *ngIf="loader"></mat-spinner>
                     <button (click)="googleAuthRedirect()" mat-flat-button class="button-sso"
                         *ngIf="!loader">
-                        <img class="icon-sso" src="assets/icons/icon_google.svg">
-                        <span class="sso-button-text google-button-text">{{language.login_title_google}}</span>
+                        <mat-icon class="icon-sso" svgIcon="google"></mat-icon>
+                        <span>{{language.login_title_google | uppercaseFirst}}</span>
                     </button>
                     <button (click)="hidAuthRedirect()" mat-flat-button class="button-sso" *ngIf="!loader">
-                        <img class="icon-sso" src="assets/icons/icon_hid.svg">
-                        <span class="sso-button-text hid-button-text">
-                            {{language.login_title_hid}}
-                        </span>
+                        <mat-icon class="icon-sso" svgIcon="hid"></mat-icon>
+                        <span class="sso-button-text">{{language.login_title_hid | uppercaseFirst}}</span>
                     </button>
                     <!-- <button (click)="googleAuthPopUp()" mat-flat-button class="button-background-primary">Login with Google Pop up</button> -->
                 </div>

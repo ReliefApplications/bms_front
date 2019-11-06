@@ -5,6 +5,17 @@ form {
     flex-direction: column;
 }
 
+button {
+    width: 200px;
+    margin: 5px;
+    display: flex;
+}
+
+mat-icon {
+    height: 30px;
+    width: 30px;
+}
+
 .container-box {
     height: 100%;
     width: 100%;
@@ -21,7 +32,7 @@ form {
         align-items: center;
 
         .box-login {
-            background-color: rgba(161, 160, 160, 0.6);
+            background-color: rgba(161, 160, 160, 0.7);
             padding: 10px 0;
             height: auto;
             width: 500px;
@@ -88,32 +99,16 @@ form {
 
             .login-button {
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
                 flex-wrap: wrap;
                 margin: 5px;
-
+                
                 .button-background-primary {
-                    margin: 5px;
-                    width: 55%;
-                }
-
-                .button-sso {
-                    margin: 5px;
-                    width: 55%;
-                    display: flex;
                     justify-content: center;
-                    background-color: $bms_white !important;
-
-                    .icon-sso {
-                        position: absolute;
-                        left: 10px;
-                        height: 40px;
-                        width: 40px;
-                    }
-
-                    .sso-button-text {
-                        color: $bms_dark_grey;
-                    }
+                }
+                .button-sso {
+                    color: $bms_dark_grey !important;
                 }
             }
         }

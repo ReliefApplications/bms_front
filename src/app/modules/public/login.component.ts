@@ -10,6 +10,7 @@ import { AuthenticationService } from 'src/app/core/authentication/authenticatio
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { CustomIconService } from 'src/app/core/utils/custom-icon.service';
 import { environment } from 'src/environments/environment';
 import * as firebase from 'firebase';
 import 'firebase/auth';
@@ -43,10 +44,12 @@ export class LoginComponent implements OnInit {
         public snackbar: SnackbarService,
         public languageService: LanguageService,
         private loginService: LoginService,
+        private customIconService: CustomIconService
     ) { }
 
     ngOnInit() {
         this.userService.resetUser();
+        this.customIconService.initializeLoginIcons();
         this.makeForm();
         this.initializeFirebase();
     }

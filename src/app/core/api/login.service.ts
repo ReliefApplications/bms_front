@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { concat, forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Country } from 'src/app/models/country';
 import { Project } from 'src/app/models/project';
@@ -14,7 +14,6 @@ import { AsyncacheService } from '../storage/asyncache.service';
 import { CachedCountryReturnValue } from '../storage/cached-country-value.interface';
 import { UserService } from './user.service';
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -25,6 +24,9 @@ export class LoginService {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     private redirectUrl = '';
+    private code: number;
+    private user: any;
+    private twoFactorStep = false;
 
     constructor (
         private authService: AuthenticationService,
@@ -44,16 +46,52 @@ export class LoginService {
 
         return this.authService.login(username, password).pipe(
             switchMap((userFromApi: any) => {
-                const user = User.apiToModel(userFromApi);
-                this.userService.setCurrentUser(user);
-                return this.asyncacheService.setUser(userFromApi).pipe(
-                    switchMap((_: any) => {
-                        return this.loginRoutine(user);
-                    })
-                );
+                if (User.apiToModel(userFromApi).get('twoFactorAuthentication')) {
+                    this.redirectUrl = '/sso';
+                    this.sendCode(userFromApi);
+                    return of(true);
+                } else {
+                    return this.setUserCache(userFromApi);
+                }
             }),
             tap(() => { this.redirect(); })
         );
+    }
+
+    public getTwoFactorStep() {
+        return this.twoFactorStep;
+    }
+
+    public setUserCache(userFromApi) {
+        const user = User.apiToModel(userFromApi);
+        this.userService.setCurrentUser(user);
+        return this.asyncacheService.setUser(userFromApi).pipe(
+            switchMap((_: any) => {
+                return this.loginRoutine(user);
+            })
+        );
+    }
+
+    public sendCode(userFromApi: any) {
+        this.user = userFromApi;
+        this.twoFactorStep = true;
+        const user = User.apiToModel(userFromApi);
+        const phoneNumber = user.get('phonePrefix') + '' +  user.get('phoneNumber');
+        this.code = this.randomIntFromInterval(10000, 99999);
+
+        const body = {
+            recipients: [phoneNumber],
+            message: this.language.login_two_fa_message + ': ' + this.code
+        };
+        this.authService.sendSMS(body).subscribe();
+    }
+
+    public authenticateCode(twoFactorCode: Number): Observable<any> {
+        if (this.code === twoFactorCode) {
+            return this.setUserCache(this.user);
+        } else {
+            return of(false);
+        }
     }
 
     // Login back using the token in the cache
@@ -160,5 +198,14 @@ export class LoginService {
         const language = this.languageService.stringToLanguage(user.get<string>('language'));
         this.languageService.selectedLanguage = language;
         return this.asyncacheService.setLanguage(language);
+    }
+
+     /**
+      * Calculates a random number in a range
+      * @param min minimum value
+      * @param max maximum value
+      */
+     private randomIntFromInterval(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
     }
 }

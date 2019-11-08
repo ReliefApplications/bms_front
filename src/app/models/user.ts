@@ -10,6 +10,7 @@ import { NumberModelField } from './custom-models/number-model-field';
 import { SingleSelectModelField } from './custom-models/single-select-model-field';
 import { TextModelField } from './custom-models/text-model-field';
 import { Project } from './project';
+import { PHONECODES } from './constants/phone-codes';
 
 export class ErrorInterface {
     message: string;
@@ -130,16 +131,31 @@ export class User extends CustomModel {
             isSettable: true,
             isDisabled: true,
         }),
-        language: new TextModelField({
-
-        }),
+        language: new TextModelField({}),
         changePassword: new BooleanModelField({
             title: this.language.user_password_question,
             isDisplayedInModal: true,
             isSettable: true,
             isEditable: true,
             value: true,
-        })
+        }),
+        phonePrefix: new TextModelField({
+            title: this.language.user_phone_prefix,
+            isDisplayedInTable: true,
+            isDisplayedInModal: true,
+            isEditable: false,
+        }),
+        phoneNumber: new NumberModelField({
+            title: this.language.user_phone_number,
+            isDisplayedInTable: true,
+            isDisplayedInModal: true,
+            isEditable: false,
+        }),
+        twoFactorAuthentication: new BooleanModelField({
+            isDisplayedInTable: false,
+            isDisplayedInModal: false,
+            isEditable: false
+        }),
 
     };
 
@@ -147,9 +163,7 @@ export class User extends CustomModel {
         if (!userFromApi) {
             return null; // If it was retrieved from cache and was null
         }
-
         const newUser = new User();
-
         newUser.set('rights', userFromApi.roles ?
             newUser.getOptions('rights').filter((role: Role) => role.get('id') === userFromApi.roles[0])[0] :
             null
@@ -202,10 +216,13 @@ export class User extends CustomModel {
         newUser.set('id', userFromApi.id);
         newUser.set('language', userFromApi.language ? userFromApi.language : 'en');
         newUser.set('changePassword', userFromApi.change_password);
+        newUser.set('phonePrefix', userFromApi.phone_prefix);
+        newUser.set('phoneNumber', userFromApi.phone_number);
+        newUser.set('twoFactorAuthentication', userFromApi.two_factor_authentication);
         return newUser;
     }
 
-    public modelToApi(): object {
+    public modelToApi(): Object {
         const userForApi = {
             id: this.fields.id.formatForApi(),
             email: this.fields.email.formatForApi(),
@@ -214,7 +231,10 @@ export class User extends CustomModel {
             language: this.fields.language.formatForApi(),
             roles: (this.get('rights') ? [this.get('rights').get('id')] : null),
             vendor: null,
-            change_password: this.fields.changePassword.formatForApi()
+            change_password: this.fields.changePassword.formatForApi(),
+            phone_prefix: this.fields.phonePrefix.formatForApi(),
+            phone_number: this.fields.phoneNumber.formatForApi(),
+            two_factor_authentication: this.fields.twoFactorAuthentication.formatForApi()
         };
 
         if (!this.get('rights')) {
@@ -234,7 +254,6 @@ export class User extends CustomModel {
                 this.fields.projects.value.map((project: Project) => project.get('id')) :
                 null;
         }
-
         return userForApi;
     }
 

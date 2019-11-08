@@ -201,9 +201,7 @@ app-placeholder-panel {
         }
 
         .delete {
-            mat-icon {
-                margin-left: 8px;
-            }
+            box-shadow: none !important;
         }
     }
 }

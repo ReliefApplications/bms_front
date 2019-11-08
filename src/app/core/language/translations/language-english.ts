@@ -562,6 +562,8 @@ export class English implements Language {
     login_title_hid= 'Login with HID'
     login_title_google = 'Login with Google'
     login_title_linkedin = 'Login with LinkedIn'
+    login_two_fa_invalid_code = 'Invalid code, please try again'
+    login_two_fa_message = 'This is your Humansis authentication code'
 
     // Map legend
     map_legend_completed = 'completed'
@@ -656,12 +658,24 @@ export class English implements Language {
 
     // Profile
     profile_change_password = 'You need to change your password'
+    profile_change_phone = 'Change phone number'
     profile_password_changed = 'Password changed'
     profile_password_would_not_be_changed = 'The two passwords are identical, ignoring update.'
+    profile_phone_changed = 'Phone number successfully changed'
+    profile_phone_not_valid = 'The phone number introduced is not valid'
+    profile_two_fa_enable = 'Enable'
+    profile_two_fa_enabled = 'Two factor authentication successfully enabled'
+    profile_two_fa_disable = 'Disable'
+    profile_two_fa_disabled = 'Two factor authentication disabled'
+    profile_two_fa_information = 'Two-factor authentication adds an additional layer of security to your account by requiring more than a password to log in'
+    profile_two_fa_title = '2 Factor Authentication'
+    profile_two_fa_warning = 'You need a registered telephone number to enable two-phase authentication'
     profile_user_change_password = 'Change password'
     profile_user_hint_new_password = 'New password'
     profile_user_hint_new_password_again = 'Re-enter new password'
     profile_user_hint_old_password = 'Old password'
+    profile_user_hint_new_phone_number = 'Phone number'
+    profile_user_hint_new_phone_prefix = 'Prefix'
     profile_user_information = 'User information'
 
     // Project
@@ -856,6 +870,8 @@ export class English implements Language {
     // User
     user_only_one_country = 'You can select only one country'
     user_password_question = 'Update password on next login'
+    user_phone_number = this.profile_user_hint_new_phone_number
+    user_phone_prefix = this.profile_user_hint_new_phone_prefix
 
     // Criteria (must be the last thing declared because uses the previous variables)
     criteria_operator = 'Condition'

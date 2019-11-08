@@ -7,7 +7,6 @@ cache: npm
 # Define environment variables
 env:
   - secure: "WyzLC8oFj1dVbh9H4t6Ns03wTT/d9CxTH1SPnjXnKI0Lq2/xWdF6k7GKOqflzj4u73OCJAC/jG6bAP9kNRDCQSR0zdTuvyK6T6xCOW7s/0G9NedouV0gryiHlif6qlti3hwgQCW7v9LFhtudLElVbD46vd+oNTgEyWL0hKOcEvQ1kQXhoVj0i5M6qIxdMZjVvBERVfO1GmOmH5Du4A/jPqg8dOQKodCfeXZLdYQ9m7LcPMoaiwNRwT5LnzupzNLDb1SyMIGmZMge6SEweMEAy8KgnnQ+4KMwApOxEbEhPAkSvbS09dv2WMIdL6d4mHN+D+jY+BrkNfPDZ9N/BjXUkPna8Neio2XomiOMoGuyEeyTD+mA/89aps+YX7GIuzhE8jtJgIGpCocZ/VK4L6QPEP1iy/f3zJTrSCmZwQbHz01BYqkLHM86euYU4aC/GSe1WvADZzrCfLZIcpceywH98AJFH0a1q100OdiS/eqMayO4v57w1IlmaOnYa7f58lzZDcfCDu5wGrwpnBlMwnWPSU+JUUBvbwbH/57Dh908S4SU2q2ZG2vFwCgvAj4q7Q62aO0gXlQQCfxClVYha42kVw0OMsz1CwWWFZIWihnWLiz3RjEVPIGQmRl7zq4vzF2d0Ah599hXFX3Sguat0NH659q55fDM/d4mhxW3vTcCLvU="
-
 install:
   - npm install -g @angular/cli
   - npm install
@@ -24,7 +23,7 @@ jobs:
               - pip3 install awscli --upgrade
           script: ./build-deploy.sh testing
         - stage: deploy
-          if: branch = dev-humanitarian-id AND NOT type = "pull_request"
+          if: branch = dev-authentication-setup AND NOT type = "pull_request"
           before_install:
               - sudo apt-get install python3-pip python3-setuptools
               - pip3 install awscli --upgrade

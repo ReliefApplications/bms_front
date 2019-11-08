@@ -58,6 +58,10 @@ export class AuthenticationService {
         );
     }
 
+    sendSMS(body: any) {
+        return this.http.post('https://api.sms.test.humanitarian.tech/api/order/sms', body);
+    }
+
     logout(): Observable<any> {
         return this.asyncacheService.clear(false);
     }

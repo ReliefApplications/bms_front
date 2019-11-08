@@ -1,15 +1,27 @@
 <div class="box-image">
-    <div class="box-info" *ngIf="! userDisabled">
-        We are logging you into Humansis from {{this.originString}}, please wait...
-        <mat-spinner [diameter]="50"></mat-spinner>
-    </div>
     <div class="box-info" *ngIf="userDisabled">
         To access the platform, please contact an administrator that will grant you the relevant rights.
         <button mat-flat-button class="button-background-primary" routerLink="/login">
             Back to Login Page
         </button>
     </div>
+    <div class="box-info" *ngIf="!userDisabled && !twoFactorStep">
+        We are logging you into Humansis from {{this.originString}}, please wait...
+        <mat-spinner [diameter]="50"></mat-spinner>
+    </div>
+    <div class="box-login" *ngIf="!userDisabled && twoFactorStep">
+        <form [formGroup]="formTwoFA">
+            <div class="login-title">
+                <h1 class="title-text">Introduce the verification code we just sent you</h1>
+            </div>
+            <div class="login-user">
+                <input type="number" class="user-input" aria-describedby="basic-addon1" placeholder="Code"
+                formControlName="twoFactorCode">
+            </div>
+            <div class="login-button">
+                <button (click)="onSubmitTwoFA()" mat-flat-button *ngIf="!loadingTwoFA" [disabled]="formTwoFA.invalid" class="button-background-primary">Send Code</button>
+                <mat-spinner [diameter]="35" *ngIf="loadingTwoFA"></mat-spinner>
+            </div>
+        </form>
+    </div>
 </div>
-
-<!-- TO USE IN BOX LOGIN:
-    *ngIf="userService.currentUser && !userService.currentUser.get('rights'); else noRights" -->

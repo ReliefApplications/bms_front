@@ -98,8 +98,8 @@ import { ProjectComponent } from '../modules/projects/project.component';
 import { LoginComponent } from '../modules/public/login.component';
 import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
 import { VouchersComponent } from '../modules/vouchers/vouchers.component';
+import { LogsComponent } from '../modules/logs/logs.component';
 import { SsoComponent } from '../modules/sso/sso.component';
-
 
 
 @NgModule({
@@ -302,6 +302,7 @@ imports: [
         PlaceholderStepperComponent,
         SettingsComponent,
         AdministrationComponent,
+        UppercaseFirstPipe,
         SsoComponent
     ],
     providers: [

@@ -21,6 +21,7 @@ import { ReportsModule } from './modules/reports/reports.module';
 import { CustomDateAdapter } from './shared/adapters/date.adapter';
 import { SharedModule } from './shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { LogsModule } from './modules/logs/logs.module';
 
 @NgModule({
     declarations: [
@@ -44,6 +45,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
         // Reporting
         ReportsModule,
+        LogsModule,
 
         // Routing
         AppRouting,

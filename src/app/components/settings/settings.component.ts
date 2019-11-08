@@ -32,6 +32,7 @@ import { CountrySpecific } from '../../models/country-specific';
 import { Donor } from '../../models/donor';
 import { Project } from '../../models/project';
 import { User } from '../../models/user';
+import { OrganizationServices } from 'src/app/models/organization-services';
 
 
 @Component({
@@ -233,6 +234,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.loggable = false;
         this.exportable = false;
         break;
+      case 'organizationServices':
+          this.referedClassToken = OrganizationServices;
+          this.referedClassService = this.organizationService;
+          this.editable   = this.userService.hasRights('ROLE_ADMIN');
+          this.deletable = false;
+          this.printable = false;
+          this.loggable = false;
+          this.exportable = false;
+          break;
       case 'product':
         this.referedClassToken = Product;
         this.referedClassService = this.productService;

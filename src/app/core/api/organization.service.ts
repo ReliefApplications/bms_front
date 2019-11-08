@@ -31,4 +31,11 @@ export class OrganizationService extends CustomModelService {
     public fillWithOptions (donor: Donor) {
 
     }
+
+    public get() {
+        const url = this.apiBase + '/organization/1/service';
+        return this.http.get(url);
+    }
+
+
 }

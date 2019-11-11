@@ -33,6 +33,7 @@ export class OrganizationServices extends CustomModel {
             title: 'Parameters',
             isDisplayedInModal: true,
             isDisplayedInTable: false,
+            displayModalFunction: null,
             isEditable: true
         }),
         parametersSchema: new ObjectModelField({
@@ -46,6 +47,8 @@ export class OrganizationServices extends CustomModel {
         newOrganizationServices.set('country', organizationServicesFromApi.service.country);
         newOrganizationServices.set('enabled', organizationServicesFromApi.enabled);
         newOrganizationServices.set('parameters', organizationServicesFromApi.parameters_value);
+        newOrganizationServices.fields.parameters.displayModalFunction = value => {
+        };
 
         return newOrganizationServices;
     }

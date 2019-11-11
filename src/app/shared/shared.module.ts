@@ -99,6 +99,7 @@ import { LoginComponent } from '../modules/public/login.component';
 import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
 import { VouchersComponent } from '../modules/vouchers/vouchers.component';
 import { SsoComponent } from '../modules/sso/sso.component';
+import { JsonFormComponent } from '../components/json-form/json-form.component';
 
 
 
@@ -211,7 +212,8 @@ imports: [
         ScannerComponent,
         SettingsComponent,
         AdministrationComponent,
-        SsoComponent
+        SsoComponent,
+        JsonFormComponent
     ],
     entryComponents: [
         ModalDeleteComponent,
@@ -302,7 +304,8 @@ imports: [
         PlaceholderStepperComponent,
         SettingsComponent,
         AdministrationComponent,
-        SsoComponent
+        SsoComponent,
+        JsonFormComponent
     ],
     providers: [
         { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },

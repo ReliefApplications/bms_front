@@ -207,7 +207,16 @@ export class ModalFieldsComponent implements OnInit {
                             this.objectInstance.add(fieldName, selectedOption);
                         });
                     }
-
+                } else if (field.kindOfField === 'Object' && fieldName === 'parameters') {
+                    const parameters = {};
+                    const controlKeys = Object.keys(this.form.controls);
+                    const schemaKeys = Object.keys(this.objectInstance.get('parametersSchema'));
+                    controlKeys.forEach((key) => {
+                        if (schemaKeys.includes(key)) {
+                            parameters[key] = this.form.controls[key].value;
+                        }
+                    });
+                    this.objectInstance.set(fieldName, parameters);
                 } else if (this.form.controls[fieldName].value && field.kindOfField === 'SingleSelect') {
                     this.objectInstance.set(fieldName, this.objectInstance.getOptions(fieldName).filter(option => {
                         return option.get('id') === this.form.controls[fieldName].value;

@@ -37,5 +37,10 @@ export class OrganizationService extends CustomModelService {
         return this.http.get(url);
     }
 
+    public update(organizationServiceId: number, body: any) {
+        const url = this.apiBase + '/organization/service/' + organizationServiceId;
+        return this.http.post(url, body);
+    }
+
 
 }

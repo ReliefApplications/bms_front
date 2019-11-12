@@ -206,7 +206,8 @@
                                         <app-adm-form *ngIf="modalType !== 'Details' && fieldName === 'location' && field.isEditable"
                                             [form]="form" [location]="objectInstance.get('location')" [withTitle]="true" [initialValues]="initialAdmValues">
                                         </app-adm-form>
-                                        <app-json-form *ngIf="modalType !== 'Details' && fieldName === 'parameters' && field.isEditable">
+                                        <app-json-form *ngIf="modalType !== 'Details' && fieldName === 'parameters' && field.isEditable"
+                                            [form]="form" [initialValues]="objectInstance.get('parameters')" [schema]="objectInstance.get('parametersSchema')">
                                         </app-json-form>
                                         <mat-form-field *ngIf="modalType === 'Details' && fieldName !== 'location' && fieldName !== 'parameters'">
                                             <input matInput disabled="true" type="text"

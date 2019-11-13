@@ -23,19 +23,20 @@ export class OrganizationServices extends CustomModel {
             isDisplayedInTable: true,
             isDisplayedInModal: true,
         }),
+        parameters: new ObjectModelField({
+            title: 'Parameters',
+            isDisplayedInModal: true,
+            isDisplayedInTable: false,
+            displayModalFunction: null,
+            isEditable: true
+        }),
+        parametersSchema: new ObjectModelField({
+        }),
         enabled: new BooleanModelField({
             title: 'Enabled',
             isDisplayedInModal: true,
             isDisplayedInTable: true,
             isEditable: true
-        }),
-        parameters: new ObjectModelField({
-            title: 'Parameters',
-            isDisplayedInModal: true,
-            isDisplayedInTable: false,
-            isEditable: true
-        }),
-        parametersSchema: new ObjectModelField({
         }),
     };
 
@@ -47,6 +48,7 @@ export class OrganizationServices extends CustomModel {
         newOrganizationServices.set('enabled', organizationServicesFromApi.enabled);
         newOrganizationServices.set('parameters', organizationServicesFromApi.parameters_value);
         newOrganizationServices.set('parametersSchema', organizationServicesFromApi.service.parameters.properties);
+        newOrganizationServices.fields.parameters.displayModalFunction = (value) => null;
 
         return newOrganizationServices;
     }

@@ -20,7 +20,9 @@
 
             <ng-template #isNumber>
                 <ng-container *ngIf="field.type === 'number'">
-                    <input matInput type="number" [formControlName]="field.name">
+                    <input matInput disabled="false"
+                        type="number" [formControlName]="field.name"
+                        [placeholder]="field.name | uppercaseFirst">
                 </ng-container>
             </ng-template>
         </td>

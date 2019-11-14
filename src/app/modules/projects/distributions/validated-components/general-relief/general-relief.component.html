@@ -64,7 +64,7 @@
             <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [selection]="selection"
                 rights="true" (openModal)="openDialog($event)" [selectable]="!actualDistribution.get('finished') && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
             </app-table>
-            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" rights="true" (openModal)="openDialog($event)"
+            <app-table-mobile [searchable]="true" [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" rights="true" (openModal)="openDialog($event)"
                 [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [selection]="selection" [selectable]="!actualDistribution.get('finished') && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
             </app-table-mobile>
         </div>

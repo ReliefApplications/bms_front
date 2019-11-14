@@ -106,7 +106,7 @@
             </app-table>
             <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'"
                 [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [parentObject]="actualDistribution"
-                [entity]="entity" [service]="BeneficiariesService" [data]="transactionData"
+                [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [searchable]="true"
                 (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
             </app-table-mobile>
         </div>

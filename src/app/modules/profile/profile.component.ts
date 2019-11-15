@@ -12,6 +12,7 @@ import { PHONECODES } from 'src/app/models/constants/phone-codes';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import * as CountryIso from 'country-iso-3-to-2';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { OrganizationService } from 'src/app/core/api/organization.service';
 
 @Component({
     selector: 'app-profile',
@@ -36,10 +37,11 @@ export class ProfileComponent implements OnInit {
         phonePrefix: new FormControl(''),
         phoneNumber: new FormControl('')
     });
-    twoFA = false;
     loadingPhone = false;
     loadingTwoFA = false;
+    userTwoFA = false;
     canTwoFA = false;
+    twoFAService = false;
 
     public countryCodesList = PHONECODES;
     private getCountryISO2 = CountryIso;
@@ -61,11 +63,25 @@ export class ProfileComponent implements OnInit {
         public router: Router,
         private asyncacheService: AsyncacheService,
         public countryService: CountriesService,
+        public organizationService: OrganizationService,
         ) {
     }
 
     ngOnInit() {
+        this.getServiceStatus();
         this.setActualUser();
+    }
+
+    getServiceStatus() {
+        this.organizationService.get().subscribe((organizationServices: any) => {
+            if (organizationServices) {
+                organizationServices.forEach((orgService: any) => {
+                    if (orgService.service.name === 'Two Factor Authentication') {
+                        this.twoFAService = orgService.enabled;
+                    }
+                });
+            }
+        });
     }
 
     setActualUser() {
@@ -82,7 +98,7 @@ export class ProfileComponent implements OnInit {
                         phonePrefix: this.actualUser.get<string>('phonePrefix'),
                         phoneNumber: this.actualUser.get('phoneNumber')
                     });
-                    this.twoFA = this.actualUser.get('twoFactorAuthentication');
+                    this.userTwoFA = this.twoFAService ? this.actualUser.get('twoFactorAuthentication') : false;
                     if (this.actualUser.get<string>('phonePrefix') && this.actualUser.get('phoneNumber')) {
                         this.canTwoFA = true;
                     }
@@ -158,9 +174,9 @@ export class ProfileComponent implements OnInit {
 
     toogleTwoFA () {
         this.loadingTwoFA = true;
-        this.twoFA = this.twoFA ? false : true;
+        this.userTwoFA = this.userTwoFA ? false : true;
 
-        this.actualUser.set('twoFactorAuthentication', this.twoFA);
+        this.actualUser.set('twoFactorAuthentication', this.userTwoFA);
         this.actualUser.set('password', null);
 
         this.userService.update(this.actualUser.get('id'), this.actualUser.modelToApi()).subscribe((data) => {
@@ -172,7 +188,7 @@ export class ProfileComponent implements OnInit {
             },
             () => {
                 this.loadingTwoFA = false;
-                if (this.twoFA) {
+                if (this.userTwoFA) {
                     this.snackbar.success(this.language.profile_two_fa_enabled);
                 } else {
                     this.snackbar.warning(this.language.profile_two_fa_disabled);

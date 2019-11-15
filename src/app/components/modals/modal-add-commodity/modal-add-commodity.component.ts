@@ -8,6 +8,7 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { FormService } from 'src/app/core/utils/form.service';
 import { Commodity, ModalityType, Modality } from 'src/app/models/commodity';
 import { CURRENCIES } from 'src/app/models/constants/currencies';
+import { OrganizationService } from 'src/app/core/api/organization.service';
 
 @Component({
     selector: 'app-modal-add-commodity',
@@ -23,6 +24,7 @@ export class ModalAddCommodityComponent implements OnInit {
     public isCurrency = false;
     public currencies = CURRENCIES;
     public localCurrency = 'USD';
+    public cashTransferService = false;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
@@ -34,15 +36,29 @@ export class ModalAddCommodityComponent implements OnInit {
         public asyncacheService: AsyncacheService,
         private countryService: CountriesService,
         public formService: FormService,
+        private organizationService: OrganizationService
     ) { }
 
     ngOnInit() {
+        this.getServiceStatus();
         this.commodity = new Commodity();
         this.fields = Object.keys(this.commodity.fields);
         this.makeForm();
         this.loadModalities();
         this.localCurrency = this.formService.getLocalCurrency();
         this.currencies = this.formService.pushLocalCurrencyOnTop(this.currencies, this.localCurrency);
+    }
+
+    getServiceStatus() {
+        this.organizationService.get().subscribe((organizationServices: any) => {
+            if (organizationServices) {
+                organizationServices.forEach((orgService: any) => {
+                    if (orgService.service.name === 'WING Cash Transfer') {
+                        this.cashTransferService = orgService.enabled;
+                    }
+                });
+            }
+        });
     }
 
     makeForm() {
@@ -67,7 +83,7 @@ export class ModalAddCommodityComponent implements OnInit {
 
     loadTypes(modalityId) {
         if (modalityId) {
-            this.commodityService.fillTypeOptions(this.commodity, modalityId);
+            this.commodityService.fillTypeOptions(this.commodity, modalityId, this.cashTransferService);
         }
 
         const name = this.commodity.getOptions('modality')

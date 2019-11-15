@@ -17,6 +17,7 @@ import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../models/project';
+import { OrganizationService } from 'src/app/core/api/organization.service';
 
 
 export interface Api {
@@ -37,7 +38,7 @@ export interface ApiParameter {
 export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     public nameComponent = 'beneficiaries_import_title';
     loadingExport = false;
-
+    idPoorService = false;
 
     // for the items button
     selectedTitle = 'file import';
@@ -120,10 +121,11 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         private userService: UserService,
         private languageService: LanguageService,
         private countryService: CountriesService,
+        private organizationService: OrganizationService
     ) { }
 
     ngOnInit() {
-
+        this.getServiceStatus();
         if (!this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')) {
             this.snackbar.error(this.language.forbidden_message);
             this.router.navigate(['']);
@@ -164,6 +166,18 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     setType(choice: string) {
         this.extensionType = choice;
+    }
+
+    getServiceStatus() {
+        this.organizationService.get().subscribe((organizationServices: any) => {
+            if (organizationServices) {
+                organizationServices.forEach((orgService: any) => {
+                    if (orgService.service.name === 'IDPoor API') {
+                        this.idPoorService = orgService.enabled;
+                    }
+                });
+            }
+        });
     }
 
     /**

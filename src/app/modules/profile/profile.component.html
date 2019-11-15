@@ -68,10 +68,10 @@
             <strong *ngIf="!canTwoFA">{{ language.profile_two_fa_disabled }}</strong>
             <div class="action-buttons">
                 <mat-spinner [diameter]="25" *ngIf="loadingTwoFA"></mat-spinner>
-                <button mat-flat-button *ngIf="!twoFA && !loadingTwoFA" class="button-background-primary" (click)="toogleTwoFA()" [disabled]="!canTwoFA">
+                <button mat-flat-button *ngIf="!userTwoFA && !loadingTwoFA" class="button-background-primary" (click)="toogleTwoFA()" [disabled]="!canTwoFA || !twoFAService">
                     {{ language.profile_two_fa_enable | titlecase }}
                 </button>
-                <button mat-flat-button *ngIf="twoFA && !loadingTwoFA" class="button-background-accent" (click)="toogleTwoFA()">
+                <button mat-flat-button *ngIf="userTwoFA && !loadingTwoFA" class="button-background-accent" (click)="toogleTwoFA()">
                     {{ language.profile_two_fa_disable | titlecase }}
                 </button>
             </div>

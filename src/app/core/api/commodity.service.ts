@@ -29,10 +29,15 @@ export class CommodityService extends CustomModelService {
         });
     }
 
-    fillTypeOptions(commodity: Commodity, modalityId) {
+    fillTypeOptions(commodity: Commodity, modalityId, cashTransferService: boolean) {
         this.modalityService.getModalitiesType(modalityId).subscribe((types: any) => {
             if (types) {
-                commodity.setOptions('modalityType', types.map(modalityType => {
+                commodity.setOptions('modalityType', types.filter(modalityType => {
+                    if (!cashTransferService && modalityType.name === 'Mobile Money') {
+                        return;
+                    }
+                    return modalityType;
+                }).map(modalityType => {
                     return new ModalityType(modalityType.id, modalityType.name);
                 }));
             }

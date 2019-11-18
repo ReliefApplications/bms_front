@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RecaptchaComponent } from 'ng-recaptcha';
-import { throwError } from 'rxjs';
+import { throwError, Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LoginService } from 'src/app/core/api/login.service';
 import { UserService } from 'src/app/core/api/user.service';
@@ -10,6 +10,7 @@ import { AuthenticationService } from 'src/app/core/authentication/authenticatio
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
+import { CustomIconService } from 'src/app/core/utils/custom-icon.service';
 import { environment } from 'src/environments/environment';
 import * as firebase from 'firebase';
 import 'firebase/auth';
@@ -23,11 +24,16 @@ import 'firebase/firestore';
 export class LoginComponent implements OnInit {
     public loader = false;
     public form: FormGroup;
+    public formTwoFA: FormGroup;
+    public loadingTwoFA = false;
+    public twoFactorStep = false;
 
     @ViewChild('captchaRef', { static: false }) recaptcha: RecaptchaComponent;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
+
+    private subscription: Subscription = new Subscription();
     private googleProvider = new firebase.auth.GoogleAuthProvider();
 
     constructor(
@@ -38,12 +44,18 @@ export class LoginComponent implements OnInit {
         public snackbar: SnackbarService,
         public languageService: LanguageService,
         private loginService: LoginService,
+        private customIconService: CustomIconService
     ) { }
 
     ngOnInit() {
         this.userService.resetUser();
+        this.customIconService.initializeLoginIcons();
         this.makeForm();
         this.initializeFirebase();
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     private makeForm() {
@@ -64,7 +76,7 @@ export class LoginComponent implements OnInit {
             appId: '1:592445518256:web:79dfcb980f4b73ea'
         };
 
-        firebase.initializeApp(firebaseConfig);
+        !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
 
         firebase.auth().getRedirectResult().then((result: any) => {
             if (result.credential) {
@@ -78,16 +90,19 @@ export class LoginComponent implements OnInit {
     public onSubmit(): void {
         const { username, password } = this.form.value;
         this.loader = true;
-        this.loginService.login(username, password).pipe(
+        this.subscription.add(this.loginService.login(username, password).pipe(
             catchError((error: any) => {
                 this.loader = false;
+                if (this.recaptcha) {
+                    this.recaptcha.reset();
+                }
                 return throwError(error);
             })
         ).subscribe(
             (_success) => {
                 this.loader = false;
             }
-        );
+        ));
     }
 
     public hidAuthRedirect() {

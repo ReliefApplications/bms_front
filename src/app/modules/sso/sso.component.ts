@@ -7,6 +7,8 @@ import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/models/user';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 @Component({
     selector: 'app-sso',
@@ -18,6 +20,11 @@ export class SsoComponent implements OnInit {
     public originString = 'the login page';
     public userDisabled = false;
 
+    // Two FA variables
+    public formTwoFA: FormGroup;
+    public loadingTwoFA = false;
+    public twoFactorStep = false;
+
     constructor(
         public languageService: LanguageService,
         public authService: AuthenticationService,
@@ -27,6 +34,7 @@ export class SsoComponent implements OnInit {
         public loginService: LoginService,
         private router: Router,
         public snackbar: SnackbarService,
+        private location: Location
     ) { }
 
     ngOnInit() {
@@ -48,6 +56,14 @@ export class SsoComponent implements OnInit {
                     } else {
                         this.loginLinkedIn(result['code']);
                         this.originString = 'LinkedIn';
+                    }
+                    break;
+                default:
+                    if (this.loginService.getTwoFactorStep()) {
+                        this.makeForm();
+                        this.twoFactorStep = true;
+                    } else {
+                        this.userDisabled = true;
                     }
                     break;
             }
@@ -81,16 +97,42 @@ export class SsoComponent implements OnInit {
 
     login(userFromApi) {
         const user = User.apiToModel(userFromApi);
-        if (user && ! user.get('rights')) {
+        if (user && !user.get('rights')) {
             this.userDisabled = true;
         } else {
-            this.userService.setCurrentUser(user);
-            this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {
-                this.loginService.clearSessionCacheEntries();
-                this.loginService.loginRoutine(user).subscribe(() => {
-                    this.router.navigateByUrl('/');
+            if (user.get('twoFactorAuthentication')) {
+                this.loginService.sendCode(userFromApi);
+                this.location.replaceState('sso');
+                this.makeForm();
+            } else {
+                this.userService.setCurrentUser(user);
+                this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {
+                    this.loginService.clearSessionCacheEntries();
+                    this.loginService.loginRoutine(user).subscribe(() => {
+                        this.router.navigateByUrl('/');
+                    });
                 });
-            });
+            }
         }
+    }
+
+    public makeForm() {
+        this.twoFactorStep = true;
+        this.formTwoFA = new FormGroup({
+            twoFactorCode: new FormControl('', [Validators.required]),
+        });
+    }
+
+    public onSubmitTwoFA(): void {
+        const { twoFactorCode } = this.formTwoFA.value;
+        this.loadingTwoFA = true;
+        this.loginService.authenticateCode(Number(twoFactorCode)).subscribe((_success) => {
+            this.loadingTwoFA = false;
+            if (_success) {
+                this.router.navigateByUrl('/');
+            } else {
+                this.snackbar.error(this.language.login_two_fa_invalid_code);
+            }
+        });
     }
 }

@@ -38,6 +38,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
     public bookletClass = Booklet;
     public dataSource: BookletsDataSource;
+    public dataSourceBis: BookletsDataSource;
     public extensionType: string;
     public extensionTypeCode: string;
     public projectClass = Project;
@@ -53,8 +54,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
-
-    @ViewChild(TableServerComponent, { static: false }) tableVoucher: TableServerComponent;
+    @ViewChild(TableServerComponent, { static: false }) table: TableServerComponent;
 
     constructor(
         public bookletService: BookletService,
@@ -105,15 +105,18 @@ export class VouchersComponent implements OnInit, OnDestroy {
         this.modalService.openDialog(this.bookletClass, this.bookletService, dialogDetails);
         const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
             this.loadingBooklet = true;
+
         });
         const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
-                this.tableVoucher.setDataTableProperties();
+              this.table.loadDataPage();
             } else {
                 this.loadingBooklet = false;
             }
         });
         this.modalSubscriptions = [isLoadingSubscription, completeSubscription];
+
+
     }
 
     print(event: Booklet) {
@@ -151,10 +154,10 @@ export class VouchersComponent implements OnInit, OnDestroy {
             ids = this.selection.selected.map((booklet: Booklet) => booklet.get('id'));
         } else {
             filters = {
-                filter: this.tableVoucher.filtersForAPI,
+                filter: this.table.filtersForAPI,
                 sort: {
-                    sort: (this.tableVoucher.sort && this.tableVoucher.sort.active) ? this.tableVoucher.sort.active : null,
-                    direction: (this.tableVoucher.sort && this.tableVoucher.sort.direction !== '') ? this.tableVoucher.sort.direction : null
+                    sort: (this.table.sort && this.table.sort.active) ? this.table.sort.active : null,
+                    direction: (this.table.sort && this.table.sort.direction !== '') ? this.table.sort.direction : null
                 },
                 pageIndex: 0,
                 pageSize: -1 // No limit

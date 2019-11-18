@@ -27,7 +27,6 @@ export class OrganizationService extends CustomModelService {
         return this.exportService.printOrganizationTemplate().subscribe();
     }
 
-
     public fillWithOptions (donor: Donor) {
 
     }
@@ -41,6 +40,4 @@ export class OrganizationService extends CustomModelService {
         const url = this.apiBase + '/organization/service/' + organizationServiceId;
         return this.http.post(url, body);
     }
-
-
 }

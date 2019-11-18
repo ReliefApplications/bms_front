@@ -24,7 +24,7 @@ body {
 }
 
 // Ng-select in modals are appended to body so they are visible
-body > ng-dropdown-panel {
+body>ng-dropdown-panel {
     margin-top: -12px;
     margin-left: 8px;
 
@@ -147,32 +147,33 @@ app-display-field.ng-star-inserted {
 // LEAFLET
 .marker-container {
 
-  .marker-pointer {
-    width: 8px;
-    height: 40px;
-    z-index: 500;
-  }
+    .marker-pointer {
+        width: 8px;
+        height: 40px;
+        z-index: 500;
+    }
 
-  .marker-icon {
-    width: 25px;
-    position: absolute;
-    top: 10px;
-    left: 7px;
-    filter: invert(1);
-    z-index: 501;
-    pointer-events: none;
-  }
-  &.not-validated {
-    fill: $bms_red;
-  }
+    .marker-icon {
+        width: 25px;
+        position: absolute;
+        top: 10px;
+        left: 7px;
+        filter: invert(1);
+        z-index: 501;
+        pointer-events: none;
+    }
 
-  &.validated {
-    fill: $bms_dark_blue;
-  }
+    &.not-validated {
+        fill: $bms_red;
+    }
 
-  &.completed {
-    fill: $bms_green;
-  }
+    &.validated {
+        fill: $bms_dark_blue;
+    }
+
+    &.completed {
+        fill: $bms_green;
+    }
 }
 
 .marker-cluster {
@@ -188,10 +189,12 @@ app-display-field.ng-star-inserted {
     width: 50px !important;
     height: 50px !important;
     border-radius: 50px !important;
+
     div {
         width: 40px !important;
         height: 40px !important;
         border-radius: 40px !important;
+
         span {
             line-height: 40px;
         }
@@ -203,10 +206,12 @@ app-display-field.ng-star-inserted {
     width: 60px !important;
     height: 60px !important;
     border-radius: 60px !important;
+
     div {
         width: 50px !important;
         height: 50px !important;
         border-radius: 50px !important;
+
         span {
             line-height: 50px;
         }
@@ -216,7 +221,7 @@ app-display-field.ng-star-inserted {
 
 .legend {
 
-    background: rgba(255,255,255,0.75);
+    background: rgba(255, 255, 255, 0.75);
     padding: 0 15px;
     border-radius: 5px;
     width: 100px;
@@ -226,9 +231,11 @@ app-display-field.ng-star-inserted {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         svg {
             width: 20px;
         }
+
         span {
             flex-grow: 1;
             text-align: center;
@@ -239,11 +246,13 @@ app-display-field.ng-star-inserted {
                 fill: $bms_red;
             }
         }
+
         &.validated {
             svg {
                 fill: $bms_dark_blue;
             }
         }
+
         &.completed {
             svg {
                 fill: $bms_green;
@@ -271,15 +280,14 @@ app-display-field.ng-star-inserted {
 
 @media screen and (min-width: 700px) {
     .graph-canvas {
-        width: 400px;
-        height:400px;
+        width: 400px !important;
+        height: 400px !important;
     }
 }
 
 @media screen and (max-width: 700px) {
     .graph-canvas {
-        width: 200px;
-        height:200px;
+        width: 200px !important;
+        height: 200px !important;
     }
 }
-

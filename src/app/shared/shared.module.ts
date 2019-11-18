@@ -98,9 +98,9 @@ import { ProjectComponent } from '../modules/projects/project.component';
 import { LoginComponent } from '../modules/public/login.component';
 import { ScannerComponent } from '../modules/vouchers/scanner/scanner.component';
 import { VouchersComponent } from '../modules/vouchers/vouchers.component';
+import { LogsComponent } from '../modules/logs/logs.component';
 import { SsoComponent } from '../modules/sso/sso.component';
 import { JsonFormComponent } from '../components/json-form/json-form.component';
-
 
 
 @NgModule({
@@ -304,8 +304,9 @@ imports: [
         PlaceholderStepperComponent,
         SettingsComponent,
         AdministrationComponent,
-        SsoComponent,
         JsonFormComponent
+        UppercaseFirstPipe,
+        SsoComponent
     ],
     providers: [
         { provide: MAT_CHECKBOX_CLICK_ACTION, useValue: 'check' },

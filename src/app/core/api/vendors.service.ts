@@ -32,6 +32,12 @@ export class VendorsService extends CustomModelService {
         return this.http.get(url);
     }
 
+    public getOne(id: number) {
+        const url = this.apiBase + '/vendors/' + id;
+        return this.http.get(url);
+    }
+
+
     public create(body: any) {
         return this.authenticationService.createVendor(body);
     }

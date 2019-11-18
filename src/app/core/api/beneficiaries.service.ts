@@ -21,13 +21,18 @@ export class BeneficiariesService extends CustomModelService {
         return this.http.get(url);
     }
 
+    public getOne(id: number) {
+        const url = this.apiBase + '/beneficiaries/' + id;
+        return this.http.get(url);
+    }
+
     public update(beneficiaryId: number, beneficiary: any) {
         const url = this.api + '/beneficiaries/' + beneficiaryId;
         return this.http.post(url, beneficiary);
     }
 
     public delete(beneficiaryId: number, distributionId: any, justification: string) {
-        const url = this.api + '/distributions/' + distributionId + '/beneficiaries/' + beneficiaryId + '/delete';
+        const url = this.api + '/distributions/' + distributionId + '/beneficiaries/' + beneficiaryId + '/remove';
         const body = {
             justification: justification
         };
@@ -56,7 +61,7 @@ export class BeneficiariesService extends CustomModelService {
     }
 
     public import(distributionId: number, file: any, step: number) {
-        const url = this.api + '/import/beneficiaries/distribution/' + distributionId + '?step=' + step;
+        const url = this.api + '/import/beneficiaries/distributions/' + distributionId + '?step=' + step;
         // step = 1 -> get the comparing tables & step = 2 -> update database.
         return this.http.post(url, file);
     }
@@ -70,6 +75,4 @@ export class BeneficiariesService extends CustomModelService {
         const url = this.api + '/import/api/households/project/' + project.get('id');
         return this.http.post(url, apiObject);
     }
-
-    public fillWithOptions(beneficiary: any) {}
 }

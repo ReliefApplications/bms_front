@@ -36,8 +36,4 @@ export class ProductService extends CustomModelService {
         const url = this.api + '/products/' + id;
         return this.http.delete(url);
     }
-
-    public fillWithOptions() {
-
-    }
 }

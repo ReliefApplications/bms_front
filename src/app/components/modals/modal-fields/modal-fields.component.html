@@ -235,10 +235,13 @@
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}"
         *ngIf="modalType !== 'Details'">
         <button mat-button (click)="onCancel()"
-            [ngClass]="{'button-text-accent': modalType === 'Add', 'button-text-primary': modalType !== 'Add'}">{{language.cancel}}</button>
+            [ngClass]="{'button-text-accent': modalType === 'Add', 'button-text-primary': modalType !== 'Add'}">
+            <span *ngIf="form.dirty">{{language.cancel}}</span>
+            <span *ngIf="!form.dirty">{{language.close}}</span>
+        </button>
         <button mat-flat-button [disabled]="!form.valid || fileError" *ngIf="modalType === 'Add'" (click)="onSubmit()"
             class="button-background-accent">{{language.create}}</button>
-        <button mat-flat-button [disabled]="!form.valid || fileError" *ngIf="modalType === 'Edit'" (click)="onSubmit()"
+        <button mat-flat-button [disabled]="!form.valid || fileError" *ngIf="modalType === 'Edit' && form.dirty" (click)="onSubmit()"
             class="button-background-primary">{{language.save}}</button>
     </div>
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}"

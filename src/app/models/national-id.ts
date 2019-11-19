@@ -25,6 +25,7 @@ export class NationalId extends CustomModel {
                     new NationalIdType('ID Card', this.language.national_id_card),
                     new NationalIdType('Driver\'s License', this.language.national_id_license),
                     new NationalIdType('Family Registry', this.language.national_id_family_registry),
+                    new NationalIdType('Birth Certificate', this.language.national_id_birth_certificate),
                     new NationalIdType('Other', this.language.other)
                 ],
                 value: new NationalIdType('ID Card', this.language.national_id_card),

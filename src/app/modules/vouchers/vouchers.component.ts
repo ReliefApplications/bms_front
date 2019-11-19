@@ -16,7 +16,6 @@ import { ExportService } from '../../core/api/export.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { BookletsDataSource } from 'src/app/models/data-sources/booklets-data-source';
 import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
-import { TableMobileServerComponent } from 'src/app/components/table/table-mobile-server/table-mobile-server.component';
 
 @Component({
     selector: 'app-vouchers',
@@ -30,20 +29,19 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public loadingPrint = false;
     public loadingBooklet = true;
     public loadingExportCodes = false;
-    modalSubscriptions: Array<Subscription> = [];
+    public modalSubscriptions: Array<Subscription> = [];
 
     public referedClassService;
+    public dataSource: BookletsDataSource;
     referedClassToken = Booklet;
     booklets: MatTableDataSource<Booklet>;
     public selection = new SelectionModel<Booklet>(true, []);
 
     public bookletClass = Booklet;
-    public dataSource: BookletsDataSource;
-    public dataSourceBis: BookletsDataSource;
     public extensionType: string;
     public extensionTypeCode: string;
     public projectClass = Project;
-    numberToExport: number = null;
+    public numberToExport: number = null;
 
     public projects = [];
 
@@ -57,7 +55,6 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     @ViewChild(TableServerComponent, { static: false }) table: TableServerComponent;
-    @ViewChild(TableMobileServerComponent, { static: false }) tableMobile: TableMobileServerComponent;
 
     constructor(
         public bookletService: BookletService,
@@ -112,13 +109,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
         });
         const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
-              if (this.currentDisplayType.type !== 'mobile') {
-                this.table.loadDataPage();
-              }
-              if (this.currentDisplayType.type === 'mobile') {
-                this.tableMobile.loadDataMobilePage();
-              }
-
+              this.table.loadDataPage();
             } else {
                 this.loadingBooklet = false;
             }

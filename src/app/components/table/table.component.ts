@@ -31,7 +31,7 @@ import { Observable } from 'rxjs';
         { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
     ]
 })
-export class TableComponent implements OnInit, AfterViewInit {
+export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     public paginator: MatPaginator;
     public sort;
 

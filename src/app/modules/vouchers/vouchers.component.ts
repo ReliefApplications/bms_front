@@ -104,6 +104,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
         this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
         this.modalService.openDialog(this.bookletClass, this.bookletService, dialogDetails);
         const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
+            this.snackbar.success(this.language.voucher_sending);
             this.loadingBooklet = true;
 
         });

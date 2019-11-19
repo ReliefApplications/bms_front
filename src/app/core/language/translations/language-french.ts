@@ -513,7 +513,7 @@ export class French implements Language {
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
     modal_no_pending_requests = 'Il n\'y a pas de demandes en attente'
-    
+
     // National ID
     national_id_card = 'Carte d\'identité'
     national_id_family_registry = 'Livret de famille'
@@ -689,7 +689,7 @@ export class French implements Language {
     snackbar_error_creating = 'Erreur lors de la création = '
     snackbar_error_updating = 'Erreur lors de la modification = '
     snackbar_invalid_transaction_date = 'La date valide de transaction est dépassée.'
-    snackbar_no_data_export = 'Pas de données à exporter'    
+    snackbar_no_data_export = 'Pas de données à exporter'
     snackbar_pickup_error = 'Il est impossile de vérifier le statut de la récupération pour le moment'
     snackbar_saved_language = 'Langage par défaut enregistré'
     snackbar_update = 'Une mise à jour est disponible'
@@ -789,6 +789,7 @@ export class French implements Language {
     voucher_select_beneficiary = 'Vous devez sélectionner un bénéficiaire'
     voucher_select_distribution = 'Vous devez sélectionner une distribution'
     voucher_select_project = 'Vous devez sélectionner un projet'
+    voucher_sending = 'Les données sont en cours d\'envoi'
     voucher_step = 'va être assignée à'
     vouchers_booklet = 'Brochures de coupons'
 

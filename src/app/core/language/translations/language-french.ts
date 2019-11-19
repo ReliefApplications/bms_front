@@ -520,6 +520,7 @@ export class French implements Language {
     national_id_license = 'Permis de conduire'
     national_id_number = 'Identifiant national'
     national_id_passport = 'Passeport'
+    national_id_birth_certificate = 'Certificat de naissance'
     national_id_type = 'Type d\'identifiant national'
 
     //Network

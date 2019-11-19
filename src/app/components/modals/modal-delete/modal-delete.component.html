@@ -1,7 +1,8 @@
 <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}" >{{language.delete}}</h4>
 <mat-dialog-content class="modal-container">
   <div class="modal-body" cdkFocusRegionstart>
-      {{language.modal_delete_sentence | uppercaseFirst}} {{ data.name | uppercaseFirst}} {{language.modal_delete_sentence_2 | uppercaseFirst}}
+      {{language.modal_delete_sentence | uppercaseFirst}} {{data.name | uppercaseFirst}}
+      <span>{{language.modal_delete_sentence_2 | uppercaseFirst}}</span>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions >

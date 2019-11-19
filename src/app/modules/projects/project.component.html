@@ -138,6 +138,7 @@
                     ></app-table>
                     <app-table-mobile
                         [isLoading]="loadingDistributions"
+                        [searchable]="true"
                         [paginable]="true"
                         *ngIf="currentDisplayType.type === 'mobile'"
                         [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')"

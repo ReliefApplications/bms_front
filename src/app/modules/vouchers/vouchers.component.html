@@ -54,7 +54,7 @@
         <app-table-server [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
           [data]="dataSource" [selection]="selection" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
           [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table-server>
-        <app-table-mobile-server [isLoading]="loadingBooklet" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+        <app-table-mobile-server [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
           [data]="dataSource" [selection]="selection" [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table-mobile-server>
       </div>
     </div>

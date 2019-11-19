@@ -219,11 +219,11 @@ export class English implements Language {
     beneficiary_vulnerabilities = 'Vulnerabilities'
 
     // Beneficiary form errors
-    beneficiairy_error_address_number = 'You must enter an address number'
-    beneficiairy_error_birth_date = 'Please select a valid birth date for '
-    beneficiairy_error_gender = 'You must select a gender for '
-    beneficiairy_error_head = 'the head of household'
-    beneficiairy_error_project = 'You must select at least one project'
+    beneficiary_error_address_number = 'You must enter an address number'
+    beneficiary_error_birth_date = 'Please select a valid birth date for '
+    beneficiary_error_gender = 'You must select a gender for '
+    beneficiary_error_head = 'the head of household'
+    beneficiary_error_project = 'You must select at least one project'
     beneficiary_error_address_postcode = 'You must enter an address postcode'
     beneficiary_error_address_street = 'You must enter an address street'
     beneficiary_error_country_code = 'Please select a country code for the phone number for '
@@ -235,7 +235,7 @@ export class English implements Language {
     beneficiary_error_phone = 'Phone can only be composed of digits for '
     beneficiary_error_camp = 'You must select or create a camp'
     beneficiary_error_tent = 'You must enter a tent number'
-    beneficiairy_error_location_type = 'You must chose a location type'
+    beneficiary_error_location_type = 'You must chose a location type'
 
     // Beneficiary import
     beneficiary_import_addFile = 'add file or drag and drop'
@@ -426,6 +426,7 @@ export class English implements Language {
     household_members = 'Members'
     household_no_data_offline = 'This data can\'t be accessed offline'
     household_sentence = 'The household of '
+    household_summary_members = 'Household members'
 
     // Import
     import_added = 'Added from existing beneficiaries'
@@ -491,7 +492,7 @@ export class English implements Language {
     modal_delete_many = 'these elements'
     modal_complete_distribution = 'Are you sure you want to close this distribution?'
     modal_delete_sentence = 'You are about to delete '
-    modal_delete_sentence_2 = '. Do you wish to continue? '
+    modal_delete_sentence_2 = 'Do you wish to continue ?'
     modal_details_title = 'Details of this'
     modal_edit_title = 'Edit this'
     modal_failure = 'Failure'
@@ -520,6 +521,7 @@ export class English implements Language {
     national_id_license = 'Driver\'s License'
     national_id_number = 'ID Number'
     national_id_passport = 'Passport'
+    national_id_birth_certificate = 'Birth Certificate'
     national_id_type = 'ID Type'
 
     //Network
@@ -593,10 +595,15 @@ export class English implements Language {
     project_value = 'Total Target Beneficiaries'
 
     // Report
+    report_active_project = 'active project'
+    report_active_projects = this.dashboard_summary_2   // 'Active Projects'
     report_apply = 'apply'
     report_country = 'country'
     report_country_report = 'country report'
+    report_distributions = this.distributions   // 'distributions'
     report_distribution_report = 'distribution report'
+    report_enrolled_beneficiary = 'enrolled beneficiary'
+    report_enrolled_beneficiaries = this.dashboard_summary_3    // 'Enrolled Beneficiaries'
     report_filter_chose_periode = 'choose period'
     report_filter_per_month = 'per month'
     report_filter_per_quarter = 'per quarter'
@@ -605,13 +612,40 @@ export class English implements Language {
     report_frequency_quarter = 'Quarter'
     report_frequency_year = 'Year'
     report_from = 'from'
+    report_household = this.household   // 'household'
     report_loader = 'Loader'
     report_period_selected = 'Period selected'
     report_project = 'project'
     report_project_report = 'project report'
     report_select_frequency = 'Select frequency'
+    report_time = 'Time'
     report_to = 'to'
+    report_total_households = 'Total Households'
+    report_total_number_of_distributions = 'Total Number Of Distributions'
+    report_total_transactions_completed = 'Total Transactions Completed'
+    report_transactions_completed = 'transactions completed'
     report_upcoming_reporting = 'Upcoming reporting'
+
+    report_age_breakdown = 'Age breakdown'
+    report_donors = this.donors     // 'Donors'
+    report_household_served = 'Households served'
+    report_modality = this.commodity_modality   // 'Modality'
+    report_number_men_and_women = 'Number men and women'
+    report_number_of_enrolled_beneficiaries = 'Number of enrolled beneficiaries'
+    report_percentage_of_vulnerabilities_served = 'Percentage of vulnerabilities served'
+    report_percentage_of_beneficiaries_reached = 'Percentage of beneficiaries reached'
+    report_total_distribution_value = 'Total distribution value'
+
+    report_disabled = 'Disabled'
+    report_households = 'Households'
+    report_lactating = 'Lactating'
+    report_men = 'Men'
+    report_not_reached = 'Not reached'
+    report_nutritionalissues = 'Nutritional Issues'
+    report_percentage_of_beneficiaries = 'Percentage of beneficiaries'
+    report_soloparent = 'Solo Parent'
+    report_vulnerability_served = 'Vulnerability Served'
+    report_women = 'Women'
 
     // Role
     role_user_admin = 'Administrator'
@@ -671,6 +705,7 @@ export class English implements Language {
     table_element_deleted = ' deleted'
     table_element_updated = ' updated'
     table_filter = 'Search by keyword'
+    table_filtered = 'Items filtered'
     table_first_page = 'First page'
     table_items_per_page = 'Items per page'
     table_last_page = 'Last page'
@@ -680,6 +715,7 @@ export class English implements Language {
     table_of_page = 'of'
     table_previous_page = 'Previous page'
     table_print = 'Print'
+    table_selected = 'Items selected'
 
     // Time
     time_just_now = 'Just now'

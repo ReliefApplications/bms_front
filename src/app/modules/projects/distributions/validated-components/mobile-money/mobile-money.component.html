@@ -104,7 +104,7 @@
                 [entity]="entity" [service]="BeneficiariesService" [data]="transactionData"
                 (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
             </app-table>
-            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'"
+            <app-table-mobile [isLoading]="loadingTransaction" [paginable]="true" *ngIf="currentDisplayType.type === 'mobile'"
                 [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [parentObject]="actualDistribution"
                 [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [searchable]="true"
                 (openModal)="openModal($event)" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">

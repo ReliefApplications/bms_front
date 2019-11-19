@@ -137,7 +137,9 @@
                         (openModal)="openDialog($event)"
                     ></app-table>
                     <app-table-mobile
-                        [isLoading]="loadingDistributions" [searchable]="true"
+                        [isLoading]="loadingDistributions"
+                        [searchable]="true"
+                        [paginable]="true"
                         *ngIf="currentDisplayType.type === 'mobile'"
                         [validatable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')"
                         [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"

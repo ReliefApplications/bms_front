@@ -30,7 +30,6 @@ export class PieChartComponent extends BaseChartComponent implements OnInit {
     private formatPieChartDataSet() {
         this.periods = [];
         this.pieChartDataSets = [];
-
         this.pieChartDataSets = Object.keys(this.graphInfo.values).map((period: string) => {
             this.periods.push(period);
             const labels: Array<Label> = [], values: Array<number> = [];

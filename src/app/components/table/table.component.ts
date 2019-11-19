@@ -20,6 +20,7 @@ import { APP_DATE_FORMATS, CustomDateAdapter } from 'src/app/shared/adapters/dat
 import { DistributionService } from '../../core/api/distribution.service';
 import { AuthenticationService } from '../../core/authentication/authentication.service';
 import { WsseService } from '../../core/authentication/wsse.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-table',
@@ -78,6 +79,7 @@ export class TableComponent implements OnInit, AfterViewInit {
             this.tableData = value;
             this.checkData();
             this.setDataTableProperties();
+            this.mobileData = this.tableData.connect();
         }
     }
 
@@ -101,6 +103,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     propertiesActions: any;
     entityInstance = null;
     public user_action = '';
+    disabledActions: boolean;
+    mobileData: Observable<any>;
 
     // Language
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
@@ -129,6 +133,9 @@ export class TableComponent implements OnInit, AfterViewInit {
         this.setDataTableProperties();
     }
 
+    ngOnDestroy(): void {
+        if (this.tableData) { this.tableData.disconnect(); }
+      }
 
     getFieldStringValues(field: any): any {
         let value: any = '';
@@ -314,14 +321,17 @@ export class TableComponent implements OnInit, AfterViewInit {
                 this.selection.select(row);
             });
         }
+        this.manageActions();
         this.selectChecked.emit(this.selection.selected);
     }
 
     toggleCheck(element: any) {
         if (this.selection.selected.includes(element)) {
             this.selection.deselect(element);
+            this.manageActions();
             return;
         }
+        this.manageActions();
         this.selection.select(element);
 
     }
@@ -332,8 +342,16 @@ export class TableComponent implements OnInit, AfterViewInit {
         } else {
             this.selection.deselect(element);
         }
-
+        this.manageActions();
         this.selectChecked.emit(this.selection.selected);
+    }
+
+    manageActions() {
+        if (this.selection.selected.length > 0) {
+            this.disabledActions = true;
+        } else {
+            this.disabledActions = false;
+        }
     }
 
     print(element) {

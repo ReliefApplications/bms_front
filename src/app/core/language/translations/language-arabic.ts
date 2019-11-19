@@ -490,7 +490,7 @@ export class Arabic implements Language {
     modal_delete_beneficiary_sentence: ' أنت على وشك الإزالة'
     modal_delete_many = 'هذه العناصر'
     modal_delete_sentence = 'أنت على وشك الحذف'
-    modal_delete_sentence_2 = ' هل ترغب في الاستمرار؟'
+    modal_delete_sentence_2 = 'هل ترغب في الاستمرار ؟'
     modal_details_title = 'تفاصيل هذا'
     modal_edit_title = 'تحرير هذا'
     modal_failure = 'بالفشل'
@@ -519,6 +519,7 @@ export class Arabic implements Language {
     national_id_license = 'رخصة السائق'
     national_id_number = 'رقم الهوية الوطنية'
     national_id_passport = 'جواز سفر'
+    national_id_birth_certificate = 'شهادة الميلاد'
     national_id_type = 'نوع الهوية الوطنية'
 
     // Null values

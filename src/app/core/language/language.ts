@@ -531,6 +531,7 @@ export interface Language {
     national_id_license: string
     national_id_number: string
     national_id_passport: string
+    national_id_birth_certificate: string
     national_id_type: string
 
     //Network

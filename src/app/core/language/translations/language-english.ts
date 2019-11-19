@@ -492,7 +492,7 @@ export class English implements Language {
     modal_delete_many = 'these elements'
     modal_complete_distribution = 'Are you sure you want to close this distribution?'
     modal_delete_sentence = 'You are about to delete '
-    modal_delete_sentence_2 = '. Do you wish to continue? '
+    modal_delete_sentence_2 = 'Do you wish to continue ?'
     modal_details_title = 'Details of this'
     modal_edit_title = 'Edit this'
     modal_failure = 'Failure'
@@ -521,6 +521,7 @@ export class English implements Language {
     national_id_license = 'Driver\'s License'
     national_id_number = 'ID Number'
     national_id_passport = 'Passport'
+    national_id_birth_certificate = 'Birth Certificate'
     national_id_type = 'ID Type'
 
     //Network

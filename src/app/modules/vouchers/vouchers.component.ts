@@ -16,6 +16,7 @@ import { ExportService } from '../../core/api/export.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { BookletsDataSource } from 'src/app/models/data-sources/booklets-data-source';
 import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
+import { TableMobileServerComponent } from 'src/app/components/table/table-mobile-server/table-mobile-server.component';
 
 @Component({
     selector: 'app-vouchers',
@@ -47,6 +48,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public projects = [];
 
 
+
     // Screen size
     public currentDisplayType: DisplayType;
     subscriptions: Array<Subscription>;
@@ -55,6 +57,7 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     @ViewChild(TableServerComponent, { static: false }) table: TableServerComponent;
+    @ViewChild(TableMobileServerComponent, { static: false }) tableMobile: TableMobileServerComponent;
 
     constructor(
         public bookletService: BookletService,
@@ -109,7 +112,13 @@ export class VouchersComponent implements OnInit, OnDestroy {
         });
         const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
             if (response) {
-              this.table.loadDataPage();
+              if (this.currentDisplayType.type !== 'mobile') {
+                this.table.loadDataPage();
+              }
+              if (this.currentDisplayType.type === 'mobile') {
+                this.tableMobile.loadDataMobilePage();
+              }
+
             } else {
                 this.loadingBooklet = false;
             }
@@ -168,4 +177,5 @@ export class VouchersComponent implements OnInit, OnDestroy {
             (_error: any) => { this.loadingExportCodes = false; }
         );
     }
+
 }

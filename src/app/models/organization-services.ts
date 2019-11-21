@@ -26,8 +26,8 @@ export class OrganizationServices extends CustomModel {
         parameters: new ObjectModelField({
             title: 'Parameters',
             isDisplayedInModal: true,
-            isDisplayedInTable: false,
-            displayModalFunction: null,
+            // isDisplayedInTable: false,
+            // displayModalFunction: null,
             isEditable: true
         }),
         parametersSchema: new ObjectModelField({

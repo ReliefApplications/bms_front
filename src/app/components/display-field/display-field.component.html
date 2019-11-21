@@ -5,7 +5,7 @@
 
     <ng-template #isBoolean>
         <ng-container *ngIf="field.kindOfField === 'Boolean' ; else isObject">
-
+            {{ field.value ? field.language['true'] : field.language['false'] | uppercaseFirst }}
         </ng-container>
     </ng-template>
 

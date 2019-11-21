@@ -13,6 +13,7 @@ import { CountriesService } from 'src/app/core/countries/countries.service';
 import * as CountryIso from 'country-iso-3-to-2';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { OrganizationService } from 'src/app/core/api/organization.service';
+import { OrganizationServicesService } from 'src/app/core/api/organization-services.service';
 
 @Component({
     selector: 'app-profile',
@@ -63,25 +64,15 @@ export class ProfileComponent implements OnInit {
         public router: Router,
         private asyncacheService: AsyncacheService,
         public countryService: CountriesService,
-        public organizationService: OrganizationService,
+        public organizationServicesService: OrganizationServicesService,
         ) {
     }
 
     ngOnInit() {
-        this.getServiceStatus();
-        this.setActualUser();
-    }
-
-    getServiceStatus() {
-        this.organizationService.get().subscribe((organizationServices: any) => {
-            if (organizationServices) {
-                organizationServices.forEach((orgService: any) => {
-                    if (orgService.service.name === 'Two Factor Authentication') {
-                        this.twoFAService = orgService.enabled;
-                    }
-                });
-            }
+        this.organizationServicesService.getServiceStatus('2fa').subscribe((enabled: boolean) => {
+            this.twoFAService = enabled;
         });
+        this.setActualUser();
     }
 
     setActualUser() {

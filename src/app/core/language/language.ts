@@ -11,7 +11,8 @@ export interface Language {
     email: string
     export: string
     export_selected: string
-    general_settings: string;
+    false: string
+    general_settings: string
     home: string
     import: string
     individual: string
@@ -28,6 +29,7 @@ export interface Language {
     summary: string
     the: string
     this: string
+    true: string
     selected: string
 
     // Models
@@ -552,8 +554,8 @@ export interface Language {
     log_time: string
     log_users: string
     log_username: string
-    log_value: string    
-    
+    log_value: string
+
     //Status
     log_status_200: string
     log_status_300: string
@@ -684,7 +686,7 @@ export interface Language {
     profile_user_hint_old_password: string
     profile_user_information: string
 
-    
+
 
     // Project
     project_add_household: string

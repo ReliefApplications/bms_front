@@ -14,6 +14,7 @@ export class French implements Language {
     done = 'Fin'
     email = 'Email'
     export = 'Export'
+    false = 'Faux'
     export_selected = 'Exporter les items sélectionnés'
     general_settings = 'Configuration'
     home = 'Accueil'
@@ -32,6 +33,7 @@ export class French implements Language {
     summary = 'Sommaire'
     the = 'le'
     this = 'Ce'
+    true = 'Vrai'
     selected = 'selectionné'
 
     // Models
@@ -603,7 +605,7 @@ export class French implements Language {
     modal_warning_pending_requests_1 = 'Find the requests you created during your offline time below, you can send those you want to apply to modify the database.'
     modal_warning_pending_requests_2 = 'WARNING = Requests linked to an item you created offline will fail !'
     modal_no_pending_requests = 'Il n\'y a pas de demandes en attente'
-    
+
     // National ID
     national_id_card = 'Carte d\'identité'
     national_id_family_registry = 'Livret de famille'

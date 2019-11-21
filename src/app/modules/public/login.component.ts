@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RecaptchaComponent } from 'ng-recaptcha';
@@ -12,7 +12,7 @@ import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { CustomIconService } from 'src/app/core/utils/custom-icon.service';
 import { environment } from 'src/environments/environment';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
@@ -21,7 +21,7 @@ import 'firebase/firestore';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
     public loader = false;
     public form: FormGroup;
     public formTwoFA: FormGroup;
@@ -114,14 +114,6 @@ export class LoginComponent implements OnInit {
     public googleAuthRedirect() {
         firebase.auth().signInWithRedirect(this.googleProvider);
     }
-
-    // public googleAuthPopUp() {
-    //     firebase.auth().signInWithPopup(this.googleProvider).then((result: any) => {
-    //         this.router.navigateByUrl('/sso?origin=google&token=' + result.credential.idToken);
-    //     }).catch((error) => {
-    //         this.snackbar.error(error.message);
-    //     });
-    // }
 
     prod() {
         return environment.production;

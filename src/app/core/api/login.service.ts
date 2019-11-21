@@ -13,6 +13,7 @@ import { SnackbarService } from '../logging/snackbar.service';
 import { AsyncacheService } from '../storage/asyncache.service';
 import { CachedCountryReturnValue } from '../storage/cached-country-value.interface';
 import { UserService } from './user.service';
+import { OrganizationServicesService } from './organization-services.service';
 
 @Injectable({
     providedIn: 'root'
@@ -36,6 +37,7 @@ export class LoginService {
         private languageService: LanguageService,
         private countriesService: CountriesService,
         private asyncacheService: AsyncacheService,
+        private organizationServicesService: OrganizationServicesService
         ) {}
 
     // Login from the login page
@@ -46,20 +48,27 @@ export class LoginService {
 
         return this.authService.login(username, password).pipe(
             switchMap((userFromApi: any) => {
-                if (User.apiToModel(userFromApi).get('twoFactorAuthentication')) {
+                return this.manage2FA(userFromApi);
+            })
+        );
+    }
+
+    public getTwoFactorStep() {
+        return this.twoFactorStep;
+    }
+
+    public manage2FA(userFromApi) {
+        return this.organizationServicesService.getServiceStatus('2fa').pipe(
+            switchMap((enabled: boolean) => {
+                if (enabled && User.apiToModel(userFromApi).get('twoFactorAuthentication')) {
                     this.redirectUrl = '/sso';
-                    this.sendCode(userFromApi);
-                    return of(true);
+                    return this.sendCode(userFromApi);
                 } else {
                     return this.setUserCache(userFromApi);
                 }
             }),
             tap(() => { this.redirect(); })
         );
-    }
-
-    public getTwoFactorStep() {
-        return this.twoFactorStep;
     }
 
     public setUserCache(userFromApi) {
@@ -73,17 +82,26 @@ export class LoginService {
     }
 
     public sendCode(userFromApi: any) {
-        this.user = userFromApi;
-        this.twoFactorStep = true;
-        const user = User.apiToModel(userFromApi);
-        const phoneNumber = user.get('phonePrefix') + '' +  user.get('phoneNumber');
-        this.code = this.randomIntFromInterval(10000, 99999);
+        return this.organizationServicesService.get2FAToken(userFromApi).pipe(
+            switchMap((token: string) => {
+                this.user = userFromApi;
+                this.twoFactorStep = true;
+                const user = User.apiToModel(userFromApi);
+                const phoneNumber = user.get('phonePrefix') + '' +  user.get('phoneNumber');
+                this.code = this.randomIntFromInterval(10000, 99999);
 
-        const body = {
-            recipients: [phoneNumber],
-            message: this.language.login_two_fa_message + ': ' + this.code
-        };
-        this.authService.sendSMS(body).subscribe();
+                const body = {
+                    recipients: [phoneNumber],
+                    message: this.language.login_two_fa_message + ': ' + this.code
+                };
+
+                const options = {
+                    headers: {'Authorization': token}
+                };
+                return this.authService.sendSMS(body, options);
+            })
+        );
+
     }
 
     public authenticateCode(twoFactorCode: Number): Observable<any> {

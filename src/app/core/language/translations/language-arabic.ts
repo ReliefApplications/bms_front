@@ -15,6 +15,7 @@ export class Arabic implements Language {
     email = 'البريد الالكتروني'
     export = 'تحميل'
     export_selected = 'تصدير العناصر المحددة'
+    false = 'خاطئة'
     general_settings = 'ترتيب'
     home = 'الصفحة الرئيسية'
     import = 'تحميل'
@@ -32,6 +33,7 @@ export class Arabic implements Language {
     summary = 'ملخص'
     the = 'ال'
     this = 'هذه'
+    true = 'صحيح'
     selected = 'المحدد'
 
     // Models
@@ -552,7 +554,7 @@ export class Arabic implements Language {
     log_status_403 = 'ممنوع'
     log_status_404 = 'غير معثور عليه'
 
-        
+
 
     // Login
     login_bms = 'نظام إدارة المستفيدين'

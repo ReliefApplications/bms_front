@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { Organization } from 'src/app/models/organization';
-import { Donor } from '../../models/donor';
 import { HttpService } from '../network/http.service';
 import { CustomModelService } from '../utils/custom-model.service';
 import { ExportService } from './export.service';
@@ -27,17 +26,4 @@ export class OrganizationService extends CustomModelService {
         return this.exportService.printOrganizationTemplate().subscribe();
     }
 
-    public fillWithOptions (donor: Donor) {
-
-    }
-
-    public get() {
-        const url = this.apiBase + '/organization/1/service';
-        return this.http.get(url);
-    }
-
-    public update(organizationServiceId: number, body: any) {
-        const url = this.apiBase + '/organization/service/' + organizationServiceId;
-        return this.http.post(url, body);
-    }
 }

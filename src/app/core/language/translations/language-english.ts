@@ -16,6 +16,7 @@ export class English implements Language {
     email = 'Email'
     export = 'Export'
     export_selected = 'Export Selected Items'
+    false = 'False'
     general_settings = 'Configuration'
     home = 'Home'
     import = 'Import'
@@ -33,6 +34,7 @@ export class English implements Language {
     summary = 'Summary'
     the = 'the'
     this = 'this'
+    true = 'True'
     selected = 'selected'
 
 

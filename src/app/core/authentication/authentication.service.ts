@@ -58,8 +58,8 @@ export class AuthenticationService {
         );
     }
 
-    sendSMS(body: any) {
-        return this.http.post('https://api.sms.test.humanitarian.tech/api/order/sms', body);
+    sendSMS(body: any, options: any) {
+        return this.http.post('https://api.sms.test.humanitarian.tech/api/order/sms', body, options);
     }
 
     logout(): Observable<any> {

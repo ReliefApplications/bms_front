@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CommodityService } from 'src/app/core/api/commodity.service';
-import { CountriesService } from 'src/app/core/countries/countries.service';
+import { OrganizationServicesService } from 'src/app/core/api/organization-services.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { FormService } from 'src/app/core/utils/form.service';
-import { Commodity, ModalityType, Modality } from 'src/app/models/commodity';
+import { Commodity, Modality, ModalityType } from 'src/app/models/commodity';
 import { CURRENCIES } from 'src/app/models/constants/currencies';
-import { OrganizationService } from 'src/app/core/api/organization.service';
 
 @Component({
     selector: 'app-modal-add-commodity',
@@ -34,31 +33,20 @@ export class ModalAddCommodityComponent implements OnInit {
         public modalReference: MatDialogRef<any>,
         public languageService: LanguageService,
         public asyncacheService: AsyncacheService,
-        private countryService: CountriesService,
         public formService: FormService,
-        private organizationService: OrganizationService
+        private organizationServicesService: OrganizationServicesService
     ) { }
 
     ngOnInit() {
-        this.getServiceStatus();
+        this.organizationServicesService.getServiceStatus('wing').subscribe((enabled: boolean) => {
+            this.cashTransferService = enabled;
+        });
         this.commodity = new Commodity();
         this.fields = Object.keys(this.commodity.fields);
         this.makeForm();
         this.loadModalities();
         this.localCurrency = this.formService.getLocalCurrency();
         this.currencies = this.formService.pushLocalCurrencyOnTop(this.currencies, this.localCurrency);
-    }
-
-    getServiceStatus() {
-        this.organizationService.get().subscribe((organizationServices: any) => {
-            if (organizationServices) {
-                organizationServices.forEach((orgService: any) => {
-                    if (orgService.service.name === 'WING Cash Transfer') {
-                        this.cashTransferService = orgService.enabled;
-                    }
-                });
-            }
-        });
     }
 
     makeForm() {

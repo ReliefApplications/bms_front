@@ -304,7 +304,7 @@ imports: [
         PlaceholderStepperComponent,
         SettingsComponent,
         AdministrationComponent,
-        JsonFormComponent
+        JsonFormComponent,
         UppercaseFirstPipe,
         SsoComponent
     ],

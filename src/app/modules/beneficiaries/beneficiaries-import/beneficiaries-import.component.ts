@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { LocationService } from 'src/app/core/api/location.service';
+import { OrganizationServicesService } from 'src/app/core/api/organization-services.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { LanguageService } from 'src/app/core/language/language.service';
@@ -17,8 +17,6 @@ import { BeneficiariesService } from '../../../core/api/beneficiaries.service';
 import { HouseholdsService } from '../../../core/api/households.service';
 import { ProjectService } from '../../../core/api/project.service';
 import { Project } from '../../../models/project';
-import { OrganizationService } from 'src/app/core/api/organization.service';
-
 
 export interface Api {
     name: string;
@@ -109,23 +107,24 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         this.countryService.khm.get<string>('id');
 
     constructor(
-        public _householdsService: HouseholdsService,
-        public _importService: ImportService,
-        public _projectService: ProjectService,
-        public _beneficiariesService: BeneficiariesService,
+        public householdsService: HouseholdsService,
+        public importService: ImportService,
+        public projectService: ProjectService,
+        public beneficiariesService: BeneficiariesService,
         private router: Router,
         public snackbar: SnackbarService,
-        private _cacheService: AsyncacheService,
+        private cacheService: AsyncacheService,
         private dialog: MatDialog,
-        private locationService: LocationService,
         private userService: UserService,
         private languageService: LanguageService,
         private countryService: CountriesService,
-        private organizationService: OrganizationService
+        private organizationServicesService: OrganizationServicesService
     ) { }
 
     ngOnInit() {
-        this.getServiceStatus();
+        this.organizationServicesService.getServiceStatus('idpoor').subscribe((enabled: boolean) => {
+            this.idPoorService = enabled;
+        });
         if (!this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')) {
             this.snackbar.error(this.language.forbidden_message);
             this.router.navigate(['']);
@@ -135,7 +134,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
             this.extensionType = 'xls';
         }
 
-        this._cacheService.getUser()
+        this.cacheService.getUser()
             .subscribe(
                 (user: User) => {
                     if (user) {
@@ -156,7 +155,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
      * Get list of all project and put it in the project selector
      */
     getProjects() {
-        this._projectService.get().subscribe((response: any) => {
+        this.projectService.get().subscribe((response: any) => {
             if (response) {
                 this.projectList = response.map((project: any) => Project.apiToModel(project));
             }
@@ -166,18 +165,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     setType(choice: string) {
         this.extensionType = choice;
-    }
-
-    getServiceStatus() {
-        this.organizationService.get().subscribe((organizationServices: any) => {
-            if (organizationServices) {
-                organizationServices.forEach((orgService: any) => {
-                    if (orgService.service.name === 'IDPoor API') {
-                        this.idPoorService = orgService.enabled;
-                    }
-                });
-            }
-        });
     }
 
     /**
@@ -226,7 +213,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
      */
     exportTemplate() {
         this.loadingExport = true;
-        this._householdsService.exportTemplate(this.extensionType).subscribe(
+        this.householdsService.exportTemplate(this.extensionType).subscribe(
             () => { this.loadingExport = false; },
             (_error: any) => { this.loadingExport = false; }
         );
@@ -276,7 +263,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
             body[admName] = filter.length ? filter[0].get('name') : '';
         });
 
-        this._householdsService.testFileTemplate(data, body).subscribe(
+        this.householdsService.testFileTemplate(data, body).subscribe(
             () => { this.closeConversionDialog('success'); },
             (error: any) => {
                 this.closeConversionDialog('error', error);
@@ -322,7 +309,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
      * Recover all the API available for the actual country
      */
     getAPINames() {
-        this._beneficiariesService.listApi()
+        this.beneficiariesService.listApi()
             .subscribe((response: object) => {
                 if (!response || !response['listAPI'].length) {
                     return;
@@ -387,9 +374,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
             this.snackbar.error(this.language.beneficiary_import_select_project);
         } else {
             this.load = true;
-            this._importService.sendCsv(this.csv, this.email, this.fileForm.controls['projects'].value).subscribe((response: any) => {
+            this.importService.sendCsv(this.csv, this.email, this.fileForm.controls['projects'].value).subscribe((response: any) => {
                 if (response) {
-                    this._importService.setResponse(response);
+                    this.importService.setResponse(response);
                 }
                 this.load = false;
                 this.router.navigate(['/beneficiaries/import/data-validation']);
@@ -419,7 +406,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         };
 
 
-        this._beneficiariesService.importApi(body, this.apiForm.controls['projects'].value)
+        this.beneficiariesService.importApi(body, this.apiForm.controls['projects'].value)
             .subscribe(response => {
                 if (response) {
                     this.newHouseholds = response.households;
@@ -435,14 +422,14 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
      * Get imported households
      */
     importedHouseholds() {
-        this._householdsService.getImported(this.newHouseholds)
+        this.householdsService.getImported(this.newHouseholds)
             .subscribe(
                 response => {
                     if (response) {
                         this.newHouseholds = response.map((household: Household) => Household.apiToModel(household));
                         this.snackbar.success(response.length + this.language.beneficiary_import_beneficiaries_imported);
                     }
-                    this._importService.importedHouseholds = this.newHouseholds;
+                    this.importService.importedHouseholds = this.newHouseholds;
                     this.router.navigate(['/beneficiaries/imported']);
                     this.load = false;
                 }

@@ -86,6 +86,8 @@ export class SsoComponent implements OnInit {
                 return this.loginWith2FA(userFromApi);
             })
         ).subscribe((res) => {
+            // tslint:disable-next-line
+            console.log(res);
             if (res) {
                 this.router.navigateByUrl('/');
             }

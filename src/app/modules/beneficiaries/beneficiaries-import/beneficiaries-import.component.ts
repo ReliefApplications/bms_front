@@ -36,7 +36,6 @@ export interface ApiParameter {
 export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     public nameComponent = 'beneficiaries_import_title';
     loadingExport = false;
-    idPoorService = false;
 
     // for the items button
     selectedTitle = 'file import';
@@ -48,7 +47,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     public csv = null;
 
     dragAreaClass = 'dragarea';
-
 
     referedClassToken = Project;
     public referedClassService;
@@ -122,9 +120,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        this.organizationServicesService.getServiceStatus('idpoor').subscribe((enabled: boolean) => {
-            this.idPoorService = enabled;
-        });
         if (!this.userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')) {
             this.snackbar.error(this.language.forbidden_message);
             this.router.navigate(['']);

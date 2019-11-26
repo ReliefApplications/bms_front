@@ -7,7 +7,7 @@
         <app-box-setting (click)="selectTitle('file import')" [isSelected]="selectedTitle === 'file import'"
             [info]='{icon: "import_beneficiaries", color: "green", title:language.beneficiary_import_file, subtitle:"", ref:"file import"}'>
         </app-box-setting>
-        <app-box-setting *ngIf="apiList.length && idPoorService" class="isLast" (click)="selectTitle('api import')"
+        <app-box-setting *ngIf="apiList.length" class="isLast" (click)="selectTitle('api import')"
             [isSelected]="selectedTitle === 'api import'"
             [info]='{icon: "settings/api", color: "red", title:language.beneficiary_import_api, subtitle:"", ref:"api import"}'>
         </app-box-setting>

@@ -14,6 +14,7 @@ import * as CountryIso from 'country-iso-3-to-2';
 import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { OrganizationService } from 'src/app/core/api/organization.service';
 import { OrganizationServicesService } from 'src/app/core/api/organization-services.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-profile',
@@ -65,38 +66,34 @@ export class ProfileComponent implements OnInit {
         private asyncacheService: AsyncacheService,
         public countryService: CountriesService,
         public organizationServicesService: OrganizationServicesService,
-        ) {
+    ) {
     }
 
     ngOnInit() {
-        this.organizationServicesService.getServiceStatus('2fa').subscribe((enabled: boolean) => {
-            this.twoFAService = enabled;
+        forkJoin({
+            'status': this.organizationServicesService.getServiceStatus('2fa'),
+            'user': this.authenticationService.getUser()
+        }).subscribe((response: any) => {
+            this.twoFAService = response.status;
+            this.actualUser = response.user;
+            if (this.actualUser) {
+                this.formatUserFields();
+            }
         });
-        this.setActualUser();
     }
 
-    setActualUser() {
-        this.authenticationService.getUser().subscribe(
-            (result: User) => {
-                if (result) {
-                    this.actualUser = result;
-                }
-                if (this.actualUser) {
-                    this.passwordForm.patchValue({
-                        email: this.actualUser.get<string>('username')
-                    });
-                    this.phoneForm.patchValue({
-                        phonePrefix: this.actualUser.get<string>('phonePrefix'),
-                        phoneNumber: this.actualUser.get('phoneNumber')
-                    });
-                    this.userTwoFA = this.twoFAService ? this.actualUser.get('twoFactorAuthentication') : false;
-                    if (this.actualUser.get<string>('phonePrefix') && this.actualUser.get('phoneNumber')) {
-                        this.canTwoFA = true;
-                    }
-                }
-            }
-        );
-
+    formatUserFields() {
+        this.passwordForm.patchValue({
+            email: this.actualUser.get<string>('username')
+        });
+        this.phoneForm.patchValue({
+            phonePrefix: this.actualUser.get<string>('phonePrefix'),
+            phoneNumber: this.actualUser.get('phoneNumber')
+        });
+        this.userTwoFA = this.twoFAService ? this.actualUser.get('twoFactorAuthentication') : false;
+        if (this.actualUser.get<string>('phonePrefix') && this.actualUser.get('phoneNumber')) {
+            this.canTwoFA = true;
+        }
     }
 
     onPasswordSubmit(): void {
@@ -135,7 +132,7 @@ export class ProfileComponent implements OnInit {
             this.userService.update(this.actualUser.get('id'), this.actualUser.modelToApi()).subscribe((data) => {
                 this.asyncacheService.setUser(data).subscribe();
                 this.userService.setCurrentUser(this.actualUser);
-                },
+            },
                 () => {
                     this.loadingPhone = false;
                 },
@@ -163,16 +160,17 @@ export class ProfileComponent implements OnInit {
         }
     }
 
-    toogleTwoFA () {
+    toogleTwoFA() {
         this.loadingTwoFA = true;
-        this.userTwoFA = this.userTwoFA ? false : true;
+        this.userTwoFA = !this.userTwoFA;
 
         this.actualUser.set('twoFactorAuthentication', this.userTwoFA);
         this.actualUser.set('password', null);
 
-        this.userService.update(this.actualUser.get('id'), this.actualUser.modelToApi()).subscribe((data) => {
-            this.asyncacheService.setUser(data).subscribe();
-            this.userService.setCurrentUser(this.actualUser);
+        this.userService.update(this.actualUser.get('id'), this.actualUser.modelToApi()).subscribe(
+            (data) => {
+                this.asyncacheService.setUser(data).subscribe();
+                this.userService.setCurrentUser(this.actualUser);
             },
             () => {
                 this.loadingTwoFA = false;
@@ -184,6 +182,6 @@ export class ProfileComponent implements OnInit {
                 } else {
                     this.snackbar.warning(this.language.profile_two_fa_disabled);
                 }
-        });
+            });
     }
 }

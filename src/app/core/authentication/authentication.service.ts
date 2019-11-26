@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, mapTo } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
 import { SaltInterface } from '../../models/salt';
 import { User } from '../../models/user';
@@ -59,7 +59,9 @@ export class AuthenticationService {
     }
 
     sendSMS(body: any, options: any) {
-        return this.http.post('https://api.sms.test.humanitarian.tech/api/order/sms', body, options);
+        return this.http.post('https://api.sms.test.humanitarian.tech/api/order/sms', body, options).pipe(
+            mapTo(null)
+        );
     }
 
     logout(): Observable<any> {

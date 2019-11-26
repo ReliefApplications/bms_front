@@ -1,62 +1,83 @@
 <div class="page-container">
-  <div class="container-title">
-    <h2>{{language.voucher | uppercaseFirst}}</h2>
-  </div>
+    <div class="container-title">
+        <h2>{{language.voucher | uppercaseFirst}}</h2>
+    </div>
 
-  <div class="container-table">
-    <div class="container-content box-primary">
-      <div class="content-button">
-        <div class="action-buttons">
-          <button mat-flat-button *ngIf="selection.selected.length > 0 && !loadingPrint && userService.hasRights('ROLE_PROJECT_MANAGEMENT')" class="button-background-primary action-button" (click)="printMany()">
-              <span>{{language.voucher_print_selection | uppercaseFirst}}</span>
-          </button>
-          <mat-spinner [diameter]='25' *ngIf="loadingPrint"></mat-spinner>
+    <div class="container-table">
+        <div class="container-content box-primary">
+            <div class="content-button">
+                <div class="action-buttons">
+                    <button mat-flat-button
+                        *ngIf="selection.selected.length > 0 && !loadingPrint && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                        class="button-background-primary action-button" (click)="printMany()">
+                        <span>{{language.voucher_print_selection | uppercaseFirst}}</span>
+                    </button>
+                    <mat-spinner [diameter]='25' *ngIf="loadingPrint"></mat-spinner>
 
-          <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}" *ngIf="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
-              <button mat-flat-button
-                [disabled]="!(dataSource.length$ | async)" class="button-background-primary"
-                (click)="exportCodes()" *ngIf="!loadingExportCodes">
-                <mat-icon>get_app</mat-icon>
-                <span *ngIf="selection.selected.length > 0; else noSelected">{{language.export_selected | uppercaseFirst}}</span>
-                <ng-template #noSelected>
-                    <span >{{language.export | uppercaseFirst}}</span>
-                </ng-template>
-              </button>
-              <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
-              <div class="extension" *ngIf="!loadingExportCodes">
-                <button mat-flat-button class="dropdown button-background-primary" [disabled]="!(dataSource.length$ | async)" [matMenuTriggerFor]="exportCodesType">
-                  <mat-icon>keyboard_arrow_down</mat-icon>
+                    <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}"
+                        *ngIf="userService.hasRights('ROLE_PROJECT_MANAGEMENT')">
+                        <button mat-flat-button [disabled]="!(dataSource.length$ | async)"
+                            class="button-background-primary" (click)="exportCodes()" *ngIf="!loadingExportCodes">
+                            <mat-icon>get_app</mat-icon>
+                            <span
+                                *ngIf="selection.selected.length > 0; else noSelected">{{language.export_selected | uppercaseFirst}}</span>
+                            <ng-template #noSelected>
+                                <span>{{language.export | uppercaseFirst}}</span>
+                            </ng-template>
+                        </button>
+                        <mat-spinner [diameter]='25' *ngIf="loadingExportCodes"></mat-spinner>
+                        <div class="extension" *ngIf="!loadingExportCodes">
+                            <button mat-flat-button class="dropdown button-background-primary"
+                                [disabled]="!(dataSource.length$ | async)" [matMenuTriggerFor]="exportCodesType">
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                            <mat-menu #exportCodesType>
+                                <button mat-menu-item (click)="setTypeCode('xls')"> .xls <mat-icon
+                                        *ngIf="extensionTypeCode=='xls'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setTypeCode('csv')"> .csv <mat-icon
+                                        *ngIf="extensionTypeCode=='csv'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setTypeCode('ods')"> .ods <mat-icon
+                                        *ngIf="extensionTypeCode=='ods'">done</mat-icon>
+                                </button>
+                                <button mat-menu-item (click)="setTypeCode('pdf')"> .pdf <mat-icon
+                                        *ngIf="extensionTypeCode=='pdf'">done</mat-icon>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+                <button mat-flat-button
+                    *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                    (click)="openDialog({action: 'add'})" class="add-button-create">
+                    <mat-icon>add</mat-icon>
+                    {{language.add | uppercaseFirst}}
                 </button>
-                <mat-menu #exportCodesType>
-                  <button mat-menu-item (click)="setTypeCode('xls')"> .xls <mat-icon *ngIf="extensionTypeCode=='xls'">done</mat-icon>
-                  </button>
-                  <button mat-menu-item (click)="setTypeCode('csv')"> .csv <mat-icon *ngIf="extensionTypeCode=='csv'">done</mat-icon>
-                  </button>
-                  <button mat-menu-item (click)="setTypeCode('ods')"> .ods <mat-icon *ngIf="extensionTypeCode=='ods'">done</mat-icon>
-                  </button>
-                  <button mat-menu-item (click)="setTypeCode('pdf')"> .pdf <mat-icon *ngIf="extensionTypeCode=='pdf'">done</mat-icon>
-                  </button>
-                </mat-menu>
-              </div>
+                <button mat-fab *ngIf="currentDisplayType.type === 'mobile'" (click)="openDialog({action: 'add'})"
+                    class="add-button" [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <div class="insertion-progress">
+                <mat-progress-bar *ngIf="loadingInsertion" mode="buffer" [value]="insertionProgress"></mat-progress-bar>
+            </div>
+            <div class="content-table">
+                <app-table-server [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'"
+                    [entity]="bookletClass" [service]="bookletService" [data]="dataSource" [selection]="selection"
+                    [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                    [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                    [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)"
+                    [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)">
+                </app-table-server>
+                <app-table-mobile-server [searchable]="true" [paginable]="true"
+                    *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService"
+                    [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [data]="dataSource"
+                    [selection]="selection" [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
+                    [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)"
+                    [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)">
+                </app-table-mobile-server>
             </div>
         </div>
-        <button mat-flat-button *ngIf="currentDisplayType.type !== 'mobile' && userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
-          (click)="openDialog({action: 'add'})" class="add-button-create">
-          <mat-icon>add</mat-icon>
-          {{language.add | uppercaseFirst}}
-        </button>
-        <button mat-fab *ngIf="currentDisplayType.type === 'mobile'" (click)="openDialog({action: 'add'})" class="add-button"
-          [ngClass]="{'add-button-rtl': language.direction === 'rtl'}">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-      <div class="content-table">
-        <app-table-server [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [entity]="bookletClass" [service]="bookletService"
-          [data]="dataSource" [selection]="selection" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
-          [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table-server>
-        <app-table-mobile-server [isLoading]="loadingBooklet" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type === 'mobile'" [entity]="bookletClass" [service]="bookletService" [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')"
-          [data]="dataSource" [selection]="selection" [editable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" [deletable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (openModal)="openDialog($event)" [printable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT')" (printOne)="print($event)"></app-table-mobile-server>
-      </div>
     </div>
-  </div>
 </div>

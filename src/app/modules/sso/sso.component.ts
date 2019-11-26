@@ -9,6 +9,9 @@ import { AsyncacheService } from 'src/app/core/storage/asyncache.service';
 import { User } from 'src/app/models/user';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { OrganizationServicesService } from 'src/app/core/api/organization-services.service';
 
 @Component({
     selector: 'app-sso',
@@ -34,7 +37,8 @@ export class SsoComponent implements OnInit {
         public loginService: LoginService,
         private router: Router,
         public snackbar: SnackbarService,
-        private location: Location
+        private location: Location,
+        private organizationServicesService: OrganizationServicesService
     ) { }
 
     ngOnInit() {
@@ -50,14 +54,6 @@ export class SsoComponent implements OnInit {
                     this.loginGoogle(result['token']);
                     this.originString = 'Google';
                     break;
-                case 'linkedin':
-                    if (result['error_description']) {
-                        this.snackbar.error(result['error_description']);
-                    } else {
-                        this.loginLinkedIn(result['code']);
-                        this.originString = 'LinkedIn';
-                    }
-                    break;
                 default:
                     if (this.loginService.getTwoFactorStep()) {
                         this.makeForm();
@@ -71,49 +67,60 @@ export class SsoComponent implements OnInit {
     }
 
     loginHID(code: string) {
-        if (code) {
-            this.authService.loginHumanID(code).subscribe((userFromApi: any) => {
-                this.login(userFromApi);
-            }, (_error) => {
-                this.router.navigateByUrl('/login');
-            });
-        }
+        this.authService.loginHumanitarianID(code).pipe(
+            switchMap((userFromApi: any) => {
+                return this.loginWith2FA(userFromApi);
+            })
+        ).subscribe((res) => {
+            if (res) {
+                this.router.navigateByUrl('/');
+            }
+        }, (_error) => {
+            this.router.navigateByUrl('/login');
+        });
     }
 
     loginGoogle(token: string) {
-        this.authService.loginGoogle(token).subscribe((userFromApi: any) => {
-           this.login(userFromApi);
+        this.authService.loginGoogle(token).pipe(
+            switchMap((userFromApi: any) => {
+                return this.loginWith2FA(userFromApi);
+            })
+        ).subscribe((res) => {
+            if (res) {
+                this.router.navigateByUrl('/');
+            }
         }, (_error) => {
             this.router.navigateByUrl('/login');
         });
     }
 
-    loginLinkedIn(code: string) {
-        this.authService.loginLinkedIn(code).subscribe((userFromApi: any) => {
-        }, (_error) => {
-            this.router.navigateByUrl('/login');
-        });
+    loginWith2FA(userFromApi) {
+        if (userFromApi && !User.apiToModel(userFromApi).get('rights')) {
+            this.userDisabled = true;
+            return of(null);
+        } else {
+            return this.organizationServicesService.get2FAToken(userFromApi).pipe(
+                switchMap((token: any) => {
+                    if (token && User.apiToModel(userFromApi).get('twoFactorAuthentication')) {
+                        this.makeForm();
+                        return this.loginService.sendCode(userFromApi, token);
+                    } else {
+                        return this.login(userFromApi);
+                    }
+                })
+            );
+        }
     }
 
     login(userFromApi) {
         const user = User.apiToModel(userFromApi);
-        if (user && !user.get('rights')) {
-            this.userDisabled = true;
-        } else {
-            if (user.get('twoFactorAuthentication')) {
-                this.loginService.sendCode(userFromApi, null);
-                this.location.replaceState('sso');
-                this.makeForm();
-            } else {
-                this.userService.setCurrentUser(user);
-                this.asyncacheService.setUser(userFromApi).subscribe((_: any) => {
-                    this.loginService.clearSessionCacheEntries();
-                    this.loginService.loginRoutine(user).subscribe(() => {
-                        this.router.navigateByUrl('/');
-                    });
-                });
-            }
-        }
+        this.userService.setCurrentUser(user);
+        return this.asyncacheService.setUser(userFromApi).pipe(
+            switchMap(() => {
+                this.loginService.clearSessionCacheEntries();
+                return this.loginService.loginRoutine(user);
+            })
+        );
     }
 
     public makeForm() {

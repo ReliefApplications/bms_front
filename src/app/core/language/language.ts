@@ -573,7 +573,6 @@ export interface Language {
     login_title: string
     login_title_hid: string
     login_title_google: string
-    login_title_linkedin: string
     login_two_fa_message: string
     login_two_fa_invalid_code: string
 

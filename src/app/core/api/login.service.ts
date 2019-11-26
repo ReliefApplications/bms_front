@@ -49,7 +49,8 @@ export class LoginService {
         return this.authService.login(username, password).pipe(
             switchMap((userFromApi: any) => {
                 return this.manage2FA(userFromApi);
-            })
+            }),
+            tap(() => { this.redirect(); })
         );
     }
 
@@ -66,8 +67,7 @@ export class LoginService {
                 } else {
                     return this.setUserCache(userFromApi);
                 }
-            }),
-            tap(() => { this.redirect(); })
+            })
         );
     }
 

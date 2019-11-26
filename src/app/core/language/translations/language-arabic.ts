@@ -564,7 +564,6 @@ export class Arabic implements Language {
     login_title = ' تسجيل الدخول الى الحساب'
     login_title_hid = 'Humanitarian ID تسجيل الدخول مع'
     login_title_google = 'Google تسجيل الدخول مع'
-    login_title_linkedin = 'LinkedIn تسجيل الدخول مع'
     login_two_fa_invalid_code = 'رمز غير صالح. يرجى المحاولة مرة أخرى'
     login_two_fa_message = 'هذا هو رمز المصادقة Humansis الخاص بك'
 

@@ -562,7 +562,6 @@ export class French implements Language {
     login_title = 'Connexion'
     login_title_hid = 'Se connecter avec Humanitarian ID'
     login_title_google = 'Se connecter avec Google'
-    login_title_linkedin = 'Se connecter avec LinkedIn'
     login_two_fa_invalid_code = 'Code invalide. S\'il vous plaît essayer à nouveau'
     login_two_fa_message = 'Ceci est votre code d\'authentification Humansis'
 

@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { OrganizationServicesService } from 'src/app/core/api/organization-services.service';
 import { UserService } from 'src/app/core/api/user.service';
 import { CountriesService } from 'src/app/core/countries/countries.service';
 import { LanguageService } from 'src/app/core/language/language.service';
@@ -55,7 +54,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
 
     public apiForm = new FormGroup({
         apiSelector: new FormControl(undefined, Validators.required),
-        projects: new FormControl({ value: undefined, disabled: true}, Validators.required),
+        projects: new FormControl({ value: undefined, disabled: true }, Validators.required),
     });
 
     public fileForm = new FormGroup({
@@ -99,7 +98,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     private apiSelectorSubscriber: Subscription;
 
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
     public countryId = this.countryService.selectedCountry.get<string>('id') ?
         this.countryService.selectedCountry.get<string>('id') :
         this.countryService.khm.get<string>('id');
@@ -116,7 +115,6 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
         private userService: UserService,
         private languageService: LanguageService,
         private countryService: CountriesService,
-        private organizationServicesService: OrganizationServicesService
     ) { }
 
     ngOnInit() {
@@ -243,7 +241,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (!this.csv2 ) {
+        if (!this.csv2) {
             this.snackbar.error(this.language.beneficiary_import_error_file);
             return;
         }
@@ -310,7 +308,7 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
                     return;
                 }
                 response['listAPI'].map((apiInfo: any) => {
-                    this.apiList.push({name: apiInfo.APIName, parameters: apiInfo.params});
+                    this.apiList.push({ name: apiInfo.APIName, parameters: apiInfo.params });
                 });
 
                 this.listenForApiSelectorChanges();
@@ -344,8 +342,8 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
             if (parameter.paramType === 'string') {
                 parametersFormGroup.addControl(
                     parameter.paramName,
-                    new FormControl( undefined, [Validators.pattern(/\w+/), Validators.required])
-                    );
+                    new FormControl(undefined, [Validators.pattern(/\w+/), Validators.required])
+                );
             } else if (parameter.paramType === 'int') {
                 parametersFormGroup.addControl(
                     parameter.paramName,
@@ -361,9 +359,9 @@ export class BeneficiariesImportComponent implements OnInit, OnDestroy {
     }
 
 
-     /**
-     * Send csv file and project to import new households
-     */
+    /**
+    * Send csv file and project to import new households
+    */
     importHouseholdsFile() {
         if (!this.csv || !this.fileForm.controls['projects'].valid || this.load) {
             this.snackbar.error(this.language.beneficiary_import_select_project);

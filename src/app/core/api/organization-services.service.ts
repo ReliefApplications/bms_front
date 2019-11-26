@@ -6,6 +6,7 @@ import { ExportService } from './export.service';
 import { switchMap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { WsseService } from '../authentication/wsse.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -46,16 +47,17 @@ export class OrganizationServicesService extends CustomModelService {
         return this.wsseService.getHeaderValue(userFromApi).pipe(
             switchMap((headerValue: string) => {
                 const options = {
-                    headers: {
-                        'x-wsse': headerValue
-                    }
+                    headers: new HttpHeaders({
+                        'x-wsse': headerValue,
+                        'country': 'KHM'
+                    })
                 };
 
                 return this.http.get(url, options).pipe(
                     switchMap((organizationServices: any) => {
                         if (organizationServices) {
                             for (const orgService of organizationServices) {
-                                if (orgService.service.parameters.$id === '2fa') {
+                                if (orgService.service.parameters.$id === '2fa' && orgService.enabled) {
                                     return of(orgService.parameters_value.token);
                                 }
                             }

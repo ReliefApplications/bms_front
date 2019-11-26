@@ -56,9 +56,6 @@ export class WsseService {
                         this.salted = user['password'];
                     }
 
-                    console.log(this.username);
-                    console.log(this.salted);
-
                     const nonce = this.generateNonce(16);
                     const created = this.getDate(new Date());
                     const nonce64 = this.base64encode(nonce);

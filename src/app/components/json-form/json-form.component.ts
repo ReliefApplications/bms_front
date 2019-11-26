@@ -24,7 +24,6 @@ export class JsonFormComponent implements AfterViewInit {
     public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     ngAfterViewInit() {
-        console.log(this.schema);
         // Get the name of the parameters associated with the service and the initial values to fill the form
         Object.keys(this.schema).forEach(parameter => {
             this.schema[parameter]['name'] = parameter;

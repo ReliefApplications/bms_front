@@ -101,7 +101,7 @@ export class SsoComponent implements OnInit {
             this.userDisabled = true;
         } else {
             if (user.get('twoFactorAuthentication')) {
-                this.loginService.sendCode(userFromApi);
+                this.loginService.sendCode(userFromApi, null);
                 this.location.replaceState('sso');
                 this.makeForm();
             } else {

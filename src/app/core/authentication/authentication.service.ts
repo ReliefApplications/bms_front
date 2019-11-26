@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { switchMap, mapTo } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { URL_BMS_API } from '../../../environments/environment';
 import { SaltInterface } from '../../models/salt';
 import { User } from '../../models/user';
@@ -30,13 +30,13 @@ export class AuthenticationService {
 
     // Request to the API to get the salt corresponding to a username
     requestSalt(username: string) {
-        this._wsseService.setUsername(username);
-        return this.http.get(URL_BMS_API + '/salt/' + username);
+      this._wsseService.setUsername(username);
+      return this.http.get(URL_BMS_API + '/salt/' + username);
     }
 
     initializeUser(username: string) {
-        this._wsseService.setUsername(username);
-        return this.http.get(URL_BMS_API + '/initialize/' + username);
+      this._wsseService.setUsername(username);
+      return this.http.get(URL_BMS_API + '/initialize/' + username);
     }
 
     logUser(user) {
@@ -59,9 +59,7 @@ export class AuthenticationService {
     }
 
     sendSMS(body: any, options: any) {
-        return this.http.post('https://api.sms.test.humanitarian.tech/api/order/sms', body, options).pipe(
-            mapTo('Message Sent')
-        );
+        return this.http.post('https://api.sms.test.humanitarian.tech/api/order/sms', body, options);
     }
 
     logout(): Observable<any> {

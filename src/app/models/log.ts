@@ -141,14 +141,19 @@ export class Log extends CustomModel {
             newLog.set('details', newLog.language.log_no_details);
         } else if (url.includes('delete')) {
             let idMatched = request.match(/(\d+)/g);
-            if (!idMatched) {
-                idMatched = JSON.parse(request).ids.length ? JSON.parse(request).ids : [];
+            if (!idMatched && JSON.parse(request).ids && JSON.parse(request).ids.length) {
+                idMatched = JSON.parse(request).ids;
             }
 
-            idMatched.forEach((id: Number) => {
-                detailString += id + ', ';
-            });
-            newLog.set('details', newLog.language.log_old_id + ': ' + detailString.substring(0, detailString.length - 2));
+            if (idMatched) {
+                idMatched.forEach((id: Number) => {
+                    detailString += id + ', ';
+                });
+                newLog.set('details', newLog.language.log_old_id + ': ' + detailString.substring(0, detailString.length - 2));
+            } else {
+                newLog.set('details', newLog.language.log_delete);
+            }
+
         }
 
         // Assign messages corresponding to the status of the request

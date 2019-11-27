@@ -54,6 +54,7 @@ export class French implements Language {
     households = 'Ménage'
     language = 'langue'
     location = 'Lieu'
+    logs = 'Journaux'
     national_id = 'Document d\'identité'
     phone = 'Téléphone'
     products = 'Produits'
@@ -396,6 +397,7 @@ export class French implements Language {
     header_import = 'Import de bénéficiaires'
     header_imported = 'Données des bénéficiaires importés'
     header_language = this.language
+    header_logs = this.logs
     header_profile = this.profile
     header_projects = this.projects
     header_reports = this.reports
@@ -526,7 +528,6 @@ export class French implements Language {
     log_field_user = 'Utilisateur'
 
     //Reports
-    logs = 'Les journaux'
     log_active_users_title = 'Utilisateurs les plus actifs'
     log_code = 'Code'
     log_family_name = 'nom de famille'

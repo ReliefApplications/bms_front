@@ -56,6 +56,7 @@ export class English implements Language {
     households = 'Household'
     language = 'Language'
     location = 'Location'
+    logs = 'Logs'
     national_id = 'National ID'
     phone = 'Phone'
     products = 'Products'
@@ -397,6 +398,7 @@ export class English implements Language {
     header_import = 'Import beneficiary data'
     header_imported = 'Imported beneficiaries data'
     header_language = this.language
+    header_logs = this.logs
     header_profile = this.profile
     header_projects = this.projects
     header_reports = this.reports
@@ -527,7 +529,6 @@ export class English implements Language {
     log_field_user = 'User'
 
     //Reports
-    logs = 'Logs'
     log_active_users_title = 'Most active users'
     log_code = 'Code'
     log_family_name = 'family name'

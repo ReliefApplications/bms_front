@@ -50,6 +50,7 @@ export interface Language {
     households: string
     language: string
     location: string
+    logs: string
     national_id: string
     phone: string
     products: string
@@ -407,6 +408,7 @@ export interface Language {
     header_import: string
     header_imported: string
     header_language: string
+    header_logs: string
     header_profile: string
     header_projects: string
     header_reports: string
@@ -536,7 +538,6 @@ export interface Language {
     log_field_user: string
 
     //Reports
-    logs: string
     log_active_users_title: string
     log_code: string
     log_family_name: string

@@ -54,6 +54,7 @@ export class Arabic implements Language {
     households = 'الأسرة'
     language = 'اللغة'
     location = 'الموقع'
+    logs = 'سجلات'
     national_id = 'الهوية الوطنية'
     phone = 'الهاتف'
     products = 'منتجات'
@@ -395,6 +396,7 @@ export class Arabic implements Language {
     header_import = 'تحميل بيانات المستفيد'
     header_imported = 'إستيراد بيانات المستفيدين'
     header_language = this.language
+    header_logs = this.logs
     header_profile = this.profile
     header_projects = this.projects
     header_reports = this.reports
@@ -526,7 +528,6 @@ export class Arabic implements Language {
     log_field_user = 'المستخدم'
 
     //Reports
-    logs = 'سجلات'
     log_active_users_title = 'معظم المستخدمين النشطين'
     log_code = 'رموز'
     log_family_name = 'اسم العائلة'

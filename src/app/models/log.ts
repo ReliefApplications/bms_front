@@ -95,7 +95,7 @@ export class Log extends CustomModel {
         newLog.set('user', logFromApi.mail_user);
         newLog.set('url', url);
         newLog.set('request', request);
-        newLog.set('country', JSON.parse(logFromApi.request).__country);
+        newLog.set('country', JSON.parse(request).__country);
 
         // Action and Object
         const controller = /^\w+\\\w+\\(\w+)Controller::(\w+)Action$/g.exec(logFromApi.controller);
@@ -140,7 +140,12 @@ export class Log extends CustomModel {
         } else if (controller[0] === 'Voucher' || action.includes('post') || action.includes('relief') || action.includes('upload')) {
             newLog.set('details', newLog.language.log_no_details);
         } else if (url.includes('delete')) {
-            request.match(/(\d+)/g).forEach((id: Number) => {
+            let idMatched = request.match(/(\d+)/g);
+            if (!idMatched) {
+                idMatched = JSON.parse(request).ids.length ? JSON.parse(request).ids : [];
+            }
+
+            idMatched.forEach((id: Number) => {
                 detailString += id + ', ';
             });
             newLog.set('details', newLog.language.log_old_id + ': ' + detailString.substring(0, detailString.length - 2));

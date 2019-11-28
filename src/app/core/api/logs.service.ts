@@ -94,7 +94,6 @@ export class LogsService extends CustomModelService {
     private setBeneficiaries(request: string): string {
         let beneficiaries = '';
         const requestMatch = request.match(/(?<=local_given_name":")\w+/g);
-        requestMatch.shift();
         if (requestMatch) {
             for (let i = 0; i < requestMatch.length; i++) {
                 beneficiaries += this.language.log_beneficiary + ': ' + requestMatch[i] + '\n';

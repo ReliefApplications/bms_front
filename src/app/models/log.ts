@@ -125,7 +125,7 @@ export class Log extends CustomModel {
             if (controller[0] === 'Household' || controller[0] === 'Beneficiary'
                 || controller[0] === 'Vendor' || controller[0] === 'Donor') {
                 newLog.set('details', newLog.language['log_' + controller[0].toLowerCase()] + ': ' + /name":"(.*?)".+/g.exec(request)[1]);
-            } else if (controller[0] === 'Country') {
+            } else if (controller[0] === 'CountrySpecific') {
                 newLog.set('details', newLog.language.log_field + ': ' + /field":"(.*?)"/.exec(request)[1]);
             } else if (controller[0] === 'Booklet') {
                 if (action.includes('update')) {

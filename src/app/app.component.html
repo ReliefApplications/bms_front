@@ -67,11 +67,12 @@
         <mat-list-item *ngIf="userService.hasRights('ROLE_USER_MANAGEMENT')"
             [ngClass]="{selected: matchUrl() === 'admin'}" routerLink="/admin">
             <span class="full-width">{{getLanguage().administrative_settings | titlecase}}</span>
-            <mat-icon mat-list-icon>build</mat-icon>   
+            <mat-icon mat-list-icon>build</mat-icon>
         </mat-list-item>
-        <mat-list-item *ngIf="userService.hasRights('ROLE_USER_MANAGEMENT')" [ngClass]="{selected: matchUrl() === 'logs'}" routerLink="/logs">
+        <mat-list-item *ngIf="userService.hasRights('ROLE_ADMIN')"
+            [ngClass]="{selected: matchUrl() === 'logs'}" routerLink="/logs">
             <span class="full-width">{{getLanguage().logs | titlecase}}</span>
-            <mat-icon mat-list-icon>visibility</mat-icon>   
+            <mat-icon mat-list-icon>visibility</mat-icon>
         </mat-list-item>
     </mat-nav-list>
 

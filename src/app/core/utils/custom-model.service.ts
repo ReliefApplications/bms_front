@@ -26,7 +26,7 @@ export abstract class CustomModelService {
     }
 
     public create(body: any) {
-        return this.http.put(this.makeUrl() + '/sync', body);
+        return this.http.put(this.makeUrl(), body);
     }
 
     public update(id: number, body: any) {

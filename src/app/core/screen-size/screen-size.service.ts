@@ -25,17 +25,16 @@ export class ScreenSizeService {
         for (const displayType of this.displayTypes) {
 
             const {minWidth, maxWidth, minHeight, maxHeight} = displayType;
-
-            if (!this.valueIsInRange(width, minWidth, maxWidth)) {
+            if (!this.valueIsInRange(Math.round(width * window.devicePixelRatio), minWidth, maxWidth)) {
                 continue;
             }
-            if (!this.valueIsInRange(height, minHeight, maxHeight)) {
+            if (!this.valueIsInRange(Math.round(height * window.devicePixelRatio), minHeight, maxHeight)) {
                 continue;
             }
-
             return displayType;
         }
-        throw new Error('A display was not defined for this resolution.');
+        console.error('A display was not defined for this resolution.');
+        return this.otherDisplay;
     }
 
     private valueIsInRange(value: number, lowerBound: number, higherBound: number): boolean {

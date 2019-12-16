@@ -8,15 +8,13 @@ A platform that allows humanitarian organisations to manage relief items (Food, 
 
 # About
 
-BMS is the first fully open-source relief platform for humanitarian actors to efficiently manage relief operations after a disaster, during a war or in response to long term crises. 
-
-If you're an experienced developer and you would like to get involved, contact us on Twitter: @reliefapps or [here](https://twitter.com/Reliefapps).
+Humansis is the first fully open-source relief platform for humanitarian actors to efficiently manage relief operations after a disaster, during a war or in response to long term crises. 
 
 ## What's here
 
 This repo is the "master" repo for all Humansis-related projects. It hosts 
 the documentation, the frontend and other misc. Code for other
-projects, like the [API](https://github.com/ReliefApplications/bms_api) is hosted in other repositories. 
+projects, like the [API](https://github.com/humansis/bms_api) is hosted in other repositories. 
 
 ## Contributing
 
@@ -28,7 +26,7 @@ applications with new features, optimizing the technical tools and algorithms
 involved to accommodate humanitarian challenges, and bringing our work closer to
 the public to leverage their inputs via blog posts and tutorials.
 
-* Please read our [contribution guidelines](https://github.com/ReliefApplications/bms_front/blob/dev/CONTRIBUTING.md) for details on what and how you can contribute.
+* Please read our [contribution guidelines](https://github.com/humansis/bms_front/blob/dev/CONTRIBUTING.md) for details on what and how you can contribute.
 * Check out our Trello [Development Project Board](https://trello.com/b/DqrwMZsv/bms).
 * Look for tasks labelled `good first issues` under the Issues tab in each repo.
 

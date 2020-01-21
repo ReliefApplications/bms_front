@@ -2,20 +2,21 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
 import { BookletService } from 'src/app/core/api/booklet.service';
 import { ProjectService } from 'src/app/core/api/project.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Booklet } from 'src/app/models/booklet';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { BookletsDataSource } from 'src/app/models/data-sources/booklets-data-source';
 import { Project } from 'src/app/models/project';
 import { ExportService } from '../../core/api/export.service';
-import { UserService } from 'src/app/core/api/user.service';
-import { BookletsDataSource } from 'src/app/models/data-sources/booklets-data-source';
-import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
 
 @Component({
     selector: 'app-vouchers',
@@ -27,8 +28,9 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public nameComponent = 'vouchers';
 
     public loadingPrint = false;
-    public loadingBooklet = true;
     public loadingExportCodes = false;
+    public loadingInsertion = false;
+
     public modalSubscriptions: Array<Subscription> = [];
 
     public referedClassService;
@@ -45,14 +47,14 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
     public projects = [];
 
-
+    public insertionProgress = 0;
 
     // Screen size
     public currentDisplayType: DisplayType;
     subscriptions: Array<Subscription>;
 
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     @ViewChild(TableServerComponent, { static: false }) table: TableServerComponent;
 
@@ -67,8 +69,6 @@ export class VouchersComponent implements OnInit, OnDestroy {
         private screenSizeService: ScreenSizeService,
         public userService: UserService,
     ) { }
-
-
 
     ngOnInit() {
         this.dataSource = new BookletsDataSource(this.bookletService);
@@ -103,21 +103,42 @@ export class VouchersComponent implements OnInit, OnDestroy {
     openDialog(dialogDetails: any): void {
         this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
         this.modalService.openDialog(this.bookletClass, this.bookletService, dialogDetails);
-        const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
-            this.snackbar.success(this.language.voucher_sending);
-            this.loadingBooklet = true;
 
+        const dataSubscription = this.modalService.dataSubject.subscribe((response: any) => {
+            this.loadingInsertion = true;
+            this.checkInsertedBooklets(response['lastBooklet'], response['expectedNumber']);
         });
-        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
-            if (response) {
-              this.table.loadDataPage();
-            } else {
-                this.loadingBooklet = false;
+        this.modalSubscriptions = [dataSubscription];
+    }
+
+    checkInsertedBooklets(lastId: number, totalExpected: number) {
+        let previousValue = 0;
+        const dataInsertionObservable = interval(10000).pipe(
+            switchMap(() => {
+                return this.bookletService.getInsertedBooklets(lastId);
+            })
+        ).subscribe(
+            (res: number) => {
+                // tslint:disable-next-line
+                console.log(res);
+                if (res === previousValue) {
+                    dataInsertionObservable.unsubscribe();
+                    this.snackbar.error(this.language.snackbar_error_creating + this.language.booklets + ` (${res}/${totalExpected})`);
+                    this.loadingInsertion = false;
+                    this.insertionProgress = 0;
+                    this.table.loadDataPage();
+                } else if (res >= totalExpected) {
+                    dataInsertionObservable.unsubscribe();
+                    this.snackbar.success(this.language.booklets + ' ' + this.language.snackbar_created_successfully);
+                    this.loadingInsertion = false;
+                    this.insertionProgress = 0;
+                    this.table.loadDataPage();
+                } else {
+                    previousValue = res;
+                    this.insertionProgress = Math.trunc((res / totalExpected) * 100);
+                }
             }
-        });
-        this.modalSubscriptions = [isLoadingSubscription, completeSubscription];
-
-
+        );
     }
 
     print(event: Booklet) {
@@ -135,9 +156,9 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
         // TODO: switch to observables
         return !error ?
-        this._exportService.printManyVouchers(bookletIds).subscribe((_: any) => {
-            this.loadingPrint = false;
-        }) : null;
+            this._exportService.printManyVouchers(bookletIds).subscribe((_: any) => {
+                this.loadingPrint = false;
+            }) : null;
     }
 
     getNumberToExport() {

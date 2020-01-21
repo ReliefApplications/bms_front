@@ -61,6 +61,11 @@ export class BookletService extends CustomModelService {
         return this.http.get(url);
     }
 
+    public getInsertedBooklets(lastId: number) {
+        const url = this.api + '/booklets/inserted/' + lastId;
+        return this.http.get(url);
+    }
+
     public fillWithOptions(booklet: Booklet) {
     }
 

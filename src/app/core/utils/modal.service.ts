@@ -32,9 +32,10 @@ export class ModalService {
 
     isCompleted = new Subject;
     isLoading = new Subject;
+    dataSubject = new Subject;
 
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
     constructor(
         private snackbar: SnackbarService,
@@ -91,12 +92,13 @@ export class ModalService {
                 if (closeMethod === 'Add') {
                     this.isLoading.next();
                     this.referedClassService.create(this.referedClassInstance.modelToApi()).subscribe((response) => {
-                       // If the response is null, it means we are offline and the request was stored, not really made
+                        // If the response is null, it means we are offline and the request was stored, not really made
                         if (response) {
-                           this.snackbar.success(
-                               this.referedClassInstance.title + ' ' + this.language.snackbar_created_successfully);
-                       }
+                            this.snackbar.success(
+                                this.referedClassInstance.title + ' ' + this.language.snackbar_created_successfully);
+                        }
                         this.isCompleted.next(true);
+                        this.dataSubject.next(response);
                     });
 
                 } else if (closeMethod === 'Edit') {
@@ -151,11 +153,11 @@ export class ModalService {
 
     openEditDialog(objectInfo: CustomModel) {
         this.referedClassService.fillWithOptions(objectInfo);
-            return this.dialog.open(ModalEditComponent, {
-                data: {
-                    objectInstance: objectInfo
-                 }
-            });
+        return this.dialog.open(ModalEditComponent, {
+            data: {
+                objectInstance: objectInfo
+            }
+        });
     }
 
     openDeleteDialog(objectInfo: CustomModel) {
@@ -196,18 +198,15 @@ export class ModalService {
 
     openAddCommodityDialog(): Observable<Commodity> {
 
-            this.referedClassToken = Commodity;
-            this.referedClassService = CommodityService;
-            const dialogRef = this.dialog.open(ModalAddCommodityComponent, {
-                data: {
-                    objectInstance: new Commodity(),
-                }
-            });
-            return dialogRef.afterClosed();
+        this.referedClassToken = Commodity;
+        this.referedClassService = CommodityService;
+        const dialogRef = this.dialog.open(ModalAddCommodityComponent, {
+            data: {
+                objectInstance: new Commodity(),
+            }
+        });
+        return dialogRef.afterClosed();
     }
-
-
-
 
     updateElement(updateElement) {
         const apiUpdateElement = updateElement.modelToApi(updateElement);
@@ -217,6 +216,7 @@ export class ModalService {
                 this.snackbar.success(this.language.snackbar_updated_successfully);
             }
             this.isCompleted.next(true);
+            this.dataSubject.next(response);
         }, (_error: any) => {
             this.isCompleted.next(false);
         });
@@ -225,14 +225,16 @@ export class ModalService {
     deleteElement(deleteElement: CustomModel) {
 
         if (deleteElement instanceof Beneficiary) {
-            this.referedClassService.delete(deleteElement.get('id'), deleteElement.get('distributionId')).subscribe((_response: any) => {
+            this.referedClassService.delete(deleteElement.get('id'), deleteElement.get('distributionId')).subscribe((response: any) => {
                 this.isCompleted.next(true);
+                this.dataSubject.next(response);
             }, (_error: any) => {
                 this.isCompleted.next(false);
             });
         } else {
-            this.referedClassService.delete(deleteElement.get('id')).subscribe((_response: any) => {
+            this.referedClassService.delete(deleteElement.get('id')).subscribe((response: any) => {
                 this.isCompleted.next(true);
+                this.dataSubject.next(response);
             }, (_error: any) => {
                 this.isCompleted.next(false);
             });
@@ -242,70 +244,34 @@ export class ModalService {
     addBeneficiary(beneficiaries: Beneficiary[], justification: string, distribution: Distribution) {
         const beneficiariesArray = beneficiaries.map((beneficiary: Beneficiary) => beneficiary.modelToApi());
         this.referedClassService.add(distribution.get('id'), beneficiariesArray, justification)
-        .subscribe(
-            success => {
-               this.isCompleted.next(true);
-            },
-            error => {
-                this.isCompleted.next(false);
-                this.snackbar.error(error.error ? error.error : this.language.distribution_beneficiary_not_added);
-            });
+            .subscribe(
+                success => {
+                    this.isCompleted.next(true);
+                    this.dataSubject.next(success);
+                },
+                error => {
+                    this.isCompleted.next(false);
+                    this.snackbar.error(error.error ? error.error : this.language.distribution_beneficiary_not_added);
+                });
 
     }
 
     deleteBeneficiary(beneficiary: Beneficiary, justification) {
         this.referedClassService.delete(beneficiary.get('id'), beneficiary.get('distributionId'), justification)
-            .subscribe((_response: any) => {
+            .subscribe((response: any) => {
                 this.isCompleted.next(true);
+                this.dataSubject.next(response);
             }, (_error: any) => {
                 this.isCompleted.next(false);
             });
     }
 
     deleteMany(ids: Array<number>) {
-        this.referedClassService.deleteMany(ids).subscribe((_response: any) => {
+        this.referedClassService.deleteMany(ids).subscribe((response: any) => {
             this.isCompleted.next(true);
+            this.dataSubject.next(response);
         }, (_error: any) => {
             this.isCompleted.next(false);
         });
     }
-
-    // createElement(createElement: Object) {
-    //     createElement = this.referedClassToken.formatForApi(createElement);
-    //     if (this.referedClassToken.__classname__ !== 'User' && this.referedClassToken.__classname__ !== 'Vendors') {
-    //         this.referedClassService.create(createElement['id'], createElement).subscribe(
-    //             response => {
-    //             this.isCompleted.next(true);
-    //             });
-    //     } else {
-    //         // for users, there are two step (one to get the salt and one to create the user)
-    //         this.authenticationService.initializeUser(createElement['username']).subscribe(response => {
-    //             if (response) {
-    //               if (this.referedClassToken.__classname__ === 'Vendors') {
-    //                 this.authenticationService.createVendor(createElement, response).subscribe(
-    //                   () => {
-    //                   });
-    //               } else {
-    //                 if (createElement['rights'] === 'ROLE_PROJECT_MANAGER'
-    //                     || createElement['rights'] === 'ROLE_PROJECT_OFFICER'
-    //                     || createElement['rights'] === 'ROLE_FIELD_OFFICER') {
-    //                     delete createElement['country'];
-    //                 } else if (createElement['rights'] === 'ROLE_REGIONAL_MANAGER'
-    //                     || createElement['rights'] === 'ROLE_COUNTRY_MANAGER'
-    //                     || createElement['rights'] === 'ROLE_READ_ONLY') {
-    //                     delete createElement['projects'];
-    //                 } else {
-    //                     delete createElement['country'];
-    //                     delete createElement['projects'];
-    //                 }
-
-    //                 this.authenticationService.createUser(createElement, response).subscribe(
-    //                     () => {
-    //                     this.isCompleted.next(true);
-    //                     });
-    //               }
-    //             }
-    //         });
-    //     }
-    // }
 }

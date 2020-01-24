@@ -17,6 +17,7 @@ export const rightsHierarchy = {
         'ROLE_PROJECT_MANAGEMENT_READ',
         'ROLE_DISTRIBUTIONS_MANAGEMENT',
         'ROLE_REPORTING_READ',
+        'ROLE_PROJECT_MANAGEMENT_ASSIGN'
     ],
     [Role.projectOfficer]: [
         'ROLE_BENEFICIARY_MANAGEMENT_READ',
@@ -25,6 +26,7 @@ export const rightsHierarchy = {
         'ROLE_PROJECT_MANAGEMENT_READ',
         'ROLE_REPORTING',
         'ROLE_REPORTING_PROJECT',
+        'ROLE_PROJECT_MANAGEMENT_ASSIGN'
     ],
     [Role.projectManager]: [
         'ROLE_AUTHORISE_PAYMENT',
@@ -63,6 +65,3 @@ export const rightsHierarchy = {
         // ROLE_ACCESS_ALL_COUNTRIES
     ]
 };
-
-
-

@@ -3,6 +3,7 @@ import { Country } from 'src/app/models/country';
 import { Language } from './language';
 import { Arabic } from './translations/language-arabic';
 import { English } from './translations/language-english';
+import { Russian } from './translations/language-russian';
 
 @Injectable({
     providedIn: 'root'
@@ -13,8 +14,9 @@ export class LanguageService {
 //
     public english = new English();
     public arabic = new Arabic();
+    public russian = new Russian();
 
-    public readonly enabledLanguages: Array<Language> = [this.english, this.arabic];
+    public readonly enabledLanguages: Array<Language> = [this.english, this.arabic, this.russian];
 
     // This default value's reference is not contained in enabledLanguages.
     private _selectedLanguage: Language = undefined;
@@ -43,6 +45,8 @@ export class LanguageService {
                 return this.arabic;
             case 'en':
                 return this.english;
+            case 'ru':
+                return this.russian;
             case 'fr':
                 return null;
         }
@@ -54,6 +58,8 @@ export class LanguageService {
                 return 'ar';
             case this.english:
                 return 'en';
+            case this.russian:
+                return 'ru';
             case null:
                 return 'fr';
         }
@@ -65,6 +71,8 @@ export class LanguageService {
         switch (country.get<string>('id')) {
             case 'SYR':
                 return this.arabic;
+            case 'UKR':
+                return this.russian;
             case 'KHM':
             default:
                 return this.english;

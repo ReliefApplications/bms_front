@@ -299,7 +299,7 @@ export class Arabic implements Language {
     country_khm = 'كمبوديا'
     country_syr = 'سوريا'
     country_specific = 'خيار حسب بالبلد'
-    country_specific_field = 'الميدان'    
+    country_specific_field = 'الميدان'
 
     // Dashboard
     dashboard_distribution_map = 'خريطة التوزيع'
@@ -715,7 +715,7 @@ export class Arabic implements Language {
     table_print = 'طباعة'
     table_selected = 'العناصر المحددة'
 
-    //Time 
+    //Time
     time_just_now = 'Just now'
 
     // Transaction
@@ -764,7 +764,7 @@ export class Arabic implements Language {
     tooltip_reports = 'تُستخدم هذه الصفحة للاطلاع على إحصائيات الدولة ، مثل متوسط ​​معاملات المشروعات وعدد التوزيعات ...'
     tooltip_settings = 'هذه الصفحة هي المكان الذي ستتمكن فيه من إضافة مشروع جديد أو بلد معين أو اتصال طرف ثالث أو منتج أو بائع وتعديلها وحذفها وفقًا لحقوقك'
     tooltip_update_beneficiary = 'هذه الصفحة هي نموذج لتحديث الأسرة المختارة.'
-    tooltip_vouchers = 'هذه الصفحة هي المكان الذي يمكنك فيه إنشاء كتيبات قسائم وتعديلها وتعيينها وطباعتها'    
+    tooltip_vouchers = 'هذه الصفحة هي المكان الذي يمكنك فيه إنشاء كتيبات قسائم وتعديلها وتعيينها وطباعتها'
 
     //Vouchers
     voucher_ask_code = 'الرجاء مطالبة المستفيد بإدخال رمزه المكون من 4 أرقام هنا'
@@ -784,6 +784,7 @@ export class Arabic implements Language {
     voucher_select_project = 'يجب عليك اختيار مشروع'
     voucher_select_distribution = 'يجب عليك اختيار التوزيع'
     voucher_select_beneficiary = 'عليك أن تختار المستفيد'
+    voucher_sending = 'يتم إرسال البيانات'
     voucher_step = 'سيتم تعيين ل'
     voucher_print_selection = 'اختيار الطباعة'
     voucher_print_error = 'لا يمكنك طباعة كتيب إذا لم يكن لديه مستفيد'

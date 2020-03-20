@@ -62,10 +62,10 @@
 
         <div class="content-table">
             <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [selection]="selection"
-                rights="true" (openModal)="openDialog($event)" [selectable]="!actualDistribution.get('finished') && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
+                rights="true" (openModal)="openDialog($event)" [selectable]="!actualDistribution.get('finished') && userService.hasRights('ROLE_PROJECT_MANAGEMENT_ASSIGN')" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
             </app-table>
             <app-table-mobile [searchable]="true" [paginable]="true" [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData" [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" rights="true" (openModal)="openDialog($event)"
-                [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [selection]="selection" [selectable]="!actualDistribution.get('finished') && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
+                [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [selection]="selection" [selectable]="!actualDistribution.get('finished') && userService.hasRights('ROLE_PROJECT_MANAGEMENT_ASSIGN')">
             </app-table-mobile>
         </div>
 
@@ -87,7 +87,7 @@
                     </ng-template>
                 </button>
                 <mat-spinner [diameter]="35" *ngIf="distributed && selection.selected.length > 0"></mat-spinner>
-                <button mat-flat-button *ngIf="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE') && !distributed && selection.selected.length > 0" class="button-background-accent" (click)="distributeRelief()">
+                <button mat-flat-button *ngIf="userService.hasRights('ROLE_PROJECT_MANAGEMENT_ASSIGN') && !distributed && selection.selected.length > 0" class="button-background-accent" (click)="distributeRelief()">
                     <mat-icon>send</mat-icon> {{ language.distribution_distribute | uppercaseFirst }}
                 </button>
             </div>

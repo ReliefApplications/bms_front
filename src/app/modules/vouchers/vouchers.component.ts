@@ -106,7 +106,9 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
         const dataSubscription = this.modalService.dataSubject.subscribe((response: any) => {
             this.loadingInsertion = true;
-            this.checkInsertedBooklets(response['lastBooklet'], response['expectedNumber']);
+            if (dialogDetails['action'].includes('add')) {
+                this.checkInsertedBooklets(response['lastBooklet'], response['expectedNumber']);
+            }
         });
         this.modalSubscriptions = [dataSubscription];
     }

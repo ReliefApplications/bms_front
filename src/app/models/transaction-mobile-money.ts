@@ -73,6 +73,13 @@ export class TransactionMobileMoney extends DistributionBeneficiary {
                 childrenFieldName: 'phones',
                 isDisplayedInModal: true,
             }),
+            nationalId: new NestedFieldModelField({
+                title: this.language.national_id,
+                isDisplayedInTable: true,
+                childrenObject: 'beneficiary',
+                childrenFieldName: 'nationalIds',
+                isDisplayedInModal: true,
+            }),
             // Status : -2. not sent / -1. no phone / 0. fail to send / 1.Successfully sent / 2. already sent / 3. picked up
             state: new SingleSelectModelField({
                 title: this.language.status,

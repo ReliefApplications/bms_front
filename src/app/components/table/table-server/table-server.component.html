@@ -24,14 +24,13 @@
                 <mat-icon>clear</mat-icon>
                 {{language.beneficiary_clear_all_research | uppercaseFirst}}
             </button>
-        </div> 
-
-        <div class="selected-items" *ngIf="selectable && selection.selected.length > 0">
-            <p *ngIf="selection.selected.length < 2; else plural">{{selection.selected.length}} {{language.beneficiary | uppercaseFirst}} {{language.selected}}</p>
-            <ng-template #plural>
-                <p>{{selection.selected.length}} {{language.beneficiaries | uppercaseFirst}} {{language.selected}}</p> 
-            </ng-template>     
-        </div>  
+        </div>
+        
+        <div class="items-info">
+            <p class="text" *ngIf="(selectable && selection.selected.length > 0)">
+                    {{language.table_selected}}: {{selection.selected.length}}</p>  
+            <p class="text" *ngIf="paginator">{{language.table_filtered}}: {{paginator.length}}</p>
+        </div>
     </div>
 
     <div *ngIf="filtersForm && advancedResearch">
@@ -146,39 +145,41 @@
             <mat-header-cell *matHeaderCellDef>{{language.table_actions | uppercaseFirst }}</mat-header-cell>
             <mat-cell *matCellDef="let element">
                 <ng-container *ngIf="validatable">
-                    <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
-                        <mat-icon *ngIf="element.get('validated') && element.get('finished')" [matTooltip]="language.update | uppercaseFirst">done</mat-icon>
+                    <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();" [disabled]="disabledActions">
+                        <mat-icon *ngIf="element.get('validated') && element.get('finished')" class="green" [matTooltip]="language.update | uppercaseFirst">done</mat-icon>
                         <mat-icon *ngIf="element.get('validated') && !element.get('finished')" class="red" [matTooltip]="language.update | uppercaseFirst">lock
                         </mat-icon>
                         <mat-icon *ngIf="!element.get('validated') && updatable" class="dark-blue" [matTooltip]="language.update | uppercaseFirst">edit</mat-icon>
                     </button>
                 </ng-container>
-                <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();">
-                    <mat-icon *ngIf="!validatable && updatable" class="dark-blue" [matTooltip]="language.update | uppercaseFirst">edit</mat-icon>
+                <button mat-icon-button (click)="openDialog('visit', element); $event.stopPropagation();" class="dark-blue"
+                *ngIf="(!validatable && updatable)" [matTooltip]="language.update | uppercaseFirst" [disabled]="disabledActions">
+                    <mat-icon>edit</mat-icon>
                 </button>
 
                 <button mat-icon-button (click)="requestLogs(element); $event.stopPropagation()" class="logsButton"
-                    *ngIf="loggable" [matTooltip]="language.settings_log_button">
+                    *ngIf="loggable" [matTooltip]="language.settings_log_button" [disabled]="disabledActions">
                     <mat-icon>history</mat-icon>
                 </button>
 
                 <button *ngIf="editable && (!validatable || !element.get('validated'))" mat-icon-button
                     (click)="openDialog('edit', element); $event.stopPropagation()" [matTooltip]="language.view"
-                    class="green">
+                    class="light-blue" [disabled]="disabledActions">
                     <mat-icon>search</mat-icon>
                 </button>
                 <button *ngIf="deletable && (!validatable || !element.get('validated'))" mat-icon-button
                     (click)="openDialog('delete', element); $event.stopPropagation()" [matTooltip]="language.delete"
-                    class="red">
+                    class="red" [disabled]="disabledActions">
                     <mat-icon>delete_outline</mat-icon>
                 </button>
                 <button *ngIf="printable" mat-icon-button (click)="print(element); $event.stopPropagation()"
-                    [matTooltip]="language.table_print | uppercaseFirst" class="grey" [disabled]="!element.isPrintable()">
+                    [matTooltip]="language.table_print | uppercaseFirst" class="grey" [disabled]="!element.isPrintable()
+                    || disabledActions">
                     <mat-icon>printer</mat-icon>
                 </button>
                 <button mat-icon-button [matTooltip]="language.table_assign | uppercaseFirst" *ngIf="assignable"
                     (click)="assign(element); $event.stopPropagation()" class="grey"
-                    [disabled]="!element.isAssignable()">
+                    [disabled]="!element.isAssignable() || disabledActions">
                     <mat-icon>assignment</mat-icon>
                 </button>
             </mat-cell>

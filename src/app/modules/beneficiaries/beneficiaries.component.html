@@ -6,7 +6,7 @@
         <div class="container-content box-primary">
             <div class="content-button">
                 <div class="action-buttons">
-                    <button mat-flat-button class="button-background-primary" 
+                    <button mat-flat-button class="button-background-primary"
                         *ngIf="selection.selected.length > 0 && userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                         [matMenuTriggerFor]="menu">
                         <mat-icon>more_vert</mat-icon>
@@ -87,12 +87,12 @@
                 </button>
             </div>
             <div class="content-table">
-                <app-table-server *ngIf="currentDisplayType.type !== 'mobile'" 
+                <app-table-server *ngIf="currentDisplayType.type !== 'mobile'"
                     [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT') || userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [selection]="selection"
                     [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [entity]="referedClassToken"
                     [service]="householdsService" [data]="dataSource" [updatable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                     (openModal)="openDialog($event)"></app-table-server>
-                <app-table-mobile-server *ngIf="currentDisplayType.type === 'mobile'" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [selection]="selection"
+                <app-table-mobile-server *ngIf="currentDisplayType.type === 'mobile'" [paginable]="true" [deletable]="userService.hasRights('ROLE_DISTRIBUTIONS_DIRECTOR')" [selection]="selection"
                     [selectable]="userService.hasRights('ROLE_PROJECT_MANAGEMENT') || userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                     [entity]="referedClassToken" [service]="householdsService" [data]="dataSource" [updatable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')"
                     (openModal)="openDialog($event)"></app-table-mobile-server>
@@ -102,7 +102,7 @@
 </div>
 
 <ng-template #addBeneficiaries>
-    <h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.beneficiary_add_project_title}}</h4>
+    <h4 mat-dialog-title class="modal-title underline-primary" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.beneficiary_add_project_title | uppercaseFirst }}</h4>
     <mat-dialog-content class="modal-container">
         <div class="modal-body">
             <p> {{language.beneficiary_add_project}} {{ selection.selected.length }}
@@ -120,8 +120,8 @@
     <mat-dialog-actions >
         <div class="modal-button action-buttons"
             [ngClass]="{'rtl':language.direction === 'rtl'}">
-            <button mat-button class="button-text-accent" (click)="dialog.closeAll()">{{language.cancel}}</button>
-            <button mat-flat-button class="button-background-accent" [disabled]="!projectAddControl.valid"
+            <button mat-button class="button-text-primary" (click)="dialog.closeAll()">{{language.cancel}}</button>
+            <button mat-flat-button class="button-background-primary" [disabled]="!projectAddControl.valid"
                 (click)="confirmAdding()">{{language.transaction_confirm_button}}</button>
         </div>
     </mat-dialog-actions>

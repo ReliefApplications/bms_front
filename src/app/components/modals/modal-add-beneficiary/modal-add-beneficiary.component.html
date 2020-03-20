@@ -1,4 +1,4 @@
-<h4 mat-dialog-title class="modal-title underline-accent" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.distribution_add_beneficiaries}}</h4>
+<h4 mat-dialog-title class="modal-title underline-primary" [ngClass]="{'rtl':language.direction === 'rtl'}">{{language.distribution_add_beneficiaries | uppercaseFirst}}</h4>
 <mat-dialog-content class="modal-container">
     <div class="modal-body" cdkFocusRegionstart>
         <p> {{language.distribution_select_beneficiaries}} <strong> {{data.distribution.get('project').get('name')}}
@@ -20,8 +20,8 @@
 </mat-dialog-content>
 <mat-dialog-actions >
     <div class="modal-button action-buttons" [ngClass]="{'rtl':language.direction === 'rtl'}">
-        <button mat-button class="button-text-accent" (click)="onCancel()">{{language.cancel}}</button>
+        <button mat-button class="button-text-primary" (click)="onCancel()">{{language.cancel}}</button>
         <button mat-flat-button [disabled]="!selectedBeneficiariesControl.valid || !justification.valid"
-            class="button-background-accent" (click)="onAdd()">{{language.transaction_confirm_button}}</button>
+            class="button-background-primary" (click)="onAdd()">{{language.transaction_confirm_button}}</button>
     </div>
 </mat-dialog-actions>

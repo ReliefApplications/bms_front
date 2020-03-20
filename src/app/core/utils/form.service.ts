@@ -82,8 +82,9 @@ export class FormService {
                     disabled: this.isDisabled(field, modalType)
                 }, validators);
             } else if (field.kindOfField === 'SingleSelect') {
+                const getField = (fieldName.includes('currency')) ? 'id' : field.apiLabel;
                 formControls[fieldName] = new FormControl({
-                    value: field.value ? field.value.get(field.apiLabel) : null,
+                    value: field.value ? field.value.get(getField) : null,
                     disabled: this.isDisabled(field, modalType)
                 }, validators);
             } else if (field.kindOfField === 'Children') {
@@ -190,6 +191,8 @@ export class FormService {
             localCurrency = 'SYP';
         } else if (countryId === 'KHM') {
             localCurrency = 'KHR';
+        } else if (countryId === 'UKR') {
+            localCurrency = 'UAH';
         }
         return localCurrency;
     }

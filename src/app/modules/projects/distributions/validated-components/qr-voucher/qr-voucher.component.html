@@ -32,8 +32,9 @@
 
         <div class="content-button">
             <div class="action-buttons">
-                <button [disabled]="actualDistribution.get('finished')" mat-flat-button *ngIf="!loadingAssign" class="button-background-primary" (click)="openAssignDialog()">
-                        <span>{{language.voucher_assign | uppercaseFirst }}</span>
+                <button [disabled]="actualDistribution.get('finished')" mat-flat-button *ngIf="!loadingAssign && userService.hasRights('ROLE_PROJECT_MANAGEMENT_ASSIGN')"
+                    class="button-background-primary" (click)="openAssignDialog()">
+                    <span>{{language.voucher_assign | uppercaseFirst }}</span>
                 </button>
                 <mat-spinner [diameter]='25' *ngIf="loadingAssign"></mat-spinner>
                 <div class="button-with-extension" [ngClass]="{'rtl':language.direction === 'rtl'}">
@@ -70,10 +71,10 @@
 
         <div class="content-table">
             <app-table [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type !== 'mobile'" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData"
-                [assignable]="!actualDistribution.get('finished')" (openModal)="openModal($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
+                [assignable]="!actualDistribution.get('finished') && userService.hasRights('ROLE_PROJECT_MANAGEMENT_ASSIGN')" (openModal)="openModal($event)" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
             </app-table>
-            <app-table-mobile [isLoading]="loadingTransaction" *ngIf="currentDisplayType.type === 'mobile'" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData"
-                [assignable]="!actualDistribution.get('finished')" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
+            <app-table-mobile [isLoading]="loadingTransaction" [searchable]="true" [paginable]="true" *ngIf="currentDisplayType.type === 'mobile'" (openModal)="openModal($event)" [parentObject]="actualDistribution" [entity]="entity" [service]="BeneficiariesService" [data]="transactionData"
+                [assignable]="!actualDistribution.get('finished') && userService.hasRights('ROLE_PROJECT_MANAGEMENT_ASSIGN')" (assignOne)="assign($event)" [editable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')" [deletable]="userService.hasRights('ROLE_BENEFICIARY_MANAGEMENT_WRITE')">
             </app-table-mobile>
         </div>
 

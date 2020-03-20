@@ -14,13 +14,13 @@ export class BaseChartComponent {
 
     protected options: ChartOptions;
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
-
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
 
     constructor(
         public languageService: LanguageService,
         protected colorsService: ColorsService,
         private titlecasePipe: TitleCasePipe,
+        private languageService: LanguageService
     ) {}
 
     @Input() graphInfo: Graph;
@@ -34,8 +34,8 @@ export class BaseChartComponent {
                 xAxes: [ {
                     scaleLabel: {
                         display: true,
-                        labelString: this.titlecasePipe.transform(this.xLabel)
-                    },
+                        labelString: this.language.report_time
+                    }
                 } ],
                 yAxes: [
                     {

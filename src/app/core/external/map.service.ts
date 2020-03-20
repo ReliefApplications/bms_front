@@ -121,6 +121,12 @@ export class MapService {
 
 
     getAdmLevel(admCode: string) {
+        // Check postal codes in Ukraine [https://en.m.wikipedia.org/wiki/Postal_codes_in_Ukraine]
+        const ukrAdmCodes = admCode.match(/^UA(\d{2})?(\d{3})?(\d{5})?/);
+        if (ukrAdmCodes) {
+            return ukrAdmCodes.filter(val => val !== undefined).length - 1;
+        }
+
         // Remove 2-character identifier and calculate adm based on the code's length
         const admLevel = admCode.slice(2).length / 2;
         if (!Number.isInteger(admLevel)) {

@@ -2,20 +2,21 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
-import { TableComponent } from 'src/app/components/table/table.component';
+import { interval, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { TableServerComponent } from 'src/app/components/table/table-server/table-server.component';
 import { BookletService } from 'src/app/core/api/booklet.service';
 import { ProjectService } from 'src/app/core/api/project.service';
+import { UserService } from 'src/app/core/api/user.service';
 import { LanguageService } from 'src/app/core/language/language.service';
 import { SnackbarService } from 'src/app/core/logging/snackbar.service';
 import { ScreenSizeService } from 'src/app/core/screen-size/screen-size.service';
 import { ModalService } from 'src/app/core/utils/modal.service';
 import { Booklet } from 'src/app/models/booklet';
 import { DisplayType } from 'src/app/models/constants/screen-sizes';
+import { BookletsDataSource } from 'src/app/models/data-sources/booklets-data-source';
 import { Project } from 'src/app/models/project';
 import { ExportService } from '../../core/api/export.service';
-import { UserService } from 'src/app/core/api/user.service';
 
 @Component({
     selector: 'app-vouchers',
@@ -27,30 +28,35 @@ export class VouchersComponent implements OnInit, OnDestroy {
     public nameComponent = 'vouchers';
 
     public loadingPrint = false;
-    public loadingBooklet = true;
     public loadingExportCodes = false;
-    modalSubscriptions: Array<Subscription> = [];
+    public loadingInsertion = false;
+
+    public modalSubscriptions: Array<Subscription> = [];
+
+    public referedClassService;
+    public dataSource: BookletsDataSource;
+    referedClassToken = Booklet;
+    booklets: MatTableDataSource<Booklet>;
+    public selection = new SelectionModel<Booklet>(true, []);
 
     public bookletClass = Booklet;
-    public booklets: Booklet[];
-    public bookletData: MatTableDataSource<Booklet>;
     public extensionType: string;
     public extensionTypeCode: string;
     public projectClass = Project;
+    public numberToExport: number = null;
 
     public projects = [];
 
-    public selection = new SelectionModel<Booklet>(true, []);
+    public insertionProgress = 0;
 
     // Screen size
     public currentDisplayType: DisplayType;
-    private screenSizeSubscription: Subscription;
+    subscriptions: Array<Subscription>;
 
     // Language
-    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english ;
+    public language = this.languageService.selectedLanguage ? this.languageService.selectedLanguage : this.languageService.english;
 
-
-    @ViewChild(TableComponent, { static: false }) tableVoucher: TableComponent;
+    @ViewChild(TableServerComponent, { static: false }) table: TableServerComponent;
 
     constructor(
         public bookletService: BookletService,
@@ -64,21 +70,22 @@ export class VouchersComponent implements OnInit, OnDestroy {
         public userService: UserService,
     ) { }
 
-
-
     ngOnInit() {
-        this.screenSizeSubscription = this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
-            this.currentDisplayType = displayType;
-        });
+        this.dataSource = new BookletsDataSource(this.bookletService);
+        this.subscriptions = [
+            this.screenSizeService.displayTypeSource.subscribe((displayType: DisplayType) => {
+                this.currentDisplayType = displayType;
+            }),
+            this.dataSource.length$.subscribe((length) => {
+                this.numberToExport = length;
+            }),
+        ];
         this.extensionType = 'xls';
         this.extensionTypeCode = 'xls';
-        this.getBooklets();
     }
 
     ngOnDestroy() {
-        if (this.screenSizeSubscription) {
-            this.screenSizeSubscription.unsubscribe();
-        }
+        this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
         this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
     }
 
@@ -90,42 +97,50 @@ export class VouchersComponent implements OnInit, OnDestroy {
         this.extensionTypeCode = choice;
     }
 
-    getBooklets() {
-        this.bookletService.get().pipe(
-            finalize(
-                () => {
-                    this.loadingBooklet = false;
-                },
-            )
-        ).subscribe(
-            response => {
-                if (response && response.length > 0) {
-                    this.booklets = response.reverse().map((booklet: any) => Booklet.apiToModel(booklet));
-                    this.bookletData = new MatTableDataSource(this.booklets);
-                } else if (response === null) {
-                    this.booklets = null;
-                }
-            }
-        );
-    }
-
     /**
 	* open each modal dialog
 	*/
     openDialog(dialogDetails: any): void {
         this.modalSubscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
         this.modalService.openDialog(this.bookletClass, this.bookletService, dialogDetails);
-        const isLoadingSubscription = this.modalService.isLoading.subscribe(() => {
-            this.loadingBooklet = true;
-        });
-        const completeSubscription = this.modalService.isCompleted.subscribe((response: boolean) => {
-            if (response) {
-                this.getBooklets();
-            } else {
-                this.loadingBooklet = false;
+
+        const dataSubscription = this.modalService.dataSubject.subscribe((response: any) => {
+            this.loadingInsertion = true;
+            if (dialogDetails['action'].includes('add')) {
+                this.checkInsertedBooklets(response['lastBooklet'], response['expectedNumber']);
             }
         });
-        this.modalSubscriptions = [isLoadingSubscription, completeSubscription];
+        this.modalSubscriptions = [dataSubscription];
+    }
+
+    checkInsertedBooklets(lastId: number, totalExpected: number) {
+        let previousValue = 0;
+        const dataInsertionObservable = interval(10000).pipe(
+            switchMap(() => {
+                return this.bookletService.getInsertedBooklets(lastId);
+            })
+        ).subscribe(
+            (res: number) => {
+                // tslint:disable-next-line
+                console.log(res);
+                if (res === previousValue) {
+                    dataInsertionObservable.unsubscribe();
+                    this.snackbar.error(this.language.snackbar_error_creating + this.language.booklets + ` (${res}/${totalExpected})`);
+                    this.loadingInsertion = false;
+                    this.insertionProgress = 0;
+                    this.table.loadDataPage();
+                } else if (res >= totalExpected) {
+                    dataInsertionObservable.unsubscribe();
+                    this.snackbar.success(this.language.booklets + ' ' + this.language.snackbar_created_successfully);
+                    this.loadingInsertion = false;
+                    this.insertionProgress = 0;
+                    this.table.loadDataPage();
+                } else {
+                    previousValue = res;
+                    this.insertionProgress = Math.trunc((res / totalExpected) * 100);
+                }
+            }
+        );
     }
 
     print(event: Booklet) {
@@ -143,28 +158,39 @@ export class VouchersComponent implements OnInit, OnDestroy {
 
         // TODO: switch to observables
         return !error ?
-        this._exportService.printManyVouchers(bookletIds).subscribe((_: any) => {
-            this.loadingPrint = false;
-        }) : null;
+            this._exportService.printManyVouchers(bookletIds).subscribe((_: any) => {
+                this.loadingPrint = false;
+            }) : null;
     }
 
     getNumberToExport() {
         if (this.selection.selected.length > 0) {
             return this.selection.selected.length;
         }
-        return this.bookletData ? this.bookletData.data.length : null;
+        return this.numberToExport > 0 ? this.numberToExport : null;
     }
 
     exportCodes() {
         this.loadingExportCodes = true;
+        let filters = null;
         let ids = [];
         if (this.selection.selected.length > 0) {
             ids = this.selection.selected.map((booklet: Booklet) => booklet.get('id'));
+        } else {
+            filters = {
+                filter: this.table.filtersForAPI,
+                sort: {
+                    sort: (this.table.sort && this.table.sort.active) ? this.table.sort.active : null,
+                    direction: (this.table.sort && this.table.sort.direction !== '') ? this.table.sort.direction : null
+                },
+                pageIndex: 0,
+                pageSize: -1 // No limit
+            };
         }
-        this._exportService.export('bookletCodes', true, this.extensionTypeCode, {}, null, ids).pipe(
-            finalize(() => {
-                this.loadingExportCodes = false;
-            })
-        ).subscribe();
+        this._exportService.export('bookletCodes', true, this.extensionTypeCode, {}, filters, ids).subscribe(
+            () => { this.loadingExportCodes = false; },
+            (_error: any) => { this.loadingExportCodes = false; }
+        );
     }
+
 }

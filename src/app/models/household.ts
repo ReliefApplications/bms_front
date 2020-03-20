@@ -15,6 +15,7 @@ import { HouseholdLocation } from './household-location';
 import { Location } from './location';
 import { Project } from './project';
 import { VulnerabilityCriteria } from './vulnerability-criteria';
+import { NationalId } from './national-id';
 
 export class Livelihood extends CustomModel {
 
@@ -118,6 +119,16 @@ export class Household extends CustomModel {
                 isImageInTable: true,
                 value: [],
                 isDisplayedInModal: true,
+                displayModalFunction: null,
+                displayTableFunction: null,
+            }
+        ),
+        nationalId: new MultipleObjectsModelField<NationalId>(
+            {
+                title: this.language.national_id_number,
+                isDisplayedInTable: true,
+                value: [],
+                isDisplayedInModal: false,
                 displayModalFunction: null,
                 displayTableFunction: null,
             }
@@ -234,6 +245,8 @@ export class Household extends CustomModel {
             .map((vulnerability: VulnerabilityCriteria) => pipe.transform(vulnerability.get('name'))).join(', ');
         newHousehold.set('projects', householdFromApi.projects.filter((project: any) => !project.archived)
             .map(project => Project.apiToModel(project)));
+        newHousehold.fields.nationalId.displayTableFunction = value => value ? value
+            .map((nationalId: NationalId) => nationalId.get('number')).join(', ') : null;
 
         newHousehold.set('beneficiaries', householdFromApi.beneficiaries.map(beneficiary => Beneficiary.apiToModel(beneficiary)));
         newHousehold.get<Beneficiary[]>('beneficiaries').forEach((beneficiary: Beneficiary) => {
@@ -244,6 +257,7 @@ export class Household extends CustomModel {
                 newHousehold.fields.localFirstName.displayValue = beneficiary.fields.localGivenName.displayValue;
                 newHousehold.set('enFamilyName', beneficiary.get<string>('enFamilyName'));
                 newHousehold.set('enFirstName', beneficiary.get<string>('enGivenName'));
+                newHousehold.set('nationalId', beneficiary.get<string>('nationalIds'));
             }
             beneficiary.get<VulnerabilityCriteria[]>('vulnerabilities').forEach((vulnerability: VulnerabilityCriteria) => {
                 newHousehold.add('vulnerabilities', vulnerability);
